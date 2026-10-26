@@ -1,0 +1,124 @@
+[
+  {
+    "id": "decimal",
+    "operation": "calc.rational",
+    "payload": {
+      "expression": "0.1+0.2"
+    },
+    "expected_status": "completed",
+    "expected_result": {
+      "value": "3/10"
+    }
+  },
+  {
+    "id": "fraction",
+    "operation": "calc.rational",
+    "payload": {
+      "expression": "1/3+1/6"
+    },
+    "expected_status": "completed",
+    "expected_result": {
+      "value": "1/2"
+    }
+  },
+  {
+    "id": "negative",
+    "operation": "calc.rational",
+    "payload": {
+      "expression": "-3*7"
+    },
+    "expected_status": "completed",
+    "expected_result": {
+      "value": "-21"
+    }
+  },
+  {
+    "id": "precedence",
+    "operation": "calc.rational",
+    "payload": {
+      "expression": "2+3*4"
+    },
+    "expected_status": "completed",
+    "expected_result": {
+      "value": "14"
+    }
+  },
+  {
+    "id": "power",
+    "operation": "calc.rational",
+    "payload": {
+      "expression": "2**-3"
+    },
+    "expected_status": "completed",
+    "expected_result": {
+      "value": "1/8"
+    }
+  },
+  {
+    "id": "large",
+    "operation": "calc.rational",
+    "payload": {
+      "expression": "9007199254740993+1"
+    },
+    "expected_status": "completed",
+    "expected_result": {
+      "value": "9007199254740994"
+    }
+  },
+  {
+    "id": "zero",
+    "operation": "calc.rational",
+    "payload": {
+      "expression": "0*500"
+    },
+    "expected_status": "completed",
+    "expected_result": {
+      "value": "0"
+    }
+  },
+  {
+    "id": "nested",
+    "operation": "calc.rational",
+    "payload": {
+      "expression": "(5-2)/(4+2)"
+    },
+    "expected_status": "completed",
+    "expected_result": {
+      "value": "1/2"
+    }
+  },
+  {
+    "id": "division_zero",
+    "operation": "calc.rational",
+    "payload": {
+      "expression": "1/0"
+    },
+    "expected_status": "invalid_input",
+    "expected_result": null
+  },
+  {
+    "id": "injection",
+    "operation": "calc.rational",
+    "payload": {
+      "expression": "__import__('os')"
+    },
+    "expected_status": "invalid_input",
+    "expected_result": null
+  },
+  {
+    "id": "exhaustion",
+    "operation": "calc.rational",
+    "payload": {
+      "expression": "2**1000000"
+    },
+    "expected_status": "invalid_input",
+    "expected_result": null
+  },
+  {
+    "id": "absent",
+    "operation": "memory.recall",
+    "payload": {},
+    "expected_status": "unavailable",
+    "expected_result": null
+  }
+]
