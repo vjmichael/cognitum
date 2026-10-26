@@ -1,0 +1,26 @@
+{
+  "unit-tests": {
+    "exit_code": 0,
+    "expected_exit_code": 0
+  },
+  "isolated-calculator-tests": {
+    "exit_code": 0,
+    "expected_exit_code": 0
+  },
+  "core-only": {
+    "exit_code": 0,
+    "expected_exit_code": 0
+  },
+  "unavailable-calculator": {
+    "exit_code": 1,
+    "expected_exit_code": 1
+  },
+  "exact-calculator": {
+    "exit_code": 0,
+    "expected_exit_code": 0
+  },
+  "replay": {
+    "exit_code": 0,
+    "expected_exit_code": 0
+  }
+}

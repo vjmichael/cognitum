@@ -1,0 +1,33 @@
+{
+  "request_id": "cli-1",
+  "correlation_id": "cli",
+  "operation": "calc.rational",
+  "execution_status": "completed",
+  "module": {
+    "name": "reference_calc",
+    "version": "0.1.0"
+  },
+  "result": {
+    "value": "3/10"
+  },
+  "outcome": {
+    "kind": "value"
+  },
+  "assurance": "exact_arithmetic",
+  "interpretation": {
+    "level": "assumption_bound",
+    "assumptions": [
+      "The submitted formal input represents the intended task; no natural-language intent validation performed."
+    ]
+  },
+  "evidence": [
+    {
+      "kind": "computation",
+      "ref": "cli-1"
+    }
+  ],
+  "limitations": [],
+  "error": null,
+  "latency_ms": 111.578,
+  "contract_version": "1.3.0"
+}

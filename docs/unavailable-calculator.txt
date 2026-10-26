@@ -1,0 +1,20 @@
+{
+  "request_id": "cli-1",
+  "correlation_id": "cli",
+  "operation": "calc.rational",
+  "execution_status": "unavailable",
+  "module": null,
+  "result": null,
+  "outcome": null,
+  "assurance": "unverified",
+  "interpretation": {
+    "level": "unresolved"
+  },
+  "evidence": [],
+  "limitations": [
+    "Capability unavailable; no computed or verified answer supplied."
+  ],
+  "error": null,
+  "latency_ms": 0.019,
+  "contract_version": "1.3.0"
+}

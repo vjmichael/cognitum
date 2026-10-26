@@ -1,0 +1,114 @@
+{
+  "suite_hash": "10dbe60840f5782da624697b2e5c3422b59b4b135ba0f5dd45645e4a484f78e5",
+  "registry_hash": "86a7a4f5d4ed6e0028af2ace34f358d141cab2abfcc9505266fe0862d8ed7001",
+  "tier": "synthetic_smoke",
+  "promotion_evidence": false,
+  "passed": 12,
+  "total": 12,
+  "cases": [
+    {
+      "id": "decimal",
+      "passed": true,
+      "status": "completed",
+      "result": {
+        "value": "3/10"
+      },
+      "latency_ms": 118.252
+    },
+    {
+      "id": "fraction",
+      "passed": true,
+      "status": "completed",
+      "result": {
+        "value": "1/2"
+      },
+      "latency_ms": 116.113
+    },
+    {
+      "id": "negative",
+      "passed": true,
+      "status": "completed",
+      "result": {
+        "value": "-21"
+      },
+      "latency_ms": 113.587
+    },
+    {
+      "id": "precedence",
+      "passed": true,
+      "status": "completed",
+      "result": {
+        "value": "14"
+      },
+      "latency_ms": 116.405
+    },
+    {
+      "id": "power",
+      "passed": true,
+      "status": "completed",
+      "result": {
+        "value": "1/8"
+      },
+      "latency_ms": 113.996
+    },
+    {
+      "id": "large",
+      "passed": true,
+      "status": "completed",
+      "result": {
+        "value": "9007199254740994"
+      },
+      "latency_ms": 110.127
+    },
+    {
+      "id": "zero",
+      "passed": true,
+      "status": "completed",
+      "result": {
+        "value": "0"
+      },
+      "latency_ms": 97.892
+    },
+    {
+      "id": "nested",
+      "passed": true,
+      "status": "completed",
+      "result": {
+        "value": "1/2"
+      },
+      "latency_ms": 118.707
+    },
+    {
+      "id": "division_zero",
+      "passed": true,
+      "status": "invalid_input",
+      "result": null,
+      "latency_ms": 100.734
+    },
+    {
+      "id": "injection",
+      "passed": true,
+      "status": "invalid_input",
+      "result": null,
+      "latency_ms": 110.704
+    },
+    {
+      "id": "exhaustion",
+      "passed": true,
+      "status": "invalid_input",
+      "result": null,
+      "latency_ms": 114.399
+    },
+    {
+      "id": "absent",
+      "passed": true,
+      "status": "unavailable",
+      "result": null,
+      "latency_ms": 0.014
+    }
+  ],
+  "environment": {
+    "python": "3.14.6",
+    "platform": "Windows-10-10.0.19045-SP0"
+  }
+}
