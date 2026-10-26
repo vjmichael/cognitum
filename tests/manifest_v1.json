@@ -1,0 +1,48 @@
+{
+  "name": "reference_calc",
+  "version": "0.1.0",
+  "contract_version": "1.3.0",
+  "track": "adapter",
+  "maturity": "prototype",
+  "operations": [
+    {
+      "name": "calc.rational",
+      "slot": "calc",
+      "schema_version": "1.0.0",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expression"
+        ],
+        "properties": {
+          "expression": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "value": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          }
+        }
+      },
+      "input_hash": "276db5167723eb43dec7aa3efb34f15e264553a4aad6874ba33b5e0576a1005f",
+      "output_hash": "b73fdea6b8c7fd0b3fac0d64909d82a96c95ea2636e3f43bba8a4b7447014605",
+      "effects": [],
+      "deterministic": true,
+      "assurance": "exact_arithmetic",
+      "outcome_kind": "value"
+    }
+  ]
+}
