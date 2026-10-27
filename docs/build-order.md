@@ -16,6 +16,8 @@ The authoritative architecture is [Lu × Cognitum — Transformer-Centered Colla
 
 **C01 update (2026-10-26):** Source audit located Lu's active `lu/core-contracts-native-registry` branch with a functioning *experimental* native Rust registry and Protobuf/JSON codec contracts, unlike the older `main` baseline. C01 should adapt Cognitum to Lu's native host rather than duplicate a registry. [Pinned active-branch audit and compatibility gaps](components/core-runtime/P0-lu-native-audit.md). C01 P0 is open; optional CE lifecycle and effect/version mapping are blockers.
 
+**Latest Lu read-only CE review (2026-10-26):** [C01 Cognitum→Lu handoff](components/core-runtime/P1-P2-lu-ce-discovery-handoff.md) inspected `lu/independent-branding-ce-foundation` two commits ahead of the older core-contracts branch. **Lu now has a distinct `CoreExtension` kind with trusted registration/unregister; the older statement that no CE variant exists is superseded.** A complete signed installer/lifecycle and per-model exposure remain unimplemented. A newly identified blocker is Lu's lack of a **no-effect/pure-compute** ToolEffect for Cognitum's exact calculator. Cognitum's handoff deliberately remains disabled, uninstalled and unadvertised. Separate user decisions about workspace-specific registries and tool/workflow/state/event discovery remain architectural goals, not declared shipping APIs.
+
 ## Ordered development queue
 
 | ID | Order / component | Essential dependencies and acceptance intent | Evidence and next activity |

@@ -1,0 +1,371 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/vjmichael/cognitum/blob/main/schemas/lu_ce_handoff_v1.schema.json",
+  "title": "Cognitum Lu DLC Core Extension handoff proposal v1",
+  "description": "Strict, non-installable developer-authored discovery metadata. Does not grant host authority; Cognitum binary payloads remain Protobuf.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "kind",
+    "source_ref",
+    "host_manifest_proposal",
+    "producer_source_manifest_sha256",
+    "capabilities",
+    "workspace_interop_proposal",
+    "availability",
+    "trust_statement"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "kind": {
+      "const": "cognitum.lu_core_extension_handoff_proposal"
+    },
+    "source_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "branch",
+        "commit",
+        "host_core_contract_version"
+      ],
+      "properties": {
+        "repository": {
+          "const": "vjmichael/jan_alt"
+        },
+        "branch": {
+          "const": "lu/independent-branding-ce-foundation"
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "host_core_contract_version": {
+          "const": 1
+        }
+      }
+    },
+    "host_manifest_proposal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "display_name",
+        "kind",
+        "contract_version",
+        "tools",
+        "panels",
+        "workflows"
+      ],
+      "properties": {
+        "id": {
+          "const": "cognitum.calc"
+        },
+        "display_name": {
+          "const": "Cognitum exact arithmetic (proposal)"
+        },
+        "kind": {
+          "const": "CoreExtension"
+        },
+        "contract_version": {
+          "const": 1
+        },
+        "tools": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "display_name",
+              "effect",
+              "input_type_url",
+              "output_type_url"
+            ],
+            "properties": {
+              "id": {
+                "const": "cognitum.calc.rational"
+              },
+              "display_name": {
+                "const": "Exact rational arithmetic"
+              },
+              "effect": {
+                "type": "null"
+              },
+              "input_type_url": {
+                "const": "type.googleapis.com/cognitum.v1.CalculateRationalRequest"
+              },
+              "output_type_url": {
+                "const": "type.googleapis.com/cognitum.v1.CalculateRationalResult"
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "panels": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "minItems": 0,
+          "maxItems": 0
+        },
+        "workflows": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "minItems": 0,
+          "maxItems": 0
+        }
+      }
+    },
+    "producer_source_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operation",
+          "operation_schema_version",
+          "native_tool_id",
+          "native_input_type_url",
+          "native_output_type_url",
+          "required_effects",
+          "lu_tool_effect",
+          "effect_mapping_status",
+          "result_assurance",
+          "epistemic_limitations",
+          "use_when",
+          "avoid_when",
+          "output_interpretation",
+          "model_tool_definition_proposal",
+          "input_json_schema_sha256"
+        ],
+        "properties": {
+          "operation": {
+            "const": "calc.rational"
+          },
+          "operation_schema_version": {
+            "const": "1.0.0"
+          },
+          "native_tool_id": {
+            "const": "cognitum.calc.rational"
+          },
+          "native_input_type_url": {
+            "const": "type.googleapis.com/cognitum.v1.CalculateRationalRequest"
+          },
+          "native_output_type_url": {
+            "const": "type.googleapis.com/cognitum.v1.CalculateRationalResult"
+          },
+          "required_effects": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 0,
+            "maxItems": 0
+          },
+          "lu_tool_effect": {
+            "type": "null"
+          },
+          "effect_mapping_status": {
+            "const": "blocked_no_effect_free_variant"
+          },
+          "result_assurance": {
+            "const": "exact_arithmetic"
+          },
+          "epistemic_limitations": {
+            "const": [
+              "intent_not_verified"
+            ]
+          },
+          "use_when": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 700
+          },
+          "avoid_when": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 700
+          },
+          "output_interpretation": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 700
+          },
+          "model_tool_definition_proposal": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "function"
+            ],
+            "properties": {
+              "type": {
+                "const": "function"
+              },
+              "function": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "name",
+                  "description",
+                  "parameters"
+                ],
+                "properties": {
+                  "name": {
+                    "const": "cognitum_calc_rational"
+                  },
+                  "description": {
+                    "type": "string",
+                    "minLength": 80,
+                    "maxLength": 700
+                  },
+                  "parameters": {
+                    "const": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "expression"
+                      ],
+                      "properties": {
+                        "expression": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 256
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "input_json_schema_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      },
+      "minItems": 1,
+      "maxItems": 1
+    },
+    "workspace_interop_proposal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ce_reusable_in",
+        "workspace_registries_remain_separate",
+        "workspace_tool_schemas",
+        "workspace_workflows",
+        "workspace_state_contracts",
+        "workspace_event_contracts",
+        "loaded_transformer_weights_unchanged",
+        "ce_removal_must_preserve_core_and_unrelated_dlc"
+      ],
+      "properties": {
+        "ce_reusable_in": {
+          "const": [
+            "vanilla_chat",
+            "host_approved_workspace"
+          ]
+        },
+        "workspace_registries_remain_separate": {
+          "const": true
+        },
+        "workspace_tool_schemas": {
+          "type": "array",
+          "items": {},
+          "minItems": 0,
+          "maxItems": 0
+        },
+        "workspace_workflows": {
+          "type": "array",
+          "items": {},
+          "minItems": 0,
+          "maxItems": 0
+        },
+        "workspace_state_contracts": {
+          "type": "array",
+          "items": {},
+          "minItems": 0,
+          "maxItems": 0
+        },
+        "workspace_event_contracts": {
+          "type": "array",
+          "items": {},
+          "minItems": 0,
+          "maxItems": 0
+        },
+        "loaded_transformer_weights_unchanged": {
+          "const": true
+        },
+        "ce_removal_must_preserve_core_and_unrelated_dlc": {
+          "const": true
+        }
+      }
+    },
+    "availability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "installable",
+        "registered",
+        "enabled",
+        "model_advertised",
+        "host_contract_approved",
+        "requires_model_function_calling",
+        "lu_model_tool_budget_observed",
+        "blocking_contracts"
+      ],
+      "properties": {
+        "installable": {
+          "const": false
+        },
+        "registered": {
+          "const": false
+        },
+        "enabled": {
+          "const": false
+        },
+        "model_advertised": {
+          "const": false
+        },
+        "host_contract_approved": {
+          "const": false
+        },
+        "requires_model_function_calling": {
+          "const": true
+        },
+        "lu_model_tool_budget_observed": {
+          "const": 16
+        },
+        "blocking_contracts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 150
+          },
+          "minItems": 4,
+          "maxItems": 10
+        }
+      }
+    },
+    "trust_statement": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 700
+    }
+  }
+}
