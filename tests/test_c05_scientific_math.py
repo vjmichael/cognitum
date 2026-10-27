@@ -62,6 +62,8 @@ class C05SpecialistTests(unittest.TestCase):
             ("cos","__import__('os')",40),("tan","1",40),
             ("sin","0",10),("exp","1",81),("exp","1e100",40),
             ("sqrt","0."+"0"*70,40),
+            ("exp","99"*20,40),
+            ("sin","1000",40),
         ):
             with self.subTest(function=function,argument=argument[:10]):
                 with self.assertRaises(ValueError):
@@ -181,7 +183,7 @@ class C05SpecialistTests(unittest.TestCase):
             self.assertIn(name+"Request",pb.DESCRIPTOR.message_types_by_name)
             self.assertIn(name+"Result",pb.DESCRIPTOR.message_types_by_name)
         self.assertEqual(pb.DESCRIPTOR.package,"cognitum.math.v1")
-        self.assertEqual(len(pb.DESCRIPTOR.message_types_by_name),13)
+        self.assertEqual(len(pb.DESCRIPTOR.message_types_by_name),15)
 
     def test_domain_wire_rejects_duplicates_unknown_and_cross_domain(self):
         request=pb.SymbolicRequest(expression="x+1",action="expand")
@@ -195,6 +197,35 @@ class C05SpecialistTests(unittest.TestCase):
             decode_specialist_result("symbolic",result+b"\x98\x06\x01")
         with self.assertRaises(ValueError):
             run_inert_specialist("garbage",wire)
+
+    def test_model_discovery_is_protobuf_only_inert_and_strict(self):
+        from cognitum.math_catalog import encode_catalog,decode_catalog,CATALOG_TYPE_URL
+        raw=encode_catalog()
+        self.assertNotEqual(raw[:1],b"{")
+        cat=decode_catalog(raw)
+        self.assertEqual(cat.schema_version,1)
+        self.assertFalse(cat.host_approved)
+        self.assertEqual(len(cat.specialists),6)
+        for entry in cat.specialists:
+            self.assertFalse(entry.registered)
+            self.assertFalse(entry.model_advertised)
+            self.assertTrue(entry.use_when)
+            self.assertTrue(entry.avoid_when)
+            self.assertTrue(entry.input_type_url.startswith("type.googleapis.com/cognitum.math.v1."))
+        self.assertEqual(CATALOG_TYPE_URL,"type.googleapis.com/cognitum.math.v1.SpecialistCatalog")
+        forged=pb.SpecialistCatalog()
+        forged.CopyFrom(cat)
+        forged.specialists[0].registered=True
+        with self.assertRaises(ValueError):
+            decode_catalog(forged.SerializeToString(deterministic=True))
+        forged.CopyFrom(cat)
+        forged.host_approved=True
+        with self.assertRaises(ValueError):
+            decode_catalog(forged.SerializeToString(deterministic=True))
+        for bad in (raw+b"\x98\x06\x01",raw+b"\x08\x01",
+                    b"",b"\x0a\xff",b"x"*8193):
+            with self.subTest(frame=bad[:12]),self.assertRaises(ValueError):
+                decode_catalog(bad)
 
     def test_no_ce_registration_grant_or_worker_gate_bypass(self):
         from cognitum.plugins.calculator import Calculator
