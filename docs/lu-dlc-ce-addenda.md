@@ -98,6 +98,12 @@ Cognitum now contains an **inert, versioned native worker wire proposal** at [`p
 
 **Blocked host tasks (LU-CE-006 remains Proposed):** authenticated capability/session broker, genuine Windows AppContainer/LPAC or equivalent restriction, handle/network/file denial, Job Object process tree and quotas, bounded framed and authenticated IPC channel, cancellation/drain/revocation tests, and negative OS-level penetration cases. A valid Protobuf frame is **not** an OS isolation attestation. `worker_wire.start_isolated_worker()` is intentionally disabled and **always rejects**. The legacy trusted-only `worker.py` still uses multiprocessing pickle and must not be an execution path for untrusted CEs.
 
+## LU-CE-006 — Host supervisor negative acceptance contract (Cognitum-only)
+
+**Implemented only in Cognitum:** [`cognitum.security.v1.SupervisorAcceptancePlan`](../proto/cognitum/security/v1/supervisor_acceptance.proto) is a **binary Protobuf test specification**, with explicit deny/reap/resource-enforcement requirements for identity, permission scope, process-tree breakup, filesystem, network, handles, quotas, cancel/revoke/unload, stale replies and secret-safe auditing. [C02 report](components/security/P1-P2-supervisor-acceptance.md) documents the host acceptance matrix. Source Protobuf fields, enums and reserved ranges are CI-checked; [CI 40454579833](https://github.com/vjmichael/cognitum/actions/runs/40454579833) passed 147 unit tests, 12 replay cases and four Protobuf schema comparisons on Linux/Windows Python 3.11/3.13.
+
+**Separate Lu team action remains Proposed:** build the actual trusted OS supervisor and independent negative-test harness, then report real worker process/network/handle/file/CPU/RAM restrictions, descendant reaping, revocation/late-output races, platform versions and logged evidence. A Cognitum synthetic test sequence or matching Protobuf bytes do **not** authenticate the host or prove OS isolation. `start_isolated_worker()` **remains unconditionally blocked**. Do not set any production CE permission or launch flag from this plan.
+
 ## Ownership and update protocol
 
 Each entry may gain: **source branch + verified commit**, proposed host interface, rationale, acceptance criteria, Lu decision reference, implementation link, Cognitum compatibility test, superseding entry and date. Do not silently change **Proposed** to **Accepted**. If Lu's independent implementation differs, reconcile Cognitum adapter requirements here first.
