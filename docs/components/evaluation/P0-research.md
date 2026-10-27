@@ -5,6 +5,8 @@
 **Owner:** Cognitum. **Lu is read-only**; host-requested changes are **proposals**, tracked in [the DLC CE addendum register](../../lu-dlc-ce-addenda.md).  
 **Governing requirements:** [Per-component P0–P3 roadmap](../../roadmap.md) · [Lu/Cognitum collaboration](../../lu-cognitum-integration.md) · [Build order](../../build-order.md)
 
+**P1/P2 milestone added (2026-10-26):** [C03 deterministic Protobuf synthetic component suite](P1-P2-protobuf-component-smoke.md) provides a pinned ten-case arithmetic/rejection check with an exact binary SHA-256 suite identifier. [GitHub CI 40457467419](https://github.com/vjmichael/cognitum/actions/runs/40457467419) passed **173 unit tests, 12 legacy replay cases and five Protobuf schemas** per Windows/Linux Python job, including 10/10 C03 cases. The four Lu+model comparison arms are explicitly **NOT EXECUTED**; P0/P3 task selection, telemetry and preregistered meaningful baselines remain open. Earlier unmerged tracing-branch notes below are historical: tracing has since merged into Cognitum main.
+
 ## 1. Central scientific question
 
 **Does a Cognitum capability measurably help the exact transformer chosen/loaded in Lu complete a real task, compared both with that same Lu+model configuration without Cognitum and with strong conventional libraries/tools?**
