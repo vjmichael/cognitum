@@ -148,6 +148,36 @@ class CollectorReceiptTests(unittest.TestCase):
         self.assertEqual(SIGNED_COLLECTOR_RECEIPT_TYPE_URL,
                          "type.googleapis.com/"+cp.SignedCollectorReceipt.DESCRIPTOR.full_name)
 
+    def test_even_synthetically_observed_trial_is_not_efficacy_proof(self):
+        # This is a fabricated local test record, not a Lu model run.
+        p = sample_plan()
+        for arm in p.arms:
+            arm.readiness = bp.HOST_APPROVED_RUNNABLE
+            arm.unavailable_reason_code = ""
+        pf = encode_plan(p)
+        c = empty_capture_template(p)
+        c.host_collector_id = COLLECTOR
+        c.host_collector_build_sha256 = SHA_D
+        row = c.trials[0]
+        row.status = bp.COMPLETED
+        row.tool_decision = bp.APPROPRIATE
+        row.final_grade = bp.CORRECT
+        row.answer_sha256 = "7"*64
+        row.resources.end_to_end_latency_ms = 0  # TEST-only synthetic number
+        cf = encode_capture(p, c)
+        receipt = make_receipt(pf, cf)
+        receipt.reported_observed_trials = 1
+        result = self.check(
+            plan=pf, capture=cf, signed=sign(receipt, self.key),
+            expected_plan_sha256=sha256(pf).hexdigest(),
+        )
+        self.assertEqual(result.reported_trials, 1)
+        self.assertTrue(result.reported_data_present)
+        self.assertFalse(result.collector_runtime_authenticated)
+        self.assertFalse(result.metric_provenance_verified)
+        self.assertFalse(result.paired_effect_verified)
+        self.assertFalse(result.production_promotion_evidence)
+
     def test_record_claims_no_actual_model_execution(self):
         self.assertTrue(all(row.status == bp.NOT_RUN for row in self.capture.trials))
         self.assertFalse(self.capture.claims_production_promotion)
