@@ -92,6 +92,12 @@ The Lu team determines the final `.proto` package, `optional` presence semantics
 
 The initial `CapabilityResult` JSON/datataclass contract is still useful for standalone evaluation, API/debugging and legacy conversion, **but it is not the native Lu integration format**. An approved Lu-provided Rust bridge, OS worker and feature gate remain separate C02/C04 work.
 
+## LU-CE-006 — C02 typed worker protocol evidence (2026-10-26)
+
+Cognitum now contains an **inert, versioned native worker wire proposal** at [`proto/cognitum/worker/v1/worker.proto`](../proto/cognitum/worker/v1/worker.proto) with [`worker_wire.py`](../cognitum/worker_wire.py). It uses Protobuf exclusively between proposed host/worker endpoints and a strict `oneof` success/failure envelope, matching the requirement that native Lu IPC **never uses JSON or untrusted pickle**. It includes no grant, caller-identity, sandbox or permission field, because Lu must derive those from trusted host authority **out of band**. The source/binding shape is compiler-checked on Windows/Linux CI and malformed messages fail closed; review [C02 P1/P2 notes](components/security/P1-P2-protobuf-worker-boundary.md).
+
+**Blocked host tasks (LU-CE-006 remains Proposed):** authenticated capability/session broker, genuine Windows AppContainer/LPAC or equivalent restriction, handle/network/file denial, Job Object process tree and quotas, bounded framed and authenticated IPC channel, cancellation/drain/revocation tests, and negative OS-level penetration cases. A valid Protobuf frame is **not** an OS isolation attestation. `worker_wire.start_isolated_worker()` is intentionally disabled and **always rejects**. The legacy trusted-only `worker.py` still uses multiprocessing pickle and must not be an execution path for untrusted CEs.
+
 ## Ownership and update protocol
 
 Each entry may gain: **source branch + verified commit**, proposed host interface, rationale, acceptance criteria, Lu decision reference, implementation link, Cognitum compatibility test, superseding entry and date. Do not silently change **Proposed** to **Accepted**. If Lu's independent implementation differs, reconcile Cognitum adapter requirements here first.
