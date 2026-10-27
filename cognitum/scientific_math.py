@@ -47,9 +47,9 @@ def _wire(obj):
         raise ValueError("specialist Protobuf exceeds size limit")
     return data
 
-def _digits(n):
-    if type(n) is not int or not 15<=n<=80:
-        raise ValueError("digits must be 15..80")
+def _digits(n,maximum=80):
+    if type(n) is not int or not 15<=n<=maximum:
+        raise ValueError("digits outside supported precision range")
     return n
 
 def _number(raw,*,as_fraction=True):
@@ -197,7 +197,7 @@ def _scientific(req):
     )
 
 def _precision(req):
-    digits=_digits(req.digits)
+    digits=_digits(req.digits,maximum=256)
     if req.action not in ("add","divide","sqrt"):
         raise ValueError("unsupported precision action")
     x=_number(req.left,as_fraction=False)
