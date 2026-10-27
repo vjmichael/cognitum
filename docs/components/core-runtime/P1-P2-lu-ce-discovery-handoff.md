@@ -37,6 +37,14 @@ The newer Lu branch contains actual early Core Extension machinery that was abse
 
 **Internal invocation stays Protobuf**, per the user's explicit correction: Lu owns `lu.v1.ToolCall/ToolReply` and each `ModelToolCodec`, while Cognitum owns generated `cognitum.v1` request/result domain message types and validates decoded fields. **JSON is an external model-facing schema, not native IPC.** Cognitum's actual [native Protobuf codec](../../../cognitum/protobuf_codec.py) is separately tested. No imaginary `lu.v1.CognitumInstallExtension` protobuf call or alternative host is invented.
 
+## Formal discovery metadata validation
+
+The [v1 declarative handoff JSON Schema](../../../schemas/lu_ce_handoff_v1.schema.json) is a Draft 2020-12 **closed object schema**. It requires the proposed `CoreExtension` module kind, precise `cognitum.v1` Protobuf type URLs, the single reviewed arithmetic JSON argument schema, matched source-schema hash, a required **null** effect incompatibility marker, and all host enablement/registration/advertisement/approval flags set to **false**. The validator rejects extra grant fields, fabricated workspace workflows and attempts to turn the prototype into an installed native CE.
+
+`tests/test_lu_ce_handoff.py` runs schema validation and negative mutations with `jsonschema` on CI; `jsonschema` is deliberately a **CI-only dependency**, not required to run Cognitum's default stdlib-only core. The host still needs an independently reviewed manifest loader and to check native schemas and signatures; validating declarative JSON is not authorization.
+
+**Package format:** the canonical operational payloads remain **binary Protobuf** (`cognitum.v1`) within Lu's own `lu.v1.ToolCall/ToolReply`. The declarative handoff is JSON Schema only because Lu's **model-facing tool catalog** uses closed JSON function parameter schemas. No second runtime RPC or alternative host envelope is added.
+
 ## How the loaded AI learns when to augment its work
 
 ```text
