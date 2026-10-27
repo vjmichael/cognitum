@@ -40,37 +40,20 @@ def handoff(source=None, binds=None, guides=None):
 
 
 class LuHandoffTests(unittest.TestCase):
-    def test_formal_json_schema_validates_handoff_and_rejects_unsafe_mutations(self):
+    def test_only_external_model_boundary_uses_json_schema(self):
         try:
             from jsonschema import Draft202012Validator
+            from cognitum.lu_ce_protobuf import create_lu_ce_handoff_proto, model_boundary_function_definition
         except ModuleNotFoundError:
-            self.skipTest("Optional CI-only jsonschema dependency not installed")
-        schema = json.loads((Path(__file__).parents[1] / "schemas" /
-                             "lu_ce_handoff_v1.schema.json").read_text(encoding="utf-8"))
+            self.skipTest("optional provider-edge schema validation dependencies absent")
+        provider = model_boundary_function_definition(create_lu_ce_handoff_proto())
+        schema = provider["function"]["parameters"]
         Draft202012Validator.check_schema(schema)
         validator = Draft202012Validator(schema)
-        good = handoff()
-        self.assertEqual(list(validator.iter_errors(good)), [])
-        mutants = []
-        x = json.loads(json.dumps(good))
-        x["availability"]["model_advertised"] = True
-        mutants.append(x)
-        x = json.loads(json.dumps(good))
-        x["host_manifest_proposal"]["tools"][0]["effect"] = "ReadWorkspace"
-        mutants.append(x)
-        x = json.loads(json.dumps(good))
-        x["capabilities"][0]["model_tool_definition_proposal"]["function"][
-            "parameters"]["additionalProperties"] = True
-        mutants.append(x)
-        x = json.loads(json.dumps(good))
-        x["workspace_interop_proposal"]["workspace_workflows"] = [{"id": "unapproved"}]
-        mutants.append(x)
-        x = json.loads(json.dumps(good))
-        x["grant"] = "all"
-        mutants.append(x)
-        for number, mutant in enumerate(mutants):
-            with self.subTest(mutant=number):
-                self.assertTrue(list(validator.iter_errors(mutant)))
+        self.assertTrue(validator.is_valid({"expression": "1/3 + 1/6"}))
+        self.assertFalse(validator.is_valid({"expression": "1", "grant": "all"}))
+        self.assertFalse(validator.is_valid({"expression": ""}))
+        self.assertFalse(validator.is_valid({"expression": "1" * 257}))
 
     def test_default_export_is_native_protobuf_and_json_only_at_model_edge(self):
         try:
