@@ -309,7 +309,7 @@ class CaptureContractTests(unittest.TestCase):
             lambda c: c.trials.pop(),
             lambda c: c.trials.add(task_id="surprise"),
             lambda c: setattr(c.trials[0], "seed", 777),
-            lambda c: setattr(c.trials[0], "arm", pb.HOST_ONLY),
+            lambda c: setattr(c.trials[0], "arm", pb.COGNITUM_SINGLE),
             lambda c: setattr(c, "claims_production_promotion", True),
             lambda c: setattr(c, "includes_raw_user_content", True),
             lambda c: setattr(c, "schema_version", 2),
