@@ -14,14 +14,14 @@ The existing `Trace` class declared that it retained metadata only, but its `app
 In [`cognitum/tracing.py`](../../../cognitum/tracing.py) on the **feature branch**:
 - Added `validated_event` with a **closed set of eight allowed trace keys**; refuses missing/extra fields and an unsupported `trace_version`.
 - Accepts `module=None` (unavailable tool) or exactly `{"name","version"}` with bounded nonempty strings; rejects additional fields.
-- Enforces machine-readable `execution_status` and `error` identifiers, and finite nonnegative numeric latency (rejects bool, NaN and Infinity).
+- Enforces a closed **allowlist** of currently defined runtime `execution_status` categories and sanitized `error` codes (including rejection of seemingly harmless but unregistered lowercase identifiers), and finite nonnegative numeric latency (rejects bool, NaN and Infinity).
 - Creates an independent, normalized record before append; mutation of the original event or nested module can't retroactively alter the sink's memory.
 - Serializes with `allow_nan=False` and only appends to `events` **after** the file write has succeeded. The previous **fail-closed, propagating error behavior** is preserved; no silent audit drop or false-completed call.
 - Does **not** add external packages, network calls, schema migration or a new trace transport.
 
-In [`tests/test_tracing.py`](../../../tests/test_tracing.py) added nine focused tests of accepted metadata, unexpected raw payload/result fields, nested secret fields, sanitizer shape, invalid statuses/fields, numeric bounds, defensive copies, unavailable module and disk error behavior.
+In [`tests/test_tracing.py`](../../../tests/test_tracing.py) added nine focused tests of accepted metadata, unexpected raw payload/result fields, nested secret fields, sanitizer allowlists, invalid statuses/fields, numeric bounds, defensive copies, unavailable module and disk error behavior.
 
-**Important limitations:** this is an allowlist for field *names and types*, **not automatic de-identification** of allowed identifiers/module names. IDs must remain opaque and must not contain user data. A successfully returned buffered OS write is not a physical fsync guarantee; trace rotation, encryption, retention, process crash atomicity and long-running resource limits remain open. This prototype accepts only one trace format version and can require future schema migrations. Invalid metadata causes failure rather than silently bypassing the audit sink.
+**Important limitations:** this is an allowlist for field *names and types*, **not automatic de-identification** of allowed identifiers/module names. IDs must remain opaque and must not contain user data. A successfully returned buffered OS write is not a physical fsync guarantee; trace rotation, encryption, retention, process crash atomicity and long-running resource limits remain open. This prototype accepts only one trace format version and can require future schema migrations. Invalid metadata—including future status or error codes not explicitly added to the sink—causes failure rather than silently bypassing the audit sink. Keep this list in step with intentional runtime outcome categories.
 
 ## Test evidence — isolated copy of the committed source/test pair
 
