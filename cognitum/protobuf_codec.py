@@ -106,7 +106,8 @@ def encode_result(result):
     if result.status != "completed":
         if result.status == "validated":
             return NativeFailureProposal("not_executed", False)
-        assert isinstance(result.failure, CapabilityFailure)
+        if not isinstance(result.failure, CapabilityFailure):
+            raise ValueError("non-completed result requires a sanitized typed failure")
         return NativeFailureProposal(result.failure.code, result.failure.retryable)
     entry = _RESULTS.get(result.operation)
     if entry is None or type(result.value) is not entry[0]:
