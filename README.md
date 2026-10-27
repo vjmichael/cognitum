@@ -1,6 +1,8 @@
-# Cognitum — Phase 0 starter
+# Cognitum — component roadmap and initial core prototype
 
 A separate, offline cognitive augmentation foundation based on the owner's Revision 1.4. Python standard library only at runtime. Production Lu was not changed. This is a tested prototype, not a validated cognitive system or a secure third-party plugin host.
+
+**Active development plan:** [Component roadmap (P0 research → P1 build → P2 smoke test → P3 standardized benchmark)](docs/roadmap.md). Each component progresses independently, with explicit research/library/hardware selection and acceptance evidence. The older project-wide phase schedules remain historical source documents; the code below is the earlier *Phase 0 starter*, not completion of all components' P0 work. HDC/KAN research is preserved for reuse, with Cognitum integration still requiring a verified archive audit.
 
 Run from this folder with Python 3.11+ (tested here on Windows, Python 3.14.6):
 
@@ -27,4 +29,4 @@ What is implemented:
 - Twelve synthetic replay cases, frozen grading, suite/registry hashes and an explicit no-promotion label.
 - Bounded AST calculator using exact `Fraction` arithmetic. No `eval`, symbolic parser, arbitrary code execution, function calls or variables.
 
-See [architecture](docs/architecture.md), [research agenda](docs/research.md) and [handoff/status](docs/status.md). Original design inputs are preserved under `docs/sources/` with their original date discrepancies. No license was invented for the owner's work.
+See the [active component roadmap](docs/roadmap.md), [architecture](docs/architecture.md), [research agenda](docs/research.md) and [handoff/status](docs/status.md). Original design inputs are preserved under `docs/sources/` with their original date discrepancies. No license was invented for the owner's work.
