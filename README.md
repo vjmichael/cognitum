@@ -6,6 +6,8 @@ A separate, offline cognitive augmentation foundation based on the owner's Revis
 
 **Integration principle:** Lu owns the selected/loaded transformer, model lifecycle, orchestration, tool policy and native CE/workspace environment; Cognitum supplies optional cognitive capabilities through those host interfaces. See the [Lu–Cognitum transformer collaboration contract](docs/lu-cognitum-integration.md). Component P3 evidence must measure improvements in end-to-end Lu+model tasks rather than claim that stand-alone component performance modifies a transformer's weights.
 
+**C02 security P0 started:** [Host authority and OS worker confinement research](docs/components/security/P0-research.md). No effectful/untrusted worker is enabled.
+
 **Current P0 evidence:** [C01 active Lu-native integration audit](docs/components/core-runtime/P0-lu-native-audit.md) and [optional schema-validator study](docs/components/core-runtime/P0-schema-study.md), with its [reproduction script](research/schema_validation_probe.py). These are research/integration studies, not shipping-code certification.
 
 Run from this folder with Python 3.11+ (tested here on Windows, Python 3.14.6):
