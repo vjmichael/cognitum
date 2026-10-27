@@ -28,7 +28,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install optional Protobuf dependencies and compiler
-        run: python -m pip install -e ".[security]" "grpcio-tools>=1.70,<2" "jsonschema>=4,<5"
+        run: python -m pip install -e ".[security,scientific]" "grpcio-tools>=1.70,<2" "jsonschema>=4,<5"
       - name: Compile and compare native Protobuf schema
         run: |
           python -m grpc_tools.protoc -Iproto --descriptor_set_out=compiled_cognitum.pb proto/cognitum/v1/capability.proto
@@ -45,6 +45,8 @@ jobs:
           python tools/check_proto_descriptors.py compiled_benchmark.pb
           python -m grpc_tools.protoc -Iproto --descriptor_set_out=compiled_collector.pb proto/cognitum/benchmark/v1/collector.proto
           python tools/check_proto_descriptors.py compiled_collector.pb
+          python -m grpc_tools.protoc -Iproto --descriptor_set_out=compiled_specialists.pb proto/cognitum/math/v1/specialists.proto
+          python tools/check_proto_descriptors.py compiled_specialists.pb
       - name: Verify core tests
         run: python -m unittest discover -s tests -p "test_*.py" -v
       - name: Verify synthetic replay
