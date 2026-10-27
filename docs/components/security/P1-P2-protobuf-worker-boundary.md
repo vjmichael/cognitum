@@ -22,7 +22,7 @@ The native [`cognitum.worker.v1` schema](../../../proto/cognitum/worker/v1/worke
 
 The checked-in [descriptor-backed classes](../../../cognitum/proto/worker_pb2.py) are compared with `grpc_tools.protoc` using [the descriptor checker](../../../tools/check_proto_descriptors.py). Compiler comparisons include wire field numbers/types, `oneof` identity and reserved ranges. The Protobuf wire **has no JSON or pickle serialization**.
 
-[`cognitum/worker_wire.py`](../../../cognitum/worker_wire.py) implements bounded deterministic (16 KiB maximum) binary encode/decode and closed semantic validation. It currently maps only the **reviewed, inert** `cognitum.calc.rational` operation using existing `cognitum.v1.CalculateRationalRequest` and `CalculateRationalResult`. An unknown type URL, operation version, malformed frame, duplicate scalar tag, shadowed `oneof`, absent result, mismatched call ID, oversize input, unknown error or invalid permission assertion is rejected. Pure exact results require the existing evidence and `intent_not_verified` limitation.
+[`cognitum/worker_wire.py`](../../../cognitum/worker_wire.py) implements bounded deterministic (16 KiB maximum) binary encode/decode and closed semantic validation. It currently maps only the **reviewed, inert** `cognitum.calc.rational` operation using existing `cognitum.v1.CalculateRationalRequest` and `CalculateRationalResult`. An unknown type URL, operation version, malformed frame, duplicate scalar tag, shadowed `oneof`, **nested duplicate tags inside domain request/results**, absent result, mismatched call ID, oversize input, unknown error or invalid permission assertion is rejected. Pure exact results require the existing evidence and `intent_not_verified` limitation.
 
 **No security decision is represented as a Protobuf field:** discovery metadata and worker messages are data. Lu must derive and enforce authenticated subject, capability grant, effect scopes, target workspace, consent and package provenance from its own trusted host before any invocation. An HDC candidate or model tool argument never grants filesystem, network or canonical memory access.
 
@@ -50,7 +50,7 @@ Run the entire Cognitum Python suite on **Linux and Windows**, versions 3.11/3.1
 
 - **P0 partly advanced:** IPC sizes, type IDs, failure states, source/descriptor checking, negative cases and explicit OS gates are concrete. Actual threat review, permission broker and platform design still open.
 - **P1:** inert protocol and fail-closed admission only, *not* worker process isolation; no source code written to Lu.
-- **P2:** source and behavioral cross-platform test results recorded when GitHub Actions succeeds; no actual AppContainer/Job Object or real desktop tests performed.
+- **P2 evidence:** [Cognitum branch run 40453018090](https://github.com/vjmichael/cognitum/actions/runs/40453018090) passed **136/136 unit tests, 12/12 synthetic replay and all three Protobuf compiler/descriptor matches per job**, across Ubuntu/Windows Python 3.11 and 3.13. These are GitHub-hosted runner tests, **not** an actual AppContainer/Job Object, restricted-token, or real desktop security test.
 - **P3:** production security tests and end-to-end task efficacy do **not** exist; do not promote this CE.
 
 Lu team proposals remain [LU-CE-002, LU-CE-005, LU-CE-006 and LU-CE-007](../../lu-dlc-ce-addenda.md). Cognitum's optional CE identity, native Protobuf messages and future typed worker are still subject to Lu's host approval.
