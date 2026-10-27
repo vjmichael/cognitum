@@ -12,6 +12,8 @@ This conversation and repository develop **Cognitum only**. Lu is a read-only in
 
 **C01 typed results:** [versioned capability-result contract](components/core-runtime/P1-P2-typed-results.md) delivered via [merged PR #3](https://github.com/vjmichael/cognitum/pull/3). **76/76 unit tests and 12/12 replay cases passed** on all four Linux/Windows Python CI jobs ([PR evidence](https://github.com/vjmichael/cognitum/actions/runs/40445966151)). This is a Cognitum Python contract, not a Lu-native or P3 benchmark result. LU-CE-007 transport translation remains **Proposed**.
 
+**C01 native Protobuf correction (2026-10-26):** [Protobuf request/result messages, Python bindings and binary codec](components/core-runtime/P1-P2-protobuf-native.md) merged via [PR #4](https://github.com/vjmichael/cognitum/pull/4). [Four-platform Protobuf CI 40447933037](https://github.com/vjmichael/cognitum/actions/runs/40447933037) passed **91/91 unit tests and 12/12 replay cases** per job with compiler-generated schema comparison. Lu `lu.v1.ToolCall/ToolReply` is reused conceptually but **actual Lu-native CE registration/invocation is still unimplemented**; C01/C02/C04 host gates remain open.
+
 ## Active execution sequence
 
 The canonical priority/dependency order is [**Ordered Component Build Path**](build-order.md). It lists C01–C19, differentiates independent P0 research from implementation dependencies, and identifies the first active work item: **[C01 / P0 core runtime research and design](components/core-runtime/P0-research.md)**. The older component table below is the status inventory, not the prioritized build sequence.
