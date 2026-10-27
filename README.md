@@ -12,6 +12,8 @@ A separate, offline cognitive augmentation foundation based on the owner's Revis
 
 **C02 security P0 started:** [Host authority and OS worker confinement research](docs/components/security/P0-research.md). No effectful/untrusted worker is enabled.
 
+**Validated feature branches (not yet merged to `main`):** [Tracing hardening PR #1](https://github.com/vjmichael/cognitum/pull/1) and [default-off CE manifest fixture PR #2](https://github.com/vjmichael/cognitum/pull/2) have passed full Linux/Windows Python 3.11/3.13 unit and synthetic replay CI. All work is **Cognitum-only**; proposed Lu integration remains unimplemented.
+
 **Current P0 evidence:** [C01 active Lu-native integration audit](docs/components/core-runtime/P0-lu-native-audit.md) and [optional schema-validator study](docs/components/core-runtime/P0-schema-study.md), with its [reproduction script](research/schema_validation_probe.py). These are research/integration studies, not shipping-code certification.
 
 Run from this folder with Python 3.11+ (tested here on Windows, Python 3.14.6):
