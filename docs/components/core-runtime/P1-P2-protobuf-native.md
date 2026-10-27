@@ -1,7 +1,7 @@
 # C01 / P1–P2 — Protobuf-Native Result Contracts for Lu DLC CE
 
 **Date:** 2026-10-26  
-**Status:** P1 implementation committed in `cognitum/c01-protobuf-native-messages`; P2 must be verified by branch + PR + merged-main CI.  
+**Status:** **P1 merged to Cognitum `main`** via [PR #4](https://github.com/vjmichael/cognitum/pull/4) at commit `91906e0c40461dfcc240fd8f4d2acbf5741f0069`. **P2 four-platform branch and PR CI passed**; host integration and C02 isolation remain incomplete.  
 **Scope:** Only `vjmichael/cognitum`. `vjmichael/jan_alt` branch `lu/core-contracts-native-registry` commit `11b2e7e8c5370d512a8f8815d5aaaf9e682e04df` inspected **read-only**.  
 **Decision:** **Use Protobuf as Cognitum's native domain wire format for Lu internal tool calls.** Existing Cognitum Python dataclasses and strict JSON schemas remain legitimate at API/model/debug/test boundaries only; they are not the Lu wire format.
 
@@ -78,7 +78,7 @@ The `[proto]` extra adds Google Protobuf Python runtime **only to the Cognitum n
 - **LU-CE-003:** approve protobuf type URL declarations, generated Rust bindings (Lu or shared build artifact), versioning and schema-breaking check.
 - **LU-CE-004 / 007:** Lu owns model schema allow-list, JSON→Protobuf codec and failure/result mapping; no editing Lu from this project.
 - **C02:** OS-enforced confinement and native authority/identity required before untrusted/effectful Python components. Typed Protobuf transport does **not** replace sandboxing.
-- **P2:** execute source compilation/descriptor match plus complete baseline+C01 tests in GitHub Actions on Windows/Linux, Python 3.11/3.13; verify Protobuf optional presence, exact bytes, malformed/unknown type URLs, effectful isolation, version mismatches, no invented success, and no change to legacy calculator.
+- **P2 verified (Cognitum-only):** [final branch CI 40447933037](https://github.com/vjmichael/cognitum/actions/runs/40447933037) and [PR CI 40448091514](https://github.com/vjmichael/cognitum/actions/runs/40448091514) both passed on **Windows/Linux × Python 3.11/3.13**: **91/91 unit tests, 12/12 synthetic replay** per job, Python source compile and actual `grpc_tools.protoc` descriptor match. Tests cover Protobuf optional presence, binary roundtrip, exact type URL, malformed bytes, unknown fields, no fabricated success and legacy calculator. **Effectful OS isolation, Lu authenticated source, and actual deployed native CE require separate C02/C04 tests; these were not executed here.**
 - **P3:** no claim of task quality, hardware improvement, or actual loaded-model performance until Lu team's official CE interface and benchmark capture exist.
 
 **Research references:** [Protobuf Python generated code](https://protobuf.dev/reference/python/python-generated/) and [proto3 field presence](https://protobuf.dev/programming-guides/field_presence/).
