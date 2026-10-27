@@ -98,6 +98,7 @@ _field(scheduled, "repeat_index", 3, U)
 _field(scheduled, "seed", 4, L)
 
 plan = _msg("BenchmarkPlan")
+_field(plan, "schema_version", 1, U)
 for name, number in [
     ("plan_id", 2), ("dataset_id", 3), ("dataset_sha256", 4),
     ("scoring_rubric_sha256", 5), ("lu_build_sha256", 6),
@@ -107,7 +108,6 @@ for name, number in [
     ("model_context_sha256", 14),
 ]:
     _field(plan, name, number, S)
-_field(plan, "schema_version", 1, U)
 _field(plan, "inference", 15, M, full="InferenceSettings")
 _field(plan, "arms", 16, M, full="ArmConfiguration", repeated=True)
 _field(plan, "tasks", 17, M, full="TaskReference", repeated=True)
