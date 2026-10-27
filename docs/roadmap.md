@@ -4,6 +4,10 @@
 **Status:** Active process and component tracker  
 **Scope:** Cognitum core services, production adapters, research modules, and future Lu integration components
 
+## Active execution sequence
+
+The canonical priority/dependency order is [**Ordered Component Build Path**](build-order.md). It lists C01–C19, differentiates independent P0 research from implementation dependencies, and identifies the first active work item: **[C01 / P0 core runtime research and design](components/core-runtime/P0-research.md)**. The older component table below is the status inventory, not the prioritized build sequence.
+
 ## Governing decision
 
 Cognitum no longer advances through one project-wide Phase 0–5 sequence. **Every component follows its own P0 → P1 → P2 → P3 lifecycle**, with explicit evidence and acceptance criteria. Components can occupy different phases simultaneously. Dependency and safety gates still apply; independent phases do not permit bypassing shared infrastructure or security controls.
