@@ -6,6 +6,8 @@
 **Stage:** P0 design/audit **in progress**. No claim of executable Cognitum↔Lu integration.  
 **Authoritative user requirement:** whichever LLM transformer Lu loads must be the host model that Cognitum improves. Lu—not an independent Cognitum orchestrator—determines model, tool, user authority and collaboration. See [Lu × Cognitum contract](../../lu-cognitum-integration.md).
 
+**Superseding discovery (2026-10-26):** A newer Lu branch, `lu/independent-branding-ce-foundation` at commit `75d558c083dc96660528dd6fb8c745af34469503`, **now has `ModuleKind::CoreExtension`, `CoreExtensionHost`, and separate CE unregister with tests**. For current CE compatibility decisions, follow [C01 newer branch review and model-facing handoff](P1-P2-lu-ce-discovery-handoff.md). The missing CoreExtension kind described below is **historical and no longer accurate for that newer branch**; packaging/worker lifecycle, model discovery, and permission mapping remain open. Notably, Lu's required singular ToolEffect lacks a **pure/no-effect** value, which now blocks accurate registration of even the inert calculator.
+
 ## 1. Correction to the initial main-branch survey
 
 The initial [C01/P0 survey](P0-research.md) inspected Jan/Lu's `main` code. **The active Lu feature branch is substantially more advanced.** It already has an actual native registry, typed Protobuf contracts and a model-facing JSON adapter. Therefore an independent second registry, Tauri bridge, protocol envelope or agent loop would be duplicative.
