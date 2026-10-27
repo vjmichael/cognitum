@@ -1,5 +1,7 @@
 # Architecture and boundaries
 
+**Active implementation roadmap:** [Component development lifecycle and tracker](roadmap.md). Every component now follows its own P0 research/standards/hardware survey, P1 implementation, P2 smoke testing, and P3 standard-baseline benchmarking. Historical global phases from Revision 1.4 are retained as archival design input, not the execution schedule. Existing prototype verification is reusable evidence, not automatic P3 certification.
+
 Host proposes an explicit operation → registry chooses its nominated enabled provider → core validates operation input → deterministic policy authorizes → worker executes → core validates output → structured response and trace return to host.
 
 The host owns conversations, identity authentication, consent, natural-language formalization and synthesis. Cognitum has no model client, agent loop, scheduler, desktop observer, network server or transport dependency. The future Lu interface is `Runtime.call(Request, HostContext) -> Response`; Lu must construct trusted context after authenticating the user. A model or retrieved document must never construct that object. The Python interface is local, not an authenticated remote API.
@@ -35,6 +37,8 @@ Replay accepts sanitized fixtures, not live traces. It creates a fixed evaluator
 Metadata traces contain request/correlation IDs, operation, module/version, status, error category and latency. Trace writes are serialized. No payload/result retention or payload hashes are enabled; even hashes can expose low-entropy private values. IDs should be opaque and never contain secrets. Trace retention/rotation/encryption are the host's responsibility. Trace I/O failures propagate rather than silently losing audit records. A response's computation reference links the request; a persisted full formalization/model artifact is not yet provided.
 
 ## Next engineering gates
+
+These are cross-cutting prerequisites and suggested dependencies, **not project-wide phase numbers**. Plan, execute, and verify each relevant component using the independent P0–P3 lifecycle in [the active roadmap](roadmap.md).
 
 1. Audit actual Lu/HDC sources when available; adapt existing tools rather than recreate them. Add strict native/JSON conversion fixtures at the real boundary.
 2. Add richer operation schemas, typed artifacts, formalization hashes/restatements under explicit retention consent, dependency checks and per-session resource/call budgets.
