@@ -73,7 +73,7 @@ Each component uses the same lifecycle. An entry's status describes **evidence i
 | Component / capability | Current evidence and next lifecycle work |
 | --- | --- |
 | Core contracts, registry, policy, runtime, and tracing | **P1 implementation and limited P2 checks exist** in the separate Phase 0 starter. Complete P0 evidence review, broader security/host-interoperability checks, and P3 validation. Not an untrusted plugin host. |
-| Evaluation and replay harness | **P1 implementation and limited P2 checks exist:** deterministic synthetic replay and trace fixtures. P0 benchmark definition and P3 real-task validation remain open; smoke fixtures are not promotion evidence. |
+| Evaluation and replay harness | **P0 evaluation standardization started:** [C03/P0 baseline/control and Lu+transformer test plan](components/evaluation/P0-research.md). Existing **P1 implementation and limited P2 checks**: synthetic replay and trace fixtures. P3 real-task validation remains open; smoke fixtures are not promotion evidence. |
 | Calculator / exact arithmetic | **P1 implementation and limited P2 checks exist:** bounded Fraction/AST calculator. Full P0/standards review and P3 established baseline comparison remain to be recorded. |
 | Canonical memory and retrieval (SQLite/FTS5, provenance, deletion) | **P0 pending:** inventory mature libraries and store semantics; benchmark conventional retrieval and revision/deletion correctness. |
 | Typed state and belief revision (event store, snapshots, conflicts) | **P0 pending:** define event schema, consistency and update semantics, trusted source/consent, and conventional state baselines. |
