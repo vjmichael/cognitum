@@ -9,5 +9,9 @@ description = "Experimental cognitive augmentation foundation"
 requires-python = ">=3.11"
 dependencies = []
 
+[project.optional-dependencies]
+# Core remains stdlib-only. A native Lu Protobuf CE requires this optional extra.
+proto = ["protobuf>=6.31,<8"]
+
 [tool.setuptools.packages.find]
 include = ["cognitum*"]
