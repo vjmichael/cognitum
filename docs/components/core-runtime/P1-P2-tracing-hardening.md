@@ -2,7 +2,7 @@
 
 **Date:** 2026-10-26  
 **Branch:** `cognitum/c01-tracing-guard`, based on `vjmichael/cognitum/main`.  
-**Status:** **P1 tracing patch committed; P2 complete repository regression PASSED on Linux/Windows Python 3.11/3.13 (40 unit tests and 12/12 synthetic replay per job).** Still a separate branch; not P3 or Lu integration. Not a C01 P0 exit, P3 benchmark or security certification.  
+**Status:** **P1 tracing patch committed; P2 complete repository regression PASSED on Linux/Windows Python 3.11/3.13 (40 unit tests and 12/12 synthetic replay per job).** Merged into Cognitum `main` by [PR #1](https://github.com/vjmichael/cognitum/pull/1); not P3 or Lu integration. Not a C01 P0 exit, P3 benchmark or security certification.  
 **Scope:** Cognitum only; no Lu source, model, installer, system files, user AppData or archived HDC/KAN assets modified.
 
 ## Problem found
@@ -57,7 +57,7 @@ python -m compileall -q cognitum/tracing.py tests/test_tracing.py
 
 **P2 coverage limitation:** these nine tests run **against only the tracing module and its new test file**, not the full Cognitum install and not the Windows desktop. They exercise no worker spawn and do not establish end-to-end Lu/native CE compatibility.
 
-**Remaining post-CI review before merging to `main`:**
+**Post-merge follow-up and ongoing safety review:**
 1. **Completed on Linux and Windows CI:** all existing and new Cognitum tests pass on a complete GitHub checkout. Retain this full regression gate for any subsequent changes.
 2. Confirm `Runtime._finish` events in normal, error, timeout, disabled and research paths are all within the strict schema.
 3. Audit error codes used by new providers and ensure no unsanitized exceptions are passed to tracing. Keep the existing `manifest_v1.json` unchanged.
@@ -66,4 +66,4 @@ python -m compileall -q cognitum/tracing.py tests/test_tracing.py
 
 ## Implementation status
 
-**P1 targeted hardening implemented** on the isolated branch. **P2 focused smoke passed 9/9 and complete-repository Windows/Linux CI passed 40/40 per job, replay 12/12 per job**. Security review and eventual merge remain open; P3 model/performance benchmarks not started. This is not approval to change Lu or activate optional untrusted providers.
+**P1 targeted hardening merged** into Cognitum `main`; **P2 focused smoke passed 9/9 and complete-repository Windows/Linux CI passed 40/40 per job, replay 12/12 per job**. The [combined main regression](https://github.com/vjmichael/cognitum/actions/runs/40444933715) also passed 51/51 units and 12/12 replay per job after PR #2 merged. Ongoing safety review remains; P3 model/performance benchmarks not started. This is not approval to change Lu or activate optional untrusted providers.
