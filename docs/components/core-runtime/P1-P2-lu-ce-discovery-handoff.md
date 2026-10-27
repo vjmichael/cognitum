@@ -3,7 +3,7 @@
 **Review performed:** 2026-10-26 (read-only Lu audit)  
 **Latest Lu reference:** `vjmichael/jan_alt@lu/independent-branding-ce-foundation`, commit `75d558c083dc96660528dd6fb8c745af34469503`. This branch is **two commits ahead** of the older `lu/core-contracts-native-registry` branch.  
 **Cognitum implementation:** [`cognitum/lu_ce_handoff.py`](../../../cognitum/lu_ce_handoff.py) and [review JSON exporter](../../../tools/emit_lu_ce_handoff.py)  
-**Status:** **Cognitum-only, non-installable discovery contract proposal.** Lu was **not** modified. No installed, enabled or model-advertised Cognitum tools.
+**Status:** **Merged via [Cognitum PR #5](https://github.com/vjmichael/cognitum/pull/5)** at commit `82210ecf828b0951917421d061ea4882937b11d1`. The handoff is still **non-installable, inactive, non-advertised** and **not** a Lu host ABI certification. No Lu files were modified. [Four-platform branch CI](https://github.com/vjmichael/cognitum/actions/runs/40449813005) and [PR CI](https://github.com/vjmichael/cognitum/actions/runs/40449936995) passed: **105/105 unit tests, 12/12 synthetic replay and compiler-checked Protobuf** per Windows/Linux Python 3.11/3.13 configuration; formal JSON Schema positive/negative tests included.
 
 ## What Lu's newer code already decided and built
 
