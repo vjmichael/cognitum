@@ -34,7 +34,7 @@ Lu's experimental Rust `NativeToolRegistry` and `ModelToolCatalog` support nativ
 
 **42 = 31 inherited repository tests + 11 new CE-manifest tests.** Per-job `unittest discover` logs show 42 tests, `OK`; existing replay logs show 12/12. These are GitHub-hosted runners, not the user's actual AMD workstation or a loaded transformer. The P3 Lu+model performance test has not been performed.
 
-An independent parallel branch, [`cognitum/c01-tracing-guard`](https://github.com/vjmichael/cognitum/tree/cognitum/c01-tracing-guard), has a separate completed [four-platform regression run](https://github.com/vjmichael/cognitum/actions/runs/40444297105) for metadata-only tracing hardening. **These are separate branches and CI evidence; they are not yet merged together.**
+An independent parallel branch, [`cognitum/c01-tracing-guard`](https://github.com/vjmichael/cognitum/tree/cognitum/c01-tracing-guard), has a separate completed [four-platform regression run](https://github.com/vjmichael/cognitum/actions/runs/40444297105) for metadata-only tracing hardening. **Both changes have since merged into Cognitum `main`**. The [combined main CI](https://github.com/vjmichael/cognitum/actions/runs/40444933715) passed **51/51 unit tests and 12/12 replay cases** per Linux/Windows Python configuration.
 
 ## 3. Acceptance boundary and remaining work
 
@@ -42,4 +42,4 @@ An independent parallel branch, [`cognitum/c01-tracing-guard`](https://github.co
 
 **Not yet provided:** Lu core contract/CE module lifecycle acceptance (LU-CE-001), Lu effects mapping (LU-CE-002), actual generated Protobuf message types (LU-CE-003), trusted Lu catalog/enablement (LU-CE-004), authenticated host identity and secure worker (LU-CE-005/006), loaded-model tool-call and latency measurements (LU-CE-010). The fixture cannot install, advertise, authorize or execute any Lu tool.
 
-**Next safe activities inside Cognitum:** review/merge the independent passing changes; add immutable typed *result evidence and failure* fixtures for approximate/exact operations; expand C03 offline evaluation task rubrics; design C06/C07 canonical state without duplicating Lu-owned ANSF memory. **All potential Lu changes remain in the proposal register only.**
+**Next safe activities inside Cognitum:** with both changes merged and the combined regression passing, add immutable typed *result evidence and failure* fixtures for approximate/exact operations; expand C03 offline evaluation task rubrics; design C06/C07 canonical state without duplicating Lu-owned ANSF memory. **All potential Lu changes remain in the proposal register only.**
