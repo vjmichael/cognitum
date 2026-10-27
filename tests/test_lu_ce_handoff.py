@@ -4,6 +4,8 @@ This suite NEVER registers a Lu extension or grants model tool permissions.
 """
 from dataclasses import replace
 import json
+import subprocess
+import sys
 import unittest
 
 from cognitum.ce_manifest import ProposedToolBinding
@@ -37,6 +39,15 @@ def handoff(source=None, binds=None, guides=None):
 
 
 class LuHandoffTests(unittest.TestCase):
+    def test_review_export_cli_produces_exact_schema_without_enabling(self):
+        output = subprocess.run(
+            [sys.executable, "tools/emit_lu_ce_handoff.py"],
+            capture_output=True, text=True, check=True,
+        )
+        data = json.loads(output.stdout)
+        self.assertEqual(data, handoff())
+        self.assertFalse(data["availability"]["model_advertised"])
+
     def test_latest_lu_ce_kind_and_version_are_explicit(self):
         doc = handoff()
         self.assertEqual(doc["schema_version"], HANDOFF_SCHEMA_VERSION)
