@@ -6,6 +6,12 @@ Host proposes an explicit operation → registry chooses its nominated enabled p
 
 The host owns conversations, identity authentication, consent, natural-language formalization and synthesis. Cognitum has no model client, agent loop, scheduler, desktop observer, network server or transport dependency. The future Lu interface is `Runtime.call(Request, HostContext) -> Response`; Lu must construct trusted context after authenticating the user. A model or retrieved document must never construct that object. The Python interface is local, not an authenticated remote API.
 
+## Lu-controlled transformer collaboration (user decision, 2026-10-26)
+
+**Normative host/augmentation contract:** [Lu × Cognitum — Transformer-Centered Collaboration](lu-cognitum-integration.md). **Lu controls whichever transformer is loaded or selected**, including model/provider lifecycle, capability advertisement, chat/agent loop, session and workspace, tool dispatch, authorization and final response. Cognitum components provide **optional, typed, bounded cognitive services** to that host; they do not replace the transformer's conversational role, silently modify model weights, create a competing agent loop, or independently grant permission.
+
+The selected transformer may propose operations and interpret their returned evidence, but **Lu policy determines whether a request may execute**; Cognitum's local registry resolves an explicitly nominated enabled provider *within* a host-approved capability. Model/tool interoperability must follow existing Lu-native CEs and dispatcher contracts. Structured results return with outcome, assurance, provenance, failures and limitations, and the host/model must preserve these distinctions. **Production value must be benchmarked on Lu + the selected transformer** relative to host-only and strong conventional tools; component-only measurements are necessary but insufficient.
+
 ## Contracts
 
 The envelope follows Revision 1.4's contract label `1.3.0`, with an intentionally reduced Phase 0 surface. Exact contract and operation-schema version equality is required; there is no speculative compatibility range. Canonical frozen Python contract objects generate JSON Schema for operation input/output. `Shape` supports only closed objects of required bounded strings; it is not a full JSON Schema engine. Add a reviewed typed schema implementation before memory/state/solver structures require richer types. Do not silently accept unsupported schema features.
