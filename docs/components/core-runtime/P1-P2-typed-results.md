@@ -74,7 +74,11 @@ Read-only Lu source at `vjmichael/jan_alt` branch `lu/core-contracts-native-regi
 
 **Test gate:** full `python -m unittest discover -s tests -p 'test_*.py' -v` plus `python -m cognitum --calculator replay evals/smoke.json` and `python -m compileall -q cognitum tests` on GitHub Actions Windows/Linux, Python 3.11 and 3.13. No test result is claimed until current-commit evidence is captured.
 
-## 7. Known design limits and next component specialization
+## 7. Frozen cross-component interoperability samples
+
+[**`tests/fixtures/capability_results_v1.json`**](../../../tests/fixtures/capability_results_v1.json) supplies six intentionally **illustrative, not computed** canonical examples: exact rational, unquantified numerical estimate, snapshot-matched retrieval candidates, access denial, dry-run validation and timeout. The test suite compares full parse/serialization equality for each. These examples are **contract shape controls**, not evidence of a real KAN checkpoint, HDC source dataset, Lu authorization decision or tool execution. No model is instructed to trust fabricated sample IDs.
+
+## 8. Known design limits and next component specialization
 
 - Evidence-reference syntax prevents raw prose fields but **does not verify source authenticity**, nor does a hash or snapshot ID confer permission. C02 must enforce security, C06/C07 own canonical state and deletion/revision semantics.
 - Retrieval only reports candidate IDs, without ranking scores or source claims. Future C08 P0 must compare actual HDC/FTS/dense recall and add scores only with explicit metric/unit calibration.
