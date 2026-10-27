@@ -1,5 +1,7 @@
 # Cognitum — Ordered Component Build Path
 
+**All-component design coverage:** [Cognitum R1.5 full architecture](Cognitum_Comprehensive_AI_Architecture_R1_5.md) and [C01–C19 technical specification](design/technology-portfolio-C01-C19.md), with [cross-technology experiment/acceptance gates](design/research-validation-and-delivery.md). The queue below still tracks **implementation** and may contain earlier historical test-count snapshots; R1.5 design completion does not imply C06–C19 code exists.
+
 **Adopted:** 2026-10-26  
 **Status:** Active priority and dependency plan  
 **Governing lifecycle:** [Per-component P0–P3 roadmap](roadmap.md)

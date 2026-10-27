@@ -1,12 +1,14 @@
 # Cognitum — Living Component Development Roadmap
 
+**Design portfolio consolidated (2026-10-27):** [Complete AI architecture R1.5](Cognitum_Comprehensive_AI_Architecture_R1_5.md) · [technology portfolio C01–C19](design/technology-portfolio-C01-C19.md) · [eight compositional research protocols and P0–P3 test/release gates](design/research-validation-and-delivery.md). **Design completion is separate from implementing C06–C19 or closing C02/C04/real P3 benchmarks.** Use this living roadmap for *actual implementation status*, not as a design-gap substitute.
+
 **Adopted:** 2026-10-26  
 **Status:** Active process and component tracker  
 **Scope:** Cognitum core services, production adapters, research modules, and future Lu integration components
 
 ## Repository ownership and Lu boundary
 
-This conversation and repository develop **Cognitum only**. Lu is a read-only integration reference, never an implementation target here. Record any host-side DLC Core Extension requirements in the [Lu DLC CE Integration Addendum Register](lu-dlc-ce-addenda.md), with **Proposed** status until independently accepted by the Lu team. Cognitum may implement standalone tests, adapters and research against provisional documented contracts, but must not modify Lu. C01 standalone tracing security hardening is being [tested on a separate review branch](https://github.com/vjmichael/cognitum/blob/cognitum/c01-tracing-guard/docs/components/core-runtime/P1-P2-tracing-hardening.md); existing `main` is preserved until full regression verification.
+This conversation and repository develop **Cognitum only**. Lu is a read-only integration reference, never an implementation target here. Record any host-side DLC Core Extension requirements in the [Lu DLC CE Integration Addendum Register](lu-dlc-ce-addenda.md), with **Proposed** status until independently accepted by the Lu team. Cognitum may implement standalone tests, adapters and research against provisional documented contracts, but must not modify Lu. The original C01 tracing security hardening has since been [merged to Cognitum main in PR #1](https://github.com/vjmichael/cognitum/pull/1); historical per-PR CI counts below remain provenance records, not the current total test count. No change to Lu is implied.
 
 **C01 P1/P2 delivery (separate Cognitum PRs, 2026-10-26):** [#1 tracing hardening](https://github.com/vjmichael/cognitum/pull/1) passed 40-unit/12-replay cases per Linux/Windows Python job; [#2 offline Lu CE manifest fixture](https://github.com/vjmichael/cognitum/pull/2) passed 42-unit/12-replay cases per job. PR #2 is **default-off, noninstallable, no Lu adapter**. Both changes are **merged to Cognitum `main`** (PR #1 merge `07e3f87d0b688d9d050f79d2a74721769f47992a`; PR #2 merge `29ad17aff147d177ac1394d7bc6c96ec2ecfb5af`). The [combined final CI](https://github.com/vjmichael/cognitum/actions/runs/40444933715) passed **51/51 unit tests and 12/12 synthetic replay cases per Windows/Linux Python 3.11/3.13 job**. These checks are **not P3 evidence**. Lu-side requests stay in [the addenda register](lu-dlc-ce-addenda.md).
 

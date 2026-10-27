@@ -1,5 +1,7 @@
 # Architecture and boundaries
 
+**Current comprehensive architectural design:** [Cognitum Revision 1.5](Cognitum_Comprehensive_AI_Architecture_R1_5.md) with [all 19 component specs](design/technology-portfolio-C01-C19.md) and [research/validation/delivery protocol](design/research-validation-and-delivery.md). This original short file remains an implementation sketch and must not be read as claiming production Lu integration. Revision 1.4 is preserved as a historical source.
+
 **Active implementation roadmap:** [Component development lifecycle and tracker](roadmap.md). Every component now follows its own P0 research/standards/hardware survey, P1 implementation, P2 smoke testing, and P3 standard-baseline benchmarking. Historical global phases from Revision 1.4 are retained as archival design input, not the execution schedule. Existing prototype verification is reusable evidence, not automatic P3 certification.
 
 Host proposes an explicit operation → registry chooses its nominated enabled provider → core validates operation input → deterministic policy authorizes → worker executes → core validates output → structured response and trace return to host.
