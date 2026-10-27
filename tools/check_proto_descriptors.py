@@ -11,12 +11,13 @@ from pathlib import Path
 import sys
 
 from google.protobuf.descriptor_pb2 import FileDescriptorProto, FileDescriptorSet
-from cognitum.proto import capability_pb2, ce_handoff_pb2, worker_pb2
+from cognitum.proto import capability_pb2, ce_handoff_pb2, worker_pb2, supervisor_acceptance_pb2
 
 EXPECTED = {
     "cognitum/v1/capability.proto": capability_pb2.DESCRIPTOR,
     "cognitum/v1/ce_handoff.proto": ce_handoff_pb2.DESCRIPTOR,
     "cognitum/worker/v1/worker.proto": worker_pb2.DESCRIPTOR,
+    "cognitum/security/v1/supervisor_acceptance.proto": supervisor_acceptance_pb2.DESCRIPTOR,
 }
 
 
@@ -33,6 +34,7 @@ def normalized_file(descriptor):
         "name": descriptor.name,
         "package": descriptor.package,
         "syntax": descriptor.syntax,
+        "enums": {e.name: tuple((v.name, v.number) for v in e.value) for e in descriptor.enum_type},
         "messages": {
             msg.name: {
                 "fields": tuple(normalized_field(f) for f in msg.field),
