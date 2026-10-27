@@ -14,6 +14,8 @@ This conversation and repository develop **Cognitum only**. Lu is a read-only in
 
 **C01 native Protobuf correction (2026-10-26):** [Protobuf request/result messages, Python bindings and binary codec](components/core-runtime/P1-P2-protobuf-native.md) merged via [PR #4](https://github.com/vjmichael/cognitum/pull/4). [Four-platform Protobuf CI 40447933037](https://github.com/vjmichael/cognitum/actions/runs/40447933037) passed **91/91 unit tests and 12/12 replay cases** per job with compiler-generated schema comparison. Lu `lu.v1.ToolCall/ToolReply` is reused conceptually but **actual Lu-native CE registration/invocation is still unimplemented**; C01/C02/C04 host gates remain open.
 
+**C03 Protobuf evaluation milestone (2026-10-26):** [Versioned synthetic component suite/report](components/evaluation/P1-P2-protobuf-component-smoke.md) was added in an isolated Cognitum branch. [Four-platform CI 40457467419](https://github.com/vjmichael/cognitum/actions/runs/40457467419) passed **173/173 unit tests, 12/12 old replay cases, 10/10 pinned arithmetic cases and five Protobuf source/binding checks** per Python/OS combination. All Lu+transformer comparison arms A/B/C/D are **planned but not run**. No deployment/promotion evidence or C02 worker permission is claimed.
+
 ## Active execution sequence
 
 The canonical priority/dependency order is [**Ordered Component Build Path**](build-order.md). It lists C01–C19, differentiates independent P0 research from implementation dependencies, and identifies the first active work item: **[C01 / P0 core runtime research and design](components/core-runtime/P0-research.md)**. The older component table below is the status inventory, not the prioritized build sequence.

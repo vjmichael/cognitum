@@ -39,9 +39,13 @@ jobs:
           python tools/check_proto_descriptors.py compiled_worker.pb
           python -m grpc_tools.protoc -Iproto --descriptor_set_out=compiled_supervisor.pb proto/cognitum/security/v1/supervisor_acceptance.proto
           python tools/check_proto_descriptors.py compiled_supervisor.pb
+          python -m grpc_tools.protoc -Iproto --descriptor_set_out=compiled_evaluation.pb proto/cognitum/eval/v1/evaluation.proto
+          python tools/check_proto_descriptors.py compiled_evaluation.pb
       - name: Verify core tests
         run: python -m unittest discover -s tests -p "test_*.py" -v
       - name: Verify synthetic replay
         run: python -m cognitum --calculator replay evals/smoke.json
+      - name: Verify deterministic C03 synthetic evaluation (no Lu model)
+        run: python tools/run_c03_smoke.py --check
       - name: Check source compilation
         run: python -m compileall -q cognitum tests
