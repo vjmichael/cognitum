@@ -238,6 +238,7 @@ class ResultContractTests(unittest.TestCase):
                             limitations=["Unavailable"])
         typed = from_runtime_response(response)
         self.assertEqual(typed.failure.code, "capability_unavailable")
+        self.assertFalse(typed.failure.retryable)  # disabled extension is not a transient failure
         self.assertIsNone(typed.value)
         response = replace(response, execution_status="invalid_input", error="invalid_request")
         typed = from_runtime_response(response)
