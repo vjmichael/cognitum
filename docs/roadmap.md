@@ -20,6 +20,8 @@ This conversation and repository develop **Cognitum only**. Lu is a read-only in
 
 **C04 host collector boundary (2026-10-27):** [Seventh Protobuf schema](../proto/cognitum/benchmark/v1/collector.proto) and [C04 P0/P1/P2 report](components/integration/P0-P2-host-collector-receipt.md) provide offline validation of future signed Lu collector *claims*, binding exact C03 plan/capture bytes, pinned caller-provided Ed25519 public key, challenge, model/host IDs and source digests. **No real Lu model or collector data was obtained**; all P3 efficacy and C02 OS security gates remain blocked.
 
+**C05 exact computation hardening (2026-10-27):** [C05 P0 research](components/calculator/P0-research.md) and [P1/P2 implementation](components/calculator/P1-P2-exact-verification.md) add bounded ASCII arithmetic input screening, an AST-independent rational reference parser, deterministic differential corpus, and strict known-tag/nested-field Protobuf canonicalization. [CI 40462149387](https://github.com/vjmichael/cognitum/actions/runs/40462149387) passed **216/216 unit tests, 12/12 legacy replay, 10/10 synthetic calculator evaluation and seven compiled Protobuf schema checks** per Windows/Linux Python 3.11/3.13 configuration. These are component tests, **not** a production Lu-integrated model P3 benchmark. 
+
 ## Active execution sequence
 
 The canonical priority/dependency order is [**Ordered Component Build Path**](build-order.md). It lists C01–C19, differentiates independent P0 research from implementation dependencies, and identifies the first active work item: **[C01 / P0 core runtime research and design](components/core-runtime/P0-research.md)**. The older component table below is the status inventory, not the prioritized build sequence.
