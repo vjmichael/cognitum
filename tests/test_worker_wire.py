@@ -177,6 +177,23 @@ class SecureWorkerBoundaryTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             decode_call(wire + b"\x08\x01")  # duplicate scalar protocol_version
 
+    def test_nested_input_output_deny_duplicate_scalar_tags(self):
+        # The outer frame can be canonical even when the domain message is not.
+        request = call()
+        request.input += b"\x0a\x011"  # second expression shadows the first
+        with self.assertRaises(ValueError):
+            decode_call(request.SerializeToString(deterministic=True))
+        with self.assertRaises(ValueError):
+            create_call(
+                call_id="req1",
+                input_payload=NativeProtoOutput(RATIONAL_REQUEST_TYPE, request.input),
+            )
+        reply = pb.WorkerReply.FromString(encode_reply(call(), completed()))
+        reply.success.output += b"\x0a\x011"  # second result value shadows the first
+        with self.assertRaises(ValueError):
+            decode_reply(call(), reply.SerializeToString(deterministic=True),
+                         correlation_id="session1")
+
     def test_reply_unknown_fields_or_two_oneof_arms_rejected(self):
         wire = encode_reply(call(), completed())
         with self.assertRaises(ValueError):
