@@ -1,0 +1,40 @@
+name: One-time private Cognitum Library export
+on:
+  push:
+    branches: [cognitum/library-transfer-20261027]
+permissions:
+  contents: read
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 8e625eb90a8ccaeef1b2be1e8f6b4c63fb4459f0
+          persist-credentials: false
+      - name: Package exact pinned C06 source
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "8e625eb90a8ccaeef1b2be1e8f6b4c63fb4459f0"
+          git archive --format=zip --output="Cognitum_Source_2026-10-27_8e625eb.zip" HEAD
+          python - <<'PY'
+          import zipfile, hashlib, json, subprocess
+          a = "Cognitum_Source_2026-10-27_8e625eb.zip"
+          with zipfile.ZipFile(a) as z:
+              files = [n for n in z.namelist() if not n.endswith('/')]
+              assert len(files) == 116, len(files)
+              assert 'pyproject.toml' in files
+              assert 'cognitum/scientific_math.py' in files
+              assert 'docs/components/memory/P0-ansf-ownership-retrieval.md' in files
+              assert 'tests/test_c05_scientific_math.py' in files
+          print(f"Exported {len(files)} tracked files", flush=True)
+          print("SHA256:", hashlib.sha256(open(a, 'rb').read()).hexdigest(), flush=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cognitum-library-snapshot-8e625eb
+          path: Cognitum_Source_2026-10-27_8e625eb.zip
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 0
