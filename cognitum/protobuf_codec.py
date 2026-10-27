@@ -67,6 +67,11 @@ def _parse(message_type, payload):
     without_unknowns.DiscardUnknownFields()
     if message != without_unknowns:
         raise ValueError("unknown Protobuf fields are not accepted")
+    # A Protobuf parser normally accepts duplicate singular fields (last wins),
+    # non-minimal encodings and nested shadowing. All native C05 messages must
+    # match their canonical deterministic byte representation exactly.
+    if message.SerializeToString(deterministic=True) != payload:
+        raise ValueError("noncanonical or duplicate Protobuf fields")
     return message
 
 
