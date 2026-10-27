@@ -57,6 +57,8 @@ STRING = _d.FieldDescriptorProto.TYPE_STRING
 ENUM = _d.FieldDescriptorProto.TYPE_ENUM
 MESSAGE = _d.FieldDescriptorProto.TYPE_MESSAGE
 UINT32 = _d.FieldDescriptorProto.TYPE_UINT32
+UINT64 = _d.FieldDescriptorProto.TYPE_UINT64
+BYTES = _d.FieldDescriptorProto.TYPE_BYTES
 BOOL = _d.FieldDescriptorProto.TYPE_BOOL
 
 probe = _msg("SupervisorProbe")
@@ -77,6 +79,37 @@ _field(plan, "probes", 4, MESSAGE,
 _field(plan, "production_launch_enabled", 5, BOOL)
 r = plan.reserved_range.add()
 r.start, r.end = 6, 16
+
+measurement = _msg("ProbeMeasurement")
+_field(measurement, "probe_id", 1, STRING)
+_field(measurement, "observed", 2, ENUM, type_name=".cognitum.security.v1.Expected")
+_field(measurement, "attempted", 3, BOOL)
+_field(measurement, "evidence_sha256", 4, STRING)
+r = measurement.reserved_range.add()
+r.start, r.end = 5, 16
+
+receipt = _msg("SupervisorConformanceReceipt")
+_field(receipt, "schema_version", 1, UINT32)
+_field(receipt, "acceptance_plan_sha256", 2, STRING)
+_field(receipt, "challenge_nonce", 3, STRING)
+_field(receipt, "host_build_sha256", 4, STRING)
+_field(receipt, "worker_build_sha256", 5, STRING)
+_field(receipt, "platform", 6, ENUM,
+       type_name=".cognitum.security.v1.Platform")
+_field(receipt, "observed_at_unix_ms", 7, UINT64)
+_field(receipt, "measurements", 8, MESSAGE,
+       type_name=".cognitum.security.v1.ProbeMeasurement", repeated=True)
+_field(receipt, "independent_runner_id", 9, STRING)
+_field(receipt, "simulation_only", 10, BOOL)
+r = receipt.reserved_range.add()
+r.start, r.end = 11, 21
+
+signed = _msg("SignedSupervisorReceipt")
+_field(signed, "serialized_receipt", 1, BYTES)
+_field(signed, "signature_ed25519", 2, BYTES)
+_field(signed, "signer_key_id", 3, STRING)
+r = signed.reserved_range.add()
+r.start, r.end = 4, 11
 
 DESCRIPTOR = _pool.Default().AddSerializedFile(_f.SerializeToString())
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
