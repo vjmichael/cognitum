@@ -1,0 +1,64 @@
+syntax = "proto3";
+package cognitum.security.v1;
+
+// C02 immutable NEGATIVE acceptance TEST PLAN only. Not a Lu API, trust token,
+// sandbox verification, runtime telemetry, proof of isolation, or permission.
+// A signed and independently supervised native Lu host must run these tests.
+
+enum Platform {
+  PLATFORM_UNSPECIFIED = 0;
+  PLATFORM_ALL = 1;
+  PLATFORM_WINDOWS = 2;
+  PLATFORM_LINUX = 3;
+  PLATFORM_MACOS = 4;
+}
+
+enum ProbeKind {
+  PROBE_UNSPECIFIED = 0;
+  HOST_IDENTITY_AND_GRANTS = 1;
+  MODEL_FORGED_AUTHORITY = 2;
+  REPLAYED_OR_STALE_CALL = 3;
+  UNREGISTERED_TOOL_OR_EFFECT = 4;
+  SANDBOX_UNAVAILABLE = 5;
+  PRIVATE_FILE_READ = 6;
+  OUT_OF_SCOPE_WRITE = 7;
+  NETWORK_DNS_LOOPBACK = 8;
+  SENSITIVE_HANDLE_INHERITANCE = 9;
+  PROCESS_TREE_BREAKAWAY = 10;
+  RESOURCE_LIMITS = 11;
+  TIMEOUT_AND_CANCEL = 12;
+  REVOKE_DURING_CALL = 13;
+  WORKSPACE_CE_UNLOAD = 14;
+  LATE_REPLY_AFTER_REVOKE = 15;
+  AUDIT_SECRET_LEAKAGE = 16;
+}
+
+enum Expected {
+  EXPECTED_UNSPECIFIED = 0;
+  EXPECT_DENY = 1;
+  EXPECT_KILL_AND_REAP = 2;
+  EXPECT_RESOURCE_ENFORCEMENT = 3;
+  EXPECT_REJECT_LATE_RESULT = 4;
+  EXPECT_PRESERVE_UNRELATED = 5;
+  EXPECT_METADATA_ONLY = 6;
+}
+
+message SupervisorProbe {
+  string id = 1;
+  ProbeKind kind = 2;
+  Platform platform = 3;
+  Expected expected = 4;
+  // Human-readable test intent, not prompt instructions or OS evidence.
+  string description = 5;
+  reserved 6 to 15;
+}
+
+message SupervisorAcceptancePlan {
+  uint32 schema_version = 1;
+  string ce_id = 2;
+  string worker_wire_type = 3;
+  repeated SupervisorProbe probes = 4;
+  // Must be false. This is a test specification, not execution approval.
+  bool production_launch_enabled = 5;
+  reserved 6 to 15;
+}
