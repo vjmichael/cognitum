@@ -52,6 +52,29 @@ msg("SimulationResult",[("position",S),("velocity",S),
                         ("initial_energy",S),("final_energy",S),
                         ("limitations",S,"repeated")])
 
+msg("SpecialistDescriptor",[
+    ("operation",S),("input_type_url",S),("output_type_url",S),
+    ("use_when",S),("avoid_when",S),("assurance",S),
+    ("registered",d.FieldDescriptorProto.TYPE_BOOL),
+    ("model_advertised",d.FieldDescriptorProto.TYPE_BOOL),
+])
+# Catalog contains repeated typed specialist definitions, not arbitrary JSON.
+catalog=fd.message_type.add()
+catalog.name="SpecialistCatalog"
+for name,number,t,repeated in [
+    ("schema_version",1,N,False),
+    ("specialists",2,M,True),
+    ("host_approved",3,d.FieldDescriptorProto.TYPE_BOOL,False),
+]:
+    field=catalog.field.add()
+    field.name=name
+    field.number=number
+    field.type=t
+    field.label=(d.FieldDescriptorProto.LABEL_REPEATED if repeated
+                 else d.FieldDescriptorProto.LABEL_OPTIONAL)
+    if t==M:
+        field.type_name=".cognitum.math.v1.SpecialistDescriptor"
+
 DESCRIPTOR = pool.Default().AddSerializedFile(fd.SerializeToString())
 builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 builder.BuildTopDescriptorsAndMessages(
