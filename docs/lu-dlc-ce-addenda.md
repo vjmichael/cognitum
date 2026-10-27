@@ -44,7 +44,9 @@
 | **LU-CE-009** | Bounded host-coordinated multi-CE invocation with typed dependency/cost/cancellation semantics | One transformer task may combine HDC retrieval, exact calculator, optimization, verification and simulation | Lu remains orchestrator; declared call budgets and effects, explicit failure compensation/abstention, no hidden plugin-to-plugin permission escalation | **Proposed** |
 | **LU-CE-010** | Independent component and end-to-end **model benchmark handoff contract** | Need to measure whether Cognitum genuinely helps Lu with a selected local/cloud transformer | Pinned model/provider/quantization/parameters, standard-tool controls, latency/memory/VRAM/cost, held-out tasks and honest negative findings; do not infer production gains from K4 self-tests | **Proposed** |
 
-**Dependencies to communicate in order:** 001 + 003 define package/ABI identity; 002 + 005 + 006 constrain authority; 004 + 007 permit truthful model-visible operations; 008 + 009 enable advanced composition. 010 allows performance claims. Some can be designed in parallel.
+| **LU-CE-011** | Honor full DLC Workspace isolation and metadata discovery **without broadening CE authority** | User decision: Workspaces have separate registries and distinct application UIs; they should expose tool schemas, usage descriptions, workflows, state and event metadata to the currently loaded Lu transformer. Shared CEs must detach without breaking vanilla Lu or other DLCs | Trusted per-workspace registration and revocation, explicit host-selected model context; no cross-workspace implicit authority, no empty/unimplemented workflow advertised as runnable; tests for unload isolation and dependency reconciliation | **User design intent accepted; specific Lu host/broker API Proposed** |
+
+**Dependencies to communicate in order:** 001 + 003 define package/ABI identity; 002 + 005 + 006 constrain authority; 004 + 007 permit truthful model-visible operations; 008 + 009 + 011 define safe shared CE/Workspace composition. 010 allows performance claims. Some can be designed in parallel.
 
 ## Cognitum-only implementation path (no Lu edits)
 
