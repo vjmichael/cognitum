@@ -8,6 +8,10 @@
 
 The canonical priority/dependency order is [**Ordered Component Build Path**](build-order.md). It lists C01–C19, differentiates independent P0 research from implementation dependencies, and identifies the first active work item: **[C01 / P0 core runtime research and design](components/core-runtime/P0-research.md)**. The older component table below is the status inventory, not the prioritized build sequence.
 
+## Transformer-centered architectural objective
+
+**Cognitum exists to augment the transformer selected/loaded by Lu, under Lu's existing host authority and orchestration.** See [Lu × Cognitum — Transformer-Centered Collaboration](lu-cognitum-integration.md). Each component P0 must define the intended improvement to a concrete Lu+model task and compatible native interface. Each relevant P3 must include end-to-end **Lu+transformer** comparisons against host-only and competent conventional-tool baselines—not only isolated component throughput or retrieval metrics. Experimental HDC/KAN benefits are not presumed from archival existence.
+
 ## Governing decision
 
 Cognitum no longer advances through one project-wide Phase 0–5 sequence. **Every component follows its own P0 → P1 → P2 → P3 lifecycle**, with explicit evidence and acceptance criteria. Components can occupy different phases simultaneously. Dependency and safety gates still apply; independent phases do not permit bypassing shared infrastructure or security controls.
