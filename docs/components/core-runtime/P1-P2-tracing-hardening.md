@@ -2,7 +2,7 @@
 
 **Date:** 2026-10-26  
 **Branch:** `cognitum/c01-tracing-guard`, based on `vjmichael/cognitum/main`.  
-**Status:** **Prototype code committed, 9 isolated regression tests passed; full repository regression NOT YET EXECUTED**. Not a C01 P0 exit, P3 benchmark or security certification.  
+**Status:** **P1 tracing patch committed; P2 complete repository regression PASSED on Linux/Windows Python 3.11/3.13 (40 unit tests and 12/12 synthetic replay per job).** Still a separate branch; not P3 or Lu integration. Not a C01 P0 exit, P3 benchmark or security certification.  
 **Scope:** Cognitum only; no Lu source, model, installer, system files, user AppData or archived HDC/KAN assets modified.
 
 ## Problem found
@@ -22,6 +22,20 @@ In [`cognitum/tracing.py`](../../../cognitum/tracing.py) on the **feature branch
 In [`tests/test_tracing.py`](../../../tests/test_tracing.py) added nine focused tests of accepted metadata, unexpected raw payload/result fields, nested secret fields, sanitizer allowlists, invalid statuses/fields, numeric bounds, defensive copies, unavailable module and disk error behavior.
 
 **Important limitations:** this is an allowlist for field *names and types*, **not automatic de-identification** of allowed identifiers/module names. IDs must remain opaque and must not contain user data. A successfully returned buffered OS write is not a physical fsync guarantee; trace rotation, encryption, retention, process crash atomicity and long-running resource limits remain open. This prototype accepts only one trace format version and can require future schema migrations. Invalid metadata—including future status or error codes not explicitly added to the sink—causes failure rather than silently bypassing the audit sink. Keep this list in step with intentional runtime outcome categories.
+
+## Complete real-checkout GitHub Actions evidence (additional, 2026-10-27 UTC)
+
+[**Run 40444297105**](https://github.com/vjmichael/cognitum/actions/runs/40444297105) used `vjmichael/cognitum` at commit `0add94157cfb6be6c1d83784c1ea4d334fb18c76`, adding a four-platform Python CI workflow. All **four jobs passed**:
+
+| Host | Python | Unit suite | Synthetic replay | Source compile |
+|---|---|---:|---:|---|
+| Linux (ubuntu-latest) | 3.11 | **40/40** | **12/12** | Pass |
+| Linux (ubuntu-latest) | 3.13 | **40/40** | **12/12** | Pass |
+| Windows (windows-latest) | 3.11 | **40/40** | **12/12** | Pass |
+| Windows (windows-latest) | 3.13 | **40/40** | **12/12** | Pass |
+
+**40 = 31 inherited tests + 9 new tracing tests.** These are normal GitHub runner environments, not the user's Windows desktop/AMD GPU. Review and host-security work remain necessary, but the former **full-regression blocker is cleared** for this isolated patch.
+
 
 ## Test evidence — isolated copy of the committed source/test pair
 
@@ -43,13 +57,13 @@ python -m compileall -q cognitum/tracing.py tests/test_tracing.py
 
 **P2 coverage limitation:** these nine tests run **against only the tracing module and its new test file**, not the full Cognitum install and not the Windows desktop. They exercise no worker spawn and do not establish end-to-end Lu/native CE compatibility.
 
-**Before merging to `main`:**
-1. Run **all existing Cognitum tests** with `python -m unittest discover -v` from a complete repository checkout, including `tests/test_core.py` and `tests/test_calculator.py`.
+**Remaining post-CI review before merging to `main`:**
+1. **Completed on Linux and Windows CI:** all existing and new Cognitum tests pass on a complete GitHub checkout. Retain this full regression gate for any subsequent changes.
 2. Confirm `Runtime._finish` events in normal, error, timeout, disabled and research paths are all within the strict schema.
 3. Audit error codes used by new providers and ensure no unsanitized exceptions are passed to tracing. Keep the existing `manifest_v1.json` unchanged.
-4. Test Windows UTF-8 file writes and non-writeable path failures; confirm fail-closed behavior is intentional and safely reported by the host rather than silently discarding audit evidence.
+4. **Basic Windows CI success achieved**, including non-writeable path error fixture; further real-desktop Tauri integration and durable audit recording remain open.
 5. Decide on log rotation/durable auditing/error reporting in C02/C03 P0 design.
 
 ## Implementation status
 
-**P1 targeted hardening implemented** on the isolated branch. **P2 focused smoke passed 9/9**, broader P2 regression is **blocked by checkout/runtime access to private repository**; P3 model and performance benchmarks not started. This is not approval to change Lu or activate optional untrusted providers.
+**P1 targeted hardening implemented** on the isolated branch. **P2 focused smoke passed 9/9 and complete-repository Windows/Linux CI passed 40/40 per job, replay 12/12 per job**. Security review and eventual merge remain open; P3 model/performance benchmarks not started. This is not approval to change Lu or activate optional untrusted providers.
