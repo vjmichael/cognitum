@@ -3,7 +3,7 @@
 **Date:** 2026-10-27  
 **Phase:** P0 in progress; design and read-only source audit, not a shipped memory component  
 **Cognitum base:** main at 62101f2fa350d3c8c7e779797cc609e4408c7ad0  
-**Lu inspection:** vjmichael/jan_alt branch lu/ce-broker-revocation-fence (moving reference, independently pinned by the referenced source files at review time). Lu repository is read-only in this effort.
+**Lu inspection:** vjmichael/jan_alt branch lu/ce-broker-revocation-fence at commit bf2334a7d68f72265c37711de9bb5eda1f611d13 (read-only). Source hyperlinks below point to that branch for navigation; use this immutable commit SHA to reproduce the audit if it moves. Lu repository is read-only in this effort.
 
 ## 1. Concrete Lu+transformer task and falsifiable claim
 
