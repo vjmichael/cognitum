@@ -84,6 +84,8 @@ class LuHandoffTests(unittest.TestCase):
             },
         })
         self.assertIn("not verify", definition["function"]["description"])
+        self.assertIn("Use only", definition["function"]["description"])
+        self.assertIn("Avoid", definition["function"]["description"])
         self.assertIn("formalize", tool["use_when"])
         self.assertIn("Do not", tool["avoid_when"])
         self.assertEqual(tool["required_effects"], [])
@@ -178,6 +180,8 @@ class LuHandoffTests(unittest.TestCase):
         self.assertEqual(manifest["tools"][0]["id"], "cognitum.calc.rational")
         self.assertIsNone(manifest["tools"][0]["effect"])
         self.assertFalse(doc["availability"]["installable"])
+        self.assertTrue(doc["availability"]["requires_model_function_calling"])
+        self.assertEqual(doc["availability"]["lu_model_tool_budget_observed"], 16)
         self.assertIn("Lu effect-free ToolEffect mapping for pure compute",
                       doc["availability"]["blocking_contracts"])
 
