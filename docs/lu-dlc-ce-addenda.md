@@ -128,6 +128,12 @@ Cognitum has added [`cognitum.benchmark.v1.CollectorReceipt`](../proto/cognitum/
 
 **Still Proposed to the separate Lu team:** exact pure/no-effect `ToolEffect` mapping, approved native CE registration/visibility, authenticated model use and response conversion through Lu's own `ToolCall/ToolReply`, and real host-run A/B/C/D evidence. No production CE permission, OS sandbox or verified user-intent interpretation is implied by C05 tests.
 
+## LU-CE-012 — C05 modular mathematical specialists (Proposed, Cognitum-only)
+
+Cognitum now defines six native typed request/result pairs in [`cognitum.math.v1`](../proto/cognitum/math/v1/specialists.proto) and a [strict default-off `SpecialistCatalog`](../cognitum/math_catalog.py) with separate operation type URLs, fixed developer-written `use_when` / `avoid_when` and assurance declarations. [C05 scientific expansion](components/calculator/P1-P2-scientific-specialists.md) details exact domain/precision/size limits. **The catalog's `registered`, `model_advertised`, and `host_approved` flags are all false.** Lu must separately approve any change to its CE manifest/enrollment, register the correct *pure/no-effect* tool effect, decide which specialist descriptions reach the selected model, and validate all native Protobuf result semantics and permissions. No Cognitum artifact is an installer or authority token.
+
+**Host dependencies remain Proposed:** signed publisher trust and disabled-by-default CE lifecycle; actual Lu ToolCall/ToolReply bridge and model tool routing; real C02 OS-isolation and time/resource cancellation; independent C03 A/B/C/D model benchmarks. Symbolic input is a restricted polynomial, scientific values are approximate and uncalibrated, and simulation is a discretized model not a physically validated trajectory. The Lu repository is **read-only and untouched**.
+
 ## Ownership and update protocol
 
 Each entry may gain: **source branch + verified commit**, proposed host interface, rationale, acceptance criteria, Lu decision reference, implementation link, Cognitum compatibility test, superseding entry and date. Do not silently change **Proposed** to **Accepted**. If Lu's independent implementation differs, reconcile Cognitum adapter requirements here first.
