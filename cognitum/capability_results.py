@@ -361,5 +361,5 @@ def from_runtime_response(response, operation_schema_version="1.0.0"):
     if code not in _FAILURE_CODES[status]:
         raise ValueError("unrecognized runtime error category")
     return CapabilityResult(status=status, failure=CapabilityFailure(
-        code, status in {"timed_out", "unavailable"}),
+        code, status == "timed_out"),
         limitations=("no_computed_answer",), **base)
