@@ -142,6 +142,18 @@ Cognitum now defines six native typed request/result pairs in [`cognitum.math.v1
 
 **Full technology design:** [Cognitum R1.5](Cognitum_Comprehensive_AI_Architecture_R1_5.md), [C01–C19](design/technology-portfolio-C01-C19.md) and [research/validation gates](design/research-validation-and-delivery.md). R1.5 covers research and platform design without granting any CE registration, effect permissions or executing/model-advertising C05 scientific specialists.
 
+## LU-CE-013 — C06 read-only ANSF evidence bridge (Proposed; Lu owner decides)
+
+**Cognitum P0 source audit:** [C06 ANSF ownership and retrieval design](components/memory/P0-ansf-ownership-retrieval.md) inspected Lu's active `lu/ce-broker-revocation-fence` sources: `ansf.rs`, `ansf_library.rs`, `ansf_revisions.rs`, `ansf_sync.rs` and `luMemorySync.ts` (2026-10-27). Existing Lu-owned SQLite books, stable entry IDs, immutable revision edges and global FTS5 library are the recommended canonical memory baseline. Do not duplicate them in Cognitum.
+
+**Proposed host contract, not a granted capability:** an explicit host-authenticated **read-only canonical snapshot/revision lookup** and **source-reference confirmation** surface. The host must bind profile, conversation/workspace and resource scopes to a verified user-turn/task authorization; supply opaque source IDs and current/deleted revision metadata; recheck ownership, source digest, effective scope and revocation at result/citation-read time; and limit excerpt size, result count, lookup time and logging. Model-originated thread IDs or index hit payloads never authorize access. Cognitum may validate derived evidence/retrieval metadata through strict versioned Protobuf, with external JSON only in Lu's model adapter. No database path, raw SQL string, host grant or mutation authority is passed through a model-callable interface.
+
+**Open Lu design decisions:** canonical ownership for files and workspace assets outside ANSF; authenticated host API for safe cross-book lookup; current-revision/tombstone behavior and historical-edit authorization; retention, erasure, FTS/WAL/backups and recovery after interrupted reindex; whether any C06 CE capability is exposed to a model at all. Lu's existing manual desktop memory sync/inspection is not a model CE API and must not be silently repurposed.
+
+**Acceptance request:** deny all cross-profile/project and revoked reads, recheck exact source revision before returning excerpts, invalidate deleted sources across lexical/vector/HDC caches, return typed STALE/DENIED/DELETED results without secret text, recover interrupted catalog updates safely, and preserve immutable provenance and signed benchmark boundaries. Validate on synthetic fixtures and actual Lu host integration separately before any real user memory is accessible. C02/C04 live worker and CE approval gates still apply.
+
+**Status: PROPOSED.** Cognitum has not modified Lu, installed a CE, read real personal memory, or implemented a model-facing C06 handler.
+
 ## Ownership and update protocol
 
 Each entry may gain: **source branch + verified commit**, proposed host interface, rationale, acceptance criteria, Lu decision reference, implementation link, Cognitum compatibility test, superseding entry and date. Do not silently change **Proposed** to **Accepted**. If Lu's independent implementation differs, reconcile Cognitum adapter requirements here first.
