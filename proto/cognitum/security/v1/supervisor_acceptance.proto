@@ -62,3 +62,41 @@ message SupervisorAcceptancePlan {
   bool production_launch_enabled = 5;
   reserved 6 to 15;
 }
+
+
+// Offline-verifiable host-runner evidence format, NOT worker self-attestation.
+// The independent Lu supervisor, not the worker, must collect observations.
+// A valid signature verifies the receipt bytes under a pinned key, but alone
+// DOES NOT establish kernel confinement, signer trust, or production approval.
+message ProbeMeasurement {
+  string probe_id = 1;
+  Expected observed = 2;
+  bool attempted = 3;
+  // Hash of independently collected OS/host evidence retained outside IPC.
+  string evidence_sha256 = 4;
+  reserved 5 to 15;
+}
+
+message SupervisorConformanceReceipt {
+  uint32 schema_version = 1;
+  string acceptance_plan_sha256 = 2;
+  // One-use, host-generated challenge; consuming/expiring it is Lu's duty.
+  string challenge_nonce = 3;
+  string host_build_sha256 = 4;
+  string worker_build_sha256 = 5;
+  Platform platform = 6;
+  uint64 observed_at_unix_ms = 7;
+  repeated ProbeMeasurement measurements = 8;
+  string independent_runner_id = 9;
+  bool simulation_only = 10;
+  reserved 11 to 20;
+}
+
+message SignedSupervisorReceipt {
+  // Domain-separated Ed25519 signature covers precisely these bytes.
+  bytes serialized_receipt = 1;
+  bytes signature_ed25519 = 2;
+  // Lookup only; key identity is NEVER trusted without caller-pinned key.
+  string signer_key_id = 3;
+  reserved 4 to 10;
+}

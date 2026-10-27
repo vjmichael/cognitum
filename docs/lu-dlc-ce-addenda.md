@@ -104,6 +104,12 @@ Cognitum now contains an **inert, versioned native worker wire proposal** at [`p
 
 **Separate Lu team action remains Proposed:** build the actual trusted OS supervisor and independent negative-test harness, then report real worker process/network/handle/file/CPU/RAM restrictions, descendant reaping, revocation/late-output races, platform versions and logged evidence. A Cognitum synthetic test sequence or matching Protobuf bytes do **not** authenticate the host or prove OS isolation. `start_isolated_worker()` **remains unconditionally blocked**. Do not set any production CE permission or launch flag from this plan.
 
+## LU-CE-006 — Signed host-conformance evidence proposal (C02 gate)
+
+**New Cognitum-only artifact:** the [binary Protobuf signed host runner receipt](../proto/cognitum/security/v1/supervisor_acceptance.proto) is checked by [`supervisor_conformance.py`](../cognitum/supervisor_conformance.py) using **a public key, nonce, host/worker build hashes, OS platform and runner identity supplied independently by Lu's trusted host**. The verifier enforces domain-separated Ed25519 signatures, freshness, full relevant-probe coverage, nonzero evidence digests and fail-closed replay-across-challenge/version/payload handling. The signed receipt is **a host claim**, not an independently verified sandbox or automatic authorization. [C02 gate report](components/security/P2-host-conformance-gate.md) and [CI 40455875310](https://github.com/vjmichael/cognitum/actions/runs/40455875310) cover 162 unit tests, 12 replay and four Proto compiler comparisons per Windows/Linux/Python job. Ephemeral CI signing keys cannot confer Lu authority.
+
+**Remaining Lu-only security work remains Proposed, not approved:** a real native OS-isolated supervisor, restricted file/network/handle/process tree and quotas, host runner key provisioning/custody, one-use nonce consumption and independently executed negative probes with securely retained OS measurements. The worker start gate is **still hard-denied**, even with a well-signed receipt. This Cognitum effort cannot and will not edit Lu.
+
 ## Ownership and update protocol
 
 Each entry may gain: **source branch + verified commit**, proposed host interface, rationale, acceptance criteria, Lu decision reference, implementation link, Cognitum compatibility test, superseding entry and date. Do not silently change **Proposed** to **Accepted**. If Lu's independent implementation differs, reconcile Cognitum adapter requirements here first.
