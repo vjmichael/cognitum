@@ -1,0 +1,40 @@
+syntax = "proto3";
+package cognitum.worker.v1;
+
+// C02 worker IPC for an eventual Lu-controlled OS-isolated native CE.
+// Transport only. Host-bound identity, consent, grants, OS isolation,
+// process-tree lifetime and resource limits MUST be enforced out of band.
+// Never accept authority or sandbox claims from these messages.
+
+message WorkerCall {
+  uint32 protocol_version = 1;
+  string call_id = 2;
+  string native_tool_id = 3;
+  string operation = 4;
+  string operation_schema_version = 5;
+  string input_type_url = 6;
+  bytes input = 7;
+  string output_type_url = 8;
+  uint32 timeout_ms = 9;
+  reserved 10 to 15;
+}
+
+message WorkerSuccess {
+  string output_type_url = 1;
+  bytes output = 2;
+}
+
+message WorkerFailure {
+  string code = 1;   // sanitized machine-readable category, no stacktrace
+  bool retryable = 2;
+}
+
+message WorkerReply {
+  uint32 protocol_version = 1;
+  string call_id = 2;
+  oneof outcome {
+    WorkerSuccess success = 3;
+    WorkerFailure failure = 4;
+  }
+  reserved 5 to 15;
+}
