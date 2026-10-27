@@ -35,6 +35,8 @@ jobs:
           python tools/check_proto_descriptors.py compiled_cognitum.pb
           python -m grpc_tools.protoc -Iproto --descriptor_set_out=compiled_cognitum_handoff.pb proto/cognitum/v1/ce_handoff.proto
           python tools/check_proto_descriptors.py compiled_cognitum_handoff.pb
+          python -m grpc_tools.protoc -Iproto --descriptor_set_out=compiled_worker.pb proto/cognitum/worker/v1/worker.proto
+          python tools/check_proto_descriptors.py compiled_worker.pb
       - name: Verify core tests
         run: python -m unittest discover -s tests -p "test_*.py" -v
       - name: Verify synthetic replay
