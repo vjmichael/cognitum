@@ -20,7 +20,7 @@ The envelope follows Revision 1.4's contract label `1.3.0`, with an intentionall
 
 Manifest snapshots include plugin version, operation schema versions, input/output hashes, declared effects, determinism, assurance and research track. The calculator's exact value lives in the operation-specific result, independent of execution status. Assurance applies only to the formal expression. Interpretation remains assumption-bound: this core cannot verify whether a natural-language request was translated correctly. No calibrated confidence or proof claims are emitted.
 
-The manifest compatibility golden file is checked in; updates require deliberate review. It is a fixture, not a cross-language conformance claim. No Protobuf, MCP, or Lu converter has been implemented. Add those only after inspecting the actual host's source/contracts.
+The manifest compatibility golden file is checked in; updates require deliberate review. It is a fixture, not a cross-language conformance claim. **Cognitum now defines real `cognitum.v1` protobuf request/result messages and a strict binary codec**, with compiler/schema-match CI ([implementation](components/core-runtime/P1-P2-protobuf-native.md)). **There is still no Lu native CE registration/bridge, no separate MCP transport and no actual loaded-transformer integration.** Lu owns `lu.v1.ToolCall`/`ToolReply`, provider/model selection and model-facing JSON codecs; Protobuf domain messages alone do not confer permission.
 
 ## Lifecycle and concurrency
 
