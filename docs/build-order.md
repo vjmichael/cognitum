@@ -14,6 +14,8 @@ The order is a default priority and not a fabricated ETA or a mandate to complet
 
 The authoritative architecture is [Lu × Cognitum — Transformer-Centered Collaboration](lu-cognitum-integration.md). **Lu and whichever transformer it has loaded are the system being augmented.** Lu owns model selection/lifecycle, sessions, permission decisions, discovery/dispatch, bounded cross-component orchestration and final synthesis. Cognitum supplies optional, domain-specialized computations and evidence through Lu-native CEs/contracts; it must not duplicate Lu's model loop or overwrite host authority. **Every component P0 specifies its Lu+model task**, and every relevant P3 compares Lu+loaded transformer without Cognitum, with established conventional tools, and with the candidate capability/combination. Model-specific tool reliability and hardware/energy costs must be measured instead of assumed.
 
+**C01 update (2026-10-26):** Source audit located Lu's active `lu/core-contracts-native-registry` branch with a functioning *experimental* native Rust registry and Protobuf/JSON codec contracts, unlike the older `main` baseline. C01 should adapt Cognitum to Lu's native host rather than duplicate a registry. [Pinned active-branch audit and compatibility gaps](components/core-runtime/P0-lu-native-audit.md). C01 P0 is open; optional CE lifecycle and effect/version mapping are blockers.
+
 ## Ordered development queue
 
 | ID | Order / component | Essential dependencies and acceptance intent | Evidence and next activity |
