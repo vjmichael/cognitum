@@ -76,3 +76,19 @@ message SimulationResult {
   string final_energy = 4;
   repeated string limitations = 5;
 }
+
+message SpecialistDescriptor {
+  string operation = 1;
+  string input_type_url = 2;
+  string output_type_url = 3;
+  string use_when = 4;
+  string avoid_when = 5;
+  string assurance = 6;
+  bool registered = 7;      // always false until Lu host approves
+  bool model_advertised = 8; // always false
+}
+message SpecialistCatalog {
+  uint32 schema_version = 1;
+  repeated SpecialistDescriptor specialists = 2;
+  bool host_approved = 3; // always false
+}
