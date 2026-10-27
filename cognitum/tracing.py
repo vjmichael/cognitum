@@ -5,7 +5,6 @@ trusted module names and sanitized error codes, never user text or secrets.
 """
 import json
 import math
-import re
 from threading import Lock
 
 _TRACE_FIELDS = frozenset({
@@ -13,8 +12,18 @@ _TRACE_FIELDS = frozenset({
     "module", "execution_status", "error", "latency_ms",
 })
 _MODULE_FIELDS = frozenset({"name", "version"})
-_ERROR_CODE = re.compile(r"[a-z][a-z0-9_]{0,127}\Z")
-_STATUS_CODE = re.compile(r"[a-z][a-z0-9_]{0,63}\Z")
+# Only runtime-authorized outcome and error categories can appear in an audit.
+# Extend deliberately with a versioned compatibility test, never with free text.
+_STATUS_CODES = frozenset({
+    "invalid_input", "unavailable", "denied", "validated", "completed",
+    "timed_out", "error",
+})
+_ERROR_CODES = frozenset({
+    "invalid_request", "invalid_operation_input", "identity_scope_mismatch",
+    "replay_requires_inert_deterministic_operation", "permission_denied",
+    "effectful_execution_not_implemented", "invalid_plugin_response_or_worker_failure",
+    "plugin_timed_out", "plugin_error", "plugin_invalid_input",
+})
 
 
 def _bounded_text(value, label):
@@ -40,11 +49,11 @@ def validated_event(event):
                   for key in ("name", "version")}
     safe["module"] = module
     status = event["execution_status"]
-    if type(status) is not str or not _STATUS_CODE.fullmatch(status):
+    if type(status) is not str or status not in _STATUS_CODES:
         raise ValueError("invalid trace status code")
     safe["execution_status"] = status
     error = event["error"]
-    if error is not None and (type(error) is not str or not _ERROR_CODE.fullmatch(error)):
+    if error is not None and (type(error) is not str or error not in _ERROR_CODES):
         raise ValueError("trace errors must be sanitized codes")
     safe["error"] = error
     latency = event["latency_ms"]
