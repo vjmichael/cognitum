@@ -18,6 +18,8 @@ This conversation and repository develop **Cognitum only**. Lu is a read-only in
 
 **C03 host-model benchmark handoff (2026-10-26):** [Versioned Protobuf benchmark configuration and capture](components/evaluation/P1-P2-host-benchmark-capture.md) fixes Lu/model/dataset/grader identities, sampling/tool budgets, a rotating matched A/B/C/D schedule, conventional comparator manifests, tool-call judgment, abstention/failure semantics, and presence-aware latency, memory, energy and token/cost fields. [CI 40458944707](https://github.com/vjmichael/cognitum/actions/runs/40458944707) passed **195/195 unit tests and 12/12 replay with six Protobuf schema comparisons** on Windows/Linux × Python 3.11/3.13. It verifies *only declared format and synthetic fixtures*, not actual Lu telemetry, model gains, or C02 sandbox security.
 
+**C04 host collector boundary (2026-10-27):** [Seventh Protobuf schema](../proto/cognitum/benchmark/v1/collector.proto) and [C04 P0/P1/P2 report](components/integration/P0-P2-host-collector-receipt.md) provide offline validation of future signed Lu collector *claims*, binding exact C03 plan/capture bytes, pinned caller-provided Ed25519 public key, challenge, model/host IDs and source digests. **No real Lu model or collector data was obtained**; all P3 efficacy and C02 OS security gates remain blocked.
+
 ## Active execution sequence
 
 The canonical priority/dependency order is [**Ordered Component Build Path**](build-order.md). It lists C01–C19, differentiates independent P0 research from implementation dependencies, and identifies the first active work item: **[C01 / P0 core runtime research and design](components/core-runtime/P0-research.md)**. The older component table below is the status inventory, not the prioritized build sequence.
