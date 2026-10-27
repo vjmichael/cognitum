@@ -119,6 +119,7 @@ class BenchmarkPlanTests(unittest.TestCase):
         mutants = (
             lambda p: p.arms[0].enabled_native_tool_ids.append("cognitum.calc.rational"),
             lambda p: p.arms[1].enabled_native_tool_ids.append("cognitum.calc.rational"),
+            lambda p: p.arms[1].enabled_native_tool_ids.clear(),  # reject straw-man B
             lambda p: p.arms[2].enabled_native_tool_ids.clear(),
             lambda p: p.arms[3].enabled_native_tool_ids.pop(),
             lambda p: setattr(p.arms[1], "comparator_id", ""),
