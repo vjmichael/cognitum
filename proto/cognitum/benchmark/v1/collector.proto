@@ -1,0 +1,36 @@
+syntax = "proto3";
+package cognitum.benchmark.v1;
+
+// C04 signed provenance for a future Lu-native benchmark collector.
+// This binds Protobuf byte digests; it does NOT authorize CE execution,
+// authenticate OS counters, prove a model ran, or certify measured accuracy.
+
+enum CollectorSource {
+  COLLECTOR_SOURCE_UNSPECIFIED = 0;
+  LU_HOST_DECLARED = 1; // a declaration, not proof of kernel instrumentation
+}
+
+message CollectorReceipt {
+  uint32 schema_version = 1;
+  string plan_sha256 = 2;
+  string capture_sha256 = 3;
+  string challenge_nonce = 4;
+  string collector_id = 5;
+  string collector_build_sha256 = 6;
+  string lu_build_sha256 = 7;
+  string model_artifact_sha256 = 8;
+  string run_id = 9;
+  uint64 collected_at_unix_ms = 10;
+  uint32 reported_observed_trials = 11;
+  CollectorSource declared_source = 12;
+  bool contains_raw_user_data = 13; // MUST be false
+  bool execution_security_verified = 14; // MUST be false
+  reserved 15 to 29;
+}
+
+message SignedCollectorReceipt {
+  bytes serialized_receipt = 1;
+  bytes signature_ed25519 = 2;
+  string signing_key_id = 3; // lookup ONLY; caller pins actual public key
+  reserved 4 to 15;
+}
