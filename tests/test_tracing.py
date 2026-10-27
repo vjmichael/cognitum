@@ -45,7 +45,7 @@ class TracingSafetyTests(unittest.TestCase):
             validated_event(event)
 
     def test_error_must_be_machine_readable_code(self):
-        for bad in ("SECRET: stack trace", "Connection to https://example", "", 42):
+        for bad in ("SECRET: stack trace", "Connection to https://example", "", "secret", 42):
             with self.subTest(error=bad):
                 event = example()
                 event["error"] = bad
