@@ -44,6 +44,12 @@
 4. Continue C02 risk analysis, C03 test harness and C08/C09 recovered source integration based on canonical memory and authority constraints. Do not modify archived originals.
 5. When Lu separately adopts any addendum, record Lu link/commit/contract version and write corresponding **Cognitum-side compatibility tests**, then reclassify status as accepted/implemented/verified only with direct evidence.
 
+## Cognitum-side implementation evidence (does NOT change Lu statuses)
+
+**2026-10-26 — C01 prototype:** [PR #2: standalone disabled DLC CE manifest compatibility fixture](https://github.com/vjmichael/cognitum/pull/2) adds `cognitum/ce_manifest.py`, a frozen JSON fixture and strict tests. [CI run 40444530509](https://github.com/vjmichael/cognitum/actions/runs/40444530509) passed **42/42 unit tests plus 12/12 synthetic replay cases** for each of Linux/Windows and Python 3.11/3.13. The fixture is *not installable*, *not advertised* and *not bound* to Lu. It currently **rejects effectful operations**, because LU-CE-001 (lifecycle), LU-CE-002 (effects), LU-CE-003 (typed ABI) and LU-CE-004 (catalog) have **not been adopted by Lu**. The proposed type URLs are placeholders for future generated contracts, not compiled Protobuf.
+
+**Independent C01 hardening:** [PR #1: fail-closed trace field/status metadata](https://github.com/vjmichael/cognitum/pull/1) passed [four-platform CI](https://github.com/vjmichael/cognitum/actions/runs/40444297105) with **40/40 unit tests plus 12/12 synthetic replay cases** per job. This is Cognitum-only source improvement; no Lu integration code was written.
+
 ## Ownership and update protocol
 
 Each entry may gain: **source branch + verified commit**, proposed host interface, rationale, acceptance criteria, Lu decision reference, implementation link, Cognitum compatibility test, superseding entry and date. Do not silently change **Proposed** to **Accepted**. If Lu's independent implementation differs, reconcile Cognitum adapter requirements here first.
