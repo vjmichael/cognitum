@@ -82,12 +82,16 @@ class C05SpecialistTests(unittest.TestCase):
             action="sqrt",left="2",digits=60))
         self.assertTrue(sqrt.decimal.startswith("1.4142135623730950488"))
         self.assertIn("rounding_may_apply",sqrt.limitations)
+        high=invoke("precision",pb.PrecisionRequest(
+            action="divide",left="1",right="7",digits=200))
+        self.assertEqual(high.digits,200)
+        self.assertEqual(len(high.decimal.split(".")[1]),200)
 
     def test_precision_fail_closed(self):
         for action,a,b,digits in (
             ("divide","1","0",40),("sqrt","-1","",40),
             ("sqrt","4","99",40),("log","1","",40),
-            ("add","1","2",0),("add","1","2",100),
+            ("add","1","2",0),("add","1","2",257),
             ("divide","NaN","1",40),("add","1","1e999",40),
         ):
             with self.subTest(action=action,a=a):
