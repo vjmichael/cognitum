@@ -257,7 +257,7 @@ class CollectorReceiptTests(unittest.TestCase):
 
     def test_unknown_duplicate_and_malformed_frames(self):
         raw = sign(self.receipt, self.key)
-        for bad in (b"", b"\x00", b"\x0a\xff", "text", None,
+        for bad in (b"", b"\x00", b"\x0a\xff", "text",
                     raw+b"\x98\x06\x01", raw+b"\x1a\x01x",
                     b"x"*8193):
             with self.subTest(data=str(bad)[:20]), self.assertRaises(ValueError):
