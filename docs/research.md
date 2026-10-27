@@ -4,7 +4,7 @@ The calculator proves a narrow interface, not Cognitum's scientific thesis. No H
 
 Preserve the Revision 1.4 portfolio: HDC with temporal state; HDC with persistent object graphs; KAN as a bounded planner/simulator surrogate; learned state dynamics; multimodal temporal/spatial memory; learned capability selection; and trace-informed improvements. Hypervectors, embeddings, state vectors and poses require explicit typed conversion contracts rather than a universal coordinate space.
 
-First proposed study: HDC + explicit temporal state for multi-hop relational questions after contradictory updates and deletions. Reuse the existing owner's HDC implementation and reports after locating them; do not rebuild its algebra from illustrative 1.0 snippets. The reported pilot results remain owner-reported, not independently reproduced here.
+First proposed study: HDC + explicit temporal state for multi-hop relational questions after contradictory updates and deletions. The original K4 HDC/KAN implementation, default-off depth overlay and closure report have now been **located and hash-verified**, with a fresh independent Linux CPU run passing **41 unit tests and 20 HDC self-tests**. See [archive and reuse audit](components/hdc-kan/P0-archive-reuse-audit.md). Reuse those original files; do not rebuild the algebra from illustrative 1.0 snippets. The reported pilot results remain owner-reported, not independently reproduced here.
 
 Before starting an experiment, freeze a card containing:
 
