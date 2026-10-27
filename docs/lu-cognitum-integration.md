@@ -91,6 +91,10 @@ Match model/provider/version/quantization, model settings, sampling/seeds where 
 
 **Promotion criterion:** measurable benefit and no critical security/privacy/reliability regression relative to competent controls, plus approval under the main roadmap. Negative results remain valid scientific evidence but do **not** justify default-on deployment.
 
+## Active Lu feature-branch finding (2026-10-26)
+
+**Updated authoritative host reference:** [C01 pinned Lu native feature-branch audit](components/core-runtime/P0-lu-native-audit.md), anchored at `lu/core-contracts-native-registry` commit `11b2e7e8c5370d512a8f8815d5aaaf9e682e04df`. This branch already has native `NativeToolRegistry`, typed Protobuf tools, a strict `ModelToolCatalog`/codec bridge, a feature-gated Tauri integration and an experimental Jan-native legacy bridge. Current gaps: optional Core Extension module kind (Core/Workspace alone), effect-set/scoped permission translation, `1.3.0` component versus `1` host contract versioning, and host authorization/worker isolation. **Earlier `main` findings below are historical, not the target API.**
+
 ## 7. Existing source anchor points, inspected 2026-10-26
 
 **Lu repository `vjmichael/jan_alt` `main`:**
