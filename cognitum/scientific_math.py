@@ -172,6 +172,9 @@ def _scientific(req):
     if req.function not in ("sin","cos","exp","log","sqrt"):
         raise ValueError("unsupported scientific function")
     arg=_number(req.argument,as_fraction=False)
+    # Avoid massive exp allocations and costly transcendental range reduction.
+    if abs(arg)>100:
+        raise ValueError("scientific argument magnitude cap")
     if req.function=="log" and arg<=0 or req.function=="sqrt" and arg<0:
         raise ValueError("real-domain scientific function undefined")
     # Separate clone: never mutate mpmath's global precision configuration.
