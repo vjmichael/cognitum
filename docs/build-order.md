@@ -10,6 +10,10 @@
 
 The order is a default priority and not a fabricated ETA or a mandate to complete unrelated advanced modules before a task-driven use case. A verified existing implementation may enter the lifecycle as inherited evidence, but must still pass the new component's relevant acceptance gates.
 
+## Mandatory transformer-centered integration requirement
+
+The authoritative architecture is [Lu × Cognitum — Transformer-Centered Collaboration](lu-cognitum-integration.md). **Lu and whichever transformer it has loaded are the system being augmented.** Lu owns model selection/lifecycle, sessions, permission decisions, discovery/dispatch, bounded cross-component orchestration and final synthesis. Cognitum supplies optional, domain-specialized computations and evidence through Lu-native CEs/contracts; it must not duplicate Lu's model loop or overwrite host authority. **Every component P0 specifies its Lu+model task**, and every relevant P3 compares Lu+loaded transformer without Cognitum, with established conventional tools, and with the candidate capability/combination. Model-specific tool reliability and hardware/energy costs must be measured instead of assumed.
+
 ## Ordered development queue
 
 | ID | Order / component | Essential dependencies and acceptance intent | Evidence and next activity |
