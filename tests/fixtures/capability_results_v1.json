@@ -1,0 +1,138 @@
+{
+  "exact": {
+    "schema_version": "1.0.0",
+    "request_id": "exact1",
+    "correlation_id": "sample-session",
+    "operation": "calc.rational",
+    "operation_schema_version": "1.0.0",
+    "status": "completed",
+    "value": {
+      "kind": "exact_rational",
+      "value": "1/3"
+    },
+    "assurance": "exact_arithmetic",
+    "interpretation": "assumption_bound",
+    "failure": null,
+    "evidence": [
+      {
+        "kind": "computation",
+        "ref": "exact1"
+      }
+    ],
+    "limitations": [
+      "intent_not_verified"
+    ]
+  },
+  "numerical": {
+    "schema_version": "1.0.0",
+    "request_id": "num1",
+    "correlation_id": "sample-session",
+    "operation": "kan.predict",
+    "operation_schema_version": "1.0.0",
+    "status": "completed",
+    "value": {
+      "kind": "numerical_estimate",
+      "value": "0.42",
+      "method": "kan.portable.v1",
+      "lower": null,
+      "upper": null
+    },
+    "assurance": "numerical",
+    "interpretation": "assumption_bound",
+    "failure": null,
+    "evidence": [
+      {
+        "kind": "checkpoint",
+        "ref": "ckpt42"
+      }
+    ],
+    "limitations": [
+      "intent_not_verified",
+      "uncertainty_unquantified"
+    ]
+  },
+  "retrieval": {
+    "schema_version": "1.0.0",
+    "request_id": "ret1",
+    "correlation_id": "sample-session",
+    "operation": "hdc.retrieve",
+    "operation_schema_version": "1.0.0",
+    "status": "completed",
+    "value": {
+      "kind": "retrieved_references",
+      "candidates": [
+        "item1",
+        "item2"
+      ],
+      "source_snapshot_id": "rev9",
+      "index_source_snapshot_id": "rev9"
+    },
+    "assurance": "heuristic",
+    "interpretation": "assumption_bound",
+    "failure": null,
+    "evidence": [
+      {
+        "kind": "source_snapshot",
+        "ref": "rev9"
+      }
+    ],
+    "limitations": [
+      "retrieval_not_truth",
+      "no_permission_conferred"
+    ]
+  },
+  "denied": {
+    "schema_version": "1.0.0",
+    "request_id": "deny1",
+    "correlation_id": "sample-session",
+    "operation": "memory.read",
+    "operation_schema_version": "1.0.0",
+    "status": "denied",
+    "value": null,
+    "assurance": "unverified",
+    "interpretation": "unresolved",
+    "failure": {
+      "code": "permission_denied",
+      "retryable": false
+    },
+    "evidence": [],
+    "limitations": [
+      "no_computed_answer"
+    ]
+  },
+  "validated_only": {
+    "schema_version": "1.0.0",
+    "request_id": "dry1",
+    "correlation_id": "sample-session",
+    "operation": "calc.rational",
+    "operation_schema_version": "1.0.0",
+    "status": "validated",
+    "value": null,
+    "assurance": "unverified",
+    "interpretation": "unresolved",
+    "failure": null,
+    "evidence": [],
+    "limitations": [
+      "not_executed"
+    ]
+  },
+  "timeout": {
+    "schema_version": "1.0.0",
+    "request_id": "timeout1",
+    "correlation_id": "sample-session",
+    "operation": "calc.rational",
+    "operation_schema_version": "1.0.0",
+    "status": "timed_out",
+    "value": null,
+    "assurance": "unverified",
+    "interpretation": "unresolved",
+    "failure": {
+      "code": "plugin_timed_out",
+      "retryable": true
+    },
+    "evidence": [],
+    "limitations": [
+      "no_computed_answer"
+    ]
+  }
+}
