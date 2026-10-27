@@ -104,6 +104,8 @@ Archive discovery and integrity checks are **now complete** for these two compon
 - Maintain a claims ledger with source, method, result, limitations, replication, and promotion decision. Keep experimental challenges optional and ordinarily disabled until approved.
 - No implementation, tests, or archived research assets were modified as part of adopting this roadmap.
 
+**Cross-cutting C02 security P0 has begun:** [Windows AppContainer/Job Object and Lu-native worker threat model](components/security/P0-research.md). No effectful/untrusted worker can be enabled until independent OS confinement and authorization are verified.
+
 ## Immediate planning focus (not global phases)
 
 1. Audit the already-implemented core, calculator, and harness against the new P0/P2 exit requirements; preserve verified work instead of rebuilding it.
