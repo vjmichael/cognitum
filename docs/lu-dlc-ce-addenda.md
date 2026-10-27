@@ -54,7 +54,7 @@
 
 ## LU-CE-007: typed result translation proposal (Cognitum implementation underway)
 
-[Cognitum typed capability result v1 — source and contract proposal](https://github.com/vjmichael/cognitum/blob/cognitum/c01-typed-results-v1/docs/components/core-runtime/P1-P2-typed-results.md) and [PR #3](https://github.com/vjmichael/cognitum/pull/3) define an **opt-in Cognitum Python result contract** covering canonical exact rational, explicitly uncertain decimal estimate, snapshot-matched retrieval references, dry-run-only, and sanitized failure categories. Fixed epistemic limitations distinguish **exact formal computation** from **verified user intent**, and candidate references from authority or source truth. This is **not** the adopted Lu Protobuf ABI.
+[Cognitum typed capability result v1 — implemented contract](components/core-runtime/P1-P2-typed-results.md) and [merged PR #3](https://github.com/vjmichael/cognitum/pull/3) define an **opt-in Cognitum Python result contract** covering canonical exact rational, explicitly uncertain decimal estimate, snapshot-matched retrieval references, dry-run-only, and sanitized failure categories. Fixed epistemic limitations distinguish **exact formal computation** from **verified user intent**, and candidate references from authority or source truth. This is **not** the adopted Lu Protobuf ABI.
 
 **Read-only host finding:** Lu currently uses `lu.v1.ToolReply.oneof outcome` (either `output` typed bytes or `failure` `ToolError`), and validates model-visible JSON through its `ModelToolCodec`. Proposed translation for Lu team:
 1. `completed` with a validated domain value → **dedicated generated Protobuf output**; preserve value kind, evidence reference, limitations and assurance derived by Lu-reviewed codec.
@@ -62,6 +62,8 @@
 3. `validated` (dry run) → host-approved representation explicitly conveying that no execution occurred; not an ordinary exact/approximate success.
 4. **Unknown status, outcome schema, evidence/limitation code or newer major version → reject**, never silently coerce to “ok” or parse from a generic JSON blob.
 5. Lu must continue to derive authenticated subject/workspace scopes from its trusted host, not Cognitum's candidate IDs or model-generated metadata.
+
+**Cognitum verification:** [PR CI 40445966151](https://github.com/vjmichael/cognitum/actions/runs/40445966151) passed **76 unit tests and 12 synthetic replay cases per job** on Windows/Linux Python 3.11/3.13. This tests only Cognitum's contract and trusted Python calculator adapter, not Lu's actual model or worker.
 
 The Lu team determines the final `.proto` package, `optional` presence semantics, ABI version policy, status-to-transport mapping and model-visible codec. This proposal **does not request replacing Lu's host core or editing `lu.v1.ToolReply` when its existing typed-oneof design suffices**. Status remains **Proposed** pending separate Lu authority and compatibility tests.
 
