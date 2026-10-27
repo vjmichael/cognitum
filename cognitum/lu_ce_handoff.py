@@ -10,6 +10,7 @@ Do not use a model-produced manifest, prompt or source document as an argument.
 from dataclasses import dataclass
 from .ce_manifest import ProposedToolBinding, compatibility_fixture
 from .contracts import Manifest, digest
+from .plugins.calculator import Calculator
 
 HANDOFF_SCHEMA_VERSION = "1.0.0"
 LU_HOST_CONTRACT_VERSION = 1
@@ -102,7 +103,7 @@ def create_lu_ce_handoff(
     # Additional capability classes require independent P0 evidence and a
     # separately reviewed candidate decoder/host permissions.
     if (set(ops) != {"calc.rational"} or guide_map["calc.rational"] != CALCULATOR_GUIDE
-            or source.name != "reference_calc"):
+            or source.describe() != Calculator().manifest().describe()):
         raise ValueError("unreviewed capability cannot be advertised through v1 proposal")
     tools = []
     for proposed in fixture["proposed_tools"]:
