@@ -18,7 +18,7 @@ def _enum(name, items):
     enum.name = name
     for n, i in enumerate(items):
         v = enum.value.add()
-        v.name, v.number = n, i
+        v.name, v.number = i, n
 
 _enum("Platform", [
     "PLATFORM_UNSPECIFIED", "PLATFORM_ALL", "PLATFORM_WINDOWS",
