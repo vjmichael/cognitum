@@ -116,6 +116,12 @@ New [**`cognitum.benchmark.v1` native Protobuf contract**](../proto/cognitum/ben
 
 **Host request remains Proposed:** Lu must provide an authorized read-only telemetry/event collector, immutable context/model/build identities, real model/provider run adapter, actual resource counters, independent scorer and consent-aware dataset ownership. Model-generated tool logs or Protobuf messages cannot authenticate their source; Cognitum's current `CaptureShapeReview` **always says `model_execution_authenticated=false`, `paired_effect_verified=false`, `promotion_evidence=false`**, even if unit tests embed illustrative successful trials. No Lu code, worker permissions or operating-system sandbox were changed.
 
+## LU-CE-010 — C04 signed host collector claim format (Cognitum implementation only)
+
+Cognitum has added [`cognitum.benchmark.v1.CollectorReceipt`](../proto/cognitum/benchmark/v1/collector.proto) and a [strict Ed25519 receipt verifier](../cognitum/lu_collector_receipt.py) described in [C04 integration notes](components/integration/P0-P2-host-collector-receipt.md). This format binds the previous C03 plan and capture byte digests, caller-pinned Lu/model/collector hashes, a host-issued one-use challenge, receipt timestamp and reported observation count. It is **binary Protobuf**, not an MCP or JSON handoff. The verifier's result always has `collector_runtime_authenticated=false`, `metric_provenance_verified=false`, `paired_effect_verified=false` and `production_promotion_evidence=false` because signature validity alone cannot prove actual Lu execution or genuine OS readings.
+
+**Lu team action Proposed only:** decide whether to implement a consented, local, host-authoritative read-only benchmark collector; pin its public key and model/host build hashes; issue/consume challenges durably; supply real signed instrumented events, independent grading and measured resource counters. **No Lu API is invented or implemented in this Cognitum branch.** Keep the separate C02 worker isolation and optional CE installation gates closed until independently verified.
+
 ## Ownership and update protocol
 
 Each entry may gain: **source branch + verified commit**, proposed host interface, rationale, acceptance criteria, Lu decision reference, implementation link, Cognitum compatibility test, superseding entry and date. Do not silently change **Proposed** to **Accepted**. If Lu's independent implementation differs, reconcile Cognitum adapter requirements here first.
