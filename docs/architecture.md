@@ -6,6 +6,8 @@ Host proposes an explicit operation → registry chooses its nominated enabled p
 
 The host owns conversations, identity authentication, consent, natural-language formalization and synthesis. Cognitum has no model client, agent loop, scheduler, desktop observer, network server or transport dependency. The future Lu interface is `Runtime.call(Request, HostContext) -> Response`; Lu must construct trusted context after authenticating the user. A model or retrieved document must never construct that object. The Python interface is local, not an authenticated remote API.
 
+**Project boundary:** In this Cognitum repository, Lu code and configuration are **read-only**. Required Lu-side support is tracked as proposals in the [DLC Core Extension Addendum Register](lu-dlc-ce-addenda.md), to be evaluated and implemented only by the separate Lu development project. Cognitum is an optional Lu-native **Core Extension**, not a mandatory base-core dependency or specialized DLC Workspace.
+
 ## Lu-controlled transformer collaboration (user decision, 2026-10-26)
 
 **Normative host/augmentation contract:** [Lu × Cognitum — Transformer-Centered Collaboration](lu-cognitum-integration.md). **Lu controls whichever transformer is loaded or selected**, including model/provider lifecycle, capability advertisement, chat/agent loop, session and workspace, tool dispatch, authorization and final response. Cognitum components provide **optional, typed, bounded cognitive services** to that host; they do not replace the transformer's conversational role, silently modify model weights, create a competing agent loop, or independently grant permission.
