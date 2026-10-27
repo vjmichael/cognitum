@@ -124,6 +124,8 @@ def validate_plan(plan):
         cog = tuple(x for x in ids if x.startswith("cognitum."))
         if arm.arm in (pb.HOST_ONLY, pb.CONVENTIONAL_TOOL) and cog:
             raise ValueError("baseline cannot contain experimental Cognitum CE")
+        if arm.arm == pb.CONVENTIONAL_TOOL and not ids:
+            raise ValueError("conventional comparator arm requires an actual pinned tool")
         if arm.arm == pb.COGNITUM_SINGLE and len(cog) != 1:
             raise ValueError("single-CE arm must declare exactly one Cognitum tool")
         if arm.arm == pb.COGNITUM_COMPOSITION and len(cog) < 2:
