@@ -1,0 +1,92 @@
+syntax = "proto3";
+package cognitum.v1;
+
+// Canonical Cognitum -> Lu internal Core Extension discovery handoff.
+// A declarative, INERT proposal. Lu alone approves installation, model exposure
+// and permission grants. No JSON payloads or raw model prompts in this message.
+// Source branch/profile references are audit metadata, NOT credentials.
+
+message HandoffSource {
+  string repository = 1;
+  string branch = 2;
+  string commit = 3;
+  uint32 host_contract_version = 4;
+}
+
+message ModelArgument {
+  string name = 1;
+  string kind = 2;       // reviewed scalar type (currently "string")
+  bool required = 3;
+  uint32 min_length = 4;
+  uint32 max_length = 5;
+}
+
+// Advisory, fixed developer-authored text. Lu may derive an external
+// provider-specific JSON tool schema from this data; never treat it as authority.
+message ModelUse {
+  string name = 1;
+  string description = 2;
+  string use_when = 3;
+  string avoid_when = 4;
+  string output_interpretation = 5;
+  repeated ModelArgument arguments = 6;
+}
+
+message CapabilityDiscovery {
+  string operation = 1;
+  string operation_schema_version = 2;
+  string native_tool_id = 3;
+  string input_type_url = 4;
+  string output_type_url = 5;
+  // Explicitly blocked; Lu currently lacks a pure/no-effect ToolEffect.
+  string host_effect_status = 6;
+  string result_assurance = 7;
+  repeated string epistemic_limitations = 8;
+  repeated string declared_effects = 9;
+  string input_schema_sha256 = 10;
+  ModelUse model_use = 11;
+}
+
+message ModuleDiscovery {
+  string id = 1;
+  string display_name = 2;
+  string kind = 3;       // "CoreExtension" — host must validate against its enum
+  uint32 host_contract_version = 4;
+  repeated string panels = 5;
+  repeated string workflows = 6;
+}
+
+message WorkspaceInteroperability {
+  repeated string contexts = 1;
+  bool registries_separate = 2;
+  bool unload_preserves_core_and_other_dlc = 3;
+  bool model_weights_unchanged = 4;
+  repeated string tool_schema_refs = 5;
+  repeated string workflow_refs = 6;
+  repeated string state_contract_refs = 7;
+  repeated string event_contract_refs = 8;
+}
+
+message CapabilityAvailability {
+  bool installable = 1;
+  bool registered = 2;
+  bool enabled = 3;
+  bool model_advertised = 4;
+  bool host_contract_approved = 5;
+  bool requires_model_function_calling = 6;
+  uint32 observed_max_model_tools = 7;
+  repeated string blocking_contracts = 8;
+}
+
+// The canonical internal handoff is this Protobuf message, not a JSON Schema.
+// Protobuf wire encoding alone is not cryptographic publisher authentication.
+message CoreExtensionHandoff {
+  uint32 schema_version = 1;
+  HandoffSource source = 2;
+  ModuleDiscovery module = 3;
+  repeated CapabilityDiscovery capabilities = 4;
+  WorkspaceInteroperability workspace = 5;
+  CapabilityAvailability availability = 6;
+  string producer_manifest_sha256 = 7;
+  string trust_statement = 8;
+}
