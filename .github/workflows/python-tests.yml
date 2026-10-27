@@ -43,6 +43,8 @@ jobs:
           python tools/check_proto_descriptors.py compiled_evaluation.pb
           python -m grpc_tools.protoc -Iproto --descriptor_set_out=compiled_benchmark.pb proto/cognitum/benchmark/v1/benchmark.proto
           python tools/check_proto_descriptors.py compiled_benchmark.pb
+          python -m grpc_tools.protoc -Iproto --descriptor_set_out=compiled_collector.pb proto/cognitum/benchmark/v1/collector.proto
+          python tools/check_proto_descriptors.py compiled_collector.pb
       - name: Verify core tests
         run: python -m unittest discover -s tests -p "test_*.py" -v
       - name: Verify synthetic replay
