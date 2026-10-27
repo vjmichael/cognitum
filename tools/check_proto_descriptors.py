@@ -11,7 +11,7 @@ from pathlib import Path
 import sys
 
 from google.protobuf.descriptor_pb2 import FileDescriptorProto, FileDescriptorSet
-from cognitum.proto import capability_pb2, ce_handoff_pb2, worker_pb2, supervisor_acceptance_pb2, evaluation_pb2
+from cognitum.proto import capability_pb2, ce_handoff_pb2, worker_pb2, supervisor_acceptance_pb2, evaluation_pb2, benchmark_pb2
 
 EXPECTED = {
     "cognitum/v1/capability.proto": capability_pb2.DESCRIPTOR,
@@ -19,6 +19,7 @@ EXPECTED = {
     "cognitum/worker/v1/worker.proto": worker_pb2.DESCRIPTOR,
     "cognitum/security/v1/supervisor_acceptance.proto": supervisor_acceptance_pb2.DESCRIPTOR,
     "cognitum/eval/v1/evaluation.proto": evaluation_pb2.DESCRIPTOR,
+    "cognitum/benchmark/v1/benchmark.proto": benchmark_pb2.DESCRIPTOR,
 }
 
 

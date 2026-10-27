@@ -1,0 +1,136 @@
+syntax = "proto3";
+package cognitum.benchmark.v1;
+
+// C03 future Lu-host benchmark plan/capture format. A well-formed capture
+// is NEVER proof that Lu ran it, nor a promotion or security authorization.
+enum Arm {
+  ARM_UNSPECIFIED = 0;
+  HOST_ONLY = 1;
+  CONVENTIONAL_TOOL = 2;
+  COGNITUM_SINGLE = 3;
+  COGNITUM_COMPOSITION = 4;
+}
+enum ArmReadiness {
+  ARM_READINESS_UNSPECIFIED = 0;
+  NOT_RUNNABLE = 1;
+  HOST_APPROVED_RUNNABLE = 2; // declarative: never self-authorizes worker
+}
+enum ToolExpectation {
+  TOOL_EXPECTATION_UNSPECIFIED = 0;
+  TOOL_NOT_REQUIRED = 1;
+  TOOL_REQUIRED = 2;
+}
+enum TrialStatus {
+  TRIAL_STATUS_UNSPECIFIED = 0;
+  NOT_RUN = 1;
+  COMPLETED = 2;
+  ABSTAINED = 3;
+  TOOL_SELECTION_FAILED = 4;
+  ARGUMENT_VALIDATION_FAILED = 5;
+  TOOL_EXECUTION_FAILED = 6;
+  HOST_DENIED = 7;
+  TIMED_OUT = 8;
+  PROVIDER_FAILED = 9;
+}
+enum ToolDecision {
+  TOOL_DECISION_UNSPECIFIED = 0;
+  NOT_ASSESSED = 1;
+  APPROPRIATE = 2;
+  UNNECESSARY_CALL = 3;
+  MISSED_REQUIRED_CALL = 4;
+  INCORRECT_CAPABILITY = 5;
+}
+enum FinalGrade {
+  FINAL_GRADE_UNSPECIFIED = 0;
+  NOT_GRADED = 1;
+  CORRECT = 2;
+  INCORRECT = 3;
+  APPROPRIATE_ABSTENTION = 4;
+  INAPPROPRIATE_ABSTENTION = 5;
+}
+message InferenceSettings {
+  uint32 temperature_milli = 1;
+  uint32 top_p_ppm = 2;
+  uint32 max_output_tokens = 3;
+  uint32 context_window_tokens = 4;
+  uint32 tool_budget = 5;
+  uint32 repeats = 6;
+  uint64 seed = 7;
+}
+message ArmConfiguration {
+  Arm arm = 1;
+  ArmReadiness readiness = 2;
+  string comparator_id = 3;
+  string comparator_build_sha256 = 4;
+  string tool_catalog_sha256 = 5;
+  repeated string enabled_native_tool_ids = 6;
+  string unavailable_reason_code = 7;
+}
+message TaskReference {
+  string task_id = 1;
+  string task_sha256 = 2;  // content stays in host-controlled dataset
+  ToolExpectation expected_tool_use = 3;
+}
+message ScheduledTrial {
+  string task_id = 1;
+  Arm arm = 2;
+  uint32 repeat_index = 3;
+  uint64 seed = 4;
+}
+message BenchmarkPlan {
+  uint32 schema_version = 1;
+  string plan_id = 2;
+  string dataset_id = 3;
+  string dataset_sha256 = 4;
+  string scoring_rubric_sha256 = 5;
+  string lu_build_sha256 = 6;
+  string model_artifact_sha256 = 7;
+  string model_id = 8;
+  string backend_id = 9;
+  string quantization_id = 10;
+  string host_policy_sha256 = 11;
+  string platform_id = 12;
+  string hardware_profile_id = 13;
+  string model_context_sha256 = 14;
+  InferenceSettings inference = 15;
+  repeated ArmConfiguration arms = 16;
+  repeated TaskReference tasks = 17;
+  repeated ScheduledTrial schedule = 18;
+  bool includes_raw_user_content = 19; // always false
+  reserved 20 to 29;
+}
+message ResourceObservation {
+  optional uint64 end_to_end_latency_ms = 1;
+  optional uint64 first_token_latency_ms = 2;
+  optional uint64 peak_host_ram_bytes = 3;
+  optional uint64 peak_gpu_memory_bytes = 4;
+  optional uint64 energy_millijoules = 5;
+  optional uint64 input_tokens = 6;
+  optional uint64 output_tokens = 7;
+  optional uint32 attempted_tool_calls = 8;
+  optional uint32 rejected_tool_calls = 9;
+  optional uint64 cost_micro_usd = 10;
+}
+message TrialCapture {
+  string task_id = 1;
+  Arm arm = 2;
+  uint32 repeat_index = 3;
+  uint64 seed = 4;
+  TrialStatus status = 5;
+  ToolDecision tool_decision = 6;
+  FinalGrade final_grade = 7;
+  string error_code = 8; // sanitized, fixed host categories
+  string answer_sha256 = 9; // digest only, no raw model answer
+  ResourceObservation resources = 10;
+}
+message BenchmarkCapture {
+  uint32 schema_version = 1;
+  string plan_sha256 = 2;
+  string capture_id = 3;
+  string host_collector_id = 4;
+  string host_collector_build_sha256 = 5;
+  repeated TrialCapture trials = 6;
+  bool claims_production_promotion = 7; // always false
+  bool includes_raw_user_content = 8; // always false
+  reserved 9 to 19;
+}
