@@ -14,6 +14,12 @@ It must (a) validate versioned operation contracts and bounded inputs/outputs, (
 
 **Hypothesis:** preserve the existing standard-library prototype where adequate, add a maintained schema validator and a small typed host adapter where required. Complexity must pay for itself in correctness/compatibility. C02 owns OS isolation, C03 owns full evaluation, and C04 owns Lu integration; C01 provides their contracts.
 
+### User-confirmed host/model integration constraint (2026-10-26)
+
+The C01 core must serve **whatever transformer is selected or loaded in Lu**, and its actual collaboration with Cognitum must follow **Lu's existing native model lifecycle, dispatch, tool registration, state, permission and workspace architecture**. The transformer interprets tasks and synthesizes results; Lu approves and orchestrates; Cognitum validates and executes typed capabilities, reporting status, evidence and limitations. No hidden independent model loop or permission grants from generated text.
+
+See the binding [Lu × Cognitum collaboration design](../../lu-cognitum-integration.md). C01 P0 must incorporate model-agnostic schema advertisement and handoff semantics; its P3 must use selected-model end-to-end comparisons (Lu alone, Lu+conventional tools, Lu+Cognitum, and typed compositions where relevant). A model-specific tool-calling inability must be tested and honestly represented. The existing Python core is a prototype and does **not** yet establish this integration.
+
 ## 2. Existing source evidence (read on `main`, 2026-10-26)
 
 | File | Observed implementation | Limitations / questions |
