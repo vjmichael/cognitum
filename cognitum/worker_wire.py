@@ -87,6 +87,10 @@ def _parse(message_cls, data):
     without_unknown.DiscardUnknownFields()
     if without_unknown != message:
         raise ValueError("unknown worker protobuf fields")
+    # Deny duplicate scalar tags, shadowed oneof values, and ambiguous bytes.
+    # A future external Lu host must use deterministic serialization too.
+    if message.SerializeToString(deterministic=True) != data:
+        raise ValueError("noncanonical worker protobuf frame")
     return message
 
 
