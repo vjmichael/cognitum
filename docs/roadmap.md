@@ -4,6 +4,10 @@
 **Status:** Active process and component tracker  
 **Scope:** Cognitum core services, production adapters, research modules, and future Lu integration components
 
+## Repository ownership and Lu boundary
+
+This conversation and repository develop **Cognitum only**. Lu is a read-only integration reference, never an implementation target here. Record any host-side DLC Core Extension requirements in the [Lu DLC CE Integration Addendum Register](lu-dlc-ce-addenda.md), with **Proposed** status until independently accepted by the Lu team. Cognitum may implement standalone tests, adapters and research against provisional documented contracts, but must not modify Lu. C01 standalone tracing security hardening is being [tested on a separate review branch](https://github.com/vjmichael/cognitum/blob/cognitum/c01-tracing-guard/docs/components/core-runtime/P1-P2-tracing-hardening.md); existing `main` is preserved until full regression verification.
+
 ## Active execution sequence
 
 The canonical priority/dependency order is [**Ordered Component Build Path**](build-order.md). It lists C01–C19, differentiates independent P0 research from implementation dependencies, and identifies the first active work item: **[C01 / P0 core runtime research and design](components/core-runtime/P0-research.md)**. The older component table below is the status inventory, not the prioritized build sequence.
