@@ -1,0 +1,78 @@
+syntax = "proto3";
+package cognitum.math.v1;
+
+// Optional, inert scientific specialist domain messages. Lu approves any
+// future native CE registration, scoped dispatch and process confinement.
+// No authority, model prompts, filesystem or generic executable code here.
+
+message SymbolicRequest {
+  string expression = 1; // restricted polynomial, variable x only
+  string action = 2;     // expand | derivative
+}
+message SymbolicResult {
+  string polynomial = 1;
+  string assurance = 2; // exact_symbolic
+  repeated string limitations = 3;
+}
+message ScientificRequest {
+  string function = 1;  // sin | cos | exp | log | sqrt
+  string argument = 2;  // finite canonical decimal
+  uint32 digits = 3;    // 15..80 significant digits
+}
+message ScientificResult {
+  string decimal = 1;
+  uint32 digits = 2;
+  string method = 3;    // mpmath
+  repeated string limitations = 4;
+}
+message PrecisionRequest {
+  string action = 1;  // add | divide | sqrt
+  string left = 2;
+  string right = 3;
+  uint32 digits = 4;
+}
+message PrecisionResult {
+  string decimal = 1;
+  uint32 digits = 2;
+  string method = 3; // decimal
+  repeated string limitations = 4;
+}
+message RationalRow {
+  repeated string entries = 1;
+}
+message LinearRequest {
+  string action = 1;  // determinant | multiply | solve
+  repeated RationalRow a = 2;
+  repeated RationalRow b = 3;
+}
+message LinearResult {
+  repeated RationalRow rows = 1;
+  string scalar = 2;
+  repeated string limitations = 3;
+}
+message RootRequest {
+  string polynomial = 1;
+  string lower = 2;
+  string upper = 3;
+  uint32 iterations = 4; // 1..128
+}
+message RootResult {
+  string lower = 1; // exact rational enclosure
+  string upper = 2;
+  string midpoint = 3;
+  repeated string limitations = 4;
+}
+message SimulationRequest {
+  string position = 1;
+  string velocity = 2;
+  string omega_squared = 3;
+  string step = 4;
+  uint32 steps = 5; // 1..256
+}
+message SimulationResult {
+  string position = 1;
+  string velocity = 2;
+  string initial_energy = 3;
+  string final_energy = 4;
+  repeated string limitations = 5;
+}
