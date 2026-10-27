@@ -1,6 +1,7 @@
 """Strict Cognitum capability-result contract tests (no Lu host modifications)."""
 from dataclasses import replace
 import json
+from pathlib import Path
 import unittest
 
 from cognitum.capability_results import (
@@ -37,6 +38,16 @@ def result(value=None, *, status="completed", evidence=None, failure=None, limit
 
 
 class ResultContractTests(unittest.TestCase):
+    def test_frozen_cross_component_result_fixtures(self):
+        fixture_path = Path(__file__).parent / "fixtures" / "capability_results_v1.json"
+        samples = json.loads(fixture_path.read_text(encoding="utf-8"))
+        self.assertEqual(set(samples), {"exact", "numerical", "retrieval",
+                                        "denied", "validated_only", "timeout"})
+        for name, data in samples.items():
+            with self.subTest(sample=name):
+                self.assertEqual(from_dict(data).to_dict(), data)
+                self.assertEqual(from_json(json.dumps(data)).to_dict(), data)
+
     def test_exact_rational_roundtrip_with_assumption_limit(self):
         x = result(ExactRational("1/3"))
         self.assertEqual(x.assurance, "exact_arithmetic")
