@@ -1,6 +1,11 @@
 """Real binary Protobuf codec tests for optional Cognitum Lu-native domain data."""
 import unittest
 
+try:
+    import google.protobuf
+except ModuleNotFoundError:
+    raise unittest.SkipTest("Install Cognitum's optional [proto] extra to run wire tests")
+
 from cognitum.capability_results import (
     CapabilityFailure, CapabilityResult, EvidenceRef, ExactRational,
     NumericalEstimate, RetrievedReferences, from_runtime_response,
