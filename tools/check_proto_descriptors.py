@@ -11,7 +11,12 @@ from pathlib import Path
 import sys
 
 from google.protobuf.descriptor_pb2 import FileDescriptorProto, FileDescriptorSet
-from cognitum.proto.capability_pb2 import DESCRIPTOR
+from cognitum.proto import capability_pb2, ce_handoff_pb2
+
+EXPECTED = {
+    "cognitum/v1/capability.proto": capability_pb2.DESCRIPTOR,
+    "cognitum/v1/ce_handoff.proto": ce_handoff_pb2.DESCRIPTOR,
+}
 
 
 def normalized_field(field):
@@ -42,7 +47,10 @@ def main(filename):
     produced.ParseFromString(Path(filename).read_bytes())
     if len(produced.file) != 1:
         raise SystemExit("expected one compiled .proto source")
-    shipped = FileDescriptorProto.FromString(DESCRIPTOR.serialized_pb)
+    file_name = produced.file[0].name
+    if file_name not in EXPECTED:
+        raise SystemExit("unexpected compiled protobuf schema name")
+    shipped = FileDescriptorProto.FromString(EXPECTED[file_name].serialized_pb)
     if normalized_file(produced.file[0]) != normalized_file(shipped):
         raise SystemExit("checked-in protobuf bindings differ from compiler .proto wire schema")
     print("Protobuf source/binding schema matches: package, names, fields, oneofs, optional presence")

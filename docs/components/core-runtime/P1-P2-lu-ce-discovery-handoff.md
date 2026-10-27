@@ -2,7 +2,7 @@
 
 **Review performed:** 2026-10-26 (read-only Lu audit)  
 **Latest Lu reference:** `vjmichael/jan_alt@lu/independent-branding-ce-foundation`, commit `75d558c083dc96660528dd6fb8c745af34469503`. This branch is **two commits ahead** of the older `lu/core-contracts-native-registry` branch.  
-**Cognitum implementation:** [`cognitum/lu_ce_handoff.py`](../../../cognitum/lu_ce_handoff.py) and [review JSON exporter](../../../tools/emit_lu_ce_handoff.py)  
+**Cognitum implementation:** [`cognitum/lu_ce_protobuf.py`](../../../cognitum/lu_ce_protobuf.py), [canonical `.proto` source](../../../proto/cognitum/v1/ce_handoff.proto), and [binary Protobuf exporter](../../../tools/emit_lu_ce_handoff.py)  
 **Status:** **Merged via [Cognitum PR #5](https://github.com/vjmichael/cognitum/pull/5)** at commit `82210ecf828b0951917421d061ea4882937b11d1`. The handoff is still **non-installable, inactive, non-advertised** and **not** a Lu host ABI certification. No Lu files were modified. [Four-platform branch CI](https://github.com/vjmichael/cognitum/actions/runs/40449813005) and [PR CI](https://github.com/vjmichael/cognitum/actions/runs/40449936995) passed: **105/105 unit tests, 12/12 synthetic replay and compiler-checked Protobuf** per Windows/Linux Python 3.11/3.13 configuration; formal JSON Schema positive/negative tests included.
 
 ## What Lu's newer code already decided and built
@@ -35,15 +35,17 @@ The newer Lu branch contains actual early Core Extension machinery that was abse
    - `native_tool_id`: `cognitum.calc.rational`, `input_type_url`: `type.googleapis.com/cognitum.v1.CalculateRationalRequest`, `output_type_url`: `type.googleapis.com/cognitum.v1.CalculateRationalResult`
    - `use_when`, `avoid_when`, and `output_interpretation` guide the host's model instructions **without becoming permission**, nor being inserted into the model's context unless Lu explicitly chooses.
 
-**Internal invocation stays Protobuf**, per the user's explicit correction: Lu owns `lu.v1.ToolCall/ToolReply` and each `ModelToolCodec`, while Cognitum owns generated `cognitum.v1` request/result domain message types and validates decoded fields. **JSON is an external model-facing schema, not native IPC.** Cognitum's actual [native Protobuf codec](../../../cognitum/protobuf_codec.py) is separately tested. No imaginary `lu.v1.CognitumInstallExtension` protobuf call or alternative host is invented.
+**Internal discovery handoff AND invocation stay Protobuf**, per the user's explicit correction: Lu owns `lu.v1.ToolCall/ToolReply` and each `ModelToolCodec`, while Cognitum owns generated `cognitum.v1` request/result domain message types and validates decoded fields. **JSON is an external model-facing schema, not native IPC.** Cognitum's actual [native Protobuf codec](../../../cognitum/protobuf_codec.py) is separately tested. No imaginary `lu.v1.CognitumInstallExtension` protobuf call or alternative host is invented.
 
-## Formal discovery metadata validation
+## Canonical internal handoff is Protobuf (correction)
 
-The [v1 declarative handoff JSON Schema](../../../schemas/lu_ce_handoff_v1.schema.json) is a Draft 2020-12 **closed object schema**. It requires the proposed `CoreExtension` module kind, precise `cognitum.v1` Protobuf type URLs, the single reviewed arithmetic JSON argument schema, matched source-schema hash, a required **null** effect incompatibility marker, and all host enablement/registration/advertisement/approval flags set to **false**. The validator rejects extra grant fields, fabricated workspace workflows and attempts to turn the prototype into an installed native CE.
+**User decision:** the earlier `schemas/lu_ce_handoff_v1.schema.json` was incorrectly treated as the internal discovery handoff. That JSON Schema has been **removed from the active repository**. Cognitum now defines [`cognitum.v1.CoreExtensionHandoff`](../../../proto/cognitum/v1/ce_handoff.proto) with dedicated typed fields for provenance, module metadata, model-use guidance, tool argument declarations, generated Protobuf type URLs, workspace interoperability and inactive/default-off state. It is serialized to **binary Protobuf** through [`cognitum/lu_ce_protobuf.py`](../../../cognitum/lu_ce_protobuf.py); the [shipped message bindings](../../../cognitum/proto/ce_handoff_pb2.py) are compared against `grpc_tools.protoc` output in CI.
 
-`tests/test_lu_ce_handoff.py` runs schema validation and negative mutations with `jsonschema` on CI; `jsonschema` is deliberately a **CI-only dependency**, not required to run Cognitum's default stdlib-only core. The host still needs an independently reviewed manifest loader and to check native schemas and signatures; validating declarative JSON is not authorization.
+The decoder rejects unknown fields, malformed/oversized frames, version changes, extra capabilities and altered descriptions or permission flags in this *fixed inert v1 fixture*. **Neither a Protobuf message nor a hash authenticates the publisher**; Lu still owns signed/verified installation, permission authorization and per-model exposure.
 
-**Package format:** the canonical operational payloads remain **binary Protobuf** (`cognitum.v1`) within Lu's own `lu.v1.ToolCall/ToolReply`. The declarative handoff is JSON Schema only because Lu's **model-facing tool catalog** uses closed JSON function parameter schemas. No second runtime RPC or alternative host envelope is added.
+The former Python `create_lu_ce_handoff` dictionary is preserved for legacy internal tests and trusted review compatibility only; it is **not** the native transport or an installed Lu manifest. The reviewed Protobuf encoder currently consumes validated source metadata from it as an implementation detail. Future production work should make the generated messages the source of truth throughout the host adapter.
+
+**External JSON boundary only:** `model_boundary_function_definition(...)` derives a closed provider tool-definition schema **from a validated Protobuf message**, for Lu to use *only if* it elects to expose the capability to the current local/cloud transformer. This is the legitimate JSON Schema boundary in Lu's existing `ModelToolCatalog`, not a second internal handoff protocol. `jsonschema` remains optional test tooling for this provider-facing projection.
 
 ## How the loaded AI learns when to augment its work
 
@@ -68,13 +70,16 @@ Lu ModelToolCodec validates/decodes into model-visible structured result
 
 The C01 [`create_lu_ce_handoff`](../../../cognitum/lu_ce_handoff.py) validates the **exact existing `Calculator().manifest()`**, its single real Protobuf mapping and a **fixed reviewed usage guide**. It rejects unknown component names, schema drift, altered plugin version, effectful operations, changed Protobuf type URLs and modified prompt-like guidance. It emits **a proposal only**; no model can change its enabled/registered/advertised flags.
 
-**To inspect the deterministic, machine-readable JSON review artifact:**
+**To emit the deterministic native Protobuf review artifact:**
 
 ```sh
-python tools/emit_lu_ce_handoff.py
+python tools/emit_lu_ce_handoff.py > cognitum.ce_handoff.pb
+
+# Optional, EXTERNAL model-provider schema preview ONLY:
+python tools/emit_lu_ce_handoff.py --model-boundary-json
 ```
 
-This command runs no plugin or Lu executable. The JSON includes clear `model_tool_definition_proposal` and `availability.blocking_contracts` sections. Lu's future loader may consume only metadata after independent trust review; the output file is **not** something to drag into Lu as an installed CE yet.
+The default export is actual Protobuf bytes with typed model-use metadata, explicit block reasons and `model_advertised=false`. It launches no Lu executable or tool. The optional JSON output is an **external model boundary preview only**. Neither artifact can be installed as an active CE; the Lu team must first approve the loader, permissions and native ABI.
 
 For future HDC/KAN/memory/planner modules, v1 must **not** silently invent model schemas or permissions. Add a reviewed capability description and actual Protobuf request+result, match its real effects, test cross-source privacy and benchmark efficacy **before** marking it eligible for Lu advertisement. Generated text/retrieved docs must not rewrite the trusted use/avoid guides.
 
