@@ -1,5 +1,7 @@
 # Cognitum — Living Component Development Roadmap
 
+**Design portfolio consolidated (2026-10-27):** [Complete AI architecture R1.5](Cognitum_Comprehensive_AI_Architecture_R1_5.md) · [technology portfolio C01–C19](design/technology-portfolio-C01-C19.md) · [eight compositional research protocols and P0–P3 test/release gates](design/research-validation-and-delivery.md). **Design completion is separate from implementing C06–C19 or closing C02/C04/real P3 benchmarks.** Use this living roadmap for *actual implementation status*, not as a design-gap substitute.
+
 **Adopted:** 2026-10-26  
 **Status:** Active process and component tracker  
 **Scope:** Cognitum core services, production adapters, research modules, and future Lu integration components
