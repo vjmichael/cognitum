@@ -1,0 +1,71 @@
+syntax = "proto3";
+package cognitum.eval.v1;
+
+// C03 synthetic component evaluation. NOT Lu model/agent benchmark evidence.
+// Future host benchmarks must use separately reviewed, comparable arm records.
+enum EvaluationTier {
+  EVALUATION_TIER_UNSPECIFIED = 0;
+  COMPONENT_SYNTHETIC = 1;
+  LU_MODEL_TASK = 2;
+}
+enum HostArm {
+  HOST_ARM_UNSPECIFIED = 0;
+  HOST_ONLY = 1;
+  CONVENTIONAL_TOOL = 2;
+  COGNITUM_SINGLE = 3;
+  COGNITUM_COMPOSITION = 4;
+}
+enum ExpectedBehavior {
+  EXPECTED_BEHAVIOR_UNSPECIFIED = 0;
+  EXACT_RATIONAL = 1;
+  REJECT_INVALID = 2;
+}
+enum Verdict {
+  VERDICT_UNSPECIFIED = 0;
+  EXACT_MATCH = 1;
+  EXPECTED_REJECTION = 2;
+  INCORRECT_RESULT = 3;
+  UNEXPECTED_REJECTION = 4;
+}
+
+message EvaluationCase {
+  string case_id = 1;
+  // Literal inputs are small, public, fixed synthetic arithmetic fixtures.
+  // Do not embed real user prompts, private documents or credentials.
+  string expression = 2;
+  ExpectedBehavior expected_behavior = 3;
+  string expected_rational = 4;
+}
+
+message EvaluationSuite {
+  uint32 schema_version = 1;
+  string suite_id = 2;
+  EvaluationTier tier = 3;
+  repeated EvaluationCase cases = 4;
+  repeated HostArm planned_host_arms = 5;
+  bool contains_real_user_data = 6;
+  reserved 7 to 15;
+}
+
+message EvaluationCaseResult {
+  string case_id = 1;
+  Verdict verdict = 2;
+  // Output only of the reviewed exact reference calculator.
+  string observed_rational = 3;
+  // Known category; never include an exception string or stack trace.
+  string error_code = 4;
+}
+
+message EvaluationReport {
+  uint32 schema_version = 1;
+  string suite_sha256 = 2;
+  EvaluationTier tier = 3;
+  repeated EvaluationCaseResult cases = 4;
+  uint32 passed = 5;
+  uint32 total = 6;
+  bool model_arms_executed = 7;
+  bool promotion_evidence = 8;
+  repeated HostArm unexecuted_host_arms = 9;
+  string scope_code = 10;
+  reserved 11 to 20;
+}
