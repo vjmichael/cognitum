@@ -195,12 +195,14 @@ class CapabilityResult:
                 raise ValueError("completed call requires typed value")
             if self.failure is not None or not self.evidence:
                 raise ValueError("completed call requires evidence and cannot carry a failure")
-            required = {
-                ExactRational: {"intent_not_verified"},
-                NumericalEstimate: {"intent_not_verified", "uncertainty_unquantified"
-                                    if self.value.lower is None else "bounds_not_probabilistic"},
-                RetrievedReferences: {"retrieval_not_truth", "no_permission_conferred"},
-            }[type(self.value)]
+            if isinstance(self.value, ExactRational):
+                required = {"intent_not_verified"}
+            elif isinstance(self.value, NumericalEstimate):
+                uncertainty_code = ("uncertainty_unquantified" if self.value.lower is None
+                                    else "bounds_not_probabilistic")
+                required = {"intent_not_verified", uncertainty_code}
+            else:
+                required = {"retrieval_not_truth", "no_permission_conferred"}
             if not required <= set(self.limitations):
                 raise ValueError("mandatory epistemic limitation absent")
         else:
