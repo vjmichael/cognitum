@@ -26,6 +26,8 @@ A separate, offline cognitive augmentation foundation based on the owner's Revis
 
 **C04 native host-collector evidence boundary (Cognitum only):** [`cognitum.benchmark.v1.CollectorReceipt` Protobuf](proto/cognitum/benchmark/v1/collector.proto), [Ed25519 pinned-key verifier](cognitum/lu_collector_receipt.py) and [integration report](docs/components/integration/P0-P2-host-collector-receipt.md) bind a future Lu collector's plan, capture, challenge, and model/build provenance. It **never authenticates model execution or security** from a signature alone. Lu remains read-only, no host collector is running and C02 worker launch is still blocked.
 
+**C05 exact arithmetic P0/P1/P2:** [bounded calculator verification](docs/components/calculator/P1-P2-exact-verification.md), [research and comparison plan](docs/components/calculator/P0-research.md), and an [independent-grammar reference parser](cognitum/exact_reference.py) harden supported arithmetic and native Protobuf canonicalization without adding model tools or dependencies. [Four-platform CI 40462149387](https://github.com/vjmichael/cognitum/actions/runs/40462149387) passed **216 unit tests, 12 legacy replay, ten calculator smoke cases and seven Protobuf checks** per job; **no actual Lu/model A/B/C/D trials** occurred, and C02 worker execution remains blocked.
+
 **Current P0 evidence:** [C01 active Lu-native integration audit](docs/components/core-runtime/P0-lu-native-audit.md) and [optional schema-validator study](docs/components/core-runtime/P0-schema-study.md), with its [reproduction script](research/schema_validation_probe.py). These are research/integration studies, not shipping-code certification.
 
 Run from this folder with Python 3.11+ (tested here on Windows, Python 3.14.6):
