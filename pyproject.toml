@@ -12,6 +12,8 @@ dependencies = []
 [project.optional-dependencies]
 # Core remains stdlib-only. A native Lu Protobuf CE requires this optional extra.
 proto = ["protobuf>=6.31,<8"]
+# Optional offline verifier dependencies; no OS worker is started by these.
+security = ["protobuf>=6.31,<8", "cryptography>=44,<47"]
 
 [tool.setuptools.packages.find]
 include = ["cognitum*"]
