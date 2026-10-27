@@ -48,6 +48,18 @@ class LuHandoffTests(unittest.TestCase):
         self.assertEqual(data, handoff())
         self.assertFalse(data["availability"]["model_advertised"])
 
+    def test_workspace_separation_and_model_weight_invariants(self):
+        meta = handoff()["workspace_interop_proposal"]
+        self.assertEqual(meta["ce_reusable_in"],
+                         ["vanilla_chat", "host_approved_workspace"])
+        self.assertTrue(meta["workspace_registries_remain_separate"])
+        self.assertTrue(meta["ce_removal_must_preserve_core_and_unrelated_dlc"])
+        self.assertTrue(meta["loaded_transformer_weights_unchanged"])
+        self.assertEqual(meta["workspace_workflows"], [])
+        self.assertEqual(meta["workspace_state_contracts"], [])
+        self.assertEqual(meta["workspace_event_contracts"], [])
+        self.assertEqual(meta["workspace_tool_schemas"], [])
+
     def test_latest_lu_ce_kind_and_version_are_explicit(self):
         doc = handoff()
         self.assertEqual(doc["schema_version"], HANDOFF_SCHEMA_VERSION)
