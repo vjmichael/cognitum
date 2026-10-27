@@ -1,7 +1,7 @@
 # C02 / P0 — Host Authority, OS Worker Isolation and Permission Design
 
 **Started:** 2026-10-26  
-**Status:** P0 in progress; **design-only** (no sandbox integration, Windows execution or security certification).  
+**Status:** P0 security and OS isolation remain in progress. A **C02 P1/P2 inert Protobuf worker protocol** has been added and is tested on hosted Windows/Linux runners; **no actual sandbox/worker launch or Windows desktop confinement has been implemented or certified**. See [C02 Protobuf worker boundary](P1-P2-protobuf-worker-boundary.md).  
 **Component:** C02 Security / Scopes / Worker Isolation; depends on C01/C04 native contracts.  
 **Source branch reviewed:** `vjmichael/jan_alt@lu/core-contracts-native-registry`, pinned audit reference `11b2e7e8c5370d512a8f8815d5aaaf9e682e04df`.  
 **Main safety invariant:** Lu's trusted host, not transformer output, defines the task identity and exact permitted effects. Native tool labels, approximate retrieval and an OS process alone are not authority or isolation.
@@ -68,10 +68,11 @@ A CPU control-plane is favored, with hardware acceleration reserved for explicit
 
 - [ ] Confirm the active Windows Lu native sandbox backend and actual testable API reuse point; compare AppContainer/LPAC vs restricted token options.
 - [ ] Define immutable host-bound identity/provenance and exact multi-effect scope semantics in coordination with C01/C04, including signed/host-generated confirmation lineage and no model-managed grants.
-- [ ] Define typed framed worker protocol (max sizes, timeouts, check fields, validation, response errors, cancellation, source hash/version).
+- [x] Define **Cognitum-side typed Protobuf WorkerCall/WorkerReply** (16 KiB cap, 1–10s timeouts, version, exact type URLs, sanitized errors, fixed call IDs, oneof success/failure, malformed/duplicate wire rejection), with 17 offline adversarial unit tests. [Implementation](P1-P2-protobuf-worker-boundary.md)
+- [ ] Implement authenticated host-selected channel framing, signed source verification, cancellation, revocation propagation and trusted supervisor ownership. Protocol data alone cannot attest these.
 - [ ] Freeze adversarial tests: unrelated file/credential denial; unauthorized writes; DNS/socket/loopback denial; all descendants terminated; inherited handles denied; symlink/reparse/SQLite sidecar escapes fail; malformed data rejected; revocations effective; crashing worker leaves no unauthorized effects.
 - [ ] Freeze resource ceilings per operation (RAM, CPU/process count, wall time, IO/net) and performance baseline including worker startup overhead; prefer secure slower execution to insecure throughput.
 - [ ] Validate on **actual Windows desktop** and representative non-admin accounts before asserting production-ready isolation; Linux sandbox dry-runs are not Windows evidence.
 - [ ] Keep calculator/research worker inert until each risk is resolved. If security prerequisite fails, the operation is unavailable (honest fallback), not silently unconfined.
 
-**Current result:** research and source inventory only. No new permissions, no worker privileges and no production CE execution were enabled.
+**Current result:** C02 bounded **Protobuf wire and negative-testing foundation implemented**; Lu host-owned identity, platform-constrained worker launch, process-tree enforcement and durable revocation are **not** implemented. No new permissions, untrusted Python workers or production CE execution were enabled.
