@@ -67,6 +67,19 @@
 
 The Lu team determines the final `.proto` package, `optional` presence semantics, ABI version policy, status-to-transport mapping and model-visible codec. This proposal **does not request replacing Lu's host core or editing `lu.v1.ToolReply` when its existing typed-oneof design suffices**. Status remains **Proposed** pending separate Lu authority and compatibility tests.
 
+## LU-CE-003 / LU-CE-007 — mandatory Protobuf-native integration correction (2026-10-26)
+
+**User-confirmed requirement:** Cognitum's Lu-facing native tool input and success-output messages **must be real generated/descriptor-backed Protobuf wire payloads**, not a JSON-only or ad hoc custom IPC replacement. Use Lu's existing `lu.v1.ToolCall` / `lu.v1.ToolReply.oneof outcome`, `ProtoPayload` exact type URLs, `NativeToolRegistry` and `ModelToolCodec`. Model-visible JSON is Lu's external adapter edge; Cognitum's internal/native domain wire is Protobuf.
+
+**Cognitum-only implementation in review:** [native Protobuf work branch](https://github.com/vjmichael/cognitum/tree/cognitum/c01-protobuf-native-messages) defines [`cognitum.v1` tool messages](https://github.com/vjmichael/cognitum/blob/cognitum/c01-protobuf-native-messages/proto/cognitum/v1/capability.proto) and a [bounded Python protobuf codec](https://github.com/vjmichael/cognitum/blob/cognitum/c01-protobuf-native-messages/cognitum/protobuf_codec.py). It includes binary round-trips, `proto3 optional` presence checks, source/binding compile-shape CI and exact success-vs-failure mapping. **This branch does not register/install a Lu tool, send a Lu ToolCall, or modify Lu.** CI evidence must be checked against its final head before promotion.
+
+**Requests to separate Lu team (still all Proposed):**
+- Approve how separately installed `cognitum.v1` message files and versions become visible to Lu's Rust protobuf build without creating a second host RPC envelope; check `proto3 optional`, reserved numbers, `type.googleapis.com/cognitum.v1.*`, message identity and backward compatibility.
+- Map the approved Cognitum native operation success to Lu's Protobuf `ToolReply.output` with its exact registered output type URL. Map denial/unavailable/timeout/error to Lu's `ToolReply.failure` using Lu's own `ToolError` type; no serialized failure hidden inside successful output.
+- Preserve Lu's host-authenticated session/permissions and model-facing JSON codec. This is **not** permission to edit `vjmichael/jan_alt` from Cognitum.
+
+The initial `CapabilityResult` JSON/datataclass contract is still useful for standalone evaluation, API/debugging and legacy conversion, **but it is not the native Lu integration format**. An approved Lu-provided Rust bridge, OS worker and feature gate remain separate C02/C04 work.
+
 ## Ownership and update protocol
 
 Each entry may gain: **source branch + verified commit**, proposed host interface, rationale, acceptance criteria, Lu decision reference, implementation link, Cognitum compatibility test, superseding entry and date. Do not silently change **Proposed** to **Accepted**. If Lu's independent implementation differs, reconcile Cognitum adapter requirements here first.
