@@ -58,7 +58,7 @@ A multi-component task is a **Lu-controlled typed plan**: each step declares inp
 | “Maintain object continuity in a film scene” | Lu Studio Workspace uses typed scene/object state, spatial tracking, optional physics simulation and derived indexes | Stable object identifiers, tested state updates and bounded simulation outputs |
 | “Summarize a running simulation” | Lu selects relevant numerical simulator or KAN surrogate only under workload-specific validated envelope | Units, fidelity/uncertainty, OOD detection, fallback to solver if necessary |
 
-**Research reuse:** HDC K4 integrated research and the default-off optional KAN depth extension are historical assets requiring archive verification and Cognitum-specific contract/integration tests. They are **not** blockers for defining the Lu-host integration contract, and are not to be rebuilt without a demonstrated gap.
+**Research reuse:** HDC K4 integrated research and default-off KAN depth extension are now **located, hash-verified and independently CPU-unit-tested** ([archive audit](components/hdc-kan/P0-archive-reuse-audit.md)); Cognitum/Lu typed contract, permission and end-to-end improvement tests are still required. They are **not** blockers for defining the Lu-host integration contract, and are not to be rebuilt without a demonstrated gap.
 
 ## 4. Model independence and capability negotiation
 
