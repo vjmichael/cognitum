@@ -7,7 +7,7 @@
 
 ## Boundary and terminology
 
-**Cognitum is developed and tested independently as an optional, separately installable and distributable Lu-native DLC Core Extension (CE).** A **CE** provides reusable capabilities/tools to the Lu host and its loaded transformer; it is not an MCP server, a mandatory Lu base-core feature, a replacement model/agent loop, or a DLC Workspace. A **DLC Workspace** is a specialized, full application environment/UI (e.g. IDE or Film Studio) that can consume CEs and Lu services. Vanilla Lu remains available. Cogntium components (C01–C19) may be enabled independently within a CE distribution, subject to Lu authority; they are not nineteen automatically advertised model tools.
+**Cognitum is developed and tested independently as an optional, separately installable and distributable Lu-native DLC Core Extension (CE).** A **CE** provides reusable capabilities/tools to the Lu host and its loaded transformer; it is not an MCP server, a mandatory Lu base-core feature, a replacement model/agent loop, or a DLC Workspace. A **DLC Workspace** is a specialized, full application environment/UI (e.g. IDE or Film Studio) that can consume CEs and Lu services. Vanilla Lu remains available. Cognitum components (C01–C19) may be enabled independently within a CE distribution, subject to Lu authority; they are not nineteen automatically advertised model tools.
 
 **Project rule:** We may inspect Lu to discover compatibility issues. We **never edit, commit, push, build, install, clean, reset, or otherwise modify Lu** from Cognitum work. Every requested Lu change goes here as a scoped addendum with status **proposed** until the independent Lu effort explicitly accepts it. The separate Lu effort owns architecture choice, implementation and release gates. Changes made only in Cognitum are tracked as Cognitum work, not Lu addenda.
 
@@ -46,6 +46,6 @@
 
 ## Ownership and update protocol
 
-Each entry may gain: **source branch + verified commit**, proposed host interface, rationale, acceptance criteria, Lu decision reference, implementation link, Cogntium compatibility test, superseding entry and date. Do not silently change **Proposed** to **Accepted**. If Lu's independent implementation differs, reconcile Cognitum adapter requirements here first.
+Each entry may gain: **source branch + verified commit**, proposed host interface, rationale, acceptance criteria, Lu decision reference, implementation link, Cognitum compatibility test, superseding entry and date. Do not silently change **Proposed** to **Accepted**. If Lu's independent implementation differs, reconcile Cognitum adapter requirements here first.
 
 **No Lu modification permission is granted or exercised by maintaining this register.**
