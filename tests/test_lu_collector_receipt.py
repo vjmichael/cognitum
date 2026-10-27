@@ -229,7 +229,7 @@ class CollectorReceiptTests(unittest.TestCase):
         raw = sign(self.receipt, self.key)
         for bad in (b"", b"\x00", b"\x0a\xff", "text", None,
                     raw+b"\x98\x06\x01", raw+b"\x1a\x01x",
-                    b"x"*(MAX_SIGNED_BYTES+1) if False else b"x"*8193):
+                    b"x"*8193):
             with self.subTest(data=str(bad)[:20]), self.assertRaises(ValueError):
                 self.check(signed=bad)
         r = self.receipt.SerializeToString(deterministic=True)
