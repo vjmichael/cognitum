@@ -10,6 +10,11 @@ from ..contracts import Manifest, Operation, Shape
 def calculate(expression):
     if type(expression) is not str or not 1 <= len(expression) <= 256:
         raise ValueError("expression length")
+    # Restrict to ASCII arithmetic characters before invoking Python's
+    # general-purpose expression parser. No identifiers, Unicode controls,
+    # comments, multiline statements or quoted strings.
+    if any(c not in "0123456789.+-*/() \t" for c in expression):
+        raise ValueError("unsupported arithmetic character")
     try:
         tree = ast.parse(expression, mode="eval")
     except (SyntaxError, RecursionError) as error:
