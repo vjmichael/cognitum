@@ -35,7 +35,9 @@ See the binding [Lu × Cognitum collaboration design](../../lu-cognitum-integrat
 
 **Verification provenance:** [`docs/status.md`](../../status.md), [`docs/verification.json`](../../verification.json), [`tests/manifest_v1.json`](../../../tests/manifest_v1.json). No runtime tests executed or existing implementation edited during this audit.
 
-## 3. Lu-native host reuse audit (read on `vjmichael/jan_alt` `main`)
+## 3. Lu-native host reuse audit — superseded as integration authority by the active feature branch
+
+**Important update (2026-10-26):** the Jan/Lu `main` survey below is historical background. The active development branch `lu/core-contracts-native-registry` already implements `lu-core`, native `NativeToolRegistry`, `ModelToolCatalog` and typed Protobuf transport. The [pinned native branch audit and compatibility plan](P0-lu-native-audit.md) is the **authoritative C01 host-integration investigation**. Do not design a second Cognitum registry or model bridge from the `main`-only findings. This P0 remains open for the optional CE kind, effect-set model, version mapping and security review.
 
 - [`web-app/src/lib/agentTools.ts`](https://github.com/vjmichael/jan_alt/blob/main/web-app/src/lib/agentTools.ts) already exposes built-in tool discovery and execution. The ordinary chat tool subset differs from the Cowork set; `shell` is withheld without an enforcing sandbox.
 - [`web-app/src/lib/coworkDispatch.ts`](https://github.com/vjmichael/jan_alt/blob/main/web-app/src/lib/coworkDispatch.ts) dispatches Cowork tool calls, checks plan-mode/web restrictions and feeds operation outcomes back to the runner.
@@ -104,14 +106,16 @@ This is an **engineering hypothesis** about backend suitability, not a comparati
 
 ## 8. Phase status, risk register and work started
 
-**P0 activities completed so far:** 
+**P0 activities completed so far:**
+- Re-audited active Lu native feature branch at commit `11b2e7e8c5370d512a8f8815d5aaaf9e682e04df` and defined 10 compatibility gaps in [P0-lu-native-audit.md](P0-lu-native-audit.md). 
 - Mapped actual Cognitum C01 source components and reported historical tests.
 - Inspected `main` of Lu/Jan for native schema/dispatch/sandbox points.
 - Reviewed selected official standards and maintained candidate libraries; documented CPU/accelerator rationale.
 - Identified core-specific benchmark controls, critical negative fixtures and first contract decisions.
 
 **Open P0 exit blockers:**
-- [ ] Confirm the latest working Lu integration branch and exact CE registration/host authority boundary; main source was inspected, not an in-flight experimental branch.
+- [x] Locate and inspect the active Lu integration branch; exact CE registration still unresolved because the current native module kinds are only Core and Workspace (see [pinned audit](P0-lu-native-audit.md)).
+- [ ] Agree on an optional native CE kind/lifecycle and explicit Lu↔Cognitum version and effect-scope mapping before implementation.
 - [ ] Choose canonical rich schema approach based on a runnable compatibility prototype and license/security/dependency review; compare `jsonschema`/Pydantic only if evidence warrants it.
 - [ ] Specify and verify Lu's Protobuf/native message adapter, absent versus zero semantics, bounded serialization and schema hash/compatibility fixture strategy with C04.
 - [ ] Define trusted lifecycle hooks and C02 threat model with Windows worker isolation, CPU/memory quotas and orphan cleanup.
