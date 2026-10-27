@@ -1,0 +1,44 @@
+syntax = "proto3";
+package cognitum.v1;
+
+// Cognitum-only domain messages: Lu supplies lu.v1.ToolCall/ToolReply,
+// native type URLs, host identity, permissions, and model JSON codec.
+// The host binds which domain message is legal for each native tool.
+message EvidenceRef {
+  string kind = 1; // computation | source_snapshot | checkpoint
+  string ref = 2;  // opaque identifier, never raw content or an authority grant
+}
+
+message CalculateRationalRequest {
+  string expression = 1;
+}
+
+message CalculateRationalResult {
+  string value = 1; // reduced, canonical rational, e.g. "1/3"
+  repeated EvidenceRef evidence = 2;
+  repeated string limitations = 3; // includes intent_not_verified
+}
+
+message NumericalEstimateResult {
+  string value = 1; // finite decimal text
+  string method = 2;
+  optional string lower = 3; // distinguish absent from empty/zero
+  optional string upper = 4;
+  repeated EvidenceRef evidence = 5;
+  repeated string limitations = 6;
+}
+
+message RetrievedReferencesResult {
+  repeated string candidates = 1; // identifiers, not source content
+  string source_snapshot_id = 2;
+  string index_source_snapshot_id = 3;
+  repeated EvidenceRef evidence = 4;
+  repeated string limitations = 5;
+}
+
+// This maps to Lu's failure arm; it must NOT be encoded in a successful
+// lu.v1.ToolReply.output payload. Lu still determines the trusted host error.
+message CapabilityFailure {
+  string code = 1;
+  bool retryable = 2;
+}
