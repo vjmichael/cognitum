@@ -1,6 +1,7 @@
 """C01 offline CE compatibility fixtures. No Lu installation or activation."""
 from dataclasses import replace
 import json
+from pathlib import Path
 import unittest
 
 from cognitum.ce_manifest import ProposedToolBinding, compatibility_fixture
@@ -37,6 +38,10 @@ class CEFixtureTests(unittest.TestCase):
         self.assertFalse(result["default_enabled"])
         self.assertFalse(result["model_advertised"])
         self.assertFalse(result["installable"])
+
+    def test_frozen_golden_contract_fixture(self):
+        expected = json.loads((Path(__file__).parent / "fixtures" / "ce_calc_v0.json").read_text(encoding="utf-8"))
+        self.assertEqual(fixture(), expected)
 
     def test_exact_calculator_semantics_are_exposed_without_authority(self):
         result = fixture()
