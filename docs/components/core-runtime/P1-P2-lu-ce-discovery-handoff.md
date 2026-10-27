@@ -21,6 +21,10 @@ The newer Lu branch contains actual early Core Extension machinery that was abse
 
 **Preserved user decisions:** DLC CEs are optional, distributable, Lu-native reusable capabilities, **not MCP servers or mandatory Core features**. DLC Workspaces are distinct full application experiences (Film Studio/IDE), using Lu services/CEs without replacing vanilla Lu. Cognitum augments **whichever model Lu has loaded**; it does **not** choose a hidden second model, grant permission, retrain weights, or substitute its own agent loop. Separate Lu team owns any host changes.
 
+**Additional recovered user decisions from the parallel Lu conversations:** Workspaces should maintain **their own separate registries**, detachable DLCs should not disrupt vanilla Lu or unrelated CEs, and loaded Workspaces should provide tool descriptions/schemas plus workflow, state and event metadata so Lu can inform the active transformer how to use their capabilities. **These are accepted architecture goals, not a claim that their exact IPC/broker and workspace registry protocol is already implemented.** The new handoff emits `workspace_interop_proposal` declaring that intent, with empty workflow/state/event arrays for the calculator and explicit no-change-to-model-weights semantics. No additional workspace features are invented.
+
+**External tool-definition rule:** Lu's existing model-facing `ModelToolDefinition.description` is the text the selected transformer will actually see if the host chooses to advertise a tool; therefore Cognitum's fixed calculator description explicitly includes **when to use**, **when not to use**, and **epistemic limitations**, not merely the capability name. The longer trusted `use_when/avoid_when/output_interpretation` fields are advisory for Lu's possible future context assembly, not a side channel granting permissions. All guidance is fixed developer-authored data; generated prompts and retrieved content cannot change it.
+
 ## Two complementary contracts, not competing protocols
 
 1. **Trusted CE/host interface proposal:** a `CoreExtension`-kind `ModuleManifest` reflecting actual Lu Rust field names and `CORE_CONTRACT_VERSION=1`. The current calculator is represented with `effect: null` **ONLY as an explicit incompatibility marker**—this is **not** a valid runnable Lu `ToolDescriptor`. `availability.installable/registered/enabled/model_advertised/host_contract_approved` are all **false**. Never replace the missing pure effect with `ReadWorkspace`: that would declare unnecessary workspace access.
@@ -75,5 +79,7 @@ For future HDC/KAN/memory/planner modules, v1 must **not** silently invent model
 - **LU-CE-005/006/008:** task-bound user-origin authority, brokered OS workers, canonical memory snapshot/update/delete without crossing profile lines.
 
 All are tracked in [the Cognitum-owned addendum register](../../lu-dlc-ce-addenda.md); the separate Lu team decides how/when to implement them.
+
+**Cognitum-only model discovery update:** `availability.requires_model_function_calling=true` and `lu_model_tool_budget_observed=16` report a read-only Lu branch finding, **not** a grant or confirmed model-tool support on the user's currently loaded transformer. Before any future Lu exposure, Lu should verify the active model/provider's actual function-call reliability and session eligibility. `workspace_interop_proposal` is metadata, not an active plugin API.
 
 **Verification gates:** tests must check stable model JSON parameter schema, exact Protobuf type URLs, no model visibility/installation by default, no extra effect or scope, altered metadata rejection, and that guidance cannot be changed by retrieved content. **C01 P1/P2 tests are not proof of actual Lu installation, security, or improved LLM performance**.
