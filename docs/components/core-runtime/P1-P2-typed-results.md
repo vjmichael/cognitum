@@ -1,8 +1,8 @@
 # C01 — Typed Cognitive Capability Result Contract v1
 
 **Defined:** 2026-10-26  
-**Implementation branch:** `cognitum/c01-typed-results-v1` (Cognitum only)  
-**Status:** P1 implementation and regression verification in progress; **not** an approved or compiled Lu Protobuf ABI  
+**Implementation branch:** `cognitum/c01-typed-results-v1`; [PR #3](https://github.com/vjmichael/cognitum/pull/3) **merged to Cognitum `main`** at commit `7c6ee017e2db1944c253b238afa873bab1ebe4f3` (Cognitum only)  
+**Status:** **P1 typed contracts implemented and P2 regression passed**; **not** P3 model effectiveness evidence or an approved/compiled Lu Protobuf ABI  
 **Applicable modules:** C05 exact calculator; proposed future C08 HDC retrieval, C09 KAN numerical estimates and C10+ domain-specific successors  
 **Authority:** [Cognitum-only Lu DLC Core Extension addenda](../../lu-dlc-ce-addenda.md) · [Lu-host integration design](../../lu-cognitum-integration.md)
 
@@ -72,7 +72,7 @@ Read-only Lu source at `vjmichael/jan_alt` branch `lu/core-contracts-native-regi
 
 [`tests/test_capability_results.py`](../../../tests/test_capability_results.py) exercises exact canonicalization and rejected rational formats; no numeric coercion/NaN/Infinity; bounded and ordered numerical bounds; stale and duplicated retrieval IDs; accepted failure categories/denials/timeout semantics; mandatory epistemic limitations and evidence; strict JSON roundtrips, unknown fields and duplicate keys; forged assurance; size limits; and adapter compatibility with actual existing `Runtime`/calculator.
 
-**Test gate:** full `python -m unittest discover -s tests -p 'test_*.py' -v` plus `python -m cognitum --calculator replay evals/smoke.json` and `python -m compileall -q cognitum tests` on GitHub Actions Windows/Linux, Python 3.11 and 3.13. No test result is claimed until current-commit evidence is captured.
+**P2 verified:** [PR CI 40445966151](https://github.com/vjmichael/cognitum/actions/runs/40445966151), current PR head `b18095e07447ca3a362904feb830bd542a5a9a34`, completed successfully on Linux/Windows Python 3.11 and 3.13: **76/76 unit tests, 12/12 synthetic replay cases, and source compilation per job**. Full commands: `python -m unittest discover -s tests -p 'test_*.py' -v`, `python -m cognitum --calculator replay evals/smoke.json`, `python -m compileall -q cognitum tests`. A separate post-merge `main` run verifies the combined history. No real Lu+transformer integration/benchmark or Windows workstation GPU execution is claimed.
 
 ## 7. Frozen cross-component interoperability samples
 
