@@ -33,6 +33,8 @@ jobs:
         run: |
           python -m grpc_tools.protoc -Iproto --descriptor_set_out=compiled_cognitum.pb proto/cognitum/v1/capability.proto
           python tools/check_proto_descriptors.py compiled_cognitum.pb
+          python -m grpc_tools.protoc -Iproto --descriptor_set_out=compiled_cognitum_handoff.pb proto/cognitum/v1/ce_handoff.proto
+          python tools/check_proto_descriptors.py compiled_cognitum_handoff.pb
       - name: Verify core tests
         run: python -m unittest discover -s tests -p "test_*.py" -v
       - name: Verify synthetic replay
