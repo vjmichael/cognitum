@@ -19,9 +19,11 @@ LU_SOURCE_REVISION = "75d558c083dc96660528dd6fb8c745af34469503"
 
 # Fixed, reviewed model-facing copy. A model does not get to rewrite a guide.
 _CALCULATOR_DESCRIPTION = (
-    "Compute an exact rational result for a bounded arithmetic expression "
-    "(+,-,*,/,integer exponents). Only the submitted expression is checked; "
-    "this does not verify that it represents the user's original intent."
+    "Use only for exact rational arithmetic after you have formalized a "
+    "bounded expression (+,-,*,/,integer powers). Avoid live facts, dates, "
+    "currency conversion, file reads, code execution, or permissions. "
+    "The result is exact for the expression but does not verify user intent; "
+    "preserve the intent_not_verified limitation."
 )
 _CALCULATOR_USE = (
     "Use for exact arithmetic when you can explicitly formalize a numerical "
@@ -180,6 +182,8 @@ def create_lu_ce_handoff(
             "enabled": False,
             "model_advertised": False,
             "host_contract_approved": False,
+            "requires_model_function_calling": True,
+            "lu_model_tool_budget_observed": 16,
             "blocking_contracts": [
                 "Lu effect-free ToolEffect mapping for pure compute",
                 "trusted CE installer and worker lifecycle",
