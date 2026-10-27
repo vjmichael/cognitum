@@ -14,6 +14,8 @@ A separate, offline cognitive augmentation foundation based on the owner's Revis
 
 **Validated on `main`:** [Tracing hardening PR #1](https://github.com/vjmichael/cognitum/pull/1) and [default-off CE manifest fixture PR #2](https://github.com/vjmichael/cognitum/pull/2) are merged and the [combined full regression](https://github.com/vjmichael/cognitum/actions/runs/40444933715) is green (51 unit and 12 synthetic replay cases per Linux/Windows Python configuration). All work is **Cognitum-only**; proposed Lu integration remains unimplemented.
 
+**Typed capability results implemented:** [C01 exact/numerical/retrieval/failure contract](docs/components/core-runtime/P1-P2-typed-results.md) was merged in [PR #3](https://github.com/vjmichael/cognitum/pull/3); [76/76 unit tests and 12/12 replay cases passed](https://github.com/vjmichael/cognitum/actions/runs/40445966151) on Linux/Windows Python 3.11/3.13. This is a standalone, opt-in Cognitum representation—not a Lu extension installation or Protobuf integration.
+
 **Current P0 evidence:** [C01 active Lu-native integration audit](docs/components/core-runtime/P0-lu-native-audit.md) and [optional schema-validator study](docs/components/core-runtime/P0-schema-study.md), with its [reproduction script](research/schema_validation_probe.py). These are research/integration studies, not shipping-code certification.
 
 Run from this folder with Python 3.11+ (tested here on Windows, Python 3.14.6):
