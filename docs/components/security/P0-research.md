@@ -68,7 +68,7 @@ A CPU control-plane is favored, with hardware acceleration reserved for explicit
 
 - [ ] Confirm the active Windows Lu native sandbox backend and actual testable API reuse point; compare AppContainer/LPAC vs restricted token options.
 - [ ] Define immutable host-bound identity/provenance and exact multi-effect scope semantics in coordination with C01/C04, including signed/host-generated confirmation lineage and no model-managed grants.
-- [x] Define **Cognitum-side typed Protobuf WorkerCall/WorkerReply** (16 KiB cap, 1–10s timeouts, version, exact type URLs, sanitized errors, fixed call IDs, oneof success/failure, malformed/duplicate wire rejection), with 17 offline adversarial unit tests. [Implementation](P1-P2-protobuf-worker-boundary.md)
+- [x] Define **Cognitum-side typed Protobuf WorkerCall/WorkerReply** (16 KiB cap, 1–10s timeouts, version, exact type URLs, sanitized errors, fixed call IDs, oneof success/failure, malformed/duplicate wire rejection), with 18 offline adversarial unit tests. [Implementation](P1-P2-protobuf-worker-boundary.md)
 - [ ] Implement authenticated host-selected channel framing, signed source verification, cancellation, revocation propagation and trusted supervisor ownership. Protocol data alone cannot attest these.
 - [ ] Freeze adversarial tests: unrelated file/credential denial; unauthorized writes; DNS/socket/loopback denial; all descendants terminated; inherited handles denied; symlink/reparse/SQLite sidecar escapes fail; malformed data rejected; revocations effective; crashing worker leaves no unauthorized effects.
 - [ ] Freeze resource ceilings per operation (RAM, CPU/process count, wall time, IO/net) and performance baseline including worker startup overhead; prefer secure slower execution to insecure throughput.
