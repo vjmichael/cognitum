@@ -27,8 +27,8 @@ The authoritative architecture is [Lu × Cognitum — Transformer-Centered Colla
 | **C05** | **5. Exact calculator** | C01 and C03; simple known-correct capability for end-to-end integration | Existing bounded AST/Fraction implementation and reported P2 checks; preserve and baseline it |
 | **C06** | **6. Canonical memory and retrieval** | C01–C03, persistent store and grants under C02; SQLite/FTS5, provenance, correction and deletion semantics | P0 needed; avoid duplicated Lu stores without ownership decision |
 | **C07** | **7. Typed state and belief revision** | C06 canonical claims/store decisions; event stream, contradiction, retraction, supersession, idempotency | P0 needed; jointly design store/events and migration ownership |
-| **C08** | **8. HDC reuse/integration** | C06/C07 canonical memory/state and C03 baselines; indexes remain derived | **Archived research to recover**, not repeat; verify K4 source/reports/bench conditions from ChatGPT Library then integrate |
-| **C09** | **9. KAN reuse/integration** | C01/C03/C05 contracts and numeric baseline; no assumption that KAN is an exact calculator | **Archived research to recover**; K4 + default-off KAN depth module is prior research, Cognitum integration remains unverified |
+| **C08** | **8. HDC reuse/integration** | C06/C07 canonical memory/state and C03 baselines; indexes remain derived | **Archived research recovered and independently retested**; verify typed canonical index/host contracts before C08 integration |
+| **C09** | **9. KAN reuse/integration** | C01/C03/C05 contracts and numeric baseline; no assumption that KAN is an exact calculator | **Archived research recovered and independently retested**; K4 + default-off depth overlay preserved, Cognitum integration remains unverified |
 | **C10** | **10. Formal verification** | Typed formalization and failure/status contract; confirm witness/certificate and unsupported/unknown semantics | P0 needed; research Z3/cvc5 and comparable solvers |
 | **C11** | **11. Combinatorial optimization** | C10 formalization lessons where relevant; explicit resource/certificate semantics | P0 needed; benchmark CP-SAT/HiGHS and domain incumbents |
 | **C12** | **12. Planning, MCTS, DP and search** | C11 as useful incumbent, but not a hard technical dependency for every search problem | P0 needed; define domain, comparable planners, and resource ceilings |
@@ -78,7 +78,7 @@ Documents for P1–P3 are created **when work exists**, not as empty placeholder
 - **C02/P0 — next safety prerequisite:** inspect/refactor plans against Lu's existing Tauri/Rust confinement before enabling anything effectful.
 - **C03/P0 — next cross-cutting prerequisite:** define real-task baselines and telemetry standards; do not relabel synthetic smoke fixtures as P3.
 - **C06/C07/P0 — next user-facing cognitive capabilities:** canonical SQLite schema, provenance and state change semantics.
-- **C08/C09 — archive verification in parallel:** recover stored K4 implementation/tests and default-off KAN depth addon; no new HDC/KAN science assumed.
+- **C08/C09 — recovered:** exact K4 source/overlay and closure archives located in the ChatGPT Library, hashes confirmed, fresh Linux CPU 41/41 unit tests and 20/20 HDC self-tests passed. [Archive audit](components/hdc-kan/P0-archive-reuse-audit.md). Next: C08/C09 native interface and application-state dependency designs, **not** repeating prior research.
 
 ## Priority can change without rewriting phase history
 
