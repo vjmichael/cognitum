@@ -176,6 +176,17 @@ def create_lu_ce_handoff(
         },
         "producer_source_manifest_sha256": digest(source.describe()),
         "capabilities": tools,
+        "workspace_interop_proposal": {
+            # Confirmed user design direction; no Lu runtime API is implied.
+            "ce_reusable_in": ["vanilla_chat", "host_approved_workspace"],
+            "workspace_registries_remain_separate": True,
+            "workspace_tool_schemas": [],  # host chooses which to expose
+            "workspace_workflows": [],
+            "workspace_state_contracts": [],
+            "workspace_event_contracts": [],
+            "loaded_transformer_weights_unchanged": True,
+            "ce_removal_must_preserve_core_and_unrelated_dlc": True,
+        },
         "availability": {
             "installable": False,
             "registered": False,
