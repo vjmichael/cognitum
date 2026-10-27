@@ -21,6 +21,7 @@ from .protobuf_codec import (
     encode_result,
 )
 from .proto import worker_pb2 as pb
+from .proto import capability_pb2 as domain_pb
 
 WIRE_VERSION = 1
 MAX_WIRE_BYTES = 16 * 1024
@@ -112,6 +113,9 @@ def create_call(*, call_id, input_payload: NativeProtoOutput, timeout_ms=2000):
         raise ValueError("unapproved input protobuf message type")
     # Parse the actual domain payload (not just the declared type URL).
     decode_rational_request(input_payload.type_url, input_payload.payload)
+    if domain_pb.CalculateRationalRequest.FromString(
+        input_payload.payload).SerializeToString(deterministic=True) != input_payload.payload:
+        raise ValueError("noncanonical worker request domain Protobuf")
     message = pb.WorkerCall(
         protocol_version=WIRE_VERSION,
         call_id=call_id,
@@ -139,6 +143,9 @@ def decode_call(frame):
             or not 1 <= call.timeout_ms <= 10000):
         raise ValueError("unapproved native worker operation or protocol")
     decode_rational_request(call.input_type_url, call.input)
+    if domain_pb.CalculateRationalRequest.FromString(
+        call.input).SerializeToString(deterministic=True) != call.input:
+        raise ValueError("noncanonical input domain Protobuf")
     return call
 
 
@@ -195,11 +202,14 @@ def decode_reply(call: pb.WorkerCall, frame: bytes, *, correlation_id: str):
     if outcome == "success":
         if reply.success.output_type_url != call.output_type_url:
             raise ValueError("worker response has unexpected output type URL")
-        return decode_success(
+        checked = decode_success(
             call.operation, reply.success.output_type_url, reply.success.output,
             request_id=call.call_id, correlation_id=correlation_id,
             operation_schema_version=call.operation_schema_version,
         )
+        if encode_result(checked).payload != reply.success.output:
+            raise ValueError("noncanonical output domain Protobuf")
+        return checked
     if outcome == "failure":
         code = reply.failure.code
         status = _ERRORS.get(code)
