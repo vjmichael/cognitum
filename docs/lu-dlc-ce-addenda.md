@@ -122,6 +122,12 @@ Cognitum has added [`cognitum.benchmark.v1.CollectorReceipt`](../proto/cognitum/
 
 **Lu team action Proposed only:** decide whether to implement a consented, local, host-authoritative read-only benchmark collector; pin its public key and model/host build hashes; issue/consume challenges durably; supply real signed instrumented events, independent grading and measured resource counters. **No Lu API is invented or implemented in this Cognitum branch.** Keep the separate C02 worker isolation and optional CE installation gates closed until independently verified.
 
+## LU-CE-002/007 — C05 hardened exact calculator review (Cognitum-side only)
+
+[C05 bounded exact verification](components/calculator/P1-P2-exact-verification.md) adds an AST-independent reference evaluator, deterministic arithmetic tests and strict Protobuf rejection of duplicate/shadowed known fields or nested unknowns in the existing `cognitum.v1.CalculateRationalRequest/Result` messages. The **only** Cognitum operation remains `calc.rational`; no extra tool, authority, model loop or Lu source change was introduced. [Cross-platform CI 40462149387](https://github.com/vjmichael/cognitum/actions/runs/40462149387) passed 216 unit tests, 12 replay cases and seven Protobuf source matches per Windows/Linux Python job.
+
+**Still Proposed to the separate Lu team:** exact pure/no-effect `ToolEffect` mapping, approved native CE registration/visibility, authenticated model use and response conversion through Lu's own `ToolCall/ToolReply`, and real host-run A/B/C/D evidence. No production CE permission, OS sandbox or verified user-intent interpretation is implied by C05 tests.
+
 ## Ownership and update protocol
 
 Each entry may gain: **source branch + verified commit**, proposed host interface, rationale, acceptance criteria, Lu decision reference, implementation link, Cognitum compatibility test, superseding entry and date. Do not silently change **Proposed** to **Accepted**. If Lu's independent implementation differs, reconcile Cognitum adapter requirements here first.
