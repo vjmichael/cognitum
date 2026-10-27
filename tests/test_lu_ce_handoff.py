@@ -72,14 +72,24 @@ class LuHandoffTests(unittest.TestCase):
             with self.subTest(mutant=number):
                 self.assertTrue(list(validator.iter_errors(mutant)))
 
-    def test_review_export_cli_produces_exact_schema_without_enabling(self):
-        output = subprocess.run(
+    def test_default_export_is_native_protobuf_and_json_only_at_model_edge(self):
+        try:
+            from cognitum.lu_ce_protobuf import decode_lu_ce_handoff, model_boundary_function_definition
+        except ModuleNotFoundError:
+            self.skipTest("optional protobuf runtime not installed")
+        native = subprocess.run(
             [sys.executable, "tools/emit_lu_ce_handoff.py"],
+            capture_output=True, check=True,
+        )
+        decoded = decode_lu_ce_handoff(native.stdout)
+        self.assertEqual(decoded.module.kind, "CoreExtension")
+        self.assertFalse(decoded.availability.model_advertised)
+        provider = subprocess.run(
+            [sys.executable, "tools/emit_lu_ce_handoff.py", "--model-boundary-json"],
             capture_output=True, text=True, check=True,
         )
-        data = json.loads(output.stdout)
-        self.assertEqual(data, handoff())
-        self.assertFalse(data["availability"]["model_advertised"])
+        self.assertEqual(json.loads(provider.stdout),
+                         model_boundary_function_definition(decoded))
 
     def test_workspace_separation_and_model_weight_invariants(self):
         meta = handoff()["workspace_interop_proposal"]
