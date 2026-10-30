@@ -24,8 +24,14 @@ jobs:
         run: python -m pytest -q tests/test_alpha_preflight.py
       - name: Export host-local, explicitly unattested alpha report
         run: python tools/alpha_preflight.py --out alpha-preflight.json
+      - name: Build noneditable portable core wheel
+        run: python -m pip wheel --no-deps -w dist .
+      - name: Verify isolated wheel install and default-off calculator
+        run: python tools/alpha_wheel_smoke.py --wheel-dir dist --out alpha-wheel.json
       - name: Upload only metadata preflight result
         uses: actions/upload-artifact@v4
         with:
           name: alpha-${{ matrix.os }}-${{ matrix.python-version }}
-          path: alpha-preflight.json
+          path: |
+            alpha-preflight.json
+            alpha-wheel.json
