@@ -2,7 +2,12 @@ import hashlib
 import io
 import json
 import unittest
-import numpy as np
+try:
+    import numpy as np
+except ModuleNotFoundError as error:
+    if error.name == 'numpy':
+        raise unittest.SkipTest('Optional C08/C09 NumPy extra not installed') from error
+    raise
 from cognitum.proto import research_optional_pb2 as pb
 from cognitum.research.hdc_optional import query,bound
 from cognitum.research.kan_optional import ResearchPolicy,predict
