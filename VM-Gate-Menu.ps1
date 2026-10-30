@@ -28,7 +28,7 @@ try {
     }
     $root = Join-Path $env:SystemDrive 'CognitumDisposableVMGate\Run1'
     Write-Host "Isolated guest state path: $root" -ForegroundColor Cyan
-    Write-Host '1 Prepare reboot | 2 Verify reboot | 3 Snapshot genesis | 4 Snapshot commit | 5 Snapshot check | 6 Prepare hypervisor powercut | 7 Verify powercut'
+    Write-Host '1 Prepare reboot | 2 Verify reboot | 3 Snapshot genesis | 4 Snapshot commit | 5 Snapshot check | 6 Prepare hypervisor powercut | 7 Verify powercut' 
     $choice=Read-Host 'Choose operation (1-7)'
     $mode=$null;$scenario=$null
     switch ($choice) {
