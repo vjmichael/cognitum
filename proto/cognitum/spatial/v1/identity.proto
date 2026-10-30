@@ -1,0 +1,61 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+import "cognitum/spatial/v1/scene.proto";
+
+// Research-only observational association proposals, NEVER mutations/authorization.
+enum AssociationDecision {
+  ASSOCIATION_UNSPECIFIED = 0;
+  ASSOCIATION_CANDIDATE_ONLY = 1;
+  ASSOCIATION_AMBIGUOUS = 2;
+  ASSOCIATION_NO_COMPATIBLE_MATCH = 3;
+}
+message UnassignedObservation {
+  string observation_id = 1;
+  string category = 2;
+  string source_id = 3;
+  string frame_id = 4;
+  Vector3 position_m = 5;
+  uint64 observed_tick = 6;
+}
+message AssociationRequest {
+  uint32 schema_version = 1;
+  string scene_id = 2;
+  string conversation_id = 3;
+  string task_id = 4;
+  string trace_id = 5;
+  string request_id = 6;
+  bytes scene_sha256 = 7;
+  repeated UnassignedObservation observations = 8;
+  double measurement_sigma_m = 9;
+  double max_speed_m_per_tick = 10;
+  double unmatched_cost = 11;
+  double ambiguity_cost_margin = 12;
+  uint32 top_k = 13;
+}
+message ProposedPair {
+  string observation_id = 1;
+  string object_id = 2; // empty = unassigned/new, never a canonical-ID assignment
+  double distance_m = 3;
+  double normalized_cost = 4;
+}
+message AssociationHypothesis {
+  repeated ProposedPair pairs = 1;
+  double total_cost = 2;
+  // Relative weight from exp(-cost): not a calibrated probability of identity.
+  double relative_weight = 3;
+}
+message AssociationHypothesisSet {
+  uint32 schema_version = 1;
+  string scene_id = 2;
+  string conversation_id = 3;
+  string task_id = 4;
+  string trace_id = 5;
+  string request_id = 6;
+  bytes scene_sha256 = 7;
+  bytes request_sha256 = 8;
+  AssociationDecision decision = 9;
+  repeated AssociationHypothesis hypotheses = 10;
+  repeated string warnings = 11;
+  bool research_only = 12;
+  bool grants_authority = 13; // MUST always be false; no approval can emerge here.
+}

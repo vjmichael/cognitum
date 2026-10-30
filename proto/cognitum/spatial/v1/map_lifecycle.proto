@@ -1,0 +1,80 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+// C15 T3 P2W: read-only, bounded lifecycle checkpoints of P2V predictions.
+// This is NOT incremental P2V evaluation, authenticated sensor history,
+// canonical map storage or authority to navigate using the resulting map.
+import "cognitum/spatial/v1/dynamic_scene_robustness.proto";
+import "cognitum/spatial/v1/volume.proto";
+message P2WCell {
+  sint32 x = 1;
+  sint32 y = 2;
+  sint32 z = 3;
+  uint64 last_support_tick = 4;
+  bool retained_now = 5;
+}
+message P2WObject {
+  string object_id = 1;
+  uint64 last_observed_tick = 2;
+  P2VIdentityState last_state = 3;
+  bool authenticated = 4;
+}
+message P2WCheckpoint {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  string volume_id = 3;
+  uint64 sequence = 4;
+  uint64 last_evaluation_tick = 5;
+  uint64 max_capture_tick = 6;
+  bytes prior_checkpoint_sha256 = 7;
+  bytes source_result_sha256 = 8;
+  repeated P2WCell cells = 9;
+  repeated P2WObject objects = 10;
+  VolumeGrid current_stationary_hypothetical_volume = 11;
+  bool research_only = 12;
+  bool grants_authority = 13;
+  bytes checkpoint_sha256 = 14;
+}
+message P2WUpdateRequest {
+  uint32 schema_version = 1;
+  P2VRobustnessRequest source_request = 2;
+  P2VRobustnessResult source_result = 3;
+  P2WCheckpoint previous = 4;
+  uint32 max_resident_cells = 5;
+  uint32 max_resident_objects = 6;
+  uint64 max_idle_ticks = 7;
+  uint64 sequence = 8;
+  bool research_only = 9;
+  bool grants_authority = 10;
+}
+enum P2WEvictionReason {
+  P2W_EVICTION_UNSPECIFIED = 0;
+  P2W_IDLE_EXPIRED = 1;
+  P2W_CAPACITY_LIMIT = 2;
+}
+message P2WEvictedCell {
+  sint32 x = 1;
+  sint32 y = 2;
+  sint32 z = 3;
+  P2WEvictionReason reason = 4;
+}
+message P2WEvictedObject {
+  string object_id = 1;
+  P2WEvictionReason reason = 2;
+}
+message P2WUpdateResult {
+  uint32 schema_version = 1;
+  P2WCheckpoint checkpoint = 2;
+  bytes request_sha256 = 3;
+  bytes verified_p2v_sha256 = 4;
+  repeated P2WEvictedCell evicted_cells = 5;
+  repeated P2WEvictedObject evicted_objects = 6;
+  uint32 input_cell_count = 7;
+  uint32 input_object_count = 8;
+  uint32 output_cell_count = 9;
+  uint32 output_object_count = 10;
+  uint32 current_static_evidence_count = 11;
+  bool upstream_replay_verified = 12;
+  bool research_only = 13;
+  bool grants_authority = 14;
+  repeated string warnings = 15;
+}

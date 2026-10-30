@@ -1,0 +1,54 @@
+syntax = "proto3";
+package cognitum.probability.v1;
+// C13 P4: diagnostics for host-provided draws. Not proof of chain convergence.
+enum DiagnosticsStatus {
+  DIAGNOSTICS_STATUS_UNSPECIFIED = 0;
+  DIAGNOSTICS_SUCCESS = 1;
+  DIAGNOSTICS_UNKNOWN = 2;
+  DIAGNOSTICS_REJECTED = 3;
+}
+message ChainDraws { repeated double values = 1; }
+message ParameterDraws { string parameter = 1; repeated ChainDraws chains = 2; }
+message DiagnosticsRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  uint32 timeout_ms = 3;
+  repeated ParameterDraws parameters = 4;
+}
+message ParameterDiagnostics {
+  string parameter = 1;
+  uint32 chains = 2;
+  uint32 draws_per_chain = 3;
+  double rhat_rank = 4;
+  double ess_bulk = 5;
+  double ess_tail = 6;
+  double mcse_mean = 7;
+}
+message DiagnosticsResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string trace_id = 3;
+  DiagnosticsStatus status = 4;
+  repeated ParameterDiagnostics parameters = 5;
+  string backend_version = 6;
+  string reason_code = 7;
+  uint64 wall_ns = 8;
+}
+message DiagnosticsReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool evidence_valid = 3;
+  string assurance = 4;
+}
+message DiagnosticsAudit {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  bytes result_sha256 = 3;
+  string trace_id = 4;
+  DiagnosticsStatus status = 5;
+  string backend_version = 6;
+  uint32 parameter_count = 7;
+  bool verified = 8;
+  uint64 wall_ns = 9;
+  string reason_code = 10;
+}

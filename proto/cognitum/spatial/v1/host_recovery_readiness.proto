@@ -1,0 +1,36 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+// C15 T3 P2Z research-only host readiness. These records do NOT authorize
+// actions; the host must independently validate every authorization.
+message P2ZHostBinding {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  string volume_id = 3;
+  uint64 authority_epoch = 4;
+  string key_id = 5;
+  bytes external_anchor = 6; // deterministic P2YHostAnchor bytes
+  bool research_only = 7;
+  bool grants_authority = 8;
+}
+message P2ZRecoveryPreview {
+  uint32 schema_version = 1;
+  string status = 2; // CLEAN / AUTHENTIC_UNANCHORED_TAIL / REJECTED
+  uint64 anchor_sequence = 3;
+  uint64 candidate_sequence = 4;
+  bytes candidate_anchor = 5; // only populated for authentic one-record tail
+  bytes candidate_record_sha256 = 6;
+  string reason = 7;
+  bool requires_host_approval = 8;
+  bool research_only = 9;
+  bool grants_authority = 10;
+}
+message P2ZReconcileIntent {
+  uint32 schema_version = 1;
+  bytes expected_anchor = 2;
+  bytes candidate_anchor = 3;
+  bytes candidate_record_sha256 = 4;
+  string key_id = 5;
+  bytes host_proof = 6; // opaque, host-verifiable, never sufficient alone
+  bool research_only = 7;
+  bool grants_authority = 8;
+}

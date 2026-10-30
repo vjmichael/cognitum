@@ -1,0 +1,69 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+// P2U: bounded research-only dynamic/static partition of replayed P2T windows.
+// All object IDs, timestamps and sensor hashes are caller assertions.
+import "cognitum/spatial/v1/object_aware_volume.proto";
+import "cognitum/spatial/v1/volume.proto";
+
+message P2UDynamicSceneRequest {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  string volume_id = 3;
+  repeated P2TObjectAwareRequest windows = 4;
+  uint32 min_motion_windows = 5;
+  uint32 min_stationary_windows = 6;
+  uint64 dynamic_hold_ticks = 7;
+  uint64 max_object_gap_ticks = 8;
+  bool research_only = 9;
+  bool grants_authority = 10;
+}
+
+enum P2UObjectState {
+  P2U_OBJECT_UNSPECIFIED = 0;
+  P2U_TENTATIVE = 1;
+  P2U_PERSISTENT = 2;
+  P2U_DORMANT = 3;
+  P2U_RETIRED = 4;
+}
+enum P2UVoxelState {
+  P2U_VOXEL_UNSPECIFIED = 0;
+  P2U_STATIC_HYPOTHESIS = 1;
+  P2U_DYNAMIC_HYPOTHESIS = 2;
+  P2U_RECENTLY_DYNAMIC = 3;
+  P2U_CONTESTED = 4;
+  P2U_UNKNOWN = 5;
+}
+message P2UObjectRecord {
+  string object_id = 1;
+  P2UObjectState state = 2;
+  uint32 distinct_motion_windows = 3;
+  uint32 distinct_motion_links = 4;
+  uint64 first_motion_tick = 5;
+  uint64 last_motion_tick = 6;
+  uint64 last_seen_tick = 7;
+  repeated string destination_capture_ids = 8;
+}
+message P2UVoxelRecord {
+  sint32 x = 1;
+  sint32 y = 2;
+  sint32 z = 3;
+  P2UVoxelState state = 4;
+  uint32 consecutive_static_windows = 5;
+  uint64 last_dynamic_tick = 6;
+  repeated string candidate_object_ids = 7;
+  bool static_handoff_allowed = 8;
+}
+message P2UDynamicSceneResult {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  string volume_id = 3;
+  bytes request_sha256 = 4;
+  repeated bytes p2t_result_sha256 = 5;
+  repeated P2UObjectRecord objects = 6;
+  repeated P2UVoxelRecord cells = 7;
+  VolumeGrid stationary_hypothetical_volume = 8;
+  repeated string warnings = 9;
+  bool research_only = 10;
+  bool grants_authority = 11;
+  uint32 unique_capture_count = 12;
+}

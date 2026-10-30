@@ -1,0 +1,49 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+import "cognitum/spatial/v1/structural_reconciliation.proto";
+// C15 T2 P2P: read-only C07 provenance reconciliation. Caller bytes are NOT grants.
+// Host must verify source ownership, event admission and current revision under a held lease.
+message T2C07BridgeRequest {
+  uint32 schema_version = 1;
+  T2ReconciliationRequest structural_request = 2;
+  repeated bytes c07_event_frames = 3; // canonical C07 StateEvent wire frames in journal order
+  bool research_only = 4;
+  bool grants_authority = 5;
+}
+message T2C07EventFinding {
+  string event_id = 1;
+  string candidate_id = 2;
+  string claim_id = 3;
+  uint32 c07_action = 4;
+  uint32 c07_origin = 5;
+  uint32 c07_uncertainty = 6;
+  uint32 c07_status_after = 7;
+  uint64 c07_revision_after = 8;
+  bytes c07_source_sha256 = 9; // digest of reference, not verification/signature
+}
+message T2C07ClaimFinding {
+  string candidate_id = 1;
+  string claim_id = 2;
+  string structural_status = 3; // ACTIVE or RETRACTED
+  uint32 c07_status = 4;
+  uint32 c07_origin = 5;
+  uint32 c07_uncertainty = 6;
+  string c07_uncertainty_note = 7;
+  uint64 c07_revision = 8;
+  string latest_c07_event_id = 9;
+  bool requires_review = 10;
+  bytes c07_source_sha256 = 11;
+}
+message T2C07BridgeResult {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  bytes request_sha256 = 3;
+  bytes c07_projection_sha256 = 4;
+  T2ReconciliationResult structural_result = 5;
+  repeated T2C07EventFinding events = 6;
+  repeated T2C07ClaimFinding claims = 7;
+  repeated string warnings = 8;
+  bool research_only = 9;
+  bool grants_authority = 10;
+  bool requires_review = 11;
+}

@@ -1,0 +1,41 @@
+syntax = "proto3";
+package cognitum.causal.v1;
+import "cognitum/causal/v1/assurance_policy.proto";
+
+// Research-only G11 review: NEVER authorizes Lu tool use, causal claims, or action.
+message HoldoutAssuranceRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  CausalAssuranceRequest upstream_request = 3;
+  CausalAssuranceDecision upstream_decision = 4;
+  CausalAssuranceReceipt upstream_receipt = 5;
+  // Caller metadata is not an attestation of the actual data-generating process.
+  string declared_evaluation_domain = 6;
+}
+message HoldoutAssuranceDecision {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  bytes request_sha256 = 3;
+  bytes fixed_holdout_report_sha256 = 4;
+  string disposition = 5;
+  repeated string reason_codes = 6;
+  uint32 holdout_attempts = 7;
+  uint32 holdout_completed = 8;
+  double holdout_empirical_coverage = 9;
+  double holdout_wilson_lower = 10;
+  double holdout_wilson_upper = 11;
+  bool recorded_holdout_coverage = 12;
+  bool research_only = 13;
+  bool may_issue_real_world_causal_claim = 14;
+  bool may_recommend_intervention = 15;
+  bool may_trigger_external_action = 16;
+  bool authenticated_lu_host = 17;
+  bool previous_policy_replay_checked = 18;
+  string machine_safe_summary = 19;
+}
+message HoldoutAssuranceReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool deterministic_replay_checked = 3;
+  bool authenticated_lu_host = 4;
+}

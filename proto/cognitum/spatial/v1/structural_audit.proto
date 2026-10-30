@@ -1,0 +1,56 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+// C15 T2/T3 P2: a research-only comparison of proposed part/void extents
+// against caller-asserted voxel measurements. NOT sensor authentication.
+enum SpatialExpectation {
+  SPATIAL_EXPECTATION_UNSPECIFIED = 0;
+  SPATIAL_EXPECT_OCCUPIED = 1;
+  SPATIAL_EXPECT_FREE = 2;
+}
+enum SpatialAuditState {
+  SPATIAL_AUDIT_UNSPECIFIED = 0;
+  SPATIAL_AUDIT_CONSISTENT_WITH_CLAIMED_EVIDENCE = 1;
+  SPATIAL_AUDIT_CONTRADICTED_BY_CLAIMED_EVIDENCE = 2;
+  SPATIAL_AUDIT_MIXED = 3;
+  SPATIAL_AUDIT_INDETERMINATE = 4;
+}
+message VoxelBox {
+  sint32 min_x = 1; sint32 min_y = 2; sint32 min_z = 3;
+  sint32 max_x = 4; sint32 max_y = 5; sint32 max_z = 6;
+}
+message StructuralSpatialClaim {
+  string claim_id = 1;
+  string node_id = 2;
+  string source_ref = 3;
+  SpatialExpectation expected = 4;
+  VoxelBox box = 5;
+}
+message StructuralAuditRequest {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  string graph_id = 3;
+  string volume_id = 4;
+  repeated StructuralSpatialClaim claims = 5;
+  bool research_only = 6;
+  bool grants_authority = 7;
+}
+message SpatialClaimAudit {
+  string claim_id = 1;
+  string node_id = 2;
+  SpatialAuditState state = 3;
+  uint32 claimed_support_cells = 4;
+  uint32 claimed_contradiction_cells = 5;
+  uint32 unresolved_cells = 6;
+  uint32 conflicting_cells = 7;
+  uint32 predicted_only_cells = 8;
+  uint32 total_cells = 9;
+}
+message StructuralAuditResult {
+  string conversation_id = 1;
+  string graph_id = 2;
+  string volume_id = 3;
+  repeated SpatialClaimAudit audits = 4;
+  repeated string warnings = 5;
+  bool research_only = 6;
+  bool grants_authority = 7;
+}

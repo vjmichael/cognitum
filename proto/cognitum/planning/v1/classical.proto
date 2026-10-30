@@ -1,0 +1,106 @@
+syntax = "proto3";
+package cognitum.planning.v1;
+
+// P1 is a bounded grounded deterministic STRIPS subset, NOT full PDDL.
+message GroundAction {
+  string id = 1;
+  repeated uint32 require_true = 2;
+  repeated uint32 require_false = 3;
+  repeated uint32 add = 4;
+  repeated uint32 remove = 5;
+  uint32 cost = 6;
+}
+message ClassicalTask {
+  repeated string facts = 1;
+  repeated uint32 initial_true = 2;
+  repeated uint32 goal_true = 3;
+  repeated uint32 goal_false = 4;
+  repeated GroundAction actions = 5;
+  uint32 max_states = 6; // host-enforced ceiling, 0 selects bounded default
+  uint32 max_expansions = 7;
+}
+enum SearchEngine {
+  SEARCH_ENGINE_UNSPECIFIED = 0;
+  NETWORKX_DIJKSTRA = 1;
+  ASTAR_HMAX = 2;
+  WEIGHTED_ASTAR_HMAX = 3;
+  NETWORKX_BFS = 4;
+}
+message PlanningRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  ClassicalTask task = 3;
+  SearchEngine engine = 4;
+  uint32 timeout_ms = 5; // bounded cooperative time budget, not an OS limit
+}
+enum PlanStatus {
+  PLAN_STATUS_UNSPECIFIED = 0;
+  VERIFIED_PLAN = 1;
+  VERIFIED_OPTIMAL = 2;
+  VERIFIED_UNREACHABLE = 3;
+  UNKNOWN = 4;
+  REJECTED = 5;
+}
+message PlanningResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string trace_id = 3;
+  SearchEngine engine = 4;
+  PlanStatus status = 5;
+  repeated uint32 actions = 6;
+  uint64 total_cost = 7;
+  uint32 expanded = 8;
+  uint32 discovered = 9;
+  bool plan_verified = 10;
+  bool optimality_verified = 11;
+  string reason_code = 12;
+  uint64 wall_ns = 13;
+  bool host_approved = 14; // never conferred by planner
+  string backend_id = 15;
+  string backend_version = 16;
+}
+message PlanReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool evidence_valid = 3;
+  bool optimality_verified = 4;
+  string reason_code = 5;
+  uint32 reachable_states_checked = 6;
+}
+message PlanningAudit {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  bytes result_sha256 = 3;
+  string trace_id = 4;
+  SearchEngine engine = 5;
+  PlanStatus status = 6;
+  string backend_id = 7;
+  string backend_version = 8;
+  string reason_code = 9;
+  uint64 wall_ns = 10;
+  bool evidence_valid = 11;
+  bool optimality_verified = 12;
+  bool host_approved = 13;
+}
+// PDDL interchange is an explicit authorized export boundary, not an execution API.
+message PddlExport {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string domain_pddl = 3;
+  string problem_pddl = 4;
+  string dialect = 5;
+}
+message PlanningBackend {
+  string backend_id = 1;
+  string library_or_system = 2;
+  string maturity = 3;
+  string interface = 4;
+  bool runtime_tested = 5;
+  bool available = 6;
+  bool experimental = 7;
+}
+message PlanningManifest {
+  uint32 schema_version = 1;
+  repeated PlanningBackend backends = 2;
+  bytes manifest_sha256 = 3;
+}

@@ -1,0 +1,52 @@
+syntax = "proto3";
+package cognitum.causal.v1;
+import "cognitum/causal/v1/integrated_assurance.proto";
+
+// G14 offline RESEARCH bridge. Worker bytes come from a trusted test harness,
+// not the model; this contract provides no OS confinement or Lu authentication.
+enum WorkerAssuranceDisposition {
+  WORKER_ASSURANCE_REJECT_INVALID = 0;
+  WORKER_ASSURANCE_ABSTAIN_UPSTREAM = 1;
+  WORKER_ASSURANCE_RESEARCH_DIAGNOSTIC_ONLY = 2;
+  WORKER_ASSURANCE_ABSTAIN_CAUSAL_OR_ACTION = 3;
+}
+message WorkerAssuranceRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  string conversation_id = 3;
+  string task_id = 4;
+  bytes mature_request_frame = 5; // exact Protobuf frame, max 131072 bytes
+  bytes mature_result_frame = 6; // exact child-process frame, max 32768 bytes
+  IntegratedAssuranceRequest integrated_request = 7;
+  IntegratedAssuranceDecision integrated_decision = 8;
+  IntegratedAssuranceReceipt integrated_receipt = 9;
+  bool caller_requests_real_world_action = 10;
+  bool caller_claims_worker_proves_causality = 11;
+}
+message WorkerAssuranceDecision {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  WorkerAssuranceDisposition disposition = 3;
+  repeated string reason_codes = 4;
+  bool genuine_worker_shape_verified = 5;
+  bool g13_chain_replayed = 6;
+  string runtime_backend_id = 7;
+  string runtime_version = 8;
+  bool research_only = 9;
+  bool worker_output_independently_authenticated = 10; // NEVER true at G14
+  bool causal_identification_proven = 11; // NEVER true
+  bool calibrated_for_worker_dataset = 12; // NEVER true
+  bool authenticated_lu_host = 13; // NEVER true
+  bool may_trigger_external_action = 14; // NEVER true
+  bool may_issue_real_world_causal_claim = 15; // NEVER true
+  string safe_message = 16; // fixed safe template; no model prose
+}
+message WorkerAssuranceReceipt {
+  bytes request_sha256 = 1;
+  bytes decision_sha256 = 2;
+  bytes mature_request_sha256 = 3;
+  bytes mature_result_sha256 = 4;
+  bytes integrated_receipt_sha256 = 5;
+  bool research_only = 6;
+  bool authenticated_lu_host = 7; // NEVER true
+}

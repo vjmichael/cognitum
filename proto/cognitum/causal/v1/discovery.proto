@@ -1,0 +1,72 @@
+syntax = "proto3";
+package cognitum.causal.v1;
+// C14 P3B: bounded PC-stable *undirected* Gaussian conditional-independence skeleton.
+// No edge orientation or verified cause-and-effect claims.
+enum DiscoveryMethod {
+  DISCOVERY_METHOD_UNSPECIFIED = 0;
+  REFERENCE_PC_STABLE_SKELETON = 1;
+  CAUSAL_LEARN_PC_OPTIONAL = 2; // reserved for separately pinned worker
+}
+enum DiscoveryStatus {
+  DISCOVERY_STATUS_UNSPECIFIED = 0;
+  CANDIDATE_SKELETON_COMPUTED = 1;
+  DISCOVERY_REJECTED = 2;
+  DISCOVERY_INCONCLUSIVE = 3;
+  DISCOVERY_BACKEND_UNAVAILABLE = 4;
+  DISCOVERY_RESOURCE_LIMIT = 5;
+}
+message ContinuousObservation {
+  repeated double values = 1;
+}
+message DiscoveryRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  DiscoveryMethod method = 3;
+  repeated string variable_ids = 4;
+  repeated ContinuousObservation observations = 5;
+  double alpha = 6; // strict significance threshold, NOT edge probability
+  uint32 max_conditioning = 7; // at most 2 in this bounded reference
+  uint32 max_tests = 8;
+  uint32 timeout_ms = 9;
+}
+message CandidateEdge {
+  uint32 first = 1;
+  uint32 second = 2;
+}
+message SeparationEvidence {
+  uint32 first = 1;
+  uint32 second = 2;
+  repeated uint32 conditioned_on = 3;
+  string independence_p_value = 4; // Fisher-z approximation, not causal proof
+}
+message DiscoveryResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string trace_id = 3;
+  DiscoveryStatus status = 4;
+  string reason_code = 5;
+  string backend_id = 6;
+  string backend_version = 7;
+  repeated CandidateEdge undirected_edges = 8;
+  repeated SeparationEvidence separations = 9;
+  uint32 tests_executed = 10;
+  bool orientations_inferred = 11; // always false in reference
+  string assumptions = 12;
+  uint64 wall_ns = 13;
+}
+message DiscoveryReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool deterministic_replay_verified = 3;
+  bool causal_structure_verified = 4; // always false
+  string reason_code = 5;
+}
+message DiscoveryAudit {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  string trace_id = 3;
+  DiscoveryStatus status = 4;
+  string backend_id = 5;
+  string reason_code = 6;
+  uint64 wall_ns = 7;
+}

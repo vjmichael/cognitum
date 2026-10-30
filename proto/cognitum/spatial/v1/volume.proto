@@ -1,0 +1,9 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+// C15 T3: sparse volumetric evidence, distinguish free / occupied / unknown.
+enum CellState { CELL_UNKNOWN = 0; CELL_FREE = 1; CELL_OCCUPIED = 2; CELL_CONFLICTED = 3; }
+enum VolumeEvidenceKind { VOLUME_UNSPECIFIED = 0; VOLUME_MEASURED_FREE = 1; VOLUME_MEASURED_OCCUPIED = 2; VOLUME_PREDICTED_FREE = 3; VOLUME_PREDICTED_OCCUPIED = 4; }
+message VoxelEvidence { sint32 x = 1; sint32 y = 2; sint32 z = 3; VolumeEvidenceKind kind = 4; string source_id = 5; uint64 tick = 6; double reliability = 7; }
+message VolumeGrid { uint32 schema_version = 1; string volume_id = 2; string conversation_id = 3; double voxel_size_m = 4; uint32 max_axis = 5; repeated VoxelEvidence evidence = 6; bool research_only = 7; bool grants_authority = 8; }
+message VoxelClassification { sint32 x = 1; sint32 y = 2; sint32 z = 3; CellState state = 4; double measured_log_odds = 5; uint32 hypothesis_count = 6; repeated string source_ids = 7; }
+message VolumeResult { string volume_id = 1; string conversation_id = 2; repeated VoxelClassification cells = 3; repeated string warnings = 4; bool research_only = 5; bool grants_authority = 6; }

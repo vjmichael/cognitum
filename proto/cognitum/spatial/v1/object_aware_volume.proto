@@ -1,0 +1,79 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+// C15 T3 P2T: research-only object hypotheses on top of P2S depth evidence.
+// Object IDs, scene snapshots, and source hashes are untrusted caller assertions.
+import "cognitum/spatial/v1/temporal_consistency.proto";
+import "cognitum/spatial/v1/scene.proto";
+import "cognitum/spatial/v1/volume.proto";
+
+message P2TObjectSample {
+  string capture_id = 1;
+  uint64 tick = 2;
+  string source_ref = 3;
+  bytes depth_frame_sha256 = 4;
+  Vector3 center_world_m = 5;
+}
+message P2TObjectTrack {
+  string object_id = 1;  // must exist in supplied T1 scene; NOT identity authentication
+  repeated P2TObjectSample samples = 2;
+}
+message P2TObjectAwareRequest {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  string volume_id = 3;
+  P2STemporalRequest temporal_request = 4;
+  SceneSnapshot scene = 5;
+  bytes scene_sha256 = 6;
+  repeated P2TObjectTrack tracks = 7;
+  double min_displacement_m = 8;
+  double spatial_tolerance_m = 9;
+  uint64 max_link_gap_ticks = 10;
+  bool research_only = 11;
+  bool grants_authority = 12;
+}
+
+enum P2TCellExplanation {
+  P2T_UNSPECIFIED = 0;
+  P2T_UNRESOLVED = 1;
+  P2T_STATIONARY_CANDIDATE = 2;
+  P2T_MOTION_CANDIDATE = 3;
+  P2T_UNATTRIBUTED_CHANGE = 4;
+  P2T_MULTIPLE_OBJECTS = 5;
+}
+message P2TObjectMotionLink {
+  string object_id = 1;
+  string origin_capture_id = 2;
+  string destination_capture_id = 3;
+  uint64 origin_tick = 4;
+  uint64 destination_tick = 5;
+  sint32 origin_x = 6;
+  sint32 origin_y = 7;
+  sint32 origin_z = 8;
+  sint32 destination_x = 9;
+  sint32 destination_y = 10;
+  sint32 destination_z = 11;
+  double displacement_m = 12;
+}
+message P2TObjectAwareCell {
+  sint32 x = 1;
+  sint32 y = 2;
+  sint32 z = 3;
+  P2SCellState temporal_state = 4;
+  P2TCellExplanation explanation = 5;
+  repeated string candidate_object_ids = 6;
+  bool static_handoff_allowed = 7;
+}
+message P2TObjectAwareResult {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  string volume_id = 3;
+  bytes request_sha256 = 4;
+  bytes temporal_request_sha256 = 5;
+  bytes scene_sha256 = 6;
+  repeated P2TObjectMotionLink motion_candidates = 7;
+  repeated P2TObjectAwareCell cells = 8;
+  VolumeGrid stationary_hypothetical_volume = 9;
+  repeated string warnings = 10;
+  bool research_only = 11;
+  bool grants_authority = 12;
+}

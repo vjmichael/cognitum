@@ -1,0 +1,67 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+import "cognitum/spatial/v1/ontology_subset.proto";
+import "cognitum/spatial/v1/composition.proto";
+// C15 T2 P2O: read-only, finite competing-claim reconciliation.
+// Every claim change is a caller-declared event, not authenticated evidence.
+message T2Candidate { string candidate_id = 1; string explanation = 2; }
+message T2TypeAddition { string claim_id = 1; OntologyTypeClaim claim = 2; }
+message T2EdgeAddition { string claim_id = 1; StructureEdge edge = 2; }
+message T2ClaimRetraction { string claim_id = 1; }
+message T2RevisionEvent {
+  string event_id = 1;
+  string candidate_id = 2;
+  uint32 sequence = 3; // contiguous, 1-indexed, per candidate
+  string source_ref = 4; // caller-supplied; not authenticated
+  string rationale = 5;
+  oneof change {
+    T2TypeAddition add_type = 6;
+    T2EdgeAddition add_edge = 7;
+    T2ClaimRetraction retract = 8;
+  }
+}
+message T2ReconciliationRequest {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  OntologyAuditRequest ontology_template = 3; // schema and nodes, no dynamic claims/edges
+  repeated T2Candidate candidates = 4;
+  repeated T2RevisionEvent events = 5;
+  bool research_only = 6;
+  bool grants_authority = 7;
+}
+message T2RevisionFinding {
+  string event_id = 1;
+  string candidate_id = 2;
+  uint32 sequence = 3;
+  string decision = 4; // CLAIMS_CONSISTENT or CLAIMS_CONFLICTED
+  repeated string introduced_conflicts = 5; // node|classA|classB|axiomSource
+  repeated string resolved_conflicts = 6;
+  repeated string active_claim_ids = 7;
+  bytes ontology_result_sha256 = 8;
+  bytes snapshot_sha256 = 9;
+  bytes journal_receipt_sha256 = 10; // an integrity checksum, not a signature
+  string change_source_ref = 11;
+  string rationale = 12;
+  repeated string supporting_sources = 13;
+}
+message T2CandidateFinding {
+  string candidate_id = 1;
+  string final_decision = 2;
+  uint32 total_revisions = 3;
+  repeated string active_claim_ids = 4;
+  repeated string unresolved_conflicts = 5;
+  bytes final_receipt_sha256 = 6;
+  bytes final_ontology_result_sha256 = 7;
+  repeated string final_supported_types = 8; // node|type|hypothetical; not an admitted assertion
+}
+message T2ReconciliationResult {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  bytes request_sha256 = 3;
+  repeated T2RevisionFinding revisions = 4;
+  repeated T2CandidateFinding candidates = 5;
+  repeated string warnings = 6;
+  bool research_only = 7;
+  bool grants_authority = 8;
+  bool any_conflicts = 9;
+}

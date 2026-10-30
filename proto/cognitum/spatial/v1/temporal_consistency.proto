@@ -1,0 +1,73 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+// C15 T3 P2S: bounded, research-only cross-capture temporal reconciliation.
+// Captures are caller-declared. These scores are not calibrated physical probabilities.
+import "cognitum/spatial/v1/correlated_fusion.proto";
+import "cognitum/spatial/v1/volume.proto";
+
+message P2STemporalRequest {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  string volume_id = 3;
+  uint64 evaluation_tick = 4;
+  double half_life_ticks = 5;
+  double historical_retention = 6;
+  uint32 min_stable_observations = 7;
+  uint64 max_age_ticks = 8;
+  repeated P2RFusionRequest captures = 9;
+  bool research_only = 10;
+  bool grants_authority = 11;
+}
+
+enum P2SCellState {
+  P2S_STATE_UNSPECIFIED = 0;
+  P2S_INDETERMINATE = 1;
+  P2S_STALE = 2;
+  P2S_CONTESTED = 3;
+  P2S_PREDICTED_OCCUPIED = 4;
+  P2S_PREDICTED_FREE = 5;
+  P2S_RECOVERED_OCCUPIED = 6;
+  P2S_RECOVERED_FREE = 7;
+}
+
+message P2SContribution {
+  string capture_id = 1;
+  uint64 tick = 2;
+  double capture_log_odds = 3;
+  double temporal_weight = 4;
+  double retention_multiplier = 5;
+  bytes capture_request_sha256 = 6;
+}
+
+message P2STemporalCell {
+  sint32 x = 1;
+  sint32 y = 2;
+  sint32 z = 3;
+  double baseline_log_odds = 4;
+  double adjusted_log_odds = 5;
+  double baseline_probability = 6;
+  double adjusted_probability = 7;
+  uint32 observed_capture_count = 8;
+  uint64 latest_tick = 9;
+  uint32 latest_consistent_streak = 10;
+  uint64 change_candidate_tick = 11;
+  bool opposed_across_captures = 12;
+  bool change_confirmed = 13;
+  P2SCellState state = 14;
+  repeated P2SContribution provenance = 15;
+}
+
+message P2STemporalResult {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  string volume_id = 3;
+  bytes request_sha256 = 4;
+  repeated P2STemporalCell cells = 5;
+  VolumeGrid hypothetical_volume = 6;
+  repeated string warnings = 7;
+  bool research_only = 8;
+  bool grants_authority = 9;
+  uint32 total_capture_count = 10;
+  uint32 pending_change_cell_count = 11;
+  uint32 confirmed_change_cell_count = 12;
+}

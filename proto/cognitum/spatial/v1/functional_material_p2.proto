@@ -1,0 +1,108 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+
+import "cognitum/spatial/v1/functional_material.proto";
+
+// Research-only, scoped and read-only. All intervals are caller-asserted.
+// A radius is absolute in the same physical dimension as its center.
+message T4P2Interval {
+  T4Quantity center = 1;
+  T4Quantity radius = 2;
+}
+message T4P2ThermalRange {
+  // Dimensioned-by-name coefficients in 1/K, delta temperatures in K.
+  double bore_alpha_min_per_kelvin = 1;
+  double bore_alpha_max_per_kelvin = 2;
+  double shaft_alpha_min_per_kelvin = 3;
+  double shaft_alpha_max_per_kelvin = 4;
+  double delta_temperature_min_kelvin = 5;
+  double delta_temperature_max_kelvin = 6;
+  T4Evidence evidence = 7;
+  string source_ref = 8;
+}
+message T4P2ToleranceFit {
+  string id = 1;
+  string bore_part_id = 2;
+  string shaft_part_id = 3;
+  T4P2Interval bore_diameter = 4;
+  T4P2Interval shaft_diameter = 5;
+  T4P2Interval allowed_min_clearance = 6;
+  T4P2Interval allowed_max_clearance = 7;
+  bool thermal_exposure_declared = 8;
+  T4P2ThermalRange thermal_range = 9;
+}
+message T4P2LinearTerm {
+  string joint_check_id = 1;
+  double coefficient = 2; // dimensionless multiplier, never unit conversion
+}
+message T4P2LinearConstraint {
+  string id = 1;
+  repeated T4P2LinearTerm terms = 2;
+  T4P2Interval lower = 3;
+  T4P2Interval upper = 4;
+}
+message T4P2JointAssembly {
+  string id = 1;
+  repeated string joint_check_ids = 2;
+  repeated T4P2LinearConstraint constraints = 3;
+  bool enforce_candidate_positions = 4;
+}
+// SI-only extension for quantities absent from the P1 unit enum.
+message T4P2SIInterval {
+  double center_si = 1;
+  double radius_si = 2;
+  T4Evidence evidence = 3;
+  string source_ref = 4;
+}
+message T4P2LoadCase {
+  string id = 1;
+  T4P2Interval axial_force = 2;       // signed N; compression negative
+  T4P2Interval shear_force = 3;       // signed N
+  T4P2SIInterval bending_moment = 4;    // signed N*m
+  bool cyclic = 5;
+  uint64 applied_cycles = 6;
+}
+message T4P2LoadEnvelope {
+  string id = 1;
+  string part_id = 2;
+  repeated T4P2LoadCase cases = 3;
+  T4P2Interval axial_area = 4;          // m^2
+  T4P2Interval shear_area = 5;          // m^2
+  T4P2SIInterval section_modulus = 6;     // m^3
+  T4P2Interval allowable_normal_stress = 7; // Pa
+  T4P2Interval allowable_shear_stress = 8;  // Pa
+  T4P2Interval compression_buckling_limit = 9; // N, required for compression
+  uint64 fatigue_allowable_cycles = 10; // caller-asserted, required if cyclic
+  T4Evidence fatigue_evidence = 11;
+  string fatigue_source_ref = 12;
+  double safety_factor = 13;           // >= 1, not a physical safety certificate
+}
+message T4P2ResearchRequest {
+  uint32 schema_version = 1;
+  T4ResearchRequest baseline = 2;
+  repeated T4P2ToleranceFit fits = 3;
+  repeated T4P2JointAssembly assemblies = 4;
+  repeated T4P2LoadEnvelope loads = 5;
+  bool research_only = 6;
+  bool grants_authority = 7;
+}
+message T4P2Finding {
+  string id = 1;
+  T4FindingStatus status = 2;
+  string conditional_model = 3;
+  double computed_min_si = 4;
+  double computed_max_si = 5;
+  repeated string reasons = 6;
+  repeated string source_refs = 7;
+  bool robust_for_claimed_intervals = 8;
+}
+message T4P2ResearchResult {
+  string graph_id = 1;
+  string conversation_id = 2;
+  bytes request_sha256 = 3;
+  repeated T4P2Finding findings = 4;
+  repeated string warnings = 5;
+  bool research_only = 6;
+  bool grants_authority = 7;
+  bool physical_validity_verified = 8;
+}

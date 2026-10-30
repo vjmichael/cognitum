@@ -1,0 +1,88 @@
+syntax = "proto3";
+package cognitum.causal.v1;
+import "cognitum/causal/v1/discovery.proto";
+import "cognitum/causal/v1/mature_worker.proto";
+import "cognitum/causal/v1/heterogeneity.proto";
+// C14 P3D offline *evaluation of candidates*, never causal verification.
+enum CausalValidationStatus {
+  CAUSAL_VALIDATION_STATUS_UNSPECIFIED = 0;
+  CANDIDATE_COMPARISON_COMPUTED = 1;
+  CAUSAL_VALIDATION_REJECTED = 2;
+  CAUSAL_VALIDATION_INCONCLUSIVE = 3;
+}
+message DiscoveryValidationRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  DiscoveryRequest reference_request = 3;
+  bytes reference_result = 4; // must pass deterministic reference replay
+  bool has_declared_synthetic_truth = 5; // synthetic fixture declaration, not independently attested
+  repeated CandidateEdge declared_truth_skeleton = 6;
+  MatureCausalRequest external_request = 7; // optional paired external candidate
+  bytes external_result = 8;
+}
+message SkeletonScores {
+  uint32 true_positive = 1;
+  uint32 false_positive = 2;
+  uint32 false_negative = 3;
+  string precision = 4;
+  string recall = 5;
+  string f1 = 6;
+  uint32 skeleton_symmetric_difference = 7;
+}
+message DiscoveryValidationResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string trace_id = 3;
+  CausalValidationStatus status = 4;
+  string reason_code = 5;
+  bool reference_replay_checked = 6;
+  bool external_shape_checked = 7; // NOT authentic runtime provenance
+  bool has_synthetic_scores = 8;
+  SkeletonScores reference_scores = 9;
+  SkeletonScores external_scores = 10;
+  string reference_external_jaccard = 11; // empty if no external candidate
+  bool graph_orientations_identified = 12; // ALWAYS FALSE
+  bool real_world_causation_proven = 13; // ALWAYS FALSE
+  string evidence_limitations = 14;
+  uint64 wall_ns = 15;
+}
+message DiscoveryValidationReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool deterministic_arithmetic_replay = 3;
+  bool true_causal_graph_verified = 4; // ALWAYS FALSE
+  string reason_code = 5;
+}
+// Separate observational empirical-standardization vs model-based DML contrast.
+// Different estimators/estimands may legitimately differ: discrepancy != model error.
+message ConditionalComparisonRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  HeterogeneityRequest reference_request = 3;
+  bytes reference_result = 4;
+  MatureCausalRequest external_request = 5;
+  bytes external_result = 6;
+}
+message ConditionalDifference {
+  repeated uint32 modifier_states = 1;
+  uint32 observations = 2;
+  string empirical_reference_effect = 3;
+  string model_candidate_effect = 4;
+  string absolute_difference = 5;
+}
+message ConditionalComparisonResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string trace_id = 3;
+  CausalValidationStatus status = 4;
+  string reason_code = 5;
+  bool empirical_reference_replay_checked = 6;
+  bool external_shape_checked = 7;
+  repeated ConditionalDifference differences = 8;
+  string mean_absolute_difference = 9;
+  string max_absolute_difference = 10;
+  bool same_estimand_proven = 11; // ALWAYS FALSE
+  bool causal_assumptions_proven = 12; // ALWAYS FALSE
+  string evidence_limitations = 13;
+  uint64 wall_ns = 14;
+}

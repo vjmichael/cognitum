@@ -1,0 +1,1524 @@
+{
+  "gold_sha256": "540834d870aa15451391dc292a2391a66723b194bfe2a71a98fcfe06ec86b2ec",
+  "safety": "candidate-only; no StateEvent writes",
+  "splits": {
+    "development": {
+      "C07_lexical_reference": {
+        "abstentions": 15,
+        "accuracy": 1.0,
+        "cases": 95,
+        "correct": 95,
+        "errors": [],
+        "false_action_proposals": 0,
+        "false_committed_decisions": 0,
+        "macro_f1": 1.0,
+        "missed_action_candidates": 0,
+        "per_class": {
+          "ABSTAIN_UNRESOLVED": {
+            "f1": 1.0,
+            "gold": 15,
+            "precision": 1.0,
+            "predicted": 15,
+            "recall": 1.0
+          },
+          "CHANGE_OF_MIND_CANDIDATE": {
+            "f1": 1.0,
+            "gold": 12,
+            "precision": 1.0,
+            "predicted": 12,
+            "recall": 1.0
+          },
+          "CORRECTION_CANDIDATE": {
+            "f1": 1.0,
+            "gold": 10,
+            "precision": 1.0,
+            "predicted": 10,
+            "recall": 1.0
+          },
+          "DECISION_CANDIDATE": {
+            "f1": 1.0,
+            "gold": 15,
+            "precision": 1.0,
+            "predicted": 15,
+            "recall": 1.0
+          },
+          "NO_STATE_CHANGE": {
+            "f1": 1.0,
+            "gold": 20,
+            "precision": 1.0,
+            "predicted": 20,
+            "recall": 1.0
+          },
+          "RETRACTION_CANDIDATE": {
+            "f1": 1.0,
+            "gold": 8,
+            "precision": 1.0,
+            "predicted": 8,
+            "recall": 1.0
+          },
+          "TENTATIVE_PLAN": {
+            "f1": 1.0,
+            "gold": 15,
+            "precision": 1.0,
+            "predicted": 15,
+            "recall": 1.0
+          }
+        }
+      },
+      "keyword_baseline": {
+        "abstentions": 0,
+        "accuracy": 0.3895,
+        "cases": 95,
+        "correct": 37,
+        "errors": [
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-017",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I'm thinking about changing the color."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-020",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I'm leaning toward the blue interface."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-021",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Perhaps we should revisit pricing."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-023",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I'm considering a different folder structure."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-025",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I may move the deployment to next week."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-026",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "We may keep the old release for now."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-027",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I'm not sure about the November deadline."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-028",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "If the tests pass, we'll release on Monday."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-030",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "We would prefer to focus on audio next."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "dev-033",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "On second thought, we should use CPU only."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "dev-034",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Instead, let's schedule the meeting for Friday."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "dev-035",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Let's switch to Lu."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "dev-036",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "We will move to a dark theme."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "dev-037",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Scratch that, deploy on a managed server."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "dev-039",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Switch to v2 for the release."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "dev-040",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Change the build to Rust."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "dev-042",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "We're switching to a larger model."
+          },
+          {
+            "gold": "CORRECTION_CANDIDATE",
+            "id": "dev-046",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "You misheard me, I said Saturday."
+          },
+          {
+            "gold": "CORRECTION_CANDIDATE",
+            "id": "dev-048",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I said Lux, not Lu."
+          },
+          {
+            "gold": "CORRECTION_CANDIDATE",
+            "id": "dev-049",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "To clarify: the test runs Thursday."
+          },
+          {
+            "gold": "CORRECTION_CANDIDATE",
+            "id": "dev-050",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "That was a typo, the value should be three."
+          },
+          {
+            "gold": "RETRACTION_CANDIDATE",
+            "id": "dev-055",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Scrap the prototype."
+          },
+          {
+            "gold": "RETRACTION_CANDIDATE",
+            "id": "dev-056",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "We're no longer planning to release on Windows."
+          },
+          {
+            "gold": "RETRACTION_CANDIDATE",
+            "id": "dev-057",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I am no longer going to run that test."
+          },
+          {
+            "gold": "RETRACTION_CANDIDATE",
+            "id": "dev-058",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I revoke my decision about the budget."
+          },
+          {
+            "gold": "RETRACTION_CANDIDATE",
+            "id": "dev-059",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Drop the whole plan."
+          },
+          {
+            "gold": "RETRACTION_CANDIDATE",
+            "id": "dev-060",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "We are no longer using that version."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-061",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "What if we launched in January?"
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-062",
+            "predicted": "TENTATIVE_PLAN",
+            "utterance": "Hypothetically, we could run it on Mars."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-063",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "The report says use the older package."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-064",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "My manager said we will close the project."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-065",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "> I've decided to delete all the records."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-069",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Don't change the release plan."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-070",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I did not approve the new proposal."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-071",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "This is not a decision; just an example."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-072",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "The document says that the schedule is fixed."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-073",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I never said we'd launch next week."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-074",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "How about using the backup instead?"
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-075",
+            "predicted": "TENTATIVE_PLAN",
+            "utterance": "Could we use a single database?"
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-076",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Suppose we had unlimited RAM."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-077",
+            "predicted": "TENTATIVE_PLAN",
+            "utterance": "Imagine if we could launch tomorrow."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-078",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Example: I choose the alternative color."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-079",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "The assistant suggested we use a larger model."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-081",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Sounds good."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-082",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Sure."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-083",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Okay."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-084",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Let's do that."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-085",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I guess that works."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-086",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Fine, same as before."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-087",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Make it happen."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-088",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "The blue one."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-089",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I think so."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-090",
+            "predicted": "CHANGE_OF_MIND_CANDIDATE",
+            "utterance": "Actually, yes."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-091",
+            "predicted": "CORRECTION_CANDIDATE",
+            "utterance": "I meant it."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-092",
+            "predicted": "RETRACTION_CANDIDATE",
+            "utterance": "Cancel it."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-093",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I'm changing my mind."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-094",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I approve it."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-095",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Switch it."
+          }
+        ],
+        "false_action_proposals": 37,
+        "false_committed_decisions": 34,
+        "macro_f1": 0.3913,
+        "missed_action_candidates": 0,
+        "per_class": {
+          "ABSTAIN_UNRESOLVED": {
+            "f1": 0.0,
+            "gold": 15,
+            "precision": 0.0,
+            "predicted": 0,
+            "recall": 0.0
+          },
+          "CHANGE_OF_MIND_CANDIDATE": {
+            "f1": 0.4706,
+            "gold": 12,
+            "precision": 0.8,
+            "predicted": 5,
+            "recall": 0.3333
+          },
+          "CORRECTION_CANDIDATE": {
+            "f1": 0.7059,
+            "gold": 10,
+            "precision": 0.8571,
+            "predicted": 7,
+            "recall": 0.6
+          },
+          "DECISION_CANDIDATE": {
+            "f1": 0.3659,
+            "gold": 15,
+            "precision": 0.2239,
+            "predicted": 67,
+            "recall": 1.0
+          },
+          "NO_STATE_CHANGE": {
+            "f1": 0.3333,
+            "gold": 20,
+            "precision": 1.0,
+            "predicted": 4,
+            "recall": 0.2
+          },
+          "RETRACTION_CANDIDATE": {
+            "f1": 0.3636,
+            "gold": 8,
+            "precision": 0.6667,
+            "predicted": 3,
+            "recall": 0.25
+          },
+          "TENTATIVE_PLAN": {
+            "f1": 0.5,
+            "gold": 15,
+            "precision": 0.6667,
+            "predicted": 9,
+            "recall": 0.4
+          }
+        }
+      },
+      "naive_latest_user_turn": {
+        "abstentions": 0,
+        "accuracy": 0.2,
+        "cases": 95,
+        "correct": 19,
+        "errors": [
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-016",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Maybe we should move the deadline."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-017",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I'm thinking about changing the color."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-018",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "We could test another backend."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-019",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I might try an experimental model."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-020",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I'm leaning toward the blue interface."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-021",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Perhaps we should revisit pricing."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-022",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "We might use Rust later."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-023",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I'm considering a different folder structure."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-024",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "It might be worth testing larger prompts."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-025",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I may move the deployment to next week."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-026",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "We may keep the old release for now."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-027",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I'm not sure about the November deadline."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-028",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "If the tests pass, we'll release on Monday."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-029",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Depending on funding, we could hire someone."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "dev-030",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "We would prefer to focus on audio next."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "dev-031",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I've changed my mind; use July instead."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "dev-032",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Actually, let's use Postgres for this prototype."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "dev-033",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "On second thought, we should use CPU only."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "dev-034",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Instead, let's schedule the meeting for Friday."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "dev-035",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Let's switch to Lu."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "dev-036",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "We will move to a dark theme."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "dev-037",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Scratch that, deploy on a managed server."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "dev-038",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I have changed my mind: October is better."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "dev-039",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Switch to v2 for the release."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "dev-040",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Change the build to Rust."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "dev-041",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Actually, July is the right month."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "dev-042",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "We're switching to a larger model."
+          },
+          {
+            "gold": "CORRECTION_CANDIDATE",
+            "id": "dev-043",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "No, I meant July, not June."
+          },
+          {
+            "gold": "CORRECTION_CANDIDATE",
+            "id": "dev-044",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Correction: the count was 15."
+          },
+          {
+            "gold": "CORRECTION_CANDIDATE",
+            "id": "dev-045",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Typo: I meant DB, not DL."
+          },
+          {
+            "gold": "CORRECTION_CANDIDATE",
+            "id": "dev-046",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "You misheard me, I said Saturday."
+          },
+          {
+            "gold": "CORRECTION_CANDIDATE",
+            "id": "dev-047",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "What I meant was 100 items."
+          },
+          {
+            "gold": "CORRECTION_CANDIDATE",
+            "id": "dev-048",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I said Lux, not Lu."
+          },
+          {
+            "gold": "CORRECTION_CANDIDATE",
+            "id": "dev-049",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "To clarify: the test runs Thursday."
+          },
+          {
+            "gold": "CORRECTION_CANDIDATE",
+            "id": "dev-050",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "That was a typo, the value should be three."
+          },
+          {
+            "gold": "CORRECTION_CANDIDATE",
+            "id": "dev-051",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "No, I meant 80."
+          },
+          {
+            "gold": "CORRECTION_CANDIDATE",
+            "id": "dev-052",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Correction: July was the actual month."
+          },
+          {
+            "gold": "RETRACTION_CANDIDATE",
+            "id": "dev-053",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I withdraw my approval for the launch."
+          },
+          {
+            "gold": "RETRACTION_CANDIDATE",
+            "id": "dev-054",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Cancel the launch."
+          },
+          {
+            "gold": "RETRACTION_CANDIDATE",
+            "id": "dev-055",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Scrap the prototype."
+          },
+          {
+            "gold": "RETRACTION_CANDIDATE",
+            "id": "dev-056",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "We're no longer planning to release on Windows."
+          },
+          {
+            "gold": "RETRACTION_CANDIDATE",
+            "id": "dev-057",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I am no longer going to run that test."
+          },
+          {
+            "gold": "RETRACTION_CANDIDATE",
+            "id": "dev-058",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I revoke my decision about the budget."
+          },
+          {
+            "gold": "RETRACTION_CANDIDATE",
+            "id": "dev-059",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Drop the whole plan."
+          },
+          {
+            "gold": "RETRACTION_CANDIDATE",
+            "id": "dev-060",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "We are no longer using that version."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-061",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "What if we launched in January?"
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-062",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Hypothetically, we could run it on Mars."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-063",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "The report says use the older package."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-064",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "My manager said we will close the project."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-065",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "> I've decided to delete all the records."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-069",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Don't change the release plan."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-070",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I did not approve the new proposal."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-071",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "This is not a decision; just an example."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-072",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "The document says that the schedule is fixed."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-073",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I never said we'd launch next week."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-074",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "How about using the backup instead?"
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-075",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Could we use a single database?"
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-076",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Suppose we had unlimited RAM."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-077",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Imagine if we could launch tomorrow."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-078",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Example: I choose the alternative color."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "dev-079",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "The assistant suggested we use a larger model."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-081",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Sounds good."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-082",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Sure."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-083",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Okay."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-084",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Let's do that."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-085",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I guess that works."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-086",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Fine, same as before."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-087",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Make it happen."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-088",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "The blue one."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-089",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I think so."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-090",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Actually, yes."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-091",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I meant it."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-092",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Cancel it."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-093",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I'm changing my mind."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-094",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I approve it."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "dev-095",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Switch it."
+          }
+        ],
+        "false_action_proposals": 46,
+        "false_committed_decisions": 46,
+        "macro_f1": 0.088,
+        "missed_action_candidates": 0,
+        "per_class": {
+          "ABSTAIN_UNRESOLVED": {
+            "f1": 0.0,
+            "gold": 15,
+            "precision": 0.0,
+            "predicted": 0,
+            "recall": 0.0
+          },
+          "CHANGE_OF_MIND_CANDIDATE": {
+            "f1": 0.0,
+            "gold": 12,
+            "precision": 0.0,
+            "predicted": 0,
+            "recall": 0.0
+          },
+          "CORRECTION_CANDIDATE": {
+            "f1": 0.0,
+            "gold": 10,
+            "precision": 0.0,
+            "predicted": 0,
+            "recall": 0.0
+          },
+          "DECISION_CANDIDATE": {
+            "f1": 0.283,
+            "gold": 15,
+            "precision": 0.1648,
+            "predicted": 91,
+            "recall": 1.0
+          },
+          "NO_STATE_CHANGE": {
+            "f1": 0.3333,
+            "gold": 20,
+            "precision": 1.0,
+            "predicted": 4,
+            "recall": 0.2
+          },
+          "RETRACTION_CANDIDATE": {
+            "f1": 0.0,
+            "gold": 8,
+            "precision": 0.0,
+            "predicted": 0,
+            "recall": 0.0
+          },
+          "TENTATIVE_PLAN": {
+            "f1": 0.0,
+            "gold": 15,
+            "precision": 0.0,
+            "predicted": 0,
+            "recall": 0.0
+          }
+        }
+      },
+      "reference_median_ms_per_turn": 0.0193
+    },
+    "holdout": {
+      "C07_lexical_reference": {
+        "abstentions": 8,
+        "accuracy": 0.9444,
+        "cases": 36,
+        "correct": 34,
+        "errors": [
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "hol-121",
+            "predicted": "ABSTAIN_UNRESOLVED",
+            "utterance": "The transcript says we will delete everything."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "hol-122",
+            "predicted": "ABSTAIN_UNRESOLVED",
+            "utterance": "I haven't agreed to any of that."
+          }
+        ],
+        "false_action_proposals": 0,
+        "false_committed_decisions": 0,
+        "macro_f1": 0.951,
+        "missed_action_candidates": 0,
+        "per_class": {
+          "ABSTAIN_UNRESOLVED": {
+            "f1": 0.8571,
+            "gold": 6,
+            "precision": 0.75,
+            "predicted": 8,
+            "recall": 1.0
+          },
+          "CHANGE_OF_MIND_CANDIDATE": {
+            "f1": 1.0,
+            "gold": 5,
+            "precision": 1.0,
+            "predicted": 5,
+            "recall": 1.0
+          },
+          "CORRECTION_CANDIDATE": {
+            "f1": 1.0,
+            "gold": 5,
+            "precision": 1.0,
+            "predicted": 5,
+            "recall": 1.0
+          },
+          "DECISION_CANDIDATE": {
+            "f1": 1.0,
+            "gold": 5,
+            "precision": 1.0,
+            "predicted": 5,
+            "recall": 1.0
+          },
+          "NO_STATE_CHANGE": {
+            "f1": 0.8,
+            "gold": 6,
+            "precision": 1.0,
+            "predicted": 4,
+            "recall": 0.6667
+          },
+          "RETRACTION_CANDIDATE": {
+            "f1": 1.0,
+            "gold": 4,
+            "precision": 1.0,
+            "predicted": 4,
+            "recall": 1.0
+          },
+          "TENTATIVE_PLAN": {
+            "f1": 1.0,
+            "gold": 5,
+            "precision": 1.0,
+            "predicted": 5,
+            "recall": 1.0
+          }
+        }
+      },
+      "keyword_baseline": {
+        "abstentions": 0,
+        "accuracy": 0.3611,
+        "cases": 36,
+        "correct": 13,
+        "errors": [
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "hol-101",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I'm toying with moving the migration back a week."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "hol-103",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "If we get permission, we'll release the feature."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "hol-104",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I would like to test the smaller index."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "hol-105",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Possibly keep the old installer too."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "hol-108",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "On second thought, daytime testing is better."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "hol-109",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "We are switching to SQLite."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "hol-110",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Instead, use blue for the active highlight."
+          },
+          {
+            "gold": "CORRECTION_CANDIDATE",
+            "id": "hol-113",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I said Prague, not Paris."
+          },
+          {
+            "gold": "CORRECTION_CANDIDATE",
+            "id": "hol-114",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "You misquoted me, I requested alpha."
+          },
+          {
+            "gold": "CORRECTION_CANDIDATE",
+            "id": "hol-115",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "To clarify: 2026, not 2025."
+          },
+          {
+            "gold": "RETRACTION_CANDIDATE",
+            "id": "hol-118",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Abandon the rollout."
+          },
+          {
+            "gold": "RETRACTION_CANDIDATE",
+            "id": "hol-119",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "We're no longer doing the Linux release."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "hol-120",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "What if the users wanted a different model?"
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "hol-121",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "The transcript says we will delete everything."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "hol-122",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I haven't agreed to any of that."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "hol-123",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Don't change the existing plan."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "hol-124",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "> Let's ship without testing."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "hol-126",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "That one works."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "hol-127",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Wait, no."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "hol-128",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Sounds reasonable."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "hol-129",
+            "predicted": "CHANGE_OF_MIND_CANDIDATE",
+            "utterance": "I changed my mind."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "hol-130",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I choose that."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "hol-131",
+            "predicted": "CORRECTION_CANDIDATE",
+            "utterance": "I meant Wednesday."
+          }
+        ],
+        "false_action_proposals": 15,
+        "false_committed_decisions": 13,
+        "macro_f1": 0.3726,
+        "missed_action_candidates": 0,
+        "per_class": {
+          "ABSTAIN_UNRESOLVED": {
+            "f1": 0.0,
+            "gold": 6,
+            "precision": 0.0,
+            "predicted": 0,
+            "recall": 0.0
+          },
+          "CHANGE_OF_MIND_CANDIDATE": {
+            "f1": 0.5,
+            "gold": 5,
+            "precision": 0.6667,
+            "predicted": 3,
+            "recall": 0.4
+          },
+          "CORRECTION_CANDIDATE": {
+            "f1": 0.5,
+            "gold": 5,
+            "precision": 0.6667,
+            "predicted": 3,
+            "recall": 0.4
+          },
+          "DECISION_CANDIDATE": {
+            "f1": 0.3226,
+            "gold": 5,
+            "precision": 0.1923,
+            "predicted": 26,
+            "recall": 1.0
+          },
+          "NO_STATE_CHANGE": {
+            "f1": 0.2857,
+            "gold": 6,
+            "precision": 1.0,
+            "predicted": 1,
+            "recall": 0.1667
+          },
+          "RETRACTION_CANDIDATE": {
+            "f1": 0.6667,
+            "gold": 4,
+            "precision": 1.0,
+            "predicted": 2,
+            "recall": 0.5
+          },
+          "TENTATIVE_PLAN": {
+            "f1": 0.3333,
+            "gold": 5,
+            "precision": 1.0,
+            "predicted": 1,
+            "recall": 0.2
+          }
+        }
+      },
+      "naive_latest_user_turn": {
+        "abstentions": 0,
+        "accuracy": 0.1667,
+        "cases": 36,
+        "correct": 6,
+        "errors": [
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "hol-101",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I'm toying with moving the migration back a week."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "hol-102",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Maybe we should try the slower but safer approach."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "hol-103",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "If we get permission, we'll release the feature."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "hol-104",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I would like to test the smaller index."
+          },
+          {
+            "gold": "TENTATIVE_PLAN",
+            "id": "hol-105",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Possibly keep the old installer too."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "hol-106",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I changed my mind. Let's target June."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "hol-107",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Actually, I want option C now."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "hol-108",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "On second thought, daytime testing is better."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "hol-109",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "We are switching to SQLite."
+          },
+          {
+            "gold": "CHANGE_OF_MIND_CANDIDATE",
+            "id": "hol-110",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Instead, use blue for the active highlight."
+          },
+          {
+            "gold": "CORRECTION_CANDIDATE",
+            "id": "hol-111",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "No, what I meant was 80, not 18."
+          },
+          {
+            "gold": "CORRECTION_CANDIDATE",
+            "id": "hol-112",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Correction: the meeting was Tuesday."
+          },
+          {
+            "gold": "CORRECTION_CANDIDATE",
+            "id": "hol-113",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I said Prague, not Paris."
+          },
+          {
+            "gold": "CORRECTION_CANDIDATE",
+            "id": "hol-114",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "You misquoted me, I requested alpha."
+          },
+          {
+            "gold": "CORRECTION_CANDIDATE",
+            "id": "hol-115",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "To clarify: 2026, not 2025."
+          },
+          {
+            "gold": "RETRACTION_CANDIDATE",
+            "id": "hol-116",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I withdraw my approval for that grant."
+          },
+          {
+            "gold": "RETRACTION_CANDIDATE",
+            "id": "hol-117",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Cancel the meeting."
+          },
+          {
+            "gold": "RETRACTION_CANDIDATE",
+            "id": "hol-118",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Abandon the rollout."
+          },
+          {
+            "gold": "RETRACTION_CANDIDATE",
+            "id": "hol-119",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "We're no longer doing the Linux release."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "hol-120",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "What if the users wanted a different model?"
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "hol-121",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "The transcript says we will delete everything."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "hol-122",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I haven't agreed to any of that."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "hol-123",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Don't change the existing plan."
+          },
+          {
+            "gold": "NO_STATE_CHANGE",
+            "id": "hol-124",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "> Let's ship without testing."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "hol-126",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "That one works."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "hol-127",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Wait, no."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "hol-128",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "Sounds reasonable."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "hol-129",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I changed my mind."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "hol-130",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I choose that."
+          },
+          {
+            "gold": "ABSTAIN_UNRESOLVED",
+            "id": "hol-131",
+            "predicted": "DECISION_CANDIDATE",
+            "utterance": "I meant Wednesday."
+          }
+        ],
+        "false_action_proposals": 16,
+        "false_committed_decisions": 16,
+        "macro_f1": 0.0765,
+        "missed_action_candidates": 0,
+        "per_class": {
+          "ABSTAIN_UNRESOLVED": {
+            "f1": 0.0,
+            "gold": 6,
+            "precision": 0.0,
+            "predicted": 0,
+            "recall": 0.0
+          },
+          "CHANGE_OF_MIND_CANDIDATE": {
+            "f1": 0.0,
+            "gold": 5,
+            "precision": 0.0,
+            "predicted": 0,
+            "recall": 0.0
+          },
+          "CORRECTION_CANDIDATE": {
+            "f1": 0.0,
+            "gold": 5,
+            "precision": 0.0,
+            "predicted": 0,
+            "recall": 0.0
+          },
+          "DECISION_CANDIDATE": {
+            "f1": 0.25,
+            "gold": 5,
+            "precision": 0.1429,
+            "predicted": 35,
+            "recall": 1.0
+          },
+          "NO_STATE_CHANGE": {
+            "f1": 0.2857,
+            "gold": 6,
+            "precision": 1.0,
+            "predicted": 1,
+            "recall": 0.1667
+          },
+          "RETRACTION_CANDIDATE": {
+            "f1": 0.0,
+            "gold": 4,
+            "precision": 0.0,
+            "predicted": 0,
+            "recall": 0.0
+          },
+          "TENTATIVE_PLAN": {
+            "f1": 0.0,
+            "gold": 5,
+            "precision": 0.0,
+            "predicted": 0,
+            "recall": 0.0
+          }
+        }
+      },
+      "reference_median_ms_per_turn": 0.0211
+    }
+  },
+  "tier": "single_author_synthetic_utterances_no_LLM_or_Lu"
+}

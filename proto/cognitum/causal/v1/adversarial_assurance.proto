@@ -1,0 +1,43 @@
+syntax = "proto3";
+package cognitum.causal.v1;
+import "cognitum/causal/v1/holdout_assurance.proto";
+
+// C14 G12 - synthetic research diagnostics; never host authority.
+message AdversarialAssuranceRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  HoldoutAssuranceRequest upstream_request = 3;
+  HoldoutAssuranceDecision upstream_decision = 4;
+  HoldoutAssuranceReceipt upstream_receipt = 5;
+  string study_scenario = 6;
+  uint32 study_sample_size = 7;
+  bool requests_intervention_recommendation = 8;
+}
+message AdversarialAssuranceDecision {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  bytes request_sha256 = 3;
+  bytes pinned_study_sha256 = 4;
+  string disposition = 5;
+  repeated string reason_codes = 6;
+  bool upstream_replay_checked = 7;
+  bool independent_evidence_math_verified = 8;
+  uint32 studied_datasets = 9;
+  double naive_mean_absolute_error = 10;
+  double adjusted_mean_absolute_error = 11;
+  bool assumption_violation_known_from_synthetic_generator = 12;
+  bool may_describe_synthetic_stress_diagnostic = 13;
+  bool may_issue_real_world_causal_claim = 14;
+  bool may_recommend_intervention = 15;
+  bool may_trigger_external_action = 16;
+  bool authenticated_lu_host = 17;
+  bool research_only = 18;
+  string machine_safe_summary = 19;
+}
+message AdversarialAssuranceReceipt {
+  bytes request_sha256 = 1;
+  bytes decision_sha256 = 2;
+  bytes pinned_study_sha256 = 3;
+  bool independent_arithmetic_replayed = 4;
+  bool authenticated_lu_host = 5;
+}

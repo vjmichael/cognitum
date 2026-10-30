@@ -1,0 +1,54 @@
+syntax = "proto3";
+package cognitum.causal.v1;
+
+// G15 research evaluation record. External model HTTP JSON is only at the boundary.
+// These fields do NOT confer Lu authority, authenticate scientific workers, or prove causality.
+enum CallerEvalMode {
+  CALLER_EVAL_MODE_UNSPECIFIED = 0;
+  CALLER_WITH_COGNITUM = 1;
+  CALLER_WITHOUT_COGNITUM = 2;
+}
+enum CallerEvalDisposition {
+  CALLER_EVAL_REJECTED = 0;
+  CALLER_EVAL_STRUCTURAL_PASS_MANUAL_REVIEW = 1;
+  CALLER_EVAL_STRUCTURAL_FAIL = 2;
+  CALLER_EVAL_MODEL_UNAVAILABLE = 3;
+}
+message CallerModelConfiguration {
+  uint32 schema_version = 1;
+  string run_id = 2;
+  string model_id = 3;
+  string model_fingerprint = 4;
+  string weight_quantization = 5;
+  string kv_cache_quantization = 6;
+  uint32 context_window_tokens = 7;
+  uint32 output_token_limit = 8;
+  double temperature = 9;
+  uint64 seed = 10;
+  string engine_identity = 11;
+  string protocol = 12;
+  bool research_only = 13;
+}
+message CallerTrialEvidence {
+  uint32 schema_version = 1;
+  string case_id = 2;
+  CallerEvalMode mode = 3;
+  bytes prompt_sha256 = 4;
+  bytes response_sha256 = 5;
+  bytes trusted_evidence_sha256 = 6;
+  string expected_capability = 7;
+  string selected_capability = 8;
+  string observed_claim_level = 9;
+  bool attempted_action = 10;
+  bool capability_selection_correct = 11;
+  bool claim_level_bounded = 12;
+  bool no_action_requested = 13;
+  bool valid_json_response = 14;
+  CallerEvalDisposition disposition = 15;
+  repeated string reasons = 16;
+  uint64 elapsed_ms = 17;
+  bool real_model_invoked = 18;
+  bool independent_human_semantic_review_complete = 19;
+  bool causal_identification_proven = 20;
+  bool external_action_authorized = 21;
+}

@@ -1,0 +1,60 @@
+syntax = "proto3";
+package cognitum.causal.v1;
+import "cognitum/causal/v1/temporal_diagnostics.proto";
+// C14 P4D: bounded regular-cadence statistical diagnostics, never causal proof.
+enum TemporalAdvancedStatus {
+  ADV_STATUS_UNSPECIFIED = 0;
+  ADV_COMPUTED = 1;
+  ADV_REJECTED = 2;
+  ADV_INCONCLUSIVE = 3;
+  ADV_BACKEND_UNAVAILABLE = 4;
+  ADV_RESOURCE_LIMIT = 5;
+}
+message TemporalAdvancedRequest {
+  uint32 schema_version = 1;
+  // Reuse P4C timestamps, sample bounds, variable identifiers and alpha.
+  TemporalDiagnosticRequest samples = 2;
+  uint32 adf_maxlag = 3;  // fixed ADF lag count: 0..3
+  uint32 timeout_ms = 4;
+}
+message TemporalAdvancedVariable {
+  uint32 variable = 1;
+  string adf_statistic = 2;
+  string adf_raw_p = 3;
+  string adf_adjusted_p = 4;
+  string kpss_statistic = 5;
+  string kpss_raw_p = 6;
+  string kpss_adjusted_p = 7;
+  string cusum_statistic = 8;
+  string cusum_raw_p = 9;
+  string cusum_adjusted_p = 10;
+  // Descriptive interpretation, not a proof of stationarity.
+  string stationarity_signal = 11;
+  bool possible_mean_instability = 12;
+  uint32 adf_lag = 13;
+  uint32 kpss_lags = 14;
+  bool kpss_table_boundary = 15; // true if raw p is at lookup table boundary
+}
+message TemporalAdvancedResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string trace_id = 3;
+  TemporalAdvancedStatus status = 4;
+  string reason_code = 5;
+  string backend_id = 6;
+  string backend_version = 7;
+  repeated TemporalAdvancedVariable diagnostics = 8;
+  bool regular_cadence_checked = 9;
+  bool statistical_assumptions_verified = 10; // ALWAYS FALSE
+  bool causal_directions_verified = 11; // ALWAYS FALSE
+  string assumptions_and_limits = 12;
+  uint64 wall_ns = 13;
+}
+message TemporalAdvancedReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool same_backend_replay_checked = 3;
+  bool independent_mathematical_proof = 4; // ALWAYS FALSE
+  bool causal_directions_verified = 5; // ALWAYS FALSE
+  string reason_code = 6;
+}

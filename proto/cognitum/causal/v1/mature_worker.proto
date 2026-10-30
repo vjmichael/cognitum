@@ -1,0 +1,75 @@
+syntax = "proto3";
+package cognitum.causal.v1;
+import "cognitum/causal/v1/heterogeneity.proto";
+import "cognitum/causal/v1/discovery.proto";
+
+// C14 P3C: experimental, optional isolated mature-library workers.
+// A returned numeric estimate or discovered skeleton is never a causal proof.
+enum MatureCausalBackend {
+  MATURE_BACKEND_UNSPECIFIED = 0;
+  ECONML_LINEAR_DML_0170 = 1;
+  CAUSAL_LEARN_PC_0148 = 2;
+}
+enum MatureCausalStatus {
+  MATURE_STATUS_UNSPECIFIED = 0;
+  MATURE_RESULT_CANDIDATE = 1;
+  MATURE_REQUEST_DENIED = 2;
+  MATURE_BACKEND_UNAVAILABLE = 3;
+  MATURE_NOT_SUPPORTED = 4;
+  MATURE_INCONCLUSIVE = 5;
+  MATURE_TIMEOUT = 6;
+}
+message MatureCausalRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  MatureCausalBackend backend = 3;
+  oneof task {
+    HeterogeneityRequest conditional_effects = 4;
+    DiscoveryRequest candidate_graph = 5;
+  }
+  uint32 seed = 6; // host-pinned, never evidence of causation
+  uint32 timeout_ms = 7;
+  uint32 max_expanded_rows = 8;
+}
+message ExternalConditionalEffect {
+  repeated uint32 modifier_states = 1;
+  uint32 observations = 2;
+  string estimated_effect = 3; // finite bounded numeric, NOT exact nor proven
+  string reference_effect = 4; // empirical P3A comparison, not a ground truth
+  string absolute_reference_difference = 5;
+}
+message MatureCausalResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string trace_id = 3;
+  MatureCausalBackend backend = 4;
+  MatureCausalStatus status = 5;
+  string reason_code = 6;
+  string backend_id = 7;
+  string runtime_version = 8;
+  repeated ExternalConditionalEffect effects = 9;
+  repeated CandidateEdge skeleton_edges = 10; // NO orientations emitted
+  bool orientations_published = 11; // always false
+  bool causal_assumptions_verified = 12; // always false
+  string assurance = 13;
+  uint64 wall_ns = 14;
+  uint32 sample_count = 15;
+}
+message MatureCausalReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool request_bound_structure_checked = 3;
+  bool causal_assumptions_proven = 4; // always false
+  string reason_code = 5;
+}
+message MatureCausalAudit {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  string trace_id = 3;
+  MatureCausalBackend backend = 4;
+  MatureCausalStatus status = 5;
+  string backend_id = 6;
+  string runtime_version = 7;
+  string reason_code = 8;
+  uint64 wall_ns = 9;
+}

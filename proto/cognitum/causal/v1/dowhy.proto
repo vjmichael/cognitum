@@ -1,0 +1,72 @@
+syntax = "proto3";
+package cognitum.causal.v1;
+import "cognitum/causal/v1/estimation.proto";
+
+// C14 P2B optional external backend; does not replace exact P1/P2A contracts.
+// Source dataset is bounded aggregate frequency counts; all worker inputs are typed.
+enum DoWhyMethod {
+  DOWHY_METHOD_UNSPECIFIED = 0;
+  DOWHY_BACKDOOR_LINEAR_REGRESSION = 1;
+  DOWHY_FRONTDOOR_RESERVED = 2;
+  DOWHY_INSTRUMENTAL_VARIABLE_RESERVED = 3;
+}
+enum DoWhyRefutation {
+  DOWHY_REFUTATION_NONE = 0;
+  DOWHY_PLACEBO_PERMUTATION = 1;
+}
+enum DoWhyStatus {
+  DOWHY_STATUS_UNSPECIFIED = 0;
+  DOWHY_EFFECT_ESTIMATED = 1;
+  DOWHY_BACKEND_UNAVAILABLE = 2;
+  DOWHY_DENIED = 3;
+  DOWHY_UNSUPPORTED = 4;
+  DOWHY_INCONCLUSIVE = 5;
+  DOWHY_TIMEOUT = 6;
+}
+message DoWhyRequest {
+  uint32 schema_version = 1;
+  EstimationRequest estimation = 2; // backend MUST be DOWHY_OPTIONAL_WORKER.
+  DoWhyMethod method = 3;
+  DoWhyRefutation refutation = 4;
+  uint64 random_seed = 5; // fixed for optional placebo refutation
+  uint32 max_expanded_rows = 6; // strict upper budget; no implicit sampling
+}
+message DoWhyResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string trace_id = 3;
+  DoWhyStatus status = 4;
+  string reason_code = 5;
+  string backend_id = 6;
+  string backend_version = 7;
+  DoWhyMethod method = 8;
+  bool graph_criterion_checked = 9; // only within caller-supplied causal graph
+  bool numeric_crosschecked = 10; // independent sample statistic tolerance check
+  string estimated_ate = 11; // empirical estimate, not proven causal
+  string exact_standardized_reference_ate = 12;
+  string absolute_reference_difference = 13;
+  DoWhyRefutation refutation = 14;
+  bool refutation_executed = 15;
+  string refutation_estimated_effect = 16; // diagnostic only, not causal proof
+  string refutation_reason_code = 17;
+  uint32 total_observations = 18;
+  uint64 wall_ns = 19;
+  string assurance = 20; // ASSUMED_GRAPH_NUMERIC_CROSSCHECK only on verified result
+}
+message DoWhyReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool numeric_verified = 3;
+  bool causal_assumptions_proven = 4; // always false in P2B
+  string reason_code = 5;
+}
+message DoWhyAudit {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  string trace_id = 3;
+  DoWhyStatus status = 4;
+  string backend_id = 5;
+  string backend_version = 6;
+  string reason_code = 7;
+  uint64 wall_ns = 8;
+}

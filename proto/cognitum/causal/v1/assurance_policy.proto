@@ -1,0 +1,79 @@
+syntax = "proto3";
+package cognitum.causal.v1;
+
+import "cognitum/causal/v1/interval_comparison.proto";
+
+// C14 G10: synthetic-research-only advisory. Never an authorization token.
+enum CausalAssuranceDisposition {
+  CAUSAL_ASSURANCE_UNSPECIFIED = 0;
+  CAUSAL_ASSURANCE_REJECT_UNVERIFIED = 1;
+  CAUSAL_ASSURANCE_ABSTAIN_CONFOUNDING = 2;
+  CAUSAL_ASSURANCE_ABSTAIN_POSITIVITY = 3;
+  CAUSAL_ASSURANCE_ABSTAIN_METHOD = 4;
+  CAUSAL_ASSURANCE_ABSTAIN_CALIBRATION = 5;
+  CAUSAL_ASSURANCE_DESCRIBE_SYNTHETIC_ONLY = 6;
+}
+
+message CausalAssuranceRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  IntervalComparisonRequest experiment = 3;
+  IntervalComparisonResult candidate = 4;
+  IntervalComparisonReceipt calculation_receipt = 5;
+  string selected_method = 6;
+  bool requests_intervention_recommendation = 7;
+}
+
+message CausalCalibrationSummary {
+  string scenario = 1;
+  string method = 2;
+  uint32 sample_size = 3;
+  uint32 attempts = 4;
+  uint32 completed = 5;
+  double nominal_confidence = 6;
+  double observed_coverage = 7;
+  double wilson_lower = 8;
+  double wilson_upper = 9;
+  double mean_interval_width = 10;
+  bool eligible_in_synthetic_generator = 11;
+  bool recorded_calibration = 12;
+  bytes source_report_sha256 = 13;
+  string caveat = 14;
+}
+
+message CausalBoundsAdvisory {
+  bool available = 1;
+  double plug_in_identified_lower = 2;
+  double plug_in_identified_upper = 3;
+  double population_envelope_lower = 4;
+  double population_envelope_upper = 5;
+  double envelope_nominal_confidence = 6;
+  bool point_identified = 7; // ALWAYS FALSE
+  string interpretation = 8;
+}
+
+message CausalAssuranceDecision {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  bytes request_sha256 = 3;
+  CausalAssuranceDisposition disposition = 4;
+  repeated string reason_codes = 5;
+  CausalCalibrationSummary calibration = 6;
+  CausalBoundsAdvisory partial_bounds = 7;
+  bool calculation_replay_checked = 8;
+  bool research_only = 9; // ALWAYS TRUE
+  bool causal_assumptions_verified = 10; // ALWAYS FALSE
+  bool may_issue_causal_claim = 11; // ALWAYS FALSE
+  bool may_recommend_intervention = 12; // ALWAYS FALSE
+  bool may_trigger_external_action = 13; // ALWAYS FALSE
+  bool authenticated_lu_host = 14; // ALWAYS FALSE
+  string machine_safe_summary = 15;
+}
+
+message CausalAssuranceReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool deterministic_policy_replay_checked = 3;
+  bool independent_causal_identification_verified = 4; // ALWAYS FALSE
+  bool authenticated_lu_host = 5; // ALWAYS FALSE
+}

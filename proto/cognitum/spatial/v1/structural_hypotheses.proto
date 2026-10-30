@@ -1,0 +1,60 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+// C15 T2 P2C: comparative explanations; caller-assumed priors and likelihoods.
+message StructuralAssertion {
+  string assembly_id = 1;
+  string part_id = 2;
+  string role = 3;
+  bool present = 4;
+}
+message StructuralHypothesis {
+  string hypothesis_id = 1;
+  double prior_weight = 2;
+  repeated StructuralAssertion assertions = 3;
+}
+message HypothesisLikelihood {
+  string hypothesis_id = 1;
+  double likelihood = 2;
+}
+message StructuralObservation {
+  string source_ref = 1;
+  uint64 tick = 2;
+  repeated HypothesisLikelihood likelihoods = 3;
+}
+message StructuralFunctionalConstraint {
+  string function_id = 1;
+  string assembly_id = 2;
+  repeated string required_roles = 3;
+  repeated string excluded_roles = 4;
+}
+message StructuralHypothesisRequest {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  string graph_id = 3;
+  repeated StructuralHypothesis hypotheses = 4;
+  repeated StructuralObservation observations = 5;
+  repeated StructuralFunctionalConstraint functions = 6;
+  bool research_only = 7;
+  bool grants_authority = 8;
+}
+message StructuralFunctionAssessment {
+  string function_id = 1;
+  string status = 2;
+  repeated string reasons = 3;
+}
+message StructuralHypothesisAssessment {
+  string hypothesis_id = 1;
+  double relative_weight = 2;
+  bool internally_consistent = 3;
+  repeated string contradictions = 4;
+  repeated StructuralFunctionAssessment functions = 5;
+}
+message StructuralHypothesisResult {
+  string conversation_id = 1;
+  string graph_id = 2;
+  repeated StructuralHypothesisAssessment ranked = 3;
+  bool ambiguous = 4;
+  repeated string warnings = 5;
+  bool research_only = 6;
+  bool grants_authority = 7;
+}

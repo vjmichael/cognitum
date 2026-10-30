@@ -1,0 +1,16 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+// C15 T2 P2B: caller-asserted evidence, never authenticated or action-authorizing.
+// Relations are directed component -> assembly. Shared parts may have many parents.
+enum AssemblyEvidence { ASSEMBLY_UNSPECIFIED = 0; ASSEMBLY_OBSERVED = 1; ASSEMBLY_INFERRED = 2; ASSEMBLY_HYPOTHETICAL = 3; }
+enum AssemblyFinding { ASSEMBLY_FINDING_UNSPECIFIED = 0; ASSEMBLY_PRESENT_CLAIM = 1; ASSEMBLY_NOT_ESTABLISHED = 2; ASSEMBLY_EXPLICIT_ABSENCE = 3; ASSEMBLY_CONTRADICTION = 4; }
+message AssemblyObject { string id = 1; string kind = 2; AssemblyEvidence evidence = 3; string source_ref = 4; }
+message PartMembership { string part_id = 1; string assembly_id = 2; string role = 3; AssemblyEvidence evidence = 4; string source_ref = 5; }
+message RequiredRole { string assembly_id = 1; string role = 2; uint32 minimum_count = 3; string source_ref = 4; }
+// Assertion of absence is NOT inferred merely from missing observed membership.
+message AbsentRole { string assembly_id = 1; string role = 2; AssemblyEvidence evidence = 3; string source_ref = 4; }
+message FunctionalClaim { string assembly_id = 1; string function_id = 2; repeated string required_roles = 3; AssemblyEvidence evidence = 4; string source_ref = 5; }
+message AssemblyResearchRequest { uint32 schema_version = 1; string graph_id = 2; string conversation_id = 3; repeated AssemblyObject objects = 4; repeated PartMembership memberships = 5; repeated RequiredRole requirements = 6; repeated AbsentRole absences = 7; repeated FunctionalClaim functions = 8; bool research_only = 9; bool grants_authority = 10; }
+message AssemblyRoleFinding { string assembly_id = 1; string role = 2; AssemblyFinding status = 3; uint32 claimed_count = 4; uint32 required_count = 5; repeated string part_ids = 6; repeated string warnings = 7; }
+message AssemblyFunctionFinding { string assembly_id = 1; string function_id = 2; bool required_roles_claimed = 3; repeated string reasons = 4; }
+message AssemblyResearchResult { string graph_id = 1; string conversation_id = 2; repeated AssemblyRoleFinding roles = 3; repeated AssemblyFunctionFinding functions = 4; repeated string warnings = 5; bool research_only = 6; bool grants_authority = 7; }

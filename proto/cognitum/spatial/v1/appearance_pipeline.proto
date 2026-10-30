@@ -1,0 +1,83 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+import "cognitum/spatial/v1/appearance.proto";
+import "cognitum/spatial/v1/composition.proto";
+
+// C15 P2M internal native-Protobuf, research-only image feature boundary.
+// A declared model is NOT an authority grant or permission to execute weights.
+enum P2MBackend {
+  P2M_BACKEND_UNSPECIFIED = 0;
+  P2M_HISTOGRAM_CPU = 1;
+  P2M_EXTERNAL_LEARNED_DISABLED = 2;
+}
+message P2MModelSpec {
+  string model_id = 1;
+  bytes encoder_sha256 = 2;
+  P2MBackend backend = 3;
+  uint32 output_dimension = 4;
+  string preprocessing_id = 5;
+  bytes weights_sha256 = 6; // external source claim only; not a signature
+  bool research_only = 7;
+  bool grants_authority = 8;
+}
+message P2MBox {
+  double x = 1;
+  double y = 2;
+  double w = 3;
+  double h = 4;
+}
+message P2MFrame {
+  uint64 frame = 1;
+  bytes encoded_image = 2; // bounded JPEG/PNG image bytes, never stored in result
+  repeated P2MBox boxes = 3; // original detector boxes; no GT identity fields
+  string source_ref = 4;
+}
+message P2MFeatureRequest {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  string sequence_id = 3;
+  string request_id = 4;
+  P2MModelSpec model = 5;
+  repeated P2MFrame frames = 6;
+  bool research_only = 7;
+  bool grants_authority = 8;
+}
+message P2MFrameDigest {
+  uint64 frame = 1;
+  bytes image_sha256 = 2;
+  string source_ref = 3;
+}
+message P2MFeatureResponse {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  string sequence_id = 3;
+  string request_id = 4;
+  bytes request_sha256 = 5;
+  P2MModelSpec model = 6;
+  repeated P2MFrameDigest frames = 7;
+  repeated AppearanceDescriptor descriptors = 8;
+  bool research_only = 9;
+  bool grants_authority = 10;
+  repeated string warnings = 11;
+}
+message P2MTrackCandidate {
+  uint64 frame = 1;
+  uint64 tracker_id = 2; // forced top-choice: not a canonical object identity
+  string detection_id = 3;
+  bytes descriptor_sha256 = 4;
+}
+message P2MSpatialHandoff {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  string sequence_id = 3;
+  bytes feature_response_sha256 = 4;
+  repeated P2MTrackCandidate candidates = 5;
+  StructureGraph t2_hypothetical_graph = 6;
+  bool t1_identity_candidate_only = 7;
+  bool t2_structure_candidate_only = 8;
+  bool t3_projection_blocked_without_calibration = 9;
+  bool canonical_scene_mutation_blocked = 10;
+  bool research_only = 11;
+  bool grants_authority = 12;
+  repeated string warnings = 13;
+}

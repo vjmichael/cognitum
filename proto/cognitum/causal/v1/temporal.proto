@@ -1,0 +1,53 @@
+syntax = "proto3";
+package cognitum.causal.v1;
+import "cognitum/causal/v1/discovery.proto";
+// C14 P4A: *predictive* time-lag screening, not causal identification.
+// Assumes aligned equally spaced samples; excludes instantaneous effects.
+enum TemporalStatus {
+  TEMPORAL_STATUS_UNSPECIFIED = 0;
+  TEMPORAL_SCREEN_COMPUTED = 1;
+  TEMPORAL_REJECTED = 2;
+  TEMPORAL_INCONCLUSIVE = 3;
+  TEMPORAL_RESOURCE_LIMIT = 4;
+  TEMPORAL_BACKEND_UNAVAILABLE = 5;
+}
+message TemporalScreenRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  repeated string variable_ids = 3;
+  repeated ContinuousObservation observations = 4;
+  uint32 interval_ms = 5; // caller-declared even sampling; not independently verified
+  uint32 max_lag = 6;
+  double familywise_alpha = 7;
+  uint32 timeout_ms = 8;
+}
+message LaggedPredictiveAssociation {
+  uint32 source = 1;
+  uint32 target = 2;
+  uint32 lag = 3;
+  string coefficient = 4;
+  string f_statistic = 5;
+  string unadjusted_p = 6;
+  string bonferroni_adjusted_p = 7;
+  bool passes_familywise_threshold = 8; // statistical screen, NOT causal proof
+}
+message TemporalScreenResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string trace_id = 3;
+  TemporalStatus status = 4;
+  string reason_code = 5;
+  uint32 tests_executed = 6;
+  uint32 effective_samples = 7;
+  repeated LaggedPredictiveAssociation screens = 8;
+  string assumptions_and_limits = 9;
+  bool time_lagged_causality_verified = 10; // ALWAYS FALSE
+  uint64 wall_ns = 11;
+}
+message TemporalScreenReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool numerical_replay_checked = 3;
+  bool causal_directions_verified = 4; // ALWAYS FALSE
+  string reason_code = 5;
+}

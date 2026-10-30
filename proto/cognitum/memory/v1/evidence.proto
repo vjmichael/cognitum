@@ -1,0 +1,112 @@
+syntax = "proto3";
+package cognitum.memory.v1;
+
+// C06/P1 is an OFFLINE synthetic verifier, not an authorized Lu read service.
+// A Protobuf-shaped host snapshot is NOT itself proof of host authentication.
+// All authorization must originate from the host-owned integration boundary.
+
+enum RetrievalStatus {
+  RETRIEVAL_STATUS_UNSPECIFIED = 0;
+  VERIFIED = 1;
+  DENIED = 2;
+  UNAVAILABLE = 3;
+  STALE = 4;
+  DELETED = 5;
+  INVALID = 6;
+  LIMIT = 7;
+  UNSUPPORTED = 8;
+  CANCELLED = 9;
+}
+
+enum RevisionKind {
+  REVISION_KIND_UNSPECIFIED = 0;
+  CURRENT = 1;
+  HISTORICAL = 2;
+}
+
+message SourceRef {
+  string session_id = 1;
+  string chapter_id = 2;
+  string entry_id = 3;
+  string revision_id = 4;
+}
+
+// Caller-side request cannot specify its own grant, owner or permissions.
+message MemoryQuery {
+  uint32 schema_version = 1;
+  string request_id = 2;
+  string literal_query = 3;
+  uint32 max_results = 4;
+  bool include_historical = 5;
+  repeated SourceRef exact_sources = 6;
+}
+
+// Derived-index hints are entirely untrusted. There is deliberately no
+// passage text here; only host-sourced bytes may enter the final evidence.
+message IndexedCandidate {
+  SourceRef source = 1;
+  string content_sha256 = 2;
+  string snapshot_id = 3;
+  string scope_id = 4;
+  uint32 start_utf8_byte = 5;
+  uint32 length_utf8_byte = 6;
+}
+message CandidateBatch {
+  uint32 schema_version = 1;
+  repeated IndexedCandidate candidates = 2;
+}
+
+// The following message is an injected TEST FIXTURE until a Lu-host
+// authenticated snapshot adapter has been approved and implemented.
+message CanonicalRecord {
+  SourceRef source = 1;
+  string current_revision_id = 2;
+  bool authorized = 3;
+  bool deleted = 4;
+  string canonical_text = 5;
+}
+message CanonicalSnapshot {
+  uint32 schema_version = 1;
+  string snapshot_id = 2;
+  string scope_id = 3;
+  uint64 authorization_epoch = 4;
+  uint64 index_epoch = 5;
+  bool grant_active = 6;
+  bool consistent = 7;
+  repeated CanonicalRecord records = 8;
+}
+
+message MemoryEvidence {
+  SourceRef source = 1;
+  RevisionKind revision_kind = 2;
+  string content_sha256 = 3;
+  string snapshot_id = 4;
+  string citation_handle = 5;
+  uint32 start_utf8_byte = 6;
+  string excerpt = 7;
+}
+message RetrievalReply {
+  uint32 schema_version = 1;
+  string request_id = 2;
+  RetrievalStatus status = 3;
+  repeated MemoryEvidence evidence = 4;
+}
+
+// A citation handle is a locator, NEVER a bearer grant. These fields are
+// untrusted hints for fresh host-authenticated canonical source rechecks.
+message CitationLookup {
+  uint32 schema_version = 1;
+  string request_id = 2;
+  string citation_handle = 3;
+  SourceRef source = 4;
+  string snapshot_id = 5;
+  string content_sha256 = 6;
+  uint32 start_utf8_byte = 7;
+  uint32 length_utf8_byte = 8;
+}
+message CitationResolution {
+  uint32 schema_version = 1;
+  string request_id = 2;
+  RetrievalStatus status = 3;
+  MemoryEvidence evidence = 4;
+}

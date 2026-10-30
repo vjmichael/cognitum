@@ -1,0 +1,56 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+// C15 P1 additive, versioned research-only 2D benchmark observation contract.
+// Source evidence and identity labels are data, never authority or verified sensing.
+enum ObservationRole {
+  OBSERVATION_ROLE_UNSPECIFIED = 0;
+  GROUND_TRUTH = 1;
+  DETECTION = 2;
+  TRACKER_PREDICTION = 3;
+}
+message BoundingBox2D {
+  double x = 1; // left, image pixels, zero-indexed coordinates
+  double y = 2; // top, image pixels
+  double width = 3;
+  double height = 4;
+}
+message UncompressedMaskRLE {
+  uint32 width = 1;
+  uint32 height = 2;
+  repeated uint32 counts = 3; // COCO uncompressed counts, column-major, starts with background
+}
+message ObservationProvenance {
+  string dataset_id = 1;
+  string dataset_version = 2;
+  string source_uri = 3;
+  bytes source_sha256 = 4; // content digest is not signature or authentication
+  string annotation_version = 5;
+}
+message BenchmarkObservation {
+  uint32 schema_version = 1; // exactly 1
+  string sequence_id = 2;
+  uint64 frame_index = 3; // 1-based video frame
+  string observation_id = 4;
+  ObservationRole role = 5;
+  string class_label = 6;
+  int32 class_id = 7;
+  optional int64 track_id = 8; // missing for detections; valid zero is distinct from absent
+  optional double confidence = 9;
+  optional uint64 timestamp_ns = 10;
+  string camera_frame = 11;
+  uint32 image_width = 12;
+  uint32 image_height = 13;
+  BoundingBox2D bbox = 14;
+  UncompressedMaskRLE mask = 15;
+  ObservationProvenance provenance = 16;
+  bool research_only = 17;
+  bool grants_authority = 18;
+  bool is_ignore_region = 19;
+  optional double visibility = 20; // GT-only; missing must not imply fully visible
+}
+message BenchmarkFrame {
+  uint32 schema_version = 1;
+  string sequence_id = 2;
+  uint64 frame_index = 3;
+  repeated BenchmarkObservation observations = 4;
+}

@@ -1,0 +1,96 @@
+syntax = "proto3";
+package cognitum.planning.v1;
+
+// Grounded ordered HTN decomposition, not unrestricted HDDL or partial-order HTNs.
+message HtnMethod {
+  string method_id = 1;
+  string abstract_task_id = 2;
+  repeated string subtasks = 3;
+}
+message HtnRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  bytes classical_request = 3;
+  repeated string root_tasks = 4;
+  repeated HtnMethod methods = 5;
+  uint32 max_expansions = 6;
+}
+enum HtnStatus {
+  HTN_STATUS_UNSPECIFIED = 0;
+  VERIFIED_HTN_PLAN = 1;
+  VERIFIED_HTN_OPTIMAL = 2;
+  VERIFIED_HTN_NO_PLAN = 3;
+  HTN_UNKNOWN = 4;
+  HTN_REJECTED = 5;
+}
+message HtnResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string trace_id = 3;
+  HtnStatus status = 4;
+  repeated uint32 action_indices = 5;
+  uint64 total_cost = 6;
+  uint32 explored_decompositions = 7;
+  bool plan_verified = 8;
+  bool complete_search_verified = 9;
+  string reason_code = 10;
+  uint64 wall_ns = 11;
+  string backend_id = 12;
+}
+
+// Resource-free, integer-time precedence DAG scheduling. No effects or dispatch.
+message TemporalAction {
+  string id = 1;
+  uint32 duration = 2;
+  uint32 earliest_start = 3;
+  uint32 latest_finish = 4; // 0 = no deadline
+  repeated string predecessors = 5;
+}
+message TemporalRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  repeated TemporalAction actions = 3;
+}
+enum TemporalStatus {
+  TEMPORAL_STATUS_UNSPECIFIED = 0;
+  VERIFIED_TEMPORAL_EARLIEST = 1;
+  VERIFIED_TEMPORAL_INFEASIBLE = 2;
+  TEMPORAL_UNKNOWN = 3;
+  TEMPORAL_REJECTED = 4;
+}
+message TimedActionStart {
+  string id = 1;
+  uint64 start = 2;
+}
+message TemporalResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string trace_id = 3;
+  TemporalStatus status = 4;
+  repeated TimedActionStart starts = 5;
+  uint64 makespan = 6;
+  bool independently_verified = 7;
+  string reason_code = 8;
+  uint64 wall_ns = 9;
+  string backend_id = 10;
+}
+message StructuredReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool evidence_valid = 3;
+  bool optimality_verified = 4;
+  string reason_code = 5;
+}
+message StructuredAudit {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  bytes result_sha256 = 3;
+  string trace_id = 4;
+  string capability_id = 5;
+  string status = 6;
+  bool evidence_valid = 7;
+  bool optimality_verified = 8;
+  string reason_code = 9;
+  uint64 wall_ns = 10;
+  string backend_id = 11;
+}

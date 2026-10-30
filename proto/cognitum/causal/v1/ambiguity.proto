@@ -1,0 +1,59 @@
+syntax = "proto3";
+package cognitum.causal.v1;
+import "cognitum/causal/v1/discovery.proto";
+// C14 P3F: enumerate observationally compatible acyclic orientations under
+// explicitly *assumed* causal sufficiency, Markov and faithfulness conditions.
+// Unshielded colliders supplied by a caller are unverified assumptions.
+enum AmbiguityStatus {
+  AMBIGUITY_STATUS_UNSPECIFIED = 0;
+  AMBIGUITY_COMPUTED = 1;
+  AMBIGUITY_REJECTED = 2;
+  AMBIGUITY_INCONCLUSIVE = 3;
+  AMBIGUITY_RESOURCE_LIMIT = 4;
+}
+message UnshieldedCollider {
+  uint32 first = 1; // first < last; arrows first -> middle <- last
+  uint32 middle = 2;
+  uint32 last = 3;
+}
+message DirectedPossibility {
+  uint32 source = 1;
+  uint32 target = 2;
+}
+message AmbiguityRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  DiscoveryRequest source_request = 3;
+  bytes source_result = 4; // must replay match and have no oriented edges
+  bool select_declared_collider_signature = 5;
+  repeated UnshieldedCollider declared_colliders = 6;
+  uint32 max_orientations = 7; // 1 .. 512, at least 2^edge_count
+  uint32 timeout_ms = 8;
+}
+message EquivalenceClassCandidate {
+  repeated UnshieldedCollider unshielded_colliders = 1;
+  uint32 dag_count = 2;
+  repeated DirectedPossibility compelled_arrows_within_class = 3;
+}
+message AmbiguityResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string trace_id = 3;
+  AmbiguityStatus status = 4;
+  string reason_code = 5;
+  bool source_skeleton_replayed = 6;
+  uint32 orientations_considered = 7;
+  uint32 acyclic_orientations = 8;
+  repeated EquivalenceClassCandidate classes = 9;
+  bool assumed_causal_sufficiency = 10; // never verified
+  bool causal_direction_established = 11; // ALWAYS FALSE
+  string assumptions_and_limits = 12;
+  uint64 wall_ns = 13;
+}
+message AmbiguityReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool enumeration_replay = 3;
+  bool causal_orientation_verified = 4; // ALWAYS FALSE
+  string reason_code = 5;
+}

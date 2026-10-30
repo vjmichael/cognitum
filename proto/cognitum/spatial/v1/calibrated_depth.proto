@@ -1,0 +1,80 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+// C15 T3 P2Q -- research-only depth-geometry bridge, not a sensor attestation.
+import "cognitum/spatial/v1/temporal_occupancy.proto";
+import "cognitum/spatial/v1/volume.proto";
+
+message P2QCamera {
+  string frame_id = 1;
+  string calibration_source_ref = 2;
+  uint32 width = 3;
+  uint32 height = 4;
+  double fx = 5;
+  double fy = 6;
+  double cx = 7;
+  double cy = 8;
+  // This contract supports an explicitly rectified/undistorted pinhole image only.
+  bool rectified_pinhole = 9;
+  // Camera-to-world rigid transform. Quaternion order: w, x, y, z.
+  OccupancyVec3 translation = 10;
+  double qw = 11;
+  double qx = 12;
+  double qy = 13;
+  double qz = 14;
+  double max_axial_depth_m = 15;
+}
+message P2QDepthPixel {
+  uint32 u = 1;
+  uint32 v = 2;
+  double axial_depth_m = 3;
+  uint64 tick = 4;
+  string source_ref = 5;
+  bytes depth_frame_sha256 = 6;
+  bool endpoint_hit = 7;
+}
+message P2QDepthRequest {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  string volume_id = 3;
+  string capture_id = 4;
+  P2QCamera camera = 5;
+  bytes camera_sha256 = 6;
+  double voxel_size_m = 7;
+  uint32 max_axis = 8;
+  uint64 evaluation_tick = 9;
+  double half_life_ticks = 10;
+  repeated P2QDepthPixel pixels = 11;
+  double hit_probability = 12;
+  double free_probability = 13;
+  bool research_only = 14;
+  bool grants_authority = 15;
+}
+message P2QProjection {
+  uint32 u = 1;
+  uint32 v = 2;
+  uint64 tick = 3;
+  string source_ref = 4;
+  bytes depth_frame_sha256 = 5;
+  bool endpoint_hit = 6;
+  OccupancyVec3 camera_endpoint_m = 7;
+  OccupancyVec3 world_endpoint_m = 8;
+  sint32 voxel_x = 9;
+  sint32 voxel_y = 10;
+  sint32 voxel_z = 11;
+  string derived_ray_source_ref = 12;
+}
+message P2QDepthResult {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  string volume_id = 3;
+  string capture_id = 4;
+  bytes request_sha256 = 5;
+  bytes camera_sha256 = 6;
+  repeated P2QProjection projections = 7;
+  TemporalOccupancyRequest temporal_request = 8;
+  TemporalOccupancyResult temporal_result = 9;
+  VolumeGrid hypothetical_volume = 10;
+  repeated string warnings = 11;
+  bool research_only = 12;
+  bool grants_authority = 13;
+}
