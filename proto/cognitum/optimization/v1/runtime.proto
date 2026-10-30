@@ -1,0 +1,61 @@
+syntax = "proto3";
+package cognitum.optimization.runtime.v1;
+
+// C11 P3: host-only metadata and reproducibility; never an authorization token.
+enum BackendMaturity {
+  MATURITY_UNSPECIFIED = 0;
+  ESTABLISHED = 1;
+  RESEARCH_CANDIDATE = 2;
+}
+enum WorkerOutcome {
+  OUTCOME_UNSPECIFIED = 0;
+  COMPLETED = 1;
+  DENIED = 2;
+  TIMED_OUT = 3;
+  PROCESS_FAILED = 4;
+  RESULT_REJECTED = 5;
+  CANCELLED = 6;
+}
+message BackendCapability {
+  string backend_id = 1;
+  string workflow_kind = 2;
+  BackendMaturity maturity = 3;
+  string implementation = 4;
+  string license_id = 5;
+  string research_reference = 6;
+  bool available_in_p2 = 7;
+  bool opt_in_required = 8;
+  bool runtime_tested = 9;
+  string interface_version = 10;
+}
+message CapabilityManifest {
+  uint32 schema_version = 1;
+  repeated BackendCapability backends = 2;
+  bytes manifest_sha256 = 3; // SHA of canonical manifest with this field cleared
+}
+message ExecutionRecord {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  bytes result_sha256 = 3;
+  bytes receipt_sha256 = 4;
+  bytes worker_sha256 = 5;
+  string trace_id = 6;
+  string backend_id = 7;
+  string backend_version = 8;
+  string workflow_kind = 9;
+  WorkerOutcome outcome = 10;
+  string reason_code = 11;
+  uint64 elapsed_ns = 12; // host wall-clock observation, not certified benchmark
+  uint32 deadline_ms = 13;
+  int32 exit_code = 14;
+  bool witness_verified = 15;
+  bool optimality_verified = 16;
+  bool host_approved = 17; // MUST remain false; not an authority credential
+  string measurement_source = 18;
+}
+message ExecutionEnvelope {
+  uint32 schema_version = 1;
+  ExecutionRecord record = 2;
+  bytes result_frame = 3; // bounded canonical WorkflowResult protobuf; absent on failure
+  bytes receipt_frame = 4; // independently recomputed WorkflowReceipt protobuf
+}

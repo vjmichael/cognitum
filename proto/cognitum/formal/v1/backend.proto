@@ -1,0 +1,61 @@
+syntax = "proto3";
+package cognitum.formal.backend.v1;
+
+// C10 P2: explicitly typed expression tree and locally pinned solver selection.
+// A model-authored BackendRun does not confer process execution authority.
+enum Sort { SORT_UNSPECIFIED = 0; BOOL = 1; INT = 2; REAL = 3; BV = 4; }
+enum Operation {
+  OP_UNSPECIFIED = 0; AND = 1; OR = 2; NOT = 3; IMPLIES = 4;
+  EQ = 5; ITE = 6; ADD = 7; SUB = 8; MUL = 9;
+  LT = 10; LE = 11; GT = 12; GE = 13; XOR = 14;
+  BVAND = 15; BVOR = 16; BVNOT = 17; BVADD = 18; BVULT = 19;
+}
+message Variable { string name = 1; Sort sort = 2; uint32 width = 3; }
+message IntegerLiteral { string decimal = 1; }
+message RationalLiteral { string numerator = 1; string denominator = 2; }
+message BitVectorLiteral { uint64 value = 1; uint32 width = 2; }
+message Application { Operation op = 1; repeated Expr args = 2; }
+message Expr {
+  oneof node {
+    string variable = 1;
+    bool boolean = 2;
+    IntegerLiteral integer = 3;
+    RationalLiteral rational = 4;
+    BitVectorLiteral bitvector = 5;
+    Application application = 6;
+  }
+}
+message BackendRun {
+  uint32 schema_version = 1;
+  string backend_id = 2; // exact host-registered backend only; not an executable path
+  repeated Variable variables = 3;
+  repeated Expr assertions = 4;
+  uint32 timeout_ms = 5;
+  string trace_id = 6; // untrusted correlation hint, never authorization
+}
+enum Verdict { VERDICT_UNSPECIFIED = 0; SAT = 1; UNSAT = 2; UNKNOWN = 3; REJECTED = 4; ERROR = 5; }
+enum Verification { VERIFICATION_UNSPECIFIED = 0; SAT_WITNESS_CHECKED = 1; UNSAT_NOT_PROVEN = 2; NO_EVIDENCE = 3; }
+message ModelValue { string name = 1; Sort sort = 2; string exact_value = 3; uint32 width = 4; }
+message BackendResult {
+  uint32 schema_version = 1;
+  Verdict verdict = 2;
+  Verification verification = 3;
+  string reason_code = 4;
+  string backend_id = 5;
+  bytes request_sha256 = 6;
+  bytes solver_output_sha256 = 7; // zero if no solver executed
+  string backend_fingerprint = 8;
+  repeated ModelValue model = 9;
+  uint64 wall_ns = 10;
+  string trace_id = 11;
+  bool host_approved = 12; // must remain false; outcome is not an authorization grant
+  bool semantic_formalization_verified = 13; // never asserted by solver
+}
+
+message VerificationReceipt {
+  bool evidence_valid = 1;
+  string reason_code = 2;
+  bytes request_sha256 = 3;
+  bytes result_sha256 = 4;
+  string verifier_id = 5;
+}

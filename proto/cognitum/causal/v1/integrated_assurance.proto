@@ -1,0 +1,68 @@
+syntax = "proto3";
+package cognitum.causal.v1;
+import "cognitum/causal/v1/adversarial_assurance.proto";
+
+// G13: offline synthetic-research handoff. All caller claims are untrusted.
+// Neither this message nor its receipt grants authority to invoke Lu tools.
+enum CallerIntent {
+  CALLER_INTENT_UNSPECIFIED = 0;
+  CALLER_DESCRIBE_SYNTHETIC_STRESS_TEST = 1;
+  CALLER_ASSERT_REAL_WORLD_CAUSAL_CLAIM = 2;
+  CALLER_RECOMMEND_INTERVENTION = 3;
+  CALLER_EXECUTE_EXTERNAL_ACTION = 4;
+}
+enum IntegrationDisposition {
+  INTEGRATION_REJECT_UNVERIFIED = 0;
+  INTEGRATION_ABSTAIN_UPSTREAM = 1;
+  INTEGRATION_DESCRIBE_SYNTHETIC_DIAGNOSTIC_ONLY = 2;
+  INTEGRATION_ABSTAIN_CAUSAL_OVERREACH = 3;
+  INTEGRATION_ABSTAIN_UNTRUSTED_ASSERTION = 4;
+  INTEGRATION_ABSTAIN_UNSUPPORTED_INTENT = 5;
+}
+message IntegratedAssuranceRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  string conversation_id = 3; // caller-provided scope, NOT host authentication
+  string task_id = 4;
+  AdversarialAssuranceRequest upstream_request = 5;
+  AdversarialAssuranceDecision upstream_decision = 6;
+  AdversarialAssuranceReceipt upstream_receipt = 7;
+  CallerIntent caller_intent = 8;
+  string untrusted_caller_narrative = 9; // NEVER copied to output or executed
+  bool caller_claims_causal_proof = 10;
+  bool caller_claims_lu_authorization = 11;
+}
+message IntegratedAssuranceDecision {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  string conversation_id = 3;
+  string task_id = 4;
+  bytes request_sha256 = 5;
+  bytes pinned_g12_source_sha256 = 6;
+  IntegrationDisposition disposition = 7;
+  repeated string reason_codes = 8;
+  bool g10_replay_checked = 9;
+  bool g11_replay_checked = 10;
+  bool g12_replay_checked = 11;
+  bool independent_synthetic_arithmetic_replayed = 12;
+  bool synthetic_generator_authenticity_verified = 13;
+  bool causal_identification_proven = 14;
+  bool may_describe_synthetic_stress_diagnostic = 15;
+  bool may_issue_real_world_causal_claim = 16;
+  bool may_recommend_intervention = 17;
+  bool may_trigger_external_action = 18;
+  bool authenticated_lu_host = 19;
+  bool research_only = 20;
+  string g10_disposition = 21;
+  string g11_disposition = 22;
+  string g12_disposition = 23;
+  string safe_message = 24; // allowlisted template, never raw LLM text
+}
+message IntegratedAssuranceReceipt {
+  bytes request_sha256 = 1;
+  bytes decision_sha256 = 2;
+  bytes upstream_receipt_sha256 = 3;
+  bytes pinned_g12_source_sha256 = 4;
+  bool research_only = 5;
+  bool authenticated_lu_host = 6;
+}

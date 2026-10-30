@@ -1,0 +1,78 @@
+syntax = "proto3";
+package cognitum.causal.v1;
+import "cognitum/causal/v1/scm.proto";
+
+// C14 P2A: bounded observational adjustment estimation, always conditional
+// on a caller-supplied causal graph. Identified-by-graph != established cause.
+enum EstimationBackend {
+  ESTIMATION_BACKEND_UNSPECIFIED = 0;
+  REFERENCE_STRATIFIED_ADJUSTMENT = 1;
+  DOWHY_OPTIONAL_WORKER = 2; // Reserved; unsupported until isolated runtime verified.
+}
+enum EstimationStatus {
+  ESTIMATION_STATUS_UNSPECIFIED = 0;
+  ADJUSTED_EFFECT_COMPUTED = 1;
+  ADJUSTMENT_NOT_CERTIFIED = 2;
+  POSITIVITY_NOT_MET = 3;
+  ESTIMATION_INCONCLUSIVE = 4;
+  ESTIMATION_REJECTED = 5;
+  ESTIMATION_BACKEND_UNAVAILABLE = 6;
+}
+message FrequencyRow {
+  repeated uint32 states = 1; // One observed state per endogenous node, in model order.
+  uint32 count = 2; // Aggregate frequency; never silently interpreted as one row.
+}
+message EstimationRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  CausalRequest identification = 3; // BACKDOOR_CHECK, with graph and adjustment.
+  repeated FrequencyRow observations = 4;
+  EstimationBackend backend = 5;
+  uint32 min_arm_count = 6; // Minimum sample count per (treatment, adjustment) cell.
+  uint32 timeout_ms = 7;
+}
+message StratumDiagnostic {
+  repeated uint32 covariate_states = 1;
+  uint32 control_count = 2;
+  uint32 treated_count = 3;
+  string observed_weight = 4; // Exact fraction.
+}
+message EstimationResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string trace_id = 3;
+  EstimationStatus status = 4;
+  string reason_code = 5;
+  string backend_id = 6;
+  string backend_version = 7;
+  bool graph_criterion_checked = 8;
+  bool independently_checked = 9;
+  string estimate = 10; // Exact empirical standardized binary risk difference.
+  string uncertainty_method = 11; // Approximate plug-in Wald, not exact coverage.
+  string standard_error = 12;
+  string ci95_lower = 13;
+  string ci95_upper = 14;
+  uint32 total_observations = 15;
+  repeated StratumDiagnostic strata = 16;
+  string leave_one_stratum_out_min = 17; // Sensitivity only, not proof/refutation.
+  string leave_one_stratum_out_max = 18;
+  string assurance = 19; // GRAPH_ASSUMPTION_EMPIRICAL_ESTIMATE or NONE.
+  uint64 wall_ns = 20;
+}
+message EstimationReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool computation_verified = 3;
+  string assurance = 4;
+  string reason_code = 5;
+}
+message EstimationAudit {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  string trace_id = 3;
+  EstimationStatus status = 4;
+  string backend_id = 5;
+  string backend_version = 6;
+  string reason_code = 7;
+  uint64 wall_ns = 8;
+}

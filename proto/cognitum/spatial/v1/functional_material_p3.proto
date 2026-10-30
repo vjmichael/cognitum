@@ -1,0 +1,100 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+
+import "cognitum/spatial/v1/functional_material_p2.proto";
+import "cognitum/spatial/v1/functional_material.proto";
+
+// Research evaluation transport only. Supplying a source reference or digest
+// does NOT authenticate an observation, establish independence or grant authority.
+enum T4P3Partition {
+  T4P3_PARTITION_UNSPECIFIED = 0;
+  T4P3_CALIBRATION = 1;
+  T4P3_HOLDOUT = 2;
+}
+enum T4P3ReferenceKind {
+  T4P3_REFERENCE_UNSPECIFIED = 0;
+  T4P3_SYNTHETIC_ORACLE = 1;
+  T4P3_PUBLISHED_REFERENCE_CLAIM = 2;
+  T4P3_LAB_OBSERVATION_CLAIM = 3;
+}
+enum T4P3ObservedClass {
+  T4P3_OBSERVED_UNSPECIFIED = 0;
+  T4P3_OBSERVED_SATISFIES = 1;
+  T4P3_OBSERVED_VIOLATES = 2;
+  T4P3_OBSERVED_UNDETERMINED = 3;
+}
+message T4P3Case {
+  string case_id = 1;
+  string specimen_group_id = 2;
+  string reference_source_ref = 3;
+  bytes reference_sha256 = 4; // data identity, NOT signature
+  T4P3Partition partition = 5;
+  T4P3ReferenceKind reference_kind = 6;
+  T4P3ObservedClass observed_class = 7;
+  T4P2ResearchRequest scenario = 8;
+  string finding_id = 9;
+  // Only for fit clearance: measured/synthetic clearance in SI meters.
+  // This compares claimed engineering interval bounds to a reference value,
+  // NOT a probability interval unless separately substantiated.
+  optional double observed_clearance_m = 10;
+}
+message T4P3AuditRequest {
+  uint32 schema_version = 1;
+  string study_id = 2;
+  string conversation_id = 3;
+  bytes prespecified_plan_sha256 = 4; // claims plan identity, NOT pre-registration
+  repeated T4P3Case cases = 5;
+  bool research_only = 6;
+  bool grants_authority = 7;
+  // Optional claimed *nominal* coverage for audit only; never inferred from P2.
+  // 0 means no declared probability target.
+  double claimed_nominal_coverage = 8;
+}
+message T4P3Rate {
+  bool defined = 1;
+  uint32 numerator = 2;
+  uint32 denominator = 3;
+  double estimate = 4;
+  double wilson_95_low = 5;
+  double wilson_95_high = 6;
+}
+message T4P3PartitionMetrics {
+  T4P3Partition partition = 1;
+  uint32 cases = 2;
+  uint32 with_reference_class = 3;
+  uint32 reference_unknown = 4;
+  uint32 decided = 5;
+  uint32 abstained = 6;
+  uint32 false_positive = 7; // model CONSISTENT vs observed VIOLATES
+  uint32 false_negative = 8; // model CONTRADICTS vs observed SATISFIES
+  T4P3Rate selective_error = 9;
+  T4P3Rate false_positive_rate = 10;
+  T4P3Rate false_negative_rate = 11;
+  T4P3Rate decision_coverage = 12;
+  T4P3Rate claimed_interval_coverage = 13; // fit only
+  bool contains_non_synthetic_claims = 14;
+  bool has_enough_cases_for_exploratory_rates = 15;
+  string nominal_coverage_audit = 16; // NO_CLAIM, INCONCLUSIVE, BELOW_CLAIM, etc.
+}
+message T4P3CaseAudit {
+  string case_id = 1;
+  T4P3Partition partition = 2;
+  T4FindingStatus predicted_status = 3;
+  T4P3ObservedClass observed_class = 4;
+  bool label_falsifies_decision = 5;
+  bool numeric_reference_available = 6;
+  bool claimed_interval_contains_reference = 7;
+  bool claimed_interval_falsified = 8;
+  repeated string reason_codes = 9;
+}
+message T4P3AuditResult {
+  bytes request_sha256 = 1;
+  repeated T4P3CaseAudit audited_cases = 2;
+  T4P3PartitionMetrics calibration = 3;
+  T4P3PartitionMetrics holdout = 4;
+  repeated string warnings = 5;
+  bool research_only = 6;
+  bool grants_authority = 7;
+  bool independent_evidence_authenticated = 8;
+  bool physical_validity_verified = 9;
+}

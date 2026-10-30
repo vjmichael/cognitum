@@ -1,0 +1,67 @@
+syntax = "proto3";
+package cognitum.state.v1;
+
+// C07 P8 diagnostic only: NONE of these classes grants authority to mutate
+// ANSF, mint StateEvent, infer verification, or promote a model hypothesis.
+enum UtteranceClass {
+  UTTERANCE_CLASS_UNSPECIFIED = 0;
+  NO_STATE_CHANGE = 1;
+  TENTATIVE_PLAN = 2;
+  DECISION_CANDIDATE = 3;
+  CHANGE_OF_MIND_CANDIDATE = 4;
+  CORRECTION_CANDIDATE = 5;
+  RETRACTION_CANDIDATE = 6;
+  ABSTAIN_UNRESOLVED = 7;
+}
+message ConversationTurn {
+  uint32 schema_version = 1;
+  string scope_id = 2;
+  string source_session_id = 3;
+  string source_entry_id = 4;
+  string speaker_role = 5; // diagnostic role supplied by trusted host; text does not authenticate it.
+  string utterance = 6;
+  string prior_decision = 7; // optional verified prior context; not a grant.
+  string subject_hint = 8; // optional host-supplied disambiguation aid; not inferred identity.
+}
+message InterpretationProposal {
+  uint32 schema_version = 1;
+  UtteranceClass label = 2;
+  string candidate_span = 3; // exact source-text substring, not normalized invented facts.
+  string reason_code = 4;
+  bool requires_host_review = 5;
+  bool may_write_state_directly = 6; // MUST be false; nonzero is invalid.
+}
+
+// C07 P9: host-fenced contextual proposals. These identifiers are UNTRUSTED
+// selectors, not capabilities. Lu must independently authenticate and bind the
+// exact turn and each current anchor before a proposal can be disclosed.
+message ContextAnchor {
+  string scope_id = 1;
+  string claim_id = 2;
+  string subject_id = 3;
+  string predicate = 4;
+  string value_text = 5;
+  uint64 revision = 6;
+  string latest_event_id = 7;
+  string source_session_id = 8;
+  string source_revision_entry_id = 9;
+  string source_sha256 = 10;
+  string source_snapshot_id = 11;
+  bool active = 12;
+}
+message ContextWindow {
+  uint32 schema_version = 1;
+  ConversationTurn turn = 2;
+  repeated ContextAnchor anchors = 3;
+  string selected_claim_id = 4; // Host must separately validate this binding.
+}
+message ContextResolution {
+  uint32 schema_version = 1;
+  InterpretationProposal proposal = 2;
+  string target_claim_id = 3;
+  uint64 target_revision = 4;
+  string target_latest_event_id = 5;
+  string reason_code = 6;
+  bool requires_host_review = 7;
+  bool may_write_state_directly = 8; // Always false. Never a StateEvent.
+}

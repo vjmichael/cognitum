@@ -1,0 +1,39 @@
+syntax = "proto3";
+package cognitum.causal.v1;
+// G9 offline, bounded synthetic experiment interface; never authenticates Lu.
+message IntervalComparisonRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  string scenario = 3;
+  uint32 seed = 4;
+  uint32 sample_size = 5;
+  uint32 bootstrap_resamples = 6;
+  double confidence = 7;
+}
+message IntervalMethodResult {
+  string method = 1;
+  string status = 2;
+  bool point_interval_available = 3;
+  double estimate = 4;
+  double lower = 5;
+  double upper = 6;
+  bool causal_identification_verified = 7; // ALWAYS FALSE
+  string warning = 8;
+}
+message IntervalComparisonResult {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  bytes request_sha256 = 3;
+  repeated IntervalMethodResult methods = 4;
+  bool research_only = 5; // ALWAYS TRUE
+  bool host_authorized = 6; // ALWAYS FALSE
+  bool causal_conclusion_verified = 7; // ALWAYS FALSE
+  string warning = 8;
+}
+message IntervalComparisonReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool deterministic_replay_checked = 3;
+  bool host_authenticated = 4; // ALWAYS FALSE
+  bool causal_conclusion_verified = 5; // ALWAYS FALSE
+}

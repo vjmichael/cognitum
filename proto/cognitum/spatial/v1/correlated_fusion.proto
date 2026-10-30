@@ -1,0 +1,48 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+// C15 T3 P2R: sensitivity analysis on caller-declared same-image correlation.
+// This is not sensor calibration, physical attestation, or action permission.
+import "cognitum/spatial/v1/calibrated_depth.proto";
+import "cognitum/spatial/v1/volume.proto";
+
+message P2RFusionRequest {
+  uint32 schema_version = 1;
+  P2QDepthRequest depth = 2;
+  // Equicorrelation heuristic within a cell for rays sharing (source_ref, depth_frame_sha256).
+  // A hash is a caller assertion, not a trusted frame identity.
+  double assumed_within_capture_rho = 3;
+  bool research_only = 4;
+  bool grants_authority = 5;
+}
+message P2RFusionCell {
+  sint32 x = 1;
+  sint32 y = 2;
+  sint32 z = 3;
+  double independent_log_odds = 4;
+  double independent_probability = 5;
+  double adjusted_log_odds = 6;
+  double adjusted_probability = 7;
+  uint32 hit_count = 8;
+  uint32 free_count = 9;
+  uint32 capture_group_count = 10;
+  uint32 largest_correlated_group = 11;
+  // Exact min/max on the documented five-point heuristic sensitivity grid,
+  // NOT an empirical confidence interval.
+  double sensitivity_min_probability = 12;
+  double sensitivity_max_probability = 13;
+  bool conflicting_observations = 14;
+}
+message P2RFusionResult {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  string volume_id = 3;
+  bytes request_sha256 = 4;
+  bytes baseline_p2q_sha256 = 5;
+  P2QDepthResult independent_baseline = 6;
+  repeated P2RFusionCell cells = 7;
+  VolumeGrid hypothetical_volume = 8;
+  repeated string warnings = 9;
+  bool research_only = 10;
+  bool grants_authority = 11;
+  double assumed_within_capture_rho = 12;
+}

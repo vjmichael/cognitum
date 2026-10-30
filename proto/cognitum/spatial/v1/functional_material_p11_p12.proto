@@ -1,0 +1,58 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+
+import "cognitum/spatial/v1/functional_material_p8_p10.proto";
+import "cognitum/spatial/v1/functional_material_p5_p7.proto";
+
+// Research-only, offline evidence verifiers. Host trust configuration and
+// OS worker authority are never included in the model-supplied request.
+message T4P11Rfc3161Request {
+  uint32 schema_version = 1;
+  bool research_only = 2;
+  bool grants_authority = 3;
+  T4P6PlanLockRequest p6 = 4;
+  bytes timestamp_query_der = 5;
+  bytes timestamp_response_der = 6;
+  string expected_tsa_policy_oid = 7;
+}
+message T4P11Rfc3161Result {
+  bool receipt_chain_signature_verified = 1;
+  bool requested_nonce_and_imprint_verified = 2;
+  bool signer_certificate_host_pinned = 3;
+  bool timestamp_before_observations = 4;
+  bool claimed_chronology_consistent = 5;
+  bool independent_tsa_identity_verified = 6;
+  bool certificate_revocation_checked = 7;
+  uint64 gen_time_ms = 8;
+  string timestamp_policy_oid = 9;
+  bool research_only = 10;
+  bool grants_authority = 11;
+  repeated string warnings = 12;
+}
+message T4P12SpecimenUncertainty {
+  string specimen_id = 1;
+  string standard_uncertainty_m = 2;
+  string coverage_factor = 3;
+  string instrument_id = 4;
+  uint64 calibrated_at_ms = 5;
+  uint64 observed_at_ms = 6;
+}
+message T4P12UncertaintyRequest {
+  uint32 schema_version = 1;
+  bool research_only = 2;
+  bool grants_authority = 3;
+  T4P10DatasetIntakeRequest p10 = 4;
+  repeated T4P12SpecimenUncertainty specimens = 5;
+}
+message T4P12UncertaintyResult {
+  uint32 rows_checked = 1;
+  uint32 calibration_rows = 2;
+  uint32 holdout_rows = 3;
+  uint32 undetermined_rows = 4;
+  bool uncertainty_label_consistency_verified = 5;
+  bool real_instrument_calibration_verified = 6;
+  bool physical_safety_verified = 7;
+  bool research_only = 8;
+  bool grants_authority = 9;
+  repeated string warnings = 10;
+}

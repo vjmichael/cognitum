@@ -1,0 +1,67 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+
+import "cognitum/spatial/v1/functional_material_p5_p7.proto";
+
+// Host-mediated research boundary: none of these messages can enroll roots,
+// authorize a model, certify a real-world issuer, or command physical action.
+message T4TrustPolicyEnvelope {
+  uint32 schema_version = 1;
+  bool research_only = 2;
+  bool grants_authority = 3;
+  string root_key_id = 4;
+  bytes canonical_policy_json = 5;
+  bytes ed25519_signature = 6;
+}
+message T4TrustPolicyResult {
+  uint64 generation = 1;
+  string policy_sha256 = 2;
+  uint32 active_signers = 3;
+  uint32 revoked_signers = 4;
+  bool host_root_signature_verified = 5;
+  bool persistent_highwater_verified = 6;
+  bool independent_identity_verified = 7;
+  bool research_only = 8;
+  bool grants_authority = 9;
+  repeated string warnings = 10;
+}
+message T4P9TimeAnchorRequest {
+  uint32 schema_version = 1;
+  bool research_only = 2;
+  bool grants_authority = 3;
+  T4P7AdjudicationRequest p7 = 4;
+  T4SignedRecord notary_statement = 5;
+}
+message T4P9TimeAnchorResult {
+  T4P7AdjudicationResult p7_result = 1;
+  bool signed_notary_anchor_verified = 2;
+  bool externally_issued_timestamp_verified = 3;
+  bool independent_preregistration_verified = 4;
+  bool research_only = 5;
+  bool grants_authority = 6;
+  repeated string warnings = 7;
+}
+message T4EvidenceBlob {
+  string ref_id = 1;
+  bytes content = 2;
+}
+message T4P10DatasetIntakeRequest {
+  uint32 schema_version = 1;
+  bool research_only = 2;
+  bool grants_authority = 3;
+  bytes manifest_json = 4;
+  bytes raw_csv = 5;
+  repeated T4EvidenceBlob calibration_documents = 6;
+}
+message T4P10DatasetIntakeResult {
+  uint32 rows_validated = 1;
+  uint32 specimen_groups = 2;
+  uint32 calibrations_bound = 3;
+  bool csv_digest_verified = 4;
+  bool licensed_real_world_data_verified = 5;
+  bool calibration_independently_verified = 6;
+  bool physical_safety_verified = 7;
+  bool research_only = 8;
+  bool grants_authority = 9;
+  repeated string warnings = 10;
+}

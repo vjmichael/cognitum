@@ -1,0 +1,75 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+// C15 T3 P2C: sensor evidence is caller-supplied; calibration measured, not assumed.
+message OccupancyVec3 { double x = 1; double y = 2; double z = 3; }
+message OccupancyFrame {
+  string frame_id = 1;
+  OccupancyVec3 translation = 2;
+  double qw = 3;
+  double qx = 4;
+  double qy = 5;
+  double qz = 6;
+}
+message TemporalRay {
+  string source_ref = 1;
+  uint64 tick = 2;
+  string frame_id = 3;
+  OccupancyVec3 start = 4;
+  OccupancyVec3 end = 5;
+  bool endpoint_hit = 6;
+  double hit_probability = 7;
+  double free_probability = 8;
+}
+message CalibrationLabel {
+  sint32 x = 1;
+  sint32 y = 2;
+  sint32 z = 3;
+  bool occupied = 4;
+  string source_ref = 5;
+}
+message TemporalOccupancyRequest {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  string volume_id = 3;
+  double voxel_size_m = 4;
+  uint32 max_axis = 5;
+  uint64 evaluation_tick = 6;
+  double half_life_ticks = 7;
+  repeated OccupancyFrame frames = 8;
+  repeated TemporalRay rays = 9;
+  repeated CalibrationLabel holdout_labels = 10;
+  bool research_only = 11;
+  bool grants_authority = 12;
+  repeated CalibrationLabel calibration_labels = 13;
+}
+message TemporalCell {
+  sint32 x = 1;
+  sint32 y = 2;
+  sint32 z = 3;
+  double log_odds = 4;
+  double probability = 5;
+  uint32 hit_count = 6;
+  uint32 free_count = 7;
+  bool conflicted = 8;
+  double calibrated_probability = 9;
+}
+message OccupancyCalibrationReport {
+  uint32 evaluated_count = 1;
+  double brier_score = 2;
+  double expected_calibration_error = 3;
+  uint32 bins = 4;
+  string assessment = 5;
+  uint32 training_count = 6;
+  double selected_temperature = 7;
+  double calibrated_brier = 8;
+  double calibrated_expected_calibration_error = 9;
+}
+message TemporalOccupancyResult {
+  string conversation_id = 1;
+  string volume_id = 2;
+  repeated TemporalCell cells = 3;
+  OccupancyCalibrationReport holdout = 4;
+  repeated string warnings = 5;
+  bool research_only = 6;
+  bool grants_authority = 7;
+}

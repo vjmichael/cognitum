@@ -1,0 +1,24 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+// P2D provenance check for externally extracted learned appearance descriptors.
+message AppearanceDescriptor {
+  uint32 schema_version = 1;
+  string model_id = 2;
+  string image_source_id = 3;
+  string detection_id = 4;
+  string conversation_id = 5;
+  uint64 frame = 6;
+  bytes encoder_sha256 = 7;
+  bytes frame_sha256 = 8;
+  repeated float vector = 9;
+  bool research_only = 10;
+  bool grants_authority = 11;
+}
+message AppearanceAssessment {
+  bool format_valid = 1;
+  bool content_hashes_well_formed = 2;
+  bool independently_authenticated = 3;
+  bool research_only = 4;
+  bool grants_authority = 5;
+  repeated string warnings = 6;
+}

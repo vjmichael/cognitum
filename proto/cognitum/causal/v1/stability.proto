@@ -1,0 +1,67 @@
+syntax = "proto3";
+package cognitum.causal.v1;
+import "cognitum/causal/v1/discovery.proto";
+// C14 P3E: offline resampling diagnostics on statistical skeleton *hypotheses*.
+// Nothing in this contract certifies causal orientation or causal truth.
+enum ResamplingMode {
+  RESAMPLING_MODE_UNSPECIFIED = 0;
+  SUBSAMPLE_WITHOUT_REPLACEMENT = 1;
+  BOOTSTRAP_WITH_REPLACEMENT = 2;
+  SUBSAMPLE_PERMUTED_NULL = 3;
+}
+enum StabilityStatus {
+  STABILITY_STATUS_UNSPECIFIED = 0;
+  STABILITY_COMPUTED = 1;
+  STABILITY_REJECTED = 2;
+  STABILITY_INCONCLUSIVE = 3;
+  STABILITY_RESOURCE_LIMIT = 4;
+  STABILITY_BACKEND_UNAVAILABLE = 5;
+}
+message StabilityRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  DiscoveryRequest source_request = 3; // canonical bounded reference method only
+  ResamplingMode mode = 4;
+  uint32 repetitions = 5; // 2 .. 16
+  uint32 rows_per_replicate = 6; // 60 .. len(source_request.observations)
+  uint64 fixed_seed = 7;
+  uint32 total_test_budget = 8;
+  uint32 total_timeout_ms = 9;
+  uint32 permuted_variable = 10; // used only for SUBSAMPLE_PERMUTED_NULL
+}
+message EdgeStability {
+  uint32 first = 1;
+  uint32 second = 2;
+  uint32 selection_count = 3;
+  string selection_fraction = 4; // descriptive resample proportion, NOT posterior
+}
+message ReplicateDigest {
+  uint32 ordinal = 1;
+  bytes draw_indices_sha256 = 2; // indices in exact draw order, uint32 big endian
+  bytes reference_request_sha256 = 3;
+  bytes result_sha256 = 4;
+  uint32 tests_executed = 5;
+}
+message StabilityResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string trace_id = 3;
+  StabilityStatus status = 4;
+  string reason_code = 5;
+  ResamplingMode mode = 6;
+  uint32 completed_repetitions = 7;
+  uint32 total_tests = 8;
+  repeated EdgeStability edges = 9; // every unordered pair, including zero count
+  repeated ReplicateDigest replicates = 10;
+  string assumptions_and_limits = 11;
+  bool causal_orientation_established = 12; // always false
+  bool causal_effect_identified = 13; // always false
+  uint64 wall_ns = 14;
+}
+message StabilityReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool exact_resampling_replay = 3;
+  bool causal_model_verified = 4; // always false
+  string reason_code = 5;
+}

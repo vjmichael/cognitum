@@ -1,0 +1,9 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+// C15 T3 P2B: bounded rays and sparse cells; caller-supplied sensor assertions.
+message Ray3 { double x = 1; double y = 2; double z = 3; }
+message RayObservation { Ray3 start = 1; Ray3 end = 2; bool endpoint_hit = 3; string source_ref = 4; uint64 tick = 5; double hit_probability = 6; double free_probability = 7; }
+message RayBatch { uint32 schema_version = 1; string volume_id = 2; string conversation_id = 3; double voxel_size_m = 4; uint32 max_axis = 5; repeated RayObservation rays = 6; bool research_only = 7; bool grants_authority = 8; }
+message RayCell { sint32 x = 1; sint32 y = 2; sint32 z = 3; double measured_log_odds = 4; uint32 hit_count = 5; uint32 free_count = 6; repeated string source_refs = 7; bool conflicted = 8; }
+message CoarseBlock { uint32 level = 1; sint32 x = 2; sint32 y = 3; sint32 z = 4; uint32 observed_children = 5; uint32 expected_children = 6; bool complete = 7; double mean_probability = 8; bool mixed_states = 9; }
+message RayResearchResult { string volume_id = 1; string conversation_id = 2; repeated RayCell cells = 3; repeated CoarseBlock coarse_blocks = 4; repeated string warnings = 5; bool research_only = 6; bool grants_authority = 7; }

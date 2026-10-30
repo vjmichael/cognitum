@@ -43,6 +43,10 @@ def inventory(path: Path) -> dict[str, dict]:
     with zipfile.ZipFile(path, "r") as archive:
         for item in archive.infolist():
             name = item.filename
+            # ZipInfo normalizes backslashes on Windows; orig_filename retains
+            # the untrusted spelling before platform-specific normalization.
+            if item.orig_filename != name:
+                raise UnsafeCheckpoint(f"NORMALIZED_OR_UNSAFE_PATH:{item.orig_filename}")
             posix = PurePosixPath(name)
             if (not name or name.startswith("/") or "\\" in name or
                     ".." in posix.parts or ":" in posix.parts[0] or

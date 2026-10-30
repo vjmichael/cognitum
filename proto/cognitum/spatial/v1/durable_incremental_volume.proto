@@ -1,0 +1,29 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+// C15 T3 P2Y: host-provided anchor; no claim of a real host integration.
+// Key and authoritative latest anchor MUST live outside this journal.
+message P2YHostAnchor {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  string volume_id = 3;
+  uint64 authority_epoch = 4;
+  uint64 sequence = 5;
+  bytes head_hmac_sha256 = 6;
+  bytes checkpoint_sha256 = 7;
+  bool revoked = 8;
+  bool research_only = 9;
+  bool grants_authority = 10;
+}
+message P2YDurableRecord {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  string volume_id = 3;
+  uint64 authority_epoch = 4;
+  uint64 sequence = 5;
+  bytes request = 6; // Deterministic serialized P2WUpdateRequest.
+  bytes lifecycle = 7; // Deterministic serialized P2WUpdateResult.
+  bytes preceding_hmac_sha256 = 8;
+  bytes record_hmac_sha256 = 9;
+  bool research_only = 10;
+  bool grants_authority = 11;
+}

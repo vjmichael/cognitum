@@ -1,0 +1,30 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+// T3 P2X: process-local verified-cache receipt, NOT durable host authority.
+import "cognitum/spatial/v1/map_lifecycle.proto";
+message P2XReceipt {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  string volume_id = 3;
+  uint64 sequence = 4;
+  bytes request_sha256 = 5;
+  bytes p2v_result_sha256 = 6;
+  bytes checkpoint_sha256 = 7;
+  bytes previous_receipt_hmac_sha256 = 8;
+  bytes receipt_hmac_sha256 = 9;
+  bool research_only = 10;
+  bool grants_authority = 11;
+}
+message P2XIncrementalResult {
+  uint32 schema_version = 1;
+  P2WUpdateResult lifecycle = 2;
+  P2XReceipt receipt = 3;
+  uint32 reused_p2t_windows = 4;
+  uint32 recomputed_p2t_windows = 5;
+  uint32 reused_temporal_windows = 6;
+  uint32 recomputed_temporal_windows = 7;
+  bool reused_p2v_result = 8;
+  bool full_replay_parity_verified = 9;
+  bool research_only = 10;
+  bool grants_authority = 11;
+}

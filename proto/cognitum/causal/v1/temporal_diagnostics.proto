@@ -1,0 +1,68 @@
+syntax = "proto3";
+package cognitum.causal.v1;
+// C14 P4C: timestamp/cadence and linear-residual diagnostics, never causal proof.
+// Nonregular series are NOT interpolated and do NOT enter classical fixed-lag VAR.
+enum TemporalDiagnosticStatus {
+  TEMP_DIAG_STATUS_UNSPECIFIED = 0;
+  TEMP_DIAG_COMPUTED = 1;
+  TEMP_DIAG_REJECTED = 2;
+  TEMP_DIAG_INCONCLUSIVE = 3;
+  TEMP_DIAG_BACKEND_UNAVAILABLE = 4;
+  TEMP_DIAG_RESOURCE_LIMIT = 5;
+}
+enum TemporalCadence {
+  TEMP_CADENCE_UNSPECIFIED = 0;
+  TEMP_CADENCE_REGULAR = 1;
+  TEMP_CADENCE_GAPPED = 2;
+  TEMP_CADENCE_IRREGULAR = 3;
+}
+message TimedContinuousObservation {
+  uint64 timestamp_ms = 1;  // monotone, one observation per time; no implicit timezone.
+  repeated double values = 2;
+}
+message TemporalDiagnosticRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  repeated string variable_ids = 3;
+  repeated TimedContinuousObservation observations = 4;
+  uint32 declared_interval_ms = 5;
+  uint32 max_lag = 6;
+  double familywise_alpha = 7;
+  uint32 timeout_ms = 8;
+}
+message ResidualWhitenessDiagnostic {
+  uint32 variable = 1;
+  uint32 tested_lags = 2;
+  string ljung_box_q = 3;
+  string raw_p = 4;
+  string bonferroni_p = 5;
+  bool reject_white_noise = 6;
+}
+message TemporalDiagnosticResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string trace_id = 3;
+  TemporalDiagnosticStatus status = 4;
+  string reason_code = 5;
+  TemporalCadence cadence = 6;
+  uint32 observed_samples = 7;
+  uint32 missing_grid_slots = 8;
+  uint32 irregular_intervals = 9;
+  uint64 min_interval_ms = 10;
+  uint64 max_interval_ms = 11;
+  bool regular_cadence_checked = 12;
+  bool eligible_for_fixed_lag_screen = 13;  // only cadence/linear diagnostic preflight
+  repeated ResidualWhitenessDiagnostic residual_tests = 14;
+  bool statistical_assumptions_verified = 15; // ALWAYS FALSE
+  bool causal_directions_verified = 16;       // ALWAYS FALSE
+  string assumptions_and_limits = 17;
+  uint64 wall_ns = 18;
+}
+message TemporalDiagnosticReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool numerical_replay_checked = 3; // same-algorithm deterministic replay only
+  bool statistical_assumptions_verified = 4; // ALWAYS FALSE
+  bool causal_directions_verified = 5; // ALWAYS FALSE
+  string reason_code = 6;
+}

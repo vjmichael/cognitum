@@ -1,0 +1,91 @@
+syntax = "proto3";
+package cognitum.probability.v1;
+
+// C13 P3: known-noise hierarchical Normal partial pooling.
+// No arbitrary Python, code, executable or dynamic distribution AST.
+enum ContinuousBackend {
+  CONTINUOUS_BACKEND_UNSPECIFIED = 0;
+  GAUSSIAN_CONJUGATE_REFERENCE = 1;
+  PYMC_NUTS = 2;
+  PYMC_ADVI = 3;
+}
+enum ContinuousStatus {
+  CONTINUOUS_STATUS_UNSPECIFIED = 0;
+  CONTINUOUS_SUCCESS = 1;
+  CONTINUOUS_UNKNOWN = 2;
+  CONTINUOUS_REJECTED = 3;
+}
+message GaussianObservation {
+  uint32 group = 1;
+  double value = 2;
+  double known_sd = 3;
+}
+message HierarchicalGaussianModel {
+  repeated string group_ids = 1;
+  double global_prior_mean = 2;
+  double global_prior_sd = 3;
+  double group_sd = 4;
+  double predictive_sd = 5;
+  repeated GaussianObservation observations = 6;
+}
+message ContinuousRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  HierarchicalGaussianModel model = 3;
+  ContinuousBackend backend = 4;
+  uint32 draws = 5;
+  uint32 warmup = 6;
+  uint32 chains = 7;
+  uint64 seed = 8;
+  uint32 timeout_ms = 9;
+}
+message GaussianMoment {
+  string variable = 1;  // global or declared group ID
+  double mean = 2;
+  double sd = 3;
+  double central_95_lower = 4;
+  double central_95_upper = 5;
+  double predictive_mean = 6;  // only groups; one future observation
+  double predictive_sd = 7;
+}
+message ContinuousResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string trace_id = 3;
+  ContinuousBackend backend = 4;
+  ContinuousStatus status = 5;
+  repeated GaussianMoment moments = 6;
+  bool independent_numeric_check = 7;
+  bool exact_gaussian_reference = 8;  // exact analytic equations, numerically solved
+  string backend_id = 9;
+  string backend_version = 10;
+  string reason_code = 11;
+  uint64 wall_ns = 12;
+  uint32 actual_draws_per_chain = 13;
+  uint32 actual_chains = 14;
+  double max_rhat = 15;  // diagnostic only, not proof
+  double min_ess_bulk = 16;
+  uint32 divergences = 17;
+}
+message ContinuousReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool evidence_valid = 3;
+  bool analytic_reference_checked = 4;
+  bool sample_diagnostics_available = 5;
+  string reason_code = 6;
+}
+message ContinuousAudit {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  bytes result_sha256 = 3;
+  string trace_id = 4;
+  ContinuousBackend backend = 5;
+  ContinuousStatus status = 6;
+  string backend_id = 7;
+  string backend_version = 8;
+  bool independent_numeric_check = 9;
+  bool exact_gaussian_reference = 10;
+  uint64 wall_ns = 11;
+  string reason_code = 12;
+}

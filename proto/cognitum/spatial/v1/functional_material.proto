@@ -1,0 +1,116 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+
+// C15 T4 P1: bounded conditional constraint checks, not verified engineering
+// certification, authenticated measurement, actuation, or execution authority.
+enum T4Evidence {
+  T4_EVIDENCE_UNSPECIFIED = 0;
+  T4_MEASUREMENT_ASSERTED = 1;
+  T4_DATASHEET_ASSERTED = 2;
+  T4_INFERRED = 3;
+  T4_HYPOTHETICAL = 4;
+}
+enum T4Unit {
+  T4_UNIT_UNSPECIFIED = 0;
+  T4_METER = 1;
+  T4_MILLIMETER = 2;
+  T4_NEWTON = 3;
+  T4_KILONEWTON = 4;
+  T4_PASCAL = 5;
+  T4_MEGAPASCAL = 6;
+  T4_NEWTON_PER_METER = 7;
+  T4_NEWTON_PER_MILLIMETER = 8;
+  T4_RADIAN = 9;
+  T4_DEGREE = 10;
+  T4_SQUARE_METER = 11;
+  T4_SQUARE_MILLIMETER = 12;
+}
+enum T4JointKind {
+  T4_JOINT_UNSPECIFIED = 0;
+  T4_FIXED = 1;
+  T4_REVOLUTE = 2;
+  T4_PRISMATIC = 3;
+}
+enum T4FindingStatus {
+  T4_FINDING_UNSPECIFIED = 0;
+  T4_CONSISTENT_WITH_CLAIMS = 1;
+  T4_CONTRADICTS_CLAIMS = 2;
+  T4_UNDETERMINED = 3;
+}
+message T4Quantity {
+  double value = 1;
+  T4Unit unit = 2;
+  T4Evidence evidence = 3;
+  string source_ref = 4;
+}
+message T4Part {
+  string id = 1;
+  string kind = 2;
+  T4Evidence evidence = 3;
+  string source_ref = 4;
+}
+message T4FitCheck {
+  string id = 1;
+  string bore_part_id = 2;
+  string shaft_part_id = 3;
+  T4Quantity bore_diameter = 4;
+  T4Quantity shaft_diameter = 5;
+  T4Quantity minimum_clearance = 6;
+  T4Quantity maximum_clearance = 7;
+}
+message T4JointCheck {
+  string id = 1;
+  string parent_part_id = 2;
+  string child_part_id = 3;
+  T4JointKind kind = 4;
+  T4Quantity lower_limit = 5;
+  T4Quantity upper_limit = 6;
+  T4Quantity candidate_position = 7;
+}
+message T4StressCheck {
+  string id = 1;
+  string part_id = 2;
+  T4Quantity applied_force = 3;
+  T4Quantity cross_section_area = 4;
+  T4Quantity allowable_stress = 5;
+  double safety_factor = 6;
+}
+message T4DeflectionCheck {
+  string id = 1;
+  string part_id = 2;
+  T4Quantity applied_force = 3;
+  T4Quantity linear_stiffness = 4;
+  T4Quantity maximum_deflection = 5;
+}
+message T4ResearchRequest {
+  uint32 schema_version = 1;
+  string graph_id = 2;
+  string conversation_id = 3;
+  repeated T4Part parts = 4;
+  repeated T4FitCheck fits = 5;
+  repeated T4JointCheck joints = 6;
+  repeated T4StressCheck stresses = 7;
+  repeated T4DeflectionCheck deflections = 8;
+  bool research_only = 9;
+  bool grants_authority = 10;
+}
+message T4Finding {
+  string id = 1;
+  T4FindingStatus status = 2;
+  string conditional_model = 3;
+  double computed_si = 4;
+  double lower_si = 5;
+  double upper_si = 6;
+  repeated string reasons = 7;
+  repeated string source_refs = 8;
+}
+message T4ResearchResult {
+  string graph_id = 1;
+  string conversation_id = 2;
+  bytes request_sha256 = 3;
+  repeated T4Finding findings = 4;
+  repeated string warnings = 5;
+  bool research_only = 6;
+  bool grants_authority = 7;
+  bool physical_validity_verified = 8;
+}

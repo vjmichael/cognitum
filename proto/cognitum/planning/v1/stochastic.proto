@@ -1,0 +1,91 @@
+syntax = "proto3";
+package cognitum.planning.v1;
+
+// C12 P3: bounded finite-horizon, fully observable MDPs with integer fixed-point probabilities.
+// An outcome's probability_ppm is an exact integer part per 1,000,000.
+message StochasticOutcome {
+  uint32 next_state = 1;
+  uint32 probability_ppm = 2;
+  sint64 reward_milli = 3;
+}
+message StateDecision {
+  uint32 state = 1;
+  string action_id = 2;
+  repeated StochasticOutcome outcomes = 3;
+}
+message FiniteMdp {
+  repeated string state_names = 1;
+  repeated StateDecision decisions = 2;
+  repeated sint64 terminal_reward_milli = 3;
+  uint32 initial_state = 4;
+  uint32 horizon = 5;
+  uint32 discount_ppm = 6;
+}
+enum StochasticMethod {
+  STOCHASTIC_METHOD_UNSPECIFIED = 0;
+  FINITE_HORIZON_BELLMAN = 1;
+  UCT_MCTS = 2;
+}
+enum StochasticStatus {
+  STOCHASTIC_STATUS_UNSPECIFIED = 0;
+  VERIFIED_POLICY = 1;
+  ESTIMATED_ACTION = 2;
+  UNKNOWN_STOCHASTIC = 3;
+  REJECTED_STOCHASTIC = 4;
+}
+message StochasticRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  FiniteMdp model = 3;
+  StochasticMethod method = 4;
+  uint32 simulations = 5;
+  uint64 random_seed = 6;
+  uint32 timeout_ms = 7;
+}
+message StagePolicy {
+  uint32 stage = 1;
+  uint32 state = 2;
+  string action_id = 3;
+  string expected_value_fraction = 4;
+}
+message ActionVisits {
+  string action_id = 1;
+  uint32 visits = 2;
+}
+message StochasticResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string trace_id = 3;
+  StochasticMethod method = 4;
+  StochasticStatus status = 5;
+  repeated StagePolicy policy = 6;
+  string root_action_id = 7;
+  string root_estimated_value = 8;
+  repeated ActionVisits root_visits = 9;
+  bool policy_verified = 10;
+  bool optimality_verified = 11;
+  string reason_code = 12;
+  uint64 wall_ns = 13;
+  string backend_id = 14;
+  string backend_version = 15;
+}
+message StochasticReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool evidence_valid = 3;
+  bool optimality_verified = 4;
+  string reason_code = 5;
+}
+message StochasticAudit {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  bytes result_sha256 = 3;
+  string trace_id = 4;
+  StochasticMethod method = 5;
+  StochasticStatus status = 6;
+  string backend_id = 7;
+  uint64 wall_ns = 8;
+  bool evidence_valid = 9;
+  bool optimality_verified = 10;
+  string reason_code = 11;
+}

@@ -1,0 +1,56 @@
+syntax = "proto3";
+package cognitum.formal.advanced.v1;
+import "cognitum/formal/v1/backend.proto";
+
+// C10 P3: a host-authorized, bounded transaction of incremental SMT steps.
+// No message or field grants access to OS processes or memory mutation.
+message SessionStep {
+  enum Kind { KIND_UNSPECIFIED = 0; PUSH = 1; POP = 2; ASSERT = 3; CHECK = 4; }
+  Kind kind = 1;
+  cognitum.formal.backend.v1.Expr assertion = 2; // ASSERT only
+  repeated cognitum.formal.backend.v1.Expr assumptions = 3; // CHECK only; ephemeral
+  string label = 4; // bounded untrusted audit hint
+}
+message SessionPlan {
+  uint32 schema_version = 1;
+  string backend_id = 2;
+  repeated cognitum.formal.backend.v1.Variable variables = 3;
+  repeated SessionStep steps = 4;
+  uint32 timeout_ms = 5;
+  string trace_id = 6;
+}
+message FiniteCertificate {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  uint32 cases_checked = 3;
+  bytes exhaustive_sha256 = 4; // domain/expression-bound transcript digest, NOT external proof
+  string reason_code = 5;
+  bool unsat_verified = 6;
+}
+message CheckpointResult {
+  uint32 step_index = 1;
+  string label = 2;
+  bytes assertions_sha256 = 3; // hash of exact scoped BackendRun
+  cognitum.formal.backend.v1.BackendResult backend_result = 4;
+  FiniteCertificate finite_certificate = 5;
+  repeated uint32 core_assumption_indices = 6; // 1-based from CHECK assumptions
+  repeated uint32 core_assertion_step_indices = 7; // 1-based from preceding ASSERT operations
+  bool core_independently_verified = 8; // exact bounded subset is UNSAT
+  string reason_code = 9;
+}
+message SessionResult {
+  uint32 schema_version = 1;
+  bytes plan_sha256 = 2;
+  repeated CheckpointResult checkpoints = 3;
+  bool completed = 4;
+  string reason_code = 5;
+  bool host_approved = 6; // MUST remain false
+  bool semantic_formalization_verified = 7; // MUST remain false
+}
+message SessionReceipt {
+  bool evidence_valid = 1;
+  uint32 checked_checkpoints = 2;
+  string reason_code = 3;
+  bytes plan_sha256 = 4;
+  bytes result_sha256 = 5;
+}

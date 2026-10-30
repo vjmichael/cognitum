@@ -1,0 +1,29 @@
+# Cognitum C07 P2 — Adversarial state consistency and Lu source-fence contract
+
+**Date:** 2026-10-27  
+**Status:** Executable offline Python reference and adversarial tests; **not** a production Lu integration.
+
+## Objective
+
+C07 transforms a host-admitted stream of claim events into a reproducible, typed belief/goal projection without conflating evidence, confidence, authorization, and objective truth. C07 must not become a second canonical memory store: ANSF and the host's trusted permission records remain authoritative. This milestone addresses simultaneous compare-and-swap updates, source revision/deletion propagation, historical versus latest evidence, cross-conversation scope grants, and changes to user goals.
+
+## Delivered
+
+1. **Thread-safe P1 ledger.** `StateLedger` now serializes claim CAS, all-or-nothing batches and projections with a reentrant lock. Same-thread calls from a host verifier/publication callback that attempt to mutate state are refused. `recorded_at_ms` and `effective_at_ms` cannot silently regress; backdated corrections require a separately designed explicit temporal event and host review. Numeric parsing checks the input byte budget before coercion.
+2. **Provenance monotonicity.** A `CHALLENGE`, `RETRACT` or `EXPIRE` marker cannot impersonate the writer of the original value. `CONFIRM` can upgrade model/imported material to host/user-observed provenance only when host-admitted, but a host observation cannot silently downgrade a user-verified claim. State events retain exact source references and immutable event history.
+3. **Opt-in fail-closed ledger mode.** `StateLedger(scope, require_host=True)` rejects direct `apply`, `apply_batch`, and `projection` calls. The trusted Lu embedding is required to use `apply_host_batch` and `publish_host_fenced`; the legacy permissive entry points are still present for isolated, synthetic evaluation and MUST NOT be exposed to an LLM or external client.
+4. **Host-held lease reference interface.** `cognitum/state_host_gate.py` documents `HostStateLease.ensure_active`, `admit_event` and `verify_source`. Exactly `True` means the synthetic host allowed an operation; exceptions, `False` and missing verdicts fail closed. Events are copied from canonical wire bytes before checking to prevent the callback from swapping origin/scope/source while admission is in progress. A batch commits only after final lease validation. Publication happens entirely inside a host-supplied callback, **while the native host must be holding its read lease**; the Python protocol does not issue or authenticate leases.
+5. **Two classes of C06 evidence checks.** Every event in history must be retained, not deleted, source-hash intact and independently scope-authorized (`require_current=False`). Each active or disputed projected claim must **also** refer to the source's current canonical ANSF revision (`require_current=True`). Legitimate new revisions may retain historical ancestors; deletion of any dependent ancestor forces a reconciliation before that projection can be disclosed. Even `CHALLENGE` sources must be retained and authorized. Source ID, record hash, snapshot ID, and current revision are inputs to host verification, not things Cognitum trusts from a model.
+6. **Conservative contradiction handling.** Two active claims with the same subject/predicate and differing typed values remain explicit conflicts, including from different conversations; no latest-message-wins or model-inferred winner. An authorized user supersession of the same claim creates a revision rather than a new fact silently overwriting history.
+
+## Acceptance and invariants
+
+P2 adversarial tests cover: compare-and-swap races (exactly one succeeds); two concurrent independent claims; atomic rollback on a denied event; stale source revision; changed source digest; changed snapshot; logical deletion; deleted historical/challenge evidence; cross-session access denied until independently authorized; revocation even on idempotent replay; forged model-origin promotion; callback-induced object mutation; reentrant verifier or publisher mutation; failed publication without partial evidence; a simulated read-lease/revocation race; historical revision retention; effective-time regression; and confirmation provenance integrity.
+
+The host must authenticate profile, project, conversation, event writer/action, source ownership, current ANSF entry revision, content hash, snapshot generation and deletion policy. This reference does **not** assert those facts, nor can the caller construct a host permission by serializing a `StateEvent` or passing an arbitrary Python object. In Lu production, the Rust host must keep its read/revocation fence held for the entire `publish_host_fenced` callback, and its mutation fence held across `apply_host_batch`, persistence, and reconciliation. Do not expose bare state ledger methods or returned projection objects over the model/CE IPC boundary.
+
+## Remaining blockers and next development
+
+- **C07 P3:** implement Lu-owned persisted event admission and crash-safe replay/reconciliation, complete explicit temporal validity/supersession semantics, benchmark exact/CAS against naive latest-write-wins and derived HDC/KAN candidate ranking, and prove model goal-change accuracy with pinned real tasks.
+- **C06 P11:** separately compile and run the native Rust host overlay with Cargo on the pinned Lu checkout, integrate real Lu user-turn and mutation permission verification, lock every ANSF write/import route, test on Windows x86-64, and implement purge/retention policy. A Python mock is not evidence of that gate.
+- No claims of production authorization, certified physical erasure, semantic truth determination, realtime ChatGPT Memory integration, full C01–C19 completion, or real Lu/model benchmark success.

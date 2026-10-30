@@ -31,6 +31,15 @@ def test_detects_changed_added_and_deleted(tmp_path):
 def test_rejects_unsafe_path(tmp_path, bad):
     path = tmp_path / "unsafe.zip"
     make_zip(path, [(bad, "bad")])
+    if "\\" in bad:
+        # zipfile on Windows normalizes backslash to slash during write;
+        # patch both ZIP filename headers to preserve the malicious name.
+        raw = path.read_bytes()
+        cleaned = bad.replace("\\", "/").encode("ascii")
+        if raw.count(cleaned) == 2:
+            path.write_bytes(raw.replace(cleaned, bad.encode("ascii")))
+        else:
+            assert raw.count(bad.encode("ascii")) == 2
     with pytest.raises(UnsafeCheckpoint): inventory(path)
 
 

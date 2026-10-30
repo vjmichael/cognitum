@@ -1,0 +1,80 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+// T3 P2V: research-only continuity checks on P2U dynamic/static hypotheses.
+// Camera poses, 3D object IDs and depth hashes remain caller assertions.
+import "cognitum/spatial/v1/dynamic_scene_mapping.proto";
+import "cognitum/spatial/v1/volume.proto";
+
+message P2VRobustnessRequest {
+  uint32 schema_version = 1;
+  P2UDynamicSceneRequest dynamic_request = 2;
+  double max_camera_translation_step_m = 3;
+  double max_camera_rotation_step_deg = 4;
+  uint64 max_static_age_ticks = 5;
+  uint64 max_missing_object_ticks = 6;
+  uint64 reappearance_gap_ticks = 7;
+  double missing_object_exclusion_radius_m = 8;
+  bool research_only = 9;
+  bool grants_authority = 10;
+}
+enum P2VCameraState {
+  P2V_CAMERA_UNSPECIFIED = 0;
+  P2V_CAMERA_CONTINUOUS = 1;
+  P2V_CAMERA_DISCONTINUITY = 2;
+}
+enum P2VIdentityState {
+  P2V_IDENTITY_UNSPECIFIED = 0;
+  P2V_OBSERVED_CANDIDATE = 1;
+  P2V_MISSING_UNEXPLAINED = 2;
+  P2V_REAPPEARANCE_UNVERIFIED = 3;
+  P2V_RETIRED_UNVERIFIED = 4;
+}
+enum P2VStaticState {
+  P2V_STATIC_UNSPECIFIED = 0;
+  P2V_STATIC_RETAINED_PREDICTION = 1;
+  P2V_STATIC_STALE = 2;
+  P2V_STATIC_POSE_DISPUTED = 3;
+  P2V_STATIC_OBJECT_UNCERTAIN = 4;
+  P2V_STATIC_NOT_ELIGIBLE = 5;
+}
+message P2VCameraRecord {
+  string capture_id = 1;
+  uint64 tick = 2;
+  string camera_frame_id = 3;
+  bytes camera_sha256 = 4;
+  double translation_step_m = 5;
+  double rotation_step_deg = 6;
+  P2VCameraState state = 7;
+}
+message P2VIdentityRecord {
+  string object_id = 1;
+  P2VIdentityState state = 2;
+  uint64 last_observed_tick = 3;
+  uint64 gap_to_previous_observation_ticks = 4;
+  repeated string distinct_support_capture_ids = 5;
+  bool authenticated_identity = 6;
+}
+message P2VStaticRecord {
+  sint32 x = 1;
+  sint32 y = 2;
+  sint32 z = 3;
+  P2VStaticState state = 4;
+  uint64 latest_support_tick = 5;
+  uint64 age_ticks = 6;
+  bool retained = 7;
+}
+message P2VRobustnessResult {
+  uint32 schema_version = 1;
+  string conversation_id = 2;
+  string volume_id = 3;
+  bytes request_sha256 = 4;
+  bytes p2u_result_sha256 = 5;
+  repeated P2VCameraRecord cameras = 6;
+  repeated P2VIdentityRecord identities = 7;
+  repeated P2VStaticRecord cells = 8;
+  VolumeGrid conservative_static_hypothetical_volume = 9;
+  repeated string warnings = 10;
+  bool research_only = 11;
+  bool grants_authority = 12;
+  bool pose_discontinuity_found = 13;
+}

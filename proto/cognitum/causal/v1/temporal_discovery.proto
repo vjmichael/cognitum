@@ -1,0 +1,59 @@
+syntax = "proto3";
+package cognitum.causal.v1;
+import "cognitum/causal/v1/temporal_diagnostics.proto";
+// C14 P4E: optional Tigramite ParCorr PCMCI/PCMCI+ adapter candidate.
+// Assumptions are NOT validated by statistical output; no causal proof.
+enum TemporalDiscoveryMode {
+  TD_MODE_UNSPECIFIED = 0;
+  TD_PCMCI_LAGGED = 1;       // publish lagged edges only; no contemporaneous directions
+  TD_PCMCI_PLUS = 2;         // lagged + partially oriented contemporaneous graph
+}
+enum TemporalDiscoveryStatus {
+  TD_STATUS_UNSPECIFIED = 0;
+  TD_CANDIDATE = 1;
+  TD_REJECTED = 2;
+  TD_UNAVAILABLE = 3;
+  TD_INCONCLUSIVE = 4;
+  TD_TIMEOUT = 5;
+}
+message TemporalDiscoveryRequest {
+  uint32 schema_version = 1;
+  TemporalDiagnosticRequest samples = 2; // P4C strict timestamp and size validation
+  TemporalDiscoveryMode mode = 3;
+  uint32 tau_max = 4;      // 1..3, <= samples.max_lag
+  double pc_alpha = 5;    // 0.001..0.2, fixed, never optimized silently
+  uint32 timeout_ms = 6;  // 1..30000; OS host must impose real limits
+  uint32 seed = 7;        // recorded; ParCorr is deterministic with fixed input
+  bool stationarity_assumption_acknowledged = 8; // statement, NOT evidence
+}
+message TemporalDiscoveryLink {
+  uint32 source = 1;
+  uint32 target = 2;
+  uint32 lag = 3;          // source at t-lag, target at t; 0 contemporaneous
+  string marks = 4;       // '-->', '<--', 'o-o', or 'x-x' for lag 0
+  string significance = 5; // output diagnostic; PCMCI FDR-BH, PCMCI+ uncorrected
+}
+message TemporalDiscoveryResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string trace_id = 3;
+  TemporalDiscoveryMode mode = 4;
+  TemporalDiscoveryStatus status = 5;
+  string reason_code = 6;
+  string backend_id = 7;
+  string backend_version = 8;
+  repeated TemporalDiscoveryLink links = 9;
+  uint32 observed_samples = 10;
+  string significance_policy = 11;
+  string assumptions_and_limits = 12;
+  bool causal_assumptions_verified = 13; // ALWAYS FALSE
+  bool causal_directions_proven = 14; // ALWAYS FALSE
+  uint64 wall_ns = 15;
+}
+message TemporalDiscoveryReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool request_bound_structure_checked = 3;
+  bool independent_causal_proof = 4; // ALWAYS FALSE
+  string reason_code = 5;
+}

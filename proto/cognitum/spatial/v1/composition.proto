@@ -1,0 +1,10 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+// C15 T2: bounded, research-only compositional structural knowledge.
+enum StructureEvidence { EVIDENCE_UNSPECIFIED = 0; EVIDENCE_OBSERVED = 1; EVIDENCE_INFERRED = 2; EVIDENCE_HYPOTHETICAL = 3; }
+enum StructureRelation { STRUCTURE_UNSPECIFIED = 0; STRUCTURE_PART_OF = 1; STRUCTURE_CONNECTED_TO = 2; STRUCTURE_CONTAINS = 3; }
+message StructureNode { string node_id = 1; string kind = 2; string description = 3; StructureEvidence evidence = 4; string source_ref = 5; }
+message StructureEdge { string from_id = 1; string to_id = 2; StructureRelation relation = 3; StructureEvidence evidence = 4; string source_ref = 5; }
+message StructureGraph { uint32 schema_version = 1; string graph_id = 2; string conversation_id = 3; repeated StructureNode nodes = 4; repeated StructureEdge edges = 5; bool research_only = 6; bool grants_authority = 7; }
+message StructureQuery { uint32 schema_version = 1; string graph_id = 2; string conversation_id = 3; string target_id = 4; bool include_hypotheses = 5; }
+message StructureAnswer { string target_id = 1; repeated string ancestors = 2; repeated string descendants = 3; repeated string connections = 4; repeated string warnings = 5; bool research_only = 6; bool grants_authority = 7; }

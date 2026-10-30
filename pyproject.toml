@@ -14,8 +14,97 @@ dependencies = []
 proto = ["protobuf>=6.31,<8"]
 # Optional offline verifier dependencies; no OS worker is started by these.
 security = ["protobuf>=6.31,<8", "cryptography>=44,<47"]
+# RFC3161 ASN.1 decoding depends on asn1crypto; verification requires host-pinned OpenSSL.
+spatial-timestamp-offline = ["protobuf>=6.31,<8", "cryptography>=44,<47", "asn1crypto==1.5.1"]
 # Optional offline high-precision scientific numerics; no SymPy string eval.
 scientific = ["protobuf>=6.31,<8", "mpmath>=1.3,<2"]
 
+# Optional local-only C11 optimization engines; keep core dependency-free.
+optimization-highs = ["protobuf>=6.31,<8", "scipy>=1.11,<2"]
+optimization-cpsat = ["protobuf>=6.31,<8", "ortools>=9.10,<11"]
+
+# Optional C13 discrete graphical-model engine; NOT part of the core install.
+# The pgmpy subprocess adapter requires host-managed package and worker hashes.
+probability-pgmpy = ["protobuf>=6.31,<8", "pgmpy>=1.1.2,<2"]
+
+# Optional standard planning ecosystem adapters (C12 future integration, not runtime-tested here).
+planning-graphs = ["networkx>=3.0,<4"]
+planning-mdp = ["pymdptoolbox>=4.0b3,<5"]
+planning-unified = ["unified-planning>=1.2,<2"]
+
+# Optional mature continuous/hierarchical probabilistic-programming engines.
+# Requires a host-approved, version-pinned isolated Python interpreter.
+# PyMC/ArviZ compatibility is NOT guaranteed by installing this extra alone.
+probability-pymc = ["protobuf>=6.31,<8", "pymc>=5.20,<7", "arviz>=0.20,<2"]
+
+
+# C13 P4 typed, bounded conjugate Bayesian families; tested with SciPy.
+probability-conjugate = ["protobuf>=6.31,<8", "scipy>=1.11,<2", "numpy>=1.26,<3"]
+# C13 P4 diagnostics run in their own optional environment. Current ArviZ
+# 1.1 API does not satisfy the bundled PyMC worker's older import expectations.
+probability-diagnostics = ["protobuf>=6.31,<8", "arviz>=1.1,<2", "numpy>=1.26,<3"]
+
+# C14 discrete causal graphs use maintained NetworkX d-separation and graph APIs.
+# An optional DoWhy 0.14 worker adapter exists; DoWhy itself is NOT installed or runtime-validated here.
+causal-graphs = ["protobuf>=6.31,<8", "networkx>=3.2,<4"]
+
+# C14 P2B optional host-isolated DoWhy adapter. A production installer must
+# supply an independently reviewed transitive wheel/lock hash manifest.
+# Installing this extra alone does NOT satisfy the Lu OS security gate.
+causal-dowhy = ["protobuf>=6.31,<8", "dowhy==0.14", "networkx>=3.3,<4", "pandas>=2,<3"]
+
+
+# C14 P3B optional numeric dependency. The bounded PC-stable skeleton reference
+# is an *undirected statistical screening* method; no orientation or causal proof.
+causal-discovery-reference = ["protobuf>=6.31,<8", "numpy>=1.26,<3"]
+# EconML 0.17.0 and causal-learn remain researched but NOT installed, attested,
+# or declared supported via an unchecked installation extra in this checkpoint.
+
+# C14 P3C experimental mature-library worker candidates. These optional extras
+# are NOT a reviewed transitive offline lock, Windows package certification, or
+# authorization to launch an unconstrained Python subprocess from Lu.
+causal-econml-candidate = ["protobuf>=6.31,<8", "econml==0.17.0"]
+causal-learn-candidate = ["protobuf>=6.31,<8", "causal-learn==0.1.4.8"]
+
+
+
+# C14 P3E/P3F/P4A offline reference adapters. No heavy runtime in base core.
+causal-stability-reference = ["protobuf>=6.31,<8", "numpy>=1.26,<3"]
+causal-ambiguity-reference = ["protobuf>=6.31,<8", "numpy>=1.26,<3"]
+causal-temporal-reference = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.11,<2"]
+
+causal-temporal-scm-reference = ["protobuf>=6.31,<8", "networkx>=3.2,<4"]
+# C14 P4C timestamp-grid preflight and bounded approximate Ljung-Box
+# residual diagnostics. Optional statsmodels for independent reference tests.
+causal-temporal-diagnostics = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.11,<2"]
+causal-temporal-diagnostics-baseline = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.11,<2", "statsmodels>=0.14,<1"]
+
+
+# C14 P4D standalone mature statsmodels diagnostics (fixed optional extra table).
+causal-temporal-advanced = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "statsmodels>=0.14,<1"]
+# C14 P4E optional Tigramite candidate, requires host-managed GPLv3 review and
+# pinned offline lock; does NOT imply Windows containment or Lu approval.
+causal-tigramite-candidate = ["protobuf>=6.31,<8", "tigramite==5.2.10.1", "numpy>=1.26,<3", "scipy>=1.11,<2"]
+
+# C14 P4E G8: bounded offline uncertainty reference, not production host service.
+causal-uncertainty-reference = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.11,<2"]
+
+# C15 P2G optional independent graph/geometry/numeric references.
+spatial-reference-parity = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.11,<2", "networkx>=3.2,<4"]
+# C15 P2K offline dense identity-association ablation. Not a Lu worker backend.
+spatial-tracking-reference = ["numpy>=1.26,<3", "scipy>=1.11,<2"]
+# C15 P2N independent finite taxonomy reference; owlrl/full OWL 2 not bundled.
+spatial-ontology-parity = ["protobuf>=6.31,<8", "networkx>=3.2,<4", "rdflib>=7,<9"]
+# C15 P2L deterministic image-based comparator; optional only.
+spatial-appearance-reference = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.11,<2", "Pillow>=10,<13"]
+
 [tool.setuptools.packages.find]
 include = ["cognitum*"]
+
+
+
+
+# C15 P2L research-only CPU histogram comparator and optional appearance
+# association; no learned weights and no Lu worker authority.
+# Note: this intentionally does not install torch or any ReID weight package.
+# (Declared as a separate table below so the existing extras remain unchanged.)

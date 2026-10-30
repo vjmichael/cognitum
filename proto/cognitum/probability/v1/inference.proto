@@ -1,0 +1,82 @@
+syntax = "proto3";
+package cognitum.probability.v1;
+
+// Discrete Bayesian networks; CPT flattened in lexicographic parent-state order,
+// followed by the child state. All probabilities are integer parts-per-million.
+message DiscreteNode {
+  string id = 1;
+  repeated string states = 2;
+  repeated uint32 parents = 3;
+  repeated uint32 cpt_ppm = 4;
+}
+message BayesianNetwork { repeated DiscreteNode nodes = 1; }
+message HardEvidence { uint32 node = 1; uint32 state = 2; }
+message SoftEvidence { uint32 node = 1; repeated uint32 likelihood_ppm = 2; }
+
+enum InferenceMethod {
+  INFERENCE_METHOD_UNSPECIFIED = 0;
+  EXACT_VARIABLE_ELIMINATION = 1;
+  SEEDED_LIKELIHOOD_WEIGHTING = 2;
+}
+enum InferenceStatus {
+  INFERENCE_STATUS_UNSPECIFIED = 0;
+  EXACT_POSTERIOR = 1;
+  APPROXIMATE_POSTERIOR = 2;
+  IMPOSSIBLE_EVIDENCE = 3;
+  UNKNOWN_INFERENCE = 4;
+  REJECTED_INFERENCE = 5;
+}
+message InferenceRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  BayesianNetwork model = 3;
+  repeated uint32 targets = 4;
+  repeated HardEvidence hard_evidence = 5;
+  repeated SoftEvidence soft_evidence = 6;
+  InferenceMethod method = 7;
+  uint32 max_factor_entries = 8;
+  uint32 max_verifier_assignments = 9;
+  uint32 samples = 10;
+  uint64 random_seed = 11;
+  uint32 timeout_ms = 12;
+}
+message PosteriorCell {
+  repeated uint32 states = 1;
+  string probability = 2; // Exact fraction or 12-place decimal estimate.
+}
+message InferenceResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string trace_id = 3;
+  InferenceMethod method = 4;
+  InferenceStatus status = 5;
+  repeated PosteriorCell posterior = 6;
+  string evidence_probability = 7; // Exact only.
+  uint32 effective_samples = 8; // Approximate ESS rounded down.
+  uint32 samples_drawn = 9;
+  bool independent_posterior_verified = 10;
+  string reason_code = 11;
+  string backend_id = 12;
+  string backend_version = 13;
+  uint64 wall_ns = 14;
+}
+message InferenceReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool evidence_valid = 3;
+  bool exact_posterior_verified = 4;
+  uint32 enumerated_assignments = 5;
+  string reason_code = 6;
+}
+message InferenceAudit {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  bytes result_sha256 = 3;
+  string trace_id = 4;
+  string backend_id = 5;
+  string backend_version = 6;
+  InferenceStatus status = 7;
+  uint64 wall_ns = 8;
+  bool independent_posterior_verified = 9;
+  string reason_code = 10;
+}

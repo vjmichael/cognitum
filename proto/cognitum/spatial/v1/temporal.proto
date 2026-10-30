@@ -1,0 +1,74 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+import "cognitum/spatial/v1/scene.proto";
+
+// Offline research candidate scoring ONLY. No identity admission or execution grant.
+enum TemporalDecision {
+  TEMPORAL_UNSPECIFIED = 0;
+  TEMPORAL_CANDIDATE_ONLY = 1;
+  TEMPORAL_AMBIGUOUS = 2;
+  TEMPORAL_NO_MATCH = 3;
+}
+message TemporalSample {
+  uint64 tick = 1;
+  Vector3 position_world_m = 2;
+  repeated double descriptor = 3; // synthetic or caller-supplied; never authenticated here
+}
+message TemporalTrack {
+  string object_id = 1;
+  repeated TemporalSample samples = 2; // newest must match bound SceneSnapshot
+}
+message TemporalDetection {
+  string detection_id = 1;
+  string category = 2;
+  string source_id = 3;
+  uint64 tick = 4;
+  Vector3 position_world_m = 5;
+  repeated double descriptor = 6;
+}
+message TemporalRequest {
+  uint32 schema_version = 1;
+  string scene_id = 2;
+  string conversation_id = 3;
+  string task_id = 4;
+  string trace_id = 5;
+  string request_id = 6;
+  bytes scene_sha256 = 7;
+  repeated TemporalTrack tracks = 8;
+  repeated TemporalDetection detections = 9;
+  double observation_sigma_m = 10;
+  double process_sigma_m_per_tick = 11;
+  double max_speed_m_per_tick = 12;
+  double descriptor_weight = 13;
+  double unmatched_cost = 14;
+  double ambiguity_margin = 15;
+  uint32 max_gap_ticks = 16;
+  uint32 top_k = 17;
+}
+message TemporalPair {
+  string detection_id = 1;
+  string object_id = 2; // empty means unmatched, not automatic new ID
+  double motion_cost = 3;
+  double descriptor_cost = 4;
+  double predicted_sigma_m = 5;
+}
+message TemporalHypothesis {
+  repeated TemporalPair pairs = 1;
+  double total_cost = 2;
+  double relative_weight = 3; // top-K relative ranking, NOT calibrated posterior
+}
+message TemporalProposal {
+  uint32 schema_version = 1;
+  string scene_id = 2;
+  string conversation_id = 3;
+  string task_id = 4;
+  string trace_id = 5;
+  string request_id = 6;
+  bytes scene_sha256 = 7;
+  bytes request_sha256 = 8;
+  TemporalDecision decision = 9;
+  repeated TemporalHypothesis hypotheses = 10;
+  repeated string warnings = 11;
+  bool research_only = 12;
+  bool grants_authority = 13; // always false
+}

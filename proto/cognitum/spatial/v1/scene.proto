@@ -1,0 +1,97 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+
+// C15 P0-P1: offline deterministic scene graph, not a perception engine or Lu permission.
+enum VisibilityState {
+  VISIBILITY_UNKNOWN = 0;
+  VISIBILITY_VISIBLE = 1;
+  VISIBILITY_OCCLUDED = 2;
+  VISIBILITY_OUT_OF_FRAME = 3;
+  VISIBILITY_DELETED = 4;
+}
+enum MutationKind {
+  MUTATION_UNSPECIFIED = 0;
+  MUTATION_OBSERVE = 1;
+  MUTATION_OCCLUDE = 2;
+  MUTATION_OUT_OF_FRAME = 3;
+  MUTATION_RENAME = 4;
+  MUTATION_DELETE = 5;
+}
+enum RelationKind {
+  RELATION_UNSPECIFIED = 0;
+  RELATION_NEAR_3D = 1;
+  RELATION_LEFT_OF_WORLD_X = 2;
+  RELATION_RIGHT_OF_WORLD_X = 3;
+}
+message Vector3 { double x = 1; double y = 2; double z = 3; }
+message UnitQuaternion { double x = 1; double y = 2; double z = 3; double w = 4; }
+// Child -> parent rigid transform in metres, right-handed coordinate systems.
+message CoordinateFrame {
+  string frame_id = 1;
+  string parent_frame_id = 2;
+  Vector3 translation_m = 3;
+  UnitQuaternion rotation_xyzw = 4;
+}
+message SceneObject {
+  string object_id = 1;
+  string category = 2;
+  string display_name = 3;
+  string frame_id = 4;
+  Vector3 position_m = 5;
+  UnitQuaternion rotation_xyzw = 6;
+  VisibilityState visibility = 7;
+  string geometry_ref = 8;
+  double confidence = 9;
+  repeated string aliases = 10;
+  string observation_source_id = 11;
+  uint64 last_observed_tick = 12;
+  uint64 version = 13;
+}
+message SceneMutation {
+  MutationKind kind = 1;
+  string object_id = 2;
+  // Required for MUTATION_OBSERVE, ignored/rejected for all other kinds.
+  SceneObject observed = 3;
+  string new_display_name = 4;
+  uint64 expected_object_version = 5;
+  uint64 tick = 6;
+}
+message SceneCommand {
+  uint32 schema_version = 1;
+  string scene_id = 2;
+  string trace_id = 3;
+  string conversation_id = 4;
+  string task_id = 5;
+  string request_id = 6;
+  uint64 expected_scene_revision = 7;
+  repeated CoordinateFrame add_frames = 8;
+  repeated SceneMutation mutations = 9;
+}
+message DerivedRelation {
+  string source_id = 1;
+  string target_id = 2;
+  RelationKind kind = 3;
+  double distance_m = 4;
+  string calculation_frame_id = 5;
+}
+message SceneSnapshot {
+  uint32 schema_version = 1;
+  string scene_id = 2;
+  string conversation_id = 3;
+  uint64 revision = 4;
+  repeated CoordinateFrame frames = 5;
+  repeated SceneObject objects = 6;
+  repeated DerivedRelation relations = 7;
+  repeated string processed_request_ids = 8;
+  bool research_only = 9;
+}
+message SceneReceipt {
+  bytes request_sha256 = 1;
+  bytes before_sha256 = 2;
+  bytes after_sha256 = 3;
+  bool research_only = 4;
+  string trace_id = 5;
+  string conversation_id = 6;
+  string task_id = 7;
+  string request_id = 8;
+}

@@ -1,0 +1,118 @@
+syntax = "proto3";
+package cognitum.state.v1;
+
+// C07: typed DERIVED claim state. Event data does NOT authenticate itself.
+// Lu exclusively authorizes new events and owns the ANSF canonical source.
+// No separate Cognitum authoritative memory database is created.
+enum ValueKind {
+  VALUE_KIND_UNSPECIFIED = 0;
+  TEXT = 1;
+  INTEGER = 2;
+  DECIMAL = 3;
+  BOOLEAN = 4;
+}
+enum ClaimOrigin {
+  CLAIM_ORIGIN_UNSPECIFIED = 0;
+  USER_VERIFIED = 1;
+  HOST_OBSERVED = 2;
+  IMPORT_OBSERVED = 3;
+  MODEL_HYPOTHESIS = 4;
+}
+enum ClaimAction {
+  CLAIM_ACTION_UNSPECIFIED = 0;
+  ASSERT = 1;
+  CONFIRM = 2;
+  CHALLENGE = 3;
+  SUPERSEDE = 4;
+  RETRACT = 5;
+  EXPIRE = 6;
+  TEMPORAL_CORRECT = 7; // Explicit backdated effective-time correction; host-admitted only.
+}
+enum ClaimStatus {
+  CLAIM_STATUS_UNSPECIFIED = 0;
+  ACTIVE = 1;
+  DISPUTED = 2;
+  RETRACTED = 3;
+  EXPIRED = 4;
+}
+enum UncertaintyKind {
+  UNCERTAINTY_UNSPECIFIED = 0; // No calibrated certainty may be inferred.
+  EXPLICITLY_UNCERTAIN = 1;
+  CONDITIONAL = 2;
+  OPEN_QUESTION = 3;
+}
+message SourceEvidence {
+  string session_id = 1;
+  string root_entry_id = 2;
+  string revision_entry_id = 3;
+  string content_sha256 = 4;
+  string snapshot_id = 5;
+}
+message StateEvent {
+  uint32 schema_version = 1;
+  string event_id = 2;
+  string scope_id = 3;
+  string claim_id = 4;
+  string subject_id = 5;
+  string predicate = 6;
+  ValueKind value_kind = 7;
+  string value_text = 8;
+  ClaimOrigin origin = 9;
+  ClaimAction action = 10;
+  uint64 expected_revision = 11;
+  int64 recorded_at_ms = 12;
+  int64 effective_at_ms = 13;
+  SourceEvidence source = 14;
+  string corrects_event_id = 15; // Required only for TEMPORAL_CORRECT; exact current predecessor.
+  int64 valid_until_ms = 16; // Exclusive; zero means open-ended; ASSERT/SUPERSEDE or correction only.
+  UncertaintyKind uncertainty_kind = 17; // Only for ASSERT/SUPERSEDE. No numerical confidence.
+  string uncertainty_note = 18; // Bounded, untrusted source-backed qualifier.
+}
+message ClaimView {
+  string scope_id = 1;
+  string claim_id = 2;
+  string subject_id = 3;
+  string predicate = 4;
+  ValueKind value_kind = 5;
+  string value_text = 6;
+  ClaimOrigin origin = 7;
+  ClaimStatus status = 8;
+  uint64 revision = 9;
+  string latest_event_id = 10;
+  SourceEvidence source = 11;
+  int64 effective_at_ms = 12; // Latest canonical effective-time assertion or explicit correction.
+  int64 valid_until_ms = 13; // Exclusive; zero means open-ended.
+  UncertaintyKind uncertainty_kind = 14;
+  string uncertainty_note = 15;
+}
+message ConflictEdge {
+  string first_claim_id = 1;
+  string second_claim_id = 2;
+  string predicate = 3;
+  string subject_id = 4;
+}
+message StateProjection {
+  uint32 schema_version = 1;
+  string scope_id = 2;
+  repeated ClaimView claims = 3;
+  repeated ConflictEdge conflicts = 4;
+}
+
+// Historical-only query: valid_at is event/effective time, known_at is recording
+// cutoff. Neither timestamp is a grant or proof that evidence remains accessible.
+message AsOfQuery {
+  uint32 schema_version = 1;
+  string scope_id = 2;
+  int64 valid_at_ms = 3;
+  int64 known_at_ms = 4;
+  bool include_inactive = 5;
+}
+message HistoricalProjection {
+  uint32 schema_version = 1;
+  string scope_id = 2;
+  int64 valid_at_ms = 3;
+  int64 known_at_ms = 4;
+  repeated ClaimView claims = 5;
+  repeated ConflictEdge conflicts = 6;
+  bool historical_only = 7; // Must be true. Never substitute for current model context.
+}

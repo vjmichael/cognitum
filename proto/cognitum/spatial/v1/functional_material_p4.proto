@@ -1,0 +1,44 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+
+import "cognitum/spatial/v1/functional_material_p3.proto";
+
+// Research-only evidence integrity gate: SHA-256 proves equality of bytes,
+// NOT identity, provenance, timestamp, metrological quality, or independence.
+message T4P4ReferenceReceipt {
+  string case_id = 1;
+  bytes reference_payload = 2; // bounded UTF-8 JSON observation claim
+  string source_uri = 3; // claimed locator, never fetched by this worker
+  string license_id = 4; // caller's licensing assertion, not legal clearance
+  string calibration_record_ref = 5; // claimed instrument calibration receipt
+}
+
+message T4P4EvidenceRequest {
+  uint32 schema_version = 1;
+  bool research_only = 2;
+  bool grants_authority = 3;
+  bytes frozen_plan_json = 4; // caller-supplied plan bytes; no timestamp attestation
+  T4P3AuditRequest p3_audit = 5;
+  repeated T4P4ReferenceReceipt references = 6;
+}
+
+message T4P4CaseIntegrity {
+  string case_id = 1;
+  bytes verified_payload_sha256 = 2;
+  bool content_matches_claim = 3;
+  bool partition_matches_plan = 4;
+}
+
+message T4P4EvidenceResult {
+  bytes request_sha256 = 1;
+  bytes plan_sha256 = 2;
+  repeated T4P4CaseIntegrity verified = 3;
+  T4P3AuditResult p3_result = 4;
+  bool research_only = 5;
+  bool grants_authority = 6;
+  bool payload_integrity_verified = 7;
+  bool source_authenticity_verified = 8;
+  bool preregistration_verified = 9;
+  bool independent_measurement_verified = 10;
+  repeated string warnings = 11;
+}

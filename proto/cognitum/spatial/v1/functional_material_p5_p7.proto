@@ -1,0 +1,65 @@
+syntax = "proto3";
+package cognitum.spatial.v1;
+
+import "cognitum/spatial/v1/functional_material_p4.proto";
+
+// All signatures bind exact, strictly canonical JSON bytes and domain separators.
+// Signing keys and trust decisions MUST be injected by a trusted host, never by
+// a model or an untrusted request. These messages grant no Lu permissions.
+message T4SignedRecord {
+  string key_id = 1;
+  bytes statement_json = 2;
+  bytes ed25519_signature = 3;
+}
+message T4P5ProvenanceRequest {
+  uint32 schema_version = 1;
+  bool research_only = 2;
+  bool grants_authority = 3;
+  T4P4EvidenceRequest p4 = 4;
+  repeated T4SignedRecord source_statements = 5;
+}
+message T4P5ProvenanceResult {
+  T4P4EvidenceResult p4_result = 1;
+  uint32 source_signatures_verified = 2;
+  bool trusted_policy_signatures_verified = 3;
+  bool external_publisher_identity_verified = 4;
+  bool physical_measurements_verified = 5;
+  bool research_only = 6;
+  bool grants_authority = 7;
+  repeated string warnings = 8;
+}
+message T4P6PlanLockRequest {
+  uint32 schema_version = 1;
+  bool research_only = 2;
+  bool grants_authority = 3;
+  T4P5ProvenanceRequest p5 = 4;
+  T4SignedRecord plan_lock = 5;
+}
+message T4P6PlanLockResult {
+  T4P5ProvenanceResult p5_result = 1;
+  bool signed_timeline_consistent = 2;
+  bool independent_preregistration_verified = 3;
+  bool research_only = 4;
+  bool grants_authority = 5;
+  repeated string warnings = 6;
+}
+message T4P7AdjudicationRequest {
+  uint32 schema_version = 1;
+  bool research_only = 2;
+  bool grants_authority = 3;
+  T4P6PlanLockRequest p6 = 4;
+  repeated T4SignedRecord reviewer_statements = 5;
+}
+message T4P7AdjudicationResult {
+  T4P6PlanLockResult p6_result = 1;
+  uint32 reviewed_cases = 2;
+  uint32 verified_signatures = 3;
+  bool two_reviewer_consensus = 4;
+  bool actual_blinding_verified = 5;
+  bool qualified_expert_status_verified = 6;
+  bool licensed_real_world_data_verified = 7;
+  bool physical_safety_verified = 8;
+  bool research_only = 9;
+  bool grants_authority = 10;
+  repeated string warnings = 11;
+}

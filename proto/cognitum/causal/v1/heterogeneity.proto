@@ -1,0 +1,69 @@
+syntax = "proto3";
+package cognitum.causal.v1;
+import "cognitum/causal/v1/estimation.proto";
+// C14 P3A: conditional treatment-effect reference from aggregate binary data.
+// Observed subgroup != proven causality; modifiers restricted to pre-treatment adjustment set.
+enum HeterogeneityMethod {
+  HETEROGENEITY_METHOD_UNSPECIFIED = 0;
+  REFERENCE_CONDITIONAL_STANDARDIZATION = 1;
+  ECONML_CATE_OPTIONAL = 2; // not installed/attested; candidate only
+}
+enum HeterogeneityStatus {
+  HETEROGENEITY_STATUS_UNSPECIFIED = 0;
+  CONDITIONAL_EFFECTS_COMPUTED = 1;
+  HETEROGENEITY_REJECTED = 2;
+  HETEROGENEITY_NOT_IDENTIFIED = 3;
+  HETEROGENEITY_INCONCLUSIVE = 4;
+  HETEROGENEITY_OVERLAP_FAILED = 5;
+  HETEROGENEITY_BACKEND_UNAVAILABLE = 6;
+}
+message HeterogeneityRequest {
+  uint32 schema_version = 1;
+  EstimationRequest estimation = 2;
+  repeated uint32 modifier_indices = 3; // subset of supplied adjustment set only
+  uint32 max_subgroups = 4;
+  uint32 timeout_ms = 5;
+  HeterogeneityMethod method = 6;
+}
+message ConditionalEffect {
+  repeated uint32 modifier_states = 1;
+  uint32 observations = 2;
+  string observed_weight = 3; // fraction of total observed population
+  string estimated_effect = 4; // exact empirical conditional risk difference
+  string approximate_se = 5;
+  string ci95_lower = 6;
+  string ci95_upper = 7;
+  uint32 adjustment_cells = 8;
+}
+message HeterogeneityResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string trace_id = 3;
+  HeterogeneityStatus status = 4;
+  string reason_code = 5;
+  string backend_id = 6;
+  string backend_version = 7;
+  string overall_effect = 8;
+  string subgroup_weighted_effect = 9;
+  repeated ConditionalEffect subgroups = 10;
+  bool independently_checked = 11;
+  string assurance = 12;
+  uint64 wall_ns = 13;
+  string uncertainty_method = 14;
+}
+message HeterogeneityReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool arithmetic_verified = 3;
+  bool causal_assumptions_proven = 4;
+  string reason_code = 5;
+}
+message HeterogeneityAudit {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  string trace_id = 3;
+  HeterogeneityStatus status = 4;
+  string backend_id = 5;
+  string reason_code = 6;
+  uint64 wall_ns = 7;
+}

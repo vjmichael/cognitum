@@ -1,0 +1,99 @@
+syntax = "proto3";
+package cognitum.causal.v1;
+// C14 P1 exact, bounded discrete structural causal models (SCMs).
+// All provided structural equations and exogenous probabilities are model ASSUMPTIONS.
+// No model-discovered edge or observational dataset is treated as causal authority.
+message ExogenousVariable {
+  string id = 1;
+  repeated string states = 2;
+  repeated uint32 probability_ppm = 3; // Must sum to 1,000,000.
+}
+message EndogenousVariable {
+  string id = 1;
+  repeated string states = 2;
+  repeated uint32 parents = 3; // Other endogenous variable indices, in table order.
+  repeated uint32 noise = 4; // Exogenous variable indices, in table order.
+  repeated uint32 function_outputs = 5; // Flattened parent dimensions then noise dimensions.
+}
+message StructuralCausalModel {
+  repeated ExogenousVariable exogenous = 1;
+  repeated EndogenousVariable endogenous = 2;
+  string assumption_id = 3; // Host-provided label, NOT source authentication.
+}
+message StateObservation { uint32 variable = 1; uint32 state = 2; }
+enum CausalOperation {
+  CAUSAL_OPERATION_UNSPECIFIED = 0;
+  OBSERVATIONAL_QUERY = 1;
+  INTERVENTIONAL_QUERY = 2;
+  COUNTERFACTUAL_QUERY = 3;
+  BACKDOOR_CHECK = 4;
+}
+enum CausalStatus {
+  CAUSAL_STATUS_UNSPECIFIED = 0;
+  EXACT_MODEL_RESULT = 1;
+  IMPOSSIBLE_FACTUAL_EVIDENCE = 2;
+  INCONCLUSIVE_CAUSAL = 3;
+  REJECTED_CAUSAL = 4;
+  BACKDOOR_CERTIFIED = 5;
+  BACKDOOR_NOT_CERTIFIED = 6;
+}
+message CausalRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  StructuralCausalModel model = 3;
+  CausalOperation operation = 4;
+  uint32 target = 5;
+  repeated StateObservation factual_evidence = 6;
+  repeated StateObservation interventions = 7;
+  uint32 max_exogenous_assignments = 8;
+  uint32 timeout_ms = 9;
+  uint32 treatment = 10; // BACKDOOR_CHECK only
+  repeated uint32 adjustment = 11; // BACKDOOR_CHECK only; observed endogenous only
+}
+message CausalProbabilityCell {
+  uint32 target_state = 1;
+  string probability = 2; // Canonical nonnegative exact rational.
+}
+message CounterfactualJointCell {
+  uint32 factual_state = 1;
+  uint32 counterfactual_state = 2;
+  string probability = 3;
+}
+message CausalResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string trace_id = 3;
+  CausalOperation operation = 4;
+  CausalStatus status = 5;
+  repeated CausalProbabilityCell posterior = 6;
+  repeated CounterfactualJointCell joint = 7;
+  string factual_evidence_probability = 8;
+  bool independently_checked = 9;
+  string assurance = 10; // ASSUMED_SCM_EXACT, BACKDOOR_GRAPH_CRITERION, NONE
+  string reason_code = 11;
+  uint32 enumerated_exogenous = 12;
+  string backend_id = 13;
+  string backend_version = 14;
+  uint64 wall_ns = 15;
+}
+message CausalReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool evidence_valid = 3;
+  bool independently_checked = 4;
+  string reason_code = 5;
+  string assurance = 6;
+}
+message CausalAudit {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  bytes result_sha256 = 3;
+  string trace_id = 4;
+  CausalOperation operation = 5;
+  CausalStatus status = 6;
+  string backend_id = 7;
+  string backend_version = 8;
+  uint64 wall_ns = 9;
+  string assurance = 10;
+  string reason_code = 11;
+}
