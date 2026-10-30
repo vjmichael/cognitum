@@ -36,4 +36,4 @@ jobs:
           sudo apt-get install -y protobuf-compiler
           python -m pip install protobuf==6.33.6
       - name: Require all registered Protobuf sources to match checked-in bindings
-        run: python tools/verify_protobuf_schemas.py --require
+        run: python -m tools.verify_protobuf_schemas --require
