@@ -38,6 +38,7 @@ class LocalLeaseBoard:
         self._epochs: dict[str, int] = {}
         self._tickets: dict[str, tuple[LocalTicket, HostAdmission]] = {}
         self._revoked: set[str] = set()
+        self._seen: set[tuple[str, str]] = set()  # process-local idempotency only
 
     def grant(self, conversation_id: str, request_id: str, *, timeout_ms: int = 5000):
         if not ID.fullmatch(conversation_id) or not ID.fullmatch(request_id):
@@ -47,12 +48,14 @@ class LocalLeaseBoard:
         with self._lock:
             if conversation_id in self._revoked:
                 raise PermissionError('CONVERSATION_REVOKED')
-            if any(t.conversation_id == conversation_id and t.request_id == request_id
-                   for t, _ in self._tickets.values()):
-                raise ValueError('DUPLICATE_ACTIVE_REQUEST')
+            if (conversation_id, request_id) in self._seen:
+                raise ValueError('DUPLICATE_REQUEST_ID')
+            if len(self._seen) >= 4096:
+                raise ValueError('LOCAL_IDEMPOTENCY_BUDGET_EXCEEDED')
             ticket = LocalTicket(secrets.token_hex(16), conversation_id,
                                  request_id, self._epochs.get(conversation_id, 0))
             self._tickets[ticket.nonce] = (ticket, admission)
+            self._seen.add((conversation_id, request_id))
             return ticket
 
     def _current(self, ticket: LocalTicket) -> HostAdmission:
