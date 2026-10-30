@@ -1,5 +1,7 @@
 # Cognitum — component roadmap and initial core prototype
 
+**Mission update (2026-10-29):** Cognitum is **transformer AI augmentation**, not a competition to beat every conventional tool. Conventional algorithms may be first-class trusted specialist engines to compensate for a transformer's weak exactness, memory, planning, uncertainty or spatial reasoning. [Governing decision, full C01–C19 implementation audit and release definitions](docs/design/ADR-augmentation-first-transformer-capabilities-2026-10-29.md). **Alpha ≠ all 19 components built.**
+
 **C15 experiment update (Oct 29, 2026):** [T3 Windows VM recovery and T4 P4–P13B checkpoint ledger](docs/components/spatial/C15-T3-T4-P13B-experimental-checkpoint-ledger-2026-10-29.md) records separately verified disposable-VM recovery, portable synthetic engineering gates and remaining open external certification. The later C15 source checkpoints are **not yet merged into this repository**, and neither real-world engineering claims nor Lu integration are authorized.
 
 **Full AI-technology design (Revision 1.5, October 27, 2026):** [Comprehensive architecture](docs/Cognitum_Comprehensive_AI_Architecture_R1_5.md) · [all C01–C19 technology specifications](docs/design/technology-portfolio-C01-C19.md) · [research, validation, integration and delivery program](docs/design/research-validation-and-delivery.md) · [design index and status ledger](docs/design/README.md). This completes the **design coverage**, not the implementation, Lu OS worker security gate, or the scientific evaluation of all 19 components.

@@ -1,6 +1,6 @@
 # Cognitum Revision 1.5 — AI Technology Portfolio C01–C19
 
-**Status:** complete component-level **design**, not a claim that every technology is implemented. This is the functional companion to the [architecture](../Cognitum_Comprehensive_AI_Architecture_R1_5.md) and [research and delivery program](research-validation-and-delivery.md).
+**Status:** complete component-level **design**, not a claim that every technology is implemented. **Governing 2026-10-29 decision:** [Cognitum augments the Lu-selected transformer; beating conventional tools is not a universal release prerequisite](ADR-augmentation-first-transformer-capabilities-2026-10-29.md). These cards retain historical \"Current\" snapshots; see the ADR's explicit implementation coverage audit (including the unmerged C15 source branch). This is the functional companion to the [architecture](../Cognitum_Comprehensive_AI_Architecture_R1_5.md) and [research and delivery program](research-validation-and-delivery.md).
 
 **Global rules for every card:** typed canonical Protobuf inputs/outputs; Lu-host authorization and permission scope; no new independent transformer/agent loop; bounds and graceful missing-component errors; separate execution/domain/assurance/intent labels; exact canonical sources under one agreed owner; disabled-by-default research challengers; P0→P1→P2→P3 with strong baselines and whole-task metrics. Labels **Implemented/P2** and **Designed/P0** must not be interchanged.
 

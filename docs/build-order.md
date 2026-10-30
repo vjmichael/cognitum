@@ -2,6 +2,8 @@
 
 **All-component design coverage:** [Cognitum R1.5 full architecture](Cognitum_Comprehensive_AI_Architecture_R1_5.md) and [C01–C19 technical specification](design/technology-portfolio-C01-C19.md), with [cross-technology experiment/acceptance gates](design/research-validation-and-delivery.md). The queue below still tracks **implementation** and may contain earlier historical test-count snapshots; R1.5 design completion does not imply C06–C19 code exists.
 
+**2026-10-29 governing clarification:** [Augmentation-first ADR and complete C01–C19 coverage audit](design/ADR-augmentation-first-transformer-capabilities-2026-10-29.md). An established solver wrapped for reliable transformer use counts as an augmentation; beating the underlying solver is required only for an explicit algorithmic superiority claim. The implementation queue remains distinct from the developer-alpha release checklist.
+
 **Adopted:** 2026-10-26  
 **Status:** Active priority and dependency plan  
 **Governing lifecycle:** [Per-component P0–P3 roadmap](roadmap.md)
@@ -40,7 +42,7 @@ The authoritative architecture is [Lu × Cognitum — Transformer-Centered Colla
 | **C14** | **14. Causal inference / intervention** | C13 uncertainty contracts where appropriate; identification assumptions are independently required | P0 needed; compare standard causal libraries and falsifiable tasks |
 | **C15** | **15. Spatial objects / scene graphs** | Canonical identity/state and typed objects; prioritize earlier if AI Film Studio has a specific task | P0 needed; maintain stable object IDs outside approximate features |
 | **C16** | **16. Physics / simulation** | C15 representation when spatial, but independent numerical simulation may begin earlier for real tasks | P0 needed; validate units, conservation/boundaries, and reference simulators |
-| **C17** | **17. SSM / learned temporal modeling** | C07 typed baseline; learned model must beat competent chronological state controls | P0 needed; explicitly distinct from ordinary state management |
+| **C17** | **17. SSM / learned temporal modeling** | C07 typed baseline; test whether an optional learned model augments transformer tasks versus chronological state controls; superiority claims require comparative evidence | P0 needed; explicitly distinct from ordinary state management |
 | **C18** | **18. Meta-learning / adaptation** | Stable benchmarks and explicit privacy/retention; compare conventional adaptation methods | P0 needed, task-driven |
 | **C19** | **19. Topological data analysis** | Demonstrable task, appropriate data/manifold assumptions, and standard library control | P0 needed, task-driven |
 
