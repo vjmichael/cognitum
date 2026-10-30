@@ -16,6 +16,8 @@ proto = ["protobuf>=6.31,<8"]
 security = ["protobuf>=6.31,<8", "cryptography>=44,<47"]
 # Optional offline high-precision scientific numerics; no SymPy string eval.
 scientific = ["protobuf>=6.31,<8", "mpmath>=1.3,<2"]
+# C08/C09 optional CPU-only research adapters; never installed by default.
+research-hdc-kan = ["protobuf>=6.31,<8", "numpy>=1.26,<3"]
 
 [tool.setuptools.packages.find]
 include = ["cognitum*"]
