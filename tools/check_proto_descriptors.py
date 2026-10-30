@@ -11,9 +11,11 @@ from pathlib import Path
 import sys
 
 from google.protobuf.descriptor_pb2 import FileDescriptorProto, FileDescriptorSet
+from cognitum.proto import physics_linear_motion_pb2
 from cognitum.proto import capability_pb2, ce_handoff_pb2, worker_pb2, supervisor_acceptance_pb2, evaluation_pb2, benchmark_pb2, collector_pb2, specialists_pb2
 
 EXPECTED = {
+    "cognitum/physics/v1/linear_motion.proto": physics_linear_motion_pb2.DESCRIPTOR,
     "cognitum/v1/capability.proto": capability_pb2.DESCRIPTOR,
     "cognitum/v1/ce_handoff.proto": ce_handoff_pb2.DESCRIPTOR,
     "cognitum/worker/v1/worker.proto": worker_pb2.DESCRIPTOR,
