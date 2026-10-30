@@ -25,6 +25,6 @@ jobs:
       - name: Verify both Protobuf contracts against independent compiler output
         run: |
           python -m grpc_tools.protoc -Iproto --descriptor_set_out=optional.pb proto/cognitum/research/v1/optional.proto
-          python tools/check_proto_descriptors.py optional.pb
+          python -m tools.check_proto_descriptors optional.pb
           python -m grpc_tools.protoc -Iproto --descriptor_set_out=approval.pb proto/cognitum/research/v1/kan_approval.proto
-          python tools/check_proto_descriptors.py approval.pb
+          python -m tools.check_proto_descriptors approval.pb
