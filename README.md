@@ -1,5 +1,7 @@
 # Cognitum — component roadmap and initial core prototype
 
+**C15 experiment update (Oct 29, 2026):** [T3 Windows VM recovery and T4 P4–P13B checkpoint ledger](docs/components/spatial/C15-T3-T4-P13B-experimental-checkpoint-ledger-2026-10-29.md) records separately verified disposable-VM recovery, portable synthetic engineering gates and remaining open external certification. The later C15 source checkpoints are **not yet merged into this repository**, and neither real-world engineering claims nor Lu integration are authorized.
+
 **Full AI-technology design (Revision 1.5, October 27, 2026):** [Comprehensive architecture](docs/Cognitum_Comprehensive_AI_Architecture_R1_5.md) · [all C01–C19 technology specifications](docs/design/technology-portfolio-C01-C19.md) · [research, validation, integration and delivery program](docs/design/research-validation-and-delivery.md) · [design index and status ledger](docs/design/README.md). This completes the **design coverage**, not the implementation, Lu OS worker security gate, or the scientific evaluation of all 19 components.
 
 A separate, offline cognitive augmentation foundation based on the owner's Revision 1.4, extended by the non-retroactive Revision 1.5 design. **The base core is stdlib-first; native Protobuf and security/scientific specialist extras have explicit optional dependencies.** Production Lu was not changed. Cognitum's implemented modules are tested prototypes, not a validated cognitive system or an approved third-party plugin host.
