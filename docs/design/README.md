@@ -13,6 +13,8 @@ This is the **full design set** for Cognitum as an optional, native Protobuf Lu 
 | [Lu native host addenda (Proposed)](../lu-dlc-ce-addenda.md) | Compatibility issues for the **separate** Lu team, including C02/C04 and Cognitum CE capability onboarding |
 | [HDC/KAN original archive reuse audit](../components/hdc-kan/P0-archive-reuse-audit.md) | Verified source hash and K4 41-unit/20-selftest archival provenance without claiming production integration |
 
+**Updated implementation-coverage interpretation (2026-10-29):** [Augmentation-first design decision and C01–C19 audit](ADR-augmentation-first-transformer-capabilities-2026-10-29.md). The historical status ledger below documents the October 27 \`main\` baseline and must not override later branch-specific prototype evidence.
+
 ## Status ledger — design versus implementation
 
 | Component span | Design | Implementation/evidence |
