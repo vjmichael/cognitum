@@ -49,12 +49,12 @@ This inventory combines merged Cognitum `main` with the **unmerged** C15 source 
 | C13 | Probability and uncertainty | Offline reference/optional backends in PR #19 | Reproducible mature backend validation and integration |
 | C14 | Causal inference | Offline reference/optional backends in PR #19 | Causal assumption reviews, real-data validation, integration |
 | C15 | Spatial objects/scene graphs | Substantial offline research prototypes in PR #19 | Real source provenance, native Windows P13/worker, deployment gates |
-| C16 | Physical modeling/learned dynamics | Design only; C05 toy oscillator does not complete it | Build first Cognitum-native domain capability |
-| C17 | State-space / learned temporal representation | Design only | Build first optional model/runtime |
+| C16 | Physical modeling/learned dynamics | Initial bounded exact-motion reference merged ([PR #26](https://github.com/vjmichael/cognitum/pull/26)) | General physics, ODE solvers and host integration still open |
+| C17 | State-space / learned temporal representation | Initial bounded classical Kalman reference merged ([PR #23](https://github.com/vjmichael/cognitum/pull/23)) | Learned SSM, multivariate methods and host integration still open |
 | C18 | Meta-learning/adaptation | Design only, purposely deferred | Consented trace governance; build safe optional adaptation |
 | C19 | Topological data analysis | Design only | Define task-specific data bridge and build baseline computation |
 
-**Counts of first-party implementation coverage:** 13/19 have identifiable in-repository implementations or offline references (C01–C07, C10–C15); 2/19 have research prototypes outside the Cognitum integration (C08–C09); 4/19 remain design-only (C16–C19). Thus **6/19 need a Cognitum-native first implementation or bridge**, and **all 19 have outstanding work before portfolio completion**. No component should be labeled production-complete based on this count.
+**Coverage update (2026-10-30):** 15/19 now have identifiable first-party implementations or offline references (C01–C07, C10–C17); 2/19 are historical external research prototypes needing Cognitum bridges (C08–C09); 2/19 remain design-only (C18–C19). Thus **4/19 need a first Cognitum-native implementation or bridge**, and **all 19 still have unfinished breadth, integration or acceptance work**. C16 and C17 count only as *first bounded slices*, not completed physical simulation or learned SSM systems. The earlier October 29 snapshot (13/2/4) is superseded. No component is production-complete based on these counts.
 
 Some C01–C07 evidence is already in `main`; much of C06–C07 and C10–C15 only exists in the unmerged PR #19 source branch. Keep CI, provenance and status tier explicit. Do not misrepresent optional external research as a currently installed Lu CE.
 
