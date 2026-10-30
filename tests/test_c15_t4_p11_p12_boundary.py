@@ -57,9 +57,9 @@ def receipt_fixture(tmp: Path, future_observations: bool = False):
     (tmp/'config.cnf').write_text(f'''[tsa]
 default_tsa = tsa_config
 [tsa_config]
-serial = {tmp/'serial'}
-signer_cert = {tmp/'tsa.pem'}
-signer_key = {tmp/'key.pem'}
+serial = {(tmp/'serial').as_posix()}
+signer_cert = {(tmp/'tsa.pem').as_posix()}
+signer_key = {(tmp/'key.pem').as_posix()}
 signer_digest = sha256
 default_policy = {POLICY}
 digests = sha256
