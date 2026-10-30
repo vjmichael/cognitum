@@ -18,6 +18,8 @@ security = ["protobuf>=6.31,<8", "cryptography>=44,<47"]
 scientific = ["protobuf>=6.31,<8", "mpmath>=1.3,<2"]
 # C08/C09 optional CPU-only research adapters; never installed by default.
 research-hdc-kan = ["protobuf>=6.31,<8", "numpy>=1.26,<3"]
+# Research checkpoint-signature verification is explicit opt-in; never a default authority.
+research-hdc-kan-verified = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "cryptography>=44,<47"]
 
 [tool.setuptools.packages.find]
 include = ["cognitum*"]
