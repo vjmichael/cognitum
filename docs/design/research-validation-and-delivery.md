@@ -4,15 +4,19 @@
 **Companions:** [Master architecture](../Cognitum_Comprehensive_AI_Architecture_R1_5.md) · [C01–C19 technology portfolio](technology-portfolio-C01-C19.md) · [Historical 1.4](../sources/Cognitum_Source_Informed_Revision_1_4.md)  
 **As-of:** 2026-10-27. Cognitum's C01–C05 test successes and Lu draft-branch security tests do not validate future scientific claims.
 
-## 1. Scientific philosophy: integrative research without inflated product claims
+## 1. Scientific philosophy: augment the transformer, validate the capability
 
-Cognitum has two lanes with distinct outputs:
+**Governing decision:** [Augmentation-first ADR (2026-10-29)](ADR-augmentation-first-transformer-capabilities-2026-10-29.md). Cognitum's purpose is to augment Lu's selected transformer with specialized or external capabilities it otherwise lacks or uses unreliably. It is **not required to outperform established conventional solvers and algorithms**. An excellent solver may be directly wrapped as a Cognitum capability; the value to test is correct formulation, tool use, interpretation, verified results, provenance and useful whole-task improvement relative to a transformer without that augmentation.
 
-**Production-adapter lane:** reliable, minimal, audited capabilities with strong conventional incumbents. The first production candidates are exact math, existing Lu-owned canonical search/memory and typed revisioned state. The system may remain useful even when no learned challenger wins.
+Cognitum has two complementary lanes:
 
-**Scientific-challenger lane:** optional investigations into HDC, KAN, learned temporal representations, object-centric reasoning, learned dynamics, TDA and multi-component synergies. A negative result is useful research and is preserved. Research is never prohibited because an incumbent is currently superior; **default deployment is withheld** until an actual task benefit is reproduced.
+**Reliable augmentation lane:** auditable external tools and reference implementations with correct semantics, bounded interfaces and trustworthy provenance. Exact math, formal solvers, canonical memory, scheduling, probabilistic tools and verified state can be useful to a transformer without requiring Cognitum to invent a better version of the underlying algorithm.
 
-Only **one active high-variance research hypothesis** should consume the project’s main research/benchmark capacity at a time. Safe infrastructure, security fixes, memory integrity and ordinary component tests may proceed in parallel.
+**Scientific exploration lane:** optional investigation of HDC, KAN, learned temporal representations, object-centric reasoning, learned dynamics, TDA and multi-component synergies. Negative results relative to conventional algorithms remain valuable and must be preserved. Research challengers are not promoted as improved algorithms without evidence; an underlying conventional capability can still be released safely when it demonstrably augments transformer tasks.
+
+Benchmarking must distinguish **augmentation efficacy (same model with versus without a capability)** from **algorithmic superiority (novel method against a mature incumbent)**. Only the latter requires evidence of outperforming that incumbent. Both are subject to security, correctness and honest resource-cost reporting.
+
+Only **one active high-variance research hypothesis** should consume the project's main research/benchmark capacity at a time. Safe infrastructure, security fixes, memory integrity and ordinary component tests may proceed in parallel.
 
 Do not equate **correctness of a tool call** with correctness of the original natural-language problem, or **the AI's explanatory confidence** with scientific calibration.
 
@@ -30,7 +34,7 @@ Each composition is a Lu-owned **typed task DAG**. Each step consumes explicit P
 
 **Metrics:** current-answer accuracy, false citation, deleted-content leakage (critical zero-tolerance gate in acceptance testing), false contradiction, source-revision correctness, update cost, p95 latency, RAM and energy. **Failure:** HDC returns an old user preference after deletion; derived index must fail closed.
 
-**Stop/go:** do not promote if conventional graph+state matches or beats accuracy at lower total cost, or if tombstones leak; archive negative outcome without treating HDC itself as useless.
+**Stop/go:** do not claim HDC algorithmic superiority or deploy the HDC challenger by default if it fails the preregistered benefit/cost or safety thresholds; never promote with tombstone leakage. A correct conventional graph/state retrieval tool may still be supplied as transformer augmentation. Preserve all negative research results.
 
 ### R02 — HDC + object/scene continuity
 
