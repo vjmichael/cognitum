@@ -52,7 +52,7 @@ def test_good_synthetic_is_unattested(tmp_path):
 def test_crlf_on_disk_is_tolerated(tmp_path):
     fixture(tmp_path)
     path=tmp_path/'suite-1.stdout.txt'
-    path.write_bytes(path.read_bytes().replace(b"\n", b"\r\n"))
+    path.write_bytes(path.read_text(encoding="utf-8").replace("\n", "\r\n").encode("utf-8"))
     assert inspect(tmp_path)["suite_count"] == 4
 
 @pytest.mark.parametrize('field,value',[
