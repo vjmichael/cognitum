@@ -1,0 +1,40 @@
+syntax = "proto3";
+package cognitum.physics.v1;
+
+// C16 P1: one-dimensional, constant-acceleration motion in canonical SI units.
+// This is a reference analytic model, not validated real-world physics or a general ODE solver.
+message Rational {
+  string numerator = 1;       // Canonical signed decimal integer, no negative zero.
+  string denominator = 2;     // Canonical strictly positive decimal integer.
+}
+
+message LinearMotionRequest {
+  uint32 schema_version = 1;  // Must equal 1.
+  string unit_system = 2;     // Must equal "SI:m,s,kg"; no implicit conversion.
+  Rational initial_position_m = 3;
+  Rational initial_velocity_m_per_s = 4;
+  Rational acceleration_m_per_s2 = 5;
+  Rational mass_kg = 6;
+  Rational time_step_s = 7;
+  uint32 steps = 8;           // 1..256; total time <= 1000 seconds.
+}
+
+message MotionSample {
+  uint32 step = 1;
+  Rational time_s = 2;
+  Rational position_m = 3;
+  Rational velocity_m_per_s = 4;
+  Rational kinetic_energy_j = 5;
+  Rational work_j = 6;
+}
+
+message LinearMotionResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string method = 3;              // ANALYTIC_CONSTANT_ACCELERATION_V1.
+  repeated MotionSample samples = 4;
+  bool arithmetic_verified = 5;  // Exact rational arithmetic only.
+  bool physical_model_validated = 6; // MUST be false.
+  bool host_approved = 7;         // MUST be false.
+  string limitation = 8;         // Declared physical/domain limitation.
+}
