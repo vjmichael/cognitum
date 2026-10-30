@@ -138,6 +138,6 @@ def test_reject_no_positive_test_summary_even_if_hash_updated(tmp_path):
     p=fixture(tmp_path)
     path=tmp_path/'suite-1.stdout.txt'
     path.write_text('no tests ran\n')
-    p['suite_results'][0]['stdout_sha256']=hashlib.sha256(path.read_bytes()).hexdigest()
+    p['suite_results'][0]['stdout_sha256']=hashlib.sha256(path.read_text(encoding='utf-8').encode('utf-8')).hexdigest()
     save(p,tmp_path)
     with pytest.raises(EvidenceRejected,match='NO_POSITIVE_PYTEST_SUMMARY'):inspect(tmp_path)
