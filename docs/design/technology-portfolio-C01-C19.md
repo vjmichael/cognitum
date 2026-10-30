@@ -248,7 +248,7 @@
 
 ## C16 — Physical modeling, numerical integration and learned dynamics
 
-**Current:** C05 ships only a *bounded reference discrete harmonic oscillator*, **not** a general physical simulator or continuous ODE solver.
+**Current (2026-10-30):** First-party C16 P1 *bounded exact 1D constant-acceleration* reference with native Protobuf and negative tests is merged in [PR #26](https://github.com/vjmichael/cognitum/pull/26). It is not a general physical simulator, continuous ODE solver, real-world validation, or Lu-authorized operation.
 
 **Question:** Given a dimensioned physical model and boundary/initial conditions, can Lu compute a robust prediction and honestly quantify discretization/model uncertainty?
 
@@ -264,7 +264,7 @@
 
 ## C17 — State-space models and learned temporal representations
 
-**Current:** Design only; not to be confused with C07's exact typed state service.
+**Current (2026-10-30):** First-party C17 P1 *bounded scalar Kalman temporal reference* with native Protobuf, independent rational checks and Windows/Linux tests is merged in [PR #23](https://github.com/vjmichael/cognitum/pull/23). No learned state-space model, canonical memory replacement, or Lu-host registration exists yet.
 
 **Question:** Does an SSM improve long-sequence prediction, change detection or temporal reasoning **over** the already correct event/snapshot system?
 
