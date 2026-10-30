@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install standalone core and test harness
-        run: python -m pip install --no-deps -e . pytest==9.0.2
+        run: python -m pip install --no-deps -e . && python -m pip install pytest==9.0.2
       - name: Verify actual CLI and negative alpha claims
         run: python -m pytest -q tests/test_alpha_preflight.py
       - name: Export host-local, explicitly unattested alpha report
