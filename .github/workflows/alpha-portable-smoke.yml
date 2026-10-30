@@ -1,0 +1,37 @@
+name: Cognitum developer-alpha portable smoke
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  portable:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11', '3.13']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install standalone core and test harness
+        run: python -m pip install --no-deps -e . && python -m pip install pytest==9.0.2
+      - name: Verify actual CLI and negative alpha claims
+        run: python -m pytest -q tests/test_alpha_preflight.py
+      - name: Export host-local, explicitly unattested alpha report
+        run: python tools/alpha_preflight.py --out alpha-preflight.json
+      - name: Build noneditable portable core wheel
+        run: python -m pip wheel --no-deps -w dist .
+      - name: Verify isolated wheel install and default-off calculator
+        run: python tools/alpha_wheel_smoke.py --wheel-dir dist --out alpha-wheel.json
+      - name: Upload only metadata preflight result
+        uses: actions/upload-artifact@v4
+        with:
+          name: alpha-${{ matrix.os }}-${{ matrix.python-version }}
+          path: |
+            alpha-preflight.json
+            alpha-wheel.json
