@@ -1,0 +1,27 @@
+syntax = "proto3";
+package cognitum.temporal.v1;
+
+// C17 offline reference only; Lu host authority is NOT encoded here.
+message TemporalSample {
+  int64 time_ms = 1;
+  optional string observation = 2;
+  string source_id = 3; // locator, not a capability grant
+}
+message FilterRequest {
+  string initial_mean = 1;
+  string initial_variance = 2;
+  string process_variance_per_second = 3;
+  string measurement_variance = 4;
+  repeated TemporalSample samples = 5;
+  int64 forecast_time_ms = 6;
+  string units = 7;
+}
+message FilterResult {
+  string mean = 1;
+  string variance = 2;
+  int64 at_time_ms = 3;
+  uint32 assimilated = 4;
+  uint32 missing = 5;
+  string method = 6;
+  repeated string limitations = 7;
+}

@@ -1,0 +1,31 @@
+name: Cognitum C17 portable temporal reference
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bounded-reference:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11', '3.13']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Protobuf and pytest
+        run: python -m pip install protobuf==6.33.6 pytest==9.0.2 grpcio-tools==1.78.0
+      - name: Compile and compare C17 native Protobuf schema
+        run: |
+          python -m grpc_tools.protoc -Iproto --descriptor_set_out=c17_compiled.pb proto/cognitum/temporal/v1/filter.proto
+          python -m tools.verify_c17_proto c17_compiled.pb
+      - name: Test bounded temporal reference
+        run: python -m pytest -q tests/test_c17_reference_filter.py
