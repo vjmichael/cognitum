@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install core, Protobuf and pytest
-        run: python -m pip install --no-deps -e . protobuf==6.33.6 pytest==9.0.2
+        run: python -m pip install --no-deps -e . && python -m pip install protobuf==6.33.6 pytest==9.0.2
       - name: C16 exact analytical motion and negative Protobuf tests
         run: python -m pytest -q tests/test_c16_p1_analytic_motion.py
   compiler-parity:
