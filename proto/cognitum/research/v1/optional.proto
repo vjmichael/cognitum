@@ -1,0 +1,37 @@
+syntax = "proto3";
+package cognitum.research.v1;
+// Optional research contracts only; never Lu registration or access grants.
+message HdcRecord {
+  string candidate_id = 1;
+  string role = 2;
+  string entity = 3;
+}
+message HdcQuery {
+  uint32 schema_version = 1;
+  string source_snapshot_id = 2;
+  string index_snapshot_id = 3;
+  string role = 4;
+  string entity = 5;
+  repeated HdcRecord records = 6;
+  uint32 top_k = 7;
+}
+message HdcCandidates {
+  string source_snapshot_id = 1;
+  repeated string candidate_ids = 2;
+  repeated uint32 hamming_distance = 3;
+  string assurance = 4;
+  bool grants_authority = 5;
+}
+message KanRequest {
+  uint32 schema_version = 1;
+  repeated string feature_values = 2;
+  string checkpoint_sha256 = 3;
+}
+message KanPrediction {
+  repeated string predicted_values = 1;
+  string checkpoint_sha256 = 2;
+  string method = 3;
+  bool grants_authority = 4;
+  bool uncertainty_calibrated = 5;
+  string limitation = 6;
+}
