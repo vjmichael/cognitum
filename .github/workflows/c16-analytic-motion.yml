@@ -1,0 +1,39 @@
+name: Cognitum C16 bounded physics reference
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  c16-unit:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11', '3.13']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install core, Protobuf and pytest
+        run: python -m pip install --no-deps -e . && python -m pip install protobuf==6.33.6 pytest==9.0.2
+      - name: C16 exact analytical motion and negative Protobuf tests
+        run: python -m pytest -q tests/test_c16_p1_analytic_motion.py
+  compiler-parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install compiler and Protobuf
+        run: |
+          python -m pip install protobuf==6.33.6 grpcio-tools==1.78.0
+      - name: Require C16 source and binding compiler parity
+        run: |
+          python -m grpc_tools.protoc -Iproto --descriptor_set_out=compiled_c16.pb proto/cognitum/physics/v1/linear_motion.proto
+          python -m tools.check_proto_descriptors compiled_c16.pb
