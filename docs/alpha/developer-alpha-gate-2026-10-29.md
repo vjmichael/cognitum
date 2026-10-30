@@ -19,3 +19,5 @@
 - Run the actual native Windows acceptance runner and independently review its evidence. This preflight **is not** that test.
 
 Cognitum remains a transformer augmentation layer; the existence of a reliable conventional solver is an asset, not a competitor. No Lu modifications are authorized here.
+
+**Release-train isolation:** This minimal standalone gate is intentionally based on Cognitum `main`, not PR #19's C15 source tree. The C15 import and additional research workers may remain default-off and under review. Even a green smoke matrix does not constitute a signed wheel, Windows installer, Lu-native CE, or an approved alpha release. The independently repaired `main` regression dependency (PR #25) remains part of the merge checks.
