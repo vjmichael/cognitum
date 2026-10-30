@@ -1,0 +1,11 @@
+# Developer-alpha P2: Local lease revocation, cancellation and checked publication
+
+This is a bounded **standalone Python reference** layered over the P1 Protobuf calculator worker. It is **NOT** the real Lu supervisor, OS confinement, authenticated conversation authority, production dispatcher, or permission grant.
+
+The `LocalLeaseBoard` stores an in-memory ephemeral ticket and epoch for a specific conversation and request. New admission is locally default-deny; grant/revoke are callable from ordinary Python and so MUST NOT be exposed to a model. `run_guarded` rejects replayed or wrong request IDs, launches **only** the fixed Cognitum alpha worker, checks the lease between short deadline-bounded `communicate` polls, kills its **direct child process** on revoke/cancel/deadline, checks typed Protobuf reply integrity and exact calculator value, and delivers through `locked_publish` under the same lock used by cancellation/revocation. The ticket is consumed after publication.
+
+**Current gates:** actual standalone subprocess success; unauthorized, changed or duplicate request rejected; revoke before/mid execution blocks delivery; short deadline terminates a test-controlled sleeper; simulated crash blocks publication; post-parse and pre-delivery recheck; in-lock sink. Local tests on available Linux are **not** Windows kernel job-tree tests. Every operation is still pure `calc.rational`. No model-chosen executable or filesystem path. No persistent lease or privileged trust store.
+
+**Remaining mandatory production work:** Authenticate conversation/caller in Lu; persist/recheck host permission generations across restarts; enforce OS Job Objects or equivalent kill-on-close process-tree containment on Windows; bounded stdout/stderr handling under a malicious worker; validated IPC channel; connect trusted UI consent and native CE dispatch; cancel on Lu unload/revocation; test actual Windows errors, restart, child breakaway and artifact integrity. The callback's host trust assumption must not be fulfilled by a model-created object.
+
+`python -m pytest -q tests/test_alpha_lifecycle.py tests/test_alpha_native.py tests/test_protobuf_codec.py` reproduces this P2 reference verification. No benchmark or alpha release certificate is implied.
