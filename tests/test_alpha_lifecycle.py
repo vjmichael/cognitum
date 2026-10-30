@@ -22,6 +22,8 @@ class LocalLifecycleTests(unittest.TestCase):
         delivered = []
         run_guarded(self.call, self.board, self.ticket, delivered.append)
         self.assertEqual(len(delivered), 1)
+        with self.assertRaisesRegex(ValueError, 'DUPLICATE_REQUEST_ID'):
+            self.board.grant('conv1', 'req1')
         r = _parse(pb.Reply, delivered[0], 16384)
         self.assertEqual(CalculateRationalResult.FromString(r.result_payload).value, '1/2')
         self.assertFalse(r.lu_integrated or r.os_isolation_verified)
