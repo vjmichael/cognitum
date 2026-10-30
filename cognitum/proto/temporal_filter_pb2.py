@@ -1,0 +1,6 @@
+# Generated from proto/cognitum/temporal/v1/filter.proto (protobuf descriptor).
+from google.protobuf import descriptor_pool as _pool
+from google.protobuf.internal import builder as _builder
+DESCRIPTOR = _pool.Default().AddSerializedFile(b'\n!cognitum/temporal/v1/filter.proto\x12\x14cognitum.temporal.v1"^\n\x0eTemporalSample\x12\x0f\n\x07time_ms\x18\x01 \x01(\x03\x12\x18\n\x0bobservation\x18\x02 \x01(\tH\x00\x88\x01\x01\x12\x11\n\tsource_id\x18\x03 \x01(\tB\x0e\n\x0c_observation"\xe2\x01\n\rFilterRequest\x12\x14\n\x0cinitial_mean\x18\x01 \x01(\t\x12\x18\n\x10initial_variance\x18\x02 \x01(\t\x12#\n\x1bprocess_variance_per_second\x18\x03 \x01(\t\x12\x1c\n\x14measurement_variance\x18\x04 \x01(\t\x125\n\x07samples\x18\x05 \x03(\x0b2$.cognitum.temporal.v1.TemporalSample\x12\x18\n\x10forecast_time_ms\x18\x06 \x01(\x03\x12\r\n\x05units\x18\x07 \x01(\t"\x8d\x01\n\x0cFilterResult\x12\x0c\n\x04mean\x18\x01 \x01(\t\x12\x10\n\x08variance\x18\x02 \x01(\t\x12\x12\n\nat_time_ms\x18\x03 \x01(\x03\x12\x13\n\x0bassimilated\x18\x04 \x01(\r\x12\x0f\n\x07missing\x18\x05 \x01(\r\x12\x0e\n\x06method\x18\x06 \x01(\t\x12\x13\n\x0blimitations\x18\x07 \x03(\tb\x06proto3')
+_builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
+_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'cognitum.proto.temporal_filter_pb2', globals())
