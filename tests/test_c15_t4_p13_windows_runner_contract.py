@@ -28,7 +28,9 @@ class P13RunnerTests(unittest.TestCase):
 
     def test_preflight_does_not_certify_os(self):
         p=runtime_preflight()
-        self.assertFalse(p['windows_x86_64_eligible'])
+        self.assertEqual(p['windows_x86_64_eligible'],
+                         platform_eligible(p['platform'], p['machine']))
+        self.assertNotIn('windows_os_sandbox_verified', p)
         self.assertTrue(p['test_modules_present'])
 
 if __name__=='__main__':unittest.main()
