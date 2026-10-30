@@ -32,4 +32,12 @@ P13B checks four expected test suites and eight captured log files against `gate
 3. Real TSA/nonce custody, signed time authority, source licensing, calibrated observations, qualified blind review and Windows OS confinement remain separate open gates.
 4. Matched Cognitum-on/off Lu-model efficacy benchmarks remain deferred. Lu remains read-only; this documentation does not authorize integration.
 
-**Source checkpoint:** `Cognitum_C15_T4_P11_P13_Timestamp_Uncertainty_Windows_Ready_2026-10-29.zip` (SHA-256: `b30d06d70a55e15d6c11f34fee8ae71cc67f12c277f492bbc2961c619ddb326d`), followed by the P13B local addendum. The full C15 T4 code is **not yet committed to GitHub**.
+**Source checkpoint:** `Cognitum_C15_T4_P11_P13_Timestamp_Uncertainty_Windows_Ready_2026-10-29.zip` (SHA-256: `b30d06d70a55e15d6c11f34fee8ae71cc67f12c277f492bbc2961c619ddb326d`), followed by the P13B local addendum. The full C15 T4 code is **not yet merged into GitHub `main`**.
+
+## Source reconciliation update (October 29–30, 2026)
+
+- [PR #18](https://github.com/vjmichael/cognitum/pull/18) merged the standalone ZIP checkpoint reconciliation verifier and tests to `main` after 42 locally passing focused tests.
+- [PR #19](https://github.com/vjmichael/cognitum/pull/19) now contains the C15 T3/T4 implementation, Protobuf contracts, tests and documentation through P13B on `c15/source-checkpoint-2026-10-29`, **not yet on `main`**.
+- Exactly 689 staged source candidate file paths matched the GitHub tree byte-for-byte (Git blob SHA-1 comparison). Additional historical Windows operator scripts were restored in the branch. A dedicated C15 pytest workflow was added; GitHub Actions remains queued at the time of this update.
+- Portable targeted local tests: **283 passed, 7 subtests passed**; independently compiled **82/82 Protobuf schemas**. A broader attempted cross-family run timed out and is **not counted as a pass**.
+- Hold the source PR for its GitHub Linux/Windows matrix results and diff review; no native P13 Windows acceptance, production OS isolation, real engineering certification or Lu integration may be inferred from branch upload.
