@@ -1,0 +1,21 @@
+syntax = "proto3";
+package cognitum.alpha.v1;
+// Transport of Cognitum-only domain calls. This is NOT Lu's ToolCall/ToolReply.
+message Call {
+  uint32 version = 1;
+  string request_id = 2;
+  string operation = 3;
+  string request_type_url = 4;
+  bytes request_payload = 5;
+}
+message Reply {
+  uint32 version = 1;
+  string request_id = 2;
+  enum Status { UNSPECIFIED = 0; COMPLETED = 1; DENIED = 2; INVALID_INPUT = 3; UNAVAILABLE = 4; TIMED_OUT = 5; FAILED = 6; }
+  Status status = 3;
+  string result_type_url = 4;
+  bytes result_payload = 5;
+  string error_code = 6;
+  bool lu_integrated = 7;  // MUST remain false in alpha
+  bool os_isolation_verified = 8; // MUST remain false in alpha
+}

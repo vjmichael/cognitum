@@ -1,0 +1,26 @@
+name: Cognitum standalone native alpha P1
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  alpha-native:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11', '3.13']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install supported native Protobuf runtime
+        run: python -m pip install 'protobuf==6.33.6' 'pytest==9.0.2'
+      - name: Binary worker and negative test suite
+        run: python -m pytest -q tests/test_alpha_native.py tests/test_protobuf_codec.py
+      - name: Explicit developer smoke (not a Lu host test)
+        run: python -m tools.smoke_alpha_native
