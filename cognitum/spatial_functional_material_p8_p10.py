@@ -10,6 +10,7 @@ can be run only by a trusted host; the model must never write its database.
 from __future__ import annotations
 
 import csv
+from contextlib import closing
 from dataclasses import dataclass
 import hashlib
 import io
@@ -125,7 +126,7 @@ def advance_policy_highwater(envelope: wire.T4TrustPolicyEnvelope,
                'INVALID_HOST_CHECKPOINT')
     p=Path(sqlite_db)
     ensure(p.parent.is_dir(), 'HOST_WITNESS_PARENT_MISSING')
-    with sqlite3.connect(str(p),timeout=5,isolation_level=None) as db:
+    with closing(sqlite3.connect(str(p),timeout=5,isolation_level=None)) as db:
         db.execute('PRAGMA busy_timeout=5000')
         db.execute('BEGIN IMMEDIATE')
         try:
