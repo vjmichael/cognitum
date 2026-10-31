@@ -241,16 +241,17 @@ print(json.dumps(result))
         proc = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, timeout=6)
         self.assertEqual(proc.returncode, 2)
         body = json.loads(proc.stdout)
-        self.assertEqual(body['results'][0]['status'], 'FAILED_CLOSED')
-        self.assertFalse(body['results'][0]['kernel_cgroup2_checked'])
-        self.assertFalse(body['results'][0]['production_authorized'])
+        # P46R8: the CLI now rejects a non-cgroup root *before* reading any
+        # pending job. It must not return an apparently successful result list.
+        self.assertEqual(body['status'], 'FAILED_CLOSED')
+        self.assertFalse('results' in body)
 
-    def test_empty_recovery_directory_is_successful_noop_not_security_certification(self):
+    def test_empty_recovery_directory_on_fake_root_is_denied(self):
         proc = subprocess.run([sys.executable, '-m', 'cognitum.host_recovery',
                                '--state-dir', str(self.state), '--delegated-root', str(self.cgroot),
                                '--execute'], cwd=ROOT, capture_output=True, text=True, timeout=6)
-        self.assertEqual(proc.returncode, 0)
-        self.assertEqual(json.loads(proc.stdout)['results'], [])
+        self.assertEqual(proc.returncode, 2)
+        self.assertEqual(json.loads(proc.stdout)['status'], 'FAILED_CLOSED')
 
     def test_actual_host_cgroup_preflight_is_denied_here(self):
         check = preflight('/sys/fs/cgroup')
