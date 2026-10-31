@@ -394,14 +394,27 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument('--execute', action='store_true', help='Attempt genuine kernel cgroup.kill (never mocked)')
     args = parser.parse_args(argv)
     try:
+        if args.execute:
+            # A CLI invoked with zero pending records must not succeed merely
+            # because all([]) is true. Verify a *real writable* cgroup2 mount
+            # before making any kernel-cleanup claim, even for an empty ledger.
+            fd = _kernel_root_fd(Path(args.delegated_root))
+            try:
+                if os.fstatvfs(fd).f_flag & os.ST_RDONLY:
+                    raise RecoveryDenied('CGROUP2_READ_ONLY')
+            finally:
+                os.close(fd)
         results = reconcile_pending(Path(args.state_dir), Path(args.delegated_root), execute=args.execute)
-    except RecoveryDenied as exc:
+    except (RecoveryDenied, OSError) as exc:
         print(json.dumps({'status': 'FAILED_CLOSED', 'reason': str(exc)}), flush=True)
         return 2
     print(json.dumps({'schema': OBSERVATION_SCHEMA, 'results': results}, sort_keys=True))
-    if args.execute and all(r['status'] in ('KERNEL_TREE_CLEARED_UNATTESTED',
-                                            'HOST_REPORTED_CLOSED_UNATTESTED') for r in results):
-        # A clean reconciliation exit is not sandbox admission or attestation.
+    if args.execute and all(r['status'] == 'KERNEL_TREE_CLEARED_UNATTESTED' for r in results):
+        # Only an independently sampled, exact-kernel empty-subtree result is
+        # eligible for a successful cleanup command exit. In particular a
+        # host-authored closed marker is NOT kernel evidence, and must never
+        # be interpreted as a successful recovery by an external supervisor.
+        # This still does NOT grant worker admission or cryptographic attestation.
         return 0
     return 2 if args.execute else 0
 

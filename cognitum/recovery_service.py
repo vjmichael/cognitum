@@ -99,15 +99,21 @@ def run_service(state: Path, root: Path, *, inspection_only: bool = False,
     if not sys.platform.startswith('linux'):
         raise ServiceDenied('LINUX_REQUIRED')
     fd = _lock_state(state)
+    # A manager-owned service ordinarily runs indefinitely. Never accumulate
+    # one potentially large receipt per polling interval in process memory.
+    # Explicit bounded test calls still return their complete cycle history.
     results = []
+    cycle_count = 0
     try:
         while not stop():
             result = _cycle(state, root, inspection_only=inspection_only)
-            results.append(result)
+            cycle_count += 1
+            if cycles is not None:
+                results.append(result)
             print(json.dumps(result, sort_keys=True, separators=(',', ':')), flush=True)
             if result['status'] in ('FAILED_CLOSED', 'UNATTESTED_CLOSURE_REQUIRES_REVIEW'):
                 raise ServiceDenied(result['status'])
-            if cycles is not None and len(results) >= cycles:
+            if cycles is not None and cycle_count >= cycles:
                 break
             # Sleep small increments for prompt manager stop; no background work
             # after process exit or successful shutdown is ever promised.
