@@ -51,7 +51,9 @@ def evaluate_receipt(payload: bytes, *, source_sha256: str | None = None) -> dic
     try:
         doc = json.loads(payload.decode("utf-8"), object_pairs_hook=_unique_object,
                          parse_constant=_reject_constant)
-    except (UnicodeError, json.JSONDecodeError) as exc:
+    except InvalidEvidence:
+        raise
+    except (UnicodeError, json.JSONDecodeError, ValueError, RecursionError) as exc:
         raise InvalidEvidence("receipt is not strict UTF-8 JSON") from exc
     if not isinstance(doc, dict):
         raise InvalidEvidence("receipt must be a JSON object")
