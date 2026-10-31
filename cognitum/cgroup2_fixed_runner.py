@@ -16,6 +16,8 @@ import sys
 
 from .alpha_native import MAX_FRAME
 from .cgroup2_contract import ContainmentUnavailable, FixtureCgroupScope
+from .host_survivor_arm import arm_watchkeeper
+from .host_surviving_watchkeeper import WatchkeeperDenied
 
 ROOT = Path(__file__).resolve().parent.parent
 MAX_OUTPUT = 16384 + 4
@@ -50,7 +52,7 @@ def _require_same_attached_worker(proc, pidfd: int, born: int, scope) -> None:
         raise ContainmentUnavailable('WORKER_IDENTITY_CHANGED_BEFORE_RELEASE')
 
 
-def execute_fixed_in_cgroup(frame: bytes, *, delegated_root='/sys/fs/cgroup') -> dict:
+def execute_fixed_in_cgroup(frame: bytes, *, delegated_root='/sys/fs/cgroup', evidence_dir=None) -> dict:
     """Attach a gated fixed worker BEFORE it receives its execution token.
 
     The return value describes developer process control only; it explicitly
@@ -62,11 +64,17 @@ def execute_fixed_in_cgroup(frame: bytes, *, delegated_root='/sys/fs/cgroup') ->
     scope = FixtureCgroupScope(delegated_root)
     scope.create()
     proc = None
+    watchdog = None
+    watchdog_receipt = None
     pidfd = None
     reader = None
     writer = None
     complete = False
     try:
+        # P46R5: the watchdog must be armed OUTSIDE this cgroup, with a
+        # kernel-valid cgroup.kill handle, before any worker process exists.
+        # Its parent pidfd survives retained pipe writers and a host SIGKILL.
+        watchdog = arm_watchkeeper(scope.path, evidence_dir=evidence_dir)
         reader, writer = os.pipe2(os.O_CLOEXEC)
         proc = subprocess.Popen([sys.executable, '-m', 'cognitum.gated_alpha_worker', str(reader), str(os.getpid())],
                                 cwd=ROOT, pass_fds=(reader,), start_new_session=True,
@@ -83,6 +91,11 @@ def execute_fixed_in_cgroup(frame: bytes, *, delegated_root='/sys/fs/cgroup') ->
             raise ContainmentUnavailable('WORKER_EXITED_BEFORE_ATTACH')
         scope.attach_before_release(proc.pid)
         _require_same_attached_worker(proc, pidfd, born, scope)
+        # Reject a watchkeeper that died between its READY handshake and the
+        # worker's release. This narrows a race but does not replace a service
+        # manager capable of recovering from later watchkeeper crashes.
+        if watchdog.proc.poll() is not None:
+            raise ContainmentUnavailable('WATCHKEEPER_EXITED_BEFORE_WORKER_RELEASE')
         # The fixed worker additionally waits for writer EOF, rejecting an
         # accidentally inherited or retained release handle.
         os.write(writer, b'G')
@@ -94,11 +107,10 @@ def execute_fixed_in_cgroup(frame: bytes, *, delegated_root='/sys/fs/cgroup') ->
             raise ContainmentUnavailable('WORKER_TIMEOUT') from exc
         if len(stdout) > MAX_OUTPUT or stderr or proc.returncode != 0:
             raise ContainmentUnavailable('FIXED_WORKER_DID_NOT_SUCCEED')
-        # Even after the direct worker exits, independently kill the whole
-        # cgroup: a surviving descendant would not be allowed to outlive it.
-        complete = scope.kill_and_verify_empty(timeout=5.0)
-        if not complete:
-            raise ContainmentUnavailable('CGROUP_NOT_EMPTY_AFTER_KILL')
+        # Cleanup is performed and witnessed by the out-of-cgroup watchkeeper.
+        # There is no successful return without its real kernel observation.
+        watchdog_receipt = watchdog.await_cleanup()
+        complete = True
         poll = select.poll()
         poll.register(pidfd, select.POLLIN | select.POLLHUP)
         if not poll.poll(0):
@@ -109,21 +121,33 @@ def execute_fixed_in_cgroup(frame: bytes, *, delegated_root='/sys/fs/cgroup') ->
             'stdout_sha256': hashlib.sha256(stdout).hexdigest(),
             'stdout_bytes': len(stdout), 'untrusted_worker_authorized': False,
             'lu_integrated': False, 'production_sandbox_verified': False,
+            'host_surviving_cleanup_observed': True,
+            'watchkeeper_receipt': str(watchdog.receipt_path),
+            'watchkeeper_job_id': watchdog.jobid,
         }
     finally:
         if writer is not None:
             os.close(writer)  # No permission token on an attachment failure.
         if reader is not None:
             os.close(reader)
-        # cgroup.kill is the primary descendant-tree cleanup; process groups
-        # are deliberately NOT accepted as an escape-proof boundary.
-        if scope.path is not None:
-            if not complete:
-                scope.kill_and_verify_empty(timeout=3.0)
+        # The independent watcher continues even if the launching host dies.
+        # A live host also closes the lease on ANY error, enabling cleanup.
+        if watchdog is not None and watchdog_receipt is None:
+            watchdog.close_lease()
             try:
-                scope.remove_empty()
-            except OSError:
-                pass  # Do not claim containment if a scope remains populated.
+                watchdog_receipt = watchdog.await_cleanup(timeout=8.0)
+            except WatchkeeperDenied:
+                pass  # Emergency fallback below, never success admission.
+        # If the watchdog failed or was never armed, attempt local cleanup too.
+        if scope.path is not None:
+            if watchdog_receipt is None:
+                try:
+                    complete = scope.kill_and_verify_empty(timeout=3.0)
+                except ContainmentUnavailable:
+                    complete = False
+            if complete:
+                try: scope.remove_empty()
+                except OSError: pass  # Leave a populated/uncertain scope for recovery.
         if proc is not None:
             if proc.poll() is None:
                 proc.kill()
