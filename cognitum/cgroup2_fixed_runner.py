@@ -18,6 +18,7 @@ from .alpha_native import MAX_FRAME
 from .cgroup2_contract import ContainmentUnavailable, FixtureCgroupScope
 from .host_survivor_arm import arm_watchkeeper
 from .host_surviving_watchkeeper import WatchkeeperDenied
+from .host_recovery import record_before_worker_release, mark_closed_after_verified_cleanup
 
 ROOT = Path(__file__).resolve().parent.parent
 MAX_OUTPUT = 16384 + 4
@@ -52,7 +53,8 @@ def _require_same_attached_worker(proc, pidfd: int, born: int, scope) -> None:
         raise ContainmentUnavailable('WORKER_IDENTITY_CHANGED_BEFORE_RELEASE')
 
 
-def execute_fixed_in_cgroup(frame: bytes, *, delegated_root='/sys/fs/cgroup', evidence_dir=None) -> dict:
+def execute_fixed_in_cgroup(frame: bytes, *, delegated_root='/sys/fs/cgroup', evidence_dir=None,
+                            recovery_state_dir=None) -> dict:
     """Attach a gated fixed worker BEFORE it receives its execution token.
 
     The return value describes developer process control only; it explicitly
@@ -66,6 +68,7 @@ def execute_fixed_in_cgroup(frame: bytes, *, delegated_root='/sys/fs/cgroup', ev
     proc = None
     watchdog = None
     watchdog_receipt = None
+    recovery_registered = False
     pidfd = None
     reader = None
     writer = None
@@ -75,6 +78,15 @@ def execute_fixed_in_cgroup(frame: bytes, *, delegated_root='/sys/fs/cgroup', ev
         # kernel-valid cgroup.kill handle, before any worker process exists.
         # Its parent pidfd survives retained pipe writers and a host SIGKILL.
         watchdog = arm_watchkeeper(scope.path, evidence_dir=evidence_dir)
+        # P46R6: optional experimental durable reconciliation mode.  A record
+        # must be fsynced before a worker is even spawned, not merely before
+        # the release token. Any journal error aborts the launch.
+        if recovery_state_dir is not None:
+            record_before_worker_release(
+                recovery_state_dir, scope.root, scope.path, watchdog.jobid,
+                os.getpid(), watchdog.proc.pid,
+            )
+            recovery_registered = True
         reader, writer = os.pipe2(os.O_CLOEXEC)
         proc = subprocess.Popen([sys.executable, '-m', 'cognitum.gated_alpha_worker', str(reader), str(os.getpid())],
                                 cwd=ROOT, pass_fds=(reader,), start_new_session=True,
@@ -122,6 +134,7 @@ def execute_fixed_in_cgroup(frame: bytes, *, delegated_root='/sys/fs/cgroup', ev
             'stdout_bytes': len(stdout), 'untrusted_worker_authorized': False,
             'lu_integrated': False, 'production_sandbox_verified': False,
             'host_surviving_cleanup_observed': True,
+            'durable_recovery_recorded': recovery_registered,
             'watchkeeper_receipt': str(watchdog.receipt_path),
             'watchkeeper_job_id': watchdog.jobid,
         }
@@ -148,6 +161,11 @@ def execute_fixed_in_cgroup(frame: bytes, *, delegated_root='/sys/fs/cgroup', ev
             if complete:
                 try: scope.remove_empty()
                 except OSError: pass  # Leave a populated/uncertain scope for recovery.
+                # Only a verified watchkeeper receipt followed by actual scope
+                # deletion may retire a durable pending job. An interrupted
+                # host leaves the pending record for independent recovery.
+                if recovery_registered and scope.path is None and watchdog_receipt is not None:
+                    mark_closed_after_verified_cleanup(recovery_state_dir, watchdog.jobid)
         if proc is not None:
             if proc.poll() is None:
                 proc.kill()
