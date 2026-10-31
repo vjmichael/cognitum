@@ -79,6 +79,14 @@ class EvidenceTests(unittest.TestCase):
         with self.assertRaises(InvalidEvidence):
             evaluate_receipt(b'{"schema":NaN}')
 
+    def test_extremely_long_integer_rejected_as_invalid_evidence(self):
+        with self.assertRaises(InvalidEvidence):
+            evaluate_receipt(b'{"count":' + b'9' * 5000 + b'}')
+
+    def test_extremely_deep_json_rejected_as_invalid_evidence(self):
+        with self.assertRaises(InvalidEvidence):
+            evaluate_receipt(b'[' * 20000 + b']' * 20000)
+
     def test_oversize_rejected(self):
         with self.assertRaises(InvalidEvidence):
             evaluate_receipt(b"x" * (MAX_RECEIPT_BYTES + 1))
