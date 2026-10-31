@@ -1,0 +1,26 @@
+# TEMPLATE ONLY: do not enable until writable, trusted cgroup2 delegation and
+# a restricted service identity have been established and independently tested.
+[Unit]
+Description=Cognitum P46R7 independently managed worker recovery (experimental)
+After=local-fs.target
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+[Service]
+Type=simple
+# Replace these illustrative paths with a verified, immutable installation.
+User=cognitum-recovery
+Group=cognitum-recovery
+ExecStart=/opt/cognitum/venv/bin/python -m cognitum.recovery_service --state-dir /var/lib/cognitum-recovery --delegated-root /sys/fs/cgroup/cognitum-delegated --interval 2
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/cognitum-recovery /sys/fs/cgroup/cognitum-delegated
+# Appropriate cgroup delegation must be established by host configuration.
+# ReadWritePaths does not make a read-only cgroup mount writable.
+
+[Install]
+WantedBy=multi-user.target
