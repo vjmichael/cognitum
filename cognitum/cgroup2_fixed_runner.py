@@ -68,7 +68,7 @@ def execute_fixed_in_cgroup(frame: bytes, *, delegated_root='/sys/fs/cgroup') ->
     complete = False
     try:
         reader, writer = os.pipe2(os.O_CLOEXEC)
-        proc = subprocess.Popen([sys.executable, '-m', 'cognitum.gated_alpha_worker', str(reader)],
+        proc = subprocess.Popen([sys.executable, '-m', 'cognitum.gated_alpha_worker', str(reader), str(os.getpid())],
                                 cwd=ROOT, pass_fds=(reader,), start_new_session=True,
                                 stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE, bufsize=0)

@@ -72,7 +72,7 @@ class FixedReleaseBarrier(unittest.TestCase):
         rd, wr = os.pipe2(os.O_CLOEXEC)
         p = None
         try:
-            p = subprocess.Popen([sys.executable,'-m','cognitum.gated_alpha_worker',str(rd)],
+            p = subprocess.Popen([sys.executable,'-m','cognitum.gated_alpha_worker',str(rd),str(os.getpid())],
                                  pass_fds=(rd,),cwd=ROOT,start_new_session=True,
                                  stdin=subprocess.PIPE,stdout=subprocess.PIPE,
                                  stderr=subprocess.PIPE,bufsize=0)
@@ -96,7 +96,7 @@ class FixedReleaseBarrier(unittest.TestCase):
         rd, wr = os.pipe2(os.O_CLOEXEC)
         p = None
         try:
-            p = subprocess.Popen([sys.executable,'-m','cognitum.gated_alpha_worker',str(rd)],
+            p = subprocess.Popen([sys.executable,'-m','cognitum.gated_alpha_worker',str(rd),str(os.getpid())],
                                  pass_fds=(rd,),cwd=ROOT,start_new_session=True,
                                  stdin=subprocess.PIPE,stdout=subprocess.PIPE,
                                  stderr=subprocess.PIPE,bufsize=0)
