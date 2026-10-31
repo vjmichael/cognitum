@@ -26,7 +26,7 @@ The verifier prints `PASS`, `FAIL`, or `INVALID` in JSON and exits nonzero unles
 
 ## Local test evidence
 
-Python 3.13.5, Linux; standalone unit command: **17/17 passed**, and Python source compile check passed. These are synthetic structural tests, not a live Cognitum P46 execution or a transformer benchmark. No Lu files, repository, or runtime were modified.
+Python 3.13.5, Linux; standalone unit command: **19/19 passed**, and Python source compile check passed. These are synthetic structural tests, not a live Cognitum P46 execution or a transformer benchmark. No Lu files, repository, or runtime were modified.
 
 ## Remaining gates
 
