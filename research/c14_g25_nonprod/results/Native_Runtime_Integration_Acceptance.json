@@ -1,0 +1,103 @@
+{
+  "cases": [
+    {
+      "error": null,
+      "module": null,
+      "name": "disabled_registry",
+      "status": "unavailable"
+    },
+    {
+      "error": null,
+      "module": null,
+      "name": "research_not_authorized",
+      "status": "unavailable"
+    },
+    {
+      "error": "identity_scope_mismatch",
+      "module": {
+        "name": "c14_g25_conditional_research",
+        "version": "0.1.0"
+      },
+      "name": "wrong_workspace_identity",
+      "status": "denied"
+    },
+    {
+      "error": null,
+      "module": {
+        "name": "c14_g25_conditional_research",
+        "version": "0.1.0"
+      },
+      "name": "research_admitted",
+      "status": "completed"
+    },
+    {
+      "error": null,
+      "module": {
+        "name": "c14_g25_conditional_research",
+        "version": "0.1.0"
+      },
+      "name": "scientific_refusal_not_runtime_failure",
+      "status": "completed"
+    },
+    {
+      "error": "invalid_operation_input",
+      "module": {
+        "name": "c14_g25_conditional_research",
+        "version": "0.1.0"
+      },
+      "name": "schema_version_rejected",
+      "status": "invalid_input"
+    },
+    {
+      "error": null,
+      "module": {
+        "name": "c14_g25_conditional_research",
+        "version": "0.1.0"
+      },
+      "name": "dry_run_no_computation",
+      "status": "validated"
+    },
+    {
+      "error": "plugin_timed_out",
+      "module": {
+        "name": "c14_g25_conditional_research",
+        "version": "0.1.0"
+      },
+      "name": "worker_timeout",
+      "status": "timed_out"
+    }
+  ],
+  "lu_integration": false,
+  "native_registry_runtime_worker_e2e": "PASS",
+  "no_causal_certification": "PASS",
+  "production_registration": false,
+  "research_authorization_denial": "PASS",
+  "spawning_worker_timeout_and_cleanup": "PASS_LINUX",
+  "unmodified_github_runtime_modules": [
+    {
+      "github_blob_sha": "11d129fb057641ac5da67fccd2f541da0860992f",
+      "module": "contracts"
+    },
+    {
+      "github_blob_sha": "288171a1113e1d7d259b353ae8703e6ca34fc7b1",
+      "module": "registry"
+    },
+    {
+      "github_blob_sha": "a86abb2231d9594f591e5958f44f006cbf7d3eb6",
+      "module": "policy"
+    },
+    {
+      "github_blob_sha": "8246e955525655414c2da95d7153a794f011a0ef",
+      "module": "worker"
+    },
+    {
+      "github_blob_sha": "885c4bf56114c7cab98252539e5900113ae3418b",
+      "module": "runtime"
+    },
+    {
+      "github_blob_sha": "338e59dd8acd5f22d2e8becbd626595486698aba",
+      "module": "tracing"
+    }
+  ],
+  "workspace_identity_denial": "PASS"
+}
