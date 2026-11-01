@@ -1,0 +1,40 @@
+{
+  "automatic_causal_certifications": 0,
+  "cognitum_production_code_modified": false,
+  "date": "2026-11-01",
+  "gates": {
+    "broad_nonparametric_causal_model_validation": "OPEN",
+    "cross_platform_windows_worker_containment": "OPEN_NOT_TESTED",
+    "external_R_firth_equivalence": "OPEN",
+    "in_flight_soft_cancellation": "OPEN_NOT_IMPLEMENTED",
+    "independent_numerical_equivalence": "PASS_MAX_ABS_DELTA_2_78E_16",
+    "independent_process_end_to_end": "PASS_980_OF_980",
+    "independent_scientific_review": "OPEN",
+    "installed_cognitum_default_registration": "DELIBERATELY_DISABLED",
+    "linux_native_worker_timeout_cleanup": "PASS_TESTED",
+    "linux_os_process_termination": "PASS_TESTED",
+    "mac_checksum_receipt_authenticity": "NOT_CLAIMED_SHA256_IS_NOT_AUTHENTICATION",
+    "native_registry_runtime_compatibility_byte_identical_snapshot": "PASS_TESTED",
+    "native_research_permission_and_workspace_scoping": "PASS_TESTED",
+    "native_runtime_e2e": "PASS_8_OF_8",
+    "production_promotion_authorization": "NOT_GRANTED",
+    "research_host_opt_in_and_disabled_default": "PASS",
+    "scientific_ci_calibration_and_precision": "FAIL_UNCHANGED",
+    "strict_input_validation_and_refusal": "PASS_TESTED",
+    "structured_noncertifying_results": "PASS",
+    "unit_and_regression": "PASS_119_OF_119"
+  },
+  "local_e2e_counts": {
+    "blocked_missing_assumption_evidence": 12,
+    "blocked_missing_observed_arm": 151,
+    "blocked_sparse_observed_arm": 167,
+    "conditional_sensitivity_report_only": 650
+  },
+  "local_unit_regression_tests_passed": 119,
+  "lu_code_modified": false,
+  "milestone": "C14_G25_NONPRODUCTION_RESEARCH_INTEGRATION",
+  "native_runtime_cases": 8,
+  "overall": "NONPRODUCTION_E2E_ACCEPTED_PRODUCTION_BLOCKED",
+  "production_promotions": 0,
+  "total_local_unit_regression_tests_failed": 0
+}
