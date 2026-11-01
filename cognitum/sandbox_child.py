@@ -99,6 +99,13 @@ def dispatch(message):
                 'host_mnt_visible': os.path.exists('/mnt/data'),
                 **_security_state(),
                 'aws_key_visible': bool(os.environ.get('AWS_ACCESS_KEY_ID'))}
+    if message['kind'] == 'test_probe' and operation == 'probe.limits':
+        import resource
+        return {'address_space': list(resource.getrlimit(resource.RLIMIT_AS)),
+                'cpu': list(resource.getrlimit(resource.RLIMIT_CPU)),
+                'open_fds': list(resource.getrlimit(resource.RLIMIT_NOFILE)),
+                'core': list(resource.getrlimit(resource.RLIMIT_CORE)),
+                'file_size': list(resource.getrlimit(resource.RLIMIT_FSIZE))}
     if message['kind'] == 'test_probe' and operation == 'probe.flood':
         # Deliberately break protocol to validate parent bounded-stdout kill.
         sys.stdout.buffer.write(b'X' * (MAX_OUTPUT + 4096))
