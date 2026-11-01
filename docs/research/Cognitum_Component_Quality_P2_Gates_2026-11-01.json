@@ -18,7 +18,10 @@
     "G25_research_batch_tests_passed": 22,
     "G25_unmodified_guard_host_tests_passed": 45,
     "G25_unmodified_cancellation_tests_passed": 23,
-    "P1_specialist_subset_tests_passed": 69
+    "P1_specialist_subset_tests_passed": 69,
+    "clean_zip_overlay_core_tests_passed": 32,
+    "clean_zip_overlay_core_subtests_passed": 182,
+    "clean_zip_overlay_g25_batch_tests_passed": 22
   },
   "performance": {
     "generic_three_trials_per_cell": [
