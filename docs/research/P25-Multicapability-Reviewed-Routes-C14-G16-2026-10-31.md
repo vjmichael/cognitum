@@ -55,7 +55,7 @@ The full verified local ZIP `Cognitum_P25_Routing_C14_2026-10-31.zip` contains:
 - 64 individual real-model responses, partial journal, independent grading, raw hashes, compiler/test logs;
 - extended engineering report and SHA-256 manifest.
 
-The ZIP is made available as a conversation artifact; source was developed/tested locally and has **not been merged into Cognitum main or Lu**. The source files in the ZIP should not be misrepresented as committed code in this documentation-only repository branch.
+The ZIP is made available as a conversation artifact. The six tested Cognitum source/test files have now been committed to **this isolated Cognitum branch** and independently read back byte-for-byte. The changes have **not** been merged into Cognitum main or Lu. Raw model receipts remain in the private conversation artifact rather than the public repository.
 
 **Remaining:** additional model-size tiers, repeated controlled sampling, C05/C10 real model-tool integration (requires new Lu owner authorization), HDC/KAN ablations, optional C14 mature-library positive runtime tests, more external causal ground-truth cases and calibrated uncertainty research.
 
