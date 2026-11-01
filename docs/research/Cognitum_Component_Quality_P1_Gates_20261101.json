@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "milestone": "COGNITUM_COMPONENT_QUALITY_P1_2026-11-01",
+  "branch": "cognitum/component-quality-p1-20261101",
+  "product_scope": "single independent Cognitum distribution, no Lu integration",
+  "pass": {
+    "unified_component_tests": 69,
+    "seeded_ssm_chunk_partitions": 250,
+    "historical_source_git_blob_hashes": 689,
+    "historical_crossdomain_plus_unified_overlay_tests": 378,
+    "historical_overlay_deselected_docs_test": 1,
+    "historical_overlay_subtests": 243,
+    "clean_component_wheel_smoke": true,
+    "zip_manifest_sha_checks": 17
+  },
+  "defects_fixed": {
+    "SSM": "valid latent state >1000 resumes under MAX_STATE=1000000; direct constructor validated",
+    "KAN": "accepted last spline knot evaluated at one-sided float32 interior limit"
+  },
+  "performance_local_linux": {
+    "ssm_old_64x8_median_ms": 1.305341,
+    "ssm_new_64x8_median_ms": 1.31122,
+    "hdc_32_candidates_median_ms": 0.100997,
+    "kan_checkpoint_median_ms": 0.363472,
+    "disposable_worker_e2e_median_ms": 490.263,
+    "control_calculator_worker_median_ms": 514.417
+  },
+  "source_provenance": {
+    "ssm_git_blob": "ae9329b6b0873906b3f4fd781823b6ae48407e15",
+    "kan_git_blob": "f56b9b937a166531ca8130f89e50964ea02e66d8",
+    "historical_source": "2026-10-29 verified 689-file Git blob packet plus 19 selected modern source overlays",
+    "exact_current_full_repo_checkout": false
+  },
+  "remaining": [
+    "full canonical source regression from one reviewed SHA",
+    "C08/C09 durable invalidation and signer approval P3 re-tests",
+    "Windows clean install and worker OS isolation",
+    "worker lifecycle latency optimization without relaxing isolation",
+    "real WITH/WITHOUT LLM task benchmarks and established baselines"
+  ],
+  "decision": "research engineering candidate, not production"
+}
