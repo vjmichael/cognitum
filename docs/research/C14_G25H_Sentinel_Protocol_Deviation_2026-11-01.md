@@ -1,0 +1,5 @@
+# G25H supplemental sentinel pre-results correction — 2026-11-01
+
+First attempt terminated before writing a result because the G25H core calculates a synthetic true-nuisance oracle score before fitted estimators. Structural-zero propensity makes that nondeployable oracle mathematically undefined. This was a **harness crash**, not an observed fitted-method result.
+
+The corrected supplemental harness clips only the synthetic oracle propensity in a temporary `Case` passed to the unchanged core; **no observed x/t/y, fitted nuisance model, fold, overlap threshold, or fit method changes**. The oracle is discarded entirely and is not scored or labeled valid in the sentinel receipts. The true original generator minimum remains in the sentinel record. The original frozen manifest is preserved as `G25H_Observed_Sentinel_Frozen_PRE_FIX.json`, and the updated manifest hash is recorded in `G25H_Observed_Sentinel_Frozen.json`. This is a declared pre-first-result harness repair, not undisclosed tuning.
