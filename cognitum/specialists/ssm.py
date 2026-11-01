@@ -19,9 +19,14 @@ class InvalidSSM(ValueError):
 
 
 def _scalar(x: object, *, decay: bool = False) -> float:
-    if type(x) not in (float, int) or not isfinite(x):
+    if type(x) not in (float, int):
         raise InvalidSSM('NONFINITE_OR_NONNUMERIC')
-    y = float(x)
+    try:
+        y = float(x)
+    except (OverflowError, ValueError) as exc:
+        raise InvalidSSM('NONFINITE_OR_NONNUMERIC') from exc
+    if not isfinite(y):
+        raise InvalidSSM('NONFINITE_OR_NONNUMERIC')
     if abs(y) > MAX_ELEMENT or (decay and not (0.0 <= y <= 1.0)):
         raise InvalidSSM('COEFFICIENT_OUT_OF_RANGE')
     return y
