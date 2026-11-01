@@ -1,0 +1,49 @@
+{
+  "date": "2026-11-01",
+  "milestone": "C14-G25 engineering-gate closure batch 1",
+  "decision": "NOT_APPROVED",
+  "production_code_changed": false,
+  "lu_code_changed": false,
+  "test_suites": {
+    "G25_Research_Guard": 22,
+    "G25L_Regression": 22,
+    "G25M_Regression": 20,
+    "G25N_Regression": 32
+  },
+  "test_failures": 0,
+  "archived_g25n": {
+    "datasets": 14000,
+    "positive": 12000,
+    "missing_observed_arm": 2000,
+    "payload_sha256_verified": 55,
+    "guard_replays": 560,
+    "anomalies": 0,
+    "positive_review_required_sparse_arm": 1222
+  },
+  "artifact": {
+    "name": "Cognitum_C14_G25_Engineering_Gate_Closure_2026-11-01.zip",
+    "sha256": "325c080580ed2daf6fe50697e4938e68a9b41a6a2ddc735c23468711c8bce9f6",
+    "members": 16
+  },
+  "gates": {
+    "strict_input_validation": "PASS_RESEARCH",
+    "observed_support_refusal": "PASS_RESEARCH",
+    "sparse_observed_arm_refusal": "PASS_RESEARCH",
+    "assumption_justification": "PASS_RESEARCH",
+    "no_automatic_causal_certification": "PASS_RESEARCH",
+    "receipt_replay_and_provenance": "PASS_RESEARCH",
+    "clopper_pearson_external_library_equivalence": "PASS_SCOPED",
+    "counterfactual_LP_equivalence": "PASS_SCOPED",
+    "existing_regression_suites": "PASS",
+    "whole_identified_set_width_calibration": "FAIL_UNCHANGED",
+    "full_nuisance_misspecification_validity": "OPEN",
+    "broad_continuous_nonlinear_SCM_holdouts": "OPEN",
+    "globally_verified_LR_inversion": "OPEN",
+    "numerical_global_projection_certificate": "OPEN",
+    "external_R_Firth_equivalence": "OPEN",
+    "external_scientific_review": "OPEN",
+    "production_runtime_integration": "OPEN",
+    "explicit_promotion_authorization": "NOT_GRANTED"
+  },
+  "limitations": "Synthetic archives and pinned source; not independently deployable, not a causal identification guarantee."
+}
