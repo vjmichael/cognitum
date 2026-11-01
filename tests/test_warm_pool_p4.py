@@ -40,14 +40,14 @@ def test_hard_maximum_never_above_four(target, ceiling):
         WarmCappedPool(Calculator, target_ready=target, max_warm=ceiling)
 
 
-def test_default_is_one_standby_and_no_spawn_before_explicit_start():
+def test_default_is_two_standbys_and_no_spawn_before_explicit_start():
     pool = WarmCappedPool(Calculator)
     try:
         assert pool.snapshot()['warm_total'] == 0
-        assert pool.target_ready == 1 and pool.max_warm == 4
+        assert pool.target_ready == 2 and pool.min_ready == 1 and pool.max_warm == 4
         pool.start()
         assert pool.wait_ready(12)
-        assert pool.snapshot()['idle'] == 1
+        assert pool.snapshot()['idle'] == 2
     finally:
         pool.close()
 
