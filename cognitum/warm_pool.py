@@ -14,6 +14,7 @@ import time
 
 from .contracts import Manifest
 from .worker import execute as cold_execute
+from .worker_budget import global_cold_budget_snapshot
 
 MAX_WARM_WORKERS = 4
 MIN_WARM_WORKERS = 1
@@ -294,6 +295,7 @@ class WarmCappedPool:
                         upshifts=self.upshifts, downshifts=self.downshifts,
                         max_observed_warm=self.max_observed_warm,
                         global_warm_budget=_GLOBAL_WARM_BUDGET.snapshot(),
+                        global_cold_budget=global_cold_budget_snapshot(),
                         hits=self.hits, misses=self.misses,
                         cold_fallbacks=self.cold_fallbacks,
                         cold_active=self._cold_active,
