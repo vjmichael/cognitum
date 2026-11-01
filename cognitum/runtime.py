@@ -55,7 +55,9 @@ class Runtime:
                     entry.factory, request.operation, frozen, request.timeout_ms)
             else:
                 status, result = execute(entry.factory, request.operation, request.payload, request.timeout_ms)
-            response.execution_status = status if status != "ok" else "completed"
+            # Keep the public closed Response/Trace status vocabulary stable.
+            # Resource exhaustion is an error with an explicit non-secret code.
+            response.execution_status = "completed" if status == "ok" else ("error" if status == "overloaded" else status)
             if status == "ok":
                 operation.output.validate(result)
                 if len(json.dumps(result)) > 16384:
@@ -67,7 +69,7 @@ class Runtime:
                     "The submitted formal input represents the intended task; no natural-language intent validation performed."]}
                 response.evidence = [{"kind": "computation", "ref": request.request_id}]
             else:
-                response.error = "plugin_" + status
+                response.error = "worker_capacity_exhausted" if status == "overloaded" else "plugin_" + status
         except Exception:
             response.execution_status = "error"
             response.error = "invalid_plugin_response_or_worker_failure"
@@ -159,13 +161,13 @@ class Runtime:
             except (ValueError,TypeError,OverflowError):
                 status = 'error'
         else:
-            status = 'error' if status not in ('timed_out','invalid_input','error') else status
+            status = 'error' if status not in ('timed_out','invalid_input','error','overloaded') else status
         if status != 'ok':
             checked = []
         responses = []
         for index, request in enumerate(requests):
             response = Response(request.request_id, request.correlation_id, request.operation,
-                                'completed' if status == 'ok' else status)
+                                'completed' if status == 'ok' else ('error' if status == 'overloaded' else status))
             response.module = {'name':entry.manifest.name,'version':entry.manifest.version}
             if status == 'ok':
                 response.result = checked[index]
@@ -175,6 +177,8 @@ class Runtime:
                     'The submitted formal input represents the intended task; no natural-language intent validation performed.']}
                 response.evidence = [{'kind':'computation','ref':request.request_id}]
             else:
-                response.error = 'invalid_plugin_response_or_worker_failure' if status == 'error' else 'plugin_'+status
+                response.error = ('worker_capacity_exhausted' if status == 'overloaded' else
+                                  'invalid_plugin_response_or_worker_failure' if status == 'error'
+                                  else 'plugin_'+status)
             responses.append(self._finish(response,started))
         return responses
