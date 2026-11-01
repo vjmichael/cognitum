@@ -2,7 +2,7 @@ import json
 from time import perf_counter
 from .contracts import Request, Response
 from .policy import authorize
-from .worker import execute
+from .worker import execute, execute_batch, MAX_BATCH
 from .tracing import Trace
 
 class Runtime:
@@ -71,3 +71,98 @@ class Runtime:
                            "module": response.module, "execution_status": response.execution_status,
                            "error": response.error, "latency_ms": response.latency_ms})
         return response
+
+
+    def call_batch(self, requests, context, *, trusted_batch_opt_in=False):
+        """Optional same-context trusted-plugin optimization, not authority.
+
+        All participants must be deterministic/effect-free, same workspace,
+        subject, correlation ID, operation, provider and timeout. Every request
+        is validated and authorized BEFORE one disposable worker begins.
+        A failed worker or invalid output produces NO partial plugin results.
+        This method is deliberately not exposed as a CLI/model/web command.
+        """
+        if trusted_batch_opt_in is not True:
+            raise PermissionError('BATCH_DEFAULT_DISABLED')
+        if type(requests) not in (list, tuple) or not 1 <= len(requests) <= MAX_BATCH:
+            raise ValueError('INVALID_BATCH_SIZE')
+        first = requests[0]
+        if type(first) is not Request:
+            raise ValueError('INVALID_REQUEST')
+        common = (first.correlation_id, first.workspace_id, first.subject_id,
+                  first.operation, first.timeout_ms)
+        entry = operation = None
+        seen_ids = set()
+        started = perf_counter()
+        pending = []
+        for request in requests:
+            if type(request) is not Request:
+                raise ValueError('INVALID_REQUEST')
+            request.validate()
+            if (request.correlation_id, request.workspace_id, request.subject_id,
+                request.operation, request.timeout_ms) != common:
+                raise ValueError('BATCH_CROSSES_CONTEXT_OR_OPERATION')
+            if request.request_id in seen_ids:
+                raise ValueError('DUPLICATE_BATCH_REQUEST_ID')
+            seen_ids.add(request.request_id)
+            if request.dry_run:
+                raise ValueError('BATCH_DRY_RUN_NOT_EXECUTABLE')
+            selected = self.registry.resolve(request.operation, context.allow_research)
+            if not selected:
+                raise PermissionError('BATCH_CAPABILITY_UNAVAILABLE')
+            chosen_entry, chosen_operation = selected
+            if operation is None:
+                entry, operation = chosen_entry, chosen_operation
+            if (chosen_entry.factory is not entry.factory
+                or chosen_operation.name != operation.name):
+                raise ValueError('BATCH_MIXED_PROVIDER')
+            if (chosen_operation.effects or not chosen_operation.deterministic):
+                raise PermissionError('BATCH_REQUIRES_PURE_DETERMINISTIC_PLUGIN')
+            if request.operation_schema_version != chosen_operation.schema_version:
+                raise ValueError('BATCH_SCHEMA_MISMATCH')
+            # Freeze and then validate the actual data sent to the child.
+            # Never trust a mutable request.payload after it has been checked.
+            frozen_payload = dict(request.payload) if type(request.payload) is dict else request.payload
+            chosen_operation.input.validate(frozen_payload)
+            if len(json.dumps(frozen_payload,allow_nan=False)) > 16384:
+                raise ValueError('BATCH_INPUT_TOO_LARGE')
+            denial = authorize(request, context, chosen_operation)
+            if denial:
+                raise PermissionError(denial)
+            pending.append((request.operation, frozen_payload))
+        assert operation is not None and entry is not None
+        try:
+            status, results = execute_batch(entry.factory, pending, first.timeout_ms)
+        except Exception:
+            status, results = 'error', None
+        # Validate the ENTIRE set before making any result accessible.
+        checked = []
+        if status == 'ok' and type(results) is list and len(results) == len(requests):
+            try:
+                for result in results:
+                    operation.output.validate(result)
+                    if len(json.dumps(result,allow_nan=False)) > 16384:
+                        raise ValueError('oversized output')
+                    checked.append(result)
+            except (ValueError,TypeError,OverflowError):
+                status = 'error'
+        else:
+            status = 'error' if status not in ('timed_out','invalid_input','error') else status
+        if status != 'ok':
+            checked = []
+        responses = []
+        for index, request in enumerate(requests):
+            response = Response(request.request_id, request.correlation_id, request.operation,
+                                'completed' if status == 'ok' else status)
+            response.module = {'name':entry.manifest.name,'version':entry.manifest.version}
+            if status == 'ok':
+                response.result = checked[index]
+                response.outcome = {'kind':operation.outcome_kind}
+                response.assurance = operation.assurance
+                response.interpretation = {'level':'assumption_bound','assumptions':[
+                    'The submitted formal input represents the intended task; no natural-language intent validation performed.']}
+                response.evidence = [{'kind':'computation','ref':request.request_id}]
+            else:
+                response.error = 'invalid_plugin_response_or_worker_failure' if status == 'error' else 'plugin_'+status
+            responses.append(self._finish(response,started))
+        return responses
