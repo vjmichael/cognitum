@@ -16,6 +16,8 @@ from .contracts import Manifest
 from .worker import execute as cold_execute
 
 MAX_WARM_WORKERS = 4
+MIN_WARM_WORKERS = 1
+DEFAULT_WARM_WORKERS = 2
 MAX_MESSAGE_BYTES = 65536
 
 
@@ -111,16 +113,26 @@ def _stop_and_reap(proc, conn):
 class WarmCappedPool:
     """At most four prewarmed one-shot processes, including busy and warming.
 
-    Defaults to a single standby to avoid wasted memory. Set target_ready=4
-    to keep four workers ready at startup, or choose a lower target. Every
+    Starts with two standbys by default, can adapt between 1 and 4. Every
     successful warm call consumes its worker and replenishes asynchronously.
     Cold overflow can start other processes, but those do not count as prewarms.
+    Scaling down is triggered by an explicit trusted-host maintenance tick,
+    not by an unmanaged scheduler running inside a trusted library module.
     """
 
-    def __init__(self, factory, *, target_ready=1, max_warm=4,
+    def __init__(self, factory, *, target_ready=DEFAULT_WARM_WORKERS,
+                 min_ready=MIN_WARM_WORKERS, max_warm=MAX_WARM_WORKERS,
+                 adaptive=True, idle_downshift_s=60.0,
                  max_cold_inflight=8, warmup_timeout_s=10.0, max_idle_s=120.0):
-        if type(target_ready) is not int or type(max_warm) is not int or not (1 <= target_ready <= max_warm <= MAX_WARM_WORKERS):
+        if (type(target_ready) is not int or type(min_ready) is not int
+                or type(max_warm) is not int
+                or not 1 <= min_ready <= target_ready <= max_warm <= MAX_WARM_WORKERS):
             raise ValueError('WARM_WORKER_LIMIT_MUST_BE_1_TO_4')
+        if type(adaptive) is not bool:
+            raise ValueError('INVALID_ADAPTIVE_SETTING')
+        if (type(idle_downshift_s) not in (float, int)
+                or not 1 <= idle_downshift_s <= 3600):
+            raise ValueError('INVALID_DOWNSHIFT_INTERVAL')
         if type(max_cold_inflight) is not int or not 1 <= max_cold_inflight <= 32:
             raise ValueError('INVALID_COLD_CONCURRENCY_LIMIT')
         if type(warmup_timeout_s) not in (int, float) or not 0.2 <= warmup_timeout_s <= 30:
@@ -138,7 +150,15 @@ class WarmCappedPool:
         self.factory = factory
         self._operations = frozenset(op.name for op in manifest.operations)
         self.target_ready = target_ready
+        self.min_ready = min_ready
+        self.baseline_ready = target_ready
         self.max_warm = max_warm
+        self.adaptive = adaptive
+        self.idle_downshift_s = float(idle_downshift_s)
+        self._last_request_at = time.monotonic()
+        self._last_downshift_at = self._last_request_at
+        self.upshifts = 0
+        self.downshifts = 0
         self.max_cold_inflight = max_cold_inflight
         self._cold_active = 0
         self.overload_refusals = 0
@@ -197,6 +217,7 @@ class WarmCappedPool:
     def _prepare(self):
         parent = child = proc = None
         ready = False
+        release_failed_reservation = False
         try:
             parent, child = self._ctx.Pipe(duplex=True)
             proc = self._ctx.Process(target=_worker_main, args=(child, self.factory), daemon=True)
@@ -216,12 +237,16 @@ class WarmCappedPool:
                 self._warming -= 1
                 if proc is not None:
                     self._warming_processes.discard(proc)
-                if ready and not self._closed:
+                if ready and not self._closed and len(self._idle) < self.target_ready:
                     self._idle.append(_Slot(proc, parent, time.monotonic()))
                     self.warm_started += 1
                     proc = parent = None
                 else:
-                    _GLOBAL_WARM_BUDGET.release()  # reserved but never admitted ready
+                    # Keep the process-wide reservation until the rejected or
+                    # failed worker is ACTUALLY terminated/reaped below. If the
+                    # reservation were released here, another pool could spawn
+                    # worker #5 before this process had exited.
+                    release_failed_reservation = True
                     if not self._closed:
                         self.warmup_failures += 1
                 self._threads.discard(threading.current_thread())
@@ -232,6 +257,13 @@ class WarmCappedPool:
                 _stop_and_reap(proc, parent)
             elif parent is not None:
                 parent.close()
+            if release_failed_reservation:
+                _GLOBAL_WARM_BUDGET.release()
+                with self._cv:
+                    # A different pool may have freed capacity meanwhile;
+                    # only the current trusted target decides replenishment.
+                    self._fill_locked()
+                    self._cv.notify_all()
 
     def wait_ready(self, seconds=12.0, *, minimum=None):
         if minimum is None:
@@ -251,7 +283,10 @@ class WarmCappedPool:
         with self._cv:
             return dict(idle=len(self._idle), warming=self._warming,
                         busy=len(self._busy), warm_total=self._total_locked(),
+                        min_ready=self.min_ready, baseline_ready=self.baseline_ready,
                         max_warm=self.max_warm, target_ready=self.target_ready,
+                        adaptive=self.adaptive, idle_downshift_s=self.idle_downshift_s,
+                        upshifts=self.upshifts, downshifts=self.downshifts,
                         max_observed_warm=self.max_observed_warm,
                         global_warm_budget=_GLOBAL_WARM_BUDGET.snapshot(),
                         hits=self.hits, misses=self.misses,
@@ -261,6 +296,51 @@ class WarmCappedPool:
                         overload_refusals=self.overload_refusals,
                         warm_started=self.warm_started,
                         warmup_failures=self.warmup_failures, closed=self._closed)
+
+    def set_target_ready(self, value):
+        """Trusted-host capacity request, e.g. memory-pressure downshift.
+
+        The new target is clamped by declared min/max; busy workers finish or
+        cancel independently, while surplus idle workers are reaped now.
+        """
+        if type(value) is not int or not self.min_ready <= value <= self.max_warm:
+            raise ValueError('INVALID_READY_TARGET')
+        with self._cv:
+            if self._closed:
+                raise RuntimeError('POOL_CLOSED')
+            self.target_ready = value
+            surplus = []
+            while self._idle and len(self._idle) + self._warming > value:
+                surplus.append(self._idle.pop())
+            self._fill_locked()
+            self._cv.notify_all()
+        for slot in surplus:
+            _stop_and_reap(slot.process, slot.connection)
+            _GLOBAL_WARM_BUDGET.release()
+        # Slots reaped above cannot be reused or published to a caller.
+        return self.snapshot()
+
+    def maintain(self):
+        """Trusted host's periodic maintenance tick, not on the request path.
+
+        After prolonged quiet, reduce the idle target one step at a time,
+        down to a hard floor of one. Busy calls are not interrupted by this.
+        The caller is responsible for invoking this periodically while idle.
+        """
+        with self._cv:
+            if self._closed:
+                return self.snapshot()
+            now = time.monotonic()
+            quiet = now - max(self._last_request_at, self._last_downshift_at)
+            if (self.adaptive and quiet >= self.idle_downshift_s
+                    and not self._busy and not self._cold_active
+                    and self.target_ready > self.min_ready):
+                self.target_ready -= 1
+                self.downshifts += 1
+                self._last_downshift_at = now
+            target = self.target_ready
+        # Reap idle surplus outside the admission lock.
+        return self.set_target_ready(target)
 
     def execute(self, factory, operation, payload, timeout_ms):
         if factory is not self.factory:
@@ -280,6 +360,12 @@ class WarmCappedPool:
             # A trusted first invocation may arrive before an explicit start.
             # Dispatch cold without delay, but begin standby preparation.
             self._started = True
+            now = time.monotonic()
+            self._last_request_at = now
+            # A dormant host that allowed one standby to remain returns to
+            # its normal two-standby baseline on the next authorized request.
+            if self.adaptive and self.target_ready < self.baseline_ready:
+                self.target_ready = self.baseline_ready
             slot = None
             cold_denied = False
             while self._idle:
@@ -292,6 +378,12 @@ class WarmCappedPool:
                     break
             if slot is None:
                 self.misses += 1
+                # Only grow after a genuinely busy warm pool. An initial
+                # request while cold-starting MUST NOT inflate the target.
+                if (self.adaptive and self.warm_started > 0 and self._busy
+                        and self.target_ready < self.max_warm):
+                    self.target_ready += 1
+                    self.upshifts += 1
                 if self._cold_active < self.max_cold_inflight:
                     self._cold_active += 1
                     self.cold_fallbacks += 1
