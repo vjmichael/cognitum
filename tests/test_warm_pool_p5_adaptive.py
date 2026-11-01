@@ -7,6 +7,8 @@ import time
 import pytest
 from cognitum.contracts import HostContext
 from cognitum.plugins.calculator import Calculator
+from cognitum.registry import Registry
+from cognitum.runtime import Runtime
 from cognitum.warm_pool import (WarmCappedPool, global_warm_budget_snapshot,
                                   DEFAULT_WARM_WORKERS, MIN_WARM_WORKERS,
                                   MAX_WARM_WORKERS)
@@ -45,9 +47,19 @@ def test_manual_memory_pressure_downshift_to_minimum_reaps_extra():
         assert result['target_ready']==1
         assert result['idle']==1
         assert global_warm_budget_snapshot()['reserved']==1
+        assert p.snapshot()['host_ceiling']==1
         with p._cv: retained={s.process.pid for s in p._idle}
         assert len(discarded-retained)==1
+        # A trusted host's memory-pressure limit must persist through work.
+        runtime_pool=Registry()
+        runtime_pool.install(Calculator,enabled=True)
+        runtime_pool.nominate('calc','reference_calc')
+        result=Runtime(runtime_pool,warm_pool=p).call(calc_req(17,'3+4'),HostContext('local','local-user'))
+        assert result.result=={'value':'7'}
+        assert p.snapshot()['target_ready']==1 and p.snapshot()['host_ceiling']==1
+        assert p.wait_ready(15)
         p.set_target_ready(4)
+        assert p.snapshot()['host_ceiling']==4
         assert p.wait_ready(15)
         assert p.snapshot()['idle']==4
         assert p.snapshot()['max_observed_warm']<=4
