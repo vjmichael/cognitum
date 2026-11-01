@@ -1,5 +1,6 @@
 """Disposable trusted-code workers: timeout containment, NOT an OS sandbox."""
 import multiprocessing as mp
+from .worker_budget import reserve_cold, release_cold
 
 def _run(connection, factory, operation, payload):
     try:
@@ -13,6 +14,17 @@ def _run(connection, factory, operation, payload):
         connection.close()
 
 def execute(factory, operation, payload, timeout_ms):
+    # Shared admission across ordinary calls, batches, and pool cold overflow.
+    # Never queue unexpectedly or spawn unbounded fallback processes.
+    if not reserve_cold():
+        return "overloaded", None
+    try:
+        return _execute_admitted(factory, operation, payload, timeout_ms)
+    finally:
+        release_cold()
+
+
+def _execute_admitted(factory, operation, payload, timeout_ms):
     context = mp.get_context("spawn")
     reader, writer = context.Pipe(duplex=False)
     process = context.Process(target=_run, args=(writer, factory, operation, payload), daemon=True)
@@ -73,6 +85,15 @@ def execute_batch(factory, calls, timeout_ms):
         raise ValueError('invalid batch size')
     if type(timeout_ms) is not int or not 1 <= timeout_ms <= 10000:
         raise ValueError('invalid batch deadline')
+    if not reserve_cold():
+        return 'overloaded', None
+    try:
+        return _execute_batch_admitted(factory, calls, timeout_ms)
+    finally:
+        release_cold()
+
+
+def _execute_batch_admitted(factory, calls, timeout_ms):
     ctx = mp.get_context('spawn')
     reader, writer = ctx.Pipe(duplex=False)
     process = ctx.Process(target=_run_batch,
