@@ -6,6 +6,7 @@ They must not be counted as PASSED if the launcher is unavailable.
 from __future__ import annotations
 
 import base64
+import hashlib
 import json
 import os
 import subprocess
@@ -174,6 +175,35 @@ def test_timeout_forcibly_terminates_running_sandbox(sandbox):
     elapsed=time.monotonic()-before
     assert status=='timed_out' and result is None
     assert elapsed<2.0
+
+
+def test_kernel_enforced_rlimits_on_worker(sandbox):
+    status,result=sandbox.test_probe('probe.limits',timeout_ms=4000)
+    assert status=='ok'
+    assert result['address_space']==[1073741824,1073741824]
+    assert result['cpu']==[8,8]
+    assert result['open_fds']==[128,128]
+    assert result['core']==[0,0]
+    assert result['file_size']==[8388608,8388608]
+
+
+def test_kan_checkpoint_host_pin_in_sandbox(sandbox):
+    from test_research_optional import kan_artifact
+    checkpoint=kan_artifact()
+    digest=hashlib.sha256(checkpoint).hexdigest()
+    frame=pb.KanRequest(schema_version=1,feature_values=['0'],checkpoint_sha256=digest).SerializeToString(deterministic=True)
+    payload={'frame_b64':base64.b64encode(frame).decode(),
+             'checkpoint_b64':base64.b64encode(checkpoint).decode()}
+    unapproved=sandbox.execute(Specialists,'specialist.kan',payload,timeout_ms=5000)
+    assert unapproved==('unavailable',None)
+    approved=LinuxNamespaceExecutor(approved_kan_sha256=digest)
+    status,result=approved.execute(Specialists,'specialist.kan',payload,timeout_ms=8000)
+    assert status=='ok'
+    record=pb.KanPrediction.FromString(base64.b64decode(json.loads(result['result_json'])['protobuf_b64']))
+    assert record.checkpoint_sha256==digest
+    assert record.uncertainty_calibrated is False
+    wrong=LinuxNamespaceExecutor(approved_kan_sha256='0'*64)
+    assert wrong.execute(Specialists,'specialist.kan',payload,timeout_ms=8000)[0]=='error'
 
 
 def test_bounded_output_kills_flooding_sandbox(sandbox):
