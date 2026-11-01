@@ -1,0 +1,33 @@
+{
+  "automatic_causal_certification": false,
+  "capability_id": "c14.g25.sensitivity.report",
+  "dependency_policy": "pinned_g25i_and_guard_unchanged",
+  "enabled_by_default": false,
+  "explicit_opt_in_env": "COGNITUM_G25_RESEARCH_OPT_IN=1",
+  "explicit_opt_in_flag": "--research-only",
+  "guard_method": "C14-G25-guard-research-v1",
+  "llm_tool_registration": false,
+  "lu_registration": false,
+  "native_assurance": "unverified",
+  "native_default_registry_install": false,
+  "native_effects": [],
+  "native_execution": "trusted_py_spawn_worker",
+  "native_host_context_enforced": true,
+  "native_manifest_maturity": "prototype",
+  "native_manifest_track": "research",
+  "native_research_plugin_class": "research.c14_g25_nonprod.integration.cognitum_research_plugin.G25ConditionalResearchPlugin",
+  "native_runtime_allow_research_required": true,
+  "native_worker_test_platform": "Linux x86_64",
+  "network_binding": false,
+  "observations_binary": [
+    "W",
+    "T",
+    "Y"
+  ],
+  "original_cognitum_modules_modified": false,
+  "production_estimator_promotion": false,
+  "runtime": "local_subprocess_ndjson",
+  "schema_version": 1,
+  "status": "NONPRODUCTION_RESEARCH_ONLY",
+  "writes_to_production_state": false
+}
