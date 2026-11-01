@@ -1,0 +1,33 @@
+{
+  "checks": {
+    "cognitum_installed_dev_distribution": "OPEN",
+    "cooperative_soft_cancel": "OPEN_NOT_IMPLEMENTED",
+    "current_tests": "PASS_68_68",
+    "duplicate_id_rejection": "PASS_4_4",
+    "external_R_firth_equivalence": "OPEN",
+    "independent_scientific_numerical_equivalence": "PASS_32_32_MAX_DELTA_2_22E_16",
+    "independent_supervised_e2e": "PASS_40_40",
+    "late_results_after_cancel": "PASS_NO_LATE_RESULTS_TESTED",
+    "linux_os_sandbox": "NOT_CLAIMED",
+    "linux_process_group_descendant_cancel": "PASS_TESTED",
+    "original_g25_statistical_baseline": "UNCHANGED_HASH_VERIFIED",
+    "research_opt_in": "PASS_DISABLED_DEFAULT",
+    "scientific_ci_calibration_precision": "FAIL_PREVIOUSLY_UNCHANGED",
+    "scientific_peer_review": "OPEN",
+    "scientific_refusal_propagation": "PASS_8_8",
+    "windows_job_object_descendant_cancel": "OPEN_NOT_TESTED"
+  },
+  "cognitum_production_modified": false,
+  "date": "2026-11-01",
+  "evidence": {
+    "aggregated_audit_sha256": "a875568de51cc1c9eae77b3f8810cef5fa72a9a60537b724a76c832436aebbcc",
+    "blackbox_cases": 40,
+    "conditional_reports": 32,
+    "scientific_refusals": 8,
+    "supervisor_source_sha256": "1fad033b4871be412463be7b0236d98805bf003b65a5f4a5c21060812368eeb6"
+  },
+  "lu_modified": false,
+  "milestone": "C14_G25_STANDALONE_SUPERVISOR",
+  "production_promotion": false,
+  "status": "RESEARCH_LINUX_HARD_CANCEL_E2E_ACCEPTED"
+}
