@@ -23,6 +23,7 @@ _ERROR_CODES = frozenset({
     "replay_requires_inert_deterministic_operation", "permission_denied",
     "effectful_execution_not_implemented", "invalid_plugin_response_or_worker_failure",
     "plugin_timed_out", "plugin_error", "plugin_invalid_input",
+    "worker_capacity_exhausted",
 })
 
 
