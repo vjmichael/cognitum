@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "milestone": "COGNITUM_COMPONENT_QUALITY_P7_LINUX_OS_CONTAINMENT_2026_11_01",
+  "branch": "cognitum/component-quality-p7-linux-os-containment-20261101",
+  "product_boundary": "Cognitum-only; Lu unchanged; one wheel",
+  "status": "linux-reviewed-builtin-research-pass_not-general-production",
+  "verified": {
+    "linux_namespace_tests": 27,
+    "selected_worker_and_component_tests": 150,
+    "selected_crossdomain_math_tests": 187,
+    "selected_spatial_tests": 74,
+    "selected_total_passed": 438,
+    "unittest_subtests_passed": 89,
+    "historical_missing_document_test_deselected": 1,
+    "installed_single_wheel": true,
+    "real_pid_namespace_grandchild_observed_and_reaped": true,
+    "read_only_mounts": true,
+    "network_unreachable": true,
+    "no_caps": true,
+    "no_new_privs": true,
+    "global_cold_budget_applied": true,
+    "linux_cgroup_writable": false,
+    "windows_acceptance": false,
+    "sandbox_native_warm_pool": false
+  },
+  "timings": {
+    "environment": "Linux namespace-capable local host",
+    "model_included": false,
+    "os_containment": "user/mount/net/PID/IPC/UTS namespaces; no cgroups",
+    "warm_standby_in_sandbox": false,
+    "results": {
+      "legacy_disposable_trusted": {
+        "n": 12,
+        "median_ms": 560.0815,
+        "p95_nearest_rank_ms": 607.986,
+        "samples_ms": [
+          607.986,
+          589.229,
+          546.748,
+          538.626,
+          519.967,
+          588.357,
+          560.803,
+          570.127,
+          534.504,
+          555.564,
+          564.017,
+          559.36
+        ]
+      },
+      "namespace_isolated_cold": {
+        "n": 12,
+        "median_ms": 72.9435,
+        "p95_nearest_rank_ms": 76.653,
+        "samples_ms": [
+          75.883,
+          67.323,
+          70.554,
+          72.327,
+          71.26,
+          76.653,
+          75.228,
+          76.466,
+          73.56,
+          67.831,
+          73.852,
+          71.648
+        ]
+      }
+    }
+  },
+  "cgroup_status": "blocked_ro_sys_fs_cgroup",
+  "release_decision": "research prototype, default remains unchanged",
+  "open": [
+    "cgroup2 pids/memory",
+    "seccomp/landlock policy",
+    "Windows OS sandbox + Job Object",
+    "2-default 1-min 4-max prewarmed workers within sandbox",
+    "complete canonical source regression",
+    "scientific WITH/WITHOUT benchmarks"
+  ]
+}
