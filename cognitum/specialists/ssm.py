@@ -18,7 +18,7 @@ class InvalidSSM(ValueError):
     """An SSM request did not satisfy bounded reference-kernel constraints."""
 
 
-def _scalar(x: object, *, decay: bool = False) -> float:
+def _scalar(x: object, *, decay: bool = False, state: bool = False) -> float:
     if type(x) not in (float, int):
         raise InvalidSSM('NONFINITE_OR_NONNUMERIC')
     try:
@@ -27,15 +27,16 @@ def _scalar(x: object, *, decay: bool = False) -> float:
         raise InvalidSSM('NONFINITE_OR_NONNUMERIC') from exc
     if not isfinite(y):
         raise InvalidSSM('NONFINITE_OR_NONNUMERIC')
-    if abs(y) > MAX_ELEMENT or (decay and not (0.0 <= y <= 1.0)):
-        raise InvalidSSM('COEFFICIENT_OUT_OF_RANGE')
+    bound = MAX_STATE if state else MAX_ELEMENT
+    if abs(y) > bound or (decay and not (0.0 <= y <= 1.0)):
+        raise InvalidSSM('STATE_OUT_OF_RANGE' if state else 'COEFFICIENT_OUT_OF_RANGE')
     return y
 
 
-def _vector(xs: object, n: int | None = None, *, decay: bool = False) -> tuple[float, ...]:
+def _vector(xs: object, n: int | None = None, *, decay: bool = False, state: bool = False) -> tuple[float, ...]:
     if type(xs) is not list or not (1 <= len(xs) <= MAX_DIMS) or (n is not None and len(xs) != n):
         raise InvalidSSM('INVALID_VECTOR_SHAPE')
-    return tuple(_scalar(x, decay=decay) for x in xs)
+    return tuple(_scalar(x, decay=decay, state=state) for x in xs)
 
 
 def _matrix(xs: object, rows: int, cols: int) -> tuple[tuple[float, ...], ...]:
@@ -51,6 +52,33 @@ class DiagonalSSM:
     b: tuple[tuple[float, ...], ...]
     c: tuple[tuple[float, ...], ...]
     d: tuple[tuple[float, ...], ...]
+
+    def __post_init__(self):
+        # The constructor is public: prevent bypassing from_mapping's bounded
+        # shapes and coefficient checks by supplying arbitrary tuples directly.
+        if type(self.a) is not tuple or not 1 <= len(self.a) <= MAX_DIMS:
+            raise InvalidSSM('INVALID_VECTOR_SHAPE')
+        for x in self.a:
+            try:
+                _scalar(x, decay=True)
+            except InvalidSSM as exc:
+                raise InvalidSSM('INVALID_DECAY') from exc
+        n = len(self.a)
+        if type(self.b) is not tuple or len(self.b) != n or not all(type(r) is tuple for r in self.b):
+            raise InvalidSSM('INVALID_MATRIX_SHAPE')
+        inputs = len(self.b[0]) if self.b else 0
+        if not 1 <= inputs <= MAX_DIMS:
+            raise InvalidSSM('INVALID_INPUT_DIMENSION')
+        if type(self.c) is not tuple or not 1 <= len(self.c) <= MAX_DIMS or not all(type(r) is tuple for r in self.c):
+            raise InvalidSSM('INVALID_MATRIX_SHAPE')
+        if type(self.d) is not tuple or len(self.d) != len(self.c) or not all(type(r) is tuple for r in self.d):
+            raise InvalidSSM('INVALID_MATRIX_SHAPE')
+        for rows, width in ((self.b, inputs), (self.c, n), (self.d, inputs)):
+            for row in rows:
+                if len(row) != width:
+                    raise InvalidSSM('INVALID_MATRIX_SHAPE')
+                for v in row:
+                    _scalar(v)
 
     @classmethod
     def from_mapping(cls, parameters: object) -> 'DiagonalSSM':
@@ -72,7 +100,10 @@ class DiagonalSSM:
     def scan(self, inputs: object, initial_state: object = None) -> dict:
         if type(inputs) is not list or not 1 <= len(inputs) <= MAX_STEPS:
             raise InvalidSSM('INVALID_SEQUENCE_LENGTH')
-        state = list(_vector(initial_state, len(self.a)) if initial_state is not None else (0.0,) * len(self.a))
+        # A resumable state may legitimately exceed MAX_ELEMENT, which is the
+        # limit for external *inputs and coefficients*, not latent state.
+        # Validate against MAX_STATE consistently with in-scan overflow checks.
+        state = list(_vector(initial_state, len(self.a), state=True) if initial_state is not None else (0.0,) * len(self.a))
         outputs = []
         for step in inputs:
             x = _vector(step, len(self.b[0]))
