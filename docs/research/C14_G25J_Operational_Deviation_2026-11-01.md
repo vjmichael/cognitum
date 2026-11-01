@@ -1,0 +1,7 @@
+# C14 G25J operational reporting deviation — after cohort A, before cohort B completion
+
+The frozen `tools/run_g25j.py` executed all 12,000 cohort-A fixtures and wrote one full JSONL receipt per fixture in the frozen seed order, but then its final JSON summary serializer raised `TypeError: Object of type int64 is not JSON serializable`. This is a **reporting-stage NumPy scalar conversion bug**. The frozen experimental core, source hashes, numerical receipts and completed dataset count are retained intact.
+
+**Remediation:** do not alter the frozen runner or estimator after preregistration. The separate `tools/g25j_postfreeze_summary_serialization.py` rereads the complete, unchanged receipts and regenerates the *same* summary data object using the original `summarized` function but JSON-serializes `numpy.int64`, `numpy.float64`, and `numpy.bool_` as normal scalars. The independent auditor reconstructs **every dataset** and **every numerical result** and checks all source hashes. This is an operational deviation, not a new research cohort, estimator, cutoff, seed, or post hoc calibration choice.
+
+The same summary-stage failure is expected in the unchanged cohort-B runner; the same documented reporting-only remedy applies. Raw runner exit codes, logs, and receipt file digests remain in the final archive. No failed execution is misrepresented as a successful runner return.
