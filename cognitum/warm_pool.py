@@ -153,6 +153,10 @@ class WarmCappedPool:
         self.min_ready = min_ready
         self.baseline_ready = target_ready
         self.max_warm = max_warm
+        # Only the trusted embedding may lower this ceiling under pressure.
+        # Idle maintenance must not clear it, and a new request must not
+        # silently reset a host-requested one-worker memory limit.
+        self.host_ceiling = max_warm
         self.adaptive = adaptive
         self.idle_downshift_s = float(idle_downshift_s)
         self._last_request_at = time.monotonic()
@@ -284,7 +288,8 @@ class WarmCappedPool:
             return dict(idle=len(self._idle), warming=self._warming,
                         busy=len(self._busy), warm_total=self._total_locked(),
                         min_ready=self.min_ready, baseline_ready=self.baseline_ready,
-                        max_warm=self.max_warm, target_ready=self.target_ready,
+                        max_warm=self.max_warm, host_ceiling=self.host_ceiling,
+                        target_ready=self.target_ready,
                         adaptive=self.adaptive, idle_downshift_s=self.idle_downshift_s,
                         upshifts=self.upshifts, downshifts=self.downshifts,
                         max_observed_warm=self.max_observed_warm,
@@ -297,7 +302,7 @@ class WarmCappedPool:
                         warm_started=self.warm_started,
                         warmup_failures=self.warmup_failures, closed=self._closed)
 
-    def set_target_ready(self, value):
+    def set_target_ready(self, value, *, host_override=True):
         """Trusted-host capacity request, e.g. memory-pressure downshift.
 
         The new target is clamped by declared min/max; busy workers finish or
@@ -305,9 +310,15 @@ class WarmCappedPool:
         """
         if type(value) is not int or not self.min_ready <= value <= self.max_warm:
             raise ValueError('INVALID_READY_TARGET')
+        if type(host_override) is not bool:
+            raise ValueError('INVALID_HOST_OVERRIDE')
         with self._cv:
             if self._closed:
                 raise RuntimeError('POOL_CLOSED')
+            if host_override:
+                self.host_ceiling = value
+            if value > self.host_ceiling:
+                raise ValueError('TARGET_EXCEEDS_HOST_CAPACITY')
             self.target_ready = value
             surplus = []
             while self._idle and len(self._idle) + self._warming > value:
@@ -340,7 +351,7 @@ class WarmCappedPool:
                 self._last_downshift_at = now
             target = self.target_ready
         # Reap idle surplus outside the admission lock.
-        return self.set_target_ready(target)
+        return self.set_target_ready(target, host_override=False)
 
     def execute(self, factory, operation, payload, timeout_ms):
         if factory is not self.factory:
@@ -365,7 +376,7 @@ class WarmCappedPool:
             # A dormant host that allowed one standby to remain returns to
             # its normal two-standby baseline on the next authorized request.
             if self.adaptive and self.target_ready < self.baseline_ready:
-                self.target_ready = self.baseline_ready
+                self.target_ready = min(self.baseline_ready, self.host_ceiling)
             slot = None
             cold_denied = False
             while self._idle:
@@ -381,7 +392,7 @@ class WarmCappedPool:
                 # Only grow after a genuinely busy warm pool. An initial
                 # request while cold-starting MUST NOT inflate the target.
                 if (self.adaptive and self.warm_started > 0 and self._busy
-                        and self.target_ready < self.max_warm):
+                        and self.target_ready < min(self.max_warm, self.host_ceiling)):
                     self.target_ready += 1
                     self.upshifts += 1
                 if self._cold_active < self.max_cold_inflight:
