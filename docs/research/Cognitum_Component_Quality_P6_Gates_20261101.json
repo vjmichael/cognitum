@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "milestone": "COGNITUM_COMPONENT_QUALITY_P6_TRUSTED_MAINTENANCE_GLOBAL_COLD_BUDGET",
+  "engineering_status": "nonproduction_candidate",
+  "branch": "cognitum/component-quality-p6-trusted-maintenance-cold-budget-20261101",
+  "scope": "single independent Cognitum distribution; no Lu changes",
+  "resources": {
+    "minimum_warm": 1,
+    "default_warm": 2,
+    "maximum_global_warm": 4,
+    "maximum_global_cold": 8,
+    "global_cold_scope": "one host process",
+    "os_sandbox_attested": false
+  },
+  "testing": {
+    "new_p6_pytest_passed": 18,
+    "existing_p5_pytest_passed": 15,
+    "existing_p4_pytest_passed": 22,
+    "p2_p3_runtime_pytest_passed": 84,
+    "hdc_kan_ssm_runtime_pytest_passed": 58,
+    "total_selected_pytest_passed": 197,
+    "independent_unittest_subtests_passed": 99,
+    "clean_patch_reproduction_pytest_passed": 33,
+    "clean_patch_exact_changed_files": 11,
+    "source_git_blob_matches": 11,
+    "zipped_payload_sha256_matches": 22
+  },
+  "benchmark_medians_ms": {
+    "cold_disposable": 511.929,
+    "manual_ready_worker": 4.811,
+    "trusted_periodic_maintenance_ready_worker": 5.795
+  },
+  "acceptance": {
+    "warm_host_auto_idle_downshift": "pass",
+    "restore_two_on_next_request": "pass",
+    "ten_cold_simultaneous_eight_admitted_two_refused": "pass",
+    "canonical_status_and_error_traces": "pass",
+    "wheel_build": "pass",
+    "full_current_canonical_regression": "not_proven",
+    "windows_os_worker_containment": "not_proven",
+    "descendant_termination_for_generic_python": "not_proven"
+  },
+  "archive_sha256": "d4ee3ccc2d65a7ebfc927ad74c65e91522857eaee2a0f2a95509093090ef0f4a"
+}
