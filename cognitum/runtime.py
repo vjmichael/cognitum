@@ -6,11 +6,15 @@ from .worker import execute, execute_batch, MAX_BATCH
 from .tracing import Trace
 
 class Runtime:
-    def __init__(self, registry, trace=None, *, warm_pool=None):
+    def __init__(self, registry, trace=None, *, warm_pool=None, sandbox_executor=None):
         self.registry = registry
         # The default is the original disposable-worker path. No process is
         # created unless the trusted embedding explicitly provides a pool.
+        if warm_pool is not None and sandbox_executor is not None:
+            # P6 warm workers have NOT been moved inside a kernel sandbox.
+            raise ValueError('WARM_POOL_NOT_CONTAINED_FOR_SANDBOX_RUNTIME')
         self.warm_pool = warm_pool
+        self.sandbox_executor = sandbox_executor
         self.trace = trace if trace is not None else Trace()
 
     def call(self, request: Request, context):
@@ -45,7 +49,14 @@ class Runtime:
             response.limitations = ["Schema and policy checked only; plugin not executed."]
             return self._finish(response, start)
         try:
-            if (self.warm_pool is not None and self.warm_pool.factory is entry.factory
+            if self.sandbox_executor is not None:
+                # The sandbox launcher rejects unsupported operations and
+                # never silently executes those outside containment.
+                frozen = json.loads(json.dumps(request.payload, allow_nan=False))
+                operation.input.validate(frozen)
+                status, result = self.sandbox_executor.execute(
+                    entry.factory, request.operation, frozen, request.timeout_ms)
+            elif (self.warm_pool is not None and self.warm_pool.factory is entry.factory
                     and not operation.effects and operation.deterministic):
                 # The request schema and policy have already been checked.
                 # Snapshot mutable input before sending it to the standby.
@@ -69,7 +80,8 @@ class Runtime:
                     "The submitted formal input represents the intended task; no natural-language intent validation performed."]}
                 response.evidence = [{"kind": "computation", "ref": request.request_id}]
             else:
-                response.error = "worker_capacity_exhausted" if status == "overloaded" else "plugin_" + status
+                response.error = ("worker_capacity_exhausted" if status == "overloaded"
+                                  else None if status == "unavailable" else "plugin_" + status)
         except Exception:
             response.execution_status = "error"
             response.error = "invalid_plugin_response_or_worker_failure"
@@ -96,6 +108,9 @@ class Runtime:
         A failed worker or invalid output produces NO partial plugin results.
         This method is deliberately not exposed as a CLI/model/web command.
         """
+        if self.sandbox_executor is not None:
+            # Existing P6 batch workers are unsandboxed; no bypass.
+            raise PermissionError('SANDBOX_BATCH_NOT_IMPLEMENTED')
         if trusted_batch_opt_in is not True:
             raise PermissionError('BATCH_DEFAULT_DISABLED')
         if type(requests) not in (list, tuple) or not 1 <= len(requests) <= MAX_BATCH:
