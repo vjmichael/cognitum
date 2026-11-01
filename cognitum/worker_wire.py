@@ -40,6 +40,7 @@ _ERRORS = {
     "replay_requires_inert_deterministic_operation": "denied",
     "plugin_timed_out": "timed_out",
     "plugin_error": "error",
+    "worker_capacity_exhausted": "error",
     "invalid_plugin_response_or_worker_failure": "error",
 }
 # Never enable untrusted/effectful workers on a Python-only boundary.
