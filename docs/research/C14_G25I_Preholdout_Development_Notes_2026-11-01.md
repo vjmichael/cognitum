@@ -1,0 +1,3 @@
+# G25I pre-holdout development notes
+
+Before ANY held-out evaluation, the newly added policy test mistakenly used only two observations per treatment arm while expecting the fully populated policy path. Corrected the test fixture to 100 observations per treatment arm (four underlying binomial cells per stratum). No estimator source change was required. The two frozen manifests were regenerated before the first holdout. A second pre-holdout seed correction moved Cohort B to a globally disjoint seed range (2,020,001) to prevent re-use of numerical seed IDs across scenario families. These are development corrections, not post-results tuning.
