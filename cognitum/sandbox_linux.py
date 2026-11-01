@@ -85,7 +85,7 @@ class LinuxNamespaceExecutor:
 
     def test_probe(self, operation, *, timeout_ms=5000):
         """Trusted test harness only; never registered as a Cognitum tool."""
-        if operation not in ('probe.isolation', 'probe.stall', 'probe.child', 'probe.flood'):
+        if operation not in ('probe.isolation', 'probe.stall', 'probe.child', 'probe.flood', 'probe.limits'):
             raise ValueError('INVALID_PROBE')
         return self._invoke('test_probe', operation, {}, timeout_ms)
 
