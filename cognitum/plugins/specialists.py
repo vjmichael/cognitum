@@ -16,6 +16,13 @@ from cognitum.contracts import Manifest, Operation, Shape
 HEX = re.compile(r'[a-f0-9]{64}\Z', re.ASCII)
 
 
+def _no_duplicate_keys(pairs):
+    result = dict(pairs)
+    if len(result) != len(pairs):
+        raise ValueError('DUPLICATE_JSON_KEY')
+    return result
+
+
 def _b64(raw: str, limit: int) -> bytes:
     if type(raw) is not str or not 1 <= len(raw) <= (limit + 2) // 3 * 4:
         raise ValueError('INVALID_BASE64_SIZE')
@@ -88,7 +95,8 @@ class Specialists:
             if type(raw) is not str or len(raw)>24000:
                 raise ValueError('INVALID_SSM_REQUEST_SIZE')
             try:
-                obj=json.loads(raw,parse_constant=lambda x: (_ for _ in ()).throw(ValueError('NONFINITE_JSON')))
+                obj=json.loads(raw, object_pairs_hook=_no_duplicate_keys,
+                    parse_constant=lambda x: (_ for _ in ()).throw(ValueError('NONFINITE_JSON')))
             except (ValueError,TypeError) as exc:
                 raise ValueError('INVALID_SSM_JSON') from exc
             result=scan_request(obj)
