@@ -1,0 +1,180 @@
+{
+  "date": "2026-11-01",
+  "name": "Cognitum Component Quality P2",
+  "base_branch": "cognitum/component-quality-p1-20261101",
+  "candidate_branch": "cognitum/component-quality-p2-20261101",
+  "scope": "single Cognitum source distribution; no Lu code or Cognitum-to-Lu integration",
+  "release_decision": "RESEARCH_ENGINEERING_ONLY",
+  "source_basis": {
+    "runtime_git_blob_before": "885c4bf56114c7cab98252539e5900113ae3418b",
+    "worker_git_blob_before": "8246e955525655414c2da95d7153a794f011a0ef",
+    "reconstructed_crossdomain_snapshot": "historical 2026-10-29 + P1 specialist overlay; not complete latest repository"
+  },
+  "validation": {
+    "generic_batch_test_functions": 17,
+    "reconstructed_crossdomain_tests_passed": 289,
+    "reconstructed_crossdomain_tests_deselected": 1,
+    "reconstructed_crossdomain_unittest_subtests": 73,
+    "G25_research_batch_tests_passed": 22,
+    "G25_unmodified_guard_host_tests_passed": 45,
+    "G25_unmodified_cancellation_tests_passed": 23,
+    "P1_specialist_subset_tests_passed": 69
+  },
+  "performance": {
+    "generic_three_trials_per_cell": [
+      {
+        "operations": 1,
+        "trials": 3,
+        "separate_ms": [
+          545.9412979998888,
+          478.9842959999078,
+          449.8168740010442
+        ],
+        "batch_ms": [
+          503.81117800134234,
+          465.56773600059387,
+          481.0900150005182
+        ],
+        "separate_median_ms": 478.9842959999078,
+        "batch_median_ms": 481.0900150005182,
+        "separate_max_of_three_ms": 545.9412979998888,
+        "batch_max_of_three_ms": 503.81117800134234,
+        "median_speedup": 0.9956230249330613,
+        "batch_per_op_amortized_ms": 481.0900150005182
+      },
+      {
+        "operations": 4,
+        "trials": 3,
+        "separate_ms": [
+          2003.8691549998475,
+          2028.6009320006997,
+          2185.032706000129
+        ],
+        "batch_ms": [
+          503.52766400101245,
+          476.0368919996836,
+          538.7523449990113
+        ],
+        "separate_median_ms": 2028.6009320006997,
+        "batch_median_ms": 503.52766400101245,
+        "separate_max_of_three_ms": 2185.032706000129,
+        "batch_max_of_three_ms": 538.7523449990113,
+        "median_speedup": 4.028777517170577,
+        "batch_per_op_amortized_ms": 125.88191600025311
+      },
+      {
+        "operations": 8,
+        "trials": 3,
+        "separate_ms": [
+          4317.175743000917,
+          4086.1929139991844,
+          4049.970119000136
+        ],
+        "batch_ms": [
+          527.7296690001094,
+          552.9255219989864,
+          468.9802199991391
+        ],
+        "separate_median_ms": 4086.1929139991844,
+        "batch_median_ms": 527.7296690001094,
+        "separate_max_of_three_ms": 4317.175743000917,
+        "batch_max_of_three_ms": 552.9255219989864,
+        "median_speedup": 7.742966056354768,
+        "batch_per_op_amortized_ms": 65.96620862501368
+      },
+      {
+        "operations": 16,
+        "trials": 3,
+        "separate_ms": [
+          8463.324320000538,
+          8849.642118999327,
+          8882.743550999294
+        ],
+        "batch_ms": [
+          546.3282860000618,
+          530.0024050011416,
+          545.7438100002037
+        ],
+        "separate_median_ms": 8849.642118999327,
+        "batch_median_ms": 545.7438100002037,
+        "separate_max_of_three_ms": 8882.743550999294,
+        "batch_max_of_three_ms": 546.3282860000618,
+        "median_speedup": 16.21574437829359,
+        "batch_per_op_amortized_ms": 34.10898812501273
+      }
+    ],
+    "research_g25_one_trial_per_cell": [
+      {
+        "n": 1,
+        "trials": 1,
+        "separate_ms": [
+          1445.7145209998998
+        ],
+        "batch_ms": [
+          1237.3145120000117
+        ],
+        "separate_median_ms": 1445.7145209998998,
+        "batch_median_ms": 1237.3145120000117,
+        "separate_p95_nearest_ms": 1445.7145209998998,
+        "batch_p95_nearest_ms": 1237.3145120000117,
+        "speedup_median": 1.1684292934243756,
+        "batch_per_report_median_ms": 1237.3145120000117
+      },
+      {
+        "n": 4,
+        "trials": 1,
+        "separate_ms": [
+          5735.85083800026
+        ],
+        "batch_ms": [
+          1615.514807001091
+        ],
+        "separate_median_ms": 5735.85083800026,
+        "batch_median_ms": 1615.514807001091,
+        "separate_p95_nearest_ms": 5735.85083800026,
+        "batch_p95_nearest_ms": 1615.514807001091,
+        "speedup_median": 3.5504786543230904,
+        "batch_per_report_median_ms": 403.87870175027274
+      },
+      {
+        "n": 8,
+        "trials": 1,
+        "separate_ms": [
+          11396.26432499972
+        ],
+        "batch_ms": [
+          1312.953243001175
+        ],
+        "separate_median_ms": 11396.26432499972,
+        "batch_median_ms": 1312.953243001175,
+        "separate_p95_nearest_ms": 11396.26432499972,
+        "batch_p95_nearest_ms": 1312.953243001175,
+        "speedup_median": 8.679870654761405,
+        "batch_per_report_median_ms": 164.11915537514687
+      }
+    ],
+    "conclusion": "benefit from amortizing Python spawn for groups; per-single-call speed not improved"
+  },
+  "product_safeguards": {
+    "batch_opt_in_required": true,
+    "generic_effect_free_deterministic_only": true,
+    "same_workspace_subject_correlation_operation_timeout_required": true,
+    "snapshot_mutable_payloads": true,
+    "all_or_nothing_results": true,
+    "no_cross_task_worker_reuse": true,
+    "G25_posix_process_group_reaped": true,
+    "G25_stdout_max_bytes_per_report": 65536,
+    "G25_batch_max_items": 16,
+    "generic_batch_max_items": 16
+  },
+  "open_gates": [
+    "Canonical current-repository full-suite regression from one SHA",
+    "Real OS-enforced sandbox for general native worker plugins on Linux and Windows",
+    "Windows descendant containment and cancel/restart acceptance",
+    "C08 HDC durable index invalidation P3 rebase and independent cold-restart tests",
+    "C09 KAN signed-checkpoint/publisher revocation P3 rebase and tests",
+    "SSM/KAN/HDC real-task ablations vs suitable baselines",
+    "Scientific C14 interval-calibration failures and external review",
+    "Production-default enablement and long-horizon memory/RSS measurements"
+  ]
+}
