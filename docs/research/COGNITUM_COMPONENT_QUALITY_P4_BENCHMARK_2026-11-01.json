@@ -1,0 +1,229 @@
+{
+  "label": "P4 four-worker warm cap, independent local Linux benchmark",
+  "unit": "ms",
+  "worker_delay_ms": 400,
+  "runs_per_burst": 3,
+  "llm_included": false,
+  "os_sandbox": false,
+  "settings": {
+    "max_warm_hard_limit": 4,
+    "single_use": true,
+    "overflow": "cold immediately"
+  },
+  "conditions": {
+    "cold": {
+      "runs": {
+        "4": [
+          {
+            "wall_ms": 1333.75,
+            "median_request_ms": 1285.343,
+            "min_request_ms": 1226.236,
+            "max_request_ms": 1333.584
+          },
+          {
+            "wall_ms": 1110.413,
+            "median_request_ms": 1076.347,
+            "min_request_ms": 1020.493,
+            "max_request_ms": 1110.23
+          },
+          {
+            "wall_ms": 1067.617,
+            "median_request_ms": 1061.015,
+            "min_request_ms": 1040.805,
+            "max_request_ms": 1067.146
+          }
+        ],
+        "8": [
+          {
+            "wall_ms": 1781.619,
+            "median_request_ms": 1690.548,
+            "min_request_ms": 1186.829,
+            "max_request_ms": 1781.136
+          },
+          {
+            "wall_ms": 1769.269,
+            "median_request_ms": 1674.88,
+            "min_request_ms": 1151.014,
+            "max_request_ms": 1768.515
+          },
+          {
+            "wall_ms": 1804.937,
+            "median_request_ms": 1631.376,
+            "min_request_ms": 1238.579,
+            "max_request_ms": 1803.962
+          }
+        ]
+      },
+      "memory": {},
+      "warmup_ms": null,
+      "final_pool": null,
+      "4_median_wall_ms": 1110.413,
+      "4_median_request_ms": 1076.347,
+      "8_median_wall_ms": 1781.619,
+      "8_median_request_ms": 1674.88
+    },
+    "warm_1": {
+      "runs": {
+        "4": [
+          {
+            "wall_ms": 1058.537,
+            "median_request_ms": 1037.821,
+            "min_request_ms": 444.225,
+            "max_request_ms": 1057.88
+          },
+          {
+            "wall_ms": 1070.507,
+            "median_request_ms": 1054.84,
+            "min_request_ms": 416.486,
+            "max_request_ms": 1069.687
+          },
+          {
+            "wall_ms": 1088.362,
+            "median_request_ms": 1056.269,
+            "min_request_ms": 437.239,
+            "max_request_ms": 1087.89
+          }
+        ],
+        "8": [
+          {
+            "wall_ms": 1869.894,
+            "median_request_ms": 1783.468,
+            "min_request_ms": 436.257,
+            "max_request_ms": 1869.323
+          },
+          {
+            "wall_ms": 1779.401,
+            "median_request_ms": 1488.302,
+            "min_request_ms": 476.329,
+            "max_request_ms": 1778.885
+          },
+          {
+            "wall_ms": 1822.225,
+            "median_request_ms": 1672.949,
+            "min_request_ms": 459.324,
+            "max_request_ms": 1821.711
+          }
+        ]
+      },
+      "memory": {
+        "worker_rss_bytes": [
+          99090432
+        ],
+        "sum_worker_rss_bytes": 99090432
+      },
+      "warmup_ms": 502.641,
+      "final_pool": {
+        "idle": 1,
+        "warming": 0,
+        "busy": 0,
+        "warm_total": 1,
+        "max_warm": 4,
+        "target_ready": 1,
+        "max_observed_warm": 2,
+        "global_warm_budget": {
+          "reserved": 1,
+          "peak": 2,
+          "limit": 4
+        },
+        "hits": 6,
+        "misses": 30,
+        "cold_fallbacks": 30,
+        "cold_active": 0,
+        "max_cold_inflight": 8,
+        "overload_refusals": 0,
+        "warm_started": 7,
+        "warmup_failures": 0,
+        "closed": false
+      },
+      "4_median_wall_ms": 1070.507,
+      "4_median_request_ms": 1054.84,
+      "8_median_wall_ms": 1822.225,
+      "8_median_request_ms": 1672.949
+    },
+    "warm_4": {
+      "runs": {
+        "4": [
+          {
+            "wall_ms": 414.754,
+            "median_request_ms": 411.308,
+            "min_request_ms": 410.457,
+            "max_request_ms": 414.262
+          },
+          {
+            "wall_ms": 408.489,
+            "median_request_ms": 406.947,
+            "min_request_ms": 406.154,
+            "max_request_ms": 408.287
+          },
+          {
+            "wall_ms": 416.334,
+            "median_request_ms": 411.168,
+            "min_request_ms": 410.48,
+            "max_request_ms": 415.242
+          }
+        ],
+        "8": [
+          {
+            "wall_ms": 1328.458,
+            "median_request_ms": 770.189,
+            "min_request_ms": 419.528,
+            "max_request_ms": 1327.703
+          },
+          {
+            "wall_ms": 1345.252,
+            "median_request_ms": 732.593,
+            "min_request_ms": 416.885,
+            "max_request_ms": 1344.66
+          },
+          {
+            "wall_ms": 1368.127,
+            "median_request_ms": 835.69,
+            "min_request_ms": 457.858,
+            "max_request_ms": 1366.959
+          }
+        ]
+      },
+      "memory": {
+        "worker_rss_bytes": [
+          99086336,
+          99082240,
+          99102720,
+          99098624
+        ],
+        "sum_worker_rss_bytes": 396369920
+      },
+      "warmup_ms": 703.074,
+      "final_pool": {
+        "idle": 0,
+        "warming": 4,
+        "busy": 0,
+        "warm_total": 4,
+        "max_warm": 4,
+        "target_ready": 4,
+        "max_observed_warm": 4,
+        "global_warm_budget": {
+          "reserved": 4,
+          "peak": 4,
+          "limit": 4
+        },
+        "hits": 24,
+        "misses": 12,
+        "cold_fallbacks": 12,
+        "cold_active": 0,
+        "max_cold_inflight": 8,
+        "overload_refusals": 0,
+        "warm_started": 24,
+        "warmup_failures": 0,
+        "closed": false
+      },
+      "4_median_wall_ms": 414.754,
+      "4_median_request_ms": 411.168,
+      "8_median_wall_ms": 1345.252,
+      "8_median_request_ms": 770.189
+    }
+  },
+  "4_warm_1_wall_speedup": 1.037,
+  "4_warm_4_wall_speedup": 2.677,
+  "8_warm_1_wall_speedup": 0.978,
+  "8_warm_4_wall_speedup": 1.324
+}
