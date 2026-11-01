@@ -1,0 +1,53 @@
+{
+  "accepted_nonproduction_e2e": true,
+  "archived_cases": 560,
+  "automatic_causal_certifications": 0,
+  "candidate_source_imported_by_independent_harness": false,
+  "fresh_cases": 420,
+  "frozen_protocol_sha256": "8fee77828ee869d2dc20ab88bed8d65b1e3048099902113898707e08b730ad07",
+  "host_disabled_and_termination": {
+    "env_disabled_exit_code": 78,
+    "partial_input_process_terminated": true
+  },
+  "malformed_negative_controls_passed": 16,
+  "milestone": "C14-G25-Nonproduction-E2E",
+  "negative_control_names": [
+    "invalid_json",
+    "duplicate_key",
+    "invalid_nan",
+    "missing_gamma",
+    "bad_shape",
+    "noninteger",
+    "negative",
+    "wrong_action",
+    "bool_count",
+    "huge_count",
+    "wrong_schema",
+    "bad_request_id",
+    "boolean_observation",
+    "nonbinary_observation",
+    "unknown_field",
+    "duplicate_request_id"
+  ],
+  "no_production_or_lu_changes": true,
+  "numerical_independent_reference_max_abs_delta": 2.7755575615628914e-16,
+  "pinned_G25I_sha256": "f881ae12bdae90fa4acec0bae9046e5580f5ddad80a1794006c3da5a3f6621e4",
+  "pinned_guard_sha256": "3480952a031d17061615eaa92597e7b2f0df22495954d5656aeeb6b51322f64c",
+  "production_promotions": 0,
+  "remaining_open_gates": [
+    "statistical generality/calibration",
+    "external Firth software parity",
+    "independent human scientific review",
+    "in-flight soft cancellation",
+    "Windows process containment test",
+    "production authorization"
+  ],
+  "research_only": true,
+  "status_accounting": {
+    "blocked_missing_assumption_evidence": 12,
+    "blocked_missing_observed_arm": 151,
+    "blocked_sparse_observed_arm": 167,
+    "conditional_sensitivity_report_only": 650
+  },
+  "total_valid_envelopes": 980
+}
