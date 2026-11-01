@@ -36,7 +36,7 @@ def kan_frame(checkpoint):
 
 def test_ssm_reference_arithmetic():
     r=scan_request(request())
-    assert r['outputs']==[[6.,],[8.,]] or r['outputs']==[[6.,],[8.5]]
+    assert r['outputs']==[[6.,],[8.,]]
     assert r['final_state']==[3.,5.]
     assert 'NOT_CAUSAL' in r['limitation']
 
