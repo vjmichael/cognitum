@@ -6,8 +6,11 @@ from .worker import execute, execute_batch, MAX_BATCH
 from .tracing import Trace
 
 class Runtime:
-    def __init__(self, registry, trace=None):
+    def __init__(self, registry, trace=None, *, warm_pool=None):
         self.registry = registry
+        # The default is the original disposable-worker path. No process is
+        # created unless the trusted embedding explicitly provides a pool.
+        self.warm_pool = warm_pool
         self.trace = trace if trace is not None else Trace()
 
     def call(self, request: Request, context):
@@ -42,7 +45,16 @@ class Runtime:
             response.limitations = ["Schema and policy checked only; plugin not executed."]
             return self._finish(response, start)
         try:
-            status, result = execute(entry.factory, request.operation, request.payload, request.timeout_ms)
+            if (self.warm_pool is not None and self.warm_pool.factory is entry.factory
+                    and not operation.effects and operation.deterministic):
+                # The request schema and policy have already been checked.
+                # Snapshot mutable input before sending it to the standby.
+                frozen = json.loads(json.dumps(request.payload, allow_nan=False))
+                operation.input.validate(frozen)
+                status, result = self.warm_pool.execute(
+                    entry.factory, request.operation, frozen, request.timeout_ms)
+            else:
+                status, result = execute(entry.factory, request.operation, request.payload, request.timeout_ms)
             response.execution_status = status if status != "ok" else "completed"
             if status == "ok":
                 operation.output.validate(result)
