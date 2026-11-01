@@ -24,7 +24,8 @@ _FAILURE_CODES = {
                          "effectful_execution_not_implemented",
                          "replay_requires_inert_deterministic_operation"}),
     "timed_out": frozenset({"plugin_timed_out"}),
-    "error": frozenset({"plugin_error", "invalid_plugin_response_or_worker_failure"}),
+    "error": frozenset({"plugin_error", "invalid_plugin_response_or_worker_failure",
+                        "worker_capacity_exhausted"}),
 }
 _LIMITATIONS = frozenset({
     "intent_not_verified", "not_executed", "no_computed_answer",
