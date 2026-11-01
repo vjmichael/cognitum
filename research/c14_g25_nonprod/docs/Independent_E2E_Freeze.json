@@ -1,0 +1,47 @@
+{
+  "archived_source": "G25N original 28 cells, choose fixed first 20 distinct fixture records per cell",
+  "archived_total_expected": 560,
+  "date": "2026-11-01",
+  "fresh_count": 420,
+  "fresh_rng_seed": 202611011357,
+  "gamma_values": [
+    0,
+    0.1,
+    0.25,
+    0.5,
+    1
+  ],
+  "independent_execution": "subprocess JSONL; acceptance harness never imports guard or baseline",
+  "independent_reference": "statsmodels exact Clopper-Pearson intervals; SciPy HiGHS separate LP for plug-in counterfactual endpoints",
+  "max_independent_math_error": 1e-10,
+  "max_invalid_outputs": 0,
+  "max_unapproved_grants": 0,
+  "milestone": "C14-G25-Nonproduction-E2E",
+  "negative_controls": [
+    "structural missing observed W/T arm",
+    "sparse observed arms",
+    "invalid JSON",
+    "duplicate keys",
+    "wrong action",
+    "missing gamma",
+    "bogus evidence",
+    "malformed binary records",
+    "host disabled by default",
+    "duplicate request ID",
+    "process termination while waiting on partial input"
+  ],
+  "production_changes": false,
+  "protocol_version": 1,
+  "required_archive_refusal_replay": "all missing-arm records must still refuse",
+  "required_archived_decisions": "100% match independently computed gate guard predicates",
+  "required_request_response_ratio": 1.0,
+  "research_only": true,
+  "scope_limitations": [
+    "no production or Lu integration",
+    "no independent third-party scientific calibration",
+    "cannot infer hidden confounding",
+    "Gamma analyst-specified",
+    "does not test in-flight soft cancellation",
+    "test platform Linux x86_64"
+  ]
+}
