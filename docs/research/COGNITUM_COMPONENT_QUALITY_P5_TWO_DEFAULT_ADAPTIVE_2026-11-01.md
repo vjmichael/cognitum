@@ -13,7 +13,7 @@ The pool is **not enabled by default in Cognitum's public Runtime**, because gen
 
 - On sustained contention, an authorized request missing all standbys raises the warm target by one, at most four, and uses cold overflow immediately.
 - `maintain()`, called by a trusted host on an idle maintenance schedule, drops the target one step after each configured 60-second quiet interval, down to one. Ordinary work returns a dormant pool to its baseline of two.
-- `set_target_ready(n)` permits host-managed memory-pressure reductions or reviewed capacity adjustments; it cannot exceed 1–4 and does not grant task or plugin authority.
+- `set_target_ready(n)` permits host-managed memory-pressure reductions or reviewed capacity adjustments; it cannot exceed 1–4 and does not grant task or plugin authority. **A host-imposed lower ceiling persists across requests** until the trusted host explicitly raises it; idle maintenance cannot silently undo a memory-pressure limit.
 - Rejected/failed warmup processes **retain their global reservation until actually reaped**, closing a transient oversubscription race.
 - All admitted warm workers remain **single-use** and are replaced asynchronously. Previous P2 batching and the original disposable worker fallback stay intact.
 
