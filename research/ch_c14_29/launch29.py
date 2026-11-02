@@ -4,13 +4,14 @@ import argparse,concurrent.futures,json,os,subprocess,sys,time
 from pathlib import Path
 D=Path(__file__).resolve().parent
 p=argparse.ArgumentParser();p.add_argument('--mode',choices=('fixed','equal_cpu'),required=True)
-p.add_argument('--workers',type=int,default=4);a=p.parse_args()
+p.add_argument('--workers',type=int,default=4);p.add_argument('--exclude',action='append',default=[]);a=p.parse_args()
 proto=json.loads((D/'frozen_protocol.json').read_text())
 ids=sorted(proto['original_case_sha256'])
 jobs=[(str(b),cid) for b in (63,127) for cid in ids]
 completed=D/('progress_'+a.mode+'.jsonl'); completed.touch(exist_ok=True)
 previous={tuple((str(x['budget']),x['case_id'])):x for x in (json.loads(line) for line in completed.read_text().splitlines() if line.strip())}
-jobs=[(b,cid) for b,cid in jobs if (b,cid) not in previous or previous[(b,cid)]['returncode']!=0]
+exclude={tuple(x.split(':',1)) for x in a.exclude}
+jobs=[(b,cid) for b,cid in jobs if ((b,cid) not in previous or previous[(b,cid)]['returncode']!=0) and (b,cid) not in exclude]
 print('START',a.mode,'jobs',len(jobs),'workers',a.workers,flush=True)
 def run(job):
  b,cid=job

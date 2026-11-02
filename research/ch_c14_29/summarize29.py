@@ -24,6 +24,7 @@ for mode in ('fixed','equal_cpu'):
     'solve_cpu_total_seconds':round(sum(x['solve_cpu_seconds'] for x in records),3),
     'replay_cpu_total_seconds':round(sum(x['replay_cpu_seconds'] for x in records),3),
     'baseline_CH28_solve_cpu_total_seconds':round(sum(x['target_CPU_seconds_CH28'] for x in records),3),
+    'baseline_CH28_replay_cpu_total_seconds':round(sum(p['CH28_control'][str(b)][x['case_id']]['replay_cpu_seconds'] for x in records),3),
     'matched_within_10pct':sum(abs(v-1)<=0.1 for v in ratios),'max_cpu_overshoot_ratio':max(ratios),
     'nodes_executed':sum(x['nodes'] for x in records),
     'parent_tighter_events':sum(x['counters']['parent_cap_tighter'] for x in records),

@@ -1,0 +1,14 @@
+{
+  "README.md": "575acadfd10f9f02d3e345864b57144305db186ec85ba2ef27ecdcbffbaaeb8d",
+  "audit29.py": "3af20cb782713903ed58ec77267c314fbc6f0daae708f1117569ed199eea3807",
+  "frozen_protocol.json": "287dca0aef8d89131c3d05226cf2fff0363edea326c0e7171650bc74c86438c0",
+  "frozen_protocol.sha256": "2281493074bc1701b725013a7423fde193ee07fef9b7aabe575e8e5c4bfedee0",
+  "launch29.py": "b673dc74d2f425199e713d1d562cace955d2a689be9e6f92cb248b1b21700acb",
+  "make_report29.py": "5928a739a45c00eab28d456bd8b95e2e907466f4479db0c61bff0e65675f345e",
+  "package29.py": "1b9523be95a8b3c759412c77167fb7e8513f62cede54eeaa7fdfd0904e35bd36",
+  "run_case29.py": "29dc896ff6e2fb2acceae77c0f5b9719e88a6e35bfd67c3a492112ec6c2e8c0d",
+  "solver29.py": "4cd088d5c778b5a9deeed3ac8fd67e8245711d82adc34ac41cb1ec09574d7ee5",
+  "summarize29.py": "4ccb87cee1b7ea99b1ca372b0bfba8b890683474a81ed0cd0da4a767cd990f09",
+  "tests/test_inheritance.py": "20fee3d1343dab15ae22370b67054f72382d8ffb65438bf964364aea26deb196",
+  "verifier29.py": "144258e9a670d950dcc1370c4e63d4c3fc7b70abb6d45712595e29de8235d88c"
+}

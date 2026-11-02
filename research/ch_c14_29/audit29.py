@@ -44,4 +44,17 @@ for mode in args.mode:
     assert rv['replay_status']==v['replay_status']
     assert abs(rv['gap_upper_display']-v['gap_upper_display'])<1e-10
   print('PASS',mode,b,len(ids),'original cases',flush=True)
+if 'fixed' in args.mode and set(args.budget)=={63,127}:
+ for cid in ids:
+  p63=D/'runs/fixed/63/certificates'/(cid+'.json')
+  p127=D/'runs/fixed/127/certificates'/(cid+'.json')
+  a=json.loads(p63.read_text());b=json.loads(p127.read_text())
+  assert len(a['nodes'])<=len(b['nodes'])
+  for na,nb in zip(a['nodes'],b['nodes']):
+   assert (na['id'],na['box'],na['effective_box'],na.get('parent_id'),na['bound_mode'])==\
+          (nb['id'],nb['box'],nb['effective_box'],nb.get('parent_id'),nb['bound_mode']),('lost deterministic prefix',cid)
+  v63=json.loads((D/'runs/fixed/63/verifications'/(cid+'.json')).read_text())
+  v127=json.loads((D/'runs/fixed/127/verifications'/(cid+'.json')).read_text())
+  assert v127['gap_upper_display']<=v63['gap_upper_display']+1e-9,('nonmonotone gap',cid)
+ print('PASS deterministic 63-to-127-node prefix and nonincreasing verified gaps for all original 15 cases')
 print('AUDIT COMPLETED. Source and baseline hashes intact; no synthetic substitution.',flush=True)

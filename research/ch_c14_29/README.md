@@ -38,3 +38,16 @@ Full replay from certificates is available with `audit29.py --replay`, which rec
 ## Limitations
 
 Full MPFR replay shares the original bound implementation and is not a machine-checked proof assistant. Equal-CPU comparisons use archived CH28 process-CPU records from the same environment, not an exact CPU instruction-cycle budget. Results are a numerical engineering benchmark, not authorization to promote a statistical estimator.
+
+## Recorded CH29 results (not a production release)
+
+All 15 original CH23 cases were run and independently replayed under four budgets, **60/60 verified**. Mean gap results:
+
+| Comparison | CH28 mean gap | CH29 mean gap | Improved / tied / worsened |
+|---|---:|---:|---:|
+| 63 nodes | 4.8259 | 4.2642 | 10 / 4 / 1 |
+| 127 nodes | 3.9428 | 3.4087 | 8 / 5 / 2 |
+| CH28 63-node solve CPU matched | 4.8259 | 4.3556 | 11 / 0 / 4 |
+| CH28 127-node solve CPU matched | 3.9428 | 3.2767 | 12 / 2 / 1 |
+
+**15/15** fixed 127-node runs retained the exact 63-node proof-tree prefix and a non-increasing objective gap. **30/30** CPU-capped runs finished within ±10% of the archived CH28 solve-CPU targets. All original ambiguous cases remain refused and there are **0/60 finite-box certificates at epsilon 0.05**. Independent replay CPU increased substantially due to rechecking every ancestor. Refer to `Engineering_Report_CH_C14_29.md` and `study_summary.json` for the original-case breakdown and limitations.
