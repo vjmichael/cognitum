@@ -1,0 +1,294 @@
+{
+  "CH28_control": {
+    "127": {
+      "one_event_n160_i00": {
+        "gap": 3.963544822024383,
+        "log_sha256": "28ae98cf6887efd5f0adb1e77886264e12100d38b167c41f64128a87a6ed9bb8",
+        "replay_cpu_seconds": 28.6812,
+        "solve_cpu_seconds": 111.0943,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "one_event_n80_i00": {
+        "gap": 3.061232288269874,
+        "log_sha256": "1137e17d914c064369b18471458b426bb7b1162e01970770dd92b432fef7a01d",
+        "replay_cpu_seconds": 13.3959,
+        "solve_cpu_seconds": 54.7203,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "quasi_separated_n160_i00": {
+        "gap": 7.989436777068934,
+        "log_sha256": "6ac7026037143f4561f5e0f0492392987bfd7a824d4c3e1be1fef3bbe29add14",
+        "replay_cpu_seconds": 21.5271,
+        "solve_cpu_seconds": 103.3763,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "quasi_separated_n80_i00": {
+        "gap": 5.347579228521641,
+        "log_sha256": "e70dd99c744bd463e907bc855ac6ff4e188c3a04990e307f5682ccc1159974b0",
+        "replay_cpu_seconds": 10.6522,
+        "solve_cpu_seconds": 52.3146,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "rare_1pct_n160_i00": {
+        "gap": 4.028498151410127,
+        "log_sha256": "6f09b9fa05f16fa030e58fa52f0b92b725f64cbc8d321393a3c14e9b01342877",
+        "replay_cpu_seconds": 23.0196,
+        "solve_cpu_seconds": 104.1642,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "rare_1pct_n160_i13": {
+        "gap": 4.970786815181207,
+        "log_sha256": "191c893dc50ce7fbc22b099c48a329f5c9895987fc4ac049d9318c3c2bf948f8",
+        "replay_cpu_seconds": 24.1663,
+        "solve_cpu_seconds": 104.7327,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "rare_1pct_n80_i00": {
+        "gap": 3.6592253904623706,
+        "log_sha256": "1e53918a678c856a3fa5fe54c17e5ccf0216d22cc1e5b86aee4a65b25985b476",
+        "replay_cpu_seconds": 11.2345,
+        "solve_cpu_seconds": 49.4384,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "rare_5pct_n160_i00": {
+        "gap": 4.192019505350782,
+        "log_sha256": "1389a57dcdc596ca13e68cd19198b2a0c22141d4261221bafb21320645b59239",
+        "replay_cpu_seconds": 21.2625,
+        "solve_cpu_seconds": 93.8891,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "rare_5pct_n80_i00": {
+        "gap": 4.07812011901498,
+        "log_sha256": "dba81254ceb3afeefae81c74ae5947d08b0a4d8d36bf40ae80f76e014f5976f5",
+        "replay_cpu_seconds": 12.0056,
+        "solve_cpu_seconds": 46.4823,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "zero_balanced_n160_i00": {
+        "gap": 4.736053098861016,
+        "log_sha256": "24d34edc44660bdecc92716967c67c3a02c1f9ff07f140280f4496ee317cec60",
+        "replay_cpu_seconds": 23.7984,
+        "solve_cpu_seconds": 94.7341,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "zero_balanced_n80_i00": {
+        "gap": 2.023195607331032,
+        "log_sha256": "a8f5dafd198ea050fc3ec0bc11d90d023c19f156f0c9d0a12e93271df6ce555b",
+        "replay_cpu_seconds": 14.4898,
+        "solve_cpu_seconds": 48.8523,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "zero_imbalanced_n160_i00": {
+        "gap": 2.8250028493746546,
+        "log_sha256": "2343aab75cb32e0e46b6f2569abb51f6b2cabcebea7a02ab9bcfdd08eedde685",
+        "replay_cpu_seconds": 22.847,
+        "solve_cpu_seconds": 93.7785,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "zero_imbalanced_n160_i05": {
+        "gap": 2.0525122295550546,
+        "log_sha256": "99af64281cf328ec99894d3617d6e262db7fdf43721e33e00abe9c7ca06a146e",
+        "replay_cpu_seconds": 23.2827,
+        "solve_cpu_seconds": 94.6151,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "zero_imbalanced_n160_i07": {
+        "gap": 2.9972285564372383,
+        "log_sha256": "d21f9ee88dad60a07f06703023255675caae16757ae0a3f8e5f559c97394ea26",
+        "replay_cpu_seconds": 22.74,
+        "solve_cpu_seconds": 94.8897,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "zero_imbalanced_n80_i00": {
+        "gap": 3.2175046357101698,
+        "log_sha256": "d2052fe2e422f4ae22a693c4ba5b7f46b88d3285970d1b05ea03500e558c0f8e",
+        "replay_cpu_seconds": 12.612,
+        "solve_cpu_seconds": 46.7872,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      }
+    },
+    "63": {
+      "one_event_n160_i00": {
+        "gap": 5.099690644493098,
+        "log_sha256": "a641712fea92bd7579565aa3fd055375e957103f435b576c62b44e36c8fa6e01",
+        "replay_cpu_seconds": 17.2844,
+        "solve_cpu_seconds": 69.687,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "one_event_n80_i00": {
+        "gap": 3.8352917078255406,
+        "log_sha256": "4f987c66b0a3d17db79ec5643318ea6b221fdb254d414dfdc91a8d743754e31a",
+        "replay_cpu_seconds": 7.1408,
+        "solve_cpu_seconds": 36.3412,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "quasi_separated_n160_i00": {
+        "gap": 11.743448385976961,
+        "log_sha256": "8ec488c80844466a22753c890053eed664dac93884e2a7ed425ae6c7e409fcac",
+        "replay_cpu_seconds": 11.3574,
+        "solve_cpu_seconds": 65.8405,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "quasi_separated_n80_i00": {
+        "gap": 7.533302465090333,
+        "log_sha256": "886a3610f8ea73b684d83ea1ba40fe8730aaac49ef0dcf8bfd2fd89edc812ea8",
+        "replay_cpu_seconds": 5.7523,
+        "solve_cpu_seconds": 34.8991,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "rare_1pct_n160_i00": {
+        "gap": 6.595700856719253,
+        "log_sha256": "0f7a102c57853ef791328826f35a8f5ac53286f64b0263ec347bc8a81314dce1",
+        "replay_cpu_seconds": 12.1561,
+        "solve_cpu_seconds": 72.0853,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "rare_1pct_n160_i13": {
+        "gap": 3.507829001407914,
+        "log_sha256": "bb42bca805f7f0d314c6da49f9e6d4c1cd711d582da603d74842177f1d332b54",
+        "replay_cpu_seconds": 13.948,
+        "solve_cpu_seconds": 63.2645,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "rare_1pct_n80_i00": {
+        "gap": 4.823468219771421,
+        "log_sha256": "a50d8c6112f64834e02f033488dbe7d90f418b5cdd9576c3c1b5da14012a1a56",
+        "replay_cpu_seconds": 7.0,
+        "solve_cpu_seconds": 37.0271,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "rare_5pct_n160_i00": {
+        "gap": 5.65497399794555,
+        "log_sha256": "e026a5385bc7778f32ff39e4f53e57e1098de923b6dd8cbd5ded6b423a370d86",
+        "replay_cpu_seconds": 11.1628,
+        "solve_cpu_seconds": 70.2649,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "rare_5pct_n80_i00": {
+        "gap": 5.11743011736824,
+        "log_sha256": "5b798b421a3bdfb6c9fe38a425c7715ec37594aac0dcedbcb06f70c7a70e7ae4",
+        "replay_cpu_seconds": 6.0869,
+        "solve_cpu_seconds": 35.3224,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "zero_balanced_n160_i00": {
+        "gap": 3.6485610311115675,
+        "log_sha256": "560dfd3c3a647296d4479d4b5d116485b2090b549bbb7ec5cfffd859d35d2054",
+        "replay_cpu_seconds": 12.8426,
+        "solve_cpu_seconds": 66.6707,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "zero_balanced_n80_i00": {
+        "gap": 2.130058224306641,
+        "log_sha256": "9338896a909e93f09ea4cf654acd4cfb42f37af255deeb3f6cbdea28e6a17945",
+        "replay_cpu_seconds": 7.1058,
+        "solve_cpu_seconds": 34.281,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "zero_imbalanced_n160_i00": {
+        "gap": 4.1539793882601455,
+        "log_sha256": "349e12650da210ab9a8e2a85697c2b75aa8a8699e3e3f36ec77b9bcf546581e9",
+        "replay_cpu_seconds": 14.0182,
+        "solve_cpu_seconds": 67.2681,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "zero_imbalanced_n160_i05": {
+        "gap": 2.4682835156448273,
+        "log_sha256": "bd14f3bba7313d72f03b9e8e9ee57807629b3281886d8b67e50069b24e820868",
+        "replay_cpu_seconds": 13.9316,
+        "solve_cpu_seconds": 68.256,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "zero_imbalanced_n160_i07": {
+        "gap": 3.780667952424649,
+        "log_sha256": "a11bef26cb853e9088ba7b224a6a97f4a1a3420d6bf55100df8e92633a85781b",
+        "replay_cpu_seconds": 12.9399,
+        "solve_cpu_seconds": 69.6458,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      },
+      "zero_imbalanced_n80_i00": {
+        "gap": 2.2953844391231852,
+        "log_sha256": "630de58d507fe216baedd88c6d9860f1848a934e14666fe0a65b5d8072d4fac0",
+        "replay_cpu_seconds": 7.5431,
+        "solve_cpu_seconds": 34.6032,
+        "status": "REPLAYED_BUT_UNRESOLVED"
+      }
+    }
+  },
+  "baseline_CH28_protocol_sha256": "e19c2c2d237892e48cd9688e73ade19dc3a9220dc459925ce6dedc0a09cac906",
+  "claim_scope": "finite_root_box_global_max_only",
+  "dependency_source_sha256": {
+    "CH_C14_24/mpfr_interval.py": "93eb5ae11737174c6e9aaff8bf79285dee0e699fe9df0baa9608cb0dc9e732d2",
+    "CH_C14_24/verified_bnb.py": "46ddbfeecfff5485302bb1560fcbca1200ef1aba953d035dc7d58b29860b52aa",
+    "CH_C14_24/verify_certificate.py": "5140f132c69fb6023e9a62f5a7815f57ea6f4768bfd47928920d733a698ab69a",
+    "CH_C14_26/improved_bounds.py": "434ee08220f16ac0edc78b4625382750453f4449379897bfb49f640b5a70e782",
+    "CH_C14_27/coupled27.py": "40bf4acd5da7327de7bb151b37471415aa03c321e6b40e0deb8ee7eed8a2f79b",
+    "CH_C14_27/interval_newton27.py": "bd5b0d9d32a1d2233f050c3d082717366cadfb234212ce715c101ce1d8d38c8e"
+  },
+  "equal_cpu_controls": {
+    "cpu_match_tolerance": "0.10",
+    "interpretation": "If CH29 overshoots CPU cap due to a final node, report overshoot; never claim equal CPU if over 10%.",
+    "max_nodes": {
+      "127": 255,
+      "63": 127
+    },
+    "method": "CH29 solver CPU capped per case at frozen CH28 process CPU; node ceilings 127/255; stop at node boundary; replay CPU measured separately and excluded from solve cap"
+  },
+  "frozen_on": "2026-11-02",
+  "max_newton_evaluations_per_case": 8,
+  "milestone": "CH-C14-29",
+  "newton_max_side_width": "3.0",
+  "node_budgets": [
+    63,
+    127
+  ],
+  "objective_absolute_tolerance": "0.05",
+  "original_case_sha256": {
+    "one_event_n160_i00": "d30387f52c5f7f34f585767c3875a90849e83799c18705c847a6202039e1a126",
+    "one_event_n80_i00": "8ca568f0e0e8b2167c2e5a416f4758aa303ce4d57815bc5b69ff253c4844ded2",
+    "quasi_separated_n160_i00": "2172cec5c129a1eaa880a14c17fa82b24dbad7474a5c76af289048a2a3b6cd59",
+    "quasi_separated_n80_i00": "600eed8e4efe6a01f77a6f2c8602d5c9b817a8e1079a69405f024ad7219bbdae",
+    "rare_1pct_n160_i00": "1e8b0deb8dd829edeadd08ad0220a5d2a521a4ca5139b9d916f747b16924428f",
+    "rare_1pct_n160_i13": "90a2149bc0fb52ba1a67c2a3302e92a8eb6d16bf2e594c06964fdf1a0be08af3",
+    "rare_1pct_n80_i00": "dfb8a14ec69bab3043137458e85481682a567e751b51b10da815f8907831edb5",
+    "rare_5pct_n160_i00": "fbcbed044f9ef67bfa15e5cf19910369c41abe204f970cee19766cfaf32b264b",
+    "rare_5pct_n80_i00": "9785aedc6fdd221029f37f64179db2e66317a047fdf41fcbed3cb41467b0f1a8",
+    "zero_balanced_n160_i00": "25902f678d3ef27d2a6a70a1b2cfd2587559364b7e6d42b4a5c748608a80f0dc",
+    "zero_balanced_n80_i00": "1c0ae4868190a114efaea20576192f55e23eaf4cff1528bec0887bff1815f09e",
+    "zero_imbalanced_n160_i00": "16055cfc550f6a1264d9c47c56248237f684f6af2f0de094205739cb581bfcc2",
+    "zero_imbalanced_n160_i05": "651be709c4fe300c9a92472a1d0e342c53fb93d5e3f68bf3a963a100d75680ef",
+    "zero_imbalanced_n160_i07": "bb68bb56a94fdf600a3db1e295e06d1469c24f40beff361ee86a378f29345dc1",
+    "zero_imbalanced_n80_i00": "bb4129fdf4aecf0886de61ee3a9d761ebf59d7616d164871b27855a4d41c6e40"
+  },
+  "original_dual_sha256": "a6584584ebcb34ead943d2991be6cabf75c1bb5d6f115731350cfe6cf640d49a",
+  "original_root_box": [
+    [
+      "-10",
+      "1"
+    ],
+    [
+      "-5",
+      "5"
+    ],
+    [
+      "-5",
+      "5"
+    ]
+  ],
+  "precision_bits": 160,
+  "replay_precision_bits": 224,
+  "research_only": true,
+  "risk_note": "MPFR independent rerounding uses the same mathematical bound implementation at higher precision; not a formally verified proof assistant.",
+  "root_box_provenance": "Original CH23 coefficient domain; no data substitution",
+  "scientific_release": "NO_GO",
+  "selective_policy": {
+    "always_depth": 2,
+    "cadence": 3,
+    "description": "root through depth 2 coupled; at deeper levels every third new node gets coupled unless direct bound already <= incumbent+epsilon; otherwise cheap certified Loewner bound"
+  },
+  "solver_source_sha256": {
+    "run_case29.py": "29dc896ff6e2fb2acceae77c0f5b9719e88a6e35bfd67c3a492112ec6c2e8c0d",
+    "solver29.py": "4cd088d5c778b5a9deeed3ac8fd67e8245711d82adc34ac41cb1ec09574d7ee5",
+    "verifier29.py": "144258e9a670d950dcc1370c4e63d4c3fc7b70abb6d45712595e29de8235d88c"
+  }
+}
