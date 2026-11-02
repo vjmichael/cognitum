@@ -1,0 +1,19 @@
+{
+  "milestone": "CH-C14-24",
+  "research_only": true,
+  "root_box_only": true,
+  "production_release": "NO_GO",
+  "files_sha256": {
+    "README.md": "99f30fcd681c7ba1840b7bdde5f9debba152b27d5af91a58cd4bc431d219d136",
+    "Engineering_Report_CH_C14_24.md": "82315e4892b89d039ab65e2bc9147839b50baf3dd4366c2381e96977df1bb250",
+    "mpfr_interval.py": "93eb5ae11737174c6e9aaff8bf79285dee0e699fe9df0baa9608cb0dc9e732d2",
+    "verified_bnb.py": "46ddbfeecfff5485302bb1560fcbca1200ef1aba953d035dc7d58b29860b52aa",
+    "verify_certificate.py": "5140f132c69fb6023e9a62f5a7815f57ea6f4768bfd47928920d733a698ab69a",
+    "tests/test_verified_bnb.py": "aa1114213b72a69e3f066f22d2f689bb7e633200118eedc119ff9f3ae2a69512",
+    "examples/zero_event_1d_input.json": "a842cb2cd944910d0c03e464c2ed02d08cb06b3c320c08e0e56f0c9cf8feb558",
+    "examples/zero_event_1d_certificate.json": "11ebb7b3bd772ee11f172a190d4a450db314d5786f8d50da35dbba96cfbdfd11",
+    "examples/zero_event_3d_input.json": "79bc03f1dc0a9b6932f3938d5581553c692cf0921f1e64fe692be545f01e1236",
+    "examples/zero_event_3d_certificate.json": "ec21466431324e1a37bb5ec0b69906448c633259edb0cfafc3f128f5a63d26fb",
+    "examples/zero_event_3d_unresolved.json": "2ddcb313dcd686eef12c50e62f6c58c3a4e01d6476fcfbec7cc497f963a97928"
+  }
+}
