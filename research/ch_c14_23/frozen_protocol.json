@@ -1,0 +1,27 @@
+{
+  "study_id": "CH-C14-23",
+  "frozen_before_execution": true,
+  "research_only": true,
+  "pinned_CH22_source_sha256": "02de1d5bc17c5b8ea630b639b119ce2420e6cc2401dba57747bf42ff466debee",
+  "families": ["zero_balanced", "zero_imbalanced", "one_event", "rare_1pct", "rare_5pct", "quasi_separated"],
+  "n_values": [80, 160],
+  "seeds_per_cell": 16,
+  "seed_namespace": 2026112323,
+  "methods": ["BFGS", "L-BFGS-B"],
+  "starts_per_dataset": 6,
+  "maxiter": 350,
+  "score_inf_threshold": 0.0001,
+  "max_hessian_eigenvalue_threshold": -0.00001,
+  "distinct_beta_supnorm_threshold": 0.08,
+  "distinct_objective_threshold": 0.0001,
+  "additional_bounded_certification": {
+    "purpose": "rigorous compact-box objective upper bounds and branch-and-bound gap diagnostic, not global R^3 certificate",
+    "box": [[-10, 1], [-5, 5], [-5, 5]],
+    "case_rule": "first generated case per family and n, 12 cases",
+    "max_branch_nodes": 250,
+    "upper_bound_method": "per-row logistic loglik supremum over eta range + half log determinant of maximum possible Fisher weights on each box",
+    "numerical_guarantee_limitation": "mathematical enclosure only up to floating-point roundoff; no directed rounding; exploratory upper bound, not formally verified interval arithmetic"
+  },
+  "disposition": "REFUSE if multiple distinct certified local maxima; single observed local maximum remains research-only and not globally certified",
+  "no_production_change": true
+}

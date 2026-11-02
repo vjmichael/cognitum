@@ -1,0 +1,15 @@
+{
+  "audit": "PASS",
+  "dataset_count": 192,
+  "attempts": 2304,
+  "validated_local_attempts": 2298,
+  "ambiguous_datasets": 3,
+  "independently_recomputed_local_maxima": 195,
+  "max_abs_objective_error": 4.884981308350689e-14,
+  "max_independent_fd_gradient": 1.010747041612121e-07,
+  "compact_box_bound_cases": 12,
+  "random_points_checked_under_bound": 720,
+  "min_random_sample_upper_bound_slack": 5.483558746159754,
+  "certified_global_optima": 0,
+  "machine_proof": false
+}

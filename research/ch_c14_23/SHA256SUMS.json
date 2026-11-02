@@ -1,0 +1,14 @@
+{
+  "frozen_protocol.json": "31cd3f5d01e40e496e59d48b4160a9a3a4894645509eca9eae4cdcaf3e618bde",
+  "ch22_pinned.py": "02de1d5bc17c5b8ea630b639b119ce2420e6cc2401dba57747bf42ff466debee",
+  "run.py": "f8740a1bde7bc5cf93a179baec0bceb47e4ae598b139fb977fa636d5eebbb82b",
+  "bounded_global.py": "ba61c9f957a5ae77519cc1e6b9177fa0c1aa9b8113357710ff77779a2fc5edef",
+  "independent_audit.py": "f4ff07c2521610dc7908fc5a79e8d4807b1e4387ce5855c0b5ef8dbf5627df07",
+  "test_ch23.py": "ffb92f9089ceab04e5e6fb2ac13e95ffe4eced097ed0d0d663d17d99f222a7b6",
+  "results.jsonl": "69a51df650ef183b8fca4c11f30df6dbad6f6628dd0479c648a25609d0d14341",
+  "bounded_results.json": "fcdf233a40256ffca1e6d89c5c5b1ccf1176e862a5c966ef5f3f050a4633a505",
+  "audit.json": "69b010dd03bcc27637e905feea9af8e89f9dce1b5a66e12935e147a3abbfcc10",
+  "execution.log": "e362c6963fdcc253bdda1f9b5a7035f72943db74be9f94183959ccc4a5261689",
+  "Engineering_Report_CH_C14_23.md": "d7af06ddef7936426053250103958c4af3d6ed76705f6440304ea052edb27eb5",
+  "README.md": "41d3c131390c1050a8d7bd592129e9b9eb9d353272c1a3bd8941f70f112c472c"
+}
