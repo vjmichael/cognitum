@@ -11,8 +11,14 @@ class Runtime:
         # The default is the original disposable-worker path. No process is
         # created unless the trusted embedding explicitly provides a pool.
         if warm_pool is not None and sandbox_executor is not None:
-            # P6 warm workers have NOT been moved inside a kernel sandbox.
-            raise ValueError('WARM_POOL_NOT_CONTAINED_FOR_SANDBOX_RUNTIME')
+            # Only the OS-contained P8 pool tied to this exact P7 executor
+            # may coexist with sandbox mode. No P6 multiprocessing bypass.
+            from .sandbox_linux import LinuxNamespaceExecutor
+            from .sandbox_warm_pool import LinuxSandboxWarmPool
+            if (type(sandbox_executor) is not LinuxNamespaceExecutor or
+                    type(warm_pool) is not LinuxSandboxWarmPool or
+                    warm_pool.executor is not sandbox_executor):
+                raise ValueError('WARM_POOL_NOT_CONTAINED_FOR_SANDBOX_RUNTIME')
         self.warm_pool = warm_pool
         self.sandbox_executor = sandbox_executor
         self.trace = trace if trace is not None else Trace()
@@ -54,8 +60,14 @@ class Runtime:
                 # never silently executes those outside containment.
                 frozen = json.loads(json.dumps(request.payload, allow_nan=False))
                 operation.input.validate(frozen)
-                status, result = self.sandbox_executor.execute(
-                    entry.factory, request.operation, frozen, request.timeout_ms)
+                if (self.warm_pool is not None and
+                        self.warm_pool.factory is entry.factory and
+                        not operation.effects and operation.deterministic):
+                    status, result = self.warm_pool.execute(
+                        entry.factory, request.operation, frozen, request.timeout_ms)
+                else:
+                    status, result = self.sandbox_executor.execute(
+                        entry.factory, request.operation, frozen, request.timeout_ms)
             elif (self.warm_pool is not None and self.warm_pool.factory is entry.factory
                     and not operation.effects and operation.deterministic):
                 # The request schema and policy have already been checked.
