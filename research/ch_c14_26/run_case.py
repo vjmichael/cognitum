@@ -1,6 +1,8 @@
 import hashlib,json,sys,time,traceback
 from pathlib import Path
-D=Path(__file__).resolve().parent;C=D.parent/'CH_C14_25';P=json.loads((D/'frozen_protocol.json').read_bytes())
+D=Path(__file__).resolve().parent;C=D.parent/'CH_C14_25'
+if not C.exists():C=D.parent/'ch_c14_25'
+P=json.loads((D/'frozen_protocol.json').read_bytes())
 assert hashlib.sha256((D/'frozen_protocol.json').read_bytes()).hexdigest()==(D/'frozen_protocol.sha256').read_text().split()[0]
 assert hashlib.sha256((C/'frozen_protocol_B.json').read_bytes()).hexdigest()==P['CH25_frozen_protocol_B_sha256']
 for n,sha in P['source_sha256_at_freeze'].items():assert hashlib.sha256((D/n).read_bytes()).hexdigest()==sha,n

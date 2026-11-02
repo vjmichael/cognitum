@@ -1,11 +1,15 @@
 import json,sys,unittest
 from pathlib import Path
-sys.path.insert(0,'/mnt/data/CH_C14_24')
-sys.path.insert(0,'/mnt/data/CH_C14_26')
+ROOT=Path(__file__).resolve().parents[2]
+CH24=ROOT/'CH_C14_24'
+if not CH24.exists():CH24=ROOT/'ch_c14_24'
+sys.path.insert(0,str(CH24))
+sys.path.insert(0,str(ROOT/'CH_C14_26' if (ROOT/'CH_C14_26').exists() else ROOT/'ch_c14_26'))
 from verified_bnb import logistic_model,FirthObjective,interval_box
 from improved_bounds import ImprovedObjective
 from mpfr_interval import Interval as I,MP
-D=Path('/mnt/data/CH_C14_25/inputs')
+D=ROOT/'CH_C14_25'/'inputs'
+if not D.exists():D=ROOT/'ch_c14_25'/'inputs'
 class TestOriginals(unittest.TestCase):
     def data(self,name):
         x=json.loads((D/f'{name}.json').read_text()); d=logistic_model(x['rows'])

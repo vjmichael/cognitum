@@ -1,12 +1,15 @@
 import json,time,sys
 from pathlib import Path
-sys.path.insert(0,'/mnt/data/CH_C14_24')
+HERE=Path(__file__).resolve().parent
+CH24=HERE.parent/'CH_C14_24'
+if not CH24.exists():CH24=HERE.parent/'ch_c14_24'
+sys.path.insert(0,str(CH24))
 from verified_bnb import logistic_model,FirthObjective, interval_box
 from improved_bounds import ImprovedObjective
 from mpfr_interval import Interval as I
 results=[]
 for name in ('zero_balanced_n80_i00','zero_balanced_n160_i00'):
- inp=json.loads(Path('/mnt/data/CH_C14_25/inputs/'+name+'.json').read_text())
+ inp=json.loads((HERE.parent/('CH_C14_25' if (HERE.parent/'CH_C14_25').exists() else 'ch_c14_25')/'inputs'/f'{name}.json').read_text())
  data=logistic_model(inp['rows']);base=FirthObjective(data);new=ImprovedObjective(data)
  box=interval_box([['-4.5','-4.49'],['0','0.01'],['0','0.01']]);
  t=time.perf_counter();g,h=new.analytic_derivatives(box);our=time.perf_counter()-t

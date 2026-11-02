@@ -2,6 +2,7 @@
 from pathlib import Path
 import hashlib,json,statistics,math
 D=Path(__file__).resolve().parent;P=json.loads((D/'frozen_protocol.json').read_text());C=D.parent/'CH_C14_25'
+if not C.exists():C=D.parent/'ch_c14_25'
 protocol_digest=hashlib.sha256((D/'frozen_protocol.json').read_bytes()).hexdigest()
 if protocol_digest!=(D/'frozen_protocol.sha256').read_text().split()[0]:raise RuntimeError('Protocol was changed')
 old={x['id']:x for x in json.loads((C/'study_summary.json').read_text())['all_cases']}

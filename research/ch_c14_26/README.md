@@ -2,12 +2,12 @@
 
 Research-only Linux implementation. No changes to CH23/CH24/CH25, production C14/G25 or Lu.
 
-The **same 15 CH23 datasets** are sourced from `../CH_C14_25/inputs/*.json` (immutable) and tied to their original CH23 SHA-256s by `frozen_protocol.json`. No synthetic replacement fixtures used in the benchmark.
+The **same 15 CH23 datasets** are sourced from the immutable CH25 inputs and tied to their original CH23 SHA-256s by `frozen_protocol.json`. No synthetic replacement fixtures were used in the benchmark. The full release ZIP contains sibling `CH_C14_23/`, `CH_C14_24/`, `CH_C14_25/`, and `CH_C14_26/` directories. Extract the archive and run the commands below from `CH_C14_26/`. The GitHub research branch uses lowercase directory names; if running directly from a checkout, extract the CH25 evidence ZIP to provide the original inputs and add the CH24 folder to `PYTHONPATH`.
 
 ## Commands
 
 ```bash
-cd research/ch_c14_26
+cd CH_C14_26
 OPENBLAS_NUM_THREADS=1 python -m unittest discover -s tests -v
 OPENBLAS_NUM_THREADS=1 python run_case.py zero_imbalanced_n160_i05
 python compile_results.py

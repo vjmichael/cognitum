@@ -1,7 +1,9 @@
 """CH26 adversarial proof-record and original-data authentication tests."""
 import copy,hashlib,json,sys,unittest
 from pathlib import Path
-D=Path(__file__).resolve().parents[1];C=D.parent/'CH_C14_25';sys.path.insert(0,str(D))
+D=Path(__file__).resolve().parents[1];C=D.parent/'CH_C14_25'
+if not C.exists():C=D.parent/'ch_c14_25'
+sys.path.insert(0,str(D))
 from verifier26 import verify
 P=json.loads((D/'frozen_protocol.json').read_text())
 CASE='rare_5pct_n80_i00'
