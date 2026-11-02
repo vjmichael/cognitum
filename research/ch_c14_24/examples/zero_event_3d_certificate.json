@@ -1,0 +1,145 @@
+{
+  "milestone": "CH-C14-24",
+  "claim_scope": "finite_root_box_only",
+  "status": "CERTIFIED_BOUNDED_GAP",
+  "precision_bits": 160,
+  "tolerance": "0.07",
+  "objective": "Jeffreys_penalized_binomial_logistic",
+  "model": {
+    "d": 3,
+    "rows": [
+      {
+        "x": [
+          "1",
+          "-1",
+          "-1"
+        ],
+        "n": 3,
+        "s": 0
+      },
+      {
+        "x": [
+          "1",
+          "-1",
+          "0"
+        ],
+        "n": 3,
+        "s": 0
+      },
+      {
+        "x": [
+          "1",
+          "-1",
+          "1"
+        ],
+        "n": 3,
+        "s": 0
+      },
+      {
+        "x": [
+          "1",
+          "0",
+          "-1"
+        ],
+        "n": 3,
+        "s": 0
+      },
+      {
+        "x": [
+          "1",
+          "0",
+          "0"
+        ],
+        "n": 3,
+        "s": 0
+      },
+      {
+        "x": [
+          "1",
+          "0",
+          "1"
+        ],
+        "n": 3,
+        "s": 0
+      },
+      {
+        "x": [
+          "1",
+          "1",
+          "-1"
+        ],
+        "n": 3,
+        "s": 0
+      },
+      {
+        "x": [
+          "1",
+          "1",
+          "0"
+        ],
+        "n": 3,
+        "s": 0
+      },
+      {
+        "x": [
+          "1",
+          "1",
+          "1"
+        ],
+        "n": 3,
+        "s": 0
+      }
+    ],
+    "n_raw": 27
+  },
+  "model_sha256": "2b0a1dc58aa96ab80eadc71e85ad52c290c2a0dacbdc4546dc1b88ecf5d958e2",
+  "root_box": [
+    [
+      "-4.04",
+      "-3.96"
+    ],
+    [
+      "-0.02",
+      "0.02"
+    ],
+    [
+      "-0.02",
+      "0.02"
+    ]
+  ],
+  "incumbent": [
+    "-4",
+    "0",
+    "0"
+  ],
+  "lower_bound_floor_display": -2.0062076466359633,
+  "upper_bound_ceil_display": -1.9488522828430284,
+  "nodes": [
+    {
+      "id": 0,
+      "box": [
+        [
+          "-4.04",
+          "-3.96"
+        ],
+        [
+          "-0.02",
+          "0.02"
+        ],
+        [
+          "-0.02",
+          "0.02"
+        ]
+      ],
+      "upper_bound": -1.9488522828430284,
+      "method": "interval_hessian_taylor"
+    }
+  ],
+  "leaf_count": 1,
+  "split_count": 0,
+  "leaf_methods": {
+    "interval_hessian_taylor": 1
+  },
+  "production_release": "NO_GO",
+  "note": "Every bound is recomputed and proof coverage checked by verify_certificate.py; floats are display only."
+}
