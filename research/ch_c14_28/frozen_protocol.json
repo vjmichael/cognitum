@@ -1,0 +1,67 @@
+{
+  "cohort_CH27_sha256": "4875c449f1b6b12b1f1377983da6b94e9a094a549ee47f81c9e68a58af4ed928",
+  "comparison": "CH27 published 15-node cohort; direct equal-budget CH27 control will be reported separately if completed.",
+  "dependency_source_sha256": {
+    "CH_C14_24/mpfr_interval.py": "93eb5ae11737174c6e9aaff8bf79285dee0e699fe9df0baa9608cb0dc9e732d2",
+    "CH_C14_24/verified_bnb.py": "46ddbfeecfff5485302bb1560fcbca1200ef1aba953d035dc7d58b29860b52aa",
+    "CH_C14_26/improved_bounds.py": "434ee08220f16ac0edc78b4625382750453f4449379897bfb49f640b5a70e782",
+    "CH_C14_27/coupled27.py": "40bf4acd5da7327de7bb151b37471415aa03c321e6b40e0deb8ee7eed8a2f79b",
+    "CH_C14_27/interval_newton27.py": "bd5b0d9d32a1d2233f050c3d082717366cadfb234212ce715c101ce1d8d38c8e"
+  },
+  "max_newton_evaluations_per_case": 8,
+  "measurement": "Record process CPU and monotonic wall solve/replay times per case; no additional tests/data substituted.",
+  "milestone": "CH-C14-28",
+  "newton_max_side_width": "3.0",
+  "node_budgets": [
+    63,
+    127
+  ],
+  "objective_absolute_tolerance": "0.05",
+  "original_case_sha256": {
+    "one_event_n160_i00": "d30387f52c5f7f34f585767c3875a90849e83799c18705c847a6202039e1a126",
+    "one_event_n80_i00": "8ca568f0e0e8b2167c2e5a416f4758aa303ce4d57815bc5b69ff253c4844ded2",
+    "quasi_separated_n160_i00": "2172cec5c129a1eaa880a14c17fa82b24dbad7474a5c76af289048a2a3b6cd59",
+    "quasi_separated_n80_i00": "600eed8e4efe6a01f77a6f2c8602d5c9b817a8e1079a69405f024ad7219bbdae",
+    "rare_1pct_n160_i00": "1e8b0deb8dd829edeadd08ad0220a5d2a521a4ca5139b9d916f747b16924428f",
+    "rare_1pct_n160_i13": "90a2149bc0fb52ba1a67c2a3302e92a8eb6d16bf2e594c06964fdf1a0be08af3",
+    "rare_1pct_n80_i00": "dfb8a14ec69bab3043137458e85481682a567e751b51b10da815f8907831edb5",
+    "rare_5pct_n160_i00": "fbcbed044f9ef67bfa15e5cf19910369c41abe204f970cee19766cfaf32b264b",
+    "rare_5pct_n80_i00": "9785aedc6fdd221029f37f64179db2e66317a047fdf41fcbed3cb41467b0f1a8",
+    "zero_balanced_n160_i00": "25902f678d3ef27d2a6a70a1b2cfd2587559364b7e6d42b4a5c748608a80f0dc",
+    "zero_balanced_n80_i00": "1c0ae4868190a114efaea20576192f55e23eaf4cff1528bec0887bff1815f09e",
+    "zero_imbalanced_n160_i00": "16055cfc550f6a1264d9c47c56248237f684f6af2f0de094205739cb581bfcc2",
+    "zero_imbalanced_n160_i05": "651be709c4fe300c9a92472a1d0e342c53fb93d5e3f68bf3a963a100d75680ef",
+    "zero_imbalanced_n160_i07": "bb68bb56a94fdf600a3db1e295e06d1469c24f40beff361ee86a378f29345dc1",
+    "zero_imbalanced_n80_i00": "bb4129fdf4aecf0886de61ee3a9d761ebf59d7616d164871b27855a4d41c6e40"
+  },
+  "original_dual_sha256": "a6584584ebcb34ead943d2991be6cabf75c1bb5d6f115731350cfe6cf640d49a",
+  "original_root_box": [
+    [
+      "-10",
+      "1"
+    ],
+    [
+      "-5",
+      "5"
+    ],
+    [
+      "-5",
+      "5"
+    ]
+  ],
+  "precision_bits": 160,
+  "replay_precision_bits": 224,
+  "research_only": true,
+  "scientific_release": "NO_GO",
+  "selective_policy": {
+    "always_depth": 2,
+    "cadence": 3,
+    "description": "root through depth 2 coupled; at deeper levels every third new node gets coupled unless direct bound already <= incumbent+epsilon; otherwise cheap certified Loewner bound"
+  },
+  "solver_source_sha256": {
+    "freeze28.py": "4567df5c01d50851efb44295cc60b2e26f23876f19e2375cb5aeb660d2c942d9",
+    "run_case28.py": "418c64dbbec5dabd364237ecd34f6b01b2b24ee47dd72ee105c719097bc85cfb",
+    "solver28.py": "1a892b35b7b7203e379f12eba5837cb3b9458c2c2e4f6adc3ba452cb48fa555b",
+    "verifier28.py": "989b98a54722d40878548af2884118b9caec9b7c6867de45a3b3e17f7cc4c990"
+  }
+}
