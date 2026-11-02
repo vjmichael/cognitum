@@ -1,47 +1,60 @@
-# CH-C14-03 — Pinned G25 source verification and local replay gate
+# CH-C14-03 — Pinned G25 source restored and retested on Linux
 
-Date: 2026-11-02. **Status: repository source integrity verified; exact local G25 test execution BLOCKED.** Linux-only research; no production C14, Lu or Windows changes.
+**Date:** 2026-11-02  
+**Status:** **NONPRODUCTION ENGINEERING RETEST PASS; scientific production promotion NOT APPROVED.**  
+**Scope:** Cognitum G25 research only. No Lu, Windows, or production causal estimator changes.
 
-## Source restoration status
+## Restored original source
 
-Using the connected GitHub repository source reader, independently hashed the exact research source with a self-tested JavaScript SHA-256 implementation. Results:
+Recovered the original archived source from two Library release archives:
 
-| G25 research source | Actual SHA-256 | Pins |
-|---|---|---|
-| `baseline/g25i_core.py` | `f881ae12bdae90fa4acec0bae9046e5580f5ddad80a1794006c3da5a3f6621e4` | MATCH |
-| `tools/g25_release_guard.py` | `3480952a031d17061615eaa92597e7b2f0df22495954d5656aeeb6b51322f64c` | MATCH |
-| `integration/c14_research_host.py` | `74a717da88139c1a894e7d754a1dc702f5e328337ee2109017313c6a3aa2681c` | MATCH |
-| `integration/g25_cancellable_supervisor.py` | `1fad033b4871be412463be7b0236d98805bf003b65a5f4a5c21060812368eeb6` | MATCH earlier published supervisor digest; not an internal pinned dependency |
+- `Cognitum_C14_G25_Nonproduction_E2E_2026-11-01.zip`: **35/35 original manifest entries matched**.
+- `Cognitum_C14_G25_Standalone_Cancellation_E2E_2026-11-01.zip`: **28/28 original manifest entries matched**.
 
-Hashes refer to `research/c14_g25_nonprod/` in branch `cognitum/component-hardening-c14-review-20261102`. The first three match the frozen supervisor whitelist.
+Source contents match both the connected repository and the supervisor's frozen whitelist:
 
-**Blocking environment:** the locally mounted P17/P18 checkout does not contain `research/c14_g25_nonprod/`; GitHub DNS/network cannot be reached from the local container. The connector returned text but did not mount the original files. Do not reconstruct approximations, waive SHA pins, or claim these exact modules executed.
+| Source file under `research/c14_g25_nonprod/` | SHA-256 |
+|---|---|
+| `baseline/g25i_core.py` | `f881ae12bdae90fa4acec0bae9046e5580f5ddad80a1794006c3da5a3f6621e4` |
+| `tools/g25_release_guard.py` | `3480952a031d17061615eaa92597e7b2f0df22495954d5656aeeb6b51322f64c` |
+| `integration/c14_research_host.py` | `74a717da88139c1a894e7d754a1dc702f5e328337ee2109017313c6a3aa2681c` |
+| `integration/g25_cancellable_supervisor.py` | `1fad033b4871be412463be7b0236d98805bf003b65a5f4a5c21060812368eeb6` |
 
-## Fresh verified tests
+The supervisor hash matches the earlier G25 standalone report; the first three are its pinned dependencies. Archived README and manifests are not interchangeable and were verified separately.
 
-- Existing P17/P18 causal bootstrap/variance tests: **16/16 PASS**, using the correct local source root in PYTHONPATH. **Not G25.**
-- New G25 replay-driver integrity tests: **4/4 PASS**, covering missing-source fail closed, altered-source fail closed, explicit source pin whitelist and status reporting. **Not G25 scientific/host tests.**
-- Pinned G25 guard/host/supervisor cancellation/receipt/numerical tests: **BLOCKED**, not performed locally.
+## Fresh local tests
 
-## Source-level audit of requested cases (not execution)
+| Suite | Result |
+|---|---:|
+| Original guard tests | **22/22 PASS** |
+| Original JSONL host tests | **23/23 PASS** |
+| Original cancellable supervisor tests | **23/23 PASS** |
+| **Original G25 unit tests subtotal** | **68/68 PASS** |
+| New CH-C14-03 independent fault-injection cases | **8/8 PASS** |
+| Four-part independent black-box supervisor E2E | **40/40 accounted for** |
+| Independent receipt and numerical audit | **PASS** |
+| Previous P17/P18 tests (different component, not G25) | **16/16 PASS** |
+| New replay-driver integrity self-tests (not G25) | **4/4 PASS** |
 
-- **Cancellation**: supervisor uses a separate POSIX process session for each research worker and kills/reaps process group on cancellation or timeout; late results withheld.
-- **Unsupported assumptions**: guard expects explicit Gamma and written justification; absent evidence returns a non-certifying refusal.
-- **Missing data**: missing observed arms and <25 observed counts are refused; host rejects malformed binary observation forms.
-- **Numerical failures**: host returns `internal_failure` with null result on unexpected exceptions; supervisor rejects malformed worker receipts.
-- **Provenance**: supervisor enforces exact source SHA before admission; receipt hashes validate consistency, not authenticity.
-- **Open risk**: child `communicate()` reads stdout without a resource cap until after return; recorded bounded-output engineering gap, distinct from the post hoc 65,536-byte validation limit.
+The original full black-box replay was broken into four 10-case parts because the aggregated launcher exceeded this local command execution limit. The completed replay gave **32/32 matched conditional numerical reports, 8/8 proper scientific refusals, four duplicate task ID rejections, zero automatic causal certifications**, and a maximum independent statistical-oracle difference of **2.22e-16**. The original `tools/audit_supervisor_parts.py` independently verified **all receipts**, request coverage and source hashes.
 
-## Reproduction artifact and continuation
+## Explicit negative tests
 
-A local self-testing `retest_pinned_g25.py` replay package exists as `Cognitum_CH_C14_03_Pinned_G25_Replay_Driver_2026-11-02.zip`. For a local network-accessible Cognitum checkout run:
+- **Cancellation:** valid POSIX in-flight process-group and descendant cleanup, timeout reaping, no late response, cancel-before-launch, busy and duplicate denial (original supervisor suite).
+- **Assumptions:** missing Gamma, unsupported consistency or measurement assumptions, missing evidence => refusal or invalid request, never a certification.
+- **Missing/malformed data:** empty arm, sparse arm, malformed binary observations/counts and JSON => fail closed; no interval on refusal.
+- **Numerical failure:** injected backend exception => `internal_failure`, no numerical result and no leaked exception.
+- **Provenance:** source SHA pins, archive manifests, receipt replay and tamper/rehashed-forgery rejection. SHA receipts are **not** MACs or authorization.
 
-```bash
-python retest_pinned_g25.py --source /path/to/cognitum --output ./replay_results --run-e2e
-```
+## Still-open engineering/scientific gates
 
-It fails closed if pins mismatch and runs the original guard, host, supervisor, batch tests plus 4 independent black-box supervisor parts when exact source is present. The archive is a handoff runner, **not a G25 passing receipt**. The source snapshot from GitHub should be downloaded or made accessible in the local container, then exact suites rerun.
+- The supervisor's `communicate()` can buffer more worker stdout than `MAX_WORKER_OUTPUT=65536` before the response cap is checked. This **unbounded pipe buffering remains open**; no resource-budget guarantee claimed.
+- Linux POSIX group cancellation is not cgroup v2 kernel containment or cooperative soft cancellation/rollback; Windows Job Object containment remains deferred.
+- G25N **failed 12/12** scientific interval-width/calibration cells. Analyst Gamma cannot prove causal identifiability; full LR inversion, externally validated Firth equivalence, numerical certification and independent scientific review remain open.
+- **No production algorithm promotion or Lu changes**.
 
-## Release decision
+## Reproducibility artifact
 
-**NO-GO unchanged.** Previous G25N failed 12/12 scientific precision cells; no production promotion, independent statistical review, full LR inversion or hidden-confounder solution. Do not mislabel these 20 local ancillary tests as a G25 full retest.
+Local artifact `Cognitum_CH_C14_03_Pinned_G25_Restored_Retest_2026-11-02.zip` contains the pinned reconstructed-by-extraction (not rewritten) research source, tests, black-box request/result receipts, independent audit, SHA-256 manifests, replay driver, and full engineering report. All 66 artifact payload hashes were independently checked after packaging.
+
+The result is a scoped **engineering acceptance**, not a causal-inference scientific release.
