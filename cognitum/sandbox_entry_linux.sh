@@ -3,7 +3,9 @@
 # user + mount + PID + network + IPC + UTS namespaces, with --kill-child.
 # The host passes these paths, never model data. No fallback on failure.
 set -eu
-if [ "$#" -ne 3 ]; then exit 90; fi
+if [ "$#" -ne 3 ] && [ "$#" -ne 4 ]; then exit 90; fi
+MODE="${4:-single}"
+case "$MODE" in single|warm) ;; *) exit 93;; esac
 ROOT="$1"; CODE="$2"; RUNTIME="$3"
 # Prove namespace creation occurred: user root mapping is a single outer UID.
 # This also prevents accidental execution as an unsandboxed script.
@@ -30,7 +32,12 @@ done
 # Drop all capabilities AFTER chroot; prlimit bounds address space, CPU,
 # descriptors and core dumps. This is a trusted-code research sandbox,
 # NOT a claim of cgroup pids/memory or syscall filtering.
+if [ "$MODE" = warm ]; then
+  WORKER=/app/cognitum/sandbox_warm_child.py
+else
+  WORKER=/app/cognitum/sandbox_child.py
+fi
 exec /usr/sbin/chroot "$ROOT" \
     /usr/bin/setpriv --no-new-privs --bounding-set=-all --inh-caps=-all --ambient-caps=-all \
     /usr/bin/prlimit --as=1073741824 --cpu=8 --nofile=128 --core=0 --fsize=8388608 -- \
-    /runtime/bin/python3 -I /app/cognitum/sandbox_child.py
+    /runtime/bin/python3 -I "$WORKER"
