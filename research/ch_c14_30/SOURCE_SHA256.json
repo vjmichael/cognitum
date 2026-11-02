@@ -1,0 +1,19 @@
+{
+  "CH29": {
+    "frozen_protocol.json": "287dca0aef8d89131c3d05226cf2fff0363edea326c0e7171650bc74c86438c0",
+    "frozen_protocol.sha256": "2281493074bc1701b725013a7423fde193ee07fef9b7aabe575e8e5c4bfedee0",
+    "solver29.py": "4cd088d5c778b5a9deeed3ac8fd67e8245711d82adc34ac41cb1ec09574d7ee5",
+    "verifier29.py": "144258e9a670d950dcc1370c4e63d4c3fc7b70abb6d45712595e29de8235d88c"
+  },
+  "CH30": {
+    "README.md": "b39173fff8271f93cc0edb4cc293f1efc66f83e8db502ffc7c24cd8375bc52d9",
+    "audit30.py": "ce139ab07bea0c80affb7be128388dba876a92a3fa681d2d846f6072f01c1fb6",
+    "benchmark30.py": "3a2780db045fcc76b0abc67bd32e2b1d14567323fb0f01fd2de5128e35f77ccd",
+    "frozen_protocol.json": "b86793a9da30a1b5f6fa4dc9a91470b764d591ec1984214343f0466d62626d73",
+    "frozen_protocol.sha256": "c89f961c07554fd910be4a398a2401d7f344ee5fbdb56fbd55021b4836473321",
+    "tests/test_incremental.py": "c9ae7232db92726911923dd451c0912ac2ebb8330626108b44da15fa6370c35e",
+    "verifier30.py": "af64939538c29b93fb6fb0a8a29927565860490b840d5946d5c218ff7a5abe61"
+  },
+  "archive_ref": "CH29 original research commit dd74e9046d8f349e9d9d5059439d247b7ab55ff0",
+  "data_selection": "Original 15 case IDs and SHA256 from CH29 frozen_protocol.json; no synthetic cases"
+}

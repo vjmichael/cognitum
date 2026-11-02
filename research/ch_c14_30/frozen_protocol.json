@@ -1,0 +1,16 @@
+{
+  "milestone": "CH-C14-30",
+  "date": "2026-11-02",
+  "scientific_scope": "isolated_research_fail_closed_no_production_promotion",
+  "historical_source": "CH29 fixed/63 and fixed/127 certificates on original 15 CH23 datasets",
+  "historical_protocol_sha256": "287dca0aef8d89131c3d05226cf2fff0363edea326c0e7171650bc74c86438c0",
+  "budgets": [63, 127],
+  "cohort": "all_15_original_CH23_cases_in_CH29_frozen_protocol",
+  "replay_precision_bits": 224,
+  "trials": "one cold 63 replay, one incremental 127 extension, one original CH29 cold 127 replay per case",
+  "incremental_state": "in_memory_only_full_verified_prefix_never_external_serialization",
+  "invariants": ["identical_original_case_data_sha256", "exact_63_node_prefix_except_validated_splits", "all_previous_bound_modes_and_effective_boxes_immutable", "all_new_nodes_MPFR_224_bit_replay", "complete_partition_check", "all_ancestor_caps_inherited", "same_status_and_gap_as_original_full_replay", "false_global_certification_rejected", "zero_synthetic_substitution"],
+  "measurement": "time.process_time CPU seconds, per-case and summed; compute paired ratios; no equal-CPU claims across different CPU systems",
+  "acceptance": "15_of_15_differential_equivalence_and_15_of_15_prefix_checks; zero_false_global_certifications",
+  "limitations": "MPFR outward rounding shared with CH29; no proof assistant; finite-coefficient-box only; checkpoint verification must begin anew on process restart"
+}
