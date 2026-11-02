@@ -168,6 +168,41 @@ class LinuxNamespaceExecutor:
         finally:
             selector.close()
 
+    def _launch_contained(self, *, warm_provider=None, allow_kan=False):
+        """Host-selected P7 namespace + restricted rootfs for cold AND warm.
+
+        Returns a process and private root. The caller MUST reap and remove
+        both; there is deliberately no unsandboxed launch alternative.
+        """
+        if warm_provider not in (None, 'calculator', 'specialists'):
+            raise ValueError('INVALID_WARM_PROVIDER')
+        if not self._entry.is_file() or not self._child.is_file():
+            raise ContainmentUnavailable('SANDBOX_FILES_MISSING')
+        if warm_provider is not None and not (self.source_dir / 'sandbox_warm_child.py').is_file():
+            raise ContainmentUnavailable('SANDBOX_WARM_CHILD_MISSING')
+        tmp = tempfile.mkdtemp(prefix='cognitum-isolate-')
+        try:
+            os.chmod(tmp, 0o700)
+            argv = [_UNSHARE, '--user','--map-root-user','--mount','--pid',
+                    '--ipc','--uts','--net','--fork','--kill-child',
+                    _SHELL,str(self._entry),tmp,str(self.source_dir),
+                    str(self.python_prefix)]
+            if warm_provider is not None:
+                argv.append('warm')
+            env = {'PATH':'/usr/bin:/bin','LANG':'C.UTF-8',
+                   'PYTHONDONTWRITEBYTECODE':'1','HOME':'/nonexistent'}
+            if warm_provider is not None:
+                env['COGNITUM_WARM_PROVIDER'] = warm_provider
+            if allow_kan and self.approved_kan_sha256:
+                env['COGNITUM_TRUSTED_KAN_SHA256'] = self.approved_kan_sha256
+            proc = subprocess.Popen(argv,stdin=subprocess.PIPE,stdout=subprocess.PIPE,
+                                    stderr=subprocess.PIPE,close_fds=True,
+                                    start_new_session=True,env=env)
+            return proc,tmp
+        except BaseException:
+            shutil.rmtree(tmp,ignore_errors=True)
+            raise
+
     def _invoke(self, kind, operation, payload, timeout_ms):
         if type(timeout_ms) is not int or not 1 <= timeout_ms <= MAX_REQUEST_MS:
             return 'unavailable', None
@@ -178,27 +213,14 @@ class LinuxNamespaceExecutor:
             return 'invalid_input', None
         if len(raw) > MAX_FRAME_BYTES:
             return 'invalid_input', None
-        tmp = tempfile.mkdtemp(prefix='cognitum-isolate-')
+        tmp = None
         proc = None
         try:
-            os.chmod(tmp, 0o700)
-            argv = [_UNSHARE,
-                    '--user','--map-root-user','--mount','--pid','--ipc',
-                    '--uts','--net','--fork','--kill-child',
-                    _SHELL,str(self._entry), tmp, str(self.source_dir),
-                    str(self.python_prefix)]
-            # Deliberately scrub secrets, proxy settings, ambient PYTHONPATH,
-            # imported key material and session env from the child.
-            env = {'PATH':'/usr/bin:/bin','LANG':'C.UTF-8',
-                   'PYTHONDONTWRITEBYTECODE':'1','HOME':'/nonexistent'}
-            if kind == 'cognitum' and operation == 'specialist.kan' and self.approved_kan_sha256:
-                env['COGNITUM_TRUSTED_KAN_SHA256'] = self.approved_kan_sha256
-            proc = subprocess.Popen(argv, stdin=subprocess.PIPE,
-                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                    close_fds=True, start_new_session=True, env=env)
+            proc,tmp = self._launch_contained(
+                allow_kan=(kind == 'cognitum' and operation == 'specialist.kan'))
             status, result = self._exchange(proc, raw, timeout_ms/1000)
             return status, result
-        except (OSError, ValueError, subprocess.TimeoutExpired):
+        except (OSError, ValueError, subprocess.TimeoutExpired, ContainmentUnavailable):
             return 'unavailable', None
         finally:
             if proc is not None:
@@ -206,4 +228,5 @@ class LinuxNamespaceExecutor:
                 for file in (proc.stdin, proc.stdout, proc.stderr):
                     if file is not None:
                         file.close()
-            shutil.rmtree(tmp, ignore_errors=True)
+            if tmp is not None:
+                shutil.rmtree(tmp, ignore_errors=True)
