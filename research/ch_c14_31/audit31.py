@@ -54,7 +54,7 @@ def audit(path:Path):
             [s['reused'] for s in chain]!=[0,63,95] or
             abs(chain[-1]['gap_upper_display']-gap)>1e-10):
             raise ValueError('Unverified state imported after restart')
-    if study['cases']==len(seen)!=len(proto['original_case_sha256']):
+    if study['cases']!=len(seen) or len(seen)!=len(proto['original_case_sha256']):
         raise ValueError('Not the complete original 15-case cohort')
     if seen!=set(proto['original_case_sha256']) or ambiguous!=3:
         raise ValueError('Original CH23 ambiguity cohort changed')
