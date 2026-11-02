@@ -1,0 +1,7 @@
+{
+  "package_filename": "Cognitum_CH_C14_30_Incremental_Verifier_Original_CH23_2026-11-02.zip",
+  "package_sha256": "ea37a3be367c222f660e03fe949f29669da2d8a616897f54247e371e70cad5a1",
+  "entries": 501,
+  "sha256_checked": 500,
+  "data_source": "exact_original_CH23_15_with_CH29_frozen_certificates"
+}

@@ -1,0 +1,16 @@
+PASS one_event_n80_i00 cold127 24.07 increment127 11.27 reuse 63
+PASS quasi_separated_n160_i00 cold127 38.47 increment127 20.96 reuse 63
+PASS quasi_separated_n80_i00 cold127 18.54 increment127 9.49 reuse 63
+PASS one_event_n160_i00 cold127 43.57 increment127 23.71 reuse 63
+PASS rare_1pct_n80_i00 cold127 21.02 increment127 11.21 reuse 63
+PASS rare_1pct_n160_i00 cold127 43.73 increment127 22.11 reuse 63
+PASS rare_1pct_n160_i13 cold127 42.19 increment127 20.66 reuse 63
+PASS rare_5pct_n80_i00 cold127 21.39 increment127 10.42 reuse 63
+PASS rare_5pct_n160_i00 cold127 41.82 increment127 21.51 reuse 63
+PASS zero_balanced_n80_i00 cold127 21.69 increment127 11.16 reuse 63
+PASS zero_balanced_n160_i00 cold127 42.81 increment127 20.58 reuse 63
+PASS zero_imbalanced_n160_i00 cold127 43.61 increment127 21.54 reuse 63
+PASS zero_imbalanced_n160_i05 cold127 43.45 increment127 22.16 reuse 63
+PASS zero_imbalanced_n160_i07 cold127 43.56 increment127 22.64 reuse 63
+PASS zero_imbalanced_n80_i00 cold127 20.97 increment127 11.22 reuse 63
+RESULT benchmark_results.json CASES 15 INCREMENTAL_SPEEDUP 1.96
