@@ -153,6 +153,8 @@ class LinuxSandboxWarmPool:
         self.upshifts = 0
         self.downshifts = 0
         self.peak_warm = 0
+        self.expired_reaped = 0
+        self.crashed_reaped = 0
 
     def _total(self):
         return len(self._idle) + len(self._busy) + self._warming
@@ -313,10 +315,17 @@ class LinuxSandboxWarmPool:
                     'host_ceiling':self.host_ceiling,'hits':self.hits,'misses':self.misses,
                     'upshifts':self.upshifts,'downshifts':self.downshifts,
                     'peak_warm':self.peak_warm,
+                    'expired_reaped':self.expired_reaped,
+                    'crashed_reaped':self.crashed_reaped,
                     'global_warm_budget':_GLOBAL_WARM_BUDGET.snapshot(),
                     'closed':self._closed}
 
     def set_target_ready(self,value,*,host_override=True):
+        """Trusted-host target; reap before reallocation of global reservations.
+
+        Removed idle slots still count globally until their OS process exits.
+        A concurrent close never launches replacements after shutdown.
+        """
         if type(value) is not int or not self.min_ready<=value<=self.max_warm:
             raise ValueError('INVALID_READY_TARGET')
         to_reap=[]
@@ -330,14 +339,24 @@ class LinuxSandboxWarmPool:
             self.target_ready=value
             while self._idle and len(self._idle)+self._warming>value:
                 to_reap.append(self._idle.pop())
-            self._fill_locked()
             self._cv.notify_all()
         for slot in to_reap:
             _reap(slot)
             _GLOBAL_WARM_BUDGET.release()
+        with self._cv:
+            if not self._closed:
+                self._fill_locked()
+            self._cv.notify_all()
         return self.snapshot()
 
     def maintain(self):
+        """Reap stale idle namespaces, then refill without exceeding cap.
+
+        P8 checked expiry only when dispatching a request. That let old idle
+        processes occupy the warm budget forever and made the first request
+        after long inactivity unnecessarily cold. The trusted host owns this
+        periodic lifecycle action; there is no hidden scheduler.
+        """
         to_reap=[]
         with self._cv:
             if self._closed:
@@ -349,12 +368,29 @@ class LinuxSandboxWarmPool:
                 self.target_ready-=1
                 self.downshifts+=1
                 self._last_downshift=now
+            retained=[]
+            for slot in self._idle:
+                if slot.process.poll() is not None:
+                    self.crashed_reaped+=1
+                    to_reap.append(slot)
+                elif now-slot.ready_at>=self.max_idle_s:
+                    self.expired_reaped+=1
+                    to_reap.append(slot)
+                else:
+                    retained.append(slot)
+            self._idle=retained
             while len(self._idle)>self.target_ready:
                 to_reap.append(self._idle.pop())
-            self._fill_locked()
+            # No refill yet: reservations from to_reap remain held until
+            # their actual namespace process trees have been killed/reaped.
+            self._cv.notify_all()
         for slot in to_reap:
             _reap(slot)
             _GLOBAL_WARM_BUDGET.release()
+        with self._cv:
+            if not self._closed:
+                self._fill_locked()
+            self._cv.notify_all()
         return self.snapshot()
 
     def close(self):
