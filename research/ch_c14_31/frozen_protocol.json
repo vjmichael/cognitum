@@ -1,0 +1,56 @@
+{
+  "acceptance": {
+    "cases": 15,
+    "false_certifications": 0,
+    "final_gap_matches_original_CH29_127": true,
+    "fresh_restart_per_case": true,
+    "prefix_monotonicity": true,
+    "stages_per_case": 6
+  },
+  "archived_source_certificate_budgets": [
+    63,
+    127
+  ],
+  "date": "2026-11-02",
+  "intermediate_budget_policy": "verified closed projections of original CH29 proof prefix; not new solver searches",
+  "limitations": [
+    "finite_coefficient_box_only",
+    "proof_implementation_uses_shared_MPFR_library_and_not_formal_proof_assistant",
+    "Python_process_must_be_trusted_code; no security boundary against arbitrary injected in-process code"
+  ],
+  "measurement": "time.process_time process-CPU per stage; wall separate; historical CH30 comparisons external and descriptive",
+  "milestone": "CH-C14-31",
+  "original_case_sha256": {
+    "one_event_n160_i00": "d30387f52c5f7f34f585767c3875a90849e83799c18705c847a6202039e1a126",
+    "one_event_n80_i00": "8ca568f0e0e8b2167c2e5a416f4758aa303ce4d57815bc5b69ff253c4844ded2",
+    "quasi_separated_n160_i00": "2172cec5c129a1eaa880a14c17fa82b24dbad7474a5c76af289048a2a3b6cd59",
+    "quasi_separated_n80_i00": "600eed8e4efe6a01f77a6f2c8602d5c9b817a8e1079a69405f024ad7219bbdae",
+    "rare_1pct_n160_i00": "1e8b0deb8dd829edeadd08ad0220a5d2a521a4ca5139b9d916f747b16924428f",
+    "rare_1pct_n160_i13": "90a2149bc0fb52ba1a67c2a3302e92a8eb6d16bf2e594c06964fdf1a0be08af3",
+    "rare_1pct_n80_i00": "dfb8a14ec69bab3043137458e85481682a567e751b51b10da815f8907831edb5",
+    "rare_5pct_n160_i00": "fbcbed044f9ef67bfa15e5cf19910369c41abe204f970cee19766cfaf32b264b",
+    "rare_5pct_n80_i00": "9785aedc6fdd221029f37f64179db2e66317a047fdf41fcbed3cb41467b0f1a8",
+    "zero_balanced_n160_i00": "25902f678d3ef27d2a6a70a1b2cfd2587559364b7e6d42b4a5c748608a80f0dc",
+    "zero_balanced_n80_i00": "1c0ae4868190a114efaea20576192f55e23eaf4cff1528bec0887bff1815f09e",
+    "zero_imbalanced_n160_i00": "16055cfc550f6a1264d9c47c56248237f684f6af2f0de094205739cb581bfcc2",
+    "zero_imbalanced_n160_i05": "651be709c4fe300c9a92472a1d0e342c53fb93d5e3f68bf3a963a100d75680ef",
+    "zero_imbalanced_n160_i07": "bb68bb56a94fdf600a3db1e295e06d1469c24f40beff361ee86a378f29345dc1",
+    "zero_imbalanced_n80_i00": "bb4129fdf4aecf0886de61ee3a9d761ebf59d7616d164871b27855a4d41c6e40"
+  },
+  "original_data_identity": "CH23 frozen dataset generator + 15 original CH25 input files verified against CH29 SHA256 map",
+  "original_dual_sha256": "a6584584ebcb34ead943d2991be6cabf75c1bb5d6f115731350cfe6cf640d49a",
+  "parent_protocol_sha256": "287dca0aef8d89131c3d05226cf2fff0363edea326c0e7171650bc74c86438c0",
+  "replay_precision_bits": 224,
+  "research_budget_series": [
+    7,
+    15,
+    31,
+    63,
+    95,
+    127
+  ],
+  "restart_policy": "new OS process; full independent 63-node MPFR verification from archived original CH29 proof; no state import or trust in receipt",
+  "scientific_status": "NO_GO",
+  "scope": "isolated_CH31_original_CH23_verifier_research_no_production_promotion",
+  "verification_policy": "in-memory prior replay state only; new nodes recomputed, exact partition and inherited MPFR ancestor caps checked; no external cache accepted"
+}
