@@ -1,0 +1,447 @@
+{
+  "milestone": "CH-C14-24",
+  "claim_scope": "finite_root_box_only",
+  "status": "CERTIFIED_BOUNDED_GAP",
+  "precision_bits": 160,
+  "tolerance": "0.002",
+  "objective": "Jeffreys_penalized_binomial_logistic",
+  "model": {
+    "d": 1,
+    "rows": [
+      {
+        "x": [
+          "1"
+        ],
+        "n": 18,
+        "s": 0
+      }
+    ],
+    "n_raw": 18
+  },
+  "model_sha256": "eb764bbacc0e455607ba2570c3502946f65129e732ccae4a701c6f0d47218ef1",
+  "root_box": [
+    [
+      "-6",
+      "1"
+    ]
+  ],
+  "incumbent": [
+    "-3.59375"
+  ],
+  "lower_bound_floor_display": -0.8670419076387545,
+  "upper_bound_ceil_display": -0.8661025363681796,
+  "nodes": [
+    {
+      "id": 0,
+      "box": [
+        [
+          "-6",
+          "1"
+        ]
+      ],
+      "upper_bound": 0.707476365908989,
+      "method": "reference_minor_hadamard",
+      "split_dim": 0,
+      "children": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": 1,
+      "box": [
+        [
+          "-6",
+          "-2.5"
+        ]
+      ],
+      "upper_bound": 0.07173381217638464,
+      "method": "reference_minor_hadamard",
+      "split_dim": 0,
+      "children": [
+        3,
+        4
+      ]
+    },
+    {
+      "id": 2,
+      "box": [
+        [
+          "-2.5",
+          "1"
+        ]
+      ],
+      "upper_bound": -0.6679765188777561,
+      "method": "reference_minor_hadamard",
+      "split_dim": 0,
+      "children": [
+        11,
+        12
+      ]
+    },
+    {
+      "id": 3,
+      "box": [
+        [
+          "-6",
+          "-4.25"
+        ]
+      ],
+      "upper_bound": -0.7385399104625706,
+      "method": "reference_minor_hadamard",
+      "split_dim": 0,
+      "children": [
+        15,
+        16
+      ]
+    },
+    {
+      "id": 4,
+      "box": [
+        [
+          "-4.25",
+          "-2.5"
+        ]
+      ],
+      "upper_bound": -0.13864608011155682,
+      "method": "reference_minor_hadamard",
+      "split_dim": 0,
+      "children": [
+        5,
+        6
+      ]
+    },
+    {
+      "id": 5,
+      "box": [
+        [
+          "-4.25",
+          "-3.375"
+        ]
+      ],
+      "upper_bound": -0.5309020458020458,
+      "method": "reference_minor_hadamard",
+      "split_dim": 0,
+      "children": [
+        9,
+        10
+      ]
+    },
+    {
+      "id": 6,
+      "box": [
+        [
+          "-3.375",
+          "-2.5"
+        ]
+      ],
+      "upper_bound": -0.4893264550391639,
+      "method": "reference_minor_hadamard",
+      "split_dim": 0,
+      "children": [
+        7,
+        8
+      ]
+    },
+    {
+      "id": 7,
+      "box": [
+        [
+          "-3.375",
+          "-2.9375"
+        ]
+      ],
+      "upper_bound": -0.8058841069736664,
+      "method": "interval_hessian_taylor",
+      "split_dim": 0,
+      "children": [
+        23,
+        24
+      ]
+    },
+    {
+      "id": 8,
+      "box": [
+        [
+          "-2.9375",
+          "-2.5"
+        ]
+      ],
+      "upper_bound": -0.9301334134561966,
+      "method": "interval_hessian_taylor",
+      "closed": "bound_below_incumbent_plus_tolerance"
+    },
+    {
+      "id": 9,
+      "box": [
+        [
+          "-4.25",
+          "-3.8125"
+        ]
+      ],
+      "upper_bound": -0.7977226377230121,
+      "method": "interval_hessian_taylor",
+      "split_dim": 0,
+      "children": [
+        17,
+        18
+      ]
+    },
+    {
+      "id": 10,
+      "box": [
+        [
+          "-3.8125",
+          "-3.375"
+        ]
+      ],
+      "upper_bound": -0.7995804546138106,
+      "method": "interval_hessian_taylor",
+      "split_dim": 0,
+      "children": [
+        19,
+        20
+      ]
+    },
+    {
+      "id": 11,
+      "box": [
+        [
+          "-2.5",
+          "-0.75"
+        ]
+      ],
+      "upper_bound": -0.7367003444327107,
+      "method": "reference_minor_hadamard",
+      "split_dim": 0,
+      "children": [
+        13,
+        14
+      ]
+    },
+    {
+      "id": 12,
+      "box": [
+        [
+          "-0.75",
+          "1"
+        ]
+      ],
+      "upper_bound": -6.2116394116800615,
+      "method": "reference_minor_hadamard",
+      "closed": "bound_below_incumbent_plus_tolerance"
+    },
+    {
+      "id": 13,
+      "box": [
+        [
+          "-2.5",
+          "-1.625"
+        ]
+      ],
+      "upper_bound": -0.9670739737034698,
+      "method": "reference_minor_hadamard",
+      "closed": "bound_below_incumbent_plus_tolerance"
+    },
+    {
+      "id": 14,
+      "box": [
+        [
+          "-1.625",
+          "-0.75"
+        ]
+      ],
+      "upper_bound": -2.55208856410868,
+      "method": "reference_minor_hadamard",
+      "closed": "bound_below_incumbent_plus_tolerance"
+    },
+    {
+      "id": 15,
+      "box": [
+        [
+          "-6",
+          "-5.125"
+        ]
+      ],
+      "upper_bound": -1.167805061907182,
+      "method": "reference_minor_hadamard",
+      "closed": "bound_below_incumbent_plus_tolerance"
+    },
+    {
+      "id": 16,
+      "box": [
+        [
+          "-5.125",
+          "-4.25"
+        ]
+      ],
+      "upper_bound": -0.8006925287535195,
+      "method": "reference_minor_hadamard",
+      "split_dim": 0,
+      "children": [
+        21,
+        22
+      ]
+    },
+    {
+      "id": 17,
+      "box": [
+        [
+          "-4.25",
+          "-4.03125"
+        ]
+      ],
+      "upper_bound": -0.8968483338552523,
+      "method": "interval_hessian_taylor",
+      "closed": "bound_below_incumbent_plus_tolerance"
+    },
+    {
+      "id": 18,
+      "box": [
+        [
+          "-4.03125",
+          "-3.8125"
+        ]
+      ],
+      "upper_bound": -0.8683244662468865,
+      "method": "interval_hessian_taylor",
+      "closed": "bound_below_incumbent_plus_tolerance"
+    },
+    {
+      "id": 19,
+      "box": [
+        [
+          "-3.8125",
+          "-3.59375"
+        ]
+      ],
+      "upper_bound": -0.8590910221996106,
+      "method": "interval_hessian_taylor",
+      "split_dim": 0,
+      "children": [
+        25,
+        26
+      ]
+    },
+    {
+      "id": 20,
+      "box": [
+        [
+          "-3.59375",
+          "-3.375"
+        ]
+      ],
+      "upper_bound": -0.8592943502957507,
+      "method": "interval_hessian_taylor",
+      "split_dim": 0,
+      "children": [
+        27,
+        28
+      ]
+    },
+    {
+      "id": 21,
+      "box": [
+        [
+          "-5.125",
+          "-4.6875"
+        ]
+      ],
+      "upper_bound": -1.0144466029059565,
+      "method": "reference_minor_hadamard",
+      "closed": "bound_below_incumbent_plus_tolerance"
+    },
+    {
+      "id": 22,
+      "box": [
+        [
+          "-4.6875",
+          "-4.25"
+        ]
+      ],
+      "upper_bound": -0.8702093158172521,
+      "method": "interval_hessian_taylor",
+      "closed": "bound_below_incumbent_plus_tolerance"
+    },
+    {
+      "id": 23,
+      "box": [
+        [
+          "-3.375",
+          "-3.15625"
+        ]
+      ],
+      "upper_bound": -0.8738522699017344,
+      "method": "interval_hessian_taylor",
+      "closed": "bound_below_incumbent_plus_tolerance"
+    },
+    {
+      "id": 24,
+      "box": [
+        [
+          "-3.15625",
+          "-2.9375"
+        ]
+      ],
+      "upper_bound": -0.9175864184497853,
+      "method": "interval_hessian_taylor",
+      "closed": "bound_below_incumbent_plus_tolerance"
+    },
+    {
+      "id": 25,
+      "box": [
+        [
+          "-3.8125",
+          "-3.703125"
+        ]
+      ],
+      "upper_bound": -0.8680427856154241,
+      "method": "interval_hessian_taylor",
+      "closed": "bound_below_incumbent_plus_tolerance"
+    },
+    {
+      "id": 26,
+      "box": [
+        [
+          "-3.703125",
+          "-3.59375"
+        ]
+      ],
+      "upper_bound": -0.8661025363681796,
+      "method": "interval_hessian_taylor",
+      "closed": "bound_below_incumbent_plus_tolerance"
+    },
+    {
+      "id": 27,
+      "box": [
+        [
+          "-3.59375",
+          "-3.484375"
+        ]
+      ],
+      "upper_bound": -0.8661272714959817,
+      "method": "interval_hessian_taylor",
+      "closed": "bound_below_incumbent_plus_tolerance"
+    },
+    {
+      "id": 28,
+      "box": [
+        [
+          "-3.484375",
+          "-3.375"
+        ]
+      ],
+      "upper_bound": -0.8701136635123095,
+      "method": "interval_hessian_taylor",
+      "closed": "bound_below_incumbent_plus_tolerance"
+    }
+  ],
+  "leaf_count": 15,
+  "split_count": 14,
+  "leaf_methods": {
+    "interval_hessian_taylor": 10,
+    "reference_minor_hadamard": 5
+  },
+  "production_release": "NO_GO",
+  "note": "Every bound is recomputed and proof coverage checked by verify_certificate.py; floats are display only."
+}
