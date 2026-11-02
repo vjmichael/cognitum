@@ -1,0 +1,44 @@
+[
+  {
+    "case": "zero_balanced_n80_i00",
+    "box": [
+      [
+        "-4.5",
+        "-4.49"
+      ],
+      [
+        "0",
+        "0.01"
+      ],
+      [
+        "0",
+        "0.01"
+      ]
+    ],
+    "new_seconds": 1.375,
+    "old_seconds": 2.869,
+    "speedup": 2.09,
+    "verified_encloses_jet_at_midpoint": true
+  },
+  {
+    "case": "zero_balanced_n160_i00",
+    "box": [
+      [
+        "-4.5",
+        "-4.49"
+      ],
+      [
+        "0",
+        "0.01"
+      ],
+      [
+        "0",
+        "0.01"
+      ]
+    ],
+    "new_seconds": 2.203,
+    "old_seconds": 5.808,
+    "speedup": 2.64,
+    "verified_encloses_jet_at_midpoint": true
+  }
+]

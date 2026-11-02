@@ -1,0 +1,199 @@
+{
+  "milestone": "CH-C14-26",
+  "date": "2026-11-02",
+  "research_only": true,
+  "study": "Original CH23 12 fixed index-0 bounding cases plus 3 original zero-event ambiguous datasets",
+  "CH23_frozen_protocol_sha256": "31cd3f5d01e40e496e59d48b4160a9a3a4894645509eca9eae4cdcaf3e618bde",
+  "CH25_frozen_protocol_B_sha256": "6564886e0b5b84c02878e22ffe59ab009071ec2589f4f87686eff83820e414e0",
+  "objective_absolute_tolerance": "0.05",
+  "root_box": [
+    [
+      "-10",
+      "1"
+    ],
+    [
+      "-5",
+      "5"
+    ],
+    [
+      "-5",
+      "5"
+    ]
+  ],
+  "precision_bits": 160,
+  "replay_precision_bits": 224,
+  "node_budget_per_case": 127,
+  "max_hessian_calls_per_case": 2,
+  "hessian_max_root_side_width": "2.75",
+  "use_loglikelihood_tangent": true,
+  "split_policy": "CH24 physical widest Decimal interval, deterministic ties",
+  "search_priority": "largest upper display float used only for ordering; decisions checked at MPFR precision",
+  "interval_fisher_bound": "Hadamard AND termwise Fisher interval determinant AND Loewner Fisher Gram determinant",
+  "interval_loglik_bound": "termwise binomial maxima AND concave tangent planes at original CH23 seed",
+  "analytic_interval_hessian": "dI/d\u03b2 and d2I/d\u03b22 traced through adj(I)/det(I), MPFR outward",
+  "failure_policy": "claim UNRESOLVED unless independently replayed U<=L+0.05; bounded box only",
+  "old_CH25_max_nodes": 31,
+  "old_CH25_curvature": "root-only diagnostic",
+  "source_sha256_at_freeze": {
+    "improved_bounds.py": "434ee08220f16ac0edc78b4625382750453f4449379897bfb49f640b5a70e782",
+    "solver26.py": "1ad9bb1b871934924fca1b1b84af8610a251928327317e0a7f31ab8c61ee8060",
+    "verifier26.py": "8de03d31037e104b502b258287a745e7cac800347b0356e9c4bc49fd3e7e31f6"
+  },
+  "CH24_sources_sha256": {
+    "verified_bnb.py": "46ddbfeecfff5485302bb1560fcbca1200ef1aba953d035dc7d58b29860b52aa",
+    "mpfr_interval.py": "93eb5ae11737174c6e9aaff8bf79285dee0e699fe9df0baa9608cb0dc9e732d2",
+    "verify_certificate.py": "5140f132c69fb6023e9a62f5a7815f57ea6f4768bfd47928920d733a698ab69a"
+  },
+  "cases": [
+    {
+      "id": "zero_balanced_n80_i00",
+      "family": "zero_balanced",
+      "n": 80,
+      "index": 0,
+      "seed": 2034112323,
+      "original_digest": "eca5dfffaa1f9a77760320dac2b148e383ad3446708eb2b4137c287d7858d3fc",
+      "exact_input_sha256": "1c0ae4868190a114efaea20576192f55e23eaf4cff1528bec0887bff1815f09e",
+      "ambiguous": false
+    },
+    {
+      "id": "zero_balanced_n160_i00",
+      "family": "zero_balanced",
+      "n": 160,
+      "index": 0,
+      "seed": 2042112323,
+      "original_digest": "f7ebf294b670c66021fe0ad1a921e889bd33c103885b44572de5f23190358383",
+      "exact_input_sha256": "25902f678d3ef27d2a6a70a1b2cfd2587559364b7e6d42b4a5c748608a80f0dc",
+      "ambiguous": false
+    },
+    {
+      "id": "zero_imbalanced_n80_i00",
+      "family": "zero_imbalanced",
+      "n": 80,
+      "index": 0,
+      "seed": 2034122323,
+      "original_digest": "5c840a08ca797c4373542d4fb8967aa0fb2cf8e068b8cb51829191e35b39cb14",
+      "exact_input_sha256": "bb4129fdf4aecf0886de61ee3a9d761ebf59d7616d164871b27855a4d41c6e40",
+      "ambiguous": false
+    },
+    {
+      "id": "zero_imbalanced_n160_i00",
+      "family": "zero_imbalanced",
+      "n": 160,
+      "index": 0,
+      "seed": 2042122323,
+      "original_digest": "9b73cdc6c3085bfcfb56cae494d8cce18c4c5c7b2064b29c9621bedc6a6f7b78",
+      "exact_input_sha256": "16055cfc550f6a1264d9c47c56248237f684f6af2f0de094205739cb581bfcc2",
+      "ambiguous": false
+    },
+    {
+      "id": "one_event_n80_i00",
+      "family": "one_event",
+      "n": 80,
+      "index": 0,
+      "seed": 2034132323,
+      "original_digest": "8ccab302c15303bc6e052bf37b9bb8d604fa06e28e6c61a3f4e310cc8119c8d6",
+      "exact_input_sha256": "8ca568f0e0e8b2167c2e5a416f4758aa303ce4d57815bc5b69ff253c4844ded2",
+      "ambiguous": false
+    },
+    {
+      "id": "one_event_n160_i00",
+      "family": "one_event",
+      "n": 160,
+      "index": 0,
+      "seed": 2042132323,
+      "original_digest": "9f152b75053597ad6677d0a1b5cb26974abc24e65ca8ab0976de16a859d7eeb2",
+      "exact_input_sha256": "d30387f52c5f7f34f585767c3875a90849e83799c18705c847a6202039e1a126",
+      "ambiguous": false
+    },
+    {
+      "id": "rare_1pct_n80_i00",
+      "family": "rare_1pct",
+      "n": 80,
+      "index": 0,
+      "seed": 2034142323,
+      "original_digest": "5a892d4157255bf21c3580e67399e80f15a8d0c804185065b99fb8f1d8feb99c",
+      "exact_input_sha256": "dfb8a14ec69bab3043137458e85481682a567e751b51b10da815f8907831edb5",
+      "ambiguous": false
+    },
+    {
+      "id": "rare_1pct_n160_i00",
+      "family": "rare_1pct",
+      "n": 160,
+      "index": 0,
+      "seed": 2042142323,
+      "original_digest": "7d3980266a131435216ab79a5166dc2d7435f98baaf01205ce6594cc98add58d",
+      "exact_input_sha256": "1e8b0deb8dd829edeadd08ad0220a5d2a521a4ca5139b9d916f747b16924428f",
+      "ambiguous": false
+    },
+    {
+      "id": "rare_5pct_n80_i00",
+      "family": "rare_5pct",
+      "n": 80,
+      "index": 0,
+      "seed": 2034152323,
+      "original_digest": "603a6874059c311714d79d0edfda6e8a33e58ac795c6b8aba037f8cfa9736343",
+      "exact_input_sha256": "9785aedc6fdd221029f37f64179db2e66317a047fdf41fcbed3cb41467b0f1a8",
+      "ambiguous": false
+    },
+    {
+      "id": "rare_5pct_n160_i00",
+      "family": "rare_5pct",
+      "n": 160,
+      "index": 0,
+      "seed": 2042152323,
+      "original_digest": "475d7c4c7649e71377d203baef02a189857a86921f18644b948987bc92c42604",
+      "exact_input_sha256": "fbcbed044f9ef67bfa15e5cf19910369c41abe204f970cee19766cfaf32b264b",
+      "ambiguous": false
+    },
+    {
+      "id": "quasi_separated_n80_i00",
+      "family": "quasi_separated",
+      "n": 80,
+      "index": 0,
+      "seed": 2034162323,
+      "original_digest": "d9131a5b04fcd68343b98079426690587e10562e5c429fb552ee130efe1670a7",
+      "exact_input_sha256": "600eed8e4efe6a01f77a6f2c8602d5c9b817a8e1079a69405f024ad7219bbdae",
+      "ambiguous": false
+    },
+    {
+      "id": "quasi_separated_n160_i00",
+      "family": "quasi_separated",
+      "n": 160,
+      "index": 0,
+      "seed": 2042162323,
+      "original_digest": "c140274190c03920fce19265b87a58d93f19b04a7f16937be1697b76cf3b304b",
+      "exact_input_sha256": "2172cec5c129a1eaa880a14c17fa82b24dbad7474a5c76af289048a2a3b6cd59",
+      "ambiguous": false
+    },
+    {
+      "id": "zero_imbalanced_n160_i05",
+      "family": "zero_imbalanced",
+      "n": 160,
+      "index": 5,
+      "seed": 2042122328,
+      "original_digest": "d74569f3db64b1b1ff64479dd829eb7a0a3031a6375c8a4ea9f7e9a3a9ffc668",
+      "exact_input_sha256": "651be709c4fe300c9a92472a1d0e342c53fb93d5e3f68bf3a963a100d75680ef",
+      "ambiguous": true
+    },
+    {
+      "id": "zero_imbalanced_n160_i07",
+      "family": "zero_imbalanced",
+      "n": 160,
+      "index": 7,
+      "seed": 2042122330,
+      "original_digest": "d9d8fd00292b835071af6890b79388dd7b0948f30b6de01403f4f4bd4443951c",
+      "exact_input_sha256": "bb68bb56a94fdf600a3db1e295e06d1469c24f40beff361ee86a378f29345dc1",
+      "ambiguous": true
+    },
+    {
+      "id": "rare_1pct_n160_i13",
+      "family": "rare_1pct",
+      "n": 160,
+      "index": 13,
+      "seed": 2042142336,
+      "original_digest": "35145e9d5f294d882026d999069d5166d149fa43de044858dc5cb7a19b64d82b",
+      "exact_input_sha256": "90a2149bc0fb52ba1a67c2a3302e92a8eb6d16bf2e594c06964fdf1a0be08af3",
+      "ambiguous": true
+    }
+  ]
+}
