@@ -10,6 +10,7 @@ import threading
 import time
 
 from .warm_pool import WarmCappedPool, global_warm_budget_snapshot
+from .sandbox_warm_pool import LinuxSandboxWarmPool
 from .worker_budget import global_cold_budget_snapshot
 
 
@@ -24,7 +25,7 @@ class TrustedWarmMaintenance:
     def __init__(self, pools, *, interval_s=0.25):
         if type(pools) not in (tuple, list) or not 1 <= len(pools) <= 4:
             raise ValueError('INVALID_HOST_POOL_COUNT')
-        if any(type(pool) is not WarmCappedPool for pool in pools):
+        if any(type(pool) not in (WarmCappedPool, LinuxSandboxWarmPool) for pool in pools):
             raise TypeError('TRUSTED_WARM_POOL_REQUIRED')
         if len({id(pool) for pool in pools}) != len(pools):
             raise ValueError('DUPLICATE_POOL')
