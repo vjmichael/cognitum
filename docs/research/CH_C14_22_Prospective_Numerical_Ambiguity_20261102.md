@@ -1,0 +1,15 @@
+# CH-C14-22 — Prospectively frozen numerical ambiguity benchmark
+
+**2026-11-02 | Scoped engineering PASS; C14 scientific NO-GO. No Lu, Windows, G25 or production estimator modifications.**
+
+Frozen-before-run protocol SHA256 `5c978ac521cfa0aec08b07e2efa28a99c69c89f5429f85420fa342ee580e38ee`. CH21 reference source SHA256 `036fe52385de28953686ca1a5b73c3644074264ac4b2efbea5048e69bfb97e4`. Six fresh data-generating families (zero balanced, zero imbalanced, single event, stochastic rare 1%, rare 5%, and deterministic quasi-separation), n=80/160, eight previously unseen seeded datasets per cell: **96 new datasets**. Each dataset subjected to eight deterministic independent starts × BFGS/L-BFGS-B = **1,536 optimizer attempts**. Finite objective, adjusted-score norm <1e-4, largest numeric Hessian eigenvalue <−1e-5 required for a validated *local maximum*. Predeclared coefficient/objective clustering thresholds applied without post-hoc tuning.
+
+**Results: 1,528/1,536 locally validated optimizer attempts, eight nonvalid attempts, four of 96 datasets show two distinct validated local maxima.** Three ambiguous datasets were from zero-balanced generators (one n=80, two n=160); one was a rare 1% n=160 dataset with **zero observed events**. All four ambiguous datasets remain refused. The other **92** were marked `RESEARCH_only_single_observed_maximum_global_unproven`; **zero** scientific certifications and production promotions. These are empirical detection rates under a small predefined synthetic grid and **not proofs of global uniqueness or population ambiguity prevalence**.
+
+A strict JSON writer rejected NaN from an invalid Hessian after 16 cases during first execution. Fixed serialization by explicit null status, then restarted all 96 originally frozen cases. The independent replay initially missed the quasi-separation RNG sequence; corrected the *auditor only* without altering source, data, frozen protocol or outputs. Both problems are disclosed, not omitted.
+
+Independent audit regenerates and hashes all 96 datasets, verifies all 1,536 receipts and independently recalculates penalized objectives and finite-difference gradients for all **100 observed local-maximum representatives**. Maximum objective discrepancy **9.59e-13**, maximum independent finite-difference gradient norm **1.16e-6**. **10/10** new tests pass.
+
+Reproducibility archive: `Cognitum_CH_C14_22_Prospective_Numerical_Ambiguity_2026-11-02.zip`, SHA256 `641bcf0890feb1af75d527dd3ab308ef256e62b7feff8d2d5de51aa07ed2a5a9`; ZIP integrity and **9/9 internal payload checksums verified**. Includes frozen protocol, pinned reference, candidate source, all JSONL cases, read-only numerical audit, tests and engineering report.
+
+**Scientific NO-GO unchanged.** Next: larger preregistered holdouts, mathematical or certified global optimization where feasible, objective/curvature robustness, external `logistf` numerical equivalence, causal interval calibration and independent statistical review. Research conducted locally; GitHub is repository/milestone record only.
