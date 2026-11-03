@@ -140,3 +140,32 @@ def test_trusted_failure_is_fail_closed_even_with_worker_success(checker):
 def test_false_math_claim_rejected_before_checker(checker,change):
     c,p=checker;m=msg(p);change(m['reported_attestation'])
     with pytest.raises(ValueError):c.check(m)
+
+def test_even_valid_attestor_signature_without_checker_receipt_rejected(authority,checker,monkeypatch):
+    """Signer must not admit legacy attestations even if attestor key signs them."""
+    import base64
+    from protocol39 import V_DOMAIN
+    s,p=authority;c,_=checker
+    def route(path,body,uid,timeout=900):
+        if uid==1002:return {'ok':True,'result':{'version':1,'nonce':NONCE,'case_id':CASE,
+           'policy_sha256':objhash(p),'attestation':att(p)}}
+        return {'ok':True,'receipt':c.check(body)}
+    monkeypatch.setattr(attestor39,'math_request',route)
+    ticket=s.prove(proof_msg(p))
+    forged=copy.deepcopy(ticket);del forged['body']['checker_receipt']
+    forged['signature']=base64.b64encode(s.key.sign(V_DOMAIN+canonical(forged['body']))).decode('ascii')
+    with pytest.raises(ValueError):verify_ticket(forged,s.public,s.fp,objhash(p),CASE,NONCE,p)
+
+
+def test_ch38_signatures_cannot_be_replayed_into_ch39(authority,checker,monkeypatch):
+    import base64
+    from protocol39 import V_DOMAIN
+    s,p=authority;c,_=checker
+    def route(path,body,uid,timeout=900):
+        if uid==1002:return {'ok':True,'result':{'version':1,'nonce':NONCE,'case_id':CASE,
+           'policy_sha256':objhash(p),'attestation':att(p)}}
+        return {'ok':True,'receipt':c.check(body)}
+    monkeypatch.setattr(attestor39,'math_request',route)
+    ticket=s.prove(proof_msg(p));old=copy.deepcopy(ticket)
+    old['signature']=base64.b64encode(s.key.sign(b'Cognitum/CH38/attestor-uid-mpfr-result/v1\x00'+canonical(old['body']))).decode('ascii')
+    with pytest.raises(ValueError):verify_ticket(old,s.public,s.fp,objhash(p),CASE,NONCE,p)
