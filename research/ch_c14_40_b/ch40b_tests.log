@@ -1,0 +1,25 @@
+test_01_exact_spd (test_ch40b.CH40B.test_01_exact_spd) ... ok
+test_02_coupled_recomputed_from_source (test_ch40b.CH40B.test_02_coupled_recomputed_from_source) ... ok
+test_03_original_leaf_coupled_tightens_direct (test_ch40b.CH40B.test_03_original_leaf_coupled_tightens_direct) ... ok
+test_04_cryptographically_pinned_original (test_ch40b.CH40B.test_04_cryptographically_pinned_original) ... ok
+test_05_leaf_upper_vs_local_feasible (test_ch40b.CH40B.test_05_leaf_upper_vs_local_feasible) ... ok
+test_06_refuse_non_spd_dual (test_ch40b.CH40B.test_06_refuse_non_spd_dual) ... ok
+test_07_refuse_non_symmetric_dual (test_ch40b.CH40B.test_07_refuse_non_symmetric_dual) ... ok
+test_08_taylor_encloses_center (test_ch40b.CH40B.test_08_taylor_encloses_center) ... ok
+test_09_taylor_tighter_than_direct_near_center (test_ch40b.CH40B.test_09_taylor_tighter_than_direct_near_center) ... ok
+test_10_fisher_score_hessian_finite (test_ch40b.CH40B.test_10_fisher_score_hessian_finite) ... ok
+test_11_hessian_symmetric_overlap (test_ch40b.CH40B.test_11_hessian_symmetric_overlap) ... ok
+test_12_gradient_matches_high_precision_numeric (test_ch40b.CH40B.test_12_gradient_matches_high_precision_numeric) ... ok
+test_13_krawczyk_original_interior (test_ch40b.CH40B.test_13_krawczyk_original_interior) ... ok
+test_14_krawczyk_claim_contains_independent_enclosure (test_ch40b.CH40B.test_14_krawczyk_claim_contains_independent_enclosure) ... ok
+test_15_forged_over_narrowed_contraction_refused (test_ch40b.CH40B.test_15_forged_over_narrowed_contraction_refused) ... ok
+test_16_refuse_root_boundary_krawczyk (test_ch40b.CH40B.test_16_refuse_root_boundary_krawczyk) ... ok
+test_17_refuse_wrong_preconditioner_shape (test_ch40b.CH40B.test_17_refuse_wrong_preconditioner_shape) ... ok
+test_18_refuse_forged_exclusion (test_ch40b.CH40B.test_18_refuse_forged_exclusion) ... ok
+test_19_old_proof_no_newton_events (test_ch40b.CH40B.test_19_old_proof_no_newton_events) ... ok
+test_20_frozen_claim_remains_unresolved (test_ch40b.CH40B.test_20_frozen_claim_remains_unresolved) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 9.028s
+
+OK
