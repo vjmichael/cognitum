@@ -1,0 +1,22 @@
+{
+  "external_original_CH39_archive_sha256": "9e713b102982ea09fecbcfbd27bccf55d56808188bfc3e5be1ba76922000ae6b",
+  "original_zip_member_count": 1100,
+  "scientific_disposition": "NO_GO",
+  "source_files": {
+    "CH40B_original15_results.json": "3728e885e95ce90d9b9d9dd741cb9e0a6e9ef26c443c0f7612625922b292e05b",
+    "Engineering_Report_CH_C14_40_B.md": "5ce0c9d26c40186ec2c3957bb31a862770126cb8945dcf778fdc62ee0c2ce053",
+    "README.md": "dd380103675717cf625f711b45bde7203828a1175bdc57eeb71909ee9f4d9e2a",
+    "RUN_CH40B_INDEPENDENT_WINDOWS.cmd": "331d0a7df73f3cf38b98b9195ce4ab3731568f6a39b77e54a9fbc1af1364a198",
+    "batch40b.log": "b5dae828418780bec53a024550f788a0bf1e9f28ff71ef4785d6b27b6944d44f",
+    "batch40b.py": "d57758b5810ec638e03cdca86e8938fbd844e2d3d9a7539c8017961fd66634de",
+    "ch40b_tests.log": "5e98802eb0186a7e3dc6a34b7452fba884c7029356063ccdfcde3470b4f32f2a",
+    "exact_decimal40.py": "e1448d97bc92381bec2943d59c7d21ab14f1cde1c544959a4a1c65394984bad0",
+    "independent_bounds40b.py": "385df4286e21100ef7773d8e5c094a5b31bbf5711dc49b8b14a2f8b2bc866ab3",
+    "independent_checker40.py": "196026e209ce582acc64f21835611c24b2a1d6132cac2f2c1e4ddb7ad5f491c1",
+    "independent_newton40b.py": "9af9f5cb669d551fe3876b1c2b94fc45274b98425e07d736337d4f17be118ed8",
+    "pack40b.py": "e8b9e1cc631c5ec3145f9205cfa3672c4284a8c6e78b5262183f8a5ac39525d5",
+    "tests/test_ch40b.py": "95a85dddeb40b5c49f281140be518eb98055d79b2c0b089e1ea79243ef7f02dc",
+    "verify_original40.py": "3cfb94b815c24989161f0c7f205a88995eab5b0ff0e9c53b4cf5e86e1c031fd7"
+  },
+  "version": "CH40-B"
+}
