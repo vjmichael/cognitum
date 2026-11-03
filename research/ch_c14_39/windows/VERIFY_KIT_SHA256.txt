@@ -1,0 +1,5 @@
+Main CH39 historical source ZIP (pinned):
+9e713b102982ea09fecbcfbd27bccf55d56808188bfc3e5be1ba76922000ae6b  Cognitum_CH_C14_39_Independent_MPFR_Checker_Original_CH23_2026-11-02.zip
+
+This test kit performs NO network access and NEVER generates a private signing key.
+The read-only Windows audit is separate from Linux five-UID acceptance.
