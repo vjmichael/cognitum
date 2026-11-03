@@ -1,6 +1,6 @@
 COGNITUM C14 -- REAL MATHEMATICAL REGRESSION (CH23 through CH39)
 Windows 10/11, 64-bit Python 3.14, frozen original CH23 inputs.
-Version 1.0 -- research-only, no production or Lu changes.
+Version 1.1 -- original Windows scratch-cache restoration fix; research-only, no production or Lu changes.
 
 PURPOSE
 The earlier 17/18 Windows checks primarily verified ARCHIVED EVIDENCE.
@@ -49,7 +49,8 @@ RUNNING
 4. For Python-only modules run SETUP_DEPENDENCIES.cmd once, if needed.
    It installs --user numpy scipy mpmath pytest cryptography if they are absent.
 5. Double-click RUN_C14_FULL_MATH_BENCH.cmd.
-6. This is a deliberately heavy benchmark. It runs each case sequentially,
+6. This version repairs modified or missing files in its dedicated TEMP scratch cache from the original sealed ZIP before mathematical tests. It does not modify the sealed ZIP or the C14_MATH_RESULTS folder.
+7. This is a deliberately heavy benchmark. It runs each case sequentially,
    saves the report after EACH check and RESUMES prior validated passes on
    restart. You can close and rerun the CMD window without losing completed
    results. Each timed-out test is BLOCKED, never silently counted PASS.
@@ -75,6 +76,9 @@ Share the summary JSON and any FAIL/BLOCKED logs, not machine secrets.
 The original sealed ZIP remains unchanged. On Windows, the historical source
 working copy is extracted under %%TEMP%%\C14M_9e713b102982 to avoid Windows
 MAX_PATH errors; JSON and logs stay under C14_MATH_RESULTS. No private keys are created.
+
+RECOVERY REGRESSION
+If an earlier attempt stopped with "Historical working-copy file differs from sealed archive: CH_C14_23/audit.json", replace the old C14_MATH_BENCH.py with this version. Do NOT delete C14_MATH_RESULTS; the repaired runner restores only modified archived scratch files. A wrong source archive SHA-256 or an untrusted scratch provenance marker still fails closed. To self-test cache repair: python -m unittest test_cache_recovery.py -v
 
 VALIDATION STATUS
 Tested locally in the development host with actual original CH23, CH24,

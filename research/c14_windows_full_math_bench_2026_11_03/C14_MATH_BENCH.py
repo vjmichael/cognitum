@@ -33,39 +33,76 @@ def save(path,body):
 
 
 def extract_exact(archive,root):
- if digest(archive)!=PIN:raise ValueError('Original archive SHA-256 mismatch; refusing to execute modified source')
+ """Recover a dedicated historical scratch cache from the SHA-pinned ZIP.
+
+ The mathematical suites may overwrite archived report/diagnostic files in this
+ private working copy. Verify *every* archived member before each suite/case;
+ restore only changed/missing members, using an atomic same-directory replace.
+ Never silently accept altered source, untrusted links, or a wrong cache marker.
+ Results/logs live outside this scratch directory and are not touched.
+ """
+ if digest(archive)!=PIN:
+  raise ValueError('Original archive SHA-256 mismatch; refusing to execute modified source')
  marker=root/'.BENCH_ORIGINAL_SHA256'
- if root.exists():
-  if marker.is_file() and marker.read_text().strip()==PIN and (root/'CH_C14_31'/'verifier31.py').is_file():
-   with zipfile.ZipFile(archive) as z:
-    manifests=json.loads(z.read('SHA256SUMS_FULL_CH39.json'))
-   for name,expected in manifests.items():
-    target=root.joinpath(*pathlib.PurePosixPath(name).parts)
-    if not target.is_file() or digest(target)!=expected:
-     raise ValueError('Historical working-copy file differs from sealed archive: '+name)
-   return
-  raise ValueError('Working root provenance missing/invalid: '+str(root))
- root.mkdir(parents=True)
+ if root.is_symlink():raise ValueError('Historical scratch root is a symlink')
+ exists=root.exists()
+ if exists:
+  if not (marker.is_file() and not marker.is_symlink() and marker.read_text().strip()==PIN):
+   raise ValueError('Working root provenance missing/invalid; refusing to overwrite: '+str(root))
+ else:
+  root.mkdir(parents=True)
  try:
   with zipfile.ZipFile(archive) as z:
-   seen=set()
+   infos={};dirs=set();seen=set()
    for info in z.infolist():
     name=info.filename
     if info.is_dir():continue
     p=pathlib.PurePosixPath(name)
-    if not name or name.startswith('/') or '\\' in name or ':' in name or any(x in ('.','..') for x in p.parts) or name in seen:
+    if (not name or name.startswith('/') or '\\' in name or ':' in name
+        or any(x in ('.','..') for x in p.parts) or name in seen):
      raise ValueError('Unsafe duplicate/traversing archive member: '+name)
-    if (info.external_attr>>16)&0o170000==0o120000:raise ValueError('Symlink in archive')
-    seen.add(name)
+    if ((info.external_attr>>16)&0o170000)==0o120000:
+     raise ValueError('Symlink in archived source')
+    seen.add(name);infos[name]=info
    if len(seen)!=1100:raise ValueError('Unexpected original CH39 member count')
-   for info in z.infolist():
-    if info.is_dir():continue
-    dest=root.joinpath(*pathlib.PurePosixPath(info.filename).parts)
-    dest.parent.mkdir(parents=True,exist_ok=True)
-    with z.open(info) as src,open(dest,'wb') as out:shutil.copyfileobj(src,out)
-  marker.write_text(PIN+'\n')
+   manifest=json.loads(z.read('SHA256SUMS_FULL_CH39.json'))
+   if set(manifest)!=(seen-{'SHA256SUMS_FULL_CH39.json'}):
+    raise ValueError('Full original archive manifest does not match ZIP member inventory')
+   restored=[]
+   for name,info in infos.items():
+    target=root.joinpath(*pathlib.PurePosixPath(name).parts)
+    for parent in target.parents:
+     if parent==root.parent:break
+     if parent.is_symlink():raise ValueError('Symlinked scratch path prohibited: '+str(parent))
+    if target.is_symlink():raise ValueError('Symlinked original source prohibited: '+name)
+    expected=manifest.get(name)
+    if target.is_file() and (expected is None or digest(target)==expected):continue
+    if target.exists() and not target.is_file():
+     raise ValueError('Archived source path is not a regular file: '+name)
+    target.parent.mkdir(parents=True,exist_ok=True)
+    # Write a verified temporary replacement in the same directory. An
+    # interrupted write cannot create a trusted, partially repaired file.
+    fd,tmp=tempfile.mkstemp(prefix='.c14restore_',suffix='.tmp',dir=target.parent)
+    try:
+     with os.fdopen(fd,'wb') as out,z.open(info) as src:
+      shutil.copyfileobj(src,out)
+      out.flush();os.fsync(out.fileno())
+     if expected is not None and digest(pathlib.Path(tmp))!=expected:
+      raise ValueError('Original archive member hash mismatch: '+name)
+     os.replace(tmp,target)
+    finally:
+     if os.path.exists(tmp):os.unlink(tmp)
+    restored.append(name)
+   marker.write_text(PIN+'\n',encoding='utf8')
+   if exists and restored:
+    print('Recovered sealed mathematical working copy:',len(restored),
+          'restored/missing file(s); first:',', '.join(restored[:4]),flush=True)
+   return restored
  except BaseException:
-  shutil.rmtree(root,ignore_errors=True);raise
+  # Never destroy an existing scratch cache; the next run may diagnose it.
+  # Remove a failed *new* extraction only (no user results live here).
+  if not exists:shutil.rmtree(root,ignore_errors=True)
+  raise
 
 
 def inventory(root):
@@ -220,6 +257,10 @@ def main():
    if not native and task['phase']!='CH23':reason.append('MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path')
    current[name]={'status':'BLOCKED','reason':'; '.join(reason)}
   else:
+   # Each mathematical task starts from the exact sealed input/source files,
+   # even if an earlier test wrote reports into its private scratch tree.
+   # Dirty files are restored atomically from the hash-pinned original ZIP.
+   extract_exact(archive,root)
    print(f'[{k}/{len(tasks)}] LIVE MATHEMATICS {name}',flush=True)
    current[name]=task_run(task,env,logs,a.timeout)
   print(f'[{k}/{len(tasks)}] {current[name]["status"]} {name}',flush=True)
