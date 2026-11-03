@@ -1,0 +1,52 @@
+{
+  "audit_json_exact_byte_match": true,
+  "audit_json_sha256": "c1e515be363659f8237990c3330803aa4c565ad9fc47d2cd1f255fe23150c3f3",
+  "evidence_date": "2026-11-03",
+  "not_tested": [
+    "native Windows full MPFR replay",
+    "native Windows process isolation",
+    "global mathematical optimality"
+  ],
+  "original_ch39_package_sha256": "9e713b102982ea09fecbcfbd27bccf55d56808188bfc3e5be1ba76922000ae6b",
+  "original_uploaded_file_sha256": {
+    "v1_audit_json": "c1e515be363659f8237990c3330803aa4c565ad9fc47d2cd1f255fe23150c3f3",
+    "v1_audit_log": "9d406ff1d5c24f5d5cff4871724708c44019584dc0ccbd5263b0a91dd5a8e1a6",
+    "v1_summary_json": "311dbd832dc1f9ddb35d19cdf510fc7ee4a00a908d28eaa6573a4cd496e06367",
+    "v3_audit_json": "c1e515be363659f8237990c3330803aa4c565ad9fc47d2cd1f255fe23150c3f3",
+    "v3_audit_log": "231ae9f2a38d1572b4025e260b875bb7ec012eac129c60b484054a5b6679bcac",
+    "v3_summary_json": "b04695a5e130ea3debce67b11d35207ae5eaa645cde6f5a9fda3432d11a091ea"
+  },
+  "privacy": "Raw logs retained in chat only; no local account names or paths included in this public record",
+  "runs": [
+    {
+      "attestor_signatures_verified": 15,
+      "cryptography_version": "50.0.2",
+      "final_signer_signatures_verified": 15,
+      "kit": "v1",
+      "manifest_verified": 1099,
+      "mpfr_probe": "NOT_REQUESTED",
+      "overall": "PASS_PUBLIC_WINDOWS_AUDIT",
+      "python_version": "3.14.6",
+      "source_pins_matched": 15,
+      "time_local": "2026-11-03T07:24:27.6888747-07:00"
+    },
+    {
+      "attestor_signatures_verified": 15,
+      "cryptography_version": "50.0.2",
+      "exit_code": 0,
+      "final_signer_signatures_verified": 15,
+      "kit": "v3",
+      "manifest_verified": 1099,
+      "mpfr_probe": "NOT_REQUESTED",
+      "overall": "PASS_PUBLIC_WINDOWS_AUDIT",
+      "python_version": "3.14.6",
+      "source_pins_matched": 15,
+      "time_local": "2026-11-03T07:36:43.152210-07:00"
+    }
+  ],
+  "schema": "cognitum.ch39.windows_public_acceptance.v1",
+  "scientific_release": "NO_GO",
+  "scope": "Read-only offline archive SHA-256, frozen-source pin and Ed25519 verification on Windows; not fresh MPFR or Linux process isolation",
+  "status": "PASS_WINDOWS_PUBLIC_EVIDENCE",
+  "witness_tip": "112980038c992461c0eaf43c2d3f066191e4c7404b058ba434c1ba1352af68c5"
+}
