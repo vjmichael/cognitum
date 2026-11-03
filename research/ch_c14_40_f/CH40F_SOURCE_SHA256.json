@@ -1,0 +1,19 @@
+{
+  "RUN_CH40F_WINDOWS_READONLY.cmd": "2c995c5a3f6f4c1619696e57e439eaaeb7b92f60539ab18d6a40bf000447470f",
+  "baseline_batch40f.py": "74889b0d4536dc145445f1859a075290c8f8b4331be776f1abaeb849b0fb206c",
+  "compare_baseline40e.py": "a68506dc062786002e3671d4b48955af51de92d92e66bedd3000f41e51ef0ea8",
+  "consolidate40f.py": "98bec8570fcde40683e324e3b87769cfbb2baec1e7b8708e64f0e59f7eee47fd",
+  "make_report40f.py": "4337915f86fade19aeb094b7ce3fa774791eb834f6f362db37ee5e5c71c34cdd",
+  "package40f.py": "126c48ec73a48f428ae65d91225990cc5d03b811422872de1d317da14d17225d",
+  "prepare40e.py": "b5c12210bba97d2b7e26e9338c6d3139d557fa8e01529e86ca5e44d5ca758435",
+  "producer_batch40f.py": "9c34d779ad30e274fdf5d12545e4a9a24b8a4ea695ecebc3735099aa893c7ea1",
+  "rational_kernel40d.py": "5f21e08b5ec3d13a5adeddf9ba78fb9e6a4c343904dde3a8b5c08b7985807fe0",
+  "research_receipt40f.py": "b6c6f73b2e9fa8227a8ad9424340bf467329a83caef9209c53e7f9a09691bc16",
+  "run_trace40e.py": "e39903953b34a3bab3eaf7ba16a80bd430060e59962af3c60ec67f06784240b7",
+  "source/producer_trace40e.py": "ec3838d5d930645cc55841669e5fbb0a7b5e1709c970e81aaa2d349a6973e6d2",
+  "tests/test_research_receipt40f.py": "8127e47c2f30a56a4f7bc0891b7acd5f244f71fa87d99840d44b2986a6fcedbd",
+  "verify_batch40f.py": "20cb3de357850e6b70d2cdee080e55a2d6373cbb925166e0423ad8a9ed0b3b02",
+  "verify_tail40f.py": "62e0d8562a08392e916b055257f203de55863ef75718fca874c2b951ac603369",
+  "verify_trace40e.py": "6fb290bdf9c775330b8afc3022a051f98b110f1658baebfffe4012ce442a4a44",
+  "windows_readonly40f.py": "29c252e40063ff2ee6c125accbb60606d8f5ddf499e646c05ec7958f2bbcf948"
+}

@@ -1,0 +1,26 @@
+test_case (test_research_receipt40f.Tests.test_case) ... ok
+test_case_source_hash (test_research_receipt40f.Tests.test_case_source_hash) ... ok
+test_certificate_sha (test_research_receipt40f.Tests.test_certificate_sha) ... ok
+test_ch39_downgrade (test_research_receipt40f.Tests.test_ch39_downgrade) ... ok
+test_changed_peer_uid (test_research_receipt40f.Tests.test_changed_peer_uid) ... ok
+test_extra_global_field (test_research_receipt40f.Tests.test_extra_global_field) ... ok
+test_global_optimum_forgery (test_research_receipt40f.Tests.test_global_optimum_forgery) ... ok
+test_inherited (test_research_receipt40f.Tests.test_inherited) ... ok
+test_missing_cap (test_research_receipt40f.Tests.test_missing_cap) ... ok
+test_missing_field (test_research_receipt40f.Tests.test_missing_field) ... ok
+test_nonce (test_research_receipt40f.Tests.test_nonce) ... ok
+test_pin (test_research_receipt40f.Tests.test_pin) ... ok
+test_policy (test_research_receipt40f.Tests.test_policy) ... ok
+test_replay (test_research_receipt40f.Tests.test_replay) ... ok
+test_scientific_promotion (test_research_receipt40f.Tests.test_scientific_promotion) ... ok
+test_scope (test_research_receipt40f.Tests.test_scope) ... ok
+test_source_zip_forgery (test_research_receipt40f.Tests.test_source_zip_forgery) ... ok
+test_trace_hash (test_research_receipt40f.Tests.test_trace_hash) ... ok
+test_unsupported_cap (test_research_receipt40f.Tests.test_unsupported_cap) ... ok
+test_valid_research_only (test_research_receipt40f.Tests.test_valid_research_only) ... ok
+test_wrong_types (test_research_receipt40f.Tests.test_wrong_types) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.001s
+
+OK

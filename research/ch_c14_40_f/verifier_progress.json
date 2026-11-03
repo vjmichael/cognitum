@@ -1,0 +1,122 @@
+{
+  "one_event_n160_i00": {
+    "status": "PASS_INDEPENDENT_FINITE_BOUND_CAPS",
+    "trace_sha256": "24f6d50a3bf5d983ebf8d90f3da8dcad2398c378355bec05a3db5c272ad8d624",
+    "audit_sha256": "611476d9e1df3491fcad61fba76100594d9b914b611ad2f53f531205ebeb7f00",
+    "counts": {
+      "nodes": 127,
+      "coupled_certified": 45,
+      "direct_certified": 82,
+      "inherited_caps_certified": 127,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 94
+    },
+    "finite_root_gap_certified": false,
+    "wall_seconds": 111.94
+  },
+  "quasi_separated_n160_i00": {
+    "status": "PASS_INDEPENDENT_FINITE_BOUND_CAPS",
+    "trace_sha256": "bb71de02722e88124b07c744e29a222f507e6769c79b0ccbe435f093050c0f89",
+    "audit_sha256": "21df32a84f205edf87a115ccb7fb7c948963bbfbcef1a1379fdd9b3ba1a9941a",
+    "counts": {
+      "nodes": 127,
+      "coupled_certified": 31,
+      "direct_certified": 96,
+      "inherited_caps_certified": 127,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 46
+    },
+    "finite_root_gap_certified": false,
+    "wall_seconds": 48.66
+  },
+  "quasi_separated_n80_i00": {
+    "status": "PASS_INDEPENDENT_FINITE_BOUND_CAPS",
+    "trace_sha256": "2d156dc3a0635da1f00304edf127dde69e79696c66bbc66d77963776fc5e3ef8",
+    "audit_sha256": "82a8e23058ba9a0e953cbce1ec3281fb86f9761b26df487655bd256d898716a7",
+    "counts": {
+      "nodes": 127,
+      "coupled_certified": 4,
+      "direct_certified": 123,
+      "inherited_caps_certified": 127,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 45
+    },
+    "finite_root_gap_certified": false,
+    "wall_seconds": 25.13
+  },
+  "rare_1pct_n160_i00": {
+    "status": "PASS_INDEPENDENT_FINITE_BOUND_CAPS",
+    "trace_sha256": "64a64dcbe5006b18d09f3d973d0ea8623c1514f4fe9bd83e6d7339b5867c3907",
+    "audit_sha256": "de59cb4330d8686a5b162b39298e6ba216e2e8b138a326e8861b4a6f48f7ee40",
+    "counts": {
+      "nodes": 127,
+      "coupled_certified": 39,
+      "direct_certified": 88,
+      "inherited_caps_certified": 127,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 88
+    },
+    "finite_root_gap_certified": false,
+    "wall_seconds": 151.58
+  },
+  "rare_1pct_n160_i13": {
+    "status": "PASS_INDEPENDENT_FINITE_BOUND_CAPS",
+    "trace_sha256": "68dabdd5345184630f8ba05518706579f9d776d0f9c4a4eb25bb6013ebc1413d",
+    "audit_sha256": "fcc4a91ce9b27376a2a33717a865d5a17afb1c7514dbc9f2a1b2844e04badd3d",
+    "counts": {
+      "nodes": 127,
+      "coupled_certified": 38,
+      "direct_certified": 89,
+      "inherited_caps_certified": 127,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 76
+    },
+    "finite_root_gap_certified": false,
+    "wall_seconds": 133.69
+  },
+  "rare_1pct_n80_i00": {
+    "status": "PASS_INDEPENDENT_FINITE_BOUND_CAPS",
+    "trace_sha256": "1ccaad21a2edda191852df587fc0e7496a0827cf705cb6e96081027905cd1c3b",
+    "audit_sha256": "30698df83d5be5904b6f4550cc73a4218167103f81119e7bf778da2b1d4f602f",
+    "counts": {
+      "nodes": 127,
+      "coupled_certified": 38,
+      "direct_certified": 89,
+      "inherited_caps_certified": 127,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 86
+    },
+    "finite_root_gap_certified": false,
+    "wall_seconds": 40.99
+  },
+  "rare_5pct_n160_i00": {
+    "status": "PASS_INDEPENDENT_FINITE_BOUND_CAPS",
+    "trace_sha256": "590b8c6bd5c70cc634457a85f0646f01c1e62f9bd4d583c2fa982397a0d9606c",
+    "audit_sha256": "facd1244a3147774afbacf4a007ffd982c70f31172cf3512dc3ab00e8938f05a",
+    "counts": {
+      "nodes": 127,
+      "coupled_certified": 14,
+      "direct_certified": 113,
+      "inherited_caps_certified": 127,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 88
+    },
+    "finite_root_gap_certified": false,
+    "wall_seconds": 113.0
+  },
+  "rare_5pct_n80_i00": {
+    "status": "PASS_INDEPENDENT_FINITE_BOUND_CAPS",
+    "trace_sha256": "20876767b3a53cbfd257650926a18efefad13b259047722c98497a864bb8a09a",
+    "audit_sha256": "d6451896ee7a02906f42597b6df42ce09b667ff4fb6be62714aaf0a27f92eb45",
+    "counts": {
+      "nodes": 127,
+      "coupled_certified": 33,
+      "direct_certified": 94,
+      "inherited_caps_certified": 127,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 88
+    },
+    "finite_root_gap_certified": false,
+    "wall_seconds": 44.1
+  }
+}

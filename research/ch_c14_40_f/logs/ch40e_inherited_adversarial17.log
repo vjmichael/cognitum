@@ -1,0 +1,22 @@
+test_canonical_dyad_fraction (test_trace40e.OriginalProducerTraceTests.test_canonical_dyad_fraction) ... ok
+test_empty_dyad_refused (test_trace40e.OriginalProducerTraceTests.test_empty_dyad_refused) ... ok
+test_forged_dual_index (test_trace40e.OriginalProducerTraceTests.test_forged_dual_index) ... ok
+test_inconsistent_direct_fisher_det (test_trace40e.OriginalProducerTraceTests.test_inconsistent_direct_fisher_det) ... ok
+test_malformed_source_hash (test_trace40e.OriginalProducerTraceTests.test_malformed_source_hash) ... ok
+test_missing_producer_tangent (test_trace40e.OriginalProducerTraceTests.test_missing_producer_tangent) ... ok
+test_missing_tangent_row (test_trace40e.OriginalProducerTraceTests.test_missing_tangent_row) ... ok
+test_narrowed_fisher_weight (test_trace40e.OriginalProducerTraceTests.test_narrowed_fisher_weight) ... ok
+test_narrowed_tangent_value (test_trace40e.OriginalProducerTraceTests.test_narrowed_tangent_value) ... ok
+test_newton_not_traced_refusal (test_trace40e.OriginalProducerTraceTests.test_newton_not_traced_refusal) ... ok
+test_root_box_modification (test_trace40e.OriginalProducerTraceTests.test_root_box_modification) ... ok
+test_root_complete_producer_direct_and_coupled (test_trace40e.OriginalProducerTraceTests.test_root_complete_producer_direct_and_coupled) ... ok
+test_scientific_promotion_refusal (test_trace40e.OriginalProducerTraceTests.test_scientific_promotion_refusal) ... ok
+test_tampered_mpfr_effective_cap (test_trace40e.OriginalProducerTraceTests.test_tampered_mpfr_effective_cap) ... ok
+test_tangent_support_moved (test_trace40e.OriginalProducerTraceTests.test_tangent_support_moved) ... ok
+test_too_small_dual_kappa (test_trace40e.OriginalProducerTraceTests.test_too_small_dual_kappa) ... ok
+test_unknown_original_data (test_trace40e.OriginalProducerTraceTests.test_unknown_original_data) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 3.771s
+
+OK

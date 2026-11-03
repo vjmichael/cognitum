@@ -1,0 +1,1 @@
+CH40-F actual full 127-node independent math check + research-only attestor guard PASS {'case': 'one_event_n80_i00', 'actual_original_127_node_math_checker_reexecuted': True, 'research_guard_pass': True, 'wrong_peer_uid_refused': True, 'repeated_nonce_refused': True, 'scientific_release': 'NO_GO', 'live_separate_linux_uid_socket_tested': False, 'seconds': 45.098}

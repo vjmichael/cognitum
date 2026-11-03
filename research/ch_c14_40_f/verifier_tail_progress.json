@@ -1,0 +1,92 @@
+{
+  "zero_balanced_n160_i00": {
+    "status": "PASS_INDEPENDENT_FINITE_BOUND_CAPS",
+    "trace_sha256": "3dd2dfe0be64c0869cec4e174727b3a6ff015cab9196b971ab8a2acbcf92b505",
+    "audit_sha256": "1ea28fed5a388ab535856f5199807b602f0c598f2c71e8486a45014c204d14a7",
+    "counts": {
+      "nodes": 127,
+      "coupled_certified": 42,
+      "direct_certified": 85,
+      "inherited_caps_certified": 127,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 84
+    },
+    "finite_root_gap_certified": false,
+    "wall_seconds": 112.69
+  },
+  "zero_balanced_n80_i00": {
+    "status": "PASS_INDEPENDENT_FINITE_BOUND_CAPS",
+    "trace_sha256": "3a699c4816f1e72e31090d4d2fae766fe6084210f940ad994d62e03a315f248a",
+    "audit_sha256": "c22bcfefc0294a0228efa3f0c532435c54b7237698f9de1a271e3242115752c1",
+    "counts": {
+      "nodes": 127,
+      "coupled_certified": 43,
+      "direct_certified": 84,
+      "inherited_caps_certified": 127,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 88
+    },
+    "finite_root_gap_certified": false,
+    "wall_seconds": 40.74
+  },
+  "zero_imbalanced_n160_i00": {
+    "status": "PASS_INDEPENDENT_FINITE_BOUND_CAPS",
+    "trace_sha256": "a83c408dd3b208b9da35e5043be5a336b2de13c6ff37212d2685d219432e48a3",
+    "audit_sha256": "f7f75a995e749f5b3c001d9bafc8aa03f5c0adaffed048a7b25835b140a4e66e",
+    "counts": {
+      "nodes": 127,
+      "coupled_certified": 36,
+      "direct_certified": 91,
+      "inherited_caps_certified": 127,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 92
+    },
+    "finite_root_gap_certified": false,
+    "wall_seconds": 113.72
+  },
+  "zero_imbalanced_n160_i05": {
+    "status": "PASS_INDEPENDENT_FINITE_BOUND_CAPS",
+    "trace_sha256": "77eefe0d586259395fcb05661eedb83559d6983d0894b1463c10cf82a27d3588",
+    "audit_sha256": "5ad5e006820ab800c0a42512227a6315355279a3459e85eed5224630ccd6d383",
+    "counts": {
+      "nodes": 127,
+      "coupled_certified": 43,
+      "direct_certified": 84,
+      "inherited_caps_certified": 127,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 94
+    },
+    "finite_root_gap_certified": false,
+    "wall_seconds": 113.3
+  },
+  "zero_imbalanced_n160_i07": {
+    "status": "PASS_INDEPENDENT_FINITE_BOUND_CAPS",
+    "trace_sha256": "0a7d58fbec3a6e755bcc20cd2c212beef8066f416e896b1ad013cbd22771a7e6",
+    "audit_sha256": "08daf4d9dd4d6bb3b22a55afa8315f05bb54f4abb39f37c5afe4a66cac6cc319",
+    "counts": {
+      "nodes": 127,
+      "coupled_certified": 19,
+      "direct_certified": 108,
+      "inherited_caps_certified": 127,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 94
+    },
+    "finite_root_gap_certified": false,
+    "wall_seconds": 102.51
+  },
+  "zero_imbalanced_n80_i00": {
+    "status": "PASS_INDEPENDENT_FINITE_BOUND_CAPS",
+    "trace_sha256": "81f8327c782d5ecd5b8e633e7c59b23457eb4f2a9b4be77b555018cac52df58d",
+    "audit_sha256": "e1c60cbdc01a7678a7dc5498ca26096c22cc43b666deaf4570b187ddc4bf6607",
+    "counts": {
+      "nodes": 127,
+      "coupled_certified": 47,
+      "direct_certified": 80,
+      "inherited_caps_certified": 127,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 94
+    },
+    "finite_root_gap_certified": false,
+    "wall_seconds": 39.14
+  }
+}
