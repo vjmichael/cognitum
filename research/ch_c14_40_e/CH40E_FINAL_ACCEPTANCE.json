@@ -1,0 +1,228 @@
+{
+  "milestone": "CH40-E",
+  "acceptance": "PASS_SCOPED_ORIGINAL_PRODUCER_UPPER_CAP_REPLAY",
+  "original_ch39_archive_sha256": "9e713b102982ea09fecbcfbd27bccf55d56808188bfc3e5be1ba76922000ae6b",
+  "original_data_cases_root_verified": 15,
+  "root_results": {
+    "one_event_n160_i00": {
+      "nodes": 1,
+      "coupled_certified": 1,
+      "direct_certified": 0,
+      "inherited_caps_certified": 1,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 2
+    },
+    "one_event_n80_i00": {
+      "nodes": 1,
+      "coupled_certified": 1,
+      "direct_certified": 0,
+      "inherited_caps_certified": 1,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 2
+    },
+    "quasi_separated_n160_i00": {
+      "nodes": 1,
+      "coupled_certified": 1,
+      "direct_certified": 0,
+      "inherited_caps_certified": 1,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 1
+    },
+    "quasi_separated_n80_i00": {
+      "nodes": 1,
+      "coupled_certified": 0,
+      "direct_certified": 1,
+      "inherited_caps_certified": 1,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 1
+    },
+    "rare_1pct_n160_i00": {
+      "nodes": 1,
+      "coupled_certified": 1,
+      "direct_certified": 0,
+      "inherited_caps_certified": 1,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 2
+    },
+    "rare_1pct_n160_i13": {
+      "nodes": 1,
+      "coupled_certified": 1,
+      "direct_certified": 0,
+      "inherited_caps_certified": 1,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 2
+    },
+    "rare_1pct_n80_i00": {
+      "nodes": 1,
+      "coupled_certified": 1,
+      "direct_certified": 0,
+      "inherited_caps_certified": 1,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 2
+    },
+    "rare_5pct_n160_i00": {
+      "nodes": 1,
+      "coupled_certified": 0,
+      "direct_certified": 1,
+      "inherited_caps_certified": 1,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 2
+    },
+    "rare_5pct_n80_i00": {
+      "nodes": 1,
+      "coupled_certified": 1,
+      "direct_certified": 0,
+      "inherited_caps_certified": 1,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 2
+    },
+    "zero_balanced_n160_i00": {
+      "nodes": 1,
+      "coupled_certified": 1,
+      "direct_certified": 0,
+      "inherited_caps_certified": 1,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 2
+    },
+    "zero_balanced_n80_i00": {
+      "nodes": 1,
+      "coupled_certified": 1,
+      "direct_certified": 0,
+      "inherited_caps_certified": 1,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 2
+    },
+    "zero_imbalanced_n160_i00": {
+      "nodes": 1,
+      "coupled_certified": 1,
+      "direct_certified": 0,
+      "inherited_caps_certified": 1,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 2
+    },
+    "zero_imbalanced_n160_i05": {
+      "nodes": 1,
+      "coupled_certified": 1,
+      "direct_certified": 0,
+      "inherited_caps_certified": 1,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 2
+    },
+    "zero_imbalanced_n160_i07": {
+      "nodes": 1,
+      "coupled_certified": 0,
+      "direct_certified": 1,
+      "inherited_caps_certified": 1,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 2
+    },
+    "zero_imbalanced_n80_i00": {
+      "nodes": 1,
+      "coupled_certified": 1,
+      "direct_certified": 0,
+      "inherited_caps_certified": 1,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 2
+    }
+  },
+  "producer_full_tree_case": "one_event_n80_i00",
+  "producer_full_tree_nodes": 127,
+  "producer_full_tree_verified": {
+    "protocol": "CH40E-INDEPENDENT-MPFR-TANGENT-TRACE-VERIFY-V1",
+    "case": "one_event_n80_i00",
+    "checks": {
+      "nodes": 127,
+      "coupled_certified": 44,
+      "direct_certified": 83,
+      "inherited_caps_certified": 127,
+      "untrusted_caps": 0,
+      "coupled_candidates_checked": 94
+    },
+    "all_source_geometry_consistent": true,
+    "finite_root_independent_lower_outward90": "-4.78573132139065300702022731327577391235801974382695145943989919113682078606198846947248970",
+    "finite_root_gap_certified": false,
+    "finite_root_gap_certificate_scope": "PINNED_FINITE_ROOT_DOMAIN_ONLY",
+    "all_recorded_selected_caps_certified": true,
+    "certification_scope": "ORIGINAL_DIRECT_LOEWNER_AND_COUPLED_TANGENT_MPFR_CAPS_SOURCE_TRACED",
+    "producer_direct_formula_trace_complete": true,
+    "producer_taylor_newton_trace_complete": false,
+    "full_producer_proof_certified": false,
+    "global_optimality_certified": false,
+    "scientific_release": "NO_GO"
+  },
+  "full127_source_trace_sha256": "a875e26c2d41c22145d137bab4fddc1b444f0bf664ca8456584025bce6cce27b",
+  "unmodified_source_equivalence": "ALL_PROOF_FIELDS_EQUAL_EXCEPT_MEASURED_TIMINGS",
+  "adversarial_tests_passed": 17,
+  "adversarial_tests_failed": 0,
+  "source_sha256": [
+    {
+      "path": "prepare40e.py",
+      "sha256": "b5c12210bba97d2b7e26e9338c6d3139d557fa8e01529e86ca5e44d5ca758435"
+    },
+    {
+      "path": "run_trace40e.py",
+      "sha256": "e39903953b34a3bab3eaf7ba16a80bd430060e59962af3c60ec67f06784240b7"
+    },
+    {
+      "path": "verify_trace40e.py",
+      "sha256": "6fb290bdf9c775330b8afc3022a051f98b110f1658baebfffe4012ce442a4a44"
+    },
+    {
+      "path": "rational_kernel40d.py",
+      "sha256": "5f21e08b5ec3d13a5adeddf9ba78fb9e6a4c343904dde3a8b5c08b7985807fe0"
+    },
+    {
+      "path": "audit40e.py",
+      "sha256": "4d30767f28724b7578c14d42773546356453a6d00b9f8d0655cae361bfafd26a"
+    },
+    {
+      "path": "batch40e.py",
+      "sha256": "d7bc8852ede72edc42d639347980a902c94a7b3a7be2b9855c816584ba3952d5"
+    },
+    {
+      "path": "compare_baseline40e.py",
+      "sha256": "a68506dc062786002e3671d4b48955af51de92d92e66bedd3000f41e51ef0ea8"
+    },
+    {
+      "path": "source/producer_trace40e.py",
+      "sha256": "ec3838d5d930645cc55841669e5fbb0a7b5e1709c970e81aaa2d349a6973e6d2"
+    },
+    {
+      "path": "tests/test_trace40e.py",
+      "sha256": "654ec82794330218a897f18b91528b0b595deb2c192c53923f7ed8867a9a1673"
+    },
+    {
+      "path": "RUN_CH40E_WINDOWS_READONLY.cmd",
+      "sha256": "d8fbaaf38e7015f10a10f463cc1c101b43976fa20cde478f6722f0deed6df38c"
+    }
+  ],
+  "root_trace_sha256": {
+    "one_event_n160_i00": "fd32041b35342885a1a157b6d4ac959652728ac757f72b87fac36c5a5ae8bbb0",
+    "one_event_n80_i00": "e41a4f8d9bb4d8ccebabe2629c19327bd571d160bec724ef9ad6c5affb445620",
+    "quasi_separated_n160_i00": "5f64cf89095f45c9e0a7cfd812f29d12338c75cf126511e107717fd53c44cb94",
+    "quasi_separated_n80_i00": "0d5dfd0ad4383a556de545f0e7ba6e7cf4b88acebeb629cb429ad72d361fae7c",
+    "rare_1pct_n160_i00": "a9b0f53c50e4eb62ab4a9a0c170237da7630a5594033b93b21bde7377e429b6c",
+    "rare_1pct_n160_i13": "236f4e98629f930dc9150eefb92713bd22359b6b7d05fde2999d6c402e9e64c1",
+    "rare_1pct_n80_i00": "b5ed93c44ae99ab1e1258d4e9a9227152b930bf407a8a722ca7a724d1384bda7",
+    "rare_5pct_n160_i00": "ed020a98f836129cd304e8509fa35b8a353c7f19e1109ea3540facc3d613e235",
+    "rare_5pct_n80_i00": "49e06ad915915183f18c510a45c6c83f086d26995b86e920d8e774aff418249a",
+    "zero_balanced_n160_i00": "273f6ad339df37eb9fd756560f5ef3f0e81300d6a9104ebee7423fdfa015e301",
+    "zero_balanced_n80_i00": "553b4f39defc2a6627d8b9193f899b5d56f30662e2e5795c24649af7a11d1c2e",
+    "zero_imbalanced_n160_i00": "9a8c68c1fab4b343312b0bb27a3c2a856b17392719b5e9fcef3ad06709cfe421",
+    "zero_imbalanced_n160_i05": "acfabbcb505a3a360d1e9f653ccb0e4f9b2c367ebaf5c607905746aaf1528bd6",
+    "zero_imbalanced_n160_i07": "e87b671ba6e1a19fb359aa39e8b9d421e0c8e96fded247add13ba99df7998f2a",
+    "zero_imbalanced_n80_i00": "ac69c777fcb9948a73cded0aced94f5b3887a4b511e09a0358a9e08954ac6193"
+  },
+  "research_restrictions": [
+    "Original frozen input and CH29 source SHA-256 verified before instrumentation",
+    "New emitted MPFR exact binary dyads and supporting points certified by separate Fraction/Decimal implementation",
+    "No original Taylor/Newton accepted action, so those claims remain UNTESTED",
+    "Other fourteen full 127-node producer trees not yet generated and audited",
+    "Independent Decimal exp/ln still assumes the correctness of libmpdec",
+    "CH39 live five-UID signer/admission integration not changed",
+    "Finite-root 0.05 gap remains unproved and unrestricted global optimality is NO_GO",
+    "New CH40-E Windows runtime not yet tested"
+  ],
+  "scientific_release": "NO_GO",
+  "production_integration": false
+}

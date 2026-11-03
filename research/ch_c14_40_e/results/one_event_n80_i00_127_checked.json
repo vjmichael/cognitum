@@ -1,0 +1,23 @@
+{
+  "protocol": "CH40E-INDEPENDENT-MPFR-TANGENT-TRACE-VERIFY-V1",
+  "case": "one_event_n80_i00",
+  "checks": {
+    "nodes": 127,
+    "coupled_certified": 44,
+    "direct_certified": 83,
+    "inherited_caps_certified": 127,
+    "untrusted_caps": 0,
+    "coupled_candidates_checked": 94
+  },
+  "all_source_geometry_consistent": true,
+  "finite_root_independent_lower_outward90": "-4.78573132139065300702022731327577391235801974382695145943989919113682078606198846947248970",
+  "finite_root_gap_certified": false,
+  "finite_root_gap_certificate_scope": "PINNED_FINITE_ROOT_DOMAIN_ONLY",
+  "all_recorded_selected_caps_certified": true,
+  "certification_scope": "ORIGINAL_DIRECT_LOEWNER_AND_COUPLED_TANGENT_MPFR_CAPS_SOURCE_TRACED",
+  "producer_direct_formula_trace_complete": true,
+  "producer_taylor_newton_trace_complete": false,
+  "full_producer_proof_certified": false,
+  "global_optimality_certified": false,
+  "scientific_release": "NO_GO"
+}

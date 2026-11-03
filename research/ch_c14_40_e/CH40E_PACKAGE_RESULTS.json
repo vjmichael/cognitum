@@ -1,0 +1,19 @@
+{
+  "full": {
+    "name": "Cognitum_CH_C14_40_E_Actual_MPFR_Producer_Traces_2026-11-03.zip",
+    "size": 11975963,
+    "sha256": "6dfd4ea081b783503c7d960419766296642da68a246033fdcf0da94282882078",
+    "file_count": 40
+  },
+  "source": {
+    "name": "Cognitum_CH_C14_40_E_Source_And_Adversarial_Tests_2026-11-03.zip",
+    "size": 33459,
+    "sha256": "2593f8856e16e9e70470db17886d1e51191eb9a69a641b637f01f2755d42c76b",
+    "file_count": 16
+  },
+  "source_zip": "Cognitum_CH_C14_39_Independent_MPFR_Checker_Original_CH23_2026-11-02.zip",
+  "source_pinned_sha256": "9e713b102982ea09fecbcfbd27bccf55d56808188bfc3e5be1ba76922000ae6b",
+  "original_root_traces": 15,
+  "full127_traces": 1,
+  "scientific_release": "NO_GO"
+}
