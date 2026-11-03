@@ -1,0 +1,41 @@
+{
+  "cases_original": 15,
+  "checks": [
+    {
+      "expected": 17,
+      "name": "default archived evidence and adversarial regressions",
+      "passed": 17,
+      "status": "PASS"
+    },
+    {
+      "expected": 18,
+      "name": "plus optional native MPFR seven-node smoke on Linux",
+      "passed": 18,
+      "status": "PASS"
+    },
+    {
+      "correctly_blocked": true,
+      "expected_status": "BLOCKED",
+      "name": "missing cryptography dependency simulation",
+      "status": "BLOCKED"
+    },
+    {
+      "expected": 18,
+      "name": "plus optional original v1/v3 audit comparison",
+      "passed": 18,
+      "status": "PASS"
+    }
+  ],
+  "date": "2026-11-03",
+  "execution_host": "Linux development environment; real Windows run pending",
+  "files_archived": 1099,
+  "milestone": "CH39 consolidated Windows historical evidence regression",
+  "original_accepted_CH39_package_sha256": "9e713b102982ea09fecbcfbd27bccf55d56808188bfc3e5be1ba76922000ae6b",
+  "scope_limits": [
+    "No Windows execution of new kit yet",
+    "No Linux five-UID re-execution",
+    "No full 127-node MPFR replay",
+    "No production or scientific global-optimality claim"
+  ],
+  "signed_public_records": 15
+}
