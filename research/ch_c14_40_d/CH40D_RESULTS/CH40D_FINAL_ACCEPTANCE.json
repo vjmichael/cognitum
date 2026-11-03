@@ -1,0 +1,132 @@
+{
+  "bounded_root_global_gap_certified": false,
+  "case_hashes": {
+    "one_event_n160_i00": {
+      "newton": "CONTRACTED",
+      "source_certificate_sha256": "687d656a11a35247b806e2cca6de6e897323270c490f2a97a797fb2e2b8d3ec4",
+      "status": "PASS",
+      "witness_file_sha256": "2da04ec1cce294313d4a1b9fc9219ed4bd732361c6faa72edd966e6bab39c1e8",
+      "witnesses": 4
+    },
+    "one_event_n80_i00": {
+      "newton": "CONTRACTED",
+      "source_certificate_sha256": "cda7ccdea2db3f416676da8b9d478734c69e8201f4025c4c355ffc053fb43050",
+      "status": "PASS",
+      "witness_file_sha256": "5dd2a7763cda24576e9cae0fe59afd39a298201c18e2a452f0eaea65aac6e09b",
+      "witnesses": 4
+    },
+    "quasi_separated_n160_i00": {
+      "newton": "NO_STATIONARY",
+      "source_certificate_sha256": "84a084793c81fd75c286709b92745245b83fc4a92d54a2a9a5acc02e20da3cc9",
+      "status": "PASS",
+      "witness_file_sha256": "862866fe33418d20fdc9e351b297a8d3e2fa26c7c9fa253ce2fc4156c869ddf7",
+      "witnesses": 4
+    },
+    "quasi_separated_n80_i00": {
+      "newton": "NO_STATIONARY",
+      "source_certificate_sha256": "08d186d92150c034d5b569f70f949df85ad67451a7736168719db060434987d6",
+      "status": "PASS",
+      "witness_file_sha256": "8ae9f0710380ca148324f9c965edc2a9c891650a895faa308223543438ff9a25",
+      "witnesses": 4
+    },
+    "rare_1pct_n160_i00": {
+      "newton": "NO_GAIN",
+      "source_certificate_sha256": "037fdb43f0ffacd775766260243f5868096437248cd783fff697ea0e17273680",
+      "status": "PASS",
+      "witness_file_sha256": "74de5385efb14e494c2fd5b05672497b28c1643764b6ac00f38b686b8869eba9",
+      "witnesses": 4
+    },
+    "rare_1pct_n160_i13": {
+      "newton": "NO_GAIN",
+      "source_certificate_sha256": "0037a30a67e49a4d312dd088307a8acf04d81a8b7133965e2f3c3d8077f6bc6f",
+      "status": "PASS",
+      "witness_file_sha256": "2e796faf07ae77fecc49d15b41a9ddb01718786f860cf0a527fdf8dafb82df11",
+      "witnesses": 4
+    },
+    "rare_1pct_n80_i00": {
+      "newton": "CONTRACTED",
+      "source_certificate_sha256": "4758809168ea775665377bdb03b068e2d831e71e9ea67a8f44c7857f112b0976",
+      "status": "PASS",
+      "witness_file_sha256": "d2b95a3a8bbcb0d82838098ff1e12aac7520e25d32bef4d2e1e125153a76bf71",
+      "witnesses": 4
+    },
+    "rare_5pct_n160_i00": {
+      "newton": "CONTRACTED",
+      "source_certificate_sha256": "67729145070df151c2615de08d2e0028b914ff87ff29a897d938666e7b263dfe",
+      "status": "PASS",
+      "witness_file_sha256": "e16a7b71c6ea178b649066bff808a0b72bb119c9f2b9292e9031aa5bc1fad05b",
+      "witnesses": 4
+    },
+    "rare_5pct_n80_i00": {
+      "newton": "NO_GAIN",
+      "source_certificate_sha256": "8efb517ccc32449c9cbfe4e4c10c3e5598ff92be903cc30f3dca7bc5e964ea1a",
+      "status": "PASS",
+      "witness_file_sha256": "e7b6038bec9f109db9df587e00dd16578a26720fc486a3b53be01173da2fa376",
+      "witnesses": 4
+    },
+    "zero_balanced_n160_i00": {
+      "newton": "NO_GAIN",
+      "source_certificate_sha256": "ef965d6aea44f37bdfeb5ae5b4a21c4d969dc3ad929065c19b66d20ab700acba",
+      "status": "PASS",
+      "witness_file_sha256": "9401154ccb4cdd286c85cec0dd6f96c81f00c6918440e494d824afdcb234aa46",
+      "witnesses": 4
+    },
+    "zero_balanced_n80_i00": {
+      "newton": "CONTRACTED",
+      "source_certificate_sha256": "3fcecf20fa24dfca12aba3c9d47072a800bf3a7602da100dcefa2a1761978a2e",
+      "status": "PASS",
+      "witness_file_sha256": "7852e771f60913f4b0ee98d3f7af609180653959ffa5171de184c3331cd4a581",
+      "witnesses": 4
+    },
+    "zero_imbalanced_n160_i00": {
+      "newton": "NO_GAIN",
+      "source_certificate_sha256": "dc768891c464959df9ef07562e9cf7e2b7e992de87c0c950c44e9e730b0b3679",
+      "status": "PASS",
+      "witness_file_sha256": "86d48441f31006cfec18053f193c99edb144b782dcb4348333a07a782f153cde",
+      "witnesses": 4
+    },
+    "zero_imbalanced_n160_i05": {
+      "newton": "NO_GAIN",
+      "source_certificate_sha256": "ff48b9fa5c385e8c92a3da07fda45cbfb9f307f4b641012a7a8f1b955d823359",
+      "status": "PASS",
+      "witness_file_sha256": "d2f13ee965c9d1463762b9aa318d348e2a1320faa175f369cb087979c7f05cda",
+      "witnesses": 4
+    },
+    "zero_imbalanced_n160_i07": {
+      "newton": "NO_GAIN",
+      "source_certificate_sha256": "e2ab4a93728ea47045fb75ce0a1c521fbb3ccc89ecf6fae9954bbc72fc53bddf",
+      "status": "PASS",
+      "witness_file_sha256": "8b068876dc5b7cf8441906c57abe24386bd3dc1f303791526655d35e141d7a01",
+      "witnesses": 4
+    },
+    "zero_imbalanced_n80_i00": {
+      "newton": "NO_GAIN",
+      "source_certificate_sha256": "a71fc99404283324dca9fd1f6c1857e484f1a239d396e74ee2ad2f23c6b7e372",
+      "status": "PASS",
+      "witness_file_sha256": "d5a7b0dccf49465f81e7394a1ad5f1ec766fbea766a9532c622bf6206d156425",
+      "witnesses": 4
+    }
+  },
+  "cases_verified": 15,
+  "ch39_live_attestation_integration": false,
+  "complete_archived_optimized_producer_bound_certification": false,
+  "historical_displays_individually_supported": 0,
+  "local_witnesses_verified": 60,
+  "math_independence": "CH40-B producer uses 85-digit Decimal IV; standalone CH40-D checker implements rational directed coupled/direct bounds and separately written 95-digit Decimal derivatives; both Decimal transcendental backends are libmpdec, not algorithmically independent native transcendental libraries.",
+  "methods": [
+    "DIRECT",
+    "COUPLED_TANGENT",
+    "TAYLOR2",
+    "KRAWCZYK"
+  ],
+  "newton_diagnostic_counts": {
+    "CONTRACTED": 5,
+    "NO_GAIN": 8,
+    "NO_STATIONARY": 2
+  },
+  "protocol": "CH40D-LOCAL-WITNESS-V1",
+  "scientific_release": "NO_GO",
+  "source_zip_sha256": "9e713b102982ea09fecbcfbd27bccf55d56808188bfc3e5be1ba76922000ae6b",
+  "status": "PASS_LOCAL_WITNESS_VERIFY_ONLY",
+  "unrestricted_global_optimality_certified": false
+}

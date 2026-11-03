@@ -1,0 +1,16 @@
+AUDIT PASS one_event_n160_i00 witnesses 4 newton CONTRACTED
+AUDIT PASS one_event_n80_i00 witnesses 4 newton CONTRACTED
+AUDIT PASS quasi_separated_n160_i00 witnesses 4 newton NO_STATIONARY
+AUDIT PASS quasi_separated_n80_i00 witnesses 4 newton NO_STATIONARY
+AUDIT PASS rare_1pct_n160_i00 witnesses 4 newton NO_GAIN
+AUDIT PASS rare_1pct_n160_i13 witnesses 4 newton NO_GAIN
+AUDIT PASS rare_1pct_n80_i00 witnesses 4 newton CONTRACTED
+AUDIT PASS rare_5pct_n160_i00 witnesses 4 newton CONTRACTED
+AUDIT PASS rare_5pct_n80_i00 witnesses 4 newton NO_GAIN
+AUDIT PASS zero_balanced_n160_i00 witnesses 4 newton NO_GAIN
+AUDIT PASS zero_balanced_n80_i00 witnesses 4 newton CONTRACTED
+AUDIT PASS zero_imbalanced_n160_i00 witnesses 4 newton NO_GAIN
+AUDIT PASS zero_imbalanced_n160_i05 witnesses 4 newton NO_GAIN
+AUDIT PASS zero_imbalanced_n160_i07 witnesses 4 newton NO_GAIN
+AUDIT PASS zero_imbalanced_n80_i00 witnesses 4 newton NO_GAIN
+CH40D SUMMARY: PASS_LOCAL_WITNESS_VERIFY_ONLY 15 cases 60 witnesses
