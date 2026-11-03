@@ -1,0 +1,28 @@
+{
+  "cases": 15,
+  "faults": {
+    "head_directory_122": "quarantine",
+    "head_directory_28": "quarantine",
+    "head_directory_5": "quarantine",
+    "head_file_122": "old",
+    "head_file_28": "old",
+    "head_file_5": "old",
+    "record_directory_122": "old",
+    "record_directory_28": "old",
+    "record_directory_5": "old",
+    "record_file_122": "old",
+    "record_file_28": "old",
+    "record_file_5": "old",
+    "tip_file_122": "quarantine",
+    "tip_file_28": "quarantine",
+    "tip_file_5": "quarantine"
+  },
+  "injection": "LD_PRELOAD intercept of libc fsync on actual active file descriptor",
+  "passed": 15,
+  "real_filesystem_full": false,
+  "simulated_errno": {
+    "EDQUOT": 122,
+    "EIO": 5,
+    "ENOSPC": 28
+  }
+}

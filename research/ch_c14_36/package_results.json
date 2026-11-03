@@ -1,0 +1,13 @@
+{
+  "CH36_new_file_count": 38,
+  "evidence_zip_bytes": 30211,
+  "evidence_zip_name": "Cognitum_CH_C14_36_Independent_Witness_Evidence_2026-11-02.zip",
+  "evidence_zip_sha256": "3bcff68ad32cffaeb50ce3c0b648e97ba784a4f56668922bef0b2a72939a45be",
+  "full_manifest_verified_members": 973,
+  "full_zip_bytes": 5794910,
+  "full_zip_name": "Cognitum_CH_C14_36_All_Original_Witness_Real_ENOSPC_2026-11-02.zip",
+  "full_zip_sha256": "b54066158ecf9b2052cb0f83550fcde23f3f86a5a4b6e294445ed2434ddf0aac",
+  "original_CH35_members_preserved": 935,
+  "original_case_count": 15,
+  "private_signing_key_included": false
+}

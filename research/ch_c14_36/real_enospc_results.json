@@ -1,0 +1,44 @@
+{
+  "cases": [
+    {
+      "actual_free_bytes_pre_failure": 0,
+      "fs_type": "isolated_private_tmpfs",
+      "head_after_failure": "db097592bcbc73c7881dddb1926cbf80430a3c9d5249cd8df54190571fae888a",
+      "journal_math_tested": false,
+      "outcome": "PREVIOUS_TIP_VALID_PENDING_OR_ORPHAN",
+      "power_cut_tested": false,
+      "prior_tip": "db097592bcbc73c7881dddb1926cbf80430a3c9d5249cd8df54190571fae888a",
+      "real_kernel_errno": 28,
+      "reserve_bytes": 0,
+      "status": "PASS"
+    },
+    {
+      "actual_free_bytes_pre_failure": 4096,
+      "fs_type": "isolated_private_tmpfs",
+      "head_after_failure": "3f953bdf3ab82f85cbf8e4260822c457b3a9c7c3d55386b0cde62ba82ff50db1",
+      "journal_math_tested": false,
+      "outcome": "PREVIOUS_TIP_VALID_PENDING_OR_ORPHAN",
+      "power_cut_tested": false,
+      "prior_tip": "3f953bdf3ab82f85cbf8e4260822c457b3a9c7c3d55386b0cde62ba82ff50db1",
+      "real_kernel_errno": 28,
+      "reserve_bytes": 4096,
+      "status": "PASS"
+    },
+    {
+      "actual_free_bytes_pre_failure": 8192,
+      "fs_type": "isolated_private_tmpfs",
+      "head_after_failure": "83d1eb1d78bfd1dbce55cbf30f6b8558070ce07a884b323055aa3241c857d28c",
+      "journal_math_tested": false,
+      "outcome": "NEW_HEAD_QUARANTINED",
+      "power_cut_tested": false,
+      "prior_tip": "857765d64c61309ef519b37df953ec39d4a90773f2159915649ff8209cbf08d7",
+      "real_kernel_errno": 28,
+      "reserve_bytes": 8192,
+      "status": "PASS"
+    }
+  ],
+  "hard_power_loss_tested": false,
+  "passed": 3,
+  "scientific_certifications": 0,
+  "test": "true Linux kernel ENOSPC in private user+mount namespace"
+}

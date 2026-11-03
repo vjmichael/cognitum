@@ -1,0 +1,9 @@
+{
+  "duplicate_rejected_before_MPFR": true,
+  "duplicate_response_seconds": 1.0139,
+  "new_signatures": 0,
+  "restart_from_signed_15_case_ledger": true,
+  "signed_tip_unchanged": true,
+  "status": "PASS",
+  "test_code_trusted_in_signer_account": true
+}

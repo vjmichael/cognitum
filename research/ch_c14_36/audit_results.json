@@ -1,0 +1,9 @@
+{
+  "global_optimality_certifications": 0,
+  "latest_signed_tip_sha256": "c8eafe3842c6782a7cb2c20307b956272a48c7e0f0083ec9394ac526aaf55c85",
+  "mathematical_proofs_recomputed_by_this_auditor": false,
+  "public_key_fingerprint_sha256": "7cdc5e473a46c618477ae81a729ef67ef3005402ebc792860bfb34f023eb6e32",
+  "signatures_verified": 15,
+  "source_pins_matched": 15,
+  "status": "PASS"
+}
