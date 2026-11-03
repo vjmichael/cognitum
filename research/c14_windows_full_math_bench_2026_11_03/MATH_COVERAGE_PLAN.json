@@ -1,0 +1,44 @@
+{
+  "scope": "Research CH23-CH39 source archive, real mathematical replay; earlier historical C14 source unavailable",
+  "original_cases": 15,
+  "mathematical_core": {
+    "CH23": "pytest historical optimizer/generator/gradient and ordinary upper-bound tests",
+    "CH24": "11 unittest directed MPFR Firth/Jeffreys intervals and boxed certification",
+    "CH25": "15 original 31-node directed MPFR source-bound replay cases",
+    "CH26": "15 original 127-node improved Fisher determinant/Hessian replays plus tests",
+    "CH27": "15 original 15-node coupled bound and interval-Newton replays plus tests",
+    "CH28": "15 original 127-node selective-bound cache-independent replays plus tests",
+    "CH29": "15 original 127-node verified parent-cap replays plus tests",
+    "CH30": "15 original 127-node cold incremental verifier replays plus tests",
+    "CH31": "15 original 5-stage [7,15,31,63,127] progressive proof-chain verifications plus tests"
+  },
+  "unsupported_on_windows": {
+    "CH32": "POSIX directory fsync/durable journal tests",
+    "CH33": "POSIX archive compaction/durable journal tests",
+    "CH34": "fcntl and crash recovery",
+    "CH35": "Linux UID signer isolation and key store",
+    "CH36": "Linux ENOSPC mount namespaces and signer process",
+    "CH37": "Linux 3-UID key isolation",
+    "CH38": "Linux 4-UID attestor",
+    "CH39": "Linux 5-UID checker/attestor witness service"
+  },
+  "unknown_or_unavailable": [
+    "Earlier C14/CH1-CH22 complete historical source and original fixtures absent from CH39 ZIP",
+    "Formal global optimum certificate on unbounded R^3",
+    "Direct function-level execution coverage for all 741 source declarations"
+  ],
+  "default_math_tasks": 113,
+  "original_checkpoint_127_replays": {
+    "CH26": 15,
+    "CH28": 15,
+    "CH29": 15,
+    "CH30": 15,
+    "CH31": 15
+  },
+  "external_dependencies": [
+    "Python numpy/scipy/mpmath/pytest",
+    "native 64-bit Windows MPFR 4.2.2 and GMP dependency closure (already passed user smoke test)"
+  ],
+  "license": "Original C14 research sources retained unchanged, from previously accepted CH39 package",
+  "scientific_release": "NO_GO"
+}

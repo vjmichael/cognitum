@@ -1,0 +1,31 @@
+{
+  "date": "2026-11-03",
+  "test_system": "Local Linux development host, NOT native Windows",
+  "source_sha256": "9e713b102982ea09fecbcfbd27bccf55d56808188bfc3e5be1ba76922000ae6b",
+  "smoke_earlier": {
+    "checks": 3,
+    "checked": [
+      "CH23 unit suite",
+      "CH24 11-test suite",
+      "CH25 one_event_n80_i00 actual 31-node MPFR replay"
+    ]
+  },
+  "smoke_later": {
+    "checks": 12,
+    "checked": [
+      "CH26\u201331 six historical unit suites",
+      "CH26\u201331 one_event_n80_i00 six original-case mathematical replays"
+    ]
+  },
+  "combined": {
+    "PASS": 15,
+    "FAIL": 0,
+    "BLOCKED": 0
+  },
+  "not_yet_validated": [
+    "Full 15-case new mathematical bench on Windows",
+    "CH23\u2013CH39 unsupported OS integration",
+    "All 15-case full 127-node replays in new driver"
+  ],
+  "license": "Local smoke evidence summaries redacted for distribution"
+}
