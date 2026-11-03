@@ -1,0 +1,158 @@
+{
+  "counts": {
+    "BLOCKED": 0,
+    "FAIL": 0,
+    "PASS": 113,
+    "UNSUPPORTED_PLATFORM": 8
+  },
+  "date": "2026-11-03",
+  "global_optimality_certified": false,
+  "individual_unit_tests_executed_in_suites": 91,
+  "math_test_suites": [
+    {
+      "executed_tests": 10,
+      "stage": "CH23",
+      "status": "PASS",
+      "wall_seconds": 1.524
+    },
+    {
+      "executed_tests": 11,
+      "stage": "CH24",
+      "status": "PASS",
+      "wall_seconds": 22.283
+    },
+    {
+      "executed_tests": 9,
+      "stage": "CH26",
+      "status": "PASS",
+      "wall_seconds": 23.078
+    },
+    {
+      "executed_tests": 10,
+      "stage": "CH27",
+      "status": "PASS",
+      "wall_seconds": 24.219
+    },
+    {
+      "executed_tests": 8,
+      "stage": "CH28",
+      "status": "PASS",
+      "wall_seconds": 9.273
+    },
+    {
+      "executed_tests": 10,
+      "stage": "CH29",
+      "status": "PASS",
+      "wall_seconds": 14.414
+    },
+    {
+      "executed_tests": 15,
+      "stage": "CH30",
+      "status": "PASS",
+      "wall_seconds": 30.801
+    },
+    {
+      "executed_tests": 18,
+      "stage": "CH31",
+      "status": "PASS",
+      "wall_seconds": 92.86
+    }
+  ],
+  "not_tested_here": [
+    "CH32 Linux-only OS/journal/security integration",
+    "CH33 Linux-only OS/journal/security integration",
+    "CH34 Linux-only OS/journal/security integration",
+    "CH35 Linux-only OS/journal/security integration",
+    "CH36 Linux-only OS/journal/security integration",
+    "CH37 Linux-only OS/journal/security integration",
+    "CH38 Linux-only OS/journal/security integration",
+    "CH39 Linux-only OS/journal/security integration",
+    "every declared C14 function independently",
+    "earlier C14 CH1\u2013CH22 sources",
+    "CH40 independently implemented interval/coupled bound proof algorithm",
+    "unrestricted global optimality"
+  ],
+  "original_case_replays": 105,
+  "original_cases_per_phase": 15,
+  "original_proof_nodes_verified_total": 10215,
+  "phase_replays": [
+    {
+      "all_status": "PASS",
+      "cases": 15,
+      "nodes_per_case": 31,
+      "phase": "CH25",
+      "scientific": "REPLAYED_BUT_UNRESOLVED",
+      "total_nodes": 465,
+      "total_wall_seconds": 64.33
+    },
+    {
+      "all_status": "PASS",
+      "cases": 15,
+      "nodes_per_case": 127,
+      "phase": "CH26",
+      "scientific": "REPLAYED_BUT_UNRESOLVED",
+      "total_nodes": 1905,
+      "total_wall_seconds": 266.311
+    },
+    {
+      "all_status": "PASS",
+      "cases": 15,
+      "nodes_per_case": 15,
+      "phase": "CH27",
+      "scientific": "REPLAYED_BUT_UNRESOLVED",
+      "total_nodes": 225,
+      "total_wall_seconds": 67.619
+    },
+    {
+      "all_status": "PASS",
+      "cases": 15,
+      "nodes_per_case": 127,
+      "phase": "CH28",
+      "scientific": "REPLAYED_BUT_UNRESOLVED",
+      "total_nodes": 1905,
+      "total_wall_seconds": 317.845
+    },
+    {
+      "all_status": "PASS",
+      "cases": 15,
+      "nodes_per_case": 127,
+      "phase": "CH29",
+      "scientific": "REPLAYED_BUT_UNRESOLVED",
+      "total_nodes": 1905,
+      "total_wall_seconds": 589.936
+    },
+    {
+      "all_status": "PASS",
+      "cases": 15,
+      "nodes_per_case": 127,
+      "phase": "CH30",
+      "scientific": "REPLAYED_BUT_UNRESOLVED",
+      "total_nodes": 1905,
+      "total_wall_seconds": 587.423
+    },
+    {
+      "all_status": "PASS",
+      "cases": 15,
+      "nodes_per_case": 127,
+      "phase": "CH31",
+      "scientific": "REPLAYED_BUT_UNRESOLVED",
+      "total_nodes": 1905,
+      "total_wall_seconds": 637.786
+    }
+  ],
+  "platform": "Windows (win32)",
+  "precision_bits": 224,
+  "privacy": "No user account, local absolute Windows paths, machine IDs, or raw uploaded test logs included in this public record.",
+  "python_version": "3.14.6",
+  "replays_scientific_status": "REPLAYED_BUT_UNRESOLVED",
+  "report_completed_utc": "2026-11-03T17:01:42.690494+00:00",
+  "source_bench_archive_sha256": "9e713b102982ea09fecbcfbd27bccf55d56808188bfc3e5be1ba76922000ae6b",
+  "source_bench_runner_sha256": "b9d76860d1c5d122154946cf9f6a99f8730cc6b298b07429f94acd57fbe30c63",
+  "source_bench_worker_sha256": "a67a14ba287ad8a548bc3e894708450d891232093d2b0c696ce95fbea0f1d466",
+  "status": "PASS_PORTABLE_CHECKS__LINUX_GATES_UNSUPPORTED",
+  "suite_count": 8,
+  "summed_replay_wall_seconds": 2531.25,
+  "summed_suite_wall_seconds": 218.452,
+  "title": "Cognitum C14 original CH23\u2013CH39 Windows mathematical benchmark acceptance",
+  "uploaded_user_report_sha256": "0890434169666323c75a83131e7fd83ccae56fde1d5d1e4f1fefbc7fbe218bf6"
+}
