@@ -1,0 +1,41 @@
+{
+  "milestone": "CH39 Windows native MPFR proof-prefix smoke and consolidated evidence regression",
+  "source": "User-run Windows test, November 3 2026",
+  "observed_local_time": "2026-11-03T08:20:27.552318-07:00",
+  "platform": "win32",
+  "python": "3.14.6",
+  "cryptography": "50.0.2",
+  "result": "PASS",
+  "exit_code": 0,
+  "test_counts": {
+    "PASS": 18,
+    "FAIL": 0,
+    "BLOCKED": 0
+  },
+  "historical_archive": {
+    "sha256": "9e713b102982ea09fecbcfbd27bccf55d56808188bfc3e5be1ba76922000ae6b",
+    "file_digests_verified": 1099,
+    "original_cases_pinned": 15,
+    "attestor_signatures": 15,
+    "final_signer_signatures": 15
+  },
+  "mpfr": {
+    "runtime_loader_result": "PASS (as shown in user's Windows screenshot)",
+    "runtime_version": "4.2.2",
+    "native_test": "PASS",
+    "case_id": "one_event_n80_i00",
+    "precision_bits": 224,
+    "nodes_verified": 7,
+    "test_seconds": 2.452,
+    "scientific_result": "REPLAYED_BUT_UNRESOLVED"
+  },
+  "original_report_sha256": "fd76276e42ae5db223e13a877c3e1b7470801cd262e25df43f67a892c9f496a5",
+  "known_limits": [
+    "No full 127-node Windows MPFR proof replay",
+    "No independent second mathematical algorithm implemented",
+    "No Windows OS isolation/worker-crash test",
+    "No global-optimality proof"
+  ],
+  "scientific_certification": "NO_GO",
+  "privacy": "Only redacted result metadata and supplied report hash retained; no local Windows paths"
+}
