@@ -1,0 +1,34 @@
+{
+  "milestone": "CH40-D original local proof witness Windows acceptance",
+  "observed_on": "2026-11-03",
+  "platform": "Windows (user-executed CMD launcher)",
+  "source_kind": "user-supplied screenshot and CH40D_FINAL_ACCEPTANCE.json",
+  "status": "PASS_LOCAL_WITNESS_VERIFY_ONLY",
+  "process_exit_code": 0,
+  "cases_verified": 15,
+  "witnesses_per_case": 4,
+  "local_witnesses_verified": 60,
+  "methods": [
+    "DIRECT",
+    "COUPLED_TANGENT",
+    "TAYLOR2",
+    "KRAWCZYK"
+  ],
+  "newton_diagnostic_counts": {
+    "CONTRACTED": 5,
+    "NO_STATIONARY": 2,
+    "NO_GAIN": 8
+  },
+  "source_zip_sha256": "9e713b102982ea09fecbcfbd27bccf55d56808188bfc3e5be1ba76922000ae6b",
+  "uploaded_machine_readable_report_sha256": "be46c4f6bb7c233a3ad2b458fcb100fa6dd7593fe54f864ba975b477262ab839",
+  "limitations": {
+    "historical_producer_caps_certified": false,
+    "ch39_live_attestation_integrated": false,
+    "bounded_root_global_gap_certified": false,
+    "unrestricted_global_optimality_certified": false,
+    "scientific_release": "NO_GO",
+    "shared_decimal_transcendental_backend": "Both implementations rely on libmpdec for Decimal transcendental functions"
+  },
+  "privacy": "Raw local Windows paths and account identifiers excluded; screenshot not committed",
+  "source_branch_commit_at_recording": "ba670ea2c9ea76835c6a284823f85422cafb02c1"
+}
