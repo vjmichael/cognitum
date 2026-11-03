@@ -1,0 +1,30 @@
+test_01_source_pinned (test_rule_attestation40c.Tests.test_01_source_pinned) ... ok
+test_02_original_replay_127_nodes (test_rule_attestation40c.Tests.test_02_original_replay_127_nodes) ... ok
+test_03_inheritance_display_exact_min (test_rule_attestation40c.Tests.test_03_inheritance_display_exact_min) ... ok
+test_04_finite_result_no_promotion (test_rule_attestation40c.Tests.test_04_finite_result_no_promotion) ... ok
+test_05_local_and_inherited_distinct (test_rule_attestation40c.Tests.test_05_local_and_inherited_distinct) ... ok
+test_06_refuse_automatic_producer_cap_promotion (test_rule_attestation40c.Tests.test_06_refuse_automatic_producer_cap_promotion) ... ok
+test_07_tampered_numeric_receipt (test_rule_attestation40c.Tests.test_07_tampered_numeric_receipt) ... ok
+test_08_forged_producer_certification (test_rule_attestation40c.Tests.test_08_forged_producer_certification) ... ok
+test_09_forged_parent_cap_display (test_rule_attestation40c.Tests.test_09_forged_parent_cap_display) ... ok
+test_10_forged_tighter_local_display_marks_unattested (test_rule_attestation40c.Tests.test_10_forged_tighter_local_display_marks_unattested) ... ok
+test_11_injected_newton_domain_shrink (test_rule_attestation40c.Tests.test_11_injected_newton_domain_shrink) ... ok
+test_12_unknown_producer_method (test_rule_attestation40c.Tests.test_12_unknown_producer_method) ... ok
+test_13_model_digest_changed (test_rule_attestation40c.Tests.test_13_model_digest_changed) ... ok
+test_14_producer_promoted_to_release (test_rule_attestation40c.Tests.test_14_producer_promoted_to_release) ... ok
+test_15_reject_unknown_frozen_case (test_rule_attestation40c.Tests.test_15_reject_unknown_frozen_case) ... ok
+test_16_valid_scope_receipt_live_replay (test_rule_attestation40c.Tests.test_16_valid_scope_receipt_live_replay) ... ok
+test_17_replayed_nonce (test_rule_attestation40c.Tests.test_17_replayed_nonce) ... ok
+test_18_untrusted_signer_key (test_rule_attestation40c.Tests.test_18_untrusted_signer_key) ... ok
+test_19_wrong_archive_commitment (test_rule_attestation40c.Tests.test_19_wrong_archive_commitment) ... ok
+test_20_signed_but_production_scope_refused (test_rule_attestation40c.Tests.test_20_signed_but_production_scope_refused) ... ok
+test_21_signed_global_optimum_refused (test_rule_attestation40c.Tests.test_21_signed_global_optimum_refused) ... ok
+test_22_swap_source_certificate_on_signed_ticket (test_rule_attestation40c.Tests.test_22_swap_source_certificate_on_signed_ticket) ... ok
+test_23_tampered_checker_receipt_body (test_rule_attestation40c.Tests.test_23_tampered_checker_receipt_body) ... ok
+test_24_taylor_encloses_frozen_midpoint (test_rule_attestation40c.Tests.test_24_taylor_encloses_frozen_midpoint) ... ok
+test_25_reject_forged_newton_stationary_exclusion (test_rule_attestation40c.Tests.test_25_reject_forged_newton_stationary_exclusion) ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 25.319s
+
+OK

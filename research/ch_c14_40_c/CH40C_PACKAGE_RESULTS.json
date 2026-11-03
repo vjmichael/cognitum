@@ -1,0 +1,16 @@
+{
+  "full": {
+    "name": "Cognitum_CH_C14_40_C_Producer_Rule_Replay_Original_CH23_2026-11-03.zip",
+    "size": 6093440,
+    "sha256": "537d676e24e302859bc5f103b90a4bd3548bbc5682b208330ccf4c323e82057d",
+    "entries": 33
+  },
+  "source": {
+    "name": "Cognitum_CH_C14_40_C_Source_And_Tests_2026-11-03.zip",
+    "size": 158825,
+    "sha256": "36580b26e2efd383038f2582fb8848f99cbac8489d312bc288b3ec7687485d85",
+    "entries": 32
+  },
+  "original_source_pin": "9e713b102982ea09fecbcfbd27bccf55d56808188bfc3e5be1ba76922000ae6b",
+  "source_member_count": 32
+}

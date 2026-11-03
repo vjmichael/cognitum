@@ -1,0 +1,29 @@
+<PARSED TEXT FOR SHEET: 1 / 1 TABS
+TAB NAME: CH40C_batch_verified.log>
+index,PASS quasi_separated_n80_i00 {'direct_rules_evaluated': 123, 'coupled_rules_evaluated': 4, 'producer_local_displays_justified': 4, 'producer_inherited_displays_justified': 5}
+0,PASS one_event_n80_i00 {'coupled_rules_evaluated': 44, 'producer_local_displays_justified': 44, 'producer_inherited_displays_justified': 71, 'direct_rules_evaluated': 83}
+1,PASS quasi_separated_n160_i00 {'coupled_rules_evaluated': 31, 'producer_local_displays_justified': 31, 'producer_inherited_displays_justified': 51, 'direct_rules_evaluated': 96}
+2,PASS one_event_n160_i00 {'coupled_rules_evaluated': 45, 'producer_local_displays_justified': 45, 'producer_inherited_displays_justified': 79, 'direct_rules_evaluated': 82}
+3,PASS rare_1pct_n80_i00 {'coupled_rules_evaluated': 38, 'producer_local_displays_justified': 38, 'producer_inherited_displays_justified': 66, 'direct_rules_evaluated': 89}
+4,PASS rare_1pct_n160_i00 {'coupled_rules_evaluated': 39, 'producer_local_displays_justified': 39, 'producer_inherited_displays_justified': 66, 'direct_rules_evaluated': 88}
+5,PASS rare_1pct_n160_i13 {'coupled_rules_evaluated': 38, 'producer_local_displays_justified': 38, 'producer_inherited_displays_justified': 81, 'direct_rules_evaluated': 89}
+6,PASS rare_5pct_n80_i00 {'coupled_rules_evaluated': 33, 'producer_local_displays_justified': 33, 'producer_inherited_displays_justified': 43, 'direct_rules_evaluated': 94}
+7,PASS rare_5pct_n160_i00 {'direct_rules_evaluated': 113, 'coupled_rules_evaluated': 14, 'producer_local_displays_justified': 13, 'producer_inherited_displays_justified': 14}
+8,PASS zero_balanced_n80_i00 {'coupled_rules_evaluated': 43, 'producer_local_displays_justified': 43, 'producer_inherited_displays_justified': 92, 'direct_rules_evaluated': 84}
+9,PASS zero_balanced_n160_i00 {'coupled_rules_evaluated': 42, 'producer_local_displays_justified': 42, 'producer_inherited_displays_justified': 93, 'direct_rules_evaluated': 85}
+10,PASS zero_imbalanced_n160_i00 {'coupled_rules_evaluated': 36, 'producer_local_displays_justified': 36, 'producer_inherited_displays_justified': 59, 'direct_rules_evaluated': 91}
+11,PASS zero_imbalanced_n160_i07 {'direct_rules_evaluated': 108, 'coupled_rules_evaluated': 19, 'producer_local_displays_justified': 19, 'producer_inherited_displays_justified': 25}
+12,PASS zero_imbalanced_n160_i05 {'coupled_rules_evaluated': 43, 'producer_local_displays_justified': 43, 'producer_inherited_displays_justified': 79, 'direct_rules_evaluated': 84}
+13,PASS zero_imbalanced_n80_i00 {'coupled_rules_evaluated': 47, 'producer_local_displays_justified': 47, 'producer_inherited_displays_justified': 100, 'direct_rules_evaluated': 80}
+14,{,,,
+15,"  ""protocol"": ""CH40C-RESEARCH-V1""",,,
+16,"  ""source_sha256"": ""9e713b102982ea09fecbcfbd27bccf55d56808188bfc3e5be1ba76922000ae6b""",,,
+17,"  ""passed"": 15",,,
+18,"  ""failed"": 0",,,
+19,"  ""total"": 15",,,
+20,"  ""nodes_verified"": 1905",,,
+21,"  ""producer_local_displays_justified"": 515",,,
+22,"  ""producer_inherited_displays_justified"": 924",,,
+23,"  ""producer_fully_certified"": false",,,
+24,"  ""scientific_release"": ""NO_GO""",,,
+25,},,,
