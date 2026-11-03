@@ -92,6 +92,16 @@ class TestCompaction(unittest.TestCase):
         env['body']['compressed_certificate']='eJwLcnR1BgADLwEB'
         env['sha256']=digest(env['body']);p.write_bytes(canonical(env)+b'\n')
         with self.assertRaises(Exception),self.open():pass
+    def test_forged_valid_hashes_cannot_replace_mathematical_proof(self):
+        from compaction33 import _decode_certificate,_encode_certificate
+        self.first();path=self.journal/'checkpoint.json'
+        env=json.loads(path.read_text());cert=_decode_certificate(env['body']['compressed_certificate'])
+        cert['nodes'][0]['box'][0][0]='-11'
+        env['body']['certificate_sha256']=digest(cert)
+        env['body']['compressed_certificate']=_encode_certificate(cert)
+        env['sha256']=digest(env['body'])
+        path.write_bytes(canonical(env)+b'\n')
+        with self.assertRaises(Exception),self.open():pass
     def test_external_checkpoint_pin_detects_rewrite(self):
         info=self.first()
         with self.open(expected_checkpoint_sha256=info['checkpoint_sha256']):pass

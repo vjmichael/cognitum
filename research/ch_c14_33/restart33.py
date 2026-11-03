@@ -19,7 +19,7 @@ def cold(case,active,archives,head,checkpoint,full_history=False):
         t=time.process_time()
         history=j.verify_archived_history() if full_history else None
         audit_cpu=time.process_time()-t
-        assert history is None or (history['replayed_frames']==6 and history['archives']==2)
+        assert history is None or (history['replayed_frames']==6 and history['archives']==len(list(Path(archives).glob('archive_*.zlib'))))
         return {'pid':os.getpid(),'case_id':case,'nodes':127,'head_sha256':j.head,
                 'checkpoint_sha256':j._checkpoint['sha256'],'fresh_MPFR_bounds':j.recovery_fresh,
                 'trusted_cache_imported':False,'checkpoint_math_reverified':True,

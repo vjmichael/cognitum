@@ -1,0 +1,16 @@
+PASS one_event_n80_i00 active 15271 archive 29103 head ce92be481fcd
+PASS quasi_separated_n160_i00 active 20846 archive 61331 head bff9c0a0f971
+PASS quasi_separated_n80_i00 active 14821 archive 28407 head f53c07184596
+PASS one_event_n160_i00 active 21024 archive 61777 head dfda22cc2d74
+PASS rare_1pct_n80_i00 active 15195 archive 28983 head e444cc658f93
+PASS rare_1pct_n160_i00 active 20968 archive 61405 head d55c4e92e721
+PASS rare_1pct_n160_i13 active 21012 archive 61585 head 2bd0a3078384
+PASS rare_5pct_n80_i00 active 15167 archive 29051 head 7b31861c5985
+PASS rare_5pct_n160_i00 active 20876 archive 61619 head 8770e0c7aa47
+PASS zero_balanced_n160_i00 active 20984 archive 61689 head fc3ba4571d97
+PASS zero_balanced_n80_i00 active 15295 archive 29079 head 78da02b6d894
+PASS zero_imbalanced_n160_i00 active 20950 archive 61494 head 087c04fd6513
+PASS zero_imbalanced_n160_i05 active 20894 archive 61271 head cc18f5190a54
+PASS zero_imbalanced_n160_i07 active 20914 archive 61230 head 52775c687c8c
+PASS zero_imbalanced_n80_i00 active 15101 archive 28756 head eff26248f81c
+COMPLETE 15 cases active reduction 88.59911639662232

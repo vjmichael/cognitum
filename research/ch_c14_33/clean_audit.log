@@ -1,0 +1,11 @@
+{
+  "archived_epochs": 30,
+  "fresh_final_MPFR_replays": 15,
+  "full_historical_MPFR_replays": 15,
+  "global_certifications": 0,
+  "hard_OS_exit_events": 5,
+  "historical_ambiguity_refusals": 3,
+  "original_CH32_frames": 90,
+  "original_cases": 15,
+  "scientific_release": "NO_GO"
+}

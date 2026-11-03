@@ -1,0 +1,17 @@
+HARD_EXIT_RECOVERED before_snapshot_rename node_count 15 fresh 15 pending 1 covered 0
+HARD_EXIT_RECOVERED after_snapshot_fsync node_count 31 fresh 31 pending 0 covered 1
+HARD_EXIT_RECOVERED during_prune node_count 63 fresh 63 pending 0 covered 0
+HARD_EXIT_RECOVERED after_snapshot_rename node_count 95 fresh 95 pending 0 covered 1
+HARD_EXIT_RECOVERED after_snapshot_fsync node_count 127 fresh 127 pending 0 covered 1
+Traceback (most recent call last):
+  File "/mnt/data/CH_C14_33/chaos33.py", line 82, in <module>
+    else:main()
+         ~~~~^^
+  File "/mnt/data/CH_C14_33/chaos33.py", line 65, in main
+    proc=subprocess.run([sys.executable,str(D/'restart33.py'),'--case',CID,'--active',str(active),
+        '--archives',str(archives),'--head',END_HEAD,'--checkpoint',final_checkpoint,'--full-history'],
+        capture_output=True,text=True,check=True,timeout=600)
+  File "/usr/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/opt/pyvenv/bin/python', '/mnt/data/CH_C14_33/restart33.py', '--case', 'one_event_n80_i00', '--active', '/mnt/data/CH_C14_33/chaos_active/one_event_n80_i00', '--archives', '/mnt/data/CH_C14_33/chaos_archives/one_event_n80_i00', '--head', 'ce92be481fcd868ea18d10eea2f4f54b018a5a107b912019c98e71fea8f92ada', '--checkpoint', 'a9d957afe0d905af650c57665f16b209198b2c2a4535f7ac61c0810a15fed658', '--full-history']' returned non-zero exit status 1.

@@ -67,6 +67,7 @@ new optimizer searches. The 0.05 global-gap requirement remains unmet.
 - `restart33.py`: independent fresh-process mathematical verification
 - `benchmark33.py`: original 15-case two-epoch compaction and disk measurements
 - `chaos33.py`: five repeated *actual* hard process exits and recovery
+- `finalize_chaos33.py`: reconcile surviving crash logs and immutable archives after a failed harness acknowledgement
 - `tests/test_compaction.py`: original-data fail-closed and tamper tests
 - `freeze33.py`, `frozen_protocol.json`: input and method identity
 - `audit33.py`, `benchmark_results.json`, `chaos_results.json`: read-only evidence
