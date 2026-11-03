@@ -1,6 +1,6 @@
 COGNITUM C14 -- REAL MATHEMATICAL REGRESSION (CH23 through CH39)
 Windows 10/11, 64-bit Python 3.14, frozen original CH23 inputs.
-Version 1.1 -- original Windows scratch-cache restoration fix; research-only, no production or Lu changes.
+Version 1.2 -- scratch-cache restoration and MPFR sibling DLL discovery; research-only, no production or Lu changes.
 
 PURPOSE
 The earlier 17/18 Windows checks primarily verified ARCHIVED EVIDENCE.
@@ -43,7 +43,7 @@ RUNNING
 2. Your previously working Python was C:\Python314\python.exe.
 3. Native MPFR dependencies are already installed LOCALLY in your old
    Cognitum_CH23_CH39_All_History_Windows_Regression_2026-11-03\MPFR_Runtime
-   folder. The new script automatically looks for that SIBLING folder.
+   folder. The new script searches this sibling, duplicate-suffix folders, nested ZIP wrappers, and USERPROFILE\Downloads. It prints the selected DLL path.
    If it cannot find it, copy MPFR_Runtime (all five DLLs) into this new
    kit's folder. Nothing needs to be installed system-wide.
 4. For Python-only modules run SETUP_DEPENDENCIES.cmd once, if needed.

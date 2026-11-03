@@ -125,22 +125,77 @@ def inventory(root):
  return out
 
 
+def _mpfr_candidates():
+ """Return bounded, well-known kit-local and sibling paths without scanning the disk.
+
+ In real Windows use, both kits may be extracted with a nested folder or a
+ duplicate-safe suffix such as `` (1)``. The previous exact sibling glob was
+ too fragile and silently prevented 112 mathematical tasks from running.
+ """
+ seen=set()
+ def add(path):
+  candidate=pathlib.Path(path)
+  key=os.path.normcase(os.path.abspath(str(candidate)))
+  if key not in seen:
+   seen.add(key)
+   return candidate
+
+ # For explicit deployments, permit a pinned runtime path from the environment.
+ environment=os.environ.get('C14_BENCH_MPFR_DLL')
+ if environment:
+  x=add(pathlib.Path(environment).expanduser())
+  if x is not None:yield x
+
+ for root in (HERE,HERE.parent):
+  x=add(root/'MPFR_Runtime'/'libmpfr-6.dll')
+  if x is not None:yield x
+
+ # The older consolidated CH39 Windows test was extracted alongside this kit
+ # for the current user. Also check user Downloads if this kit was moved.
+ roots=[HERE.parent]
+ home=os.environ.get('USERPROFILE')
+ if home: roots.append(pathlib.Path(home)/'Downloads')
+ elif sys.platform=='win32':roots.append(pathlib.Path.home()/'Downloads')
+ for parent in roots:
+  if not parent.is_dir():continue
+  try:
+   children=list(parent.iterdir())
+  except (PermissionError,OSError):continue
+  for child in children:
+   if not child.is_dir() or child.is_symlink():continue
+   if not child.name.lower().startswith('cognitum_ch23_ch39_all_history_windows_regression'):
+    continue
+   # Default extraction, or one additional wrapper level from zip extraction.
+   x=add(child/'MPFR_Runtime'/'libmpfr-6.dll')
+   if x is not None:yield x
+   try:
+    nested=list(child.iterdir())
+   except (PermissionError,OSError):continue
+   for sub in nested:
+    if sub.is_dir() and not sub.is_symlink() and sub.name.lower().startswith('cognitum_ch23_ch39_all_history_windows_regression'):
+     x=add(sub/'MPFR_Runtime'/'libmpfr-6.dll')
+     if x is not None:yield x
+
+
 def mpfr_path(a):
  if a.mpfr_dll:
-  p=pathlib.Path(a.mpfr_dll).resolve()
+  p=pathlib.Path(a.mpfr_dll).expanduser().resolve()
+  if p.is_dir():p=p/'libmpfr-6.dll'
   if not p.is_file():raise ValueError('Specified MPFR DLL is missing: '+str(p))
+  print('MPFR: using explicit DLL',p,flush=True)
   return str(p)
- p=HERE/'MPFR_Runtime'/'libmpfr-6.dll'
- if p.is_file():return str(p.resolve())
- for sibling in HERE.parent.glob('Cognitum_CH23_CH39_All_History_Windows_Regression_*/MPFR_Runtime/libmpfr-6.dll'):
-  if sibling.is_file():
-   print('Detected previously validated MPFR runtime:',sibling.parent,flush=True)
-   return str(sibling.resolve())
+ for candidate in _mpfr_candidates():
+  if candidate.is_file():
+   print('MPFR: discovered local runtime DLL:',candidate,flush=True)
+   return str(candidate.resolve())
  if sys.platform!='win32':
   import ctypes.util
-  return ctypes.util.find_library('mpfr')
+  found=ctypes.util.find_library('mpfr')
+  if found:print('MPFR: discovered system runtime:',found,flush=True)
+  return found
+ print('MPFR: could not locate Windows libmpfr-6.dll. Searched kit, sibling regression kits, and Downloads.',flush=True)
+ print('MPFR: copy the complete MPFR_Runtime folder beside this benchmark CMD, or specify --mpfr-dll.',flush=True)
  return None
-
 
 def test_env(root,mpfr):
  env=os.environ.copy()
@@ -187,7 +242,7 @@ def task_run(task,env,logs,timeout):
 def main():
  p=argparse.ArgumentParser(description=__doc__)
  p.add_argument('--archive',default=ARCHIVE)
- p.add_argument('--mpfr-dll',help='Native Windows libmpfr-6.dll (GMP/runtime dependencies in same directory)')
+ p.add_argument('--mpfr-dll',help='Native Windows libmpfr-6.dll OR its MPFR_Runtime directory (GMP/runtime DLLs stay together)')
  p.add_argument('--profile',choices=('quick','full'),default='full',help='full: all 15 original cases through CH25–31, plus historical math test suites')
  p.add_argument('--case',action='append',help='Limit to one or more original frozen case IDs')
  p.add_argument('--phase',action='append',choices=[str(n) for n in range(23,40)],help='Restrict to CH phase, repeatable')
