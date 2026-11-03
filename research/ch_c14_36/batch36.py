@@ -71,7 +71,7 @@ print(json.dumps(provision(sys.argv[3],sys.argv[2],pins=make_pins(sys.argv[2])),
          sys.executable,str(src35/'service36.py'),'--socket',str(socket),
          '--store',str(store),'--source',str(source),'--journals',str(writer),
          '--allowed-uid',str(WRITER_UID),'--workers',str(a.workers)]
-    proc=subprocess.Popen(cmd,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
+    proc=subprocess.Popen(cmd,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,start_new_session=True)
     timer=time.monotonic()
     try:
         for _ in range(150):
@@ -139,10 +139,15 @@ print(json.dumps(verify_chain(store,pub,expected_fingerprint=sys.argv[3],expecte
                           'wall_seconds':outcome['wall_seconds'],'state':str(top)},sort_keys=True),flush=True)
         return 0
     finally:
+        # Separate process group allows killing *all* proof workers if the
+        # signer is interrupted mid-MPFR. No orphaned children or inherited
+        # stdout pipes should outlive the integration run.
         if proc.poll() is None:
-            proc.send_signal(signal.SIGINT)
-            try:proc.communicate(timeout=30)
-            except subprocess.TimeoutExpired:proc.kill();proc.communicate()
+            os.killpg(proc.pid,signal.SIGINT)
+        try:proc.communicate(timeout=15)
+        except subprocess.TimeoutExpired:
+            os.killpg(proc.pid,signal.SIGKILL)
+            proc.communicate(timeout=5)
         if not a.retain_state: shutil.rmtree(top,ignore_errors=True)
 
 if __name__=='__main__':raise SystemExit(main())
