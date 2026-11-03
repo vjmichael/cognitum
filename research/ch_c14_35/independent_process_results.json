@@ -1,0 +1,59 @@
+{
+  "case": "one_event_n80_i00",
+  "global_certificate": false,
+  "independent_user_ids": {
+    "journal_writer": 1000,
+    "signer": 65534
+  },
+  "key_read_and_write_denied": true,
+  "mpfr_end_to_end_wall_seconds": 52.84967827796936,
+  "power_loss_tested": false,
+  "root": "/tmp/ch35-trust-separation-mrqjgon0",
+  "sealed_frozen_inputs_unreadable_to_writer": true,
+  "second_sign_refused": {
+    "detail": "Original frozen case already signed",
+    "error": "ValueError",
+    "ok": false
+  },
+  "signed_original": {
+    "public_key_fingerprint_sha256": "7b6ed8f69048ac8d624fad7d847ebb6d355fff194cef5e5e4d6c1ab962c8baa3",
+    "record": {
+      "body": {
+        "archive_epochs": 2,
+        "archive_sha256": "1cf6eefa852fe3a88352802de36535bcce66ddf46243ca24a31d1f12689a4728",
+        "binding_sha256": "473f2f5c356d75fe4f92be7d80bcbe7cab98853d272c3be9445da1b41a95f5d9",
+        "case_id": "one_event_n80_i00",
+        "checkpoint_sha256": "84429dae20d0315bda2f48a4e82908d515469863a70832ee8d56fc87746232b2",
+        "generation": 0,
+        "mpfr_replayed_frames": 6,
+        "nodes": 127,
+        "original_head_sha256": "ce92be481fcd868ea18d10eea2f4f54b018a5a107b912019c98e71fea8f92ada",
+        "parent": "0000000000000000000000000000000000000000000000000000000000000000",
+        "proof_replayed": true,
+        "scientific_release": "NO_GO",
+        "verified_source": "original_CH23_independent_MPFR_224",
+        "version": 1,
+        "witness_key_fingerprint": "7b6ed8f69048ac8d624fad7d847ebb6d355fff194cef5e5e4d6c1ab962c8baa3"
+      },
+      "signature": "DRLDSnuWoNXApRTjGzeqjmcQQ9E81TaXYBTCwCDw923OXf5KVxSYK2uNTtJLwamSPv/JmxRhbCEIvQiWjA9CAg=="
+    },
+    "scientific_release": "NO_GO",
+    "status": "SIGNED_AFTER_INDEPENDENT_MPFR_REPLAY",
+    "tip_sha256": "b0e4fb770068f71f26b8729be672e311e23b63f203bbef509a448e7025657307"
+  },
+  "source": "original_CH23",
+  "status": "PASS",
+  "tampered_journal_denied": {
+    "detail": "Checkpoint file bytes disagree with independently frozen manifest",
+    "error": "ValueError",
+    "ok": false
+  },
+  "verified_chain": {
+    "cases": [
+      "one_event_n80_i00"
+    ],
+    "length": 1,
+    "tip": "b0e4fb770068f71f26b8729be672e311e23b63f203bbef509a448e7025657307"
+  },
+  "windows_tested": false
+}
