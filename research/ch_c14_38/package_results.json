@@ -1,0 +1,11 @@
+{
+  "evidence_archive_bytes": 64931,
+  "evidence_archive_sha256": "5ac3938835a3836eebea5002ac0455c75fb3dccba2c6953641780b1e6a5c3da1",
+  "full_archive_bytes": 6016395,
+  "full_archive_sha256": "820676093d3b47504e221bdafde6c3f576be743bb9a52614bf3f2ec6767bc88e",
+  "full_manifest_verified_entries": 1052,
+  "preserved_original_CH37_files": 1013,
+  "private_keys_in_packages": false,
+  "source_and_evidence_added": 39,
+  "status": "PASS"
+}

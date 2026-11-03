@@ -1,0 +1,16 @@
+PASS ORIGINAL one_event_n160_i00 MPFR math UID 1002 attestor UID 1003 signer UID 65534 elapsed 119.04
+PASS ORIGINAL one_event_n80_i00 MPFR math UID 1002 attestor UID 1003 signer UID 65534 elapsed 59.54
+PASS ORIGINAL quasi_separated_n160_i00 MPFR math UID 1002 attestor UID 1003 signer UID 65534 elapsed 98.95
+PASS ORIGINAL quasi_separated_n80_i00 MPFR math UID 1002 attestor UID 1003 signer UID 65534 elapsed 52.09
+PASS ORIGINAL rare_1pct_n160_i00 MPFR math UID 1002 attestor UID 1003 signer UID 65534 elapsed 117.08
+PASS ORIGINAL rare_1pct_n160_i13 MPFR math UID 1002 attestor UID 1003 signer UID 65534 elapsed 115.17
+PASS ORIGINAL rare_1pct_n80_i00 MPFR math UID 1002 attestor UID 1003 signer UID 65534 elapsed 61.21
+PASS ORIGINAL rare_5pct_n160_i00 MPFR math UID 1002 attestor UID 1003 signer UID 65534 elapsed 110.08
+PASS ORIGINAL rare_5pct_n80_i00 MPFR math UID 1002 attestor UID 1003 signer UID 65534 elapsed 56.44
+PASS ORIGINAL zero_balanced_n160_i00 MPFR math UID 1002 attestor UID 1003 signer UID 65534 elapsed 102.94
+PASS ORIGINAL zero_balanced_n80_i00 MPFR math UID 1002 attestor UID 1003 signer UID 65534 elapsed 54.48
+PASS ORIGINAL zero_imbalanced_n160_i00 MPFR math UID 1002 attestor UID 1003 signer UID 65534 elapsed 103.44
+PASS ORIGINAL zero_imbalanced_n160_i05 MPFR math UID 1002 attestor UID 1003 signer UID 65534 elapsed 104.19
+PASS ORIGINAL zero_imbalanced_n160_i07 MPFR math UID 1002 attestor UID 1003 signer UID 65534 elapsed 103.78
+PASS ORIGINAL zero_imbalanced_n80_i00 MPFR math UID 1002 attestor UID 1003 signer UID 65534 elapsed 52.72
+{"status": "PASS", "cases": 15, "tip": "c8b2123d02a3da1a8e24cd2f1a631db0434e7ec89219c4059affe0bab364637e", "wall_s": 344.41}
