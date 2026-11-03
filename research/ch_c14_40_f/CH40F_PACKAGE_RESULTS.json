@@ -1,0 +1,10 @@
+{
+  "package_sha256": "fbbf9517f06fad0806d6b5465750fc6ce252eaf7c04304c818e304a467b189cc",
+  "package_bytes": 101868937,
+  "original_source_sha256": "9e713b102982ea09fecbcfbd27bccf55d56808188bfc3e5be1ba76922000ae6b",
+  "file_count": 104,
+  "original_cases": 15,
+  "nodes_independently_certified": 1905,
+  "scientific_release": "NO_GO",
+  "repository_store": "source_and_acceptance_only; keep bulky raw case traces in the archive"
+}

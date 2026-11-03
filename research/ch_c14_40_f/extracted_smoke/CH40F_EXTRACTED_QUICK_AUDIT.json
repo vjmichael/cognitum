@@ -1,0 +1,20 @@
+{
+  "cases_required": 1,
+  "global_optimality_certified": false,
+  "no_production_or_global_claim": true,
+  "original_archive_sha256": "9e713b102982ea09fecbcfbd27bccf55d56808188bfc3e5be1ba76922000ae6b",
+  "protocol": "CH40F-FRESH-MATH-WINDOWS-REPLAY-V1",
+  "results": {
+    "one_event_n80_i00": {
+      "coupled": 44,
+      "direct": 83,
+      "nodes": 127,
+      "status": "PASS",
+      "trace_sha256": "a875e26c2d41c22145d137bab4fddc1b444f0bf664ca8456584025bce6cce27b",
+      "wall_seconds": 40.201
+    }
+  },
+  "scientific_release": "NO_GO",
+  "status": "PASS_RESEARCH_FINITE_CAPS_ONLY",
+  "total_seconds": 40.262
+}
