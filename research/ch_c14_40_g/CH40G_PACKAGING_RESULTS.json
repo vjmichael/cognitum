@@ -1,0 +1,12 @@
+{
+  "full_members": 44,
+  "full_zip_bytes": 10280592,
+  "full_zip_sha256": "5f6ee0f462a875dc5ccabcd0598ee0a8e7f90e82433635aa55c4c770ae2b825f",
+  "global_optimality_certified": false,
+  "manifest_members_sha256_verified": 43,
+  "private_keys_present": false,
+  "scope": "RESEARCH_ONLY_NO_GO",
+  "source_members": 23,
+  "source_zip_bytes": 57047,
+  "source_zip_sha256": "a85c8a360c55dd85b4d7f0d7aadbc2d36fd1cb9fad9991835c9bfb926f77ebb1"
+}

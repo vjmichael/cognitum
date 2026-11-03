@@ -1,0 +1,82 @@
+{
+  "adversarial_live": {
+    "forged_worker": {
+      "elapsed_seconds": 49.685,
+      "no_signed_revision": true,
+      "status": "PASS"
+    },
+    "interrupted_checker": {
+      "elapsed_seconds": 7.543,
+      "no_signed_revision": true,
+      "status": "PASS"
+    },
+    "missing_checker": {
+      "elapsed_seconds": 3.331,
+      "no_signed_revision": true,
+      "status": "PASS"
+    },
+    "tampered_trace": {
+      "elapsed_seconds": 4.234,
+      "no_signed_revision": true,
+      "status": "PASS"
+    }
+  },
+  "attestor_signature_verified": true,
+  "case": "one_event_n80_i00",
+  "durable_signer_restart_duplicate_refusal": "PASS",
+  "final_signer_signature_verified": true,
+  "frozen_case_count_original_ch23": 15,
+  "kernel_so_peercred_and_read_acl_denials": "PASS",
+  "live_case_count": 1,
+  "milestone": "CH-C14-40-G",
+  "os_roles": {
+    "attestor": 1003,
+    "checker": 1004,
+    "math": 1002,
+    "signer": 65534,
+    "writer": 1000
+  },
+  "positive_test_wall_seconds": 155.44,
+  "private_signing_keys_in_package": false,
+  "producer_trace_sha256": "a875e26c2d41c22145d137bab4fddc1b444f0bf664ca8456584025bce6cce27b",
+  "protocol_tests": {
+    "passed": 25,
+    "total": 25
+  },
+  "scientific_release": "NO_GO",
+  "scope_limits": {
+    "CH39_original_source_branch_modified": false,
+    "all_15_cases_live_attested": false,
+    "attestor_nonce_replay_survives_restart_independently_of_signer": false,
+    "checker_service_lifecycle_production_deployed": false,
+    "finite_root_global_gap_certified": false,
+    "full_original_producer_Taylor_Newton_events_certified": false,
+    "off_host_independent_tip_anchor": false,
+    "power_loss_transactional_recovery_tested": false,
+    "production_cognitum_or_Lu_changed": false,
+    "real_windows_five_UID_acceptance": false,
+    "unrestricted_global_optimality_certified": false
+  },
+  "signed_public_chain": {
+    "attestor_public_key_sha256": "434afe5473d16b99161b9b1dcc2f4580b6f724b4e1d7140c82f1b593f3249720",
+    "generation": 0,
+    "length": 1,
+    "research_only": true,
+    "signature_domain_separate_from_CH39": true,
+    "signer_public_key_sha256": "7b57f700474929153f013ee7e743651da54140be8d36332329f903e7a9856a1b",
+    "terminal_tip_sha256": "d13c90130bbdda4746677bb62fe65b31af3738dfa826a30de1e27df8d3b3cc82"
+  },
+  "source_original_archive_sha256": "9e713b102982ea09fecbcfbd27bccf55d56808188bfc3e5be1ba76922000ae6b",
+  "status": "PASS_SCOPED_LIVE_FIVE_UID_RESEARCH_ATTESTATION",
+  "verified_live_math": {
+    "CH39_224bit_MPFR_worker_replay": true,
+    "CH39_224bit_independent_checker_replay": true,
+    "CH40F_160bit_actual_original_MPFR_cap_trace_replayed_by_independent_decimal_fraction_checker": true,
+    "archive_history_frames": 6,
+    "coupled_caps": 44,
+    "direct_caps": 83,
+    "inherited_caps": 127,
+    "node_count": 127,
+    "unsupported_caps": 0
+  }
+}

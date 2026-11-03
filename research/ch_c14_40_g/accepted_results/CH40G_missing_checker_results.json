@@ -1,0 +1,34 @@
+{
+  "checks": {
+    "actual_uid_authenticated_services_started": "PASS",
+    "attack_refused_no_signature": "PASS",
+    "signer_without_attestor": "REFUSED_NO_LEDGER"
+  },
+  "detail": {
+    "attack": "missing-checker",
+    "denial": {
+      "detail": "Attestor denied mathematical proof",
+      "error": "ValueError",
+      "ok": false
+    }
+  },
+  "global_optimality_certified": false,
+  "kernel_so_peercred_enforced": true,
+  "milestone": "CH40G",
+  "mode": "missing-checker",
+  "original_case": "one_event_n80_i00",
+  "outcome": "PASS",
+  "production_admission": false,
+  "scientific_release": "NO_GO",
+  "separate_research_signature_domain": true,
+  "source_pin_sha256": "9e713b102982ea09fecbcfbd27bccf55d56808188bfc3e5be1ba76922000ae6b",
+  "source_trace_sha256": "a875e26c2d41c22145d137bab4fddc1b444f0bf664ca8456584025bce6cce27b",
+  "uid_identity": {
+    "attestor": 1003,
+    "checker": 1004,
+    "math": 1002,
+    "signer": 65534,
+    "writer": 1000
+  },
+  "wall_seconds": 3.331
+}

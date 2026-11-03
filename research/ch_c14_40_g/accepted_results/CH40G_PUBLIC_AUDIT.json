@@ -1,0 +1,21 @@
+{
+  "attestor_fingerprint_sha256": "434afe5473d16b99161b9b1dcc2f4580b6f724b4e1d7140c82f1b593f3249720",
+  "attestor_signatures_verified": 1,
+  "cases": [
+    "one_event_n80_i00"
+  ],
+  "global_optimality_certified": false,
+  "milestone": "CH40G",
+  "original_CH23_cases_pinned": 15,
+  "production_admission": false,
+  "public_audit_reexecutes_mathematics": false,
+  "scientific_release": "NO_GO",
+  "signed_revisions": 1,
+  "signed_trace_caps_research_only": true,
+  "signer_fingerprint_sha256": "7b57f700474929153f013ee7e743651da54140be8d36332329f903e7a9856a1b",
+  "signer_signatures_verified": 1,
+  "source_archive_sha256": "9e713b102982ea09fecbcfbd27bccf55d56808188bfc3e5be1ba76922000ae6b",
+  "status": "PASS_RESEARCH_SIGNED_CHAIN_ONLY",
+  "terminal_tip_sha256": "d13c90130bbdda4746677bb62fe65b31af3738dfa826a30de1e27df8d3b3cc82",
+  "tips_pinned_externally": true
+}
