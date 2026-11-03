@@ -1,0 +1,403 @@
+{
+  "archive_sha256": "9e713b102982ea09fecbcfbd27bccf55d56808188bfc3e5be1ba76922000ae6b",
+  "code_fingerprint": "9eb0d61fef28647e264bd03bcd4b95b11406cb456f3be369cf5df15de8cac70f",
+  "counts": {
+    "PASS_INDEPENDENT_REPLAY_UNRESOLVED": 15
+  },
+  "results": {
+    "one_event_n160_i00": {
+      "case_id": "one_event_n160_i00",
+      "elapsed_seconds": 9.051,
+      "result": {
+        "bounded_gap_proven_by_independent_checker": false,
+        "case_identity": {
+          "ambiguous": false,
+          "data_digest": "9f152b75053597ad6677d0a1b5cb26974abc24e65ca8ab0976de16a859d7eeb2",
+          "events": 1,
+          "family": "one_event",
+          "index": 0,
+          "n": 160,
+          "seed": 2042132323
+        },
+        "independent_gap_ceiling": "6.915153850201005437526078601024710328694127053305953061796642066596507209358017045595",
+        "independent_incumbent_lower": "-5.311758479532733483560573469992900164910268260176528971124532720211179809192248894032",
+        "independent_upper_ceil": "1.603395370668271953965505131031810163783858793129424090672109346385327400165768151563",
+        "leaf_bounds_independently_recomputed": 64,
+        "limitation": "Conservative independent finite-box upper; does not validate each producer local coupled or Newton bound; no global R^d claim.",
+        "methods": "independent Decimal-directed loglik + Cauchy-Binet minor + Hadamard Fisher",
+        "nodes_geometry_verified": 127,
+        "original_status": "UNRESOLVED_REFUSE_CERTIFICATION",
+        "scientific_release": "NO_GO"
+      },
+      "status": "PASS_INDEPENDENT_REPLAY_UNRESOLVED"
+    },
+    "one_event_n80_i00": {
+      "case_id": "one_event_n80_i00",
+      "elapsed_seconds": 4.398,
+      "result": {
+        "bounded_gap_proven_by_independent_checker": false,
+        "case_identity": {
+          "ambiguous": false,
+          "data_digest": "8ccab302c15303bc6e052bf37b9bb8d604fa06e28e6c61a3f4e310cc8119c8d6",
+          "events": 1,
+          "family": "one_event",
+          "index": 0,
+          "n": 80,
+          "seed": 2034132323
+        },
+        "independent_gap_ceiling": "6.602348380002708150412772718077050869327015955658095789083954136543691186638936425607",
+        "independent_incumbent_lower": "-4.785731321390653007020227313183561928408238235860515480608317510558217761226801958876",
+        "independent_upper_ceil": "1.816617058612055143392545404893488940918777719797580308475636625985473425412134466731",
+        "leaf_bounds_independently_recomputed": 64,
+        "limitation": "Conservative independent finite-box upper; does not validate each producer local coupled or Newton bound; no global R^d claim.",
+        "methods": "independent Decimal-directed loglik + Cauchy-Binet minor + Hadamard Fisher",
+        "nodes_geometry_verified": 127,
+        "original_status": "UNRESOLVED_REFUSE_CERTIFICATION",
+        "scientific_release": "NO_GO"
+      },
+      "status": "PASS_INDEPENDENT_REPLAY_UNRESOLVED"
+    },
+    "quasi_separated_n160_i00": {
+      "case_id": "quasi_separated_n160_i00",
+      "elapsed_seconds": 8.912,
+      "result": {
+        "bounded_gap_proven_by_independent_checker": false,
+        "case_identity": {
+          "ambiguous": false,
+          "data_digest": "c140274190c03920fce19265b87a58d93f19b04a7f16937be1697b76cf3b304b",
+          "events": 16,
+          "family": "quasi_separated",
+          "index": 0,
+          "n": 160,
+          "seed": 2042162323
+        },
+        "independent_gap_ceiling": "9.306669194345900036245493932445884825336349116702914834756806956344004753508827885455",
+        "independent_incumbent_lower": "-8.833880324650946778420650109125976030473505959363447121307335739364005102286413478160",
+        "independent_upper_ceil": "0.472788869694953257824843823319908794862843157339467713449471216979999651222414407295",
+        "leaf_bounds_independently_recomputed": 64,
+        "limitation": "Conservative independent finite-box upper; does not validate each producer local coupled or Newton bound; no global R^d claim.",
+        "methods": "independent Decimal-directed loglik + Cauchy-Binet minor + Hadamard Fisher",
+        "nodes_geometry_verified": 127,
+        "original_status": "UNRESOLVED_REFUSE_CERTIFICATION",
+        "scientific_release": "NO_GO"
+      },
+      "status": "PASS_INDEPENDENT_REPLAY_UNRESOLVED"
+    },
+    "quasi_separated_n80_i00": {
+      "case_id": "quasi_separated_n80_i00",
+      "elapsed_seconds": 4.481,
+      "result": {
+        "bounded_gap_proven_by_independent_checker": false,
+        "case_identity": {
+          "ambiguous": false,
+          "data_digest": "d9131a5b04fcd68343b98079426690587e10562e5c429fb552ee130efe1670a7",
+          "events": 6,
+          "family": "quasi_separated",
+          "index": 0,
+          "n": 80,
+          "seed": 2034162323
+        },
+        "independent_gap_ceiling": "6.292748890567929003205396227264849636079529133921398362124316817019712468453701588293",
+        "independent_incumbent_lower": "-4.700646291766849178220972443730798485079935356175089229973232043745429612854043658210",
+        "independent_upper_ceil": "1.592102598801079824984423783534051150999593777746309132151084773274282855599657930083",
+        "leaf_bounds_independently_recomputed": 64,
+        "limitation": "Conservative independent finite-box upper; does not validate each producer local coupled or Newton bound; no global R^d claim.",
+        "methods": "independent Decimal-directed loglik + Cauchy-Binet minor + Hadamard Fisher",
+        "nodes_geometry_verified": 127,
+        "original_status": "UNRESOLVED_REFUSE_CERTIFICATION",
+        "scientific_release": "NO_GO"
+      },
+      "status": "PASS_INDEPENDENT_REPLAY_UNRESOLVED"
+    },
+    "rare_1pct_n160_i00": {
+      "case_id": "rare_1pct_n160_i00",
+      "elapsed_seconds": 9.322,
+      "result": {
+        "bounded_gap_proven_by_independent_checker": false,
+        "case_identity": {
+          "ambiguous": false,
+          "data_digest": "7d3980266a131435216ab79a5166dc2d7435f98baaf01205ce6594cc98add58d",
+          "events": 1,
+          "family": "rare_1pct",
+          "index": 0,
+          "n": 160,
+          "seed": 2042142323
+        },
+        "independent_gap_ceiling": "7.581651415968674699555468161392888310262284651746326740483730501198511260475363204873",
+        "independent_incumbent_lower": "-3.822637186043712286749657259496207243999426887794415496051345188491552615522899945816",
+        "independent_upper_ceil": "3.759014229924962412805810901896681066262857763951911244432385312706958644952463259057",
+        "leaf_bounds_independently_recomputed": 64,
+        "limitation": "Conservative independent finite-box upper; does not validate each producer local coupled or Newton bound; no global R^d claim.",
+        "methods": "independent Decimal-directed loglik + Cauchy-Binet minor + Hadamard Fisher",
+        "nodes_geometry_verified": 127,
+        "original_status": "UNRESOLVED_REFUSE_CERTIFICATION",
+        "scientific_release": "NO_GO"
+      },
+      "status": "PASS_INDEPENDENT_REPLAY_UNRESOLVED"
+    },
+    "rare_1pct_n160_i13": {
+      "case_id": "rare_1pct_n160_i13",
+      "elapsed_seconds": 9.424,
+      "result": {
+        "bounded_gap_proven_by_independent_checker": false,
+        "case_identity": {
+          "ambiguous": true,
+          "data_digest": "35145e9d5f294d882026d999069d5166d149fa43de044858dc5cb7a19b64d82b",
+          "events": 0,
+          "family": "rare_1pct",
+          "index": 13,
+          "n": 160,
+          "seed": 2042142336
+        },
+        "independent_gap_ceiling": "5.724582943354496266383680368479657810360633588628074545961049015446771082751369728706",
+        "independent_incumbent_lower": "-0.6662007490154767706010666515286608955090772807317124757541051890326674168954162115505",
+        "independent_upper_ceil": "5.058382194339019495782613716950996914851556307896362070206943826414103665855953517155",
+        "leaf_bounds_independently_recomputed": 64,
+        "limitation": "Conservative independent finite-box upper; does not validate each producer local coupled or Newton bound; no global R^d claim.",
+        "methods": "independent Decimal-directed loglik + Cauchy-Binet minor + Hadamard Fisher",
+        "nodes_geometry_verified": 127,
+        "original_status": "UNRESOLVED_REFUSE_CERTIFICATION",
+        "scientific_release": "NO_GO"
+      },
+      "status": "PASS_INDEPENDENT_REPLAY_UNRESOLVED"
+    },
+    "rare_1pct_n80_i00": {
+      "case_id": "rare_1pct_n80_i00",
+      "elapsed_seconds": 4.862,
+      "result": {
+        "bounded_gap_proven_by_independent_checker": false,
+        "case_identity": {
+          "ambiguous": false,
+          "data_digest": "5a892d4157255bf21c3580e67399e80f15a8d0c804185065b99fb8f1d8feb99c",
+          "events": 1,
+          "family": "rare_1pct",
+          "index": 0,
+          "n": 80,
+          "seed": 2034142323
+        },
+        "independent_gap_ceiling": "6.971251724815051747840259061477904055177954502199686768174598250788914617093913653564",
+        "independent_incumbent_lower": "-4.419566990339167782364332302456732823809067695910857527213036965735536591042163656145",
+        "independent_upper_ceil": "2.551684734475883965475926759021171231368886806288829240961561285053378026051749997419",
+        "leaf_bounds_independently_recomputed": 64,
+        "limitation": "Conservative independent finite-box upper; does not validate each producer local coupled or Newton bound; no global R^d claim.",
+        "methods": "independent Decimal-directed loglik + Cauchy-Binet minor + Hadamard Fisher",
+        "nodes_geometry_verified": 127,
+        "original_status": "UNRESOLVED_REFUSE_CERTIFICATION",
+        "scientific_release": "NO_GO"
+      },
+      "status": "PASS_INDEPENDENT_REPLAY_UNRESOLVED"
+    },
+    "rare_5pct_n160_i00": {
+      "case_id": "rare_5pct_n160_i00",
+      "elapsed_seconds": 9.715,
+      "result": {
+        "bounded_gap_proven_by_independent_checker": false,
+        "case_identity": {
+          "ambiguous": false,
+          "data_digest": "475d7c4c7649e71377d203baef02a189857a86921f18644b948987bc92c42604",
+          "events": 7,
+          "family": "rare_5pct",
+          "index": 0,
+          "n": 160,
+          "seed": 2042152323
+        },
+        "independent_gap_ceiling": "21.93068746712119252111351874445612438157973205405467091541872435294054987010190698312",
+        "independent_incumbent_lower": "-24.94269843829992077176057816696728783140724412471072023540484265570303373397104939484",
+        "independent_upper_ceil": "-3.012010971178728250647059422511163449827512070656049319986118302762483863869142411725",
+        "leaf_bounds_independently_recomputed": 64,
+        "limitation": "Conservative independent finite-box upper; does not validate each producer local coupled or Newton bound; no global R^d claim.",
+        "methods": "independent Decimal-directed loglik + Cauchy-Binet minor + Hadamard Fisher",
+        "nodes_geometry_verified": 127,
+        "original_status": "UNRESOLVED_REFUSE_CERTIFICATION",
+        "scientific_release": "NO_GO"
+      },
+      "status": "PASS_INDEPENDENT_REPLAY_UNRESOLVED"
+    },
+    "rare_5pct_n80_i00": {
+      "case_id": "rare_5pct_n80_i00",
+      "elapsed_seconds": 4.798,
+      "result": {
+        "bounded_gap_proven_by_independent_checker": false,
+        "case_identity": {
+          "ambiguous": false,
+          "data_digest": "603a6874059c311714d79d0edfda6e8a33e58ac795c6b8aba037f8cfa9736343",
+          "events": 2,
+          "family": "rare_5pct",
+          "index": 0,
+          "n": 80,
+          "seed": 2034152323
+        },
+        "independent_gap_ceiling": "9.154116320984646867113424101166720152583057280520653040371726691417976258620563619358",
+        "independent_incumbent_lower": "-6.475398348963727896492423512739826734475389394122393454924512310065354789257537123573",
+        "independent_upper_ceil": "2.678717972020918970621000588426893418107667886398259585447214381352621469363026495785",
+        "leaf_bounds_independently_recomputed": 64,
+        "limitation": "Conservative independent finite-box upper; does not validate each producer local coupled or Newton bound; no global R^d claim.",
+        "methods": "independent Decimal-directed loglik + Cauchy-Binet minor + Hadamard Fisher",
+        "nodes_geometry_verified": 127,
+        "original_status": "UNRESOLVED_REFUSE_CERTIFICATION",
+        "scientific_release": "NO_GO"
+      },
+      "status": "PASS_INDEPENDENT_REPLAY_UNRESOLVED"
+    },
+    "zero_balanced_n160_i00": {
+      "case_id": "zero_balanced_n160_i00",
+      "elapsed_seconds": 9.508,
+      "result": {
+        "bounded_gap_proven_by_independent_checker": false,
+        "case_identity": {
+          "ambiguous": false,
+          "data_digest": "f7ebf294b670c66021fe0ad1a921e889bd33c103885b44572de5f23190358383",
+          "events": 0,
+          "family": "zero_balanced",
+          "index": 0,
+          "n": 160,
+          "seed": 2042112323
+        },
+        "independent_gap_ceiling": "5.677478642599474727783416518918829316534609933569837730635641213188266136597939715377",
+        "independent_incumbent_lower": "-0.7602896061844809275118852336629378303223985579484761147946612217565941008615614936310",
+        "independent_upper_ceil": "4.917189036414993800271531285255891486212211375621361615840979991431672035736378221746",
+        "leaf_bounds_independently_recomputed": 64,
+        "limitation": "Conservative independent finite-box upper; does not validate each producer local coupled or Newton bound; no global R^d claim.",
+        "methods": "independent Decimal-directed loglik + Cauchy-Binet minor + Hadamard Fisher",
+        "nodes_geometry_verified": 127,
+        "original_status": "UNRESOLVED_REFUSE_CERTIFICATION",
+        "scientific_release": "NO_GO"
+      },
+      "status": "PASS_INDEPENDENT_REPLAY_UNRESOLVED"
+    },
+    "zero_balanced_n80_i00": {
+      "case_id": "zero_balanced_n80_i00",
+      "elapsed_seconds": 4.796,
+      "result": {
+        "bounded_gap_proven_by_independent_checker": false,
+        "case_identity": {
+          "ambiguous": false,
+          "data_digest": "eca5dfffaa1f9a77760320dac2b148e383ad3446708eb2b4137c287d7858d3fc",
+          "events": 0,
+          "family": "zero_balanced",
+          "index": 0,
+          "n": 80,
+          "seed": 2034112323
+        },
+        "independent_gap_ceiling": "4.689463934708294558887339176051899776068075635571699807056138109850588020781938061108",
+        "independent_incumbent_lower": "-1.010310167334773043173715959293909723340617962973636987366840772862330246104152996567",
+        "independent_upper_ceil": "3.679153767373521515713623216757990052727457672598062819689297336988257774677785064541",
+        "leaf_bounds_independently_recomputed": 64,
+        "limitation": "Conservative independent finite-box upper; does not validate each producer local coupled or Newton bound; no global R^d claim.",
+        "methods": "independent Decimal-directed loglik + Cauchy-Binet minor + Hadamard Fisher",
+        "nodes_geometry_verified": 127,
+        "original_status": "UNRESOLVED_REFUSE_CERTIFICATION",
+        "scientific_release": "NO_GO"
+      },
+      "status": "PASS_INDEPENDENT_REPLAY_UNRESOLVED"
+    },
+    "zero_imbalanced_n160_i00": {
+      "case_id": "zero_imbalanced_n160_i00",
+      "elapsed_seconds": 9.44,
+      "result": {
+        "bounded_gap_proven_by_independent_checker": false,
+        "case_identity": {
+          "ambiguous": false,
+          "data_digest": "9b73cdc6c3085bfcfb56cae494d8cce18c4c5c7b2064b29c9621bedc6a6f7b78",
+          "events": 0,
+          "family": "zero_imbalanced",
+          "index": 0,
+          "n": 160,
+          "seed": 2042122323
+        },
+        "independent_gap_ceiling": "6.062427067482848353209210141034575731788479100833829918962760899521289289860976420085",
+        "independent_incumbent_lower": "-1.390044733364768386067492201406048192259822847589245819310784139075119818040860848277",
+        "independent_upper_ceil": "4.672382334118079967141717939628527539528656253244584099651976760446169471820115571808",
+        "leaf_bounds_independently_recomputed": 64,
+        "limitation": "Conservative independent finite-box upper; does not validate each producer local coupled or Newton bound; no global R^d claim.",
+        "methods": "independent Decimal-directed loglik + Cauchy-Binet minor + Hadamard Fisher",
+        "nodes_geometry_verified": 127,
+        "original_status": "UNRESOLVED_REFUSE_CERTIFICATION",
+        "scientific_release": "NO_GO"
+      },
+      "status": "PASS_INDEPENDENT_REPLAY_UNRESOLVED"
+    },
+    "zero_imbalanced_n160_i05": {
+      "case_id": "zero_imbalanced_n160_i05",
+      "elapsed_seconds": 9.532,
+      "result": {
+        "bounded_gap_proven_by_independent_checker": false,
+        "case_identity": {
+          "ambiguous": true,
+          "data_digest": "d74569f3db64b1b1ff64479dd829eb7a0a3031a6375c8a4ea9f7e9a3a9ffc668",
+          "events": 0,
+          "family": "zero_imbalanced",
+          "index": 5,
+          "n": 160,
+          "seed": 2042122328
+        },
+        "independent_gap_ceiling": "5.675374786752108753104351172024432444316211383546222713751430533320765235195767904856",
+        "independent_incumbent_lower": "-1.222365986715923127808357708913266533536450716060737442053275389897403433606470674993",
+        "independent_upper_ceil": "4.453008800036185625295993463111165910779760667485485271698155143423361801589297229863",
+        "leaf_bounds_independently_recomputed": 64,
+        "limitation": "Conservative independent finite-box upper; does not validate each producer local coupled or Newton bound; no global R^d claim.",
+        "methods": "independent Decimal-directed loglik + Cauchy-Binet minor + Hadamard Fisher",
+        "nodes_geometry_verified": 127,
+        "original_status": "UNRESOLVED_REFUSE_CERTIFICATION",
+        "scientific_release": "NO_GO"
+      },
+      "status": "PASS_INDEPENDENT_REPLAY_UNRESOLVED"
+    },
+    "zero_imbalanced_n160_i07": {
+      "case_id": "zero_imbalanced_n160_i07",
+      "elapsed_seconds": 9.335,
+      "result": {
+        "bounded_gap_proven_by_independent_checker": false,
+        "case_identity": {
+          "ambiguous": true,
+          "data_digest": "d9d8fd00292b835071af6890b79388dd7b0948f30b6de01403f4f4bd4443951c",
+          "events": 0,
+          "family": "zero_imbalanced",
+          "index": 7,
+          "n": 160,
+          "seed": 2042122330
+        },
+        "independent_gap_ceiling": "5.853940261873070188021779838729587253092086603447605213960176472515766353468861673743",
+        "independent_incumbent_lower": "-1.569307812766861050286368427960592070355712112153533254976114910079849234705286430351",
+        "independent_upper_ceil": "4.284632449106209137735411410768995182736374491294071958984061562435917118763575243392",
+        "leaf_bounds_independently_recomputed": 64,
+        "limitation": "Conservative independent finite-box upper; does not validate each producer local coupled or Newton bound; no global R^d claim.",
+        "methods": "independent Decimal-directed loglik + Cauchy-Binet minor + Hadamard Fisher",
+        "nodes_geometry_verified": 127,
+        "original_status": "UNRESOLVED_REFUSE_CERTIFICATION",
+        "scientific_release": "NO_GO"
+      },
+      "status": "PASS_INDEPENDENT_REPLAY_UNRESOLVED"
+    },
+    "zero_imbalanced_n80_i00": {
+      "case_id": "zero_imbalanced_n80_i00",
+      "elapsed_seconds": 4.382,
+      "result": {
+        "bounded_gap_proven_by_independent_checker": false,
+        "case_identity": {
+          "ambiguous": false,
+          "data_digest": "5c840a08ca797c4373542d4fb8967aa0fb2cf8e068b8cb51829191e35b39cb14",
+          "events": 0,
+          "family": "zero_imbalanced",
+          "index": 0,
+          "n": 80,
+          "seed": 2034122323
+        },
+        "independent_gap_ceiling": "5.372603333851785880698956617520847963235701177239977754295339866104213121133241582409",
+        "independent_incumbent_lower": "-1.414328629166041506159745652798957405780452139570473963848850870819839713132402235923",
+        "independent_upper_ceil": "3.958274704685744374539210964721890557455249037669503790446488995284373408000839346486",
+        "leaf_bounds_independently_recomputed": 64,
+        "limitation": "Conservative independent finite-box upper; does not validate each producer local coupled or Newton bound; no global R^d claim.",
+        "methods": "independent Decimal-directed loglik + Cauchy-Binet minor + Hadamard Fisher",
+        "nodes_geometry_verified": 127,
+        "original_status": "UNRESOLVED_REFUSE_CERTIFICATION",
+        "scientific_release": "NO_GO"
+      },
+      "status": "PASS_INDEPENDENT_REPLAY_UNRESOLVED"
+    }
+  },
+  "scientific_release": "NO_GO",
+  "scope": "independent finite coefficient-box replay; not full R^d or producer-bound equivalence",
+  "status": "PASS_INDEPENDENT_REPLAY_ALL_UNRESOLVED",
+  "version": "CH40-A"
+}

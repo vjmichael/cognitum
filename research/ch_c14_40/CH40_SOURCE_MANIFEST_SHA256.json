@@ -1,0 +1,14 @@
+{
+  "CH40A_batch.log": "ee9da70b3eeca58b97a095bcee488496f0cffc7627ab98f5002cc07f10d1b307",
+  "CH40A_original15_results.json": "f5d53326a96ea7c754c5ec40fe1cc7414984cef632116ac74bee9d1386632db4",
+  "CH40A_tests.log": "2773c8b10a7195a1485a1267c6f90495135a3daa5deaa02e35ba1c36db416722",
+  "Cognitum_CH_C14_39_Independent_MPFR_Checker_Original_CH23_2026-11-02.zip": "9e713b102982ea09fecbcfbd27bccf55d56808188bfc3e5be1ba76922000ae6b",
+  "Engineering_Report_CH_C14_40_A.md": "cb08e96547b73802034c0ef79ecd8e05c7550d4f7fe12411114f13f67f2f24a8",
+  "README.md": "74e1091320eaa98250f877369316b771d7526f3107c69e34e9fe8c207add161a",
+  "RUN_CH40_INDEPENDENT.cmd": "5c0c436ceca20124cd204924c7b331775161de52022f91b9f6f45f17c4580234",
+  "batch40.py": "2346bd6c2804ea9e6c21bb3ac3a77b690a2d56934d1494cd2dd270d26f97d575",
+  "exact_decimal40.py": "e1448d97bc92381bec2943d59c7d21ab14f1cde1c544959a4a1c65394984bad0",
+  "independent_checker40.py": "196026e209ce582acc64f21835611c24b2a1d6132cac2f2c1e4ddb7ad5f491c1",
+  "tests/test_ch40.py": "cc09816f5cc5bb54c484b3c2d44506f007b976108b2f2dae683ee552b048a5aa",
+  "verify_original40.py": "3cfb94b815c24989161f0c7f205a88995eab5b0ff0e9c53b4cf5e86e1c031fd7"
+}

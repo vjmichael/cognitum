@@ -1,0 +1,24 @@
+test_00_independent_original_127_nodes_64_leaves (test_ch40.CH40.test_00_independent_original_127_nodes_64_leaves) ... ok
+test_01_one_ulp_log_and_exp_bracket (test_ch40.CH40.test_01_one_ulp_log_and_exp_bracket) ... ok
+test_02_no_floating_inputs (test_ch40.CH40.test_02_no_floating_inputs) ... ok
+test_03_nonpositive_log_fails_closed (test_ch40.CH40.test_03_nonpositive_log_fails_closed) ... ok
+test_04_invalid_interval_division_fails_closed (test_ch40.CH40.test_04_invalid_interval_division_fails_closed) ... ok
+test_05_original_checkpoint_file_pin (test_ch40.CH40.test_05_original_checkpoint_file_pin) ... ok
+test_06_changed_root_partition_refused (test_ch40.CH40.test_06_changed_root_partition_refused) ... ok
+test_07_duplicate_child_refused (test_ch40.CH40.test_07_duplicate_child_refused) ... ok
+test_08_fake_newton_contraction_refused (test_ch40.CH40.test_08_fake_newton_contraction_refused) ... ok
+test_09_wrong_parent_refused (test_ch40.CH40.test_09_wrong_parent_refused) ... ok
+test_10_non_spd_matrix_refused (test_ch40.CH40.test_10_non_spd_matrix_refused) ... ok
+test_11_non_symmetric_matrix_refused (test_ch40.CH40.test_11_non_symmetric_matrix_refused) ... ok
+test_12_changed_model_digest_refused (test_ch40.CH40.test_12_changed_model_digest_refused) ... ok
+test_13_no_premature_release (test_ch40.CH40.test_13_no_premature_release) ... ok
+test_14_finite_domain_not_Rd (test_ch40.CH40.test_14_finite_domain_not_Rd) ... ok
+test_15_fake_certification_rejected (test_ch40.CH40.test_15_fake_certification_rejected) ... ok
+test_16_incumbent_outside_box_rejected (test_ch40.CH40.test_16_incumbent_outside_box_rejected) ... ok
+test_17_producer_display_not_authoritative (test_ch40.CH40.test_17_producer_display_not_authoritative) ... ok
+test_18_independent_point_enclosure (test_ch40.CH40.test_18_independent_point_enclosure) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 9.450s
+
+OK
