@@ -39,6 +39,16 @@ class ParallelWitnessService(socketserver.ThreadingMixIn, WitnessService):
         case = msg['case_id']
         if type(case) is not str or case not in self.pins:
             raise ValueError('Case is not in immutable signer policy')
+        # Reject obvious duplicates BEFORE the expensive MPFR replay, while
+        # still checking a second time under the publication lock afterward.
+        # The second check is mandatory because two requests may race here.
+        with self.commit_lock:
+            prior_tip = self.trusted_tip()
+            prior = verify_chain(self.store.root, self.public,
+                                 expected_fingerprint=self.fingerprint,
+                                 expected_tip=prior_tip)
+            if case in prior['cases']:
+                raise ValueError('Original case already witnessed')
         with self.verification_slots:
             # A fresh child process performs every independent 224-bit MPFR replay.
             # Attestations do not come from the journal's AF_UNIX request.
