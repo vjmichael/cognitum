@@ -1,0 +1,31 @@
+{
+  "expected_signer_fingerprint": "4d96a83156e475fb7be46973c4e83c7aa307e8edb522b98dce0f4bbd68c08647",
+  "expected_tip": "1b417529b8f13a4b0e248921cc9aa6d30fd0a9008c5c2f99873182570f626bf3",
+  "expected_verifier_fingerprint": "3c74555ece4d1d9cd151241094b7fc641debbc1be0218b0f65854270474f28ae",
+  "fresh_MPFR_in_this_public_audit": false,
+  "global_certifications": 0,
+  "original_CH32_CH33_pins_matched": 15,
+  "original_source_cases": 15,
+  "production_release": "NO_GO",
+  "signed_case_names": [
+    "quasi_separated_n80_i00",
+    "one_event_n80_i00",
+    "quasi_separated_n160_i00",
+    "one_event_n160_i00",
+    "rare_1pct_n80_i00",
+    "rare_1pct_n160_i00",
+    "rare_1pct_n160_i13",
+    "rare_5pct_n80_i00",
+    "zero_balanced_n80_i00",
+    "rare_5pct_n160_i00",
+    "zero_balanced_n160_i00",
+    "zero_imbalanced_n160_i00",
+    "zero_imbalanced_n80_i00",
+    "zero_imbalanced_n160_i05",
+    "zero_imbalanced_n160_i07"
+  ],
+  "signed_cases": 15,
+  "signer_signatures_verified": 15,
+  "status": "PASS",
+  "verifier_signatures_verified": 15
+}

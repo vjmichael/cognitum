@@ -1,0 +1,13 @@
+{
+  "CH37_new_entries": 38,
+  "full_sha256_verified_entries": 1012,
+  "preserved_original_CH36_entries": 974,
+  "private_keys_included": false,
+  "status": "PASS",
+  "zip_evidence": "/mnt/data/Cognitum_CH_C14_37_Independent_Account_Evidence_2026-11-02.zip",
+  "zip_evidence_bytes": 63807,
+  "zip_evidence_sha256": "577d9d3408677fe53775e6a3382b52a5687e53b0778cebefe43ed9dbac3710c7",
+  "zip_full": "/mnt/data/Cognitum_CH_C14_37_Three_UID_Dual_Signed_Original_CH23_2026-11-02.zip",
+  "zip_full_bytes": 5903040,
+  "zip_full_sha256": "d54e627aef10e16e0f691541494267d6c48078532b51f698409476b6dd66474f"
+}

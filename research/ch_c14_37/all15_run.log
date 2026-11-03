@@ -1,0 +1,16 @@
+PASS one_event_n160_i00 uid split verifier 1002 signer 65534 seconds 112.31
+PASS one_event_n80_i00 uid split verifier 1002 signer 65534 seconds 57.07
+PASS quasi_separated_n160_i00 uid split verifier 1002 signer 65534 seconds 94.82
+PASS quasi_separated_n80_i00 uid split verifier 1002 signer 65534 seconds 48.48
+PASS rare_1pct_n160_i00 uid split verifier 1002 signer 65534 seconds 107.12
+PASS rare_1pct_n160_i13 uid split verifier 1002 signer 65534 seconds 101.95
+PASS rare_1pct_n80_i00 uid split verifier 1002 signer 65534 seconds 53.09
+PASS rare_5pct_n160_i00 uid split verifier 1002 signer 65534 seconds 113.81
+PASS rare_5pct_n80_i00 uid split verifier 1002 signer 65534 seconds 57.49
+PASS zero_balanced_n160_i00 uid split verifier 1002 signer 65534 seconds 109.45
+PASS zero_balanced_n80_i00 uid split verifier 1002 signer 65534 seconds 57.96
+PASS zero_imbalanced_n160_i00 uid split verifier 1002 signer 65534 seconds 107.97
+PASS zero_imbalanced_n160_i05 uid split verifier 1002 signer 65534 seconds 109.84
+PASS zero_imbalanced_n160_i07 uid split verifier 1002 signer 65534 seconds 109.49
+PASS zero_imbalanced_n80_i00 uid split verifier 1002 signer 65534 seconds 57.9
+{"cases": 15, "elapsed_s": 342.708, "status": "PASS", "tip": "1b417529b8f13a4b0e248921cc9aa6d30fd0a9008c5c2f99873182570f626bf3"}

@@ -27,6 +27,9 @@ def check(public_witness,original_root,*,signer_fp,verifier_fp,tip,case_count=15
     audited=audit_chain(p,(p/'public.ed25519.pem').read_bytes(),(p/'verifier_public.ed25519.pem').read_bytes(),
                         signer_fingerprint=signer_fp,verifier_fingerprint=verifier_fp,expected_tip=tip,pins=pins)
     if audited['length']!=case_count:raise ValueError('Unexpected signed-original case count')
+    records=list((p/'revisions').iterdir())
+    if len(records)!=case_count or any(not f.is_file() or not f.name.endswith('.json') for f in records):
+        raise ValueError('Unreachable, orphaned or unknown public witness revisions')
     return {'status':'PASS','original_source_cases':15,'signed_cases':audited['length'],
             'signed_case_names':audited['cases'],
             'signer_signatures_verified':audited['verified_signer_signatures'],

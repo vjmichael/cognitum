@@ -172,6 +172,8 @@ def exercise(base,caseids,results,keep=False):
         if audit['length']!=len(caseids) or set(audit['cases'])!=set(caseids):raise AssertionError('Incomplete signed chain')
         results.parent.mkdir(parents=True,exist_ok=True)
         export=results.parent/'CH37_public_witness'
+        if export.exists() and any(p.is_file() for p in export.rglob('*')):
+            raise FileExistsError('Refuse to merge public witnesses from separate signing authorities; choose a fresh evidence directory')
         export.mkdir(exist_ok=True)
         (export/'revisions').mkdir(exist_ok=True)
         for f in (a/'revisions').iterdir():shutil.copyfile(f,export/'revisions'/f.name)

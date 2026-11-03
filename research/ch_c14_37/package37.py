@@ -13,9 +13,11 @@ EVIDENCE=ROOT/'Cognitum_CH_C14_37_Independent_Account_Evidence_2026-11-02.zip'
 INCLUDE=['protocol37.py','trust37.py','verifier37.py','signer37.py','harness37.py',
          'audit37.py','package37.py','README.md','Engineering_Report_CH_C14_37.md',
          'frozen_protocol.json','original15_results.json','public_audit.json',
-         'tests/test_protocol37.py','ch37_tests.log','all15_run.log']
+         'tests/test_protocol37.py','tests/test_fail_closed_live.py',
+         'tests/test_public_archive37.py','ch37_tests.log','live_fail_closed_test.log','all15_run.log',
+         'make_report37.py']
 
-def checksum(p):return hashlib.sha256(p).hexdigest()
+def checksum(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
 def main():
     with zipfile.ZipFile(BASE) as z:

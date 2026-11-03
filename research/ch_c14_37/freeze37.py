@@ -11,7 +11,8 @@ def main():
     if results['case_count']!=15 or sorted(results['original_CH23_cases_tested'])!=caseids or len(caseids)!=15:
         raise ValueError('CH37 cannot freeze without 15 accepted original CH23 cases')
     methods=['protocol37.py','trust37.py','verifier37.py','signer37.py','harness37.py','audit37.py',
-             'tests/test_protocol37.py','tests/test_fail_closed_live.py']
+             'tests/test_protocol37.py','tests/test_fail_closed_live.py','tests/test_public_archive37.py',
+             'freeze37.py','package37.py','make_report37.py']
     frozen={'milestone':'CH-C14-37','date':'2026-11-02','status':'research_Linux_acceptance',
             'parent_commit':'9a783e35dc76e7c3699a1cd0e6975608af4cf10b',
             'frozen_original_CH23_cases':caseids,'case_count':15,
