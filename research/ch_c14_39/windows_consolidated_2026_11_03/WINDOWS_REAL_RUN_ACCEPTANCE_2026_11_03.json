@@ -1,0 +1,59 @@
+{
+  "milestone": "Cognitum CH23-CH39 consolidated Windows evidence regression",
+  "acceptance": "PASS",
+  "date_local": "2026-11-03T07:59:00.146294-07:00",
+  "platform": "win32",
+  "python_version": "3.14.6",
+  "cryptography_version": "50.0.2",
+  "exit_code": 0,
+  "counts": {
+    "PASS": 17,
+    "FAIL": 0,
+    "BLOCKED": 0
+  },
+  "categories": {
+    "live_evidence_checks": 5,
+    "adversarial_temporary_copy_checks": 10,
+    "adversarial_input_checks": 2
+  },
+  "original_package_sha256": "9e713b102982ea09fecbcfbd27bccf55d56808188bfc3e5be1ba76922000ae6b",
+  "package_files_sha256_verified": 1099,
+  "historical_manifests": {
+    "CH32": 778,
+    "CH33": 851,
+    "CH35": 934,
+    "CH36": 973,
+    "CH37": 1012,
+    "CH38": 1052,
+    "CH39": 1099
+  },
+  "original_case_pins_matched": 15,
+  "signatures": {
+    "attestor": 15,
+    "final_signer": 15
+  },
+  "terminal_witness_tip": "112980038c992461c0eaf43c2d3f066191e4c7404b058ba434c1ba1352af68c5",
+  "adversarial_rejections": [
+    "changed witness HEAD case ID",
+    "rollback witness HEAD by one generation",
+    "tampered final signer public key",
+    "tampered frozen witness case pin",
+    "tampered CH33 proof checkpoint",
+    "tampered CH32 original journal-head pin",
+    "altered historical witness revision",
+    "missing signed witness revision",
+    "orphaned forged witness revision",
+    "modified ZIP rejected against pinned hash",
+    "duplicate JSON keys rejected",
+    "path-traversal and alternate-stream rejects (10 paths)"
+  ],
+  "user_supplied_original_summary_sha256": "7f7e596af7c81e7ab0259eb61b0005f35d7dbdb7b9651632e68fc4ca978e5ab3",
+  "evidence_privacy": "No original local usernames or absolute Windows paths included",
+  "not_covered": [
+    "fresh native full 127-node MPFR mathematical verification",
+    "Linux five-UID isolation reproduced on Windows",
+    "historical crash/power-loss replay",
+    "global-optimality certification"
+  ],
+  "scientific_disposition": "NO_GO"
+}
