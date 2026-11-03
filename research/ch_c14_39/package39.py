@@ -25,7 +25,7 @@ def main():
         if source.testzip() is not None:raise ValueError('Parent CH38 corruption')
         base={n:source.read(n) for n in source.namelist() if not n.endswith('/')}
     for n in base:
-        if n.startswith('/') or '..' in Path(n).parts or not n.startswith('CH_C14_') and n!='SHA256SUMS_FULL_CH38.json':
+        if n.startswith('/') or '..' in Path(n).parts or not (n.startswith('CH_C14_') or (n.startswith('SHA256SUMS') and n.endswith('.json') and '/' not in n)):
             raise ValueError('Unsafe parent archive entry')
     add={}
     for p in CH39.rglob('*'):

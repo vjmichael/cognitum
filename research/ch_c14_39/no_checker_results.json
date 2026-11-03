@@ -1,0 +1,12 @@
+{
+  "attestor_response": {
+    "detail": "Attestor denied mathematical proof",
+    "error": "ValueError",
+    "ok": false
+  },
+  "checker_running": false,
+  "elapsed_wall_seconds": 7.158,
+  "signed_witness": false,
+  "status": "PASS",
+  "worker_claimed_success": true
+}

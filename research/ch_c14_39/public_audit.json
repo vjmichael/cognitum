@@ -1,0 +1,31 @@
+{
+  "attestor_signatures_verified": 15,
+  "expected_attestor_fingerprint": "a7aac9b236a27959fd087adbad2841b2f3147c447ac5c755dfba6b025c9ae2bb",
+  "expected_signer_fingerprint": "ec53b6f7bb956665be5ff9b07b149456992c8df0ce92e4f8fb3c5156b16035ee",
+  "expected_tip": "112980038c992461c0eaf43c2d3f066191e4c7404b058ba434c1ba1352af68c5",
+  "fresh_MPFR_in_this_public_audit": false,
+  "global_certifications": 0,
+  "original_CH32_CH33_pins_matched": 15,
+  "original_source_cases": 15,
+  "production_release": "NO_GO",
+  "signed_case_names": [
+    "one_event_n80_i00",
+    "quasi_separated_n80_i00",
+    "quasi_separated_n160_i00",
+    "one_event_n160_i00",
+    "rare_1pct_n80_i00",
+    "rare_1pct_n160_i00",
+    "rare_5pct_n160_i00",
+    "rare_1pct_n160_i13",
+    "rare_5pct_n80_i00",
+    "zero_balanced_n80_i00",
+    "zero_balanced_n160_i00",
+    "zero_imbalanced_n160_i00",
+    "zero_imbalanced_n160_i05",
+    "zero_imbalanced_n80_i00",
+    "zero_imbalanced_n160_i07"
+  ],
+  "signed_cases": 15,
+  "signer_signatures_verified": 15,
+  "status": "PASS"
+}

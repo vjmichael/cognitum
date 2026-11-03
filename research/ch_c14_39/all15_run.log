@@ -1,0 +1,16 @@
+PASS ORIGINAL one_event_n160_i00 MPFR math UID 1002 checker UID 1004 attestor UID 1003 signer UID 65534 elapsed 454.85
+PASS ORIGINAL one_event_n80_i00 MPFR math UID 1002 checker UID 1004 attestor UID 1003 signer UID 65534 elapsed 314.38
+PASS ORIGINAL quasi_separated_n160_i00 MPFR math UID 1002 checker UID 1004 attestor UID 1003 signer UID 65534 elapsed 433.09
+PASS ORIGINAL quasi_separated_n80_i00 MPFR math UID 1002 checker UID 1004 attestor UID 1003 signer UID 65534 elapsed 317.72
+PASS ORIGINAL rare_1pct_n160_i00 MPFR math UID 1002 checker UID 1004 attestor UID 1003 signer UID 65534 elapsed 380.53
+PASS ORIGINAL rare_1pct_n160_i13 MPFR math UID 1002 checker UID 1004 attestor UID 1003 signer UID 65534 elapsed 437.03
+PASS ORIGINAL rare_1pct_n80_i00 MPFR math UID 1002 checker UID 1004 attestor UID 1003 signer UID 65534 elapsed 143.15
+PASS ORIGINAL rare_5pct_n160_i00 MPFR math UID 1002 checker UID 1004 attestor UID 1003 signer UID 65534 elapsed 244.66
+PASS ORIGINAL rare_5pct_n80_i00 MPFR math UID 1002 checker UID 1004 attestor UID 1003 signer UID 65534 elapsed 228.2
+PASS ORIGINAL zero_balanced_n160_i00 MPFR math UID 1002 checker UID 1004 attestor UID 1003 signer UID 65534 elapsed 412.4
+PASS ORIGINAL zero_balanced_n80_i00 MPFR math UID 1002 checker UID 1004 attestor UID 1003 signer UID 65534 elapsed 180.37
+PASS ORIGINAL zero_imbalanced_n160_i00 MPFR math UID 1002 checker UID 1004 attestor UID 1003 signer UID 65534 elapsed 428.67
+PASS ORIGINAL zero_imbalanced_n160_i05 MPFR math UID 1002 checker UID 1004 attestor UID 1003 signer UID 65534 elapsed 409.74
+PASS ORIGINAL zero_imbalanced_n160_i07 MPFR math UID 1002 checker UID 1004 attestor UID 1003 signer UID 65534 elapsed 446.98
+PASS ORIGINAL zero_imbalanced_n80_i00 MPFR math UID 1002 checker UID 1004 attestor UID 1003 signer UID 65534 elapsed 188.49
+{"status": "PASS", "cases": 15, "tip": "112980038c992461c0eaf43c2d3f066191e4c7404b058ba434c1ba1352af68c5", "wall_s": 1357.46}

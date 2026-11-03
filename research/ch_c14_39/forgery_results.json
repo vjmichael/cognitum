@@ -1,0 +1,14 @@
+{
+  "attack": "SYNTACTICALLY_VALID_FALSE_MPFR_ATTESTATION",
+  "attestor_refusal": {
+    "detail": "Attestor denied mathematical proof",
+    "error": "ValueError",
+    "ok": false
+  },
+  "checker_uid": 1004,
+  "elapsed_wall_seconds": 182.68,
+  "math_uid": 1002,
+  "original_case_id": "one_event_n80_i00",
+  "signature_created": false,
+  "status": "PASS"
+}

@@ -11,6 +11,8 @@ def main():
     testlog=(D/'ch39_tests.log').read_text().strip()
     if '24 passed' not in testlog:raise ValueError('CH39 unit suite not accepted')
     names=a['original_CH23_cases_tested']
+    executed=load('executed_source_sha256.json')
+    if len(executed)!=6 or not all(x['identical'] for x in executed.values()):raise ValueError('Executed service source mismatch')
     lines=[
     '# Cognitum CH-C14-39 — Independent MPFR proof checking before attestation',
     '', '**Date:** 2026-11-02 (America/Phoenix). **Disposition:** scoped Linux research engineering PASS; scientific/production NO-GO.',
@@ -30,6 +32,7 @@ def main():
     f"- **Checkpoint nodes rechecked:** {len(names)*127*2:,} (127 per case per independent invocation).",
     f"- **Historical frames rechecked:** {len(names)*6*2} (six per case per invocation).",
     f"- **Source pins:** {audit['original_CH32_CH33_pins_matched']}/15 original CH32 heads and CH33 compacted checkpoints matched.",
+    f"- **Executed service source digests:** {len(executed)}/6 matched the current CH39 source files byte-for-byte.",
     f"- **Signatures:** {audit['attestor_signatures_verified']} attestor and {audit['signer_signatures_verified']} signer signatures independently audited.",
     f"- **Wall clock:** {a['elapsed_wall_seconds']} seconds at worker limit 4 and checker limit 4 (both expensive, independent MPFR runs).",
     f"- **Frozen original witness chain tip:** `{a['tip_sha256']}`.",

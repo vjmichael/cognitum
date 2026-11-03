@@ -1,0 +1,32 @@
+{
+  "attestor39.py": {
+    "current": "ab26a8e413d6503bba192addc61fc2ef31f80f6169ae8ab8dd34d26a17736508",
+    "executed": "ab26a8e413d6503bba192addc61fc2ef31f80f6169ae8ab8dd34d26a17736508",
+    "identical": true
+  },
+  "checker39.py": {
+    "current": "a216a7c90a4ba1c8f35d30911950b2254a15ad0370b9dba30e541dfe8b549bd5",
+    "executed": "a216a7c90a4ba1c8f35d30911950b2254a15ad0370b9dba30e541dfe8b549bd5",
+    "identical": true
+  },
+  "math39.py": {
+    "current": "feab5e5b716e4fe580fe8d583a01beb26c6c74e209643ea72b7eede348a9d198",
+    "executed": "feab5e5b716e4fe580fe8d583a01beb26c6c74e209643ea72b7eede348a9d198",
+    "identical": true
+  },
+  "protocol39.py": {
+    "current": "e7b6ae4bc3df9c1485360deda09848effda96d12b591738d3386df5f6b256e0e",
+    "executed": "e7b6ae4bc3df9c1485360deda09848effda96d12b591738d3386df5f6b256e0e",
+    "identical": true
+  },
+  "signer39.py": {
+    "current": "89b5dcb2b3ba03e1048dcc7443214820d7235e4738653845b8d769486d4b2f5f",
+    "executed": "89b5dcb2b3ba03e1048dcc7443214820d7235e4738653845b8d769486d4b2f5f",
+    "identical": true
+  },
+  "trust39.py": {
+    "current": "1622621e481f2b0f7f79b662f63eaefedcd7ceaa14bcec936b767c4627c62814",
+    "executed": "1622621e481f2b0f7f79b662f63eaefedcd7ceaa14bcec936b767c4627c62814",
+    "identical": true
+  }
+}

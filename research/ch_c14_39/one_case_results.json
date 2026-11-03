@@ -1,0 +1,107 @@
+{
+  "MPFR_bits": 224,
+  "absence_of_attestor": "REFUSED",
+  "attestor_uid": 1003,
+  "attestor_uid_original_source_access": "DENIED",
+  "audit": {
+    "attestor_signatures_verified": 1,
+    "expected_attestor_fingerprint": "1c549e214b1c1c510eba25520b20c12b17b863b61a593ace16f9b6ca50af9bdd",
+    "expected_signer_fingerprint": "8f7a7eada6cd034b3e39249d04eb4a44ea08c1e38dc9e4e35774bb11874f7a48",
+    "expected_tip": "36f7b91f859a27000bad831011e1b20f38d2598417c4ed00caf8f6d9c3e9f239",
+    "fresh_MPFR_in_this_public_audit": false,
+    "global_certifications": 0,
+    "original_CH32_CH33_pins_matched": 15,
+    "original_source_cases": 15,
+    "production_release": "NO_GO",
+    "signed_case_names": [
+      "one_event_n80_i00"
+    ],
+    "signed_cases": 1,
+    "signer_signatures_verified": 1,
+    "status": "PASS"
+  },
+  "case_count": 1,
+  "checker_fresh_MPFR_replay": true,
+  "checker_uid": 1004,
+  "checkpoint_nodes_per_case": 127,
+  "duplicate_challenge": "REFUSED",
+  "elapsed_wall_seconds": 182.07,
+  "global_optimality_certifications": 0,
+  "history_frames_per_case": 6,
+  "math_uid": 1002,
+  "math_uid_attestor_key_access": "DENIED",
+  "math_uid_compromise_can_bypass_checker": false,
+  "math_uid_signer_key_access": "DENIED",
+  "milestone": "CH-C14-38",
+  "off_host_anchor": false,
+  "original_CH23_cases_tested": [
+    "one_event_n80_i00"
+  ],
+  "policy_sha256": "20114fd1eee3121467346eb4a00dc9d2577a1eb8ec612f24e296fdbc96a7345b",
+  "power_cut_tested": false,
+  "public_attestor_fingerprint": "1c549e214b1c1c510eba25520b20c12b17b863b61a593ace16f9b6ca50af9bdd",
+  "public_signer_fingerprint": "8f7a7eada6cd034b3e39249d04eb4a44ea08c1e38dc9e4e35774bb11874f7a48",
+  "records": [
+    {
+      "case_id": "one_event_n80_i00",
+      "fingerprint_sha256": "8f7a7eada6cd034b3e39249d04eb4a44ea08c1e38dc9e4e35774bb11874f7a48",
+      "record": {
+        "body": {
+          "attestor_fingerprint_sha256": "1c549e214b1c1c510eba25520b20c12b17b863b61a593ace16f9b6ca50af9bdd",
+          "attestor_ticket": {
+            "body": {
+              "attestation": {
+                "archive_epochs": 2,
+                "archive_sha256": "1cf6eefa852fe3a88352802de36535bcce66ddf46243ca24a31d1f12689a4728",
+                "binding_sha256": "473f2f5c356d75fe4f92be7d80bcbe7cab98853d272c3be9445da1b41a95f5d9",
+                "case_id": "one_event_n80_i00",
+                "checkpoint_sha256": "84429dae20d0315bda2f48a4e82908d515469863a70832ee8d56fc87746232b2",
+                "mpfr_replayed_frames": 6,
+                "nodes": 127,
+                "original_head_sha256": "ce92be481fcd868ea18d10eea2f4f54b018a5a107b912019c98e71fea8f92ada",
+                "proof_replayed": true,
+                "scientific_release": "NO_GO",
+                "verified_source": "original_CH23_independent_MPFR_224"
+              },
+              "attestor_fingerprint_sha256": "1c549e214b1c1c510eba25520b20c12b17b863b61a593ace16f9b6ca50af9bdd",
+              "case_id": "one_event_n80_i00",
+              "checker_receipt": {
+                "case_id": "one_event_n80_i00",
+                "checker_attestation_sha256": "5d9cb564f5aa95367ace8ac0088be13b1a91b85fd7a9687c6eceea3917f34681",
+                "checker_result": "INDEPENDENT_REPLAY_ACCEPTED",
+                "checker_scope": "FROZEN_CH23_127_NODES_6_FRAMES_MPFR_224",
+                "nonce": "34bff6c1cb1aac9014181e98b32c96579043f37bc49612dcabc9d9d8f3d7f644",
+                "policy_sha256": "20114fd1eee3121467346eb4a00dc9d2577a1eb8ec612f24e296fdbc96a7345b",
+                "version": 1,
+                "worker_attestation_sha256": "5d9cb564f5aa95367ace8ac0088be13b1a91b85fd7a9687c6eceea3917f34681"
+              },
+              "nonce": "34bff6c1cb1aac9014181e98b32c96579043f37bc49612dcabc9d9d8f3d7f644",
+              "policy_sha256": "20114fd1eee3121467346eb4a00dc9d2577a1eb8ec612f24e296fdbc96a7345b",
+              "version": 1
+            },
+            "signature": "qlDav4gZxR+aq/TU1yZwUNm769KLkq91lxVPvoI9OFdil9snBZBu6xFRm93o42Qt307FinQRGSS9aKP6QGuvBQ=="
+          },
+          "case_id": "one_event_n80_i00",
+          "generation": 0,
+          "parent": "0000000000000000000000000000000000000000000000000000000000000000",
+          "policy_sha256": "20114fd1eee3121467346eb4a00dc9d2577a1eb8ec612f24e296fdbc96a7345b",
+          "scientific_release": "NO_GO",
+          "signer_fingerprint_sha256": "8f7a7eada6cd034b3e39249d04eb4a44ea08c1e38dc9e4e35774bb11874f7a48",
+          "version": 2
+        },
+        "signature": "xFI/Ctzg4E+RXOpFNKbflJvSPKebKx9H/8aL0IZo4iLwD/S6QL3CrqF5FCXhU59jY7s6wOJQoOyZh/ZRMa2IBw=="
+      },
+      "scientific_release": "NO_GO",
+      "status": "SIGNED_AFTER_SEPARATE_UID_MPFR",
+      "tip_sha256": "36f7b91f859a27000bad831011e1b20f38d2598417c4ed00caf8f6d9c3e9f239"
+    }
+  ],
+  "scientific_release": "NO_GO",
+  "signer_uid": 65534,
+  "signer_uid_original_source_access": "DENIED",
+  "test_status": "PASS",
+  "tip_sha256": "36f7b91f859a27000bad831011e1b20f38d2598417c4ed00caf8f6d9c3e9f239",
+  "windows_tested": false,
+  "writer_injected_certificate": "REJECTED",
+  "writer_uid": 1000
+}

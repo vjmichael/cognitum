@@ -1,0 +1,17 @@
+{
+  "attestor_signatures_verified": 1,
+  "expected_attestor_fingerprint": "1c549e214b1c1c510eba25520b20c12b17b863b61a593ace16f9b6ca50af9bdd",
+  "expected_signer_fingerprint": "8f7a7eada6cd034b3e39249d04eb4a44ea08c1e38dc9e4e35774bb11874f7a48",
+  "expected_tip": "36f7b91f859a27000bad831011e1b20f38d2598417c4ed00caf8f6d9c3e9f239",
+  "fresh_MPFR_in_this_public_audit": false,
+  "global_certifications": 0,
+  "original_CH32_CH33_pins_matched": 15,
+  "original_source_cases": 15,
+  "production_release": "NO_GO",
+  "signed_case_names": [
+    "one_event_n80_i00"
+  ],
+  "signed_cases": 1,
+  "signer_signatures_verified": 1,
+  "status": "PASS"
+}
