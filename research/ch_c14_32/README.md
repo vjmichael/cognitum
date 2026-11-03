@@ -25,12 +25,13 @@ Requires the source directories `CH_C14_24` through `CH_C14_32`, the original fr
 ```sh
 cd CH_C14_32
 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python -m pytest -q tests/test_journal.py
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python chaos32.py   # hard child process exits at both commit boundaries
 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python benchmark32.py --workers 3
 python audit32.py
 python restart32.py --case zero_balanced_n80_i00 --journal journals/zero_balanced_n80_i00 --verify-only --expected-head '<pin from heads.json>'
 ```
 
-Run the full benchmark in a clean `journals/` directory; it refuses existing journal frames instead of rewriting old results. The benchmark injects a **before-rename crash on `one_event_n80_i00`**, and a **post-fsync, pre-ack crash on `zero_balanced_n80_i00`**, before completing all 15 journals. The final additional cold process checks every 127-node proof, with the external head pin read from the previous verified stage's receipt. Saved replay receipts are only diagnostics.
+Run the full benchmark in a clean `journals/` directory; it refuses existing journal frames instead of rewriting old results. Additionally, `chaos32.py` verifies real hard process exits on an original CH23 case. The benchmark injects a **before-rename crash on `one_event_n80_i00`**, and a **post-fsync, pre-ack crash on `zero_balanced_n80_i00`**, before completing all 15 journals. The final additional cold process checks every 127-node proof, with the external head pin read from the previous verified stage's receipt. Saved replay receipts are only diagnostics.
 
 Proof checkpoint sizes: 7 → 15 → 31 → 63 → 95 → 127. The 7/15/31/95 intermediate checkpoints are projections of CH29's archived proof trees, **not new optimizer searches**. The 63/127 source checkpoints retain their original hashes. The fifteen cases and the three historical ambiguous zero-event refusals are unchanged.
 

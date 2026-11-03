@@ -1,0 +1,18 @@
+[
+  {
+    "accepted": true,
+    "child_exit_code": 79,
+    "final_cold_rechecked_nodes": 15,
+    "fresh_rechecked_before_recovery": 7,
+    "head_sha256": "010a6557a098a1ede4bcd1298e7b30008f79c998f0979263ded831972d08c12a",
+    "mode": "before_rename"
+  },
+  {
+    "accepted": true,
+    "child_exit_code": 79,
+    "final_cold_rechecked_nodes": 15,
+    "fresh_rechecked_before_recovery": 15,
+    "head_sha256": "010a6557a098a1ede4bcd1298e7b30008f79c998f0979263ded831972d08c12a",
+    "mode": "after_dir_fsync"
+  }
+]
