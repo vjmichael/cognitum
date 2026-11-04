@@ -1,0 +1,23 @@
+{
+  "accepted_15case_m7_journals_unchanged": true,
+  "cached_computations": 130,
+  "cached_cpu_seconds": 16.447636901,
+  "cases": 15,
+  "children_checked": 242,
+  "exact_duplicate_hits": 112,
+  "exact_proposition_ledger_equal": true,
+  "exact_receipts_equal": true,
+  "focused_unittest_passed": 12,
+  "fresh_computations": 242,
+  "fresh_cpu_seconds": 25.602299681,
+  "journal_count": 30,
+  "proposition_ledger_sha256": "6f9cef6a65d0e69195953f283c7d0f44ec0d630a6785910c08774a37c81956af",
+  "protocol": "CH40M8-ACCEPTANCE-V1",
+  "receipt_sha256": "f3a5207f0b01a326ff8f1a8bea0dfb141aebd9ef901608d93f3c054323add05c",
+  "rehashed_undercut_refusal_passed": true,
+  "research_only": true,
+  "scientific_release": "NO_GO",
+  "unique_math_propositions": 130,
+  "verifier_cpu_reduction_fraction": 0.3575718936996065,
+  "verifier_speed_ratio": 1.5565944114101526
+}
