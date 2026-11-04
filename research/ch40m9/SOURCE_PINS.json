@@ -1,0 +1,32 @@
+{
+  "inputs": {
+    "CH40K/CH40K_ACCEPTANCE.json": {
+      "sha256": "19f784ac6a7389f774169a4c249dc79e0ec72d8aa1effcf5674c22e8d5c0db76",
+      "size_bytes": 6618
+    },
+    "CH40M5/gram_psd.py": {
+      "sha256": "0c2abf76371636e5655dd34fb3db4c814f85629d894944c510305c7abd9d0f7d",
+      "size_bytes": 4056
+    },
+    "CH40M5/independent_psd_check.py": {
+      "sha256": "c273f4f085efecec8ce720a84cfd8c2fc59073396713e252fe33230d0b154e8f",
+      "size_bytes": 2616
+    },
+    "CH40M7/mpfr_gram.py": {
+      "sha256": "83f08b140aa724abfb9c82e09d1e7757c749b8128f54b9fe5267a1f7cab95744",
+      "size_bytes": 4681
+    },
+    "CH40M7/worker_m7.py": {
+      "sha256": "67ca973280c4e0cc263cae3889ebb092e8fcdd3e66ad7904c09e693a81c10f39",
+      "size_bytes": 5022
+    },
+    "CH40M8/audit_m8.py": {
+      "sha256": "f2451fb4f1c98e74b899bc00b4c82e70344287badd985dea04d31a5fbb868ba9",
+      "size_bytes": 12164
+    }
+  },
+  "production_enabled": false,
+  "protocol": "CH40M9-EXECUTION-DEPENDENCY-AND-ORIGINAL-SOURCE-PINS",
+  "python": "3.13.5 (main, Jul 15 2026, 20:25:40) [GCC 14.2.0]",
+  "scientific_release": "NO_GO"
+}
