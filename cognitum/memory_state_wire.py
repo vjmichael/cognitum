@@ -25,6 +25,7 @@ ACTIONS = {
     pb.ASSERT: Action.ASSERT, pb.CONFIRM: Action.CONFIRM,
     pb.CHALLENGE: Action.CHALLENGE, pb.SUPERSEDE: Action.SUPERSEDE,
     pb.RETRACT: Action.RETRACT, pb.EXPIRE: Action.EXPIRE,
+    pb.MERGE: Action.MERGE,
 }
 REVERSE_ORIGINS = {v: k for k, v in ORIGINS.items()}
 REVERSE_ACTIONS = {v: k for k, v in ACTIONS.items()}
