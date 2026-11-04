@@ -37,6 +37,13 @@ def hmm():
 
 
 class C17StateTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        try:
+            import numpy, scipy
+        except ImportError:
+            raise unittest.SkipTest("optional genuine C17 numerical/learning backend not installed")
+
     def test_real_kalman_local_and_constant_velocity(self):
         try: import scipy,numpy
         except ImportError:self.skipTest("NumPy/SciPy not installed")
@@ -94,6 +101,13 @@ class C17StateTests(unittest.TestCase):
 
 
 class C17HiddenTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        try:
+            import numpy, scipy
+        except ImportError:
+            raise unittest.SkipTest("optional genuine C17 numerical/learning backend not installed")
+
     def test_hmm_state_changes_not_semantic_truth(self):
         obs=tuple(HiddenObservation(1000*i,0 if i<10 else 1,
                                    "sensor","obs"+str(i)) for i in range(20))
@@ -128,6 +142,14 @@ class C17HiddenTests(unittest.TestCase):
 
 
 class C17LearnedTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        try:
+            import numpy, scipy
+            import sklearn
+        except ImportError:
+            raise unittest.SkipTest("optional genuine C17 numerical/learning backend not installed")
+
     def test_trained_checkpoint_and_recursive_forecast(self):
         try:import sklearn
         except ImportError:self.skipTest("scikit-learn optional backend not installed")
