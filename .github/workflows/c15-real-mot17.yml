@@ -23,7 +23,9 @@ permissions:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  # Let an in-progress long benchmark finish despite newer branch pushes.
+  # GitHub may still replace an older pending request with a newer one.
+  cancel-in-progress: false
 
 jobs:
   real-public-mot17:
