@@ -15,7 +15,15 @@ from pathlib import Path
 HERE=Path(__file__).resolve().parent
 ROOT=Path(os.environ.get('CH40M8_WORKSPACE','/mnt/data')).resolve()
 sys.path.insert(0,str(HERE))
-from audit_m8 import _load_pins,_prepare_original,audit_one,CertifiedBoxCache,run_batch,Refusal,sha,canon
+try:
+    from audit_m8 import _load_pins,_prepare_original,audit_one,CertifiedBoxCache,run_batch,Refusal,sha,canon
+except ModuleNotFoundError as exc:
+    # Repository CI does not package the immutable ~800 MB external CH40 fixtures
+    # or older checker modules. Missing originals are SKIP, never a false PASS.
+    # A missing dependency when originals *are* available is a hard import error.
+    if not (ROOT/'CH40K/traces').is_dir():
+        raise unittest.SkipTest('original CH40 source modules and frozen fixtures not present') from exc
+    raise
 
 CASE='quasi_separated_n80_i00'
 
