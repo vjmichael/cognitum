@@ -1,0 +1,217 @@
+{
+  "protocol": "CH40M4-IBEX-SOPLEX-15-FROZEN-MODELS",
+  "claim": "SMOKE ONLY: no independent global verification",
+  "backend": "IBEX 2.9.1 / SoPlex 4.0.2 / Filib",
+  "cases": {
+    "one_event_n80_i00": {
+      "model_sha256": "399df8c47c7264b9d30c2f43ad746abf6ca7f593863b47e04d6beae58ffbc49e",
+      "status": "EXECUTED_UNVERIFIED",
+      "exit": 0,
+      "terminal": "TIME_LIMIT",
+      "interval_reported": [
+        -43.8908832166,
+        12.0586861207
+      ],
+      "gap_reported": 55.949569337300005,
+      "wall_seconds": 2.9784,
+      "native_output_tail": "\n************************ setup ************************\n  file loaded:\t\t/mnt/data/ch40m4_ibex/models/one_event_n80_i00.bch\n  abs-eps-f:\t\t0.05\t(absolute precision on objective)\n  rigor mode:\t\tON\t(feasibility of equalities certified)\n  symbolic simpl level:\t0\t\n  output COV file:\t/mnt/data/ch40m4_ibex/models/one_event_n80_i00.cov\n  timeout:\t\t0.4s\n*******************************************************\n\nrunning............\n\n\u001b[31m time limit 0.400000000001s. reached \n\u001b[0m\n f* in\t[-43.8908832166,12.0586861207]\n\t(best bound)\n\n x* in\t([-7.87548919627, -7.87548919627] ; [-0.763396589496, -0.763396589496] ; [-1.08827540094, -1.08827540094])\n\t(best feasible point)\n\n relative precision on f*:\t1.27474238924\n absolute precision on f*:\t55.9495693373\n cpu time used:\t\t\t0.288913s\n number of cells:\t\t6\n\n results written in /mnt/data/ch40m4_ibex/models/one_event_n80_i00.cov\n (old file saved in /mnt/data/ch40m4_ibex/models/one_event_n80_i00.cov~)\n",
+      "independent_proof_accepted": false
+    },
+    "quasi_separated_n80_i00": {
+      "model_sha256": "40f2a502060ddbeeb8ee50d0d3a54edd879d6f6b6b8e2cbcbc8789099980b3f9",
+      "status": "EXECUTED_UNVERIFIED",
+      "exit": 0,
+      "terminal": "TIME_LIMIT",
+      "interval_reported": [
+        -95.3367204869,
+        16.9176873709
+      ],
+      "gap_reported": 112.2544078578,
+      "wall_seconds": 3.1117,
+      "native_output_tail": "\n************************ setup ************************\n  file loaded:\t\t/mnt/data/ch40m4_ibex/models/quasi_separated_n80_i00.bch\n  abs-eps-f:\t\t0.05\t(absolute precision on objective)\n  rigor mode:\t\tON\t(feasibility of equalities certified)\n  symbolic simpl level:\t0\t\n  output COV file:\t/mnt/data/ch40m4_ibex/models/quasi_separated_n80_i00.cov\n  timeout:\t\t0.4s\n*******************************************************\n\nrunning............\n\n\u001b[31m time limit 0.400000000001s. reached \n\u001b[0m\n f* in\t[-95.3367204869,16.9176873709]\n\t(best bound)\n\n x* in\t([-4.11992479659, -4.11992479659] ; [4.65065976597, 4.65065976597] ; [-0.454562673218, -0.454562673218])\n\t(best feasible point)\n\n relative precision on f*:\t1.17745195435\n absolute precision on f*:\t112.254407858\n cpu time used:\t\t\t0.349965000001s\n number of cells:\t\t6\n\n results written in /mnt/data/ch40m4_ibex/models/quasi_separated_n80_i00.cov\n (old file saved in /mnt/data/ch40m4_ibex/models/quasi_separated_n80_i00.cov~)\n",
+      "independent_proof_accepted": false
+    },
+    "rare_1pct_n80_i00": {
+      "model_sha256": "6b0597590bba94601d4afe920786bc70864697aa85f19a8fbdf7194f2ac3359a",
+      "status": "EXECUTED_UNVERIFIED",
+      "exit": 0,
+      "terminal": "TIME_LIMIT",
+      "interval_reported": [
+        -39.8837531479,
+        8.816286733
+      ],
+      "gap_reported": 48.7000398809,
+      "wall_seconds": 2.9121,
+      "native_output_tail": "\n************************ setup ************************\n  file loaded:\t\t/mnt/data/ch40m4_ibex/models/rare_1pct_n80_i00.bch\n  abs-eps-f:\t\t0.05\t(absolute precision on objective)\n  rigor mode:\t\tON\t(feasibility of equalities certified)\n  symbolic simpl level:\t0\t\n  output COV file:\t/mnt/data/ch40m4_ibex/models/rare_1pct_n80_i00.cov\n  timeout:\t\t0.4s\n*******************************************************\n\nrunning............\n\n\u001b[31m time limit 0.400000000001s. reached \n\u001b[0m\n f* in\t[-39.8837531479,8.816286733]\n\t(best bound)\n\n x* in\t([-7.56006165577, -7.56006165577] ; [1.11292399609, 1.11292399609] ; [2.62800719301, 2.62800719301])\n\t(best feasible point)\n\n relative precision on f*:\t1.22104957626\n absolute precision on f*:\t48.700039881\n cpu time used:\t\t\t0.306394000001s\n number of cells:\t\t6\n\n results written in /mnt/data/ch40m4_ibex/models/rare_1pct_n80_i00.cov\n (old file saved in /mnt/data/ch40m4_ibex/models/rare_1pct_n80_i00.cov~)\n",
+      "independent_proof_accepted": false
+    },
+    "rare_5pct_n80_i00": {
+      "model_sha256": "a373a8dab490d0c8d037ca9bd4ad020d3271452401dbad6e88aceac21dc80bb3",
+      "status": "EXECUTED_UNVERIFIED",
+      "exit": 0,
+      "terminal": "TIME_LIMIT",
+      "interval_reported": [
+        -46.0385528854,
+        9.82555860747
+      ],
+      "gap_reported": 55.86411149287,
+      "wall_seconds": 3.2197,
+      "native_output_tail": "\n************************ setup ************************\n  file loaded:\t\t/mnt/data/ch40m4_ibex/models/rare_5pct_n80_i00.bch\n  abs-eps-f:\t\t0.05\t(absolute precision on objective)\n  rigor mode:\t\tON\t(feasibility of equalities certified)\n  symbolic simpl level:\t0\t\n  output COV file:\t/mnt/data/ch40m4_ibex/models/rare_5pct_n80_i00.cov\n  timeout:\t\t0.4s\n*******************************************************\n\nrunning............\n\n\u001b[31m time limit 0.400000000001s. reached \n\u001b[0m\n f* in\t[-46.0385528854,9.82555860747]\n\t(best bound)\n\n x* in\t([-6.64236616145, -6.64236616145] ; [3.64704809353, 3.64704809353] ; [1.68483248835, 1.68483248835])\n\t(best feasible point)\n\n relative precision on f*:\t1.21342023135\n absolute precision on f*:\t55.864111493\n cpu time used:\t\t\t0.331872000001s\n number of cells:\t\t6\n\n results written in /mnt/data/ch40m4_ibex/models/rare_5pct_n80_i00.cov\n (old file saved in /mnt/data/ch40m4_ibex/models/rare_5pct_n80_i00.cov~)\n",
+      "independent_proof_accepted": false
+    },
+    "zero_balanced_n80_i00": {
+      "model_sha256": "ad192b96a5766cb88c6b1f3b47960eea57bb7c8342e0048ee1863bdad440e6f9",
+      "status": "EXECUTED_UNVERIFIED",
+      "exit": 0,
+      "terminal": "TIME_LIMIT",
+      "interval_reported": [
+        -38.7171448933,
+        2.6714998128
+      ],
+      "gap_reported": 41.3886447061,
+      "wall_seconds": 3.0006,
+      "native_output_tail": "\n************************ setup ************************\n  file loaded:\t\t/mnt/data/ch40m4_ibex/models/zero_balanced_n80_i00.bch\n  abs-eps-f:\t\t0.05\t(absolute precision on objective)\n  rigor mode:\t\tON\t(feasibility of equalities certified)\n  symbolic simpl level:\t0\t\n  output COV file:\t/mnt/data/ch40m4_ibex/models/zero_balanced_n80_i00.cov\n  timeout:\t\t0.4s\n*******************************************************\n\nrunning............\n\n\u001b[31m time limit 0.400000000001s. reached \n\u001b[0m\n f* in\t[-38.7171448933,2.6714998128]\n\t(best bound)\n\n x* in\t([-8.24870542134, -8.24870542134] ; [1.96531507582, 1.96531507582] ; [1.58780975654, 1.58780975654])\n\t(best feasible point)\n\n relative precision on f*:\t1.06900043431\n absolute precision on f*:\t41.3886447061\n cpu time used:\t\t\t0.283555s\n number of cells:\t\t6\n\n results written in /mnt/data/ch40m4_ibex/models/zero_balanced_n80_i00.cov\n (old file saved in /mnt/data/ch40m4_ibex/models/zero_balanced_n80_i00.cov~)\n",
+      "independent_proof_accepted": false
+    },
+    "zero_imbalanced_n80_i00": {
+      "model_sha256": "f9ee62a5c5479ef4f416f341bceddb916528faa0508eba0b96083760ba7f0a3e",
+      "status": "EXECUTED_UNVERIFIED",
+      "exit": 0,
+      "terminal": "TIME_LIMIT",
+      "interval_reported": [
+        -60.8818861864,
+        3.14572044533
+      ],
+      "gap_reported": 64.02760663173001,
+      "wall_seconds": 2.81,
+      "native_output_tail": "\n************************ setup ************************\n  file loaded:\t\t/mnt/data/ch40m4_ibex/models/zero_imbalanced_n80_i00.bch\n  abs-eps-f:\t\t0.05\t(absolute precision on objective)\n  rigor mode:\t\tON\t(feasibility of equalities certified)\n  symbolic simpl level:\t0\t\n  output COV file:\t/mnt/data/ch40m4_ibex/models/zero_imbalanced_n80_i00.cov\n  timeout:\t\t0.4s\n*******************************************************\n\nrunning............\n\n\u001b[31m time limit 0.400000000001s. reached \n\u001b[0m\n f* in\t[-60.8818861864,3.14572044533]\n\t(best bound)\n\n x* in\t([-5.1573375118, -5.1573375118] ; [-1.17252889931, -1.17252889931] ; [3.18440548801, 3.18440548801])\n\t(best feasible point)\n\n relative precision on f*:\t1.05166923436\n absolute precision on f*:\t64.0276066318\n cpu time used:\t\t\t0.278509s\n number of cells:\t\t6\n\n results written in /mnt/data/ch40m4_ibex/models/zero_imbalanced_n80_i00.cov\n (old file saved in /mnt/data/ch40m4_ibex/models/zero_imbalanced_n80_i00.cov~)\n",
+      "independent_proof_accepted": false
+    },
+    "one_event_n160_i00": {
+      "model_sha256": "66d033639213247ca172bc90deee3ce12040d5047104ed3722cdfcee28ac361d",
+      "status": "EXECUTED_UNVERIFIED",
+      "exit": 0,
+      "terminal": "TIME_LIMIT",
+      "interval_reported": [
+        -42.5032202679,
+        58.3725628951
+      ],
+      "gap_reported": 100.875783163,
+      "wall_seconds": 9.1796,
+      "native_output_tail": "\n************************ setup ************************\n  file loaded:\t\t/mnt/data/ch40m4_ibex/models/one_event_n160_i00.bch\n  abs-eps-f:\t\t0.05\t(absolute precision on objective)\n  rigor mode:\t\tON\t(feasibility of equalities certified)\n  symbolic simpl level:\t0\t\n  output COV file:\t/mnt/data/ch40m4_ibex/models/one_event_n160_i00.cov\n  timeout:\t\t0.4s\n*******************************************************\n\nrunning............\n\n\u001b[31m time limit 0.400000000001s. reached \n\u001b[0m\n f* in\t[-42.5032202679,58.3725628951]\n\t(best bound)\n\n x* in\t([-4.50995048752, -4.50995048752] ; [4.47268480423, 4.47268480423] ; [1.01449954697, 1.01449954697])\n\t(best feasible point)\n\n relative precision on f*:\t2.37336800664\n absolute precision on f*:\t100.875783163\n cpu time used:\t\t\t0s\n number of cells:\t\t2\n\n results written in /mnt/data/ch40m4_ibex/models/one_event_n160_i00.cov\n (old file saved in /mnt/data/ch40m4_ibex/models/one_event_n160_i00.cov~)\n",
+      "independent_proof_accepted": false
+    },
+    "quasi_separated_n160_i00": {
+      "model_sha256": "3501ff2d8ba0cb4f5ef540eca3d15019762cf4b4d3b2cee0185cd634762bfe9e",
+      "status": "EXECUTED_UNVERIFIED",
+      "exit": 0,
+      "terminal": "TIME_LIMIT",
+      "interval_reported": [
+        -229.470210025,
+        47.4747987782
+      ],
+      "gap_reported": 276.9450088032,
+      "wall_seconds": 9.1364,
+      "native_output_tail": "\n************************ setup ************************\n  file loaded:\t\t/mnt/data/ch40m4_ibex/models/quasi_separated_n160_i00.bch\n  abs-eps-f:\t\t0.05\t(absolute precision on objective)\n  rigor mode:\t\tON\t(feasibility of equalities certified)\n  symbolic simpl level:\t0\t\n  output COV file:\t/mnt/data/ch40m4_ibex/models/quasi_separated_n160_i00.cov\n  timeout:\t\t0.4s\n*******************************************************\n\nrunning............\n\n\u001b[31m time limit 0.400000000001s. reached \n\u001b[0m\n f* in\t[-229.470210025,47.4747987782]\n\t(best bound)\n\n x* in\t([-6.93352098435, -6.93352098435] ; [1.71924625448, 1.71924625448] ; [2.29593396357, 2.29593396357])\n\t(best feasible point)\n\n relative precision on f*:\t1.20688872326\n absolute precision on f*:\t276.945008804\n cpu time used:\t\t\t0s\n number of cells:\t\t2\n\n results written in /mnt/data/ch40m4_ibex/models/quasi_separated_n160_i00.cov\n (old file saved in /mnt/data/ch40m4_ibex/models/quasi_separated_n160_i00.cov~)\n",
+      "independent_proof_accepted": false
+    },
+    "rare_1pct_n160_i00": {
+      "model_sha256": "e647f0280eb952fc504d2ec7075d7253601e952144512256bb351d5667947cea",
+      "status": "EXECUTED_UNVERIFIED",
+      "exit": 0,
+      "terminal": "TIME_LIMIT",
+      "interval_reported": [
+        -53.9583260816,
+        43.0378340804
+      ],
+      "gap_reported": 96.996160162,
+      "wall_seconds": 9.2303,
+      "native_output_tail": "\n************************ setup ************************\n  file loaded:\t\t/mnt/data/ch40m4_ibex/models/rare_1pct_n160_i00.bch\n  abs-eps-f:\t\t0.05\t(absolute precision on objective)\n  rigor mode:\t\tON\t(feasibility of equalities certified)\n  symbolic simpl level:\t0\t\n  output COV file:\t/mnt/data/ch40m4_ibex/models/rare_1pct_n160_i00.cov\n  timeout:\t\t0.4s\n*******************************************************\n\nrunning............\n\n\u001b[31m time limit 0.400000000001s. reached \n\u001b[0m\n f* in\t[-53.9583260816,43.0378340804]\n\t(best bound)\n\n x* in\t([-6.86426230563, -6.86426230563] ; [4.23201245937, 4.23201245937] ; [-4.61376242563, -4.61376242563])\n\t(best feasible point)\n\n relative precision on f*:\t1.79761247625\n absolute precision on f*:\t96.996160162\n cpu time used:\t\t\t0s\n number of cells:\t\t2\n\n results written in /mnt/data/ch40m4_ibex/models/rare_1pct_n160_i00.cov\n (old file saved in /mnt/data/ch40m4_ibex/models/rare_1pct_n160_i00.cov~)\n",
+      "independent_proof_accepted": false
+    },
+    "rare_1pct_n160_i13": {
+      "model_sha256": "27c3d43f4ac8b0d658216cb47b675ab078d2135143405ce39d3e119866abb96f",
+      "status": "EXECUTED_UNVERIFIED",
+      "exit": 0,
+      "terminal": "TIME_LIMIT",
+      "interval_reported": [
+        -54.2308626992,
+        3.48637366249
+      ],
+      "gap_reported": 57.717236361690006,
+      "wall_seconds": 8.9354,
+      "native_output_tail": "\n************************ setup ************************\n  file loaded:\t\t/mnt/data/ch40m4_ibex/models/rare_1pct_n160_i13.bch\n  abs-eps-f:\t\t0.05\t(absolute precision on objective)\n  rigor mode:\t\tON\t(feasibility of equalities certified)\n  symbolic simpl level:\t0\t\n  output COV file:\t/mnt/data/ch40m4_ibex/models/rare_1pct_n160_i13.cov\n  timeout:\t\t0.4s\n*******************************************************\n\nrunning............\n\n\u001b[31m time limit 0.400000000001s. reached \n\u001b[0m\n f* in\t[-54.2308626992,3.48637366249]\n\t(best bound)\n\n x* in\t([-6.96911895344, -6.96911895344] ; [-0.248999599192, -0.248999599192] ; [2.87351037094, 2.87351037094])\n\t(best feasible point)\n\n relative precision on f*:\t1.0642876305\n absolute precision on f*:\t57.7172363617\n cpu time used:\t\t\t0s\n number of cells:\t\t2\n\n results written in /mnt/data/ch40m4_ibex/models/rare_1pct_n160_i13.cov\n (old file saved in /mnt/data/ch40m4_ibex/models/rare_1pct_n160_i13.cov~)\n",
+      "independent_proof_accepted": false
+    },
+    "rare_5pct_n160_i00": {
+      "model_sha256": "ba25b7d3308017720db17c83ce027905cd9950b26a31c6c23c488e1ca15790e1",
+      "status": "EXECUTED_UNVERIFIED",
+      "exit": 0,
+      "terminal": "TIME_LIMIT",
+      "interval_reported": [
+        -82.7324899749,
+        48.9860757087
+      ],
+      "gap_reported": 131.7185656836,
+      "wall_seconds": 9.1103,
+      "native_output_tail": "\n************************ setup ************************\n  file loaded:\t\t/mnt/data/ch40m4_ibex/models/rare_5pct_n160_i00.bch\n  abs-eps-f:\t\t0.05\t(absolute precision on objective)\n  rigor mode:\t\tON\t(feasibility of equalities certified)\n  symbolic simpl level:\t0\t\n  output COV file:\t/mnt/data/ch40m4_ibex/models/rare_5pct_n160_i00.cov\n  timeout:\t\t0.4s\n*******************************************************\n\nrunning............\n\n\u001b[31m time limit 0.400000000001s. reached \n\u001b[0m\n f* in\t[-82.7324899749,48.9860757087]\n\t(best bound)\n\n x* in\t([-7.19162319255, -7.19162319255] ; [1.63324599775, 1.63324599775] ; [0.242279697034, 0.242279697034])\n\t(best feasible point)\n\n relative precision on f*:\t1.59210203541\n absolute precision on f*:\t131.718565684\n cpu time used:\t\t\t0.392221000001s\n number of cells:\t\t4\n\n results written in /mnt/data/ch40m4_ibex/models/rare_5pct_n160_i00.cov\n (old file saved in /mnt/data/ch40m4_ibex/models/rare_5pct_n160_i00.cov~)\n",
+      "independent_proof_accepted": false
+    },
+    "zero_balanced_n160_i00": {
+      "model_sha256": "767c4e6a9e6836ba35a2f18065369e4b063a8fa198502180f324eaf95c0007af",
+      "status": "EXECUTED_UNVERIFIED",
+      "exit": 0,
+      "terminal": "TIME_LIMIT",
+      "interval_reported": [
+        -46.1358421326,
+        1.28472127198
+      ],
+      "gap_reported": 47.420563404579994,
+      "wall_seconds": 9.8026,
+      "native_output_tail": "\n************************ setup ************************\n  file loaded:\t\t/mnt/data/ch40m4_ibex/models/zero_balanced_n160_i00.bch\n  abs-eps-f:\t\t0.05\t(absolute precision on objective)\n  rigor mode:\t\tON\t(feasibility of equalities certified)\n  symbolic simpl level:\t0\t\n  output COV file:\t/mnt/data/ch40m4_ibex/models/zero_balanced_n160_i00.cov\n  timeout:\t\t0.4s\n*******************************************************\n\nrunning............\n\n\u001b[31m time limit 0.400000000001s. reached \n\u001b[0m\n f* in\t[-46.1358421326,1.28472127198]\n\t(best bound)\n\n x* in\t([-5.60709053233, -5.60709053233] ; [-0.263552566818, -0.263552566818] ; [-0.336478456234, -0.336478456234])\n\t(best feasible point)\n\n relative precision on f*:\t1.02784649012\n absolute precision on f*:\t47.4205634047\n cpu time used:\t\t\t0s\n number of cells:\t\t2\n\n results written in /mnt/data/ch40m4_ibex/models/zero_balanced_n160_i00.cov\n (old file saved in /mnt/data/ch40m4_ibex/models/zero_balanced_n160_i00.cov~)\n",
+      "independent_proof_accepted": false
+    },
+    "zero_imbalanced_n160_i00": {
+      "model_sha256": "ea07bb2d1b5c4d769d38b27c1d8d67e606068bbcf103060a62747c43b5ddd9de",
+      "status": "EXECUTED_UNVERIFIED",
+      "exit": 0,
+      "terminal": "TIME_LIMIT",
+      "interval_reported": [
+        -66.3515739339,
+        3.40126242211
+      ],
+      "gap_reported": 69.75283635601,
+      "wall_seconds": 9.5571,
+      "native_output_tail": "\n************************ setup ************************\n  file loaded:\t\t/mnt/data/ch40m4_ibex/models/zero_imbalanced_n160_i00.bch\n  abs-eps-f:\t\t0.05\t(absolute precision on objective)\n  rigor mode:\t\tON\t(feasibility of equalities certified)\n  symbolic simpl level:\t0\t\n  output COV file:\t/mnt/data/ch40m4_ibex/models/zero_imbalanced_n160_i00.cov\n  timeout:\t\t0.4s\n*******************************************************\n\nrunning............\n\n\u001b[31m time limit 0.400000000001s. reached \n\u001b[0m\n f* in\t[-66.3515739339,3.40126242211]\n\t(best bound)\n\n x* in\t([-5.69293562525, -5.69293562525] ; [-2.90863204931, -2.90863204931] ; [-0.576522237522, -0.576522237522])\n\t(best feasible point)\n\n relative precision on f*:\t1.05126121689\n absolute precision on f*:\t69.7528363561\n cpu time used:\t\t\t0.397937s\n number of cells:\t\t4\n\n results written in /mnt/data/ch40m4_ibex/models/zero_imbalanced_n160_i00.cov\n (old file saved in /mnt/data/ch40m4_ibex/models/zero_imbalanced_n160_i00.cov~)\n",
+      "independent_proof_accepted": false
+    },
+    "zero_imbalanced_n160_i05": {
+      "model_sha256": "fc17908f71032d4da1f87317f8ca642baf03859d66b031fd1f0c930f105b26ee",
+      "status": "EXECUTED_UNVERIFIED",
+      "exit": 0,
+      "terminal": "TIME_LIMIT",
+      "interval_reported": [
+        -85.8351591389,
+        1.65960808585
+      ],
+      "gap_reported": 87.49476722474999,
+      "wall_seconds": 9.282,
+      "native_output_tail": "\n************************ setup ************************\n  file loaded:\t\t/mnt/data/ch40m4_ibex/models/zero_imbalanced_n160_i05.bch\n  abs-eps-f:\t\t0.05\t(absolute precision on objective)\n  rigor mode:\t\tON\t(feasibility of equalities certified)\n  symbolic simpl level:\t0\t\n  output COV file:\t/mnt/data/ch40m4_ibex/models/zero_imbalanced_n160_i05.cov\n  timeout:\t\t0.4s\n*******************************************************\n\nrunning............\n\n\u001b[31m time limit 0.400000000001s. reached \n\u001b[0m\n f* in\t[-85.8351591389,1.65960808585]\n\t(best bound)\n\n x* in\t([-5.12073315671, -5.12073315671] ; [2.30184420182, 2.30184420182] ; [-2.19901632918, -2.19901632918])\n\t(best feasible point)\n\n relative precision on f*:\t1.01933482856\n absolute precision on f*:\t87.4947672249\n cpu time used:\t\t\t0s\n number of cells:\t\t2\n\n results written in /mnt/data/ch40m4_ibex/models/zero_imbalanced_n160_i05.cov\n (old file saved in /mnt/data/ch40m4_ibex/models/zero_imbalanced_n160_i05.cov~)\n",
+      "independent_proof_accepted": false
+    },
+    "zero_imbalanced_n160_i07": {
+      "model_sha256": "9cb078c861c997ef322f837ec58673f5f20ae396806cedc7bcfe532e68944832",
+      "status": "EXECUTED_UNVERIFIED",
+      "exit": 0,
+      "terminal": "TIME_LIMIT",
+      "interval_reported": [
+        -65.1883015649,
+        3.89954027979
+      ],
+      "gap_reported": 69.08784184469,
+      "wall_seconds": 9.6421,
+      "native_output_tail": "\n************************ setup ************************\n  file loaded:\t\t/mnt/data/ch40m4_ibex/models/zero_imbalanced_n160_i07.bch\n  abs-eps-f:\t\t0.05\t(absolute precision on objective)\n  rigor mode:\t\tON\t(feasibility of equalities certified)\n  symbolic simpl level:\t0\t\n  output COV file:\t/mnt/data/ch40m4_ibex/models/zero_imbalanced_n160_i07.cov\n  timeout:\t\t0.4s\n*******************************************************\n\nrunning............\n\n\u001b[31m time limit 0.400000000001s. reached \n\u001b[0m\n f* in\t[-65.1883015649,3.89954027979]\n\t(best bound)\n\n x* in\t([-8.35990011188, -8.35990011188] ; [-0.969407967284, -0.969407967284] ; [-4.29825152952, -4.29825152952])\n\t(best feasible point)\n\n relative precision on f*:\t1.05981963307\n absolute precision on f*:\t69.0878418448\n cpu time used:\t\t\t0.375688000001s\n number of cells:\t\t4\n\n results written in /mnt/data/ch40m4_ibex/models/zero_imbalanced_n160_i07.cov\n (old file saved in /mnt/data/ch40m4_ibex/models/zero_imbalanced_n160_i07.cov~)\n",
+      "independent_proof_accepted": false
+    }
+  }
+}
