@@ -20,6 +20,8 @@ Each numerical trajectory reports requested tolerances, solver evaluations and b
 `E(t)-E(0) = integral(force * velocity - damping * velocity**2) dt`.
 Undamped harmonic cases also report maximum position error versus a closed-form solution; energy drift, balance residual and event time are visible. These are diagnostics, **not rigorous error enclosures**, causal validation, empirical model uncertainty or physical sensor calibration.
 
+**Convergence comparison.** `compare_refinement` runs the same original model again with tighter SciPy relative/absolute tolerances and a smaller maximum step; it reports the maximum observed position/velocity disagreement. Discordant terminal events or output grids become `NONCONVERGENT_EVENT_OR_SAMPLE_GRID` rather than an invented error bound. Agreement of two solves is not mathematical proof of physical model correctness or a rigorous interval error certificate.
+
 **P3 genuine reference comparisons.** `tools/c16_physics_benchmark.py` exercises all four real SciPy solver methods, forced and damped energy balances, downward boundary event, and bounded RHS-evaluation failure. It emits measured process CPU and wall time, actual RHS counts, convergence/analytic error, energy balance and event evidence as JSON. This is component numerical acceptance, not Lu model A/B efficacy, GPU research or neural-ODE surrogate training.
 
 ## Distribution, typed wire and acceptance
