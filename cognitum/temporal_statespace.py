@@ -156,10 +156,20 @@ def filter_sequence(seq:TemporalSequence,model:TemporalModel, *,
         initial=next(s.values[j] for s in seq.samples if s.values[j] is not None)
         state[j,0]=initial
         cov[j]=np.eye(state.shape[1])*model.prior_variance
-    points=[]
-    missing=observed=anomalies=0
+    # The first measured state is an explicit bootstrap observation, not
+    # an independent prior and then a second measurement of the same value.
+    # Count it exactly once and retain caller-specified bootstrap covariance.
+    points=[TemporalPoint(
+        first,tuple(float(x[0]) for x in state),
+        tuple(float(p[0,0]) for p in cov),
+        tuple(0.0 for _ in range(n)),
+        tuple(False for _ in range(n)),
+        tuple(False for _ in range(n)))]
+    missing=0
+    observed=n
+    anomalies=0
     previous=first
-    for sample in seq.samples:
+    for sample in seq.samples[1:]:
         dt=(sample.time_ms-previous)/1000.
         if model.kind=="constant_velocity":
             F=np.array(((1.,dt),(0.,1.)))
