@@ -49,7 +49,10 @@ def crosscheck(q:TopologyQuery):
             output.setdefault(dim,[]).append((float(b),None if d is None else float(d)))
         return output
     first=convert((x.dimension,x.birth,x.death) for x in result.intervals)
-    second=convert(bars)
+    # GUDHI returns (homology_dimension, (birth, death)), unlike Ripser's
+    # already-flattened Interval objects. Expand the nested tuple explicitly.
+    second=convert((dimension,float(interval[0]),float(interval[1]))
+                   for dimension,interval in bars)
     largest=0.
     compared=0
     for dim in range(q.maximum_homology_dimension+1):
