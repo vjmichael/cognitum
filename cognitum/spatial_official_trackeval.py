@@ -120,7 +120,6 @@ def run(m:MOTManifest)->OfficialEvaluation:
              "--GT_FOLDER",str(m.data_root/"gt"),
              "--TRACKERS_FOLDER",str(m.data_root/"trackers"),
              "--BENCHMARK",m.benchmark,"--SPLIT_TO_EVAL",m.split,
-             "--SEQMAP_FILE",str(seqmap),
              "--TRACKERS_TO_EVAL",m.tracker,
              "--CLASSES_TO_EVAL","pedestrian",
              "--METRICS","HOTA","CLEAR","Identity",
