@@ -1,0 +1,15 @@
+test_30_receipts_exist (__main__.Acceptance.test_30_receipts_exist) ... ok
+test_accepted_results (__main__.Acceptance.test_accepted_results) ... ok
+test_all15_and_frozen_hash_pins (__main__.Acceptance.test_all15_and_frozen_hash_pins) ... ok
+test_equivalent_bound_formula (__main__.Acceptance.test_equivalent_bound_formula) ... ok
+test_forged_scientific_status_refused (__main__.Acceptance.test_forged_scientific_status_refused) ... ok
+test_proof_verifier_cannot_import_native_engines (__main__.Acceptance.test_proof_verifier_cannot_import_native_engines) ... ok
+test_rational_endpoint_brackets (__main__.Acceptance.test_rational_endpoint_brackets) ... ok
+test_readonly_fresh_one_case (__main__.Acceptance.test_readonly_fresh_one_case) ... ok
+test_rehashed_unsafe_cap_refused (__main__.Acceptance.test_rehashed_unsafe_cap_refused) ... ok
+test_tampered_original_sha_refused (__main__.Acceptance.test_tampered_original_sha_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 2.725s
+
+OK
