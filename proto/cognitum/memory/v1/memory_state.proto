@@ -46,6 +46,7 @@ enum StateAction {
   SUPERSEDE = 4;
   RETRACT = 5;
   EXPIRE = 6;
+  MERGE = 7;
 }
 
 message StateEvent {
