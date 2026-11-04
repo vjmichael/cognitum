@@ -82,6 +82,33 @@ class C10ProofTests(unittest.TestCase):
                 self.assertEqual(commands[1][0],str(checker))
                 self.assertEqual(commands[1][1],"check")
 
+    def test_diagnostic_failure_categories_remain_fail_closed(self):
+        with TemporaryDirectory() as tmp:
+            producer=Path(tmp)/"cvc5"
+            checker=Path(tmp)/"carcara"
+            producer.write_text("stub")
+            checker.write_text("stub")
+            cases=(
+                ([subprocess.CompletedProcess([],4,b"",b"solver error")],
+                 "producer_nonzero_exit"),
+                ([subprocess.CompletedProcess([],0,b"unsat\\n(step proof)",b""),
+                  subprocess.CompletedProcess([],1,b"invalid\\n",b"rejected")],
+                 "checker_failed_or_not_valid"),
+                ([subprocess.CompletedProcess([],0,b"unsat\\n(step proof)",b""),
+                  subprocess.CompletedProcess([],0,b"holey\\n",b"")],
+                 "checker_failed_or_not_valid"),
+            )
+            for side_effect, limitation in cases:
+                with self.subTest(limitation=limitation):
+                    with patch("cognitum.formal_proofs.subprocess.run",
+                               side_effect=side_effect):
+                        result=certify_unsat(contradiction(),
+                            cvc5_binary=str(producer),
+                            carcara_binary=str(checker))
+                    self.assertEqual(result.status,"UNVERIFIED")
+                    self.assertEqual(result.limitation,limitation)
+                    self.assertFalse(result.proof_sha256)
+
     def test_timeouts_and_misconfigured_executables_fail_closed(self):
         with TemporaryDirectory() as tmp:
             producer=Path(tmp)/"cvc5"
