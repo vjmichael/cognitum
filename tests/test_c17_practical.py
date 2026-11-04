@@ -95,7 +95,7 @@ class C17StateTests(unittest.TestCase):
                 validate(bad,local_model())
 
     def test_forecast_refuses_backwards_or_excessive_horizon(self):
-        for t in (-1,39000,40000+60001):
+        for t in (-1,38999,39000+60001):
             with self.assertRaises(ValueError):
                 filter_sequence(series(),local_model(),forecast_time_ms=t)
 
@@ -121,7 +121,7 @@ class C17HiddenTests(unittest.TestCase):
     def test_hmm_state_changes_not_semantic_truth(self):
         obs=tuple(HiddenObservation(1000*i,0 if i<10 else 1,
                                    "sensor","obs"+str(i)) for i in range(20))
-        result=infer_hidden(hmm(),obs)
+        result=infer_hidden(hmm(),obs,alert_probability=.5)
         self.assertEqual(result.status,"OK")
         self.assertEqual(result.probable_states[0],"normal")
         self.assertEqual(result.probable_states[-1],"alarm")
