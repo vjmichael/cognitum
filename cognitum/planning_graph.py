@@ -237,7 +237,8 @@ def plan(p: PlanProblem, *, algorithm: str="dijkstra") -> PlanResult:
         return PlanResult("INVALID_SOLUTION",expanded_states=expanded,
                           backend="networkx_"+algorithm)
     final,cost,risk=checked
-    return PlanResult("FEASIBLE" if (truncated or (algorithm=="bfs"\n                          and len({a.cost for a in p.actions})>1)) else "OPTIMAL",
+    return PlanResult("FEASIBLE" if (truncated or (algorithm=="bfs"
+                          and len({a.cost for a in p.actions})>1)) else "OPTIMAL",
                       steps,final,cost,risk,expanded,
                       backend="networkx_"+algorithm,
                       limitations=("state_and_actions_caller_supplied_not_authenticated",
