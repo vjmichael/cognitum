@@ -3,10 +3,14 @@ on:
   push:
     paths:
       - 'tools/c15_real_mot_acceptance.py'
+      - 'tests/test_c15_real_mot_acceptance.py'
+      - 'docs/components/spatial/C15-CROSSPLATFORM-REALDATA-ACCEPTANCE-2026-11-04.md'
       - '.github/workflows/c15-real-mot17.yml'
   pull_request:
     paths:
       - 'tools/c15_real_mot_acceptance.py'
+      - 'tests/test_c15_real_mot_acceptance.py'
+      - 'docs/components/spatial/C15-CROSSPLATFORM-REALDATA-ACCEPTANCE-2026-11-04.md'
       - '.github/workflows/c15-real-mot17.yml'
   workflow_dispatch:
 
