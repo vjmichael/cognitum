@@ -296,7 +296,7 @@
 
 ## C19 — Topological data analysis (TDA)
 
-**Current:** Design only; task-dependent research candidate, not a general reasoning upgrade.
+**Current (2026-11-04):** Practical P0–P3 code implemented on C19 feature branch, **native cross-platform CI/merge pending**. Ripser H₀/H₁, independently compared GUDHI diagrams and SciPy MST, Persim perturbation distance, typed source-scoped Protobuf and heldout geometry/spectral/TDA comparisons. [C19 implementation scope](../components/topology/C19-PRACTICAL-CLOSEOUT-2026-11-04.md). Still task-specific and not a general reasoning upgrade.
 
 **Question:** For appropriate point clouds, time series or shape/embedding data, do persistent topology features provide useful, robust, task-grounded information beyond geometric/statistical baselines?
 
