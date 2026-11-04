@@ -1,0 +1,11 @@
+# C14 component closeout — standard libraries, no new research-only tasks
+
+**Decision, 2026-11-03:** C14 causal-science research is frozen at CH40-M.11. Implementation work is restricted to maintained-library adaptation and general-purpose component quality. Lu-model task benchmarks are **explicitly deferred** to the pre-Lu-2.0 acceptance window, not marked complete.
+
+The production-oriented code added by this change is `cognitum/causal_specialists.py` with `proto/cognitum/causal/v1/causal.proto` and `cognitum/proto/causal_pb2.py`. It offers distinct Protobuf operations for statistical adjustment (statsmodels HC3), DAG-identified adjustment (DoWhy), heterogeneous binary treatment effects at explicit modifier profiles (EconML), cross-sectional discovery (causal-learn PC) and time-series discovery (Tigramite PCMCI). The Protobuf is Cognitum's domain payload, **not** Lu's privileged ToolCall/ToolReply and does not register or launch a tool.
+
+Every backend is imported lazily, with explicit `unavailable`, sanitized `error`, and `invalid_input` states. Tests reject unasserted identification assumptions, nonfinite/ill-conditioned matrices, missing group overlap, invalid DAGs, unsupported operation and malformed/duplicate Protobuf fields, confidence intervals not containing estimates, GPL policy bypass, and backend exception leakage. Discovery does not masquerade as causal effect estimation. No library-provided interval is represented as globally rigorous or independent of its model assumptions. Full details: repository root `C14_CLOSEOUT.md`.
+
+**Accepted now:** 31 local component tests passing with installed statsmodels 0.14.6 API (actual numerical run); contract mocks for absent optional engines, NOT real numerical acceptance. CI integration added to normal Python matrix. **Not accepted:** actual optional-engine runtime tests; Lu use, licensing of GPL distribution, end-to-end causality benefit, production isolation. These are logged as external package and pre–Lu-2.0 blockers rather than C14 research tickets.
+
+This is a **component-code closure**, not a statement that optional libraries were executed or scientific causality has been certified. No CH40 research certificate has been changed, deleted or promoted to production assurance.

@@ -91,3 +91,7 @@ Documents for P1–P3 are created **when work exists**, not as empty placeholder
 Advance C15/C16 for an urgent, testable film-studio need, or another adapter for a concrete user task. Record justification and dependencies. Freeze an experiment's metrics **before** looking at results. Preserve failed experiments, older source designs, HDC/KAN historical assets, and current production behavior.
 
 **Change scope:** documentation and planning only; no runtime, Lu, archived research, or tests modified by adding this build order.
+
+## C14 library-first stop-work and pre-Lu-2.0 handoff — 2026-11-03
+
+The original queue entry `C14: P0 needed` is superseded by the [C14 closeout](../C14_CLOSEOUT.md): actual core Protobuf adapters for statsmodels, DoWhy, EconML, causal-learn and GPL-gated Tigramite, bounded input/assumption/uncertainty/error controls, one executed statsmodels backend and mock-only contract tests for four absent packages. Stop CH40 research-only proof-gap and C14-specific security work. Do not activate a model-visible C14 tool, call it `P3`, or infer optional library runtime acceptance. C02 handles shared production containment; C04 handles Lu registration; C03 holds the pre-Lu-2.0 transformer efficacy gate. Documentation and historical research artifacts remain accessible.

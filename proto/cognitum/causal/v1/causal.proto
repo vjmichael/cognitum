@@ -1,0 +1,46 @@
+syntax = "proto3";
+package cognitum.causal.v1;
+
+// Inert domain-specific interface. Not Lu ToolCall/Reply and never an authorization.
+message NumericRow { repeated double values = 1; }
+message CausalEdge {
+  string source = 1;
+  string target = 2;
+  uint32 lag = 3;
+  string orientation = 4;
+  double statistic = 5;
+  double p_value = 6;
+}
+message CausalRequest {
+  uint32 schema_version = 1;
+  string operation = 2;
+  repeated string columns = 3;
+  repeated NumericRow rows = 4;
+  string treatment = 5;
+  string outcome = 6;
+  repeated string adjustment = 7;
+  repeated string effect_modifiers = 8;
+  repeated CausalEdge graph_edges = 9;
+  repeated string declared_assumptions = 10;
+  double alpha = 11;
+  uint32 max_lag = 12;
+  repeated double modifier_profile = 13;
+}
+message CausalReply {
+  uint32 schema_version = 1;
+  string status = 2;
+  string code = 3;
+  string backend = 4;
+  string estimand = 5;
+  bool has_effect = 6;
+  double effect = 7;
+  bool has_interval = 8;
+  double interval_lower = 9;
+  double interval_upper = 10;
+  double confidence_level = 11;
+  string uncertainty_kind = 12;
+  repeated CausalEdge discovered_edges = 13;
+  repeated string declared_assumptions = 14;
+  repeated string limitations = 15;
+  string input_sha256 = 16;
+}

@@ -1,0 +1,60 @@
+name: C14 maintained causal-library integration
+on:
+  push:
+    paths:
+      - 'cognitum/causal_specialists.py'
+      - 'cognitum/proto/causal_pb2.py'
+      - 'proto/cognitum/causal/v1/**'
+      - 'tests/test_c14_*.py'
+      - 'pyproject.toml'
+      - '.github/workflows/c14-standard-libraries.yml'
+  pull_request:
+    paths:
+      - 'cognitum/causal_specialists.py'
+      - 'cognitum/proto/causal_pb2.py'
+      - 'proto/cognitum/causal/v1/**'
+      - 'tests/test_c14_*.py'
+      - 'pyproject.toml'
+      - '.github/workflows/c14-standard-libraries.yml'
+  workflow_dispatch:
+
+jobs:
+  c14-component:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11', '3.13']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install maintained statsmodels engine
+        run: python -m pip install -e ".[causal-stats]"
+      - name: C14 contracts and numerical baseline
+        run: python -W error -m unittest discover -s tests -p "test_c14_closeout.py" -v
+      - name: Optional engine native smoke (explicit NOT_RUN when missing)
+        run: python -m unittest discover -s tests -p "test_c14_native_adapters.py" -v
+
+  c14-optional-native:
+    # Only maintained permissive-library extras. Tigramite GPL review is separate.
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        extra: [causal-dowhy, causal-econml, causal-discovery]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install one optional real causal engine
+        run: python -m pip install -e ".[causal-stats,${{ matrix.extra }}]"
+      - name: Run native smoke and contract refusal tests
+        run: |
+          python -m unittest discover -s tests -p "test_c14_closeout.py" -v
+          python -m unittest discover -s tests -p "test_c14_native_adapters.py" -v
