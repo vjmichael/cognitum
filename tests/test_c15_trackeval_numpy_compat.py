@@ -12,7 +12,7 @@ class C15TrackEvalNumPyCompatibility(unittest.TestCase):
             root=Path(tmp)
             path=root/TARGET
             path.parent.mkdir(parents=True)
-            path.write_bytes(b"x=np.asarray([1], dtype=np.float)\ny=np.float64(2)\n")
+            path.write_bytes(b"x=np.asarray([1], dtype=np.float)\ny=np.asarray([1], dtype=np.int)\nz=np.float64(2)\n")
             record=patch(root)
             self.assertEqual(record["replacements"],2)
             self.assertIn(b"dtype=np.float64",path.read_bytes())
