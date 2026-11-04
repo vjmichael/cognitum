@@ -105,6 +105,26 @@ class C18TrustTests(unittest.TestCase):
             evaluate_promotion(p,candidate,b,(replace(holdout[0],
                    occurred_ms=20000),)+holdout[1:])
 
+    def test_candidate_with_overall_gain_but_family_regression_is_rejected(self):
+        base=seal(replace(baseline(),allowed_families=("alpha","beta"),
+                          proposal_id="anchor",status="approved"))
+        proposal2=replace(proposal(base),allowed_families=("alpha","beta"))
+        candidate=seal(RoutingPolicy(
+            2,"workspace_a","tool_router",("alpha","beta"),2,
+            ((0.,0.),(0.,0.),(0.,0.)),(0.,2.,0.),
+            (0.,0.),(1.,1.),"c"*64,"proposal_a",base.digest,
+            "candidate",""))
+        holdout=tuple(Trace(
+            "hold_"+str(i),61000+i*1000,(0.,0.),
+            ("specialist" if i<20 else "direct"),
+            SHA,"consent_a",200000,"public_synthetic",
+            ("alpha" if i<24 else "beta"))
+            for i in range(30))
+        verdict=evaluate_promotion(proposal2,candidate,base,holdout)
+        self.assertGreater(verdict.candidate.accuracy,verdict.incumbent.accuracy)
+        self.assertEqual(verdict.status,"REJECTED")
+        self.assertIn("negative_transfer_by_family",verdict.reasons)
+
     def test_tampered_source_consent_time_or_poisoning_rejected(self):
         p=proposal()
         original=traces()
