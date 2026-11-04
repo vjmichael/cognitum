@@ -31,6 +31,12 @@ The learned checkpoint/training interface is implemented through host-owned Pyth
 
 `.github/workflows/c17-practical.yml` requires actual NumPy/SciPy/scikit-learn Windows/Linux × Python 3.11/3.13, separate native compiler-produced Protobuf descriptor parity, legacy exact Decimal C17 reference tests, contemporary Kalman/HMM/Ridge/heldout test suites, malformed-wire/replay/identity tests, host-gated trained-checkpoint round trips, forged checkpoint refusal, and a real timed synthetic future-holdout benchmark. Optional C17 packages remain non-core extras; a minimal core regression may skip the new statistical engine, but **the dedicated native acceptance is not allowed to skip it**.
 
+## Real-source acceptance adapter
+
+`tools/c17_real_temporal_acceptance.py` accepts an already authorized, bounded local UTF-8 CSV `time_ms,value,source_id,observation_id` with 24–512 chronological observations (strictly regular spacing for the learned reference). It refuses symlinks, oversized inputs, duplicate source/observation identities, nonfinite values, label leakage and malformed time sequences. No dataset is automatically searched for, downloaded, collected, or redistributed. The CLI requires explicit `--authorized-data-use`, but a real Lu host must authenticate that permission independently.
+
+The runner freezes a strictly earlier training cutoff, evaluates the same last-value/Kalman/Ridge candidates on future readings, and emits **only aggregate** holdout MAE/RMSE, descriptive Gaussian 90%-coverage, OOD counts, measured CPU-run wall latency, split sizes and input SHA-256 correlation. No raw readings are printed or persisted by Cognitum. `tests/test_c17_real_temporal.py` uses synthetic CSV fixtures to verify this integration contract across Windows/Linux. Passing those fixtures does **not** establish real-world performance; the real-data run must be made on a permitted external dataset before claiming actual sensor acceptance.
+
 ## Closeout rules and non-claims
 
 1. Current PR-head cross-platform and relevant full-suite checks must pass; PR must be mergeable, and then merged before declaring CI-verified source closure.
