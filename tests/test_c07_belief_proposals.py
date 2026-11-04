@@ -48,6 +48,30 @@ class C07Tests(unittest.TestCase):
                           target="decision_1",revision=1,time=20),
                     host_authorized_scope="workspace_A")
 
+    def test_import_cannot_expire_or_confirm_user_decision(self):
+        user=event("decision_1")
+        initial=snapshot(user,revision=1)
+        for operation in ("CONFIRM","EXPIRE","RETRACT","SUPERSEDE","MERGE"):
+            imported=event("import_"+operation,operation,"imported_claim","blue",
+                           target="decision_1",revision=1,time=20)
+            with self.subTest(operation=operation),self.assertRaises(ValueError):
+                propose(initial,imported,host_authorized_scope="workspace_A")
+        # Reporting contradictory evidence as a challenge is permitted.
+        challenge=event("challenge_1","CHALLENGE","imported_claim","red",
+                        target="decision_1",revision=1,time=20)
+        self.assertEqual(propose(initial,challenge,
+                         host_authorized_scope="workspace_A").status,
+                         "HOST_COMMIT_REQUIRED")
+
+    def test_confirmation_must_preserve_exact_target_value(self):
+        user=event("decision_1")
+        for action in ("CONFIRM","RETRACT","EXPIRE"):
+            changed=event("changed_"+action,action,"user_decision","yellow",
+                          target="decision_1",revision=1,time=20)
+            with self.subTest(action=action),self.assertRaises(ValueError):
+                propose(snapshot(user,revision=1),changed,
+                        host_authorized_scope="workspace_A")
+
     def test_challenge_keeps_prior_claim_visible(self):
         user=event("decision_1")
         challenged=event("challenge_1","CHALLENGE","imported_claim","red",
