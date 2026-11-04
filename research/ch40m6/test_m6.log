@@ -1,0 +1,14 @@
+test_all15_aggregate (test_m6.M6Acceptance.test_all15_aggregate) ... ok
+test_auditor_source_has_no_native_imports (test_m6.M6Acceptance.test_auditor_source_has_no_native_imports) ... ok
+test_changed_branch_selection_refused_even_with_rehashed_event (test_m6.M6Acceptance.test_changed_branch_selection_refused_even_with_rehashed_event) ... ok
+test_forged_underbound_refused_even_with_valid_event_hash (test_m6.M6Acceptance.test_forged_underbound_refused_even_with_valid_event_hash) ... ok
+test_independent_rational_audit_of_real_input (test_m6.M6Acceptance.test_independent_rational_audit_of_real_input) ... ok
+test_original_source_hash_pinned (test_m6.M6Acceptance.test_original_source_hash_pinned) ... ok
+test_sci_release_cannot_be_promoted (test_m6.M6Acceptance.test_sci_release_cannot_be_promoted) ... ok
+test_source_pin_tamper_refused (test_m6.M6Acceptance.test_source_pin_tamper_refused) ... ok
+test_tampered_hash_chain_refused (test_m6.M6Acceptance.test_tampered_hash_chain_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 5.304s
+
+OK
