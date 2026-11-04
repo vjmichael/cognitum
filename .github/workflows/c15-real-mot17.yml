@@ -5,6 +5,8 @@ on:
       - 'tools/c15_real_mot_acceptance.py'
       - 'tools/c15_stage_trackeval.py'
       - 'tests/test_c15_real_mot_acceptance.py'
+      - 'tests/test_c15_official_metrics_comparison.py'
+      - 'tools/c15_compare_official_trackeval.py'
       - 'docs/components/spatial/C15-CROSSPLATFORM-REALDATA-ACCEPTANCE-2026-11-04.md'
       - '.github/workflows/c15-real-mot17.yml'
   pull_request:
@@ -104,6 +106,15 @@ jobs:
           cp official-stage/trackers/MOT17-train/ByteTrack/pedestrian_summary.txt evidence/trackeval-ByteTrack-summary.txt
           test -s evidence/trackeval-C15-summary.txt
           test -s evidence/trackeval-ByteTrack-summary.txt
+      - name: Validate official summary extractor against known synthetic fixtures
+        run: python -m unittest tests.test_c15_official_metrics_comparison -v
+      - name: Record actual matched official HOTA MOTA and IDF1 comparison
+        run: |
+          python tools/c15_compare_official_trackeval.py \
+            --c15 evidence/trackeval-C15-summary.txt \
+            --bytetrack evidence/trackeval-ByteTrack-summary.txt \
+            --output evidence/trackeval-c15-vs-bytetrack.json
+          test -s evidence/trackeval-c15-vs-bytetrack.json
       - name: Upload bounded evaluation evidence, not licensed image/dataset files
         if: always()
         uses: actions/upload-artifact@v4
