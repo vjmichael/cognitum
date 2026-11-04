@@ -7,10 +7,10 @@ package cognitum.math.v1;
 
 message SymbolicRequest {
   string expression = 1; // restricted polynomial, variable x only
-  string action = 2;     // expand | derivative
+  string action = 2;     // expand | derivative | factor (degree <=2) | integrate (degree <=5)
 }
 message SymbolicResult {
-  string polynomial = 1;
+  string polynomial = 1; // factor uses expression; integrate uses zero-constant antiderivative
   string assurance = 2; // exact_symbolic
   repeated string limitations = 3;
 }

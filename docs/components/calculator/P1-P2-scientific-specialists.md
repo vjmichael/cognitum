@@ -8,9 +8,9 @@ The user's requested C05 expansion includes symbolic algebra, scientific functio
 
 | Specialist / experimental operation | Implemented scope | Output semantics and main limit |
 |---|---|---|
-| `cognitum.math.symbolic` | Expand/derivative of one-variable rational polynomials `x`, degree ≤6; ≤48 AST nodes and limited coefficient bit size | Canonical exact polynomial; **not** arbitrary symbolic simplification, integration, factorization or equation reasoning |
+| `cognitum.math.symbolic` | Expand/derivative of rational polynomials through degree 6; exact rational-root factorization of degree ≤2 only; ≤48 AST nodes and bounded coefficients | Exact polynomial for expansion/derivative, or an equivalent factor expression in the existing `polynomial` field; irreducible rational quadratics remain expanded; **not** general factorization, integration or equation reasoning |
 | `cognitum.math.scientific` | mpmath real `sin`, `cos`, `exp`, `log`, `sqrt`; 15–80 significant digits; finite canonical decimal input; absolute argument ≤100; trig in **radians** | Numerical approximation, **no certified error interval**. Precision context cloned per call so global `mp.dps` is unaffected |
-| `cognitum.math.precision` | Decimal context add/divide/sqrt at 15–256 significant decimal digits | Finite-precision rounded decimal result, **not exact rational provenance**; core stdlib `decimal` |
+| `cognitum.math.precision` | Decimal context add/subtract/multiply/divide/sqrt at 15–256 significant decimal digits | Finite-precision rounded decimal result, **not exact rational provenance**; core stdlib `decimal` |
 | `cognitum.math.linear` | Exact determinant, matrix multiplication, and nonsingular linear solve; 1–4 rows/columns; `Fraction` inputs and outputs | Exact small rational matrix arithmetic; rejects invalid shapes, singular systems and unbounded values |
 | `cognitum.math.root` | Bisection on real degree-≤6 polynomial with supplied sign-changing rational bracket and ≤128 iterations | Exact rational root enclosure via continuity, **not unique-root proof or arbitrary nonlinear solve** |
 | `cognitum.math.simulation` | Bounded scalar harmonic oscillator `x'' = -ω²x`, discrete symplectic Euler, 1–256 steps, bounded step/stability input | Exact rational evaluation **of a discretized numerical model**; unquantified discretization error, no units or physical validation |
@@ -39,3 +39,40 @@ Scientific functions use optional **mpmath 1.3+**, with a cloned precision conte
 CI runs the same four Windows/Linux × Python 3.11/3.13 combinations with optional `[scientific]` dependencies, seven prior Protobuf schema compiler comparisons plus the new math schema and the 12-case synthetic replay. [C05 implementation CI 40465416831](https://github.com/vjmichael/cognitum/actions/runs/40465416831) passed **232/232 unit tests, 12/12 replay, 10/10 calculator smoke and all eight Protobuf compiler/schema checks per Windows/Linux × Python configuration**. Each specialist is separately testable using `python -m unittest discover -s tests -p test_c05_scientific_math.py -v`. This is P2 **bounded component behavior**, not a secure Lu Core Extension or real model efficacy.
 
 **Future incremental expansion:** independent symbolic algebra checks and factorization/integration with safe AST-to-SymPy object construction (never eval-based string parsing); numerical error-bound witnesses and special functions; larger/structured/sparse linear algebra; bounded multidimensional root/optimization solvers with convergence certificates; explicit units, dimensions, integrators, conservation tests and reference systems for ODE/scientific simulations. Each has its own provisional Protobuf schema/version and OS sandbox/benchmark gate.
+
+
+## P2.1 follow-on checkpoint (November 4, 2026)
+
+C14 is closed independently; this C05 work does not reopen causal research.
+The existing typed `PrecisionRequest.action` accepts two additional bounded operations:
+`subtract` and `multiply`. They use the same finite canonical-decimal input
+checks, local Decimal precision context (15–256 digits), typed Protobuf response,
+and default-off host authorization policy as the prior three operations.
+
+`tests/test_c05_independent_invariants.py` adds an independent Leibniz
+permutation determinant comparison, exact `Ax=b` residual checks,
+polynomial root-enclosure sign/nesting/width witnesses using independent Horner
+evaluation, and singular-system rejection. Existing specialist tests now cover
+new Decimal operations and rounding behavior.
+
+**Admission remains unchanged:** no model-visible tool or Lu registration,
+no OS-isolated scientific worker, no general CAS claim. CI and independent
+on-host validation must pass before this checkpoint can be called verified.
+
+## P2.2 rational quadratic factorization (November 4, 2026)
+
+The typed `SymbolicRequest.action` now accepts `factor` for polynomials of degree **at most two** over the rational numbers. Discriminants are computed exactly, and `math.isqrt` checks whether numerator and denominator are perfect squares; there are **no floating-point square-root guesses**. If two rational roots exist (including repeated roots), the result is an expression of exact linear factors with the leading rational coefficient. Linear and constant cases are supported. Irreducible rational quadratics return their expanded polynomial with `irreducible_over_rationals` in limitations. Degree three and higher is rejected for this operation, not silently called fully factored.
+
+The current `SymbolicResult.polynomial` Protobuf field is reused for the equivalent factor **expression**, rather than introducing a wire-incompatible result. The response includes `polynomial_field_contains_factor_expression`, `factor_degree_le_2`, and the relevant status limitation so consumers do not misinterpret representation. Every returned factor expression must pass the existing bounded AST parser and re-expand exactly to the original rational polynomial. This is not a completeness proof for general symbolic algebra. Existing negative tests remain in force; new tests require exact equivalence across integer/rational, repeated-root, zero-root, negative-leading, constant and rational-irreducible cases.
+
+All six specialist entries remain inert and unavailable to models. Lu authorization, worker isolation, and controlled benchmark evidence remain separate future gates.
+
+## P2.3 exact polynomial integration (November 4, 2026)
+
+The inert Protobuf `SymbolicRequest.action` supports `integrate` for single-variable rational polynomials of input degree at most **five**, producing exact antiderivatives of degree at most six. This is an **indefinite integral with the integration constant normalized to zero**: other antiderivatives differ by an arbitrary additive constant. The existing `SymbolicResult.polynomial` field contains the canonical zero-constant antiderivative (not a numerical definite integral).
+
+The input retains the existing strict, non-evaluating AST and all size, degree and rational coefficient bounds. The producer reparses the result through the same bounded grammar and differentiates it to assert exact coefficient identity before returning the response. The response includes `antiderivative_constant_zero`, `integrand_degree_le_5`, `indefinite_polynomial_integral`, `derivative_identity_checked`, and `intent_not_verified`. This is an internal invariant, not an independent verifier or user-intent certification.
+
+The regression suite exercises zero/constant, rational, negative, sparse, degree-five, and disallowed degree-six inputs. It checks typed Protobuf responses and performs 60 seeded rational-polynomial cases with **independent exact rational sample-point derivative identities**. Cases exceeding existing 160-character expression grammar are excluded by the same bounded input policy.
+
+C05 remains unregistered, unadvertised, and unavailable to models. CI/on-host validation is a separate gate; no Lu/C02 capability or OS privilege is granted.
