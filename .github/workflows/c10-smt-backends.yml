@@ -1,0 +1,37 @@
+name: C10 maintained SMT backend acceptance
+on:
+  push:
+    paths:
+      - 'cognitum/formal_*.py'
+      - 'tests/test_c10_*.py'
+      - 'pyproject.toml'
+      - '.github/workflows/c10-smt-backends.yml'
+  pull_request:
+    paths:
+      - 'cognitum/formal_*.py'
+      - 'tests/test_c10_*.py'
+      - 'pyproject.toml'
+      - '.github/workflows/c10-smt-backends.yml'
+  workflow_dispatch:
+
+jobs:
+  c10-real-smt:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11', '3.13']
+        backend: [formal-z3, formal-cvc5]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install exact optional SMT backend
+        run: python -m pip install -e ".[${{ matrix.backend }}]"
+      - name: Verify native solver package installed
+        run: |
+          python -m pip check
+          python -m unittest discover -s tests -p "test_c10_*.py" -v
