@@ -1,0 +1,100 @@
+"""C10 native typed-Protobuf admission and safe result semantics."""
+from hashlib import sha256
+import unittest
+
+from cognitum.proto import formal_pb2 as pb
+from cognitum.formal_wire import execute, decode_result
+
+
+def make(backend="exhaustive", impossible=False):
+    req=pb.VerifyRequest(schema_version=1,backend=backend,timeout_ms=1000)
+    req.variables.add(name="x",lower=-1,upper=3)
+    a=req.constraints.add(relation="eq",rhs=2)
+    a.terms.add(name="x",coefficient=1)
+    if impossible:
+        b=req.constraints.add(relation="eq",rhs=3)
+        b.terms.add(name="x",coefficient=1)
+    return req.SerializeToString(deterministic=True)
+
+
+class C10WireTests(unittest.TestCase):
+    def test_exact_sat_and_unsat_verification(self):
+        sat=make()
+        r=decode_result(execute(sat),sat)
+        self.assertEqual(r.status,"SAT")
+        self.assertEqual(tuple(r.witness),(2,))
+        self.assertEqual(r.request_sha256,sha256(sat).hexdigest())
+        unsat=make(impossible=True)
+        d=decode_result(execute(unsat),unsat)
+        self.assertEqual(d.status,"UNSAT_EXHAUSTIVE")
+        self.assertFalse(d.witness)
+
+    def test_replay_and_tampering_rejected(self):
+        req=make()
+        frame=execute(req)
+        with self.assertRaises(ValueError):
+            decode_result(frame,make(impossible=True))
+        forged=pb.VerifyResult()
+        forged.ParseFromString(frame)
+        forged.witness[0]=3
+        with self.assertRaises(ValueError):
+            decode_result(forged.SerializeToString(deterministic=True),req)
+        forged.ParseFromString(frame)
+        forged.status="UNSAT_EXHAUSTIVE"
+        forged.ClearField("witness")
+        with self.assertRaises(ValueError):
+            decode_result(forged.SerializeToString(deterministic=True),req)
+
+    def test_forged_assurance_and_unsat_labels_are_rejected(self):
+        sat=make()
+        packet=pb.VerifyResult()
+        packet.ParseFromString(execute(sat))
+        packet.assurance="independent_exhaustion"
+        with self.assertRaises(ValueError):
+            decode_result(packet.SerializeToString(deterministic=True),sat)
+        unsat=make(impossible=True)
+        packet.ParseFromString(execute(unsat))
+        packet.assurance="solver_reported"
+        with self.assertRaises(ValueError):
+            decode_result(packet.SerializeToString(deterministic=True),unsat)
+        packet.assurance="independent_exhaustion"
+        packet.status="UNSAT_UNVERIFIED"
+        with self.assertRaises(ValueError):
+            decode_result(packet.SerializeToString(deterministic=True),unsat)
+
+    def test_canonical_request_and_schema_fail_closed(self):
+        req=make()
+        for invalid in (b"",b"\x0a\xff",req+b"\x98\x06\x01",
+                        req+b"\x08\x01",b"x"*16385):
+            with self.subTest(frame=invalid[:8]),self.assertRaises(ValueError):
+                execute(invalid)
+        bad=pb.VerifyRequest(schema_version=2,backend="exhaustive",timeout_ms=1000)
+        bad.variables.add(name="x",lower=0,upper=1)
+        with self.assertRaises(ValueError):
+            execute(bad.SerializeToString(deterministic=True))
+
+    def test_proof_required_downgrades_uncertified_unsat(self):
+        from unittest.mock import patch
+        from cognitum.formal_smt import SMTResult
+        request=pb.VerifyRequest()
+        request.ParseFromString(make(backend="z3",impossible=True))
+        request.proof_required=True
+        raw=request.SerializeToString(deterministic=True)
+        with patch("cognitum.formal_wire.solve",
+                   return_value=SMTResult("UNSAT_UNVERIFIED",backend="z3",
+                                          limitation="no_proof_certificate")):
+            result=decode_result(execute(raw),raw)
+        self.assertEqual(result.status,"UNKNOWN")
+        self.assertEqual(result.limitation,"proof_required_but_not_certified")
+        self.assertNotEqual(result.assurance,"independent_exhaustion")
+
+    def test_no_arbitrary_smtlib_or_host_grants(self):
+        fields={f.name for f in pb.VerifyRequest.DESCRIPTOR.fields}
+        self.assertNotIn("script",fields)
+        self.assertNotIn("grants",fields)
+        self.assertNotIn("permission",fields)
+        self.assertNotIn("python_code",fields)
+
+
+if __name__=="__main__":
+    unittest.main()
