@@ -1,0 +1,24 @@
+test_canonical_rejects_nonfinite (test_m10.ContractTests.test_canonical_rejects_nonfinite) ... ok
+test_empty_valid_db_never_claims_completed (test_m10.ContractTests.test_empty_valid_db_never_claims_completed) ... ok
+test_protocol_fail_closed (test_m10.ContractTests.test_protocol_fail_closed) ... ok
+test_secret_not_overwritten (test_m10.ContractTests.test_secret_not_overwritten) ... ok
+test_signing_key_is_owner_only (test_m10.ContractTests.test_signing_key_is_owner_only) ... ok
+test_all15_signed_source_pinned_recovery (test_m10.OriginalEvidenceTests.test_all15_signed_source_pinned_recovery) ... ok
+test_body_mutation_with_original_signature_refused (test_m10.OriginalEvidenceTests.test_body_mutation_with_original_signature_refused) ... ok
+test_checkpoint_tail_rollback_requires_external_anchor (test_m10.OriginalEvidenceTests.test_checkpoint_tail_rollback_requires_external_anchor) ... ok
+test_deleted_middle_checkpoint_is_refused (test_m10.OriginalEvidenceTests.test_deleted_middle_checkpoint_is_refused) ... ok
+test_forged_signature_refused_even_with_rehashed_body (test_m10.OriginalEvidenceTests.test_forged_signature_refused_even_with_rehashed_body) ... ok
+test_frozen_no_go_is_preserved (test_m10.OriginalEvidenceTests.test_frozen_no_go_is_preserved) ... RECOVERED signed_cases=15 signed_children=296
+ok
+test_mutated_input_journal_refused_even_if_wellformed (test_m10.OriginalEvidenceTests.test_mutated_input_journal_refused_even_if_wellformed) ... ok
+test_real_sigkill_in_open_sqlite_transaction_rolls_back (test_m10.OriginalEvidenceTests.test_real_sigkill_in_open_sqlite_transaction_rolls_back) ... ok
+test_signature_recovery_does_not_recompute_rational_mathematics (test_m10.OriginalEvidenceTests.test_signature_recovery_does_not_recompute_rational_mathematics) ... RECOVERED signed_cases=15 signed_children=296
+ok
+test_signing_receipt_with_altered_proof_refused (test_m10.OriginalEvidenceTests.test_signing_receipt_with_altered_proof_refused) ... ok
+test_source_pin_or_signer_identity_cannot_change (test_m10.OriginalEvidenceTests.test_source_pin_or_signer_identity_cannot_change) ... ok
+test_wrong_public_key_fails (test_m10.OriginalEvidenceTests.test_wrong_public_key_fails) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 6.098s
+
+OK
