@@ -1,0 +1,133 @@
+{
+  "protocol": "CH40M5-BUNDLED-CLP-FROZEN15-SCOPED-SUMMARY-V1",
+  "date_local": "2026-11-03",
+  "research_only": true,
+  "engineering_scope": "PASS",
+  "scientific_release": "NO_GO",
+  "original_immutable_archive_sha256": "6dfd4ea081b783503c7d960419766296642da68a246033fdcf0da94282882078",
+  "native_ibex_version": "2.9.1",
+  "LP_backend": "bundled Coin-OR CLP 1.17.6",
+  "bundled_clp_source_sha256": "f9cfcdd3db23bbc2d18b562012a7e25b99a40e8ce72dc296bd46dddb2970e12a",
+  "native_ibexopt_binary_sha256": "c50273d70969e9c0f1f41d9539f47e4eaec52eb79c8480d1ecc6bfbd0897019a",
+  "strict_original_15_result_sha256": "9e8a36bddae29c1475e314df374ac26b44f51f4caf29f21a3473c2341e53f321",
+  "expanded_original_9_result_sha256": "52f6b667794be4186d18c0e1e8c2a9a15481d8e5acd504943fa43fd5ff3d1f62",
+  "evidence_zip_sha256": "6d87a6ad12d5ad48ff1ba4d2672982934a6ff6a46b44702d78068b2411fc5c9a",
+  "cases_original": 15,
+  "native_optimizer_executions_successful": 15,
+  "independent_feasible_point_checks": 15,
+  "strict_cpu_seconds": 9,
+  "expanded_160_row_cpu_seconds": 24,
+  "solver_internal_timeout_seconds": 0.15,
+  "solver_reported_gap_target": 0.05,
+  "certified_global_upper_bounds": 0,
+  "closed_scientific_gaps": 0,
+  "experiment_no_global_proof": true,
+  "note": "All solver-reported bounds untrusted until independent interval proof. Independent checker validates point enclosures only. Full logs, models and hash manifest in verified evidence archive.",
+  "cases": [
+    {
+      "case": "one_event_n160_i00",
+      "rows": 160,
+      "reported_gap": 100.875783163,
+      "independent_point_pass": true,
+      "certified_global_optimum": false
+    },
+    {
+      "case": "one_event_n80_i00",
+      "rows": 80,
+      "reported_gap": 60.492691481,
+      "independent_point_pass": true,
+      "certified_global_optimum": false
+    },
+    {
+      "case": "quasi_separated_n160_i00",
+      "rows": 160,
+      "reported_gap": 276.945008804,
+      "independent_point_pass": true,
+      "certified_global_optimum": false
+    },
+    {
+      "case": "quasi_separated_n80_i00",
+      "rows": 80,
+      "reported_gap": 173.075528455,
+      "independent_point_pass": true,
+      "certified_global_optimum": false
+    },
+    {
+      "case": "rare_1pct_n160_i00",
+      "rows": 160,
+      "reported_gap": 96.996160162,
+      "independent_point_pass": true,
+      "certified_global_optimum": false
+    },
+    {
+      "case": "rare_1pct_n160_i13",
+      "rows": 160,
+      "reported_gap": 57.7172363617,
+      "independent_point_pass": true,
+      "certified_global_optimum": false
+    },
+    {
+      "case": "rare_1pct_n80_i00",
+      "rows": 80,
+      "reported_gap": 57.8518447583,
+      "independent_point_pass": true,
+      "certified_global_optimum": false
+    },
+    {
+      "case": "rare_5pct_n160_i00",
+      "rows": 160,
+      "reported_gap": 131.718565684,
+      "independent_point_pass": true,
+      "certified_global_optimum": false
+    },
+    {
+      "case": "rare_5pct_n80_i00",
+      "rows": 80,
+      "reported_gap": 76.6593005428,
+      "independent_point_pass": true,
+      "certified_global_optimum": false
+    },
+    {
+      "case": "zero_balanced_n160_i00",
+      "rows": 160,
+      "reported_gap": 47.4205634047,
+      "independent_point_pass": true,
+      "certified_global_optimum": false
+    },
+    {
+      "case": "zero_balanced_n80_i00",
+      "rows": 80,
+      "reported_gap": 41.4434887166,
+      "independent_point_pass": true,
+      "certified_global_optimum": false
+    },
+    {
+      "case": "zero_imbalanced_n160_i00",
+      "rows": 160,
+      "reported_gap": 69.8671674499,
+      "independent_point_pass": true,
+      "certified_global_optimum": false
+    },
+    {
+      "case": "zero_imbalanced_n160_i05",
+      "rows": 160,
+      "reported_gap": 87.4947672249,
+      "independent_point_pass": true,
+      "certified_global_optimum": false
+    },
+    {
+      "case": "zero_imbalanced_n160_i07",
+      "rows": 160,
+      "reported_gap": 69.0878418454,
+      "independent_point_pass": true,
+      "certified_global_optimum": false
+    },
+    {
+      "case": "zero_imbalanced_n80_i00",
+      "rows": 80,
+      "reported_gap": 64.0276066619,
+      "independent_point_pass": true,
+      "certified_global_optimum": false
+    }
+  ]
+}
