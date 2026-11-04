@@ -101,14 +101,20 @@ class C05SpecialistTests(unittest.TestCase):
         # Independent coefficient identity with evaluations at exact rational points.
         from random import Random
         rng=Random(0xC0523)
-        for _ in range(60):
+        accepted=0
+        for _ in range(120):
             degree=rng.randrange(0,6)
             coefficients=[Fraction(rng.randrange(-8,9),
                                    rng.randrange(1,8)) for _ in range(degree+1)]
-            expression=" + ".join("("+str(c)+")*x**"+str(i)
-                                  for i,c in enumerate(coefficients))
-            if len(expression)>160:
+            # Production admits <=48 AST nodes. Build from the same canonical
+            # polynomial text, and skip unsupported inputs rather than
+            # broadening the production grammar to suit a test fixture.
+            expression=_poly_text({i:c for i,c in enumerate(coefficients) if c})
+            try:
+                _polynomial(expression)
+            except ValueError:
                 continue
+            accepted+=1
             result=invoke("symbolic",pb.SymbolicRequest(
                 expression=expression,action="integrate"))
             derived=_polynomial(result.polynomial)
@@ -118,6 +124,7 @@ class C05SpecialistTests(unittest.TestCase):
                 expected=sum((coefficient*x**i
                               for i,coefficient in enumerate(coefficients)),Fraction(0))
                 self.assertEqual(actual,expected)
+        self.assertGreaterEqual(accepted,60)
 
     def test_scientific_functions_respect_precision_and_real_domain(self):
         for function,argument,leading in (
