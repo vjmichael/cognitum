@@ -108,9 +108,8 @@ def decode_result(kind: str, request: bytes, response: bytes):
     obj=_parse(response,KINDS[kind][1],MAX_RESULT)
     if obj.schema_version!=1 or obj.request_sha256!=sha256(request).hexdigest():
         raise ValueError("mismatched statistical response")
-    # This decoder checks numeric range/structure and canonical framing. It does
-    # not authenticate a claimed externally computed posterior. Call execute()
-    # for independently recomputed statistical results.
+    # Recompute all numerical claims from the original typed inputs. This does
+    # not authenticate the provenance of caller-declared data or assumptions.
     from math import isfinite
     if kind=="bayes":
         _bayes(req)
@@ -122,6 +121,12 @@ def decode_result(kind: str, request: bytes, response: bytes):
                     or not isfinite(obj.evidence_probability)
                     or not 0<=obj.evidence_probability<=1):
                 raise ValueError("invalid posterior")
+            expected=infer(_bayes(req))
+            if (expected.status!="OK"
+                    or any(abs(a-b)>1e-10 for a,b in zip(obj.posterior,expected.posterior))
+                    or abs(obj.log_evidence-expected.log_evidence)>1e-9
+                    or abs(obj.evidence_probability-expected.evidence_probability)>1e-10):
+                raise ValueError("posterior differs from independently recomputed inputs")
         elif obj.status not in ("IMPOSSIBLE_EVIDENCE","UNSUPPORTED","NUMERICAL_FAILURE") or obj.posterior:
             raise ValueError("invalid nonposterior response")
     elif kind=="beta":
@@ -130,6 +135,14 @@ def decode_result(kind: str, request: bytes, response: bytes):
             if (not all(isfinite(x) for x in (obj.posterior_mean,obj.credible_lower,obj.credible_upper))
                     or not 0<=obj.credible_lower<=obj.posterior_mean<=obj.credible_upper<=1):
                 raise ValueError("invalid credible interval")
+            expected=beta_posterior(_beta(req))
+            if (expected.status!="OK" or any(abs(a-b)>1e-10 for a,b in (
+                    (obj.posterior_mean,expected.posterior_mean),
+                    (obj.credible_lower,expected.credible_lower),
+                    (obj.credible_upper,expected.credible_upper),
+                    (obj.alpha_posterior,expected.alpha_posterior),
+                    (obj.beta_posterior,expected.beta_posterior)))):
+                raise ValueError("credible interval differs from recomputed inputs")
         elif obj.status not in ("UNSUPPORTED","NUMERICAL_FAILURE"):
             raise ValueError("unknown beta status")
     else:
@@ -139,4 +152,10 @@ def decode_result(kind: str, request: bytes, response: bytes):
                                                          obj.expected_calibration_error))
                 or obj.brier>1 or obj.expected_calibration_error>1):
             raise ValueError("invalid calibration scores")
+        expected=calibration_scores(_calibration(req))
+        if (abs(obj.brier-expected.brier)>1e-10
+                or abs(obj.log_loss-expected.log_loss)>1e-10
+                or abs(obj.expected_calibration_error-expected.expected_calibration_error)>1e-10
+                or obj.bins_with_data!=expected.bins_with_data):
+            raise ValueError("calibration differs from recomputed labels")
     return obj
