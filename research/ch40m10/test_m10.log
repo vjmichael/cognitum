@@ -19,6 +19,6 @@ test_source_pin_or_signer_identity_cannot_change (test_m10.OriginalEvidenceTests
 test_wrong_public_key_fails (test_m10.OriginalEvidenceTests.test_wrong_public_key_fails) ... ok
 
 ----------------------------------------------------------------------
-Ran 17 tests in 6.098s
+Ran 17 tests in 5.727s
 
 OK
