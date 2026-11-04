@@ -2,7 +2,7 @@
 from hashlib import sha256
 from google.protobuf.message import DecodeError
 from .proto import spatial_core_pb2 as pb
-from .spatial_geometry import Frame,SceneObject,Scene,world_position,relation,validate as validate_scene
+from .spatial_geometry import Frame,SceneObject,Scene,world_position,world_pose,relation,validate as validate_scene
 from .spatial_tracking import Track,Detection,update,validate as validate_track
 
 MAX_INPUT=65536
@@ -59,10 +59,11 @@ def execute_scene(frame:bytes)->bytes:
     scene=_scene(req)
     if not req.object_id or not req.reference_id:
         raise ValueError("explicit query and reference IDs required")
-    position=world_position(scene,req.object_id)
+    position,orientation=world_pose(scene,req.object_id)
     info=relation(scene,req.object_id,req.reference_id)
     result=pb.SceneResult(schema_version=1,status="OK",
-                          world_position_m=position,distance_m=info["distance_m"],
+                          world_position_m=position,world_orientation_xyzw=orientation,
+                          distance_m=info["distance_m"],
                           first_left_of_second=info["first_left_of_second"],
                           limitations=["caller_supplied_geometry_not_authenticated",
                                        "no_sensor_observations_acquired"],
