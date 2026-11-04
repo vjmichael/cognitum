@@ -42,6 +42,20 @@ class C15WireTests(unittest.TestCase):
         self.assertEqual(tuple(result.world_position_m),(2.,2.,3.))
         self.assertAlmostEqual(result.distance_m,3)
         self.assertEqual(result.request_sha256,sha256(request).hexdigest())
+        self.assertEqual(tuple(result.world_orientation_xyzw),(0.,0.,0.,1.))
+        self.assertTrue(any(e.predicate=="world_x_less_than"
+                            and e.subject_id=="cup" and e.object_id=="table"
+                            and e.coordinate_frame=="world"
+                            for e in result.relations))
+
+    def test_forged_scene_relation_is_rejected(self):
+        request=scene_frame()
+        reply=pb.SceneResult()
+        reply.ParseFromString(execute_scene(request))
+        self.assertGreater(len(reply.relations),0)
+        reply.relations[0].object_version=999
+        with self.assertRaises(ValueError):
+            verify_scene(request,reply.SerializeToString(deterministic=True))
 
     def test_real_hungarian_association_roundtrip(self):
         try:import scipy
