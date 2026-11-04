@@ -1,4 +1,4 @@
-# C15 — Practical spatial core: scene geometry and identity association
+> **Historical snapshot of the initial bounded core; superseded for C15's expanded implementation.** Refer to [C15 full P0–P3 design implementation and acceptance matrix](C15-FULL-DESIGN-IMPLEMENTATION-2026-11-04.md). In particular, opt-in host-supplied OpenCV features, durable workspace-scoped scene histories, source uncertainty, and external TrackEval adapters have subsequently been added. The limitations below described the *initial* core only.\n\n# C15 — Practical spatial core: scene geometry and identity association
 
 **Date:** 2026-11-04. **Status:** New focused implementation committed for native CI. No real-sensor, Lu host, or perceptual-model certification.
 
