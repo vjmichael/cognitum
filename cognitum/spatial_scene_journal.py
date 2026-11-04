@@ -35,7 +35,7 @@ def decode(data:bytes)->SceneRevision:
         if type(obj) is not dict or set(obj)!={"schema","revision"} or obj["schema"]!=SCHEMA:
             raise ValueError("unknown snapshot schema")
         r=obj["revision"]
-        if type(r) is not dict or set(r)!={"scene_id","revision","frames","entities","epoch","event_ids"}:
+        if type(r) is not dict or set(r)!={"scene_id","revision","frames","entities","epoch","event_ids","workspace_id","detached"}:
             raise ValueError("malformed snapshot fields")
         frames=tuple(Frame(x["name"],x["parent"],tuple(x["translation_m"]),
                            tuple(x["quaternion_xyzw"])) for x in r["frames"])
@@ -53,7 +53,7 @@ def decode(data:bytes)->SceneRevision:
             ev=tuple(Evidence(**v) for v in e["evidence"])
             entities.append(Entity(scene_obj,tuple(e["aliases"]),ev,e["state"]))
         rev=SceneRevision(r["scene_id"],r["revision"],frames,tuple(entities),
-                          r["epoch"],tuple(r["event_ids"]))
+                          r["epoch"],tuple(r["event_ids"]),r["workspace_id"],r["detached"])
         validate_revision(rev)
         if encode(rev)!=data:
             raise ValueError("noncanonical snapshot encoding")
@@ -77,12 +77,13 @@ class SceneJournal:
         self.db.execute("PRAGMA journal_mode=WAL")
         self.db.execute("PRAGMA synchronous=FULL")
         self.db.execute("""CREATE TABLE IF NOT EXISTS scene_revisions(
+            workspace_id TEXT NOT NULL,
             scene_id TEXT NOT NULL,
             revision INTEGER NOT NULL,
             prior_sha256 TEXT NOT NULL,
             payload_sha256 TEXT NOT NULL,
             payload BLOB NOT NULL,
-            PRIMARY KEY(scene_id,revision))""")
+            PRIMARY KEY(workspace_id,scene_id,revision))""")
 
     def close(self):
         self.db.close()
@@ -95,8 +96,8 @@ class SceneJournal:
         try:
             previous=self.db.execute(
                 "SELECT revision,payload_sha256,payload FROM scene_revisions "
-                "WHERE scene_id=? ORDER BY revision DESC LIMIT 1",
-                (revision.scene_id,)).fetchone()
+                "WHERE workspace_id=? AND scene_id=? ORDER BY revision DESC LIMIT 1",
+                (revision.workspace_id,revision.scene_id)).fetchone()
             current=-1 if previous is None else previous[0]
             if current!=expected_previous:
                 raise ValueError("scene CAS mismatch")
@@ -108,19 +109,20 @@ class SceneJournal:
             else:
                 prior_hash="0"*64
             self.db.execute(
-                "INSERT INTO scene_revisions(scene_id,revision,prior_sha256,payload_sha256,payload)"
-                " VALUES (?,?,?,?,?)",
-                (revision.scene_id,revision.revision,prior_hash,
+                "INSERT INTO scene_revisions(workspace_id,scene_id,revision,prior_sha256,payload_sha256,payload)"
+                " VALUES (?,?,?,?,?,?)",
+                (revision.workspace_id,revision.scene_id,revision.revision,prior_hash,
                  sha256(frame).hexdigest(),frame))
             self.db.execute("COMMIT")
         except Exception:
             self.db.execute("ROLLBACK")
             raise
 
-    def restore(self,scene_id:str)->SceneRevision|None:
+    def restore(self,scene_id:str,*,workspace_id:str="workspace_default")->SceneRevision|None:
         rows=self.db.execute(
             "SELECT revision,prior_sha256,payload_sha256,payload FROM scene_revisions "
-            "WHERE scene_id=? ORDER BY revision ASC",(scene_id,)).fetchall()
+            "WHERE workspace_id=? AND scene_id=? ORDER BY revision ASC",
+            (workspace_id,scene_id)).fetchall()
         if not rows:
             return None
         expected_index=0
@@ -130,7 +132,7 @@ class SceneJournal:
             if revision!=expected_index or prior!=previous or sha256(payload).hexdigest()!=digest:
                 raise ValueError("scene revision chain compromised")
             item=decode(payload)
-            if item.scene_id!=scene_id or item.revision!=revision:
+            if item.scene_id!=scene_id or item.workspace_id!=workspace_id or item.revision!=revision:
                 raise ValueError("scene identity revision mismatch")
             most_recent=item
             previous=digest
