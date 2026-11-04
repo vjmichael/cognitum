@@ -53,6 +53,12 @@ def execute(request: bytes) -> bytes:
     if not 1<=req.timeout_ms<=10000:
         raise ValueError("formal time budget missing/out of bounds")
     result=solve(problem,backend=req.backend,timeout_ms=req.timeout_ms)
+    if req.proof_required and result.status=="UNSAT_UNVERIFIED":
+        # The optional Carcara certificate route is a separate trusted-host
+        # admission step. This ordinary wire endpoint cannot claim its result.
+        from .formal_smt import SMTResult
+        result=SMTResult("UNKNOWN",backend=req.backend,
+                         limitation="proof_required_but_not_certified")
     if result.status=="SAT" and not satisfies(problem,result.witness):
         raise ValueError("invalid solver witness")
     if result.status not in ("SAT","UNSAT_EXHAUSTIVE","UNSAT_UNVERIFIED",
