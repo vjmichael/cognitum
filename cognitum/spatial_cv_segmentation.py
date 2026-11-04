@@ -64,7 +64,8 @@ def segment_color(
                 or im.width*im.height>MAX_PIXELS):
             raise ValueError("unsupported image format or dimensions")
         rgb=np.asarray(im.convert("RGB"),dtype=np.uint8)
-    except (OSError,UnidentifiedImageError,ValueError) as exc:
+    except (OSError,UnidentifiedImageError,Image.DecompressionBombError,
+            Image.DecompressionBombWarning,ValueError) as exc:
         raise ValueError("invalid encoded segmentation image") from exc
     hsv=cv2.cvtColor(rgb,cv2.COLOR_RGB2HSV)
     mask=cv2.inRange(hsv,np.asarray(hsv_lower,dtype=np.uint8),
