@@ -1,8 +1,8 @@
 """Patch a pinned legacy TrackEval checkout for NumPy >=1.24.
 
 The official TrackEval checkout is pinned at a reviewed commit. This
-compatibility adapter changes ONLY the removed `np.float` type alias to
-`np.float64` in the one known loader file, after verifying its exact old
+compatibility adapter changes ONLY the removed `np.float` and `np.int` type aliases to
+`np.float64` and `np.int64` in the one known loader file, after verifying its exact old
 source and refusing surprising variants. It does not alter any metric
 algorithm, association threshold, annotation, or prediction.
 """
@@ -13,8 +13,7 @@ import json
 import re
 
 TARGET = Path("trackeval/datasets/mot_challenge_2d_box.py")
-OLD = b"np.float"
-NEW = b"np.float64"
+ALIASES = {b"float": b"float64", b"int": b"int64"}
 
 
 def patch(root: Path) -> dict:
@@ -24,24 +23,26 @@ def patch(root: Path) -> dict:
     if not path.is_file() or path.is_symlink() or path.stat().st_size > 200000:
         raise ValueError("unexpected TrackEval file")
     original = path.read_bytes()
-    # Match only the old dtype symbol, NOT np.float64 and never a substring.
-    pattern = rb"np\.float\b"
+    # Match only removed exact aliases, not np.float64 or np.int64.
+    pattern = rb"np\.(float|int)\b"
     matches = list(re.finditer(pattern, original))
     if not matches or len(matches) > 16:
         raise ValueError("pinned TrackEval legacy NumPy aliases absent or unexpected")
-    updated = re.sub(pattern, NEW, original)
+    updated = re.sub(pattern, lambda match: b"np." + ALIASES[match.group(1)], original)
     if updated == original:
         raise ValueError("compatibility patch changed nothing")
     # Check expected exact sequence before writing.
-    if b"dtype=np.float" not in original:
+    if b"dtype=np.float" not in original or b"dtype=np.int" not in original:
         raise ValueError("expected TrackEval loader alias missing")
     path.write_bytes(updated)
     compile(updated, str(path), "exec")
     return {
         "source":"pinned TrackEval legacy NumPy type alias compatibility",
         "file":str(TARGET),
-        "transform":"np.float -> np.float64 (token boundary only)",
+        "transform":"np.float -> np.float64; np.int -> np.int64 (exact aliases only)",
         "replacements":len(matches),
+        "by_alias": {alias.decode():sum(m.group(1)==alias for m in matches)
+                      for alias in ALIASES},
         "before_sha256":sha256(original).hexdigest(),
         "after_sha256":sha256(updated).hexdigest(),
         "metric_logic_modified":False,

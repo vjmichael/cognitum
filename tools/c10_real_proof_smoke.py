@@ -34,7 +34,9 @@ def main():
             proof_file=Path(folder)/"proof.alethe"
             problem_file.write_bytes(smtlib_for_problem(unsat))
             produced=subprocess.run(
-                [cvc5, "--dump-proofs", "--proof-format-mode=alethe", str(problem_file)],
+                [cvc5, "--dump-proofs", "--proof-format-mode=alethe",
+                 "--simplification=none","--dag-thresh=0",
+                 "--proof-granularity=theory-rewrite",str(problem_file)],
                 cwd=folder, input=b"", stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                 timeout=15, check=False,
             )

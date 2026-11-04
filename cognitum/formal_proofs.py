@@ -97,7 +97,8 @@ def certify_unsat(
             # stdout is proof evidence; never pass through a shell.
             produced=subprocess.run(
                 [cvc5_binary,"--dump-proofs","--proof-format-mode=alethe",
-                 str(source_path)],cwd=work,stdin=subprocess.DEVNULL,
+                 "--simplification=none","--dag-thresh=0",
+                 "--proof-granularity=theory-rewrite",str(source_path)],cwd=work,stdin=subprocess.DEVNULL,
                 stdout=subprocess.PIPE,stderr=subprocess.PIPE,
                 timeout=timeout_seconds,check=False,
             )
