@@ -60,3 +60,13 @@ declare any universal winner.
 
 Release state: **source recovery and comparative instrumentation present;
 CI/production acceptance not yet established on latest PR head**.
+
+## Revisit order — owner decision (2026-11-04)
+
+Continue the broader Cognitum component acceptance and integration roadmap now.
+When the postponed scientific-research work is reopened, **revisit HDC,
+KAN and SSM before revisiting C14**. For C14, preserve the established
+standard causal-library integrations and previously frozen scope; do not
+resume open-ended causal research until after the three architecture-family
+reviews. This scheduling preference does not block CI or maintenance bugfixes
+on existing C14 code.
