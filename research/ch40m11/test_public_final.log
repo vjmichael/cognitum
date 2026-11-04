@@ -1,0 +1,14 @@
+test_all15_public_evidence (test_public_m11.PublicChainTests.test_all15_public_evidence) ... ok
+test_anchor_checkpoint_tip_mismatch_refused (test_public_m11.PublicChainTests.test_anchor_checkpoint_tip_mismatch_refused) ... ok
+test_anchor_event_reordering_refused (test_public_m11.PublicChainTests.test_anchor_event_reordering_refused) ... ok
+test_external_anchor_key_identity_detects_substitution (test_public_m11.PublicChainTests.test_external_anchor_key_identity_detects_substitution) ... ok
+test_external_anchor_tip_detects_rollback (test_public_m11.PublicChainTests.test_external_anchor_tip_detects_rollback) ... ok
+test_external_trusted_pins_pass (test_public_m11.PublicChainTests.test_external_trusted_pins_pass) ... ok
+test_forged_anchor_signature_refused (test_public_m11.PublicChainTests.test_forged_anchor_signature_refused) ... ok
+test_forged_verifier_signature_refused (test_public_m11.PublicChainTests.test_forged_verifier_signature_refused) ... ok
+test_mutated_signed_receipt_refused (test_public_m11.PublicChainTests.test_mutated_signed_receipt_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.040s
+
+OK
