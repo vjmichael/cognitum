@@ -5,11 +5,13 @@ on:
     paths:
       - 'cognitum/research/hdc_canonical.py'
       - 'cognitum/research/hdc_optional.py'
-      - 'tests/test_c08_canonical.py tests/test_c08_admission.py'
+      - 'cognitum/research/hdc_index_lifecycle.py'
+      - 'tests/test_c08_canonical.py tests/test_c08_admission.py tests/test_c08_lifecycle_recovery.py'
       - 'tools/run_c08_candidate_benchmark.py'
       - 'tools/run_c08_conventional_baselines.py'
       - 'cognitum/research/hdc_admission.py'
       - 'tests/test_c08_admission.py'
+      - 'tests/test_c08_lifecycle_recovery.py'
       - '.github/workflows/c08-canonical.yml'
   workflow_dispatch:
 
