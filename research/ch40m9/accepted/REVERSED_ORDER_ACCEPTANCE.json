@@ -1,0 +1,21 @@
+{
+  "audit_order": [
+    "cache",
+    "fresh"
+  ],
+  "bound_checks": 296,
+  "cache_hits": 140,
+  "cached_auditor_cpu_seconds": 17.78,
+  "fresh_auditor_cpu_seconds": 27.93,
+  "identical_receipt_commitment": "937fa935520a1d4886541e2c51444a230943fefb9a9ba59ec9c3e910ef8a24a9",
+  "journal_count": 30,
+  "note": "Single reversed-order replay; warm OS filesystem caches still affect both; no confidence interval.",
+  "original_cases": 15,
+  "protocol": "CH40M9-AUDIT-ORDER-REPLICATION-V1",
+  "same_receipt_as_initial_run": true,
+  "scientific_release": "NO_GO",
+  "status": "RESEARCH_ACCEPTED",
+  "whole_batch_cached_cpu_seconds": 75.66,
+  "whole_batch_cpu_savings_fraction": 0.11828458221652487,
+  "whole_batch_fresh_cpu_seconds": 85.81
+}
