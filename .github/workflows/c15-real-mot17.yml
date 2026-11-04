@@ -28,7 +28,7 @@ jobs:
           python -m pip check
       - name: Retrieve public benchmark detections and annotations ONLY
         run: |
-          trackers download --name mot17 --split val --asset annotations,detections --output mot_data
+          trackers download mot17 --split val --asset annotations,detections --output mot_data
           test -s mot_data/mot17/val/MOT17-02-FRCNN/gt/gt.txt
           test -s mot_data/mot17/val/MOT17-02-FRCNN/det/det.txt
       - name: Run actual Cognitum tracker BEFORE loading ground truth
