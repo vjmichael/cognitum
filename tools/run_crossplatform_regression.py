@@ -32,11 +32,6 @@ def main():
         missing=LINUX_ONLY_MODULES-names
         if missing:
             raise RuntimeError("Linux-only test manifest drift: "+str(sorted(missing)))
-        suites=[]
-        for path in tests:
-            if path.stem in LINUX_ONLY_MODULES:
-                continue
-            suites.append(loader.loadTestsFromName(path.stem))
         # Add tests directory to import path, like unittest discover does.
         sys.path.insert(0,str(Path("tests").resolve()))
         suites=[loader.loadTestsFromName(p.stem) for p in tests
