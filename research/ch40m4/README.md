@@ -37,3 +37,18 @@ The Minibex generator reproduces the expression generator from `research/ch40m2/
 ## Next CH40-M.5 gate
 
 Resolve an **LP-enabled IBEX build**, preferably using COIN-OR CLP with matching development headers/library closure and documented licensing, then run `ibexopt` on all 15 original models with bounded CPU/memory. CLP shared runtime libraries are present on the test host, but `ClpSimplex.hpp` and development linkage were not available: the currently compiled optimizer requires additional development packages. Check each claimed global upper bound with the independent rational/MPFR verifier before any promotion. Then compare matched CPU/memory budgets with custom MPFR, FLINT/Arb and SCIP. Ipopt's missing SPRAL/MUMPS dependency closure is a separate local-optimization task, not a replacement for certified global optimization.
+## Repository replay commands
+
+The self-contained, immutable-source CLI harness is `research/ch40m4/run_original15.py`. It imports the existing `research/ch40m2/source/ibex_model.py` expression serializer, never substitutes synthetic original cases, and refuses an altered CH40-E archive.
+
+```bash
+cmake -S research/ch40m4/native -B /tmp/ch40m4-native \
+  -DCMAKE_PREFIX_PATH=/path/to/isolated/ibex/install
+cmake --build /tmp/ch40m4-native
+python research/ch40m4/run_original15.py \
+  --archive /path/to/Cognitum_CH_C14_40_E_Actual_MPFR_Producer_Traces_2026-11-03.zip \
+  --ibexsolve /path/to/ibexsolve --ibex-point /tmp/ch40m4-native/ibex_point \
+  --out /path/to/isolated/ch40m4-results
+```
+
+Replays are *not* a substitute for an LP-enabled optimizer or full independent global-bound verification. For the accepted source/pin and per-case result bundle, see the conversation artifact identified by SHA-256 `5df3098b44e22b8ab036bcb4f3bab59f4b46cf3fe716d3b17e3abea6608972e3`.
