@@ -1,0 +1,108 @@
+syntax = "proto3";
+package cognitum.memory.v1;
+// Lu ANSF is the only canonical owner. All returned data is inert evidence;
+// this protocol cannot append, delete, authorize, or update host memory.
+message Evidence {
+ string source_id = 1;
+ uint64 source_revision = 2;
+ string scope_id = 3;
+ string subject = 4;
+ string text = 5;
+ string citation_handle = 6;
+ uint64 valid_from_ms = 7;
+ bool has_valid_to = 8;
+ uint64 valid_to_ms = 9;
+ bool tombstoned = 10;
+}
+message Snapshot {
+ uint32 schema_version = 1;
+ string owner = 2;
+ string snapshot_id = 3;
+ uint64 owner_revision = 4;
+ repeated Evidence rows = 5;
+}
+message Query {
+ uint32 schema_version = 1;
+ Snapshot snapshot = 2;
+ string host_authorized_scope = 3;
+ string scope_id = 4;
+ string query_text = 5;
+ string expected_snapshot_id = 6;
+ uint64 expected_owner_revision = 7;
+ uint32 max_results = 8;
+ bool has_as_of = 9;
+ uint64 as_of_ms = 10;
+ string subject = 11;
+ bool exact_lookup = 12;
+ string exact_source_id = 13;
+}
+message Hit {
+ string source_id = 1;
+ uint64 source_revision = 2;
+ string subject = 3;
+ string citation_handle = 4;
+ string text = 5;
+ double score = 6;
+ string snapshot_id = 7;
+}
+message QueryResult {
+ uint32 schema_version = 1;
+ string status = 2;
+ repeated Hit hits = 3;
+ string request_sha256 = 4;
+ repeated string limitations = 5;
+}
+message StateEvent {
+ string event_id = 1;
+ string scope_id = 2;
+ string entity = 3;
+ string predicate = 4;
+ string value_type = 5;
+ string value = 6;
+ string origin_source_id = 7;
+ string actor_authority = 8;
+ uint64 expected_revision = 9;
+ uint64 effective_ms = 10;
+ uint64 recorded_ms = 11;
+ string action = 12;
+ string replaces_event_id = 13;
+ string reason = 14;
+}
+message EventSnapshot {
+ uint32 schema_version = 1;
+ string owner = 2;
+ string snapshot_id = 3;
+ uint64 owner_revision = 4;
+ string scope_id = 5;
+ repeated StateEvent events = 6;
+}
+message Belief {
+ string entity = 1;
+ string predicate = 2;
+ string value_type = 3;
+ string value = 4;
+ string status = 5;
+ string source_event_id = 6;
+ uint64 source_revision = 7;
+ string authority = 8;
+ uint64 effective_ms = 9;
+ repeated string conflict_event_ids = 10;
+}
+message ProposalRequest {
+ uint32 schema_version = 1;
+ EventSnapshot snapshot = 2;
+ StateEvent event = 3;
+ string host_authorized_scope = 4;
+}
+message ProposalResult {
+ uint32 schema_version = 1;
+ string status = 2;
+ string scope_id = 3;
+ string based_on_snapshot_id = 4;
+ uint64 expected_owner_revision = 5;
+ repeated Belief current = 6;
+ repeated Belief competing = 7;
+ string event_sha256 = 8;
+ string request_sha256 = 9;
+ repeated string limitations = 10;
+}
