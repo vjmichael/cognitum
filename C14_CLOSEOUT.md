@@ -9,7 +9,7 @@ A bounded, canonical domain-specific Protobuf interface `cognitum.causal.v1` wit
 | Operation | Maintained backend | Output | Current test evidence |
 |---|---|---|---|
 | `ate_statsmodels` | statsmodels OLS, HC3 | conditional-assumption-dependent linear ATE with HC3 CI | **Actual installed library executed** |
-| `ate_dowhy` | DoWhy DAG identification, backdoor linear regression | DAG-identified backdoor ATE with library CI | Adapter mock + API review; actual library **not installed/tested** |
+| `ate_dowhy` | DoWhy DAG identification, backdoor linear regression | DAG-identified backdoor ATE with separately calculated HC3 CI | Adapter mock + API review; actual library **not installed/tested** |
 | `conditional_effect_econml` | EconML LinearDML | effect at explicit modifier profile with library interval | Adapter mock + API review; actual library **not installed/tested** |
 | `discover_pc` | causal-learn PC | oriented/undirected graph edges, no effect | Adapter mock + API review; actual library **not installed/tested** |
 | `discover_pcmci` | Tigramite PCMCI / ParCorr | lagged associations and FDR p-values, no effect | Adapter mock + API review; library **not installed/tested**, GPL host-policy gate default **OFF** |
