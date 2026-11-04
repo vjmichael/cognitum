@@ -1,0 +1,67 @@
+{
+  "protocol": "CH40-M3-INDEPENDENT-SCIP-POINT-CHECK",
+  "scientific_release": "NO_GO",
+  "candidate_checks": [
+    {
+      "case": "rare_1pct_n160_i13",
+      "source_sha256": "68dabdd5345184630f8ba05518706579f9d776d0f9c4a4eb25bb6013ebc1413d",
+      "candidate": [
+        -4.785122290158479,
+        -0.4112056913197336,
+        -0.18020992857025048
+      ],
+      "objective_float_candidate": -0.7477945719948761,
+      "objective_float_original": -0.6662007490154771,
+      "independent_point_overlap": true,
+      "flint_contains_reference": true,
+      "strict_lower_bound_increase": false,
+      "material_verified_gain_over_original": false,
+      "exact_gain_lower": "-4079691148969983959471061507584925331358471227608232445551032947406208920018460058544381175232867/50000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "verification_threshold": "1e-8 (candidate lower must exceed prior upper by this margin)",
+      "new_bound_lower_approx": -0.7477945719948764,
+      "original_bound_lower_approx": -0.6662007490154768,
+      "cpu_seconds": 6.332
+    },
+    {
+      "case": "zero_balanced_n160_i00",
+      "source_sha256": "3dd2dfe0be64c0869cec4e174727b3a6ff015cab9196b971ab8a2acbcf92b505",
+      "candidate": [
+        -5.109080329075919,
+        0.5204997488089573,
+        0.6156503626672641
+      ],
+      "objective_float_candidate": -0.7602896061844796,
+      "objective_float_original": -0.7602896061844805,
+      "independent_point_overlap": true,
+      "flint_contains_reference": true,
+      "strict_lower_bound_increase": true,
+      "material_verified_gain_over_original": false,
+      "exact_gain_lower": "106790503276142506218591041768030252314104209588941326332915243249843438614633050287/100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "verification_threshold": "1e-8 (candidate lower must exceed prior upper by this margin)",
+      "new_bound_lower_approx": -0.7602896061844798,
+      "original_bound_lower_approx": -0.7602896061844809,
+      "cpu_seconds": 6.455
+    },
+    {
+      "case": "zero_imbalanced_n160_i07",
+      "source_sha256": "0a7d58fbec3a6e755bcc20cd2c212beef8066f416e896b1ad013cbd22771a7e6",
+      "candidate": [
+        -4.1373608679033955,
+        1.910328562106904,
+        -0.5639132493214802
+      ],
+      "objective_float_candidate": -6.485370322480948,
+      "objective_float_original": -1.5693078127668643,
+      "independent_point_overlap": true,
+      "flint_contains_reference": true,
+      "strict_lower_bound_increase": false,
+      "material_verified_gain_over_original": false,
+      "exact_gain_lower": "-30725390685713109360899592435339540787286285836558053326507137222142269014279180064955379088913467/6250000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "verification_threshold": "1e-8 (candidate lower must exceed prior upper by this margin)",
+      "new_bound_lower_approx": -6.485370322480959,
+      "original_bound_lower_approx": -1.5693078127668612,
+      "cpu_seconds": 6.487
+    }
+  ]
+}
+
