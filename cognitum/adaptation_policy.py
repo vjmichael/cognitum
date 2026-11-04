@@ -195,16 +195,14 @@ def route(p,features,*,workspace_id,task_family,minimum_confidence=.65):
 def score(p,rows):
     verify_policy(p)
     if not rows:raise ValueError("empty evaluation")
+    if any(type(r) is not Trace or r.task_family not in p.allowed_families
+           or r.expected_route not in ROUTES for r in rows):
+        raise ValueError("unsupported evaluation labels")
     correct=0;loss=0.;abstain=0;groups={}
     for r in rows:
-        prediction,prob=route(replace(p,status="approved",digest="0"*64) if False else p,
-                              r.features,workspace_id=p.workspace_id,
-                              task_family=r.task_family,minimum_confidence=.5)
-        # Candidate policies are never run through the production route() API:
-        # evaluation uses inert probability vectors from a frozen candidate.
-        if p.status=="candidate":
-            prob=_predict(p,r.features)
-            prediction=ROUTES[max(range(3),key=lambda j:prob[j])]
+        # Evaluate the frozen candidate without activating production routing.
+        prob=_predict(p,r.features)
+        prediction=ROUTES[max(range(3),key=lambda j:prob[j])]
         target=ROUTES.index(r.expected_route)
         correct+=prediction==r.expected_route
         abstain+=prediction=="abstain"
