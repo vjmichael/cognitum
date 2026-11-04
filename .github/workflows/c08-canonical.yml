@@ -1,0 +1,39 @@
+name: C08 canonical HDC candidate verification
+
+on:
+  pull_request:
+    paths:
+      - 'cognitum/research/hdc_canonical.py'
+      - 'cognitum/research/hdc_optional.py'
+      - 'tests/test_c08_canonical.py'
+      - '.github/workflows/c08-canonical.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  canonical-recheck:
+    name: "C08 canonical (${{ matrix.os }}, Python ${{ matrix.python-version }})"
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install typed Protobuf and tests
+        run: python -m pip install "protobuf>=6.31,<8" "pytest>=8,<10"
+      - name: Run C08 canonical candidate security acceptance
+        run: python -m pytest -q tests/test_c08_canonical.py
+      - name: Run existing C08/C09 optional research suite
+        run: |
+          python -m pip install "numpy>=1.26,<3"
+          python -m pytest -q tests/test_research_optional.py
+      - name: Compile source
+        run: python -m compileall -q cognitum/research
