@@ -10,7 +10,7 @@ def msg(name,fields):
   x.label=T.LABEL_REPEATED if rep else T.LABEL_OPTIONAL
   if ref:x.type_name="."+f.package+"."+ref
 msg("Frame",[fld("name","string"),fld("parent","string"),fld("translation_m","double",True),fld("quaternion_xyzw","double",True)])
-msg("SceneObject",[fld("stable_id","string"),fld("frame","string"),fld("position_m","double",True),fld("dimensions_m","double",True),fld("visible","bool"),fld("observation_source","string"),fld("timestamp_ms","uint64"),fld("version","uint32")])
+msg("SceneObject",[fld("stable_id","string"),fld("frame","string"),fld("position_m","double",True),fld("dimensions_m","double",True),fld("visible","bool"),fld("observation_source","string"),fld("timestamp_ms","uint64"),fld("version","uint32"),fld("orientation_xyzw","double",True),fld("geometry_ref","string"),fld("confidence","double")])
 msg("SceneQuery",[fld("schema_version","uint32"),fld("frames","message",True,"Frame"),fld("objects","message",True,"SceneObject"),fld("epoch","uint64"),fld("object_id","string"),fld("reference_id","string")])
 msg("SceneResult",[fld("schema_version","uint32"),fld("status","string"),fld("world_position_m","double",True),fld("distance_m","double"),fld("first_left_of_second","bool"),fld("limitations","string",True),fld("request_sha256","string")])
 msg("Detection",[fld("detection_id","string"),fld("x","double"),fld("y","double"),fld("width","double"),fld("height","double"),fld("source","string")])
