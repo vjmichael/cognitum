@@ -1,0 +1,48 @@
+{
+  "protocol": "CH40-M5-SOURCE-AND-EVIDENCE-BUNDLE-V1",
+  "case_count": 15,
+  "signed_history_mutated": false,
+  "scientific_release": "NO_GO",
+  "runtime": {
+    "python": "3.13.5 (main, Jul 15 2026, 20:25:40) [GCC 14.2.0]",
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "flint_version": "0.9.0"
+  },
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 5572,
+      "sha256": "e86e292885d80d23844157e3054a06ad30fe327ca20b7e45549e8ce223a84013"
+    },
+    {
+      "path": "gram_psd.py",
+      "bytes": 4056,
+      "sha256": "0c2abf76371636e5655dd34fb3db4c814f85629d894944c510305c7abd9d0f7d"
+    },
+    {
+      "path": "independent_psd_check.py",
+      "bytes": 2616,
+      "sha256": "c273f4f085efecec8ce720a84cfd8c2fc59073396713e252fe33230d0b154e8f"
+    },
+    {
+      "path": "run_m5.py",
+      "bytes": 5677,
+      "sha256": "5797cbc77dd579efd8d2aad1ed9b343403c9e8bda22d58446f94b93c8ea64a90"
+    },
+    {
+      "path": "test_m5.py",
+      "bytes": 6089,
+      "sha256": "33da808dd2fa3993de00220d3a1ad929f024db315d33dc27ff395918ecb15484"
+    },
+    {
+      "path": "evidence/CH40M5_ALL15_FRONTIER_REPORT.json",
+      "bytes": 13935,
+      "sha256": "0fca48fb2a1b014a15b1d6d8330cf5a4a62ce9ab6d814f0da2ec22d8d39c4eb3"
+    },
+    {
+      "path": "evidence/test_m5.log",
+      "bytes": 1225,
+      "sha256": "8c0e5a27372dbeb6dbb02b8348f0ba685c23eb2441d81ea6424290d361803369"
+    }
+  ]
+}
