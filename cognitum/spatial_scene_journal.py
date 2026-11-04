@@ -62,6 +62,50 @@ def decode(data:bytes)->SceneRevision:
         raise ValueError("invalid scene snapshot content") from exc
 
 
+def _verify_successor(previous:SceneRevision, current:SceneRevision):
+    """Reject accidental identity rewrites, missing custody events and rollback.
+
+    This is internal structural verification, not signed host authority.
+    """
+    if (previous.scene_id!=current.scene_id
+            or previous.workspace_id!=current.workspace_id
+            or current.revision!=previous.revision+1
+            or current.epoch<previous.epoch
+            or previous.detached
+            or current.frames!=previous.frames
+            or current.event_ids[:len(previous.event_ids)]!=previous.event_ids
+            or len(current.event_ids)!=len(previous.event_ids)+1):
+        raise ValueError("non-monotonic or cross-workspace scene successor")
+    old={e.obj.stable_id:e for e in previous.entities}
+    new={e.obj.stable_id:e for e in current.entities}
+    if not old.keys()<=new.keys():
+        raise ValueError("scene identities removed without tombstones")
+    changes=0
+    for stable_id,old_e in old.items():
+        new_e=new[stable_id]
+        if old_e==new_e:
+            continue
+        changes+=1
+        if (new_e.obj.version!=old_e.obj.version+1
+                or new_e.obj.timestamp_ms<old_e.obj.timestamp_ms
+                or old_e.state=="deleted"
+                or new_e.evidence[:len(old_e.evidence)]!=old_e.evidence
+                or len(new_e.evidence)!=len(old_e.evidence)+1
+                or new_e.aliases[:len(old_e.aliases)]!=old_e.aliases
+                or len(new_e.aliases)>len(old_e.aliases)+1):
+            raise ValueError("scene entity custody history rewritten")
+    additions=set(new)-set(old)
+    for identity in additions:
+        if (new[identity].obj.version!=1
+                or not new[identity].evidence):
+            raise ValueError("new identity requires initial provenance")
+    if current.detached:
+        if changes or additions:
+            raise ValueError("detachment cannot also change scene entities")
+    elif changes+len(additions)!=1:
+        raise ValueError("each scene revision must contain exactly one entity change")
+
+
 class SceneJournal:
     """Create with a path supplied by an authorized host; no caller path API."""
 
@@ -105,6 +149,7 @@ class SceneJournal:
                 stored=decode(previous[2])
                 if stored.revision!=current or sha256(previous[2]).hexdigest()!=previous[1]:
                     raise ValueError("existing snapshot integrity failure")
+                _verify_successor(stored,revision)
                 prior_hash=previous[1]
             else:
                 prior_hash="0"*64
