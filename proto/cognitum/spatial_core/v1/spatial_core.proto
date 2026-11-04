@@ -38,6 +38,7 @@ message SceneResult {
   repeated string limitations = 6;
   string request_sha256 = 7;
   repeated double world_orientation_xyzw = 8; // exact composed pose; four components
+  repeated SceneRelation relations = 9; // versioned derived scene graph edges
 }
 message Detection {
   string detection_id = 1;
@@ -77,4 +78,17 @@ message TrackResult {
   repeated string retired_ids = 6;
   repeated string limitations = 7;
   string request_sha256 = 8;
+}
+
+message SceneRelation {
+  string subject_id = 1;
+  string predicate = 2;
+  string object_id = 3;
+  string coordinate_frame = 4;
+  double value_m = 5;
+  uint32 subject_version = 6;
+  uint32 object_version = 7;
+  uint64 scene_epoch = 8;
+  repeated string evidence_sources = 9;
+  string status = 10; // derived_not_observed
 }
