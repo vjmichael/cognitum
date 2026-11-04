@@ -127,3 +127,40 @@ def test_digest_tamper_detected():
         db.execute("UPDATE cognitum_reference_events SET payload='{}' WHERE event_id='a'")
         with pytest.raises(StateError, match="digest mismatch"):
             read_claim(db, scope="alice", entity="ship", predicate="status")
+
+
+def test_real_sqlite_racing_writers_only_one_commit(tmp_path):
+    from concurrent.futures import ThreadPoolExecutor
+    from threading import Barrier
+
+    path = tmp_path / "writer-race.sqlite"
+    with sqlite3.connect(path, isolation_level=None) as db:
+        db.executescript(HOST_TEST_SCHEMA)
+    barrier = Barrier(2)
+
+    def write(eid):
+        db = sqlite3.connect(path, isolation_level=None, timeout=10)
+        try:
+            barrier.wait(timeout=10)
+            return append_authorized(
+                db, event(eid, Action.ASSERT, 0), scope="alice",
+                host_authorize=allow,
+            )
+        finally:
+            db.close()
+
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        futures = [executor.submit(write, "a"), executor.submit(write, "b")]
+        outcomes = []
+        for future in futures:
+            try:
+                outcomes.append(future.result())
+            except StateError as error:
+                outcomes.append(str(error))
+    assert sum(x == 1 for x in outcomes) == 1
+    assert sum(isinstance(x, str) and "stale" in x for x in outcomes) == 1
+    with sqlite3.connect(path, isolation_level=None) as db:
+        count = db.execute(
+            "SELECT COUNT(*) FROM cognitum_reference_events WHERE scope='alice'"
+        ).fetchone()[0]
+        assert count == 1
