@@ -48,10 +48,18 @@ def real_tracking(detections,*,iou_gate=.05,distance_gate=80.,
     active=()
     predictions=[]
     total_wall=0.
+    dropped=0
     for frame in range(1,max(by_frame)+1):
+        # The typed core has 64-detection/64-track bounds. Use public detector
+        # confidence only (never GT) for documented capacity filtering.
+        present=sorted(by_frame.get(frame,()),key=lambda d:(-d.score,d.x,d.y))
+        selected=present[:64]
+        dropped+=len(present)-len(selected)
+        if len(active)>64:
+            active=tuple(sorted(active,key=lambda t:(t.missed,t.stable_id))[:64])
         detections_for_frame=tuple(
             Detection("det_"+str(frame)+"_"+str(i),d.x,d.y,d.w,d.h,"public_detector")
-            for i,d in enumerate(by_frame.get(frame,())))
+            for i,d in enumerate(selected))
         start=perf_counter()
         result=update(active,detections_for_frame,min_iou=iou_gate,
                       max_distance=distance_gate,max_missed=max_missed)
@@ -63,6 +71,9 @@ def real_tracking(detections,*,iou_gate=.05,distance_gate=80.,
         ids={x.stable_id for x in next_active}
         for d in detections_for_frame:
             if d.detection_id not in mapped:
+                if len(next_active)>=64:
+                    dropped+=1
+                    continue
                 sid="track_"+str(next_id)
                 next_id+=1
                 if sid in ids:
@@ -74,12 +85,14 @@ def real_tracking(detections,*,iou_gate=.05,distance_gate=80.,
         active=tuple(next_active)
         total_wall+=perf_counter()-start
         for d in detections_for_frame:
+            if d.detection_id not in mapped:
+                continue
             tid=int(mapped[d.detection_id].split("_")[-1])
-            # MOT convention requires input detection frame score, not GT.
-            original=by_frame[frame][indices[d.detection_id]]
+            # Preserve the selected public-detector confidence, not GT.
+            original=selected[indices[d.detection_id]]
             predictions.append((frame,tid,d.x,d.y,d.width,d.height,
                                 original.score))
-    return tuple(predictions),total_wall*1000
+    return tuple(predictions),total_wall*1000,dropped
 
 
 def _save_predictions(path,pred):
@@ -109,7 +122,7 @@ def run(gt_file,det_file,output_file,*,sequence_id,licensed_use):
         raise ValueError("ground-truth and detector paths are identical")
     det,det_hash=_mot_table(det_file,"det")
     # Generate predictions BEFORE reading ground-truth in this process.
-    prediction,wall_ms=real_tracking(det)
+    prediction,wall_ms,dropped=real_tracking(det)
     prediction_digest=_save_predictions(output_file,prediction)
     gt,gt_hash=_mot_table(gt_file,"gt")
     if gt_hash==det_hash:
@@ -128,11 +141,13 @@ def run(gt_file,det_file,output_file,*,sequence_id,licensed_use):
         "frames":max([d.frame for d in det],default=0),
         "detection_rows":len(det),
         "prediction_rows":len(pred),
+        "detector_rows_dropped_for_bounded_capacity":dropped,
         "metrics":stats,
         "limitations":[
             "no_source_authentication_beyond_local_digest",
             "not_official_TrackEval_metrics",
             "no_appearance_model_in_this_baseline",
+            "public_detector_rows_may_be_dropped_for_64_track_capacity",
             "dataset_license_attestation_caller_supplied",
             "requires_official_TrackEval_for_HOTA_MOTA_IDF1",
             "ground_truth_loaded_only_after_predictions_created",
