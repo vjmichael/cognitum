@@ -38,6 +38,25 @@ class C19Tests(unittest.TestCase):
         self.assertEqual(r.unique_points,2)
         self.assertEqual(r.connected_components_at_scale,1)
         self.assertEqual(len(r.intervals),6)
+        # Exact duplicate samples produce zero-duration H0 merges even when
+        # Ripser omits those ephemeral intervals from its raw diagram.
+        h0=[x for x in r.intervals if x.dimension==0]
+        self.assertEqual(sum(x.death==0. for x in h0),4)
+        self.assertEqual(sum(x.death is not None and abs(x.death-1.)<1e-6
+                             for x in h0),1)
+        self.assertEqual(sum(x.death is None for x in h0),1)
+        self.assertLess(r.h0_mst_max_deviation,1e-6)
+
+    def test_duplicate_points_disconnected_under_small_threshold(self):
+        points=((0.,0.),(0.,0.),(5.,0.),(5.,0.),(10.,0.),(10.,0.))
+        r=compute(query(points,.1,dim=0))
+        self.assertEqual(r.status,"OK")
+        self.assertEqual(r.unique_points,3)
+        self.assertEqual(r.connected_components_at_scale,3)
+        self.assertEqual(sum(x.dimension==0 and x.death==0
+                             for x in r.intervals),3)
+        self.assertEqual(sum(x.dimension==0 and x.death is None
+                             for x in r.intervals),3)
 
     def test_metric_and_threshold_change_interpretation(self):
         points=((0.,0.),(3.,0.),(0.,3.),(3.,3.))
