@@ -33,7 +33,7 @@ The full-process recovery CPU reduction is **91.3%**, but it is not a whole-solv
 - Injected a genuine Linux **SIGKILL** immediately after the first committed and signed case: process returned exit **137**; restart found exactly one valid signed case and completed the second without redoing it.
 - Genuine `SIGKILL` **inside** an open uncommitted SQLite transaction: SQLite restored the preceding fully verified state, and the 15-case evidence remained valid.
 - Reject mutated receipts, maliciously rehashed content with unchanged signatures, wrong verifier key, missing **middle** checkpoint, source pin / immutable run manifest changes, changed journal bytes, negative mathematical proof statement, and release-status forgery. A removed valid **tail** is detected with an independently supplied `--expected-tip`.
-- **17/17 tests passed** with `ResourceWarning` treated as errors, including the above original-case tampering tests. Missing original external fixtures cause explicit skips, not scientific green results.
+- **17/17 original-environment tests passed** with `ResourceWarning` treated as errors. In an isolated source-only environment without the original frozen verifier and fixtures, **5 contract checks pass and 12 original-evidence tests are explicitly skipped**, not misrepresented as mathematical acceptance.
 
 ## Reproduce locally (Linux)
 
