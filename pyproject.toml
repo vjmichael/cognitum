@@ -21,6 +21,8 @@ research-hdc-kan = ["protobuf>=6.31,<8", "numpy>=1.26,<3"]
 
 # C15 bounded scene geometry and stable-ID association through mature SciPy.
 spatial-core = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.14,<2"]
+# Explicit user/host-admitted image features; no camera opening or model weights.
+spatial-vision = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.14,<2", "opencv-python-headless>=4.9,<5", "pillow>=10,<13"]
 
 # C14 production-target maintained causal-library adapters; never auto-launch.
 causal-stats = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.10,<2", "statsmodels>=0.14,<0.16"]
