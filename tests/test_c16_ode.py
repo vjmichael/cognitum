@@ -17,6 +17,13 @@ def harmonic(method="DOP853"):
 
 
 class C16ODETests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        try:
+            from scipy.integrate import solve_ivp
+        except ImportError:
+            raise unittest.SkipTest("optional SciPy ODE backend not installed")
+
     def test_scipy_analytic_harmonic_reference_and_energy(self):
         for method in ("RK45","DOP853","Radau","BDF"):
             with self.subTest(method=method):
