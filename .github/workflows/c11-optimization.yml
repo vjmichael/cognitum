@@ -46,3 +46,5 @@ jobs:
           python tools/check_proto_descriptors.py compiled-c11.pb
       - name: Run all C11 regression and true backend calls
         run: python -W error -m unittest discover -s tests -p "test_c11_*.py" -v
+      - name: Fixed-case true solver component benchmark
+        run: python tools/c11_component_benchmark.py
