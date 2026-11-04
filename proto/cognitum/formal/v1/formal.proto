@@ -23,6 +23,7 @@ message VerifyRequest {
   repeated LinearConstraint constraints = 3;
   string backend = 4; // z3 | cvc5 | exhaustive
   uint32 timeout_ms = 5; // 1..10000
+  bool proof_required = 6; // never return unverified UNSAT as accepted proof
 }
 message VerifyResult {
   uint32 schema_version = 1;
