@@ -175,10 +175,17 @@ def propose(snapshot:EventSnapshot,event:StateEvent,*,host_authorized_scope:str)
             or any(x.event_id==event.event_id for x in snapshot.events)
             or len(snapshot.events)>=MAX_EVENTS):
         raise ValueError("stale, replayed or cross-scope event")
-    if event.actor_authority!="user_decision" and event.action in ("SUPERSEDE","RETRACT","MERGE"):
-        target=next((x for x in snapshot.events if x.event_id==event.replaces_event_id),None)
-        if target is not None and target.actor_authority=="user_decision":
-            raise ValueError("imported/model evidence cannot overwrite user decisions")
+    target=next((x for x in snapshot.events if x.event_id==event.replaces_event_id),None)
+    if (event.replaces_event_id and target is not None
+            and (target.entity!=event.entity or target.predicate!=event.predicate)):
+        raise ValueError("revised claim changes subject or predicate")
+    if (target is not None and event.actor_authority!="user_decision"
+            and target.actor_authority=="user_decision"
+            and event.action in ("SUPERSEDE","RETRACT","EXPIRE","MERGE","CONFIRM")):
+        raise ValueError("imported/model evidence cannot revise user decision authority")
+    if (target is not None and event.action in ("CONFIRM","RETRACT","EXPIRE")
+            and (event.value_type!=target.value_type or event.value!=target.value)):
+        raise ValueError("confirmation/retraction must reference the original typed value")
     live,all_entries=_derive(snapshot.events+(event,))
     current=tuple(x for x in live if x.entity==event.entity and x.predicate==event.predicate)
     conflicting=tuple(x for x in current if x.value!=event.value)
