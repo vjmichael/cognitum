@@ -30,6 +30,9 @@ class SceneObject:
     observation_source: str
     timestamp_ms: int
     version: int = 1
+    orientation_xyzw: tuple[float,float,float,float] = (0.,0.,0.,1.)
+    geometry_ref: str = "unresolved"
+    confidence: float = 0.0
 
 
 @dataclass(frozen=True)
@@ -85,6 +88,14 @@ def validate(scene:Scene):
                 or not _numbers(obj.position_m,3)
                 or not _numbers(obj.dimensions_m,3,positive=True)
                 or not _ident(obj.observation_source)
+                or not _numbers(obj.orientation_xyzw,4)
+                or not 0.999999<=sum(q*q for q in obj.orientation_xyzw)<=1.000001
+                or type(obj.geometry_ref) is not str
+                or not 1<=len(obj.geometry_ref)<=256
+                or not all(c.isascii() and (c.isalnum() or c in "._:/-")
+                           for c in obj.geometry_ref)
+                or type(obj.confidence) not in (float,int)
+                or not isfinite(obj.confidence) or not 0<=obj.confidence<=1
                 or type(obj.visible) is not bool
                 or type(obj.timestamp_ms) is not int or obj.timestamp_ms<0
                 or obj.timestamp_ms>scene.epoch or type(obj.version) is not int
@@ -132,3 +143,26 @@ def relation(scene:Scene, first:str, second:str, *, tolerance_m:float=1e-6)->dic
             "first_below_second":a[2]<b[2]-tolerance_m,
             "frame":"world",
             "evidence_kind":"caller_supplied_metric_geometry"}
+
+
+def world_pose(scene:Scene,stable_id:str):
+    """Full world SE(3) pose: translated position and composed orientation."""
+    validate(scene)
+    try:
+        import numpy as np
+        from scipy.spatial.transform import Rotation
+    except ImportError as exc:
+        raise RuntimeError("scipy/numpy_geometry_backend_unavailable") from exc
+    obj=next((o for o in scene.objects if o.stable_id==stable_id),None)
+    if obj is None:raise ValueError("unknown object stable ID")
+    position=np.asarray(obj.position_m,dtype=np.float64)
+    rotation=Rotation.from_quat(obj.orientation_xyzw)
+    frames={f.name:f for f in scene.frames}
+    current=obj.frame
+    while current!="world":
+        frame=frames[current]
+        q=Rotation.from_quat(frame.quaternion_xyzw)
+        position=q.apply(position)+np.asarray(frame.translation_m,dtype=np.float64)
+        rotation=q*rotation
+        current=frame.parent
+    return tuple(float(x) for x in position),tuple(float(x) for x in rotation.as_quat())
