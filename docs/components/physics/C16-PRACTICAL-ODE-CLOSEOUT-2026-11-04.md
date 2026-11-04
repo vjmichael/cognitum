@@ -34,3 +34,26 @@ Undamped harmonic cases also report maximum position error versus a closed-form 
 **Closure gate:** Must pass current-head real CI before merge. Complete numerical solver *component* scope is bounded to these conventional templates; no arbitrary PDEs, multiphysics engine, dynamic contact mesh, high-frequency CFD, stiff failure certification, hard realtime guarantees, KAN/Neural ODE training, hardware FPGA, GPU, experimental model validity or general boundary-condition language is claimed.
 
 The original C16 design intentionally makes learned Neural ODE/KAN challengers optional, not a requirement to develop a novel solver. Actual Lu host authorization, per-turn tool grants, OS-isolated worker cancellation and independent real-task A/B analysis remain subsequent integration acceptance tasks.
+
+## Native acceptance update — 2026-11-04
+
+PR #72 exact head `f7ecfec310bea3002d20ad65c019aeeafe2adb9b`:
+- Dedicated `C16 practical physical ODE numerical acceptance` passed
+  Windows/Linux Python 3.11/3.13 (genuine SciPy RK45, DOP853, Radau,
+  BDF and Protobuf acceptance).
+- `Cognitum C16 bounded physics reference`, portable smoke and standalone
+  native alpha checks passed.
+- Shared full Python regression passed Linux 3.11/3.13 but failed on
+  Windows 3.11/3.13 in separate **Linux-only host recovery** tests,
+  primarily `RecoveryDenied: LINUX_REQUIRED`, not the C16 numerical tests.
+  Do not soften OS containment or mistake Linux cgroup rejection for a
+  failed physical solver.
+- Thus the bounded C16 numerical component is implemented and **its dedicated
+  matrix is validated**, but repository-wide Windows regression and merge
+  acceptance remain open. A successful old SHA does not establish acceptance
+  for subsequent commits.
+
+**Workstream decision:** Do not enlarge C16 into CFD, multiphysics or learned
+model research. Keep C16 on its existing PR with the separate Windows CI
+failure assigned to host-recovery test platform policy; proceed to the
+next component while preserving this explicit outstanding repository gate.
