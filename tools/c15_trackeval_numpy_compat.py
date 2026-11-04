@@ -1,8 +1,8 @@
 """Patch a pinned legacy TrackEval checkout for NumPy >=1.24.
 
 The official TrackEval checkout is pinned at a reviewed commit. This
-compatibility adapter changes ONLY the removed `np.float` type alias to
-`np.float64` in the one known loader file, after verifying its exact old
+compatibility adapter changes ONLY the removed `np.float` and `np.int` type aliases to
+`np.float64` and `np.int64` in the one known loader file, after verifying its exact old
 source and refusing surprising variants. It does not alter any metric
 algorithm, association threshold, annotation, or prediction.
 """
@@ -23,8 +23,8 @@ def patch(root: Path) -> dict:
     if not path.is_file() or path.is_symlink() or path.stat().st_size > 200000:
         raise ValueError("unexpected TrackEval file")
     original = path.read_bytes()
-    # Match only the old dtype symbol, NOT np.float64 and never a substring.
-    pattern = rb"np\.float\b"
+    # Match only removed exact aliases, not np.float64 or np.int64.
+    pattern = rb"np\.(float|int)\b"
     matches = list(re.finditer(pattern, original))
     if not matches or len(matches) > 16:
         raise ValueError("pinned TrackEval legacy NumPy aliases absent or unexpected")
