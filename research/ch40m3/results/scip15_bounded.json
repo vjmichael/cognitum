@@ -1,0 +1,265 @@
+{
+  "protocol": "CH40-M3-SCIP-15-BOUNDED-RESEARCH-V1",
+  "scientific_release": "NO_GO",
+  "backend": "SCIP via PySCIPOpt 6.3.0",
+  "limits": {
+    "real_seconds_per_case": 1.5,
+    "memory_scip_mb": 512,
+    "process_address_space_gb": 1.4,
+    "external_wall_seconds": 12
+  },
+  "cases": [
+    {
+      "status": "timelimit",
+      "cpu_opt_seconds": 1.5002,
+      "model": {
+        "variables": 651,
+        "constraints": 648,
+        "rows": 160
+      },
+      "global_certificate": false,
+      "adapter_status": "EXECUTED_NATIVE_CANDIDATE_ONLY",
+      "wall_total_seconds": 1.544,
+      "frozen_source_hash": "24f6d50a3bf5d983ebf8d90f3da8dcad2398c378355bec05a3db5c272ad8d624",
+      "case": "one_event_n160_i00",
+      "external_wall_seconds": 2.91
+    },
+    {
+      "status": "timelimit",
+      "cpu_opt_seconds": 1.5027,
+      "model": {
+        "variables": 331,
+        "constraints": 328,
+        "rows": 80
+      },
+      "global_certificate": false,
+      "adapter_status": "EXECUTED_NATIVE_CANDIDATE_ONLY",
+      "wall_total_seconds": 1.528,
+      "frozen_source_hash": "a875e26c2d41c22145d137bab4fddc1b444f0bf664ca8456584025bce6cce27b",
+      "case": "one_event_n80_i00",
+      "external_wall_seconds": 2.525
+    },
+    {
+      "status": "timelimit",
+      "cpu_opt_seconds": 1.4989,
+      "model": {
+        "variables": 651,
+        "constraints": 648,
+        "rows": 160
+      },
+      "global_certificate": false,
+      "adapter_status": "EXECUTED_NATIVE_CANDIDATE_ONLY",
+      "wall_total_seconds": 1.537,
+      "frozen_source_hash": "bb71de02722e88124b07c744e29a222f507e6769c79b0ccbe435f093050c0f89",
+      "case": "quasi_separated_n160_i00",
+      "external_wall_seconds": 2.64
+    },
+    {
+      "status": "timelimit",
+      "cpu_opt_seconds": 1.5148,
+      "model": {
+        "variables": 331,
+        "constraints": 328,
+        "rows": 80
+      },
+      "global_certificate": false,
+      "adapter_status": "EXECUTED_NATIVE_CANDIDATE_ONLY",
+      "wall_total_seconds": 1.541,
+      "frozen_source_hash": "2d156dc3a0635da1f00304edf127dde69e79696c66bbc66d77963776fc5e3ef8",
+      "case": "quasi_separated_n80_i00",
+      "external_wall_seconds": 2.5
+    },
+    {
+      "status": "timelimit",
+      "cpu_opt_seconds": 1.4996,
+      "model": {
+        "variables": 651,
+        "constraints": 648,
+        "rows": 160
+      },
+      "global_certificate": false,
+      "adapter_status": "EXECUTED_NATIVE_CANDIDATE_ONLY",
+      "wall_total_seconds": 1.541,
+      "frozen_source_hash": "64a64dcbe5006b18d09f3d973d0ea8623c1514f4fe9bd83e6d7339b5867c3907",
+      "case": "rare_1pct_n160_i00",
+      "external_wall_seconds": 2.951
+    },
+    {
+      "status": "timelimit",
+      "cpu_opt_seconds": 1.5001,
+      "model": {
+        "variables": 651,
+        "constraints": 648,
+        "rows": 160
+      },
+      "global_certificate": false,
+      "candidate": [
+        -4.785122290158479,
+        -0.4112056913197336,
+        -0.18020992857025048
+      ],
+      "feasible_frozen_domain": true,
+      "objective_at_candidate": -0.7477945719948761,
+      "adapter_status": "EXECUTED_NATIVE_CANDIDATE_ONLY",
+      "wall_total_seconds": 1.539,
+      "frozen_source_hash": "68dabdd5345184630f8ba05518706579f9d776d0f9c4a4eb25bb6013ebc1413d",
+      "case": "rare_1pct_n160_i13",
+      "external_wall_seconds": 2.807
+    },
+    {
+      "status": "timelimit",
+      "cpu_opt_seconds": 1.4992,
+      "model": {
+        "variables": 331,
+        "constraints": 328,
+        "rows": 80
+      },
+      "global_certificate": false,
+      "adapter_status": "EXECUTED_NATIVE_CANDIDATE_ONLY",
+      "wall_total_seconds": 1.532,
+      "frozen_source_hash": "1ccaad21a2edda191852df587fc0e7496a0827cf705cb6e96081027905cd1c3b",
+      "case": "rare_1pct_n80_i00",
+      "external_wall_seconds": 2.691
+    },
+    {
+      "status": "timelimit",
+      "cpu_opt_seconds": 1.5006,
+      "model": {
+        "variables": 651,
+        "constraints": 648,
+        "rows": 160
+      },
+      "global_certificate": false,
+      "adapter_status": "EXECUTED_NATIVE_CANDIDATE_ONLY",
+      "wall_total_seconds": 1.55,
+      "frozen_source_hash": "590b8c6bd5c70cc634457a85f0646f01c1e62f9bd4d583c2fa982397a0d9606c",
+      "case": "rare_5pct_n160_i00",
+      "external_wall_seconds": 3.315
+    },
+    {
+      "status": "timelimit",
+      "cpu_opt_seconds": 1.5074,
+      "model": {
+        "variables": 331,
+        "constraints": 328,
+        "rows": 80
+      },
+      "global_certificate": false,
+      "adapter_status": "EXECUTED_NATIVE_CANDIDATE_ONLY",
+      "wall_total_seconds": 1.532,
+      "frozen_source_hash": "20876767b3a53cbfd257650926a18efefad13b259047722c98497a864bb8a09a",
+      "case": "rare_5pct_n80_i00",
+      "external_wall_seconds": 2.596
+    },
+    {
+      "status": "timelimit",
+      "cpu_opt_seconds": 1.5019,
+      "model": {
+        "variables": 651,
+        "constraints": 648,
+        "rows": 160
+      },
+      "global_certificate": false,
+      "candidate": [
+        -5.109080329075919,
+        0.5204997488089573,
+        0.6156503626672641
+      ],
+      "feasible_frozen_domain": true,
+      "objective_at_candidate": -0.7602896061844796,
+      "adapter_status": "EXECUTED_NATIVE_CANDIDATE_ONLY",
+      "wall_total_seconds": 1.553,
+      "frozen_source_hash": "3dd2dfe0be64c0869cec4e174727b3a6ff015cab9196b971ab8a2acbcf92b505",
+      "case": "zero_balanced_n160_i00",
+      "external_wall_seconds": 3.066
+    },
+    {
+      "status": "timelimit",
+      "cpu_opt_seconds": 1.5051,
+      "model": {
+        "variables": 331,
+        "constraints": 328,
+        "rows": 80
+      },
+      "global_certificate": false,
+      "adapter_status": "EXECUTED_NATIVE_CANDIDATE_ONLY",
+      "wall_total_seconds": 1.527,
+      "frozen_source_hash": "3a699c4816f1e72e31090d4d2fae766fe6084210f940ad994d62e03a315f248a",
+      "case": "zero_balanced_n80_i00",
+      "external_wall_seconds": 2.661
+    },
+    {
+      "status": "timelimit",
+      "cpu_opt_seconds": 1.5076,
+      "model": {
+        "variables": 651,
+        "constraints": 648,
+        "rows": 160
+      },
+      "global_certificate": false,
+      "adapter_status": "EXECUTED_NATIVE_CANDIDATE_ONLY",
+      "wall_total_seconds": 1.538,
+      "frozen_source_hash": "a83c408dd3b208b9da35e5043be5a336b2de13c6ff37212d2685d219432e48a3",
+      "case": "zero_imbalanced_n160_i00",
+      "external_wall_seconds": 2.913
+    },
+    {
+      "status": "timelimit",
+      "cpu_opt_seconds": 1.5258,
+      "model": {
+        "variables": 651,
+        "constraints": 648,
+        "rows": 160
+      },
+      "global_certificate": false,
+      "adapter_status": "EXECUTED_NATIVE_CANDIDATE_ONLY",
+      "wall_total_seconds": 1.563,
+      "frozen_source_hash": "77eefe0d586259395fcb05661eedb83559d6983d0894b1463c10cf82a27d3588",
+      "case": "zero_imbalanced_n160_i05",
+      "external_wall_seconds": 2.902
+    },
+    {
+      "status": "timelimit",
+      "cpu_opt_seconds": 1.5002,
+      "model": {
+        "variables": 651,
+        "constraints": 648,
+        "rows": 160
+      },
+      "global_certificate": false,
+      "candidate": [
+        -4.1373608679033955,
+        1.910328562106904,
+        -0.5639132493214802
+      ],
+      "feasible_frozen_domain": true,
+      "objective_at_candidate": -6.485370322480948,
+      "adapter_status": "EXECUTED_NATIVE_CANDIDATE_ONLY",
+      "wall_total_seconds": 1.541,
+      "frozen_source_hash": "0a7d58fbec3a6e755bcc20cd2c212beef8066f416e896b1ad013cbd22771a7e6",
+      "case": "zero_imbalanced_n160_i07",
+      "external_wall_seconds": 3.046
+    },
+    {
+      "status": "timelimit",
+      "cpu_opt_seconds": 1.5053,
+      "model": {
+        "variables": 331,
+        "constraints": 328,
+        "rows": 80
+      },
+      "global_certificate": false,
+      "adapter_status": "EXECUTED_NATIVE_CANDIDATE_ONLY",
+      "wall_total_seconds": 1.533,
+      "frozen_source_hash": "81f8327c782d5ecd5b8e633e7c59b23457eb4f2a9b4be77b555018cac52df58d",
+      "case": "zero_imbalanced_n80_i00",
+      "external_wall_seconds": 2.666
+    }
+  ],
+  "proven_global_bounds": 0,
+  "previous_model_oom": "replaced by factorized auxiliary variable formulation",
+  "complete": true,
+  "candidate_cases": 3,
+  "native_executed_cases": 15
+}
+
