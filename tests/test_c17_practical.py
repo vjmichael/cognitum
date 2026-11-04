@@ -60,6 +60,16 @@ class C17StateTests(unittest.TestCase):
                 self.assertGreaterEqual(result.points[5].posterior_variance[0],
                                         result.points[4].posterior_variance[0])
 
+    def test_bootstrap_observation_counted_once_and_no_lookahead(self):
+        s=series(40)
+        out=filter_sequence(s,local_model(),forecast_time_ms=40000)
+        self.assertEqual(out.points[0].posterior_mean,(0.,))
+        self.assertEqual(out.points[0].posterior_variance,(1.,))
+        self.assertEqual(out.observed_count,40)
+        first_missing=replace(s,samples=(replace(s.samples[0],values=(None,)),)+s.samples[1:])
+        with self.assertRaises(ValueError):
+            validate(first_missing,local_model())
+
     def test_anomalous_evidence_is_not_silently_assimilated(self):
         s=series(shift=True)
         result=filter_sequence(s,local_model(),forecast_time_ms=40000)
