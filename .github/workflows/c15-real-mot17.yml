@@ -95,7 +95,6 @@ jobs:
             --GT_FOLDER "$PWD/official-stage/gt" \
             --TRACKERS_FOLDER "$PWD/official-stage/trackers" \
             --BENCHMARK MOT17 --SPLIT_TO_EVAL train \
-            --SEQMAP_FILE "$PWD/official-stage/gt/seqmaps/MOT17-train.txt" \
             --TRACKERS_TO_EVAL C15 ByteTrack \
             --CLASSES_TO_EVAL pedestrian \
             --METRICS HOTA CLEAR Identity \
