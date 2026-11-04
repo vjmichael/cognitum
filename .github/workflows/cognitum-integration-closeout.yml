@@ -63,3 +63,24 @@ jobs:
           path: integration-artifacts/
           if-no-files-found: warn
           retention-days: 14
+
+  dependency-coexistence:
+    name: All optional extras / ${{ matrix.os }} / Python ${{ matrix.python-version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11', '3.13']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Validate full optional dependency manifest and negative cases
+        run: python -m unittest discover -s tests -p test_pyproject_component_extras.py
+      - name: Install every declared optional extra together (including GPL research compatibility only)
+        run: python -m tools.check_optional_dependency_coexistence --include-gpl
+      - name: Record exact resolved dependency graph
+        run: python -m pip freeze
