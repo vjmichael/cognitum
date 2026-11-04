@@ -280,7 +280,7 @@
 
 ## C18 — Meta-learning, adaptation and learning from traces
 
-**Current:** Design only, deliberately postponed until retention/security/evaluation are operational.
+**Current (2026-11-04):** Bounded practical P0–P3 implementation committed in a standalone feature branch; native CI and merge pending. Includes explicit proposal/consent metadata, candidate-only scikit-learn numeric routing and retrieval, future-only evaluation, negative transfer gates, pause/revoke/rollback, trace expiry and typed read-only Protobuf. [C18 practical implementation map](../components/adaptation/C18-PRACTICAL-CLOSEOUT-2026-11-04.md). No real Lu user training or default-on changes; durable host revocation/erasure and OS supervisor remain integration requirements.
 
 **Question:** Can consented adaptation produce durable, real improvements on future data **without** leaking user content, overfitting benchmark splits or modifying the selected transformer unexpectedly?
 
