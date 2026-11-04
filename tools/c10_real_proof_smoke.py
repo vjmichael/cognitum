@@ -26,7 +26,7 @@ def main():
     if (certificate.status!="CERTIFIED_UNSAT"
             or not certificate.problem_sha256 or not certificate.proof_sha256):
         raise SystemExit("C10 independent native UNSAT proof acceptance FAILED: "
-                         +certificate.status)
+                         +certificate.status+" / "+certificate.limitation)
     control=certify_unsat(sat,cvc5_binary=cvc5,carcara_binary=carcara)
     if control.status=="CERTIFIED_UNSAT":
         raise SystemExit("C10 native checker incorrectly certified SAT control")
