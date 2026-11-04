@@ -21,7 +21,7 @@ msg("LinearTerm",[("name","string",False,None),("coefficient","sint64",False,Non
 msg("LinearConstraint",[("terms","message",True,"LinearTerm"),("relation","string",False,None),("rhs","sint64",False,None)])
 msg("VerifyRequest",[("schema_version","uint32",False,None),("variables","message",True,"IntVariable"),
                      ("constraints","message",True,"LinearConstraint"),("backend","string",False,None),
-                     ("timeout_ms","uint32",False,None)])
+                     ("timeout_ms","uint32",False,None),("proof_required","bool",False,None)])
 msg("VerifyResult",[("schema_version","uint32",False,None),("status","string",False,None),
                     ("witness","sint64",True,None),("backend","string",False,None),
                     ("assurance","string",False,None),("limitation","string",False,None),
