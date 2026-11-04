@@ -108,3 +108,30 @@ artifacts or infer rights for Lu commercial packaging.
 No C15 overall closure or merge should be claimed before all *required*
 current-head tests pass. A genuine low score is still a valid benchmark:
 do not falsify or tune results against held-out labels to force a win.
+
+## 4. First actual public-data execution evidence (not official metrics)
+
+[GitHub run 41851706457](https://github.com/vjmichael/cognitum/actions/runs/41851706457)
+successfully downloaded MOT17 validation ground truth and independently supplied
+FRCNN detector observations, and executed C15's actual SciPy association on
+`MOT17-02-FRCNN` **before opening the ground-truth file**.
+
+Runner diagnostics, taken directly from the CI log:
+- 299 frames; **4,009 public detector rows**, **4,009 C15 prediction rows**,
+  **zero detector rows dropped** under the bounded 64-track capacity.
+- 9,880 reference ground-truth boxes, 3,273 matched boxes, 6,607 false
+  negatives, 736 false positives; **63 diagnostic identity switches**.
+- Diagnostic global identity overlap F1: **0.3104615163** (not official IDF1).
+- Measured aggregate C15 association time: **112.638 milliseconds** on
+  that GitHub runner (excludes reading, evaluation, download and startup).
+- SHA-256 input/source/prediction digests recorded in the job output and
+  uploaded benchmark evidence artifact.
+
+That run then **failed** on `trackers eval` CLI argument syntax. This is an
+evaluator invocation failure, not an invented low-or-high official score.
+The installed `trackers==2.6.1` expects `--tracker` (not newer
+`--predictions`) and lists supplied as `--metrics CLEAR HOTA Identity`,
+not `'[CLEAR,HOTA,Identity]'`. These have been corrected on the branch.
+No official/standard HOTA/MOTA/IDF1 figures or ByteTrack comparator are
+available until a corrected run completes.
+
