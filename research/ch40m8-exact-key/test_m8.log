@@ -1,0 +1,17 @@
+test_abstract_proof_keys_different_original_source (__main__.M8.test_abstract_proof_keys_different_original_source) ... ok
+test_bad_mode_and_duplicate_case_refused (__main__.M8.test_bad_mode_and_duplicate_case_refused) ... ok
+test_cache_refuses_rehashed_undercut_even_after_hit (__main__.M8.test_cache_refuses_rehashed_undercut_even_after_hit) ... ok
+test_forged_release_refused (__main__.M8.test_forged_release_refused) ... ok
+test_frozen_immutable_after_audit (__main__.M8.test_frozen_immutable_after_audit) ... ok
+test_frozen_m7_accepted_count (__main__.M8.test_frozen_m7_accepted_count) ... ok
+test_invalid_partition_refused_even_if_digest_rehashed (__main__.M8.test_invalid_partition_refused_even_if_digest_rehashed) ... ok
+test_missing_or_forged_trace_hash_refused (__main__.M8.test_missing_or_forged_trace_hash_refused) ... ok
+test_no_producer_runtime_import_or_external_cache_trust (__main__.M8.test_no_producer_runtime_import_or_external_cache_trust) ... ok
+test_original_checker_matches_one_existing_m7_receipt (__main__.M8.test_original_checker_matches_one_existing_m7_receipt) ... ok
+test_pins_are_original_fifteen (__main__.M8.test_pins_are_original_fifteen) ... ok
+test_same_outcomes_cache_vs_fresh_real_pair (__main__.M8.test_same_outcomes_cache_vs_fresh_real_pair) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 4.836s
+
+OK
