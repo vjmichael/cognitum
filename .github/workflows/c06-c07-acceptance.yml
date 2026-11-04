@@ -35,7 +35,7 @@ jobs:
         shell: bash
         run: |
           python -m grpc_tools.protoc -Iproto --descriptor_set_out=memory_state.pb proto/cognitum/memory/v1/memory_state.proto
-          python tools/check_proto_descriptors.py memory_state.pb
+          python -c "from google.protobuf.descriptor_pb2 import FileDescriptorSet; f=FileDescriptorSet(); f.ParseFromString(open('memory_state.pb','rb').read()); assert len(f.file)==1 and len(f.file[0].message_type)==5 and len(f.file[0].enum_type)==2"
       - name: Execute real SQLite FTS5 and durable event tests
         run: python -m pytest -q tests/test_c06_c07_reference.py tests/test_c06_c07_sqlite_reference.py
       - name: Compile Python code
