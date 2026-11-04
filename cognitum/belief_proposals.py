@@ -10,6 +10,7 @@ from dataclasses import dataclass
 from hashlib import sha256
 import json
 import re
+from math import isfinite
 
 ACTIONS=frozenset(("ASSERT","CONFIRM","CHALLENGE","SUPERSEDE",
                    "RETRACT","EXPIRE","MERGE"))
@@ -100,9 +101,13 @@ def _validate_event(e):
     elif e.value_type=="boolean" and e.value not in ("true","false"):
         raise ValueError("invalid canonical boolean")
     elif e.value_type=="json_scalar":
-        try: obj=json.loads(e.value)
+        def refuse_constant(value):
+            raise ValueError("nonfinite JSON number")
+        try: obj=json.loads(e.value,parse_constant=refuse_constant)
         except (ValueError,TypeError) as exc:raise ValueError("malformed JSON scalar") from exc
-        if obj is None or type(obj) not in (str,int,float,bool) or len(e.value)>MAX_VALUE:
+        if (obj is None or type(obj) not in (str,int,float,bool)
+                or (type(obj) is float and not isfinite(obj))
+                or len(e.value)>MAX_VALUE):
             raise ValueError("JSON scalar only; no arbitrary executable data")
     return e
 
