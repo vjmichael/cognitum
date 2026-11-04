@@ -1,0 +1,5 @@
+user=23.95
+system=3.31
+rss_kib=475608
+elapsed_seconds=26.94
+exit=0
