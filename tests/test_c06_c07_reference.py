@@ -92,3 +92,33 @@ def test_c07_retracted_claim_can_be_reasserted():
                      event("c", Action.ASSERT, 2, "reopened")])
     assert result.claims[0].typed_value == "reopened"
     assert result.claims[0].revision == 3
+
+
+def test_import_and_model_cannot_overwrite_verified_user_decision():
+    original = event("a", Action.ASSERT, 0)
+    for origin in (Origin.IMPORTED_CLAIM, Origin.MODEL_HYPOTHESIS):
+        malicious = StateEvent(
+            "b", "ship", "status", "forged", origin, "opaque",
+            1, T, T, Action.SUPERSEDE, "untrusted",
+        )
+        with pytest.raises(StateError, match="cannot override"):
+            replay([original, malicious])
+    # Contesting a claim is allowed; silently replacing it is not.
+    notice = StateEvent(
+        "b", "ship", "status", "different", Origin.IMPORTED_CLAIM,
+        "host-opaque", 1, T, T, Action.CHALLENGE, "outside",
+    )
+    snapshot = replay([original, notice])
+    assert snapshot.claims[0].typed_value == "ready"
+    assert snapshot.claims[0].conflict_refs == ("outside",)
+
+
+def test_reject_untyped_and_oversized_events():
+    with pytest.raises(StateError, match="typed value"):
+        StateEvent("a", "ship", "status", {"injected": True},
+                   Origin.MODEL_HYPOTHESIS, "opaque", 0, T, T,
+                   Action.ASSERT, "source")
+    with pytest.raises(StateError, match="64-bit"):
+        StateEvent("a", "ship", "status", 2 ** 72,
+                   Origin.MODEL_HYPOTHESIS, "opaque", 0, T, T,
+                   Action.ASSERT, "source")
