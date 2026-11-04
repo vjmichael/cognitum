@@ -147,3 +147,17 @@ Cognitum now defines six native typed request/result pairs in [`cognitum.math.v1
 Each entry may gain: **source branch + verified commit**, proposed host interface, rationale, acceptance criteria, Lu decision reference, implementation link, Cognitum compatibility test, superseding entry and date. Do not silently change **Proposed** to **Accepted**. If Lu's independent implementation differs, reconcile Cognitum adapter requirements here first.
 
 **No Lu modification permission is granted or exercised by maintaining this register.**
+
+
+## LU-CE-012 — First-party bidirectional Lu host-service interface (2026-11-03)
+
+**Status: cross-repository design proposed; implementation and production integration OPEN.**  
+**Primary Lu issue:** [Lu #8 — DLC-API-00..07](https://github.com/vjmichael/Lu-AI-GUI/issues/8)  
+**Cognitum mapping:** [first-party DLC provider contract](LU_FIRST_PARTY_DLC_PROVIDER_HOST_CONTRACT_20261103.md)  
+**Lu platform RFC:** [LU first-party host API](https://github.com/vjmichael/Lu-AI-GUI/blob/lu/dlc-api-first-party-host-contract-20261103/docs/LU_FIRST_PARTY_DLC_HOST_API_RFC_20261103.md)
+
+The earlier statement that the Lu repository is "read-only from Cognitum work" is a **source ownership/workstream rule**, not a requirement that the first-party DLC service API allow *only status reads*. The user explicitly authorized independent documentation and issue creation in Lu and NVP as cross-project work, while preserving Cognitum as a separate optional Core Extension.
+
+Cognitum proved the native **CE provider** pattern (typed Protobuf, Lu-owned registry, authorization, per-call effect checks, validated evidence) but NVP requires the complementary **Workspace consumer** pattern: discover model services, request Lu-owned model sessions, stream AI generation, cancel/recover its own tasks, use approved memory/artifact services and release only its own model lease. The canonical host API must support both directions, inside Lu or by authenticated local IPC for separately running first-party workspaces, without inheriting unbounded privileges merely because a package is first-party.
+
+Do not promote the experimental \`jan_alt\` AF_UNIX ToolCall/ToolReply carrier or NVP B5 read-only test host to a released Lu inference service. Do not modify Lu production source from this Cognitum branch; Lu issue #8 owns the native host implementation. Lu Windows Job source mismatch is tracked independently as [Lu #7](https://github.com/vjmichael/Lu-AI-GUI/issues/7).
