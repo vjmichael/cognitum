@@ -38,7 +38,7 @@ return HDC scores as if they established that a relation is factually true.
 2. Implement an actual Lu Rust authenticated canonical relation snapshot
    provider binding workspace/session access checks and current ANSF revisions
    to the C08 typed protocol, with crash/restart and stale snapshot negatives.
-3. Add measurable baselines against host FTS5/BM25 and exact relation lookup
+3. Initial synthetic 32-record BSC/canonical verification latency and false-positive/recall accounting is added in `tools/run_c08_candidate_benchmark.py`; still run full baselines against host FTS5/BM25 and exact relation lookup
    with held-out data, false positives, latency/memory and model task outcomes.
 4. Verify through Lu's native model tool registry only after C02 policy
    authorization, host trust receipts and C06/C07 evidence semantics are
