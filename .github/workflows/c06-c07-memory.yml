@@ -1,0 +1,56 @@
+name: C06 C07 Lu-owned ANSF retrieval and belief proposal acceptance
+on:
+  push:
+    paths:
+      - 'cognitum/memory_derived.py'
+      - 'cognitum/belief_proposals.py'
+      - 'cognitum/host_owned_memory_wire.py'
+      - 'cognitum/proto/host_owned_memory_pb2.py'
+      - 'proto/cognitum/memory/v1/**'
+      - 'tests/test_c06_*.py'
+      - 'tests/test_c07_*.py'
+      - 'tools/check_proto_descriptors.py'
+      - '.github/workflows/c06-c07-memory.yml'
+  pull_request:
+    paths:
+      - 'cognitum/memory_derived.py'
+      - 'cognitum/belief_proposals.py'
+      - 'cognitum/host_owned_memory_wire.py'
+      - 'cognitum/proto/host_owned_memory_pb2.py'
+      - 'proto/cognitum/memory/v1/**'
+      - 'tests/test_c06_*.py'
+      - 'tests/test_c07_*.py'
+      - 'tools/check_proto_descriptors.py'
+      - '.github/workflows/c06-c07-memory.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  lu-owned-ansf:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11','3.13']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Protobuf compiler (SQLite FTS5 supplied by CPython runtime)
+        run: python -m pip install -e ".[proto]" "grpcio-tools>=1.70,<2"
+      - name: Check built-in SQLite FTS5 and native Protobuf
+        run: |
+          python -m pip check
+          python -c "import sqlite3; db=sqlite3.connect(':memory:'); db.execute('CREATE VIRTUAL TABLE f USING fts5(t)'); print('FTS5 OK',sqlite3.sqlite_version)"
+          python -m grpc_tools.protoc -Iproto --descriptor_set_out=host-owned.pb proto/cognitum/memory/v1/host_owned.proto
+          python tools/check_proto_descriptors.py host-owned.pb
+      - name: Test read-only retrieval, scope, claim events and replay
+        run: |
+          python -W error -m unittest discover -s tests -p "test_c06_*.py" -v
+          python -W error -m unittest discover -s tests -p "test_c07_*.py" -v
