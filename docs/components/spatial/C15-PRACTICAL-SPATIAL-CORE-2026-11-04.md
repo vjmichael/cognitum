@@ -39,3 +39,17 @@ The practical baseline uses mature `numpy` and `scipy`:
 ## Release conditions
 
 Do not merge before current-head native CI and core Python regression pass. Once verified, this bounded spatial-core foundation can close as a practical component while full C15 learned tracking/vision and historical PR #19 remain separately accounted for. Real-world images and source provenance require Lu host authorization, worker isolation and user consent; C03 must evaluate true model A/B efficacy before product claims. Avoid C14-style unconstrained research expansion.
+
+## Native component benchmark
+
+`tools/c15_spatial_benchmark.py` exercises three frozen synthetic detection
+sets using **real SciPy assignment**: reordered observations, one missing
+observation, and a far unmatchable observation. It checks exact expected stable
+ID pairs, absence of duplicate identity/observation assignment, and records
+measured per-case wall-clock/process-CPU timings in structured JSON. The
+Windows/Linux workflow runs the benchmark with the exact native test matrix.
+
+These cases are smoke and regression fixtures, **not real multi-object
+tracking performance evaluations**. Do not report the fixture's zero ID
+switches as production identity accuracy, or substitute it for official MOT
+or film camera holdout data.
