@@ -10,7 +10,7 @@ The user's requested C05 expansion includes symbolic algebra, scientific functio
 |---|---|---|
 | `cognitum.math.symbolic` | Expand/derivative of one-variable rational polynomials `x`, degree ≤6; ≤48 AST nodes and limited coefficient bit size | Canonical exact polynomial; **not** arbitrary symbolic simplification, integration, factorization or equation reasoning |
 | `cognitum.math.scientific` | mpmath real `sin`, `cos`, `exp`, `log`, `sqrt`; 15–80 significant digits; finite canonical decimal input; absolute argument ≤100; trig in **radians** | Numerical approximation, **no certified error interval**. Precision context cloned per call so global `mp.dps` is unaffected |
-| `cognitum.math.precision` | Decimal context add/divide/sqrt at 15–256 significant decimal digits | Finite-precision rounded decimal result, **not exact rational provenance**; core stdlib `decimal` |
+| `cognitum.math.precision` | Decimal context add/subtract/multiply/divide/sqrt at 15–256 significant decimal digits | Finite-precision rounded decimal result, **not exact rational provenance**; core stdlib `decimal` |
 | `cognitum.math.linear` | Exact determinant, matrix multiplication, and nonsingular linear solve; 1–4 rows/columns; `Fraction` inputs and outputs | Exact small rational matrix arithmetic; rejects invalid shapes, singular systems and unbounded values |
 | `cognitum.math.root` | Bisection on real degree-≤6 polynomial with supplied sign-changing rational bracket and ≤128 iterations | Exact rational root enclosure via continuity, **not unique-root proof or arbitrary nonlinear solve** |
 | `cognitum.math.simulation` | Bounded scalar harmonic oscillator `x'' = -ω²x`, discrete symplectic Euler, 1–256 steps, bounded step/stability input | Exact rational evaluation **of a discretized numerical model**; unquantified discretization error, no units or physical validation |
@@ -39,3 +39,22 @@ Scientific functions use optional **mpmath 1.3+**, with a cloned precision conte
 CI runs the same four Windows/Linux × Python 3.11/3.13 combinations with optional `[scientific]` dependencies, seven prior Protobuf schema compiler comparisons plus the new math schema and the 12-case synthetic replay. [C05 implementation CI 40465416831](https://github.com/vjmichael/cognitum/actions/runs/40465416831) passed **232/232 unit tests, 12/12 replay, 10/10 calculator smoke and all eight Protobuf compiler/schema checks per Windows/Linux × Python configuration**. Each specialist is separately testable using `python -m unittest discover -s tests -p test_c05_scientific_math.py -v`. This is P2 **bounded component behavior**, not a secure Lu Core Extension or real model efficacy.
 
 **Future incremental expansion:** independent symbolic algebra checks and factorization/integration with safe AST-to-SymPy object construction (never eval-based string parsing); numerical error-bound witnesses and special functions; larger/structured/sparse linear algebra; bounded multidimensional root/optimization solvers with convergence certificates; explicit units, dimensions, integrators, conservation tests and reference systems for ODE/scientific simulations. Each has its own provisional Protobuf schema/version and OS sandbox/benchmark gate.
+
+
+## P2.1 follow-on checkpoint (November 4, 2026)
+
+C14 is closed independently; this C05 work does not reopen causal research.
+The existing typed `PrecisionRequest.action` accepts two additional bounded operations:
+`subtract` and `multiply`. They use the same finite canonical-decimal input
+checks, local Decimal precision context (15–256 digits), typed Protobuf response,
+and default-off host authorization policy as the prior three operations.
+
+`tests/test_c05_independent_invariants.py` adds an independent Leibniz
+permutation determinant comparison, exact `Ax=b` residual checks,
+polynomial root-enclosure sign/nesting/width witnesses using independent Horner
+evaluation, and singular-system rejection. Existing specialist tests now cover
+new Decimal operations and rounding behavior.
+
+**Admission remains unchanged:** no model-visible tool or Lu registration,
+no OS-isolated scientific worker, no general CAS claim. CI and independent
+on-host validation must pass before this checkpoint can be called verified.
