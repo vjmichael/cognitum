@@ -201,10 +201,37 @@ def _exact_quadratic_factor(poly):
     return expression,status
 
 
+def _integrate_polynomial(poly):
+    """Return the zero-constant exact antiderivative, bounded to degree six.
+
+    Differentiation and reparsing check the produced canonical expression
+    independently of the coefficient construction. No arbitrary integration.
+    """
+    if max(poly, default=0)>5:
+        raise ValueError("integrate supports input polynomial degree <= 5")
+    integrated={degree+1:_bound(value/Fraction(degree+1))
+                for degree,value in poly.items()}
+    result=_poly_text(integrated)
+    if _polynomial(result)!=integrated:
+        raise ValueError("integral output cannot roundtrip bounded grammar")
+    recovered={degree-1:_bound(value*degree)
+               for degree,value in _polynomial(result).items() if degree}
+    if recovered!=poly:
+        raise ValueError("integral derivative identity failed")
+    return result
+
+
 def _symbolic(req):
-    if req.action not in ("expand","derivative","factor"):
+    if req.action not in ("expand","derivative","factor","integrate"):
         raise ValueError("unsupported symbolic action")
     poly=_polynomial(req.expression)
+    if req.action=="integrate":
+        return pb.SymbolicResult(
+            polynomial=_integrate_polynomial(poly),assurance="exact_symbolic",
+            limitations=["intent_not_verified","integrand_degree_le_5",
+                         "antiderivative_constant_zero","indefinite_polynomial_integral",
+                         "derivative_identity_checked"],
+        )
     if req.action=="factor":
         result,status=_exact_quadratic_factor(poly)
         return pb.SymbolicResult(
