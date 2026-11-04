@@ -123,6 +123,10 @@ def validate(seq:TemporalSequence,model:TemporalModel):
         last=sample.time_ms
     if observed<len(seq.units):
         raise ValueError("insufficient measured values")
+    # A filter must not search forward for its starting state: doing so
+    # would leak future readings into earlier posterior estimates.
+    if any(v is None for v in seq.samples[0].values):
+        raise ValueError("initial sample must observe every channel; no lookahead")
     for column in range(len(seq.units)):
         if all(x.values[column] is None for x in seq.samples):
             raise ValueError("entire channel unobserved")
@@ -139,7 +143,7 @@ def filter_sequence(seq:TemporalSequence,model:TemporalModel, *,
         raise ValueError("invalid future horizon")
     try:
         import numpy as np
-        from scipy.linalg import cho_factor,cho_solve
+        from scipy.linalg import eigvalsh
     except ImportError:
         return TemporalResult("UNSUPPORTED")
     n=len(seq.units)
@@ -195,7 +199,7 @@ def filter_sequence(seq:TemporalSequence,model:TemporalModel, *,
             if not np.all(np.isfinite(x)) or not np.all(np.isfinite(P)):
                 return TemporalResult("UNKNOWN_NUMERICAL_FAILURE")
             P=(P+P.T)/2
-            if np.min(np.linalg.eigvalsh(P))<-1e-8 or np.max(np.abs(x))>1e10:
+            if np.min(eigvalsh(P))<-1e-8 or np.max(np.abs(x))>1e10:
                 return TemporalResult("UNKNOWN_UNSTABLE_STATE")
             state[j],cov[j]=x,P
         points.append(TemporalPoint(sample.time_ms,
