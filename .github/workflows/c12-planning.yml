@@ -1,0 +1,52 @@
+name: C12 real NetworkX planning acceptance
+on:
+  push:
+    paths:
+      - 'cognitum/planning_*.py'
+      - 'cognitum/proto/planning_pb2.py'
+      - 'proto/cognitum/planning/v1/**'
+      - 'tests/test_c12_*.py'
+      - 'tools/check_proto_descriptors.py'
+      - 'tools/c12_component_benchmark.py'
+      - 'pyproject.toml'
+      - '.github/workflows/c12-planning.yml'
+  pull_request:
+    paths:
+      - 'cognitum/planning_*.py'
+      - 'cognitum/proto/planning_pb2.py'
+      - 'proto/cognitum/planning/v1/**'
+      - 'tests/test_c12_*.py'
+      - 'tools/check_proto_descriptors.py'
+      - 'tools/c12_component_benchmark.py'
+      - 'pyproject.toml'
+      - '.github/workflows/c12-planning.yml'
+  workflow_dispatch:
+
+jobs:
+  real-planning:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11', '3.13']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install maintained graph engine and compiler
+        run: python -m pip install -e ".[planning-graph]" grpcio-tools
+      - name: Verify the real NetworkX backend
+        run: |
+          python -m pip check
+          python -c "import networkx as nx; print('Native NetworkX version:',nx.__version__)"
+      - name: Compare planning Protobuf schema with independent compiler
+        run: |
+          python -m grpc_tools.protoc -Iproto --descriptor_set_out=compiled-c12.pb proto/cognitum/planning/v1/planning.proto
+          python tools/check_proto_descriptors.py compiled-c12.pb
+      - name: C12 correctness, invalid scenarios and plan-replay tests
+        run: python -W error -m unittest discover -s tests -p "test_c12_*.py" -v
+      - name: Bounded real-engine component benchmark
+        run: python tools/c12_component_benchmark.py
