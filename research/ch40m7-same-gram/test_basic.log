@@ -1,0 +1,8 @@
+test_decimal_brackets (__main__.Basic.test_decimal_brackets) ... ok
+test_gram_original (__main__.Basic.test_gram_original) ... ok
+test_weight_rigorous (__main__.Basic.test_weight_rigorous) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 1.038s
+
+OK
