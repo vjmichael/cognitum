@@ -4,7 +4,7 @@ No raw prompts, token sequences, files or connected-account material. A real
 Lu host must implement physical persistent erasure and worker isolation.
 This in-memory reference retains only event digests after revocation.
 """
-from dataclasses import dataclass,replace
+from dataclasses import dataclass,replace,asdict
 from hashlib import sha256
 from .adaptation_policy import Trace,_canonical,_id,_digest,MAX_ROWS
 
@@ -23,6 +23,7 @@ class TraceCollection:
 def _seal(c):
     material={k:getattr(c,k) for k in TraceCollection.__dataclass_fields__
               if k!="integrity_digest"}
+    material["traces"]=[asdict(t) for t in c.traces]
     return replace(c,integrity_digest=sha256(_canonical(material)).hexdigest())
 
 def verify_collection(c):
@@ -53,7 +54,6 @@ def mutate(c,*,decision,mutation_id,expected_revision,host_authorized=False,
             or type(expected_revision) is not int or expected_revision!=c.revision):
         raise PermissionError("trace source/consent host gate or revision failed")
     if decision=="append" and c.status=="collecting":
-        from .adaptation_policy import _finite
         if (type(trace) is not Trace or trace.consent_receipt!=c.consent_receipt
                 or trace.source_digest!=c.source_digest
                 or not _id(trace.event_id) or len(c.traces)>=MAX_ROWS
