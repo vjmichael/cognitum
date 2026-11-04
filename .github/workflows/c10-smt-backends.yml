@@ -30,7 +30,11 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install exact optional SMT backend
-        run: python -m pip install -e ".[${{ matrix.backend }}]"
+        run: python -m pip install -e ".[${{ matrix.backend }}]" grpcio-tools
+      - name: Verify formal Protobuf source and bindings
+        run: |
+          python -m grpc_tools.protoc -Iproto --descriptor_set_out=compiled-formal.pb proto/cognitum/formal/v1/formal.proto
+          python tools/check_proto_descriptors.py compiled-formal.pb
       - name: Verify native solver package installed
         run: |
           python -m pip check
