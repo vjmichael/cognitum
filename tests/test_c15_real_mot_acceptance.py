@@ -36,6 +36,30 @@ class C15RealMOTAcceptanceContract(unittest.TestCase):
             with self.assertRaises(ValueError):
                 run(gt,det,result,sequence_id="same",licensed_use=True)
 
+    def test_official_trackeval_staging_keeps_roles_and_versions(self):
+        from tools.c15_stage_trackeval import stage
+        with TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            gt=root/"gt.txt"
+            c15=root/"c15.txt"
+            byte=root/"bytetrack.txt"
+            gt.write_text("1,1,0,0,10,10,1,1,1\\n")
+            c15.write_text("1,3,0,0,10,10,0.8,-1,-1,-1\\n")
+            byte.write_text("1,4,0,0,10,10,0.8,-1,-1,-1\\n")
+            target=root/"stage"
+            seqmap,hashes=stage(target,gt,c15,byte)
+            self.assertTrue(seqmap.is_file())
+            self.assertIn("MOT17-02-FRCNN",seqmap.read_text())
+            self.assertEqual(len(hashes),3)
+            self.assertNotEqual(hashes["gt"],hashes["c15"])
+            self.assertTrue(
+                (target/"trackers"/"MOT17-train"/"C15"/"data"/
+                 "MOT17-02-FRCNN.txt").is_file())
+            with self.assertRaises(ValueError):
+                stage(target,gt,c15,byte)
+            with self.assertRaises(ValueError):
+                stage(root/"bad_stage",gt,gt,byte)
+
     def test_missing_rights_and_identical_path_block(self):
         with TemporaryDirectory() as tmp:
             file=Path(tmp)/"data.txt"
