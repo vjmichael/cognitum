@@ -1,0 +1,43 @@
+syntax = "proto3";
+package cognitum.topology.v1;
+// CPU-bounded inert metric point cloud, no file access or Lu tool authority.
+message Vector { repeated double values = 1; }
+message Query {
+  uint32 schema_version = 1;
+  string source_id = 2;
+  string snapshot_sha256 = 3;
+  string coordinate_unit = 4;
+  string metric = 5;
+  string filtration = 6;
+  double maximum_scale = 7;
+  uint32 maximum_homology_dimension = 8;
+  repeated Vector points = 9;
+  uint32 max_points = 10;
+}
+message Interval {
+  uint32 dimension = 1;
+  double birth = 2;
+  bool has_finite_death = 3;
+  double death = 4;
+}
+message Result {
+  uint32 schema_version = 1;
+  string status = 2;
+  string source_id = 3;
+  string snapshot_sha256 = 4;
+  string metric = 5;
+  string coordinate_unit = 6;
+  string filtration = 7;
+  double maximum_scale = 8;
+  repeated Interval intervals = 9;
+  uint32 connected_components_at_scale = 10;
+  uint32 persistent_h1_count = 11;
+  double longest_finite_h1 = 12;
+  bool has_h0_mst_check = 13;
+  double h0_mst_max_deviation = 14;
+  uint32 input_points = 15;
+  uint32 unique_points = 16;
+  uint32 resource_pair_bound = 17;
+  repeated string limitations = 18;
+  string request_sha256 = 19;
+}

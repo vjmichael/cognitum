@@ -1,0 +1,94 @@
+syntax = "proto3";
+package cognitum.spatial_core.v1;
+// Strictly typed caller-supplied geometry and detection metadata.
+// No camera, file, image acquisition, permission or execution payloads.
+message Frame {
+  string name = 1;
+  string parent = 2;
+  repeated double translation_m = 3;    // exactly 3
+  repeated double quaternion_xyzw = 4;  // exactly 4
+}
+message SceneObject {
+  string stable_id = 1;
+  string frame = 2;
+  repeated double position_m = 3;       // exactly 3
+  repeated double dimensions_m = 4;     // exactly 3, positive
+  bool visible = 5;
+  string observation_source = 6;
+  uint64 timestamp_ms = 7;
+  uint32 version = 8;
+  repeated double orientation_xyzw = 9;  // exactly 4, quaternion
+  string geometry_ref = 10;              // caller-supplied asset reference, not a path grant
+  double confidence = 11;               // caller-supplied, not calibrated
+}
+message SceneQuery {
+  uint32 schema_version = 1;
+  repeated Frame frames = 2;
+  repeated SceneObject objects = 3;
+  uint64 epoch = 4;
+  string object_id = 5;
+  string reference_id = 6;
+}
+message SceneResult {
+  uint32 schema_version = 1;
+  string status = 2;
+  repeated double world_position_m = 3; // exactly 3 on OK
+  double distance_m = 4;
+  bool first_left_of_second = 5;
+  repeated string limitations = 6;
+  string request_sha256 = 7;
+  repeated double world_orientation_xyzw = 8; // exact composed pose; four components
+  repeated SceneRelation relations = 9; // versioned derived scene graph edges
+}
+message Detection {
+  string detection_id = 1;
+  double x = 2;
+  double y = 3;
+  double width = 4;
+  double height = 5;
+  string source = 6;
+}
+message Track {
+  string stable_id = 1;
+  double x = 2;
+  double y = 3;
+  double width = 4;
+  double height = 5;
+  uint32 missed = 6;
+  string last_source = 7;
+}
+message Match {
+  string stable_id = 1;
+  string detection_id = 2;
+}
+message TrackRequest {
+  uint32 schema_version = 1;
+  repeated Track tracks = 2;
+  repeated Detection detections = 3;
+  double min_iou = 4;
+  double max_distance = 5;
+  uint32 max_missed = 6;
+}
+message TrackResult {
+  uint32 schema_version = 1;
+  string status = 2;
+  repeated Track tracks = 3;
+  repeated Match matches = 4;
+  repeated string unmatched_detections = 5;
+  repeated string retired_ids = 6;
+  repeated string limitations = 7;
+  string request_sha256 = 8;
+}
+
+message SceneRelation {
+  string subject_id = 1;
+  string predicate = 2;
+  string object_id = 3;
+  string coordinate_frame = 4;
+  double value_m = 5;
+  uint32 subject_version = 6;
+  uint32 object_version = 7;
+  uint64 scene_epoch = 8;
+  repeated string evidence_sources = 9;
+  string status = 10; // derived_not_observed
+}

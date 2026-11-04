@@ -1,0 +1,77 @@
+syntax = "proto3";
+package cognitum.adaptation.v1;
+// Inert numerical routing evidence only. No prompts, files, executable code,
+// user-granted permissions or automatic selected-transformer changes.
+message Trace {
+  string event_id = 1;
+  uint64 occurred_ms = 2;
+  repeated double features = 3;
+  string expected_route = 4;
+  string source_digest = 5;
+  string consent_receipt = 6;
+  uint64 retention_until_ms = 7;
+  string privacy_class = 8;
+  string task_family = 9;
+}
+message Proposal {
+  string proposal_id = 1;
+  string workspace_id = 2;
+  string target = 3;
+  uint32 policy_version = 4;
+  string source_digest = 5;
+  string consent_receipt = 6;
+  string privacy_class = 7;
+  repeated string allowed_families = 8;
+  uint64 retention_until_ms = 9;
+  uint64 train_before_ms = 10;
+  uint64 holdout_from_ms = 11;
+  string base_policy_digest = 12;
+  uint32 maximum_training_rows = 13;
+  uint32 maximum_cpu_ms = 14;
+  string rollback_policy_digest = 15;
+}
+message Vector { repeated double values = 1; }
+message Policy {
+  uint32 policy_version = 1;
+  string workspace_id = 2;
+  string target = 3;
+  repeated string allowed_families = 4;
+  uint32 feature_count = 5;
+  repeated Vector coefficients = 6;
+  repeated double intercepts = 7;
+  repeated double center = 8;
+  repeated double scale = 9;
+  string training_digest = 10;
+  string proposal_id = 11;
+  string base_policy_digest = 12;
+  string status = 13;
+  string digest = 14;
+}
+message Evaluation {
+  string status = 1;
+  uint32 count = 2;
+  double accuracy = 3;
+  double log_loss = 4;
+  double worst_family_accuracy = 5;
+  double abstention_rate = 6;
+  double elapsed_ms = 7;
+}
+message EvaluateRequest {
+  uint32 schema_version = 1;
+  Proposal proposal = 2;
+  Policy candidate = 3;
+  Policy incumbent = 4;
+  repeated Trace holdout = 5;
+}
+message EvaluateResult {
+  uint32 schema_version = 1;
+  string status = 2;
+  Evaluation candidate_metrics = 3;
+  Evaluation incumbent_metrics = 4;
+  string candidate_digest = 5;
+  string incumbent_digest = 6;
+  string holdout_digest = 7;
+  repeated string reasons = 8;
+  string request_sha256 = 9;
+  repeated string limitations = 10;
+}

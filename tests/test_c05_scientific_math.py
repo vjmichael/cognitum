@@ -38,7 +38,93 @@ class C05SpecialistTests(unittest.TestCase):
                 invoke("symbolic",pb.SymbolicRequest(expression=expression,
                                                     action="expand"))
         with self.assertRaises(ValueError):
-            invoke("symbolic",pb.SymbolicRequest(expression="x",action="factor"))
+            invoke("symbolic",pb.SymbolicRequest(expression="x**3+1",action="factor"))
+        with self.assertRaises(ValueError):
+            invoke("symbolic",pb.SymbolicRequest(expression="x**6",action="integrate"))
+
+    def test_exact_factorization_expands_to_original_polynomial(self):
+        for expression in (
+            "x**2 - 1", "x**2 - 2*x + 1",
+            "2*x**2 - 3*x + 1", "1/2*x**2 - 1/2",
+            "-x**2 + 1", "x**2", "3*x + 6",
+            "7", "0", "x**2 + 1", "x**2 - 2",
+        ):
+            with self.subTest(expression=expression):
+                reply=invoke("symbolic",pb.SymbolicRequest(
+                    expression=expression,action="factor"))
+                self.assertEqual(_polynomial(reply.polynomial),_polynomial(expression))
+                self.assertEqual(reply.assurance,"exact_symbolic")
+                self.assertIn("factor_degree_le_2",reply.limitations)
+                self.assertIn("intent_not_verified",reply.limitations)
+                if expression in ("x**2 + 1","x**2 - 2"):
+                    self.assertIn("irreducible_over_rationals",reply.limitations)
+                elif expression=="x**2 - 1":
+                    self.assertIn("rational_quadratic_factorization",reply.limitations)
+
+    def test_factorization_does_not_claim_general_cas(self):
+        for expression in ("x**3 - 1","x**6 - 1","sin(x)","x.__class__"):
+            with self.subTest(expression=expression),self.assertRaises(ValueError):
+                invoke("symbolic",pb.SymbolicRequest(
+                    expression=expression,action="factor"))
+
+    def test_polynomial_integral_exact_derivative_identity(self):
+        inputs=(
+            ("0","0"),
+            ("7","7*x"),
+            ("x","1/2*x**2"),
+            ("3*x**2 - 2*x + 1","x**3 - x**2 + x"),
+            ("1/2*x**3 - 1/3*x","1/8*x**4 - 1/6*x**2"),
+            ("x**5","1/6*x**6"),
+            ("-x**4 + x**2 - 3","-1/5*x**5 + 1/3*x**3 - 3*x"),
+        )
+        for integrand, expected in inputs:
+            with self.subTest(integrand=integrand):
+                result=invoke("symbolic",pb.SymbolicRequest(
+                    expression=integrand,action="integrate"))
+                self.assertEqual(result.polynomial,expected)
+                self.assertEqual(result.assurance,"exact_symbolic")
+                self.assertIn("antiderivative_constant_zero",result.limitations)
+                self.assertIn("derivative_identity_checked",result.limitations)
+                derivative=invoke("symbolic",pb.SymbolicRequest(
+                    expression=result.polynomial,action="derivative"))
+                self.assertEqual(_polynomial(derivative.polynomial),
+                                 _polynomial(integrand))
+
+    def test_integral_rejects_exceeding_output_degree_and_unsafe_ast(self):
+        for expression in ("x**6","x**6 + x","x**100",
+                           "sin(x)","__import__('os')","x.__class__"):
+            with self.subTest(expression=expression),self.assertRaises(ValueError):
+                invoke("symbolic",pb.SymbolicRequest(
+                    expression=expression,action="integrate"))
+
+    def test_integral_derivative_identity_on_deterministic_rational_cases(self):
+        # Independent coefficient identity with evaluations at exact rational points.
+        from random import Random
+        rng=Random(0xC0523)
+        accepted=0
+        for _ in range(120):
+            degree=rng.randrange(0,6)
+            coefficients=[Fraction(rng.randrange(-8,9),
+                                   rng.randrange(1,8)) for _ in range(degree+1)]
+            # Production admits <=48 AST nodes. Build from the same canonical
+            # polynomial text, and skip unsupported inputs rather than
+            # broadening the production grammar to suit a test fixture.
+            expression=_poly_text({i:c for i,c in enumerate(coefficients) if c})
+            try:
+                _polynomial(expression)
+            except ValueError:
+                continue
+            accepted+=1
+            result=invoke("symbolic",pb.SymbolicRequest(
+                expression=expression,action="integrate"))
+            derived=_polynomial(result.polynomial)
+            for x in (Fraction(-2),Fraction(0),Fraction(1,3),Fraction(3)):
+                actual=sum((Fraction(i)*coefficient*x**(i-1)
+                            for i,coefficient in derived.items() if i),Fraction(0))
+                expected=sum((coefficient*x**i
+                              for i,coefficient in enumerate(coefficients)),Fraction(0))
+                self.assertEqual(actual,expected)
+        self.assertGreaterEqual(accepted,60)
 
     def test_scientific_functions_respect_precision_and_real_domain(self):
         for function,argument,leading in (
@@ -86,6 +172,27 @@ class C05SpecialistTests(unittest.TestCase):
             action="divide",left="1",right="7",digits=200))
         self.assertEqual(high.digits,200)
         self.assertEqual(len(high.decimal.split(".")[1]),200)
+
+    def test_decimal_subtract_multiply_and_precision_rounding(self):
+        subtract=invoke("precision",pb.PrecisionRequest(
+            action="subtract",left="0.3",right="0.1",digits=50))
+        self.assertEqual(subtract.decimal,"0.2")
+        self.assertEqual(subtract.method,"decimal")
+        multiply=invoke("precision",pb.PrecisionRequest(
+            action="multiply",left="0.1",right="0.2",digits=50))
+        self.assertEqual(multiply.decimal,"0.02")
+        rounded=invoke("precision",pb.PrecisionRequest(
+            action="multiply",left="1.234567890123456",right="9.876543210987654",
+            digits=15))
+        from decimal import Decimal, localcontext
+        with localcontext() as ctx:
+            ctx.prec=15
+            expected=+(Decimal("1.234567890123456")*Decimal("9.876543210987654"))
+        self.assertEqual(Decimal(rounded.decimal),expected)
+        self.assertIn("rounding_may_apply",rounded.limitations)
+        with self.assertRaises(ValueError):
+            invoke("precision",pb.PrecisionRequest(
+                action="multiply",left="NaN",right="1",digits=50))
 
     def test_precision_fail_closed(self):
         for action,a,b,digits in (

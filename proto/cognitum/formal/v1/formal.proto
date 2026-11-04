@@ -1,0 +1,36 @@
+syntax = "proto3";
+package cognitum.formal.v1;
+
+// Typed QF_LIA reference inputs only; no raw SMT-LIB or model-authored code.
+// This wire format conveys zero Lu permissions or host execution authority.
+message IntVariable {
+  string name = 1;
+  sint64 lower = 2;
+  sint64 upper = 3;
+}
+message LinearTerm {
+  string name = 1;
+  sint64 coefficient = 2;
+}
+message LinearConstraint {
+  repeated LinearTerm terms = 1;
+  string relation = 2; // eq | ne | le | lt | ge | gt
+  sint64 rhs = 3;
+}
+message VerifyRequest {
+  uint32 schema_version = 1;
+  repeated IntVariable variables = 2;
+  repeated LinearConstraint constraints = 3;
+  string backend = 4; // z3 | cvc5 | exhaustive
+  uint32 timeout_ms = 5; // 1..10000
+  bool proof_required = 6; // never return unverified UNSAT as accepted proof
+}
+message VerifyResult {
+  uint32 schema_version = 1;
+  string status = 2; // SAT | UNSAT_EXHAUSTIVE | UNSAT_UNVERIFIED | UNKNOWN | UNSUPPORTED
+  repeated sint64 witness = 3; // complete ordered assignment, only for SAT
+  string backend = 4;
+  string assurance = 5;
+  string limitation = 6;
+  string request_sha256 = 7; // correlation only, NOT an authenticated receipt
+}

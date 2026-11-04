@@ -157,9 +157,88 @@ def _eval_poly(poly,x):
         out=_bound(out+_bound(coefficient*(x**degree)))
     return out
 
+def _exact_quadratic_factor(poly):
+    """Exact rational-root factorization, degree <=2; never approximate roots.
+
+    The returned expression uses only the original restricted grammar and
+    is checked by reparsing to the original polynomial before admission.
+    Irreducible rational quadratics retain their expanded representation.
+    """
+    from math import isqrt
+
+    degree=max(poly,default=0)
+    if degree>2:
+        raise ValueError("factor supports degree <= 2 only")
+    if degree==0:
+        return _poly_text(poly), "constant_polynomial"
+
+    leading=poly[degree]
+    if degree==1:
+        roots=[_bound(-poly.get(0,Fraction(0))/leading)]
+        status="rational_linear_factorization"
+    else:
+        a=leading
+        b=poly.get(1,Fraction(0))
+        c=poly.get(0,Fraction(0))
+        discriminant=_bound(b*b-4*a*c)
+        if discriminant<0:
+            return _poly_text(poly), "irreducible_over_rationals"
+        numerator_root=isqrt(discriminant.numerator)
+        denominator_root=isqrt(discriminant.denominator)
+        if (numerator_root*numerator_root!=discriminant.numerator
+                or denominator_root*denominator_root!=discriminant.denominator):
+            return _poly_text(poly), "irreducible_over_rationals"
+        sqrt_discriminant=Fraction(numerator_root,denominator_root)
+        roots=[_bound((-b+sqrt_discriminant)/(2*a)),
+               _bound((-b-sqrt_discriminant)/(2*a))]
+        roots.sort()
+        status="rational_quadratic_factorization"
+
+    prefix="" if leading==1 else "(" + str(leading) + ")*"
+    expression=prefix+"*".join("(x - ("+str(root)+"))" for root in roots)
+    if _polynomial(expression)!=poly:
+        raise ValueError("factorization expansion check failed")
+    return expression,status
+
+
+def _integrate_polynomial(poly):
+    """Return the zero-constant exact antiderivative, bounded to degree six.
+
+    Differentiation and reparsing check the produced canonical expression
+    independently of the coefficient construction. No arbitrary integration.
+    """
+    if max(poly, default=0)>5:
+        raise ValueError("integrate supports input polynomial degree <= 5")
+    integrated={degree+1:_bound(value/Fraction(degree+1))
+                for degree,value in poly.items()}
+    result=_poly_text(integrated)
+    if _polynomial(result)!=integrated:
+        raise ValueError("integral output cannot roundtrip bounded grammar")
+    recovered={degree-1:_bound(value*degree)
+               for degree,value in _polynomial(result).items() if degree}
+    if recovered!=poly:
+        raise ValueError("integral derivative identity failed")
+    return result
+
+
 def _symbolic(req):
-    if req.action not in ("expand","derivative"): raise ValueError("unsupported symbolic action")
+    if req.action not in ("expand","derivative","factor","integrate"):
+        raise ValueError("unsupported symbolic action")
     poly=_polynomial(req.expression)
+    if req.action=="integrate":
+        return pb.SymbolicResult(
+            polynomial=_integrate_polynomial(poly),assurance="exact_symbolic",
+            limitations=["intent_not_verified","integrand_degree_le_5",
+                         "antiderivative_constant_zero","indefinite_polynomial_integral",
+                         "derivative_identity_checked"],
+        )
+    if req.action=="factor":
+        result,status=_exact_quadratic_factor(poly)
+        return pb.SymbolicResult(
+            polynomial=result,assurance="exact_symbolic",
+            limitations=["intent_not_verified","factor_degree_le_2",
+                         status,"polynomial_field_contains_factor_expression"],
+        )
     if req.action=="derivative":
         poly={degree-1:_bound(c*degree) for degree,c in poly.items() if degree}
     return pb.SymbolicResult(
@@ -198,7 +277,7 @@ def _scientific(req):
 
 def _precision(req):
     digits=_digits(req.digits,maximum=256)
-    if req.action not in ("add","divide","sqrt"):
+    if req.action not in ("add","subtract","multiply","divide","sqrt"):
         raise ValueError("unsupported precision action")
     x=_number(req.left,as_fraction=False)
     if req.action!="sqrt":
@@ -216,6 +295,8 @@ def _precision(req):
             ctx.traps[DivisionByZero]=True
             ctx.traps[Overflow]=True
             result=(+(x+y) if req.action=="add" else
+                    +(x-y) if req.action=="subtract" else
+                    +(x*y) if req.action=="multiply" else
                     +(x/y) if req.action=="divide" else
                     x.sqrt(context=ctx))
     except (InvalidOperation,DivisionByZero,Overflow) as exc:
