@@ -24,6 +24,7 @@ class Evidence:
     kind:str             # sensor_detection | manual_annotation | derived
     authorization_ref:str
     source_digest:str
+    modality:str="structured"  # structured | image | video | depth | manual | model
 
 
 @dataclass(frozen=True)
@@ -101,6 +102,7 @@ def validate_revision(rev:SceneRevision):
                     or not 0<=evidence.confidence<=1
                     or evidence.coordinate_frame not in ("world",)+tuple(f.name for f in rev.frames)
                     or evidence.kind not in ("sensor_detection","manual_annotation","derived")
+                    or evidence.modality not in ("structured","image","video","depth","manual","model")
                     or not _ident(evidence.authorization_ref)
                     or type(evidence.source_digest) is not str
                     or len(evidence.source_digest)!=64
