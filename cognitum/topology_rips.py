@@ -57,7 +57,16 @@ class TopologyResult:
     )
 
 def snapshot_hash(points):
-    return sha256(json.dumps(points,separators=(",",":"),allow_nan=False).encode()).hexdigest()
+    # Protobuf transports coordinates as IEEE-754 double. Normalize integer
+    # and float representations to the same wire-equivalent source digest.
+    if type(points) is not tuple or any(type(row) is not tuple for row in points):
+        raise ValueError("canonical topology snapshot needs tuple coordinates")
+    try:
+        canonical=tuple(tuple(float(v) for v in row) for row in points)
+        return sha256(json.dumps(canonical,separators=(",",":"),
+                                 allow_nan=False).encode()).hexdigest()
+    except (ValueError,TypeError,OverflowError) as exc:
+        raise ValueError("nonfinite or malformed topology snapshot") from exc
 
 def _id(s):
     return type(s) is str and s.isascii() and s.isidentifier() and 1<=len(s)<=64
