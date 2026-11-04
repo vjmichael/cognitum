@@ -106,8 +106,18 @@ def compute(q:TopologyQuery)->TopologyResult:
     n=len(q.points)
     # Independent MST zero-dimensional reference on the full metric graph.
     # Nonzero MST edges equal finite H0 deaths, including ties in the metric.
-    mst=minimum_spanning_tree(dist)
-    mst_lengths=sorted(float(v) for v in mst.data if v<=q.maximum_scale+1e-6)
+    # scipy sparse graph matrices treat zero edge weights as absent.
+    # Deduplicate for the MST, then account independently for zero-length
+    # H0 merges among repeated original samples.
+    unique_indices=list(dict.fromkeys(q.points))
+    import scipy.spatial.distance as distance
+    unique_dist=distance.squareform(distance.pdist(
+        np.asarray(unique_indices,dtype=float),
+        metric="cityblock" if q.metric=="manhattan" else "euclidean"))
+    mst=minimum_spanning_tree(unique_dist)
+    mst_lengths=sorted(
+        [0.]*(n-len(unique_indices))+
+        [float(v) for v in mst.data if v<=q.maximum_scale+1e-6])
     raw=ripser(dist,distance_matrix=True,maxdim=q.maximum_homology_dimension,
                thresh=q.maximum_scale,coeff=2,do_cocycles=False)["dgms"]
     intervals=[]
