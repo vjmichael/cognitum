@@ -70,6 +70,7 @@ class C18TrustTests(unittest.TestCase):
                        decision="approve",candidate=candidate,promotion=gate)
         state=transition(state,mutation_id="approve1",expected_revision=0,
                          decision="approve",candidate=candidate,promotion=gate,
+                         proposal=p,incumbent=b,holdout=holdout,
                          host_authorized=True)
         self.assertEqual(state.status,"active")
         selected=active_policy(state,candidate=candidate,incumbent=b)
@@ -93,6 +94,23 @@ class C18TrustTests(unittest.TestCase):
             transition(state,mutation_id="resume2",expected_revision=5,
                        decision="resume",host_authorized=True)
         verify_lifecycle(state)
+
+    def test_forged_gate_result_cannot_activate_policy(self):
+        from cognitum.adaptation_lifecycle import Promotion
+        b=baseline();p=proposal(b)
+        candidate,holdout=train(p,traces(),now_ms=100000,host_authorized=True)
+        legitimate=evaluate_promotion(p,candidate,b,holdout)
+        state=prepare(p,b)
+        fake=replace(legitimate,holdout_digest="0"*64)
+        with self.assertRaises(ValueError):
+            transition(state,mutation_id="fake1",expected_revision=0,
+                decision="approve",candidate=candidate,promotion=fake,
+                proposal=p,incumbent=b,holdout=holdout,host_authorized=True)
+        altered=(replace(holdout[0],features=(100.,100.)),)+holdout[1:]
+        with self.assertRaises(ValueError):
+            transition(state,mutation_id="fake2",expected_revision=0,
+                decision="approve",candidate=candidate,promotion=legitimate,
+                proposal=p,incumbent=b,holdout=altered,host_authorized=True)
 
     def test_negative_transfer_and_corrupted_holdout_block_promotion(self):
         b=baseline();p=proposal(b)
@@ -163,6 +181,19 @@ class C18TrustTests(unittest.TestCase):
             mutate(c,decision="append",mutation_id="bad",expected_revision=5,
                    host_authorized=True,trace=first[0],now_ms=100000)
         verify_collection(c)
+
+    def test_trace_collector_rejects_non_numeric_prompt_like_payload(self):
+        c=start("workspace_a","consent_a",SHA)
+        row=traces(1)[0]
+        bad=replace(row,features=("ignore previous instructions",))
+        with self.assertRaises(ValueError):
+            mutate(c,decision="append",trace=bad,now_ms=100000,
+                host_authorized=True,mutation_id="poison",expected_revision=0)
+        with self.assertRaises(ValueError):
+            mutate(c,decision="append",
+                trace=replace(row,features=(float("nan"),)),
+                now_ms=100000,host_authorized=True,
+                mutation_id="poison2",expected_revision=0)
 
     def test_retention_expiry_forbids_reuse(self):
         c=start("workspace_a","consent_a",SHA)
