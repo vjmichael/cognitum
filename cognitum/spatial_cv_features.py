@@ -54,7 +54,8 @@ def from_frame(frame_bytes:bytes,*, source_id:str, observation_id:str,
         raise ValueError("invalid feature crop")
     normalized=tuple(float(v) for v in histogram/norm)
     descriptor=Appearance(detection_id,normalized,ENCODER_ID,ENCODER_SHA256,
-                          source_id,observation_id,frame_index)
+                          source_id,observation_id,frame_index,
+                          sha256(frame_bytes).hexdigest())
     # The image bytes are intentionally not retained by this return value.
     from .spatial_appearance_core import _identifier
     if (not all(_identifier(v) for v in (source_id,observation_id,detection_id))
