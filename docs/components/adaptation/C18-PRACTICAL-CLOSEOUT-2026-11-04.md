@@ -28,13 +28,32 @@ All training requests originate outside Lu and accept only typed, numeric, host-
 
 Training refuses missing host admission, unrecognized target, unknown task family, duplicate event or query/document ID, malformed timestamp order, NaN, out-of-bounds feature, source/consent mismatch, expired retention, contaminated training/holdout split, excessive rows and unsupported checkpoint. The reader never interpolates malicious text into a code path. Training does not directly update user policy. `adaptation_lifecycle.py` uses immutable CAS receipts for `prepared → active → paused/resumed → rolled_back/revoked`. Revoked states cannot resume. A rollback always resolves to the original pinned incumbent; replayed mutation IDs or stale revisions fail.
 
-`evaluate_promotion` compares the candidate to the pinned incumbent **on the same future observations**; checks accuracy improvement, log-loss regression, worst-task-family loss, abstention and sufficient held-out sample size. A passing gate yields `READY_FOR_HOST_APPROVAL`, **not automatic deployment**. Real user approval and OS-isolated writing are separate.
+`evaluate_promotion` compares the candidate to the pinned incumbent **on the same future observations**; checks accuracy improvement, log-loss regression, worst-task-family loss, abstention and sufficient held-out sample size. A passing gate yields `READY_FOR_HOST_APPROVAL`, **not automatic deployment**. The actual activation transition must re-evaluate the entire frozen candidate and incumbent against the same typed holdout, refusing forged result records. The SHA-256 of that holdout covers feature values, task families, labels, source and consent metadata. Real user approval and OS-isolated writing are separate.
 
 Limitations: The in-process wall-clock check cannot hard-kill malicious or hung external code. The only trained external operation is trusted maintained scikit-learn with bounded inputs. True resource limits and cancellation require an OS-isolated host supervisor. Policy-checkpoint SHA-256 without trusted host signatures also cannot resist an attacker who controls both the checkpoint and hash.
 
+## Durable metadata-only lifecycle recovery
+
+`cognitum/adaptation_journal.py` provides a trusted-host-owned absolute-path
+SQLite `WAL`/`FULL` metadata journal. Each immutable revision is keyed by
+workspace and proposal, has an exact compare-and-swap predecessor, canonical
+snapshot SHA-256 and a per-proposal hash chain. Recovery independently checks
+every transition: prepared → active → paused/resumed → rolled back/revoked;
+the base-policy digest is preserved and a revoked proposal can never restart
+as active in the same chain. `tests/test_c18_journal.py` tests actual SQLite
+close/reopen, isolation, stale writes, tampered payloads and receipt continuity.
+
+The journal deliberately stores **no numeric training features, user prompts,
+expected tool labels, document content or raw consent records**. Immutable
+earlier snapshots still contain policy identifiers and SHA-256 digests, which
+are metadata, not zero-retention proof. Genuine power-loss durability, DB
+rollback attacks, trusted timestamping, physical source deletion, encrypted
+backup custody and user revocation acknowledgement belong to the Lu host.
+SHA-256 is not a signature or a secure external anti-rollback anchor.
+
 ## P3 — Strict future evaluation and negative transfer
 
-`tools/c18_adaptation_benchmark.py` runs actual sklearn on **synthetic** numeric routing examples, compares future-only accuracy, log loss, worst-family and independent calibration results to the incumbent, measures CPU/wall training cost, and runs a separate full-query heldout retrieval ranking against original scores. `tests/test_c18_adaptation.py`, `tests/test_c18_retrieval.py`, `tests/test_c18_calibration.py` and `tests/test_c18_wire.py` exercise real training, promotion refusal, rollback, revocation, expiry, train/eval leakage, malformed source, checkpoint corruption, forbidden raw code/grants and forged Protobuf results.
+`tools/c18_adaptation_benchmark.py` runs actual sklearn on **synthetic** numeric routing examples, compares future-only accuracy, log loss, worst-family and independent calibration results to the incumbent, measures CPU/wall training cost, and runs a separate full-query heldout retrieval ranking against original scores. `tests/test_c18_adaptation.py`, `tests/test_c18_retrieval.py`, `tests/test_c18_calibration.py`, `tests/test_c18_journal.py` and `tests/test_c18_wire.py` exercise real training, promotion refusal, rollback, revocation, expiry, train/eval leakage, malformed source, checkpoint corruption, forbidden raw code/grants and forged Protobuf results.
 
 `.github/workflows/c18-adaptation.yml` requires real NumPy/scikit-learn on Windows/Linux Python 3.11/3.13, independent `protoc` source/binding comparison, adversarial tests and measured synthetic held-out benchmarks.
 
