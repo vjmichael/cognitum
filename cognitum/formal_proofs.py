@@ -28,6 +28,11 @@ class ProofVerdict:
     limitation: str = "no_external_checker_acceptance"
 
 
+def _int(value: int) -> str:
+    # SMT-LIB negative integers use unary minus, never a '-3' numeral token.
+    return str(value) if value >= 0 else "(- " + str(-value) + ")"
+
+
 def _atom(name):
     # Explicit prefix prevents collisions with SMT-LIB words (including 'true').
     return "c10_" + name
@@ -40,17 +45,17 @@ def smtlib_for_problem(problem: SMTProblem) -> bytes:
     for v in problem.integers:
         name=_atom(v.name)
         lines.extend(("(declare-const "+name+" Int)",
-                      "(assert (>= "+name+" "+str(v.lower)+"))",
-                      "(assert (<= "+name+" "+str(v.upper)+"))"))
+                      "(assert (>= "+name+" "+_int(v.lower)+"))",
+                      "(assert (<= "+name+" "+_int(v.upper)+"))"))
     relation={"eq":"=","ne":"distinct","le":"<=","lt":"<",
               "ge":">=","gt":">"}
     for a in problem.atoms:
         if not a.terms:
             lhs="0"
         else:
-            members=["(* "+str(c)+" "+_atom(n)+")" for n,c in a.terms]
+            members=["(* "+_int(c)+" "+_atom(n)+")" for n,c in a.terms]
             lhs=members[0] if len(members)==1 else "(+ "+" ".join(members)+")"
-        lines.append("(assert ("+relation[a.relation]+" "+lhs+" "+str(a.rhs)+"))")
+        lines.append("(assert ("+relation[a.relation]+" "+lhs+" "+_int(a.rhs)+"))")
     lines.append("(check-sat)")
     data=("\n".join(lines)+"\n").encode("ascii")
     if len(data)>MAX_SMTLIB_BYTES:
