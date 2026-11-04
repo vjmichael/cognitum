@@ -9,6 +9,8 @@ on:
       - 'proto/cognitum/spatial_core/v1/**'
       - 'tests/test_c15_spatial_*.py'
       - 'tests/test_c15_full_design.py'
+      - 'tests/test_c15_real_mot_acceptance.py'
+      - 'tools/c15_real_mot_acceptance.py'
       - 'tests/test_c15_lifecycle_appearance.py'
       - 'tools/c15_spatial_benchmark.py'
       - 'tools/c15_full_design_benchmark.py'
@@ -70,6 +72,8 @@ jobs:
           python -W error -m unittest discover -s tests -p "test_c15_full_design.py" -v
       - name: Measured matched geometry and appearance challenger benchmark
         run: python tools/c15_full_design_benchmark.py
+      - name: Real MOT acceptance runner GT-separation and bounded 64-track regression
+        run: python -W error -m unittest discover -s tests -p "test_c15_real_mot_acceptance.py" -v
       - name: Verify standalone imported MOT diagnostic and external TrackEval refusal paths
         run: |
           python -W error -m unittest discover -s tests -p "test_c15_spatial_mot_diagnostics.py" -v
