@@ -22,6 +22,7 @@ class Action(str, Enum):
     SUPERSEDE = "SUPERSEDE"
     RETRACT = "RETRACT"
     EXPIRE = "EXPIRE"
+    MERGE = "MERGE"
 
 
 class Origin(str, Enum):
@@ -110,6 +111,11 @@ def replay(events: Iterable[StateEvent]) -> StateSnapshot:
         revision = old.revision if old else 0
         if event.expected_revision != revision:
             raise StateError("stale expected revision")
+        if event.action == Action.MERGE and (
+            old is None or old.status != "CHALLENGED"
+            or event.origin != Origin.USER_DECISION
+        ):
+            raise StateError("merge requires challenged claim and verified user decision")
         if event.action != Action.ASSERT and old is None:
             raise StateError("cannot revise absent claim")
         if event.action == Action.ASSERT and old and old.status not in ("RETRACTED", "EXPIRED"):
@@ -129,10 +135,11 @@ def replay(events: Iterable[StateEvent]) -> StateSnapshot:
             sources, conflicts = (event.source_id,), ()
         else:
             assert old is not None
-            value = event.typed_value if event.action == Action.SUPERSEDE else old.typed_value
-            origin = event.origin if event.action == Action.SUPERSEDE else old.origin
+            value = event.typed_value if event.action in (Action.SUPERSEDE, Action.MERGE) else old.typed_value
+            origin = event.origin if event.action in (Action.SUPERSEDE, Action.MERGE) else old.origin
             status = {
                 Action.SUPERSEDE: "ACTIVE",
+                Action.MERGE: "ACTIVE",
                 Action.CONFIRM: "ACTIVE",
                 Action.CHALLENGE: "CHALLENGED",
                 Action.RETRACT: "RETRACTED",
