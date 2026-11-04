@@ -51,8 +51,8 @@ class C11WireTests(unittest.TestCase):
 
     def test_untrusted_modified_witness_fails(self):
         req=allocation_request()
-        forged=pb.AllocationResult(schema_version=1,status="OPTIMAL",values=[2,4],
-                                   objective=12,has_objective=True)
+        forged=pb.AllocationResult(schema_version=1,status="OPTIMAL",values=[0,0],
+                                   objective=0,has_objective=True)
         from hashlib import sha256
         forged.request_sha256=sha256(req).hexdigest()
         with self.assertRaises(ValueError):
@@ -67,6 +67,32 @@ class C11WireTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             decode_result("schedule",req,
                           forged_s.SerializeToString(deterministic=True))
+
+    def test_feasible_witness_not_independent_optimality_certificate(self):
+        # A submitted valid but suboptimal allocation passes the exact
+        # feasibility/objective checker. Neither the string OPTIMAL nor a
+        # solver-reported bound is independently verified by this facade.
+        req=allocation_request()
+        from hashlib import sha256
+        alternative=pb.AllocationResult(
+            schema_version=1,status="FEASIBLE",values=[2,4],
+            objective=12,has_objective=True,
+            request_sha256=sha256(req).hexdigest())
+        decoded=decode_result("allocation",req,
+                              alternative.SerializeToString(deterministic=True))
+        self.assertEqual(decoded.status,"FEASIBLE")
+        self.assertEqual(tuple(decoded.values),(2,4))
+
+    def test_modified_witness_wrong_exact_objective_rejected(self):
+        req=allocation_request()
+        from hashlib import sha256
+        tampered=pb.AllocationResult(
+            schema_version=1,status="OPTIMAL",values=[2,4],
+            objective=11,has_objective=True,
+            request_sha256=sha256(req).hexdigest())
+        with self.assertRaisesRegex(ValueError,"invalid allocation result witness"):
+            decode_result("allocation",req,
+                          tampered.SerializeToString(deterministic=True))
 
     def test_nonfeasible_results_have_no_solution(self):
         from hashlib import sha256
