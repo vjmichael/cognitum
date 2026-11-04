@@ -53,9 +53,9 @@ jobs:
       - name: Conventional ByteTrack comparison on identical public detections
         run: |
           trackers track \
-            --detection.mot_file mot_data/mot17/val/MOT17-02-FRCNN/det/det.txt \
+            --detections mot_data/mot17/val/MOT17-02-FRCNN/det/det.txt \
             --tracker bytetrack \
-            --output.mot_results evidence/bytetrack-MOT17-02-FRCNN.txt
+            --mot-output evidence/bytetrack-MOT17-02-FRCNN.txt
           trackers eval \
             --gt mot_data/mot17/val/MOT17-02-FRCNN/gt/gt.txt \
             --tracker evidence/bytetrack-MOT17-02-FRCNN.txt \
