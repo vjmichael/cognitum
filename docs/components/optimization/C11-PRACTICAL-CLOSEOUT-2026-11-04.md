@@ -57,3 +57,20 @@ Lu host authority, native worker process confinement/cancellation, C03 real-mode
 ## Stop rule
 
 No C14-style optimization/research escalation. C11 implementation scope is frozen at two competent mature conventional solver engines, strict domain contracts and independent candidate checking. Expand only for a demonstrated task gap. Merge after real acceptance passes. C10 proof-checker work and C05 closure are independent workstreams, not preconditions to running C11 component reference tests.
+
+## Reproducible incumbent benchmark
+
+`tools/c11_component_benchmark.py` runs five fixed, typed real-solver tasks:
+serial/parallel schedules, conflicting schedule, feasible integer inventory
+allocation and contradictory inventory constraints. It requires installed
+OR-Tools and SciPy/HiGHS rather than using mocks. Each successful candidate
+must pass the independent exact feasibility checker; contradictory instances
+must be reported INFEASIBLE. Per-case wall-clock and process-CPU timings and
+exact objectives are printed as structured JSON and exercised in the native
+Windows/Linux CI workflow.
+
+This is a *component conventional-solver performance smoke*, **not** an
+independent solver-optimality proof, a multi-run controlled statistical bench,
+an energy/VRAM study, or a real-model Lu A/B task-success result. C03 retains
+the latter obligation. No fabricated timing numbers appear in this closeout
+document.
