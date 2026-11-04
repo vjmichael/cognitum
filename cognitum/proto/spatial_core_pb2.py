@@ -12,12 +12,19 @@ def msg(name,fields):
 msg("Frame",[fld("name","string"),fld("parent","string"),fld("translation_m","double",True),fld("quaternion_xyzw","double",True)])
 msg("SceneObject",[fld("stable_id","string"),fld("frame","string"),fld("position_m","double",True),fld("dimensions_m","double",True),fld("visible","bool"),fld("observation_source","string"),fld("timestamp_ms","uint64"),fld("version","uint32"),fld("orientation_xyzw","double",True),fld("geometry_ref","string"),fld("confidence","double")])
 msg("SceneQuery",[fld("schema_version","uint32"),fld("frames","message",True,"Frame"),fld("objects","message",True,"SceneObject"),fld("epoch","uint64"),fld("object_id","string"),fld("reference_id","string")])
-msg("SceneResult",[fld("schema_version","uint32"),fld("status","string"),fld("world_position_m","double",True),fld("distance_m","double"),fld("first_left_of_second","bool"),fld("limitations","string",True),fld("request_sha256","string"),fld("world_orientation_xyzw","double",True)])
+msg("SceneResult",[fld("schema_version","uint32"),fld("status","string"),fld("world_position_m","double",True),fld("distance_m","double"),fld("first_left_of_second","bool"),fld("limitations","string",True),fld("request_sha256","string"),fld("world_orientation_xyzw","double",True),fld("relations","message",True,"SceneRelation")])
 msg("Detection",[fld("detection_id","string"),fld("x","double"),fld("y","double"),fld("width","double"),fld("height","double"),fld("source","string")])
 msg("Track",[fld("stable_id","string"),fld("x","double"),fld("y","double"),fld("width","double"),fld("height","double"),fld("missed","uint32"),fld("last_source","string")])
 msg("Match",[fld("stable_id","string"),fld("detection_id","string")])
 msg("TrackRequest",[fld("schema_version","uint32"),fld("tracks","message",True,"Track"),fld("detections","message",True,"Detection"),fld("min_iou","double"),fld("max_distance","double"),fld("max_missed","uint32")])
 msg("TrackResult",[fld("schema_version","uint32"),fld("status","string"),fld("tracks","message",True,"Track"),fld("matches","message",True,"Match"),fld("unmatched_detections","string",True),fld("retired_ids","string",True),fld("limitations","string",True),fld("request_sha256","string")])
 p=descriptor_pool.DescriptorPool();DESCRIPTOR=p.Add(f)
-for name in ("Frame","SceneObject","SceneQuery","SceneResult","Detection","Track","Match","TrackRequest","TrackResult"):
+for name in ("Frame","SceneObject","SceneQuery","SceneResult","Detection","Track","Match","TrackRequest","TrackResult","SceneRelation"):
  globals()[name]=message_factory.GetMessageClass(p.FindMessageTypeByName(f.package+"."+name))
+
+msg("SceneRelation",[
+ fld("subject_id","string"),fld("predicate","string"),fld("object_id","string"),
+ fld("coordinate_frame","string"),fld("value_m","double"),
+ fld("subject_version","uint32"),fld("object_version","uint32"),
+ fld("scene_epoch","uint64"),fld("evidence_sources","string",True),
+ fld("status","string")])
