@@ -58,6 +58,20 @@ class C10SMTTests(unittest.TestCase):
         neg=SMTProblem(p.integers,p.atoms+(LinearAtom((("x",1),),"eq",3),))
         self.assertEqual(solve(neg,backend="z3").status,"UNSAT_EXHAUSTIVE")
 
+    def test_optional_solver_negative_integer_witness(self):
+        for backend, module in (("z3","z3"),("cvc5","cvc5")):
+            try:
+                __import__(module)
+            except ImportError:
+                continue
+            p=SMTProblem((IntVar("x",-5,5),),
+                         (LinearAtom((("x",1),),"eq",-3),))
+            with self.subTest(backend=backend):
+                d=solve(p,backend=backend)
+                self.assertEqual(d.status,"SAT")
+                self.assertEqual(d.witness,(-3,))
+                self.assertTrue(satisfies(p,d.witness))
+
     def test_optional_native_cvc5(self):
         try:
             import cvc5
