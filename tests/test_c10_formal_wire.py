@@ -73,6 +73,21 @@ class C10WireTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             execute(bad.SerializeToString(deterministic=True))
 
+    def test_proof_required_downgrades_uncertified_unsat(self):
+        from unittest.mock import patch
+        from cognitum.formal_smt import SMTResult
+        request=pb.VerifyRequest()
+        request.ParseFromString(make(backend="z3",impossible=True))
+        request.proof_required=True
+        raw=request.SerializeToString(deterministic=True)
+        with patch("cognitum.formal_wire.solve",
+                   return_value=SMTResult("UNSAT_UNVERIFIED",backend="z3",
+                                          limitation="no_proof_certificate")):
+            result=decode_result(execute(raw),raw)
+        self.assertEqual(result.status,"UNKNOWN")
+        self.assertEqual(result.limitation,"proof_required_but_not_certified")
+        self.assertNotEqual(result.assurance,"independent_exhaustion")
+
     def test_no_arbitrary_smtlib_or_host_grants(self):
         fields={f.name for f in pb.VerifyRequest.DESCRIPTOR.fields}
         self.assertNotIn("script",fields)
