@@ -55,3 +55,26 @@ The Protobuf decoder independently verifies returned plan witnesses, but does no
 ## Stop rule
 
 After successful native CI and merge, C12's bounded **deterministic planning component** can be closed, with stochastic/policy exploration identified as deferred—not incorrectly claimed as implemented. Avoid a C14-style research optimization marathon.
+
+## Additional established-library cross-validation
+
+The optional `planning-validation` extra installs **Unified Planning**,
+an Apache-licensed maintained framework. `cognitum/planning_unified.py`
+constructs its Boolean-fluent STRIPS problem strictly from already validated
+typed facts, requirements and effects. It checks a `SequentialPlan` through
+Unified Planning's built-in `sequential_plan_validator`, **without generating
+or executing external PDDL/model scripts**.
+
+The second library's verdict is independent of Cognitum's NetworkX
+shortest-path graph and custom fact transition replay. The UP Boolean
+semantics do not by themselves certify **risk budgets, horizon limits or
+integer costs**, which remain enforced by C12's exact `check_plan` replay.
+Therefore `VALID` requires both independent Boolean plan validation and
+the original bounded risk/horizon checks. No optimality is inferred from a
+`VALID` plan-validation result.
+
+`tests/test_c12_unified.py` includes positive, negative, incorrect-action,
+invalid-goal and risk-budget samples, and checks a real NetworkX-generated plan
+using the independent Unified Planning engine. The cross-platform C12 native
+workflow installs both optional packages; missing libraries cannot count as
+positive native acceptance.
