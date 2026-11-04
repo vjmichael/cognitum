@@ -135,3 +135,34 @@ not `'[CLEAR,HOTA,Identity]'`. These have been corrected on the branch.
 No official/standard HOTA/MOTA/IDF1 figures or ByteTrack comparator are
 available until a corrected run completes.
 
+
+## 5. Standardized MOT17 scoring on real detector data
+
+[GitHub run 41852112626](https://github.com/vjmichael/cognitum/actions/runs/41852112626)
+successfully scored the frozen C15 `MOT17-02-FRCNN` predictions using the
+installed `trackers==2.6.1` standardized benchmark evaluator:
+
+| Metric | C15 score |
+|---|---:|
+| MOTA | **30.202** |
+| HOTA | **31.143** |
+| IDF1 | **34.205** |
+
+Same 299 frames, 4009 public detections and 0 capacity drops. C15 tracking
+time was 106.127 ms in that run, excluding disk, external scoring and setup.
+The result is a **genuine measured real-data baseline**, not a synthetic
+regression or independent *official submission*. Scores are evaluator outputs,
+not percentages of development completion. A low result is expected for a
+minimal IoU/Hungarian tracker and must remain unmodified.
+
+That workflow then failed only at the **ByteTrack comparator CLI step**:
+installed `trackers 2.6.1` rejected newer
+`--detection.mot_file` / `--output.mot_results` argument names. The
+workflow now uses 2.6-compatible legacy `--detections` and `--mot-output`,
+while preserving the identical public detector input path. Until this
+comparator step succeeds, no relative C15-versus-ByteTrack claim is valid.
+
+The current closeout rules require this real-data workflow, native Windows/
+Linux matrix and portable/core regression to pass at the **same exact latest
+PR SHA**, not merely earlier heads.
+
