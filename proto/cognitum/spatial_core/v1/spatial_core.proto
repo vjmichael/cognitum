@@ -37,6 +37,7 @@ message SceneResult {
   bool first_left_of_second = 5;
   repeated string limitations = 6;
   string request_sha256 = 7;
+  repeated double world_orientation_xyzw = 8; // exact composed pose; four components
 }
 message Detection {
   string detection_id = 1;
