@@ -1,0 +1,18 @@
+test_correlation_beats_hadamard (test_m5.FLINTTests.test_correlation_beats_hadamard) ... ok
+test_exact_linear_endpoints (test_m5.FLINTTests.test_exact_linear_endpoints) ... ok
+test_gram_exact (test_m5.FLINTTests.test_gram_exact) ... ok
+test_inverted_box_refused (test_m5.FLINTTests.test_inverted_box_refused) ... ok
+test_noninteger_count_refused (test_m5.FLINTTests.test_noninteger_count_refused) ... ok
+test_original_15 (test_m5.FLINTTests.test_original_15) ... ok
+test_precision_restored_and_ordered (test_m5.FLINTTests.test_precision_restored_and_ordered) ... ok
+test_rank_deficient_refused (test_m5.FLINTTests.test_rank_deficient_refused) ... ok
+test_replay_tampering_refused (test_m5.FLINTTests.test_replay_tampering_refused) ... ok
+test_weight_maximum (test_m5.FLINTTests.test_weight_maximum) ... ok
+test_frozen_input_pins_exist_and_are_distinct (test_m5.SourceContractTests.test_frozen_input_pins_exist_and_are_distinct) ... ok
+test_missing_original_refusal (test_m5.SourceContractTests.test_missing_original_refusal) ... ok
+test_wrong_hash_pin_refused (test_m5.SourceContractTests.test_wrong_hash_pin_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 11.304s
+
+OK
