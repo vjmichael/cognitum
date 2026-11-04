@@ -141,6 +141,21 @@ def compute(q:TopologyQuery)->TopologyResult:
         raise ValueError("unbounded topology output")
     intervals.sort(key=lambda x:(x.dimension,x.birth,float("inf") if x.death is None else x.death))
     h0_finite=sorted(x.death for x in intervals if x.dimension==0 and x.death is not None)
+    # Ripser may omit zero-persistence H0 intervals for repeated coordinates.
+    # A zero-length edge is absent from SciPy sparse MST as well, which is why
+    # we independently counted exact duplicate samples above. Reconstruct
+    # only those missing *zero-length* H0 bars; never invent positive bars.
+    duplicate_merges=n-len(unique_indices)
+    returned_zeros=sum(d==0. for d in h0_finite)
+    if returned_zeros>duplicate_merges:
+        raise ValueError("Ripser returned unexpected zero-length H0 merges")
+    missing_zeros=duplicate_merges-returned_zeros
+    if missing_zeros:
+        intervals.extend(Interval(0,0.,0.) for _ in range(missing_zeros))
+        intervals.sort(key=lambda x:(x.dimension,x.birth,
+                                      float("inf") if x.death is None else x.death))
+        h0_finite=sorted(x.death for x in intervals
+                         if x.dimension==0 and x.death is not None)
     if len(h0_finite)!=len(mst_lengths):
         raise ValueError("independent SciPy H0 merge count differs")
     deviation=max([abs(a-b) for a,b in zip(h0_finite,mst_lengths)] or [0.])
