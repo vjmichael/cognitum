@@ -58,9 +58,43 @@ msg("HMMResult",[
     field("change_alerts","bool",True),
     field("total_log_likelihood","double"),
     field("limitations","string",True),field("request_sha256","string")])
+msg("TrainRequest",[
+    field("schema_version","uint32"),field("units","string",True),
+    field("samples","message",True,"Sample"),field("origin_id","string"),
+    field("provenance_kind","string"),field("quality_declared","string"),
+    field("train_count","uint32"),field("lags","uint32")])
+msg("LearnedArtifact",[
+    field("schema_version","uint32"),field("architecture","string"),
+    field("source_id","string"),field("training_sha256","string"),
+    field("first_time_ms","uint64"),field("last_training_time_ms","uint64"),
+    field("step_ms","uint32"),field("lags","uint32"),
+    field("units","string",True),
+    field("coefficients","message",True,"DoubleVector"),
+    field("intercepts","double",True),field("center","double",True),
+    field("scale","double",True),field("residual_variance","double",True),
+    field("minimum","double",True),field("maximum","double",True),
+    field("training_count","uint32"),field("artifact_sha256","string")])
+msg("TrainResult",[
+    field("schema_version","uint32"),field("status","string"),
+    field("artifact","message",False,"LearnedArtifact"),
+    field("request_sha256","string"),field("limitations","string",True)])
+msg("ForecastRequest",[
+    field("schema_version","uint32"),
+    field("artifact","message",False,"LearnedArtifact"),
+    field("history","message",True,"Sample"),
+    field("origin_id","string"),field("provenance_kind","string"),
+    field("quality_declared","string"),field("steps","uint32")])
+msg("ForecastResult",[
+    field("schema_version","uint32"),field("status","string"),
+    field("means","message",True,"DoubleVector"),
+    field("variances","message",True,"DoubleVector"),
+    field("ood","bool"),field("steps","uint32"),
+    field("request_sha256","string"),field("limitations","string",True)])
 pool=descriptor_pool.DescriptorPool()
 DESCRIPTOR=pool.Add(f)
 for name in ("Sample","FilterRequest","FilterPoint","FilterResult",
-             "HMMObservation","HMMRequest","DoubleVector","HMMResult"):
+             "HMMObservation","HMMRequest","DoubleVector","HMMResult",
+             "TrainRequest","LearnedArtifact","TrainResult",
+             "ForecastRequest","ForecastResult"):
     globals()[name]=message_factory.GetMessageClass(
         pool.FindMessageTypeByName(f.package+"."+name))
