@@ -1,0 +1,39 @@
+syntax = "proto3";
+package cognitum.planning.v1;
+
+// Declarative deterministic planning; no actions have real-world side effects.
+// Source text, shell/code, tool permissions and OS launch authority forbidden.
+message PlanAction {
+  string name = 1;
+  repeated string requires = 2;
+  repeated string forbids = 3;
+  repeated string add = 4;
+  repeated string delete = 5;
+  uint32 cost = 6;
+  uint32 risk = 7;
+}
+message PlanRequest {
+  uint32 schema_version = 1;
+  repeated string facts = 2;
+  repeated string initial = 3;
+  repeated string goal = 4;
+  repeated string goal_forbids = 5;
+  repeated PlanAction actions = 6;
+  uint32 horizon = 7;
+  uint32 risk_budget = 8;
+  string algorithm = 9;  // dijkstra | astar | bfs | dag_dp
+}
+message PlanResult {
+  uint32 schema_version = 1;
+  string status = 2;  // OPTIMAL | FEASIBLE | UNREACHABLE_EXHAUSTIVE |
+                      // UNKNOWN_LIMIT | INVALID_SOLUTION | UNSUPPORTED
+  repeated string actions = 3;
+  repeated string final_state = 4;
+  bool has_result = 5;
+  uint32 total_cost = 6;
+  uint32 total_risk = 7;
+  uint32 expanded_states = 8;
+  string backend = 9;
+  repeated string limitations = 10;
+  string request_sha256 = 11; // correlation, not authenticated receipt
+}
