@@ -102,16 +102,19 @@ def certify_unsat(
                 timeout=timeout_seconds,check=False,
             )
         except (OSError,subprocess.TimeoutExpired):
-            return empty
+            return ProofVerdict("UNVERIFIED",problem_sha256=problem_hash,
+                                limitation="producer_execution_or_timeout")
         if produced.returncode!=0:
-            return empty
+            return ProofVerdict("UNVERIFIED",problem_sha256=problem_hash,
+                                limitation="producer_nonzero_exit")
         out=produced.stdout
         if len(out)>MAX_OUTPUT_BYTES or not out.startswith(b"unsat\n"):
             return ProofVerdict("NOT_UNSAT",problem_sha256=problem_hash,
                                 limitation="no_unsat_proof_produced")
         proof=out.split(b"\n",1)[1]
         if not 1<=len(proof)<=MAX_PROOF_BYTES:
-            return empty
+            return ProofVerdict("UNVERIFIED",problem_sha256=problem_hash,
+                                limitation="producer_empty_or_oversized_proof")
         proof_path.write_bytes(proof)
         try:
             checked=subprocess.run(
@@ -121,11 +124,13 @@ def certify_unsat(
                 timeout=timeout_seconds,check=False,
             )
         except (OSError,subprocess.TimeoutExpired):
-            return empty
+            return ProofVerdict("UNVERIFIED",problem_sha256=problem_hash,
+                                limitation="checker_execution_or_timeout")
         # 'holey', 'invalid', and any unrecognized result are NOT certified.
         if (checked.returncode==0 and len(checked.stdout)<=4096
                 and checked.stdout.strip().lower()==b"valid"):
             return ProofVerdict("CERTIFIED_UNSAT",problem_sha256=problem_hash,
                                 proof_sha256=sha256(proof).hexdigest(),
                                 limitation="trusted_host_proof_checker_only")
-        return empty
+        return ProofVerdict("UNVERIFIED",problem_sha256=problem_hash,
+                            limitation="checker_failed_or_not_valid")
