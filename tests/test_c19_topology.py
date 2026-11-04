@@ -6,6 +6,7 @@ from cognitum.topology_rips import (
     TopologyQuery,compute,validate,snapshot_hash,perturbation_stability,
 )
 from cognitum.topology_gudhi import crosscheck
+from cognitum.topology_sensitivity import deterministic_farthest,check_sensitivity
 from cognitum.topology_evaluation import benchmark
 
 def query(points,scale=2.2,metric="euclidean",dim=1):
@@ -68,6 +69,20 @@ class C19Tests(unittest.TestCase):
         d=perturbation_stability(query(original),query(perturbed))
         self.assertEqual(len(d),2)
         self.assertLess(max(d),.001)
+
+    def test_deterministic_subsampling_and_real_bottleneck_sensitivity(self):
+        q=query(circle(20))
+        idx,reduced=deterministic_farthest(q,15)
+        self.assertEqual(len(set(idx)),15)
+        self.assertEqual(idx[0],0)
+        self.assertEqual(deterministic_farthest(q,15)[0],idx)
+        observed=check_sensitivity(q,keep=15)
+        self.assertEqual(observed.status,"MEASURED")
+        self.assertEqual(observed.sample_retained,15)
+        self.assertEqual(len(observed.bottleneck_by_dimension),2)
+        self.assertTrue(all(x>=0 for x in observed.bottleneck_by_dimension))
+        with self.assertRaises(ValueError):
+            deterministic_farthest(q,2)
 
     def test_independent_gudhi_matches_ripser_for_small_circle(self):
         try:import gudhi
