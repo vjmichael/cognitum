@@ -1,0 +1,3 @@
+RECOVERED signed_cases=1 signed_children=34
+COMMITTED 2/2 one_event_n80_i00 children=30 tip=45a8690e0f42
+RESULT {"cases_newly_independently_audited": 1, "cases_reused_after_signature_and_input_checks": 1, "completed_cases": 2, "full_process_cpu_seconds": 1.590806454, "original_cases_requested": 2, "protocol": "CH40M10-TRUSTED-VERIFIER-DURABLE-CHECKPOINT-V1", "scientific_release": "NO_GO", "status": "ACCEPTED_RESEARCH_ONLY", "terminal_checkpoint_tip": "45a8690e0f4206dcfebe66a8500fbfb71c5e932011c399682fc73c39df508138", "trust_model": "Externally pinned verifier Ed25519 public key, original trace/journal/source code hashes. No out-of-band antirollback anchor supplied.", "verified_child_checks": 64}
