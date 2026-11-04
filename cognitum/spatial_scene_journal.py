@@ -66,7 +66,7 @@ class SceneJournal:
     """Create with a path supplied by an authorized host; no caller path API."""
 
     def __init__(self,db_path:Path):
-        if type(db_path) is not Path or not db_path.is_absolute():
+        if not isinstance(db_path,Path) or not db_path.is_absolute():
             raise ValueError("host-owned absolute SQLite path required")
         self.db_path=db_path
         # No path creation or directory traversal by model-issued action.
