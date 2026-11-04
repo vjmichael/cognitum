@@ -21,6 +21,7 @@ class Appearance:
     source_id:str
     observation_id:str
     frame_index:int
+    image_sha256:str=""  # optional exact source pixel frame digest, not authentication
 
 
 @dataclass(frozen=True)
@@ -46,7 +47,11 @@ def validate_descriptors(tracks,observations,descriptors):
     if type(descriptors) is not tuple or len(descriptors)>len(tracks)+len(observations):
         raise ValueError("appearance descriptor bound")
     keys=set()
-    known={t.stable_id for t in tracks}|{d.detection_id for d in observations}
+    track_names={t.stable_id for t in tracks}
+    detection_names={d.detection_id for d in observations}
+    if track_names&detection_names:
+        raise ValueError("ambiguous track/detection identity namespaces")
+    known=track_names|detection_names
     for d in descriptors:
         if (type(d) is not Appearance or not _identifier(d.identity)
                 or d.identity not in known or d.identity in keys
@@ -55,6 +60,9 @@ def validate_descriptors(tracks,observations,descriptors):
                 or type(d.encoder_digest) is not str or len(d.encoder_digest)!=64
                 or any(c not in "0123456789abcdef" for c in d.encoder_digest)
                 or type(d.frame_index) is not int or d.frame_index<0
+                or type(d.image_sha256) is not str
+                or (d.image_sha256 and (len(d.image_sha256)!=64
+                    or any(c not in "0123456789abcdef" for c in d.image_sha256)))
                 or type(d.vector) is not tuple
                 or not 2<=len(d.vector)<=MAX_DIM
                 or any(type(x) not in (float,int) or not isfinite(x)
