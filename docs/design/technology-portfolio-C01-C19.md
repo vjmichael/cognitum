@@ -88,7 +88,7 @@
 
 ## C06 — Canonical memory, search and retrieval
 
-**Current (2026-11-04):** Host-owned read-only SQLite FTS5/BM25 derived retrieval and exact source/citation lookup implemented in feature branch, **native CI and actual Lu host integration pending**. Canonical Lu ANSF remains sole owner; Cognitum accepts only authenticated host snapshots and stores no user memory. [C06/C07 practical source map](../components/memory/C06-C07-HOST-OWNED-PRACTICAL-2026-11-04.md).
+**Current:** Design only; no new Cognitum canonical memory store approved.
 
 **Question:** Can Lu recover correct, current, authorized evidence across long histories and many files while honoring corrections and deletions?
 
@@ -104,7 +104,7 @@
 
 ## C07 — Typed state, claim revision and temporal belief reconciliation
 
-**Current (2026-11-04):** Typed event-replay, conflict notices, user decision protection and proposal-only expected-revision reconciliation implemented in feature branch, **native CI and real Lu atomic host commit pending**. All accepted decisions remain with Lu ANSF and are never committed by Cognitum. [C06/C07 implementation scope](../components/memory/C06-C07-HOST-OWNED-PRACTICAL-2026-11-04.md).
+**Current:** Design only; C06 ownership is the blocking dependency.
 
 **Question:** Can Lu distinguish its present commitments from prior superseded choices, unverified assertions and conflicting evidence without silently overwriting history?
 
