@@ -10,6 +10,7 @@ on:
       - 'cognitum/proto/memory_state_pb2.py'
       - 'proto/cognitum/memory/v1/**'
       - 'tests/test_c06_c07_*'
+      - 'tools/run_c06_c07_benchmark.py'
       - '.github/workflows/c06-c07-acceptance.yml'
   workflow_dispatch:
 
@@ -40,5 +41,7 @@ jobs:
           python -c "from google.protobuf.descriptor_pb2 import FileDescriptorProto,FileDescriptorSet; from cognitum.proto import memory_state_pb2 as pb; from tools.check_proto_descriptors import normalized_file; f=FileDescriptorSet(); f.ParseFromString(open('memory_state.pb','rb').read()); assert len(f.file)==1; assert normalized_file(f.file[0]) == normalized_file(FileDescriptorProto.FromString(pb.DESCRIPTOR.serialized_pb))"
       - name: Execute real SQLite FTS5 and durable event tests
         run: python -m pytest -q tests/test_c06_c07_reference.py tests/test_c06_c07_sqlite_reference.py tests/test_c06_c07_wire.py
+      - name: Record deterministic lexical baseline timings
+        run: python -m tools.run_c06_c07_benchmark
       - name: Compile Python code
         run: python -m compileall -q cognitum tests
