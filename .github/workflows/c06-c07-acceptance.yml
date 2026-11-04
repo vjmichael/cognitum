@@ -1,0 +1,42 @@
+name: C06 C07 host-owned memory/state acceptance
+
+on:
+  pull_request:
+    paths:
+      - 'cognitum/memory_retrieval.py'
+      - 'cognitum/state_revision.py'
+      - 'cognitum/host_event_adapter.py'
+      - 'proto/cognitum/memory/v1/**'
+      - 'tests/test_c06_c07_*'
+      - '.github/workflows/c06-c07-acceptance.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  native-memory-state:
+    name: "C06/C07 (${{ matrix.os }}, Python ${{ matrix.python-version }})"
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install test dependencies and native compiler
+        run: python -m pip install "pytest>=8,<10" "grpcio-tools>=1.70,<2"
+      - name: Compile typed memory/state Protobuf
+        shell: bash
+        run: |
+          python -m grpc_tools.protoc -Iproto --descriptor_set_out=memory_state.pb proto/cognitum/memory/v1/memory_state.proto
+          python tools/check_proto_descriptors.py memory_state.pb
+      - name: Execute real SQLite FTS5 and durable event tests
+        run: python -m pytest -q tests/test_c06_c07_reference.py tests/test_c06_c07_sqlite_reference.py
+      - name: Compile Python code
+        run: python -m compileall -q cognitum tests
