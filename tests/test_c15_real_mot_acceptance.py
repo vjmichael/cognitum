@@ -50,7 +50,7 @@ class C15RealMOTAcceptanceContract(unittest.TestCase):
             seqmap,hashes=stage(target,gt,c15,byte)
             self.assertTrue(seqmap.is_file())
             self.assertIn("MOT17-02-FRCNN",seqmap.read_text())
-            self.assertEqual(len(hashes),3)
+            self.assertEqual(len(hashes),5)
             self.assertNotEqual(hashes["gt"],hashes["c15"])
             self.assertTrue(
                 (target/"trackers"/"MOT17-train"/"C15"/"data"/
