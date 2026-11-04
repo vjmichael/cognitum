@@ -1,5 +1,17 @@
 name: C10 native independent proof certificate acceptance
 on:
+  push:
+    paths:
+      - 'cognitum/formal_proofs.py'
+      - 'tests/test_c10_proofs.py'
+      - 'tools/c10_real_proof_smoke.py'
+      - '.github/workflows/c10-alethe-proof.yml'
+  pull_request:
+    paths:
+      - 'cognitum/formal_proofs.py'
+      - 'tests/test_c10_proofs.py'
+      - 'tools/c10_real_proof_smoke.py'
+      - '.github/workflows/c10-alethe-proof.yml'
   workflow_dispatch:
 
 jobs:
