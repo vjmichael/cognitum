@@ -38,7 +38,34 @@ class C05SpecialistTests(unittest.TestCase):
                 invoke("symbolic",pb.SymbolicRequest(expression=expression,
                                                     action="expand"))
         with self.assertRaises(ValueError):
-            invoke("symbolic",pb.SymbolicRequest(expression="x",action="factor"))
+            invoke("symbolic",pb.SymbolicRequest(expression="x**3+1",action="factor"))
+        with self.assertRaises(ValueError):
+            invoke("symbolic",pb.SymbolicRequest(expression="x",action="integrate"))
+
+    def test_exact_factorization_expands_to_original_polynomial(self):
+        for expression in (
+            "x**2 - 1", "x**2 - 2*x + 1",
+            "2*x**2 - 3*x + 1", "1/2*x**2 - 1/2",
+            "-x**2 + 1", "x**2", "3*x + 6",
+            "7", "0", "x**2 + 1", "x**2 - 2",
+        ):
+            with self.subTest(expression=expression):
+                reply=invoke("symbolic",pb.SymbolicRequest(
+                    expression=expression,action="factor"))
+                self.assertEqual(_polynomial(reply.polynomial),_polynomial(expression))
+                self.assertEqual(reply.assurance,"exact_symbolic")
+                self.assertIn("factor_degree_le_2",reply.limitations)
+                self.assertIn("intent_not_verified",reply.limitations)
+                if expression in ("x**2 + 1","x**2 - 2"):
+                    self.assertIn("irreducible_over_rationals",reply.limitations)
+                elif expression=="x**2 - 1":
+                    self.assertIn("rational_quadratic_factorization",reply.limitations)
+
+    def test_factorization_does_not_claim_general_cas(self):
+        for expression in ("x**3 - 1","x**6 - 1","sin(x)","x.__class__"):
+            with self.subTest(expression=expression),self.assertRaises(ValueError):
+                invoke("symbolic",pb.SymbolicRequest(
+                    expression=expression,action="factor"))
 
     def test_scientific_functions_respect_precision_and_real_domain(self):
         for function,argument,leading in (
