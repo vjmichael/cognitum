@@ -65,6 +65,23 @@ class C15ScopeAndConsistency(unittest.TestCase):
             self.assertTrue(db.restore("scene1",workspace_id="workspace_a").detached)
             db.close()
 
+    def test_journal_rejects_forged_history_and_identity_rewrite(self):
+        original=scene("workspace_a")
+        with TemporaryDirectory() as root:
+            db=SceneJournal(Path(root)/"state.sqlite")
+            with self.assertRaises(ValueError):
+                db.put(replace(original,event_ids=("fake_event",)),expected_previous=-1)
+            db.put(original,expected_previous=-1)
+            # A raw higher revision with no event continuity cannot bypass CAS.
+            forged=replace(original,revision=1,event_ids=("fake_event",),
+                           entities=(replace(original.entities[0],
+                                    obj=replace(original.entities[0].obj,version=1,
+                                                position_m=(999.,0.,0.))),))
+            with self.assertRaises(ValueError):
+                db.put(forged,expected_previous=0)
+            self.assertEqual(db.restore("scene1",workspace_id="workspace_a"),original)
+            db.close()
+
     def test_cross_camera_agreement_and_conflict(self):
         f=(Frame("camera_a","world",(0.,0.,0.),(0.,0.,0.,1.)),
            Frame("camera_b","world",(1.,0.,0.),(0.,0.,0.,1.)))
