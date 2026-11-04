@@ -87,6 +87,27 @@ class C05SpecialistTests(unittest.TestCase):
         self.assertEqual(high.digits,200)
         self.assertEqual(len(high.decimal.split(".")[1]),200)
 
+    def test_decimal_subtract_multiply_and_precision_rounding(self):
+        subtract=invoke("precision",pb.PrecisionRequest(
+            action="subtract",left="0.3",right="0.1",digits=50))
+        self.assertEqual(subtract.decimal,"0.2")
+        self.assertEqual(subtract.method,"decimal")
+        multiply=invoke("precision",pb.PrecisionRequest(
+            action="multiply",left="0.1",right="0.2",digits=50))
+        self.assertEqual(multiply.decimal,"0.02")
+        rounded=invoke("precision",pb.PrecisionRequest(
+            action="multiply",left="1.234567890123456",right="9.876543210987654",
+            digits=15))
+        from decimal import Decimal, localcontext
+        with localcontext() as ctx:
+            ctx.prec=15
+            expected=+(Decimal("1.234567890123456")*Decimal("9.876543210987654"))
+        self.assertEqual(Decimal(rounded.decimal),expected)
+        self.assertIn("rounding_may_apply",rounded.limitations)
+        with self.assertRaises(ValueError):
+            invoke("precision",pb.PrecisionRequest(
+                action="multiply",left="NaN",right="1",digits=50))
+
     def test_precision_fail_closed(self):
         for action,a,b,digits in (
             ("divide","1","0",40),("sqrt","-1","",40),
