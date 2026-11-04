@@ -1,0 +1,60 @@
+name: C19 practical real topology native acceptance
+on:
+  push:
+    paths:
+      - 'cognitum/topology_*.py'
+      - 'cognitum/proto/topology_pb2.py'
+      - 'proto/cognitum/topology/v1/**'
+      - 'tests/test_c19_*.py'
+      - 'tools/c19_topology_benchmark.py'
+      - 'tools/check_proto_descriptors.py'
+      - 'pyproject.toml'
+      - '.github/workflows/c19-topology.yml'
+      - 'docs/components/topology/**'
+  pull_request:
+    paths:
+      - 'cognitum/topology_*.py'
+      - 'cognitum/proto/topology_pb2.py'
+      - 'proto/cognitum/topology/v1/**'
+      - 'tests/test_c19_*.py'
+      - 'tools/c19_topology_benchmark.py'
+      - 'tools/check_proto_descriptors.py'
+      - 'pyproject.toml'
+      - '.github/workflows/c19-topology.yml'
+      - 'docs/components/topology/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  c19-real-tda:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11','3.13']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install real Ripser GUDHI Persim and SciPy engines
+        run: python -m pip install -e ".[topology-verify]" grpcio-tools
+      - name: Verify genuine native TDA and numerical dependencies
+        run: |
+          python -m pip check
+          python -c "import numpy,scipy,ripser,gudhi,persim,sklearn; from ripser import ripser; print('SciPy',scipy.__version__,'GUDHI',gudhi.__version__)"
+      - name: Independently compiled C19 Protobuf schema parity
+        run: |
+          python -m grpc_tools.protoc -Iproto --descriptor_set_out=c19-compiled.pb proto/cognitum/topology/v1/topology.proto
+          python tools/check_proto_descriptors.py c19-compiled.pb
+      - name: Real H0 MST and H1 Ripser GUDHI shape tests
+        run: |
+          python -W error -m unittest discover -s tests -p "test_c19_topology.py" -v
+          python -W error -m unittest discover -s tests -p "test_c19_wire.py" -v
+      - name: Measured true held-out geometry spectral vs TDA comparison
+        run: python -m tools.c19_topology_benchmark
