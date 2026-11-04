@@ -18,13 +18,13 @@ msg("Track",[fld("stable_id","string"),fld("x","double"),fld("y","double"),fld("
 msg("Match",[fld("stable_id","string"),fld("detection_id","string")])
 msg("TrackRequest",[fld("schema_version","uint32"),fld("tracks","message",True,"Track"),fld("detections","message",True,"Detection"),fld("min_iou","double"),fld("max_distance","double"),fld("max_missed","uint32")])
 msg("TrackResult",[fld("schema_version","uint32"),fld("status","string"),fld("tracks","message",True,"Track"),fld("matches","message",True,"Match"),fld("unmatched_detections","string",True),fld("retired_ids","string",True),fld("limitations","string",True),fld("request_sha256","string")])
-p=descriptor_pool.DescriptorPool();DESCRIPTOR=p.Add(f)
-for name in ("Frame","SceneObject","SceneQuery","SceneResult","Detection","Track","Match","TrackRequest","TrackResult","SceneRelation"):
- globals()[name]=message_factory.GetMessageClass(p.FindMessageTypeByName(f.package+"."+name))
-
 msg("SceneRelation",[
  fld("subject_id","string"),fld("predicate","string"),fld("object_id","string"),
  fld("coordinate_frame","string"),fld("value_m","double"),
  fld("subject_version","uint32"),fld("object_version","uint32"),
  fld("scene_epoch","uint64"),fld("evidence_sources","string",True),
  fld("status","string")])
+p=descriptor_pool.DescriptorPool();DESCRIPTOR=p.Add(f)
+for name in ("Frame","SceneObject","SceneQuery","SceneResult","Detection","Track","Match","TrackRequest","TrackResult","SceneRelation"):
+ globals()[name]=message_factory.GetMessageClass(p.FindMessageTypeByName(f.package+"."+name))
+
