@@ -46,3 +46,30 @@ return HDC scores as if they established that a relation is factually true.
 
 **Status: C08 candidate verification implemented; host integration and
 production gates remain open.**
+
+
+## Baseline-first decision (new)
+
+HDC remains **disabled by default** and has no privileged/authoritative
+path. `cognitum.research.hdc_admission` is an inert policy helper that
+requires all of the following before an experimental HDC candidate route
+can be selected: user opt-in; an independent Lu host approval; at least
+30 benchmark trials with a host-authenticated source; zero verified false
+positives; recall at least as high as conventional exact retrieval; and
+at least 1.25x measured median query speedup. If any criterion fails,
+use **exact matching or ANSF's existing SQLite FTS5**. This is deliberately
+conservative, not a claim that HDC is superior.
+
+`tools/run_c08_conventional_baselines.py` compares exact canonical lookup,
+SQLite FTS5 and native BSC + strict canonical recheck over the same 32-record
+synthetic relation snapshot and 60 deterministic query trials. It reports
+query latency and recall separately, plus FTS5 build cost. Results are
+preliminary: they do not represent full Lu tool dispatch, long-memory,
+domain evaluation, energy consumption, hardware SIMD/GPU or user tasks.
+
+The C08 BSC implementation currently uses Python arbitrary-length integer
+XOR and `bit_count()`, *not* any claimed specialized GPU kernel. No
+performance-advantage or specialized-hardware assertion is accepted without
+matched native CPU and hardware benchmarks. If conventional methods
+outperform it, retaining C08 as an experimental optional library is valid;
+there is no requirement to promote it into Lu core.
