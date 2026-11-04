@@ -19,6 +19,10 @@ scientific = ["protobuf>=6.31,<8", "mpmath>=1.3,<2"]
 # C08/C09 optional CPU-only research adapters; never installed by default.
 research-hdc-kan = ["protobuf>=6.31,<8", "numpy>=1.26,<3"]
 
+# C17 conventional state-space inference and optional trained Ridge challenger.
+temporal-statespace = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.14,<2"]
+temporal-learned = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.14,<2", "scikit-learn>=1.5,<2"]
+
 # C14 production-target maintained causal-library adapters; never auto-launch.
 causal-stats = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.10,<2", "statsmodels>=0.14,<0.16"]
 causal-dowhy = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "pandas>=2,<3", "dowhy>=0.13,<1"]

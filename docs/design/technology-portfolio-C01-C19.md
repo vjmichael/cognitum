@@ -264,7 +264,7 @@
 
 ## C17 — State-space models and learned temporal representations
 
-**Current:** Design only; not to be confused with C07's exact typed state service.
+**Current (2026-11-04):** P0–P3 bounded practical implementation committed on PR branch, **native validation/merge pending**. Includes typed chronological multichannel Kalman filtering, categorical HMM, host-admitted trained Ridge autoregressive challenger, checkpoint source/integrity, held-out forecast comparison, canonical Protobuf, adverse-sequence tests and actual Windows/Linux CI. [Practical C17 closeout document](../components/temporal/C17-PRACTICAL-CLOSEOUT-2026-11-04.md). Not C07 canonical state, not a neural S4/Mamba reference or proven real-model advantage.
 
 **Question:** Does an SSM improve long-sequence prediction, change detection or temporal reasoning **over** the already correct event/snapshot system?
 

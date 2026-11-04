@@ -1,0 +1,79 @@
+name: C17 practical temporal state and learned forecast acceptance
+on:
+  push:
+    paths:
+      - 'cognitum/temporal_statespace.py'
+      - 'cognitum/temporal_hidden.py'
+      - 'cognitum/temporal_learned.py'
+      - 'cognitum/temporal_learned_wire.py'
+      - 'cognitum/temporal_evaluation.py'
+      - 'cognitum/temporal_practical_wire.py'
+      - 'cognitum/proto/temporal_practical_pb2.py'
+      - 'proto/cognitum/temporal/v1/practical.proto'
+      - 'tests/test_c17_practical*.py'
+      - 'tests/test_c17_heldout.py'
+      - 'tests/test_c17_learned_wire.py'
+      - 'tools/c17_temporal_benchmark.py'
+      - 'tools/c17_real_temporal_acceptance.py'
+      - 'tests/test_c17_real_temporal.py'
+      - 'tools/check_proto_descriptors.py'
+      - 'pyproject.toml'
+      - '.github/workflows/c17-practical.yml'
+  pull_request:
+    paths:
+      - 'cognitum/temporal_statespace.py'
+      - 'cognitum/temporal_hidden.py'
+      - 'cognitum/temporal_learned.py'
+      - 'cognitum/temporal_learned_wire.py'
+      - 'cognitum/temporal_evaluation.py'
+      - 'cognitum/temporal_practical_wire.py'
+      - 'cognitum/proto/temporal_practical_pb2.py'
+      - 'proto/cognitum/temporal/v1/practical.proto'
+      - 'tests/test_c17_practical*.py'
+      - 'tests/test_c17_heldout.py'
+      - 'tests/test_c17_learned_wire.py'
+      - 'tools/c17_temporal_benchmark.py'
+      - 'tools/c17_real_temporal_acceptance.py'
+      - 'tests/test_c17_real_temporal.py'
+      - 'tools/check_proto_descriptors.py'
+      - 'pyproject.toml'
+      - '.github/workflows/c17-practical.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  real-temporal:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11','3.13']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install maintained SciPy and scikit-learn engines plus compiler
+        run: python -m pip install -e ".[temporal-learned]" grpcio-tools
+      - name: Check actual installed numerical and learning engines
+        run: |
+          python -m pip check
+          python -c "import numpy, scipy, sklearn; from scipy.special import logsumexp; from sklearn.linear_model import Ridge; print('SciPy:',scipy.__version__,'scikit-learn:',sklearn.__version__)"
+      - name: Compile and compare source Protobuf with checked-in C17 descriptor
+        run: |
+          python -m grpc_tools.protoc -Iproto --descriptor_set_out=c17-practical.pb proto/cognitum/temporal/v1/practical.proto
+          python tools/check_proto_descriptors.py c17-practical.pb
+      - name: Exact real Kalman HMM Ridge and source/adversarial tests
+        run: |
+          python -W error -m unittest discover -s tests -p "test_c17_practical*.py" -v
+          python -W error -m unittest discover -s tests -p "test_c17_heldout.py" -v
+          python -W error -m unittest discover -s tests -p "test_c17_learned_wire.py" -v
+          python -W error -m unittest discover -s tests -p "test_c17_real_temporal.py" -v
+          python -W error -m unittest discover -s tests -p "test_c17_reference_filter.py" -v
+      - name: Genuine heldout temporal baseline benchmark
+        run: python tools/c17_temporal_benchmark.py
