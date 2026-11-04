@@ -134,7 +134,7 @@ def validate_proposal(p,rows,*,now_ms):
             or not 16<=len(rows)<=MAX_ROWS
             or not 16<=p.maximum_training_rows<=MAX_ROWS
             or not 1<=p.maximum_cpu_ms<=120000
-            or not now_ms<p.train_before_ms<p.holdout_from_ms<=p.retention_until_ms
+            or not 0<p.train_before_ms<=p.holdout_from_ms<=now_ms<p.retention_until_ms
             or p.rollback_policy_digest!=p.base_policy_digest):
         raise ValueError("invalid or unbounded adaptation proposal")
     dim=len(rows[0].features)
@@ -144,7 +144,7 @@ def validate_proposal(p,rows,*,now_ms):
     for row in rows:
         if (type(row) is not Trace or not _id(row.event_id)
                 or row.event_id in ids
-                or type(row.occurred_ms) is not int or not last<row.occurred_ms
+                or type(row.occurred_ms) is not int or not last<row.occurred_ms<=now_ms
                 or not now_ms<=row.retention_until_ms
                 or row.retention_until_ms>p.retention_until_ms
                 or row.source_digest!=p.source_digest
