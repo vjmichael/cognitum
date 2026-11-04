@@ -37,11 +37,11 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install maintained graph engine and compiler
-        run: python -m pip install -e ".[planning-graph]" grpcio-tools
+        run: python -m pip install -e ".[planning-graph,planning-validation]" grpcio-tools
       - name: Verify the real NetworkX backend
         run: |
           python -m pip check
-          python -c "import networkx as nx; print('Native NetworkX version:',nx.__version__)"
+          python -c "import networkx as nx; import unified_planning as up; print('NetworkX:',nx.__version__,'Unified Planning:',up.__version__)"
       - name: Compare planning Protobuf schema with independent compiler
         run: |
           python -m grpc_tools.protoc -Iproto --descriptor_set_out=compiled-c12.pb proto/cognitum/planning/v1/planning.proto
