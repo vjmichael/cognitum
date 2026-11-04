@@ -76,3 +76,62 @@ message HMMResult {
   repeated string limitations = 7;
   string request_sha256 = 8;
 }
+
+message TrainRequest {
+  uint32 schema_version = 1;
+  repeated string units = 2;
+  repeated Sample samples = 3;
+  string origin_id = 4;
+  string provenance_kind = 5;
+  string quality_declared = 6;
+  uint32 train_count = 7;
+  uint32 lags = 8;
+  // Explicit trusted host admission is an out-of-band method argument.
+  // This message does not carry authorization or access to user files.
+}
+message LearnedArtifact {
+  uint32 schema_version = 1;
+  string architecture = 2;
+  string source_id = 3;
+  string training_sha256 = 4;
+  uint64 first_time_ms = 5;
+  uint64 last_training_time_ms = 6;
+  uint32 step_ms = 7;
+  uint32 lags = 8;
+  repeated string units = 9;
+  repeated DoubleVector coefficients = 10;
+  repeated double intercepts = 11;
+  repeated double center = 12;
+  repeated double scale = 13;
+  repeated double residual_variance = 14;
+  repeated double minimum = 15;
+  repeated double maximum = 16;
+  uint32 training_count = 17;
+  string artifact_sha256 = 18;
+}
+message TrainResult {
+  uint32 schema_version = 1;
+  string status = 2;
+  LearnedArtifact artifact = 3;
+  string request_sha256 = 4;
+  repeated string limitations = 5;
+}
+message ForecastRequest {
+  uint32 schema_version = 1;
+  LearnedArtifact artifact = 2;
+  repeated Sample history = 3;
+  string origin_id = 4;
+  string provenance_kind = 5;
+  string quality_declared = 6;
+  uint32 steps = 7;
+}
+message ForecastResult {
+  uint32 schema_version = 1;
+  string status = 2;
+  repeated DoubleVector means = 3;
+  repeated DoubleVector variances = 4;
+  bool ood = 5;
+  uint32 steps = 6;
+  string request_sha256 = 7;
+  repeated string limitations = 8;
+}
