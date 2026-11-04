@@ -1,0 +1,54 @@
+name: C16 practical physical ODE numerical acceptance
+on:
+  push:
+    paths:
+      - 'cognitum/physics_ode*.py'
+      - 'cognitum/proto/physics_ode_pb2.py'
+      - 'proto/cognitum/physics/v1/ode.proto'
+      - 'tests/test_c16_ode*.py'
+      - 'tools/c16_physics_benchmark.py'
+      - 'pyproject.toml'
+      - '.github/workflows/c16-ode.yml'
+  pull_request:
+    paths:
+      - 'cognitum/physics_ode*.py'
+      - 'cognitum/proto/physics_ode_pb2.py'
+      - 'proto/cognitum/physics/v1/ode.proto'
+      - 'tests/test_c16_ode*.py'
+      - 'tools/c16_physics_benchmark.py'
+      - 'pyproject.toml'
+      - '.github/workflows/c16-ode.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  c16-real-physics:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11', '3.13']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install genuine SciPy and independent Protobuf compiler
+        run: python -m pip install -e ".[physics-ode]" grpcio-tools
+      - name: Check real library and dependency installation
+        run: |
+          python -m pip check
+          python -c "import scipy; from scipy.integrate import solve_ivp; print('SciPy',scipy.__version__)"
+      - name: Compile and compare actual ODE protobuf schema
+        run: |
+          python -m grpc_tools.protoc -Iproto --descriptor_set_out=c16-ode.pb proto/cognitum/physics/v1/ode.proto
+          python tools/check_proto_descriptors.py c16-ode.pb
+      - name: Real SciPy motion, dimensional, stiff, energy and event regression
+        run: python -m unittest discover -s tests -p "test_c16_ode*.py" -v
+      - name: Fixed-case genuine SciPy benchmark
+        run: python tools/c16_physics_benchmark.py
