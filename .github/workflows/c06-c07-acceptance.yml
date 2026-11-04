@@ -6,6 +6,8 @@ on:
       - 'cognitum/memory_retrieval.py'
       - 'cognitum/state_revision.py'
       - 'cognitum/host_event_adapter.py'
+      - 'cognitum/memory_state_wire.py'
+      - 'cognitum/proto/memory_state_pb2.py'
       - 'proto/cognitum/memory/v1/**'
       - 'tests/test_c06_c07_*'
       - '.github/workflows/c06-c07-acceptance.yml'
@@ -35,8 +37,8 @@ jobs:
         shell: bash
         run: |
           python -m grpc_tools.protoc -Iproto --descriptor_set_out=memory_state.pb proto/cognitum/memory/v1/memory_state.proto
-          python -c "from google.protobuf.descriptor_pb2 import FileDescriptorSet; f=FileDescriptorSet(); f.ParseFromString(open('memory_state.pb','rb').read()); assert len(f.file)==1 and len(f.file[0].message_type)==5 and len(f.file[0].enum_type)==2"
+          python -c "from google.protobuf.descriptor_pb2 import FileDescriptorProto,FileDescriptorSet; from cognitum.proto import memory_state_pb2 as pb; from tools.check_proto_descriptors import normalized_file; f=FileDescriptorSet(); f.ParseFromString(open('memory_state.pb','rb').read()); assert len(f.file)==1; assert normalized_file(f.file[0]) == normalized_file(FileDescriptorProto.FromString(pb.DESCRIPTOR.serialized_pb))"
       - name: Execute real SQLite FTS5 and durable event tests
-        run: python -m pytest -q tests/test_c06_c07_reference.py tests/test_c06_c07_sqlite_reference.py
+        run: python -m pytest -q tests/test_c06_c07_reference.py tests/test_c06_c07_sqlite_reference.py tests/test_c06_c07_wire.py
       - name: Compile Python code
         run: python -m compileall -q cognitum tests
