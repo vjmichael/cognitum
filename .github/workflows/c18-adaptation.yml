@@ -10,6 +10,9 @@ on:
       - 'tools/check_proto_descriptors.py'
       - 'pyproject.toml'
       - '.github/workflows/c18-adaptation.yml'
+      - 'docs/components/adaptation/C18-PRACTICAL-CLOSEOUT-2026-11-04.md'
+      - 'docs/design/technology-portfolio-C01-C19.md'
+      - 'README.md'
   pull_request:
     paths:
       - 'cognitum/adaptation_*.py'
@@ -20,6 +23,9 @@ on:
       - 'tools/check_proto_descriptors.py'
       - 'pyproject.toml'
       - '.github/workflows/c18-adaptation.yml'
+      - 'docs/components/adaptation/C18-PRACTICAL-CLOSEOUT-2026-11-04.md'
+      - 'docs/design/technology-portfolio-C01-C19.md'
+      - 'README.md'
   workflow_dispatch:
 permissions:
   contents: read
