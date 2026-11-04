@@ -53,7 +53,7 @@ def _numbers(values, length, *, positive=False):
 
 def validate(scene:Scene):
     if (type(scene) is not Scene or type(scene.frames) is not tuple
-            or type(scene.objects) is not tuple or not 1<=len(scene.frames)<=MAX_FRAMES
+            or type(scene.objects) is not tuple or not 0<=len(scene.frames)<=MAX_FRAMES
             or len(scene.objects)>MAX_OBJECTS or type(scene.epoch) is not int
             or not 0<=scene.epoch<=2**53):
         raise ValueError("invalid bounded scene")
