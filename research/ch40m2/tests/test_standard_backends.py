@@ -1,7 +1,11 @@
 from __future__ import annotations
 import json,os,sys,unittest
 from pathlib import Path
-import numpy as np
+try:
+ import numpy as np
+ import scipy
+except ImportError:
+ raise unittest.SkipTest('CH40M research-only SciPy/NumPy dependencies unavailable; base Cognitum remains stdlib-first')
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'source'))
 from frozen40m2 import load_cases, float_objective, validated_candidate
 from model_equivalence import explicit_firth_float
