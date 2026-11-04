@@ -42,9 +42,13 @@ def _filter_unassigned_predictions(path:Path)->tuple[bytes,int]:
             if (not math.isfinite(frame) or not frame.is_integer() or frame<1
                     or not math.isfinite(identity) or not identity.is_integer()):
                 raise ValueError("invalid frame/identity")
+            if not all(math.isfinite(float(v)) for v in columns[:7]):
+                raise ValueError("nonfinite prediction row")
+            if float(columns[4])<=0 or float(columns[5])<=0:
+                raise ValueError("invalid tracked bounding box")
             if identity==-1:
-                # Ignore rows without an established track identity. Their
-                # source bytes stay available in the original CI artifact.
+                # Ignore only structurally valid unassigned observations.
+                # Never conceal malformed detector rows through filtering.
                 filtered+=1
                 continue
             if identity<0:
@@ -53,10 +57,6 @@ def _filter_unassigned_predictions(path:Path)->tuple[bytes,int]:
             if key in seen:
                 raise ValueError("duplicate identity in a single frame")
             seen.add(key)
-            if not all(math.isfinite(float(v)) for v in columns[:7]):
-                raise ValueError("nonfinite positive-track prediction row")
-            if float(columns[4])<=0 or float(columns[5])<=0:
-                raise ValueError("invalid tracked bounding box")
             rows.append(",".join(columns)+"\n")
     except (UnicodeError,OverflowError,ValueError) as exc:
         raise ValueError("invalid frozen tracker predictions") from exc
