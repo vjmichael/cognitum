@@ -7,6 +7,7 @@ on:
       - 'tests/test_c15_real_mot_acceptance.py'
       - 'tests/test_c15_official_metrics_comparison.py'
       - 'tools/c15_compare_official_trackeval.py'
+      - 'tools/c15_trackeval_numpy_compat.py'
       - 'docs/components/spatial/C15-CROSSPLATFORM-REALDATA-ACCEPTANCE-2026-11-04.md'
       - '.github/workflows/c15-real-mot17.yml'
   pull_request:
@@ -84,6 +85,11 @@ jobs:
           ref: 12c8791b303e0a0b50f753af204249e622d0281a
           path: official-trackeval
           persist-credentials: false
+      - name: Audit pinned official TrackEval compatibility with current NumPy
+        run: |
+          python tools/c15_trackeval_numpy_compat.py \
+            --root "$PWD/official-trackeval" \
+            --audit "$PWD/evidence/trackeval-numpy-compat.json"
       - name: Stage the two frozen tracker outputs for independent official evaluator
         run: |
           python -m pip install tabulate
