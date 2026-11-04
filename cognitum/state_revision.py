@@ -35,7 +35,7 @@ class StateEvent:
     event_id: str
     entity: str
     predicate: str
-    typed_value: str
+    typed_value: str | int | bool
     origin: Origin
     actor_authority: str
     expected_revision: int
@@ -47,11 +47,23 @@ class StateEvent:
     def __post_init__(self) -> None:
         if not all((self.event_id, self.entity, self.predicate, self.actor_authority, self.source_id)):
             raise StateError("missing event identity, authority or source")
+        if not isinstance(self.origin, Origin) or not isinstance(self.action, Action):
+            raise StateError("unsupported typed origin or action")
+        if type(self.typed_value) not in (str, int, bool):
+            raise StateError("typed value must be exact string, integer or boolean")
+        if type(self.typed_value) is str and len(self.typed_value) > 4096:
+            raise StateError("typed value exceeds bound")
+        if type(self.typed_value) is int and not -(2 ** 63) <= self.typed_value < 2 ** 63:
+            raise StateError("integer outside signed 64-bit range")
+        if any(len(s) > 256 for s in (
+            self.event_id, self.entity, self.predicate, self.actor_authority, self.source_id,
+        )):
+            raise StateError("oversized event identity")
         if self.expected_revision < 0:
             raise StateError("negative revision")
         if self.effective_time.tzinfo is None or self.recorded_time.tzinfo is None:
             raise StateError("timestamps must be timezone-aware")
-        if self.action in (Action.ASSERT, Action.SUPERSEDE) and not self.typed_value:
+        if self.action in (Action.ASSERT, Action.SUPERSEDE) and self.typed_value == "":
             raise StateError("assertions require a typed value")
 
 
@@ -59,7 +71,7 @@ class StateEvent:
 class BeliefRecord:
     entity: str
     predicate: str
-    typed_value: str | None
+    typed_value: str | int | bool | None
     origin: Origin | None
     status: str
     revision: int
@@ -83,7 +95,11 @@ def replay(events: Iterable[StateEvent]) -> StateSnapshot:
     """
     current: dict[tuple[str, str], BeliefRecord] = {}
     seen: dict[str, StateEvent] = {}
-    for event in events:
+    for count, event in enumerate(events):
+        if count >= 100_000:
+            raise StateError("event history too large")
+        if not isinstance(event, StateEvent):
+            raise StateError("invalid event")
         old_event = seen.get(event.event_id)
         if old_event is not None:
             if old_event != event:
