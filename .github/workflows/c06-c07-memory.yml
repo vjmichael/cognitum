@@ -10,6 +10,7 @@ on:
       - 'tests/test_c06_*.py'
       - 'tests/test_c07_*.py'
       - 'tools/check_proto_descriptors.py'
+      - 'tools/c06_c07_benchmark.py'
       - '.github/workflows/c06-c07-memory.yml'
   pull_request:
     paths:
@@ -21,6 +22,7 @@ on:
       - 'tests/test_c06_*.py'
       - 'tests/test_c07_*.py'
       - 'tools/check_proto_descriptors.py'
+      - 'tools/c06_c07_benchmark.py'
       - '.github/workflows/c06-c07-memory.yml'
   workflow_dispatch:
 permissions:
@@ -54,3 +56,5 @@ jobs:
         run: |
           python -W error -m unittest discover -s tests -p "test_c06_*.py" -v
           python -W error -m unittest discover -s tests -p "test_c07_*.py" -v
+      - name: Measured synthetic FTS5 and exact claim proposal benchmark
+        run: python -m tools.c06_c07_benchmark
