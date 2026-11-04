@@ -180,7 +180,7 @@ def filter_sequence(seq:TemporalSequence,model:TemporalModel, *,
             else:
                 observed+=1
                 h=np.zeros((1,len(x)));h[0,0]=1
-                residual=float(v-h@x)
+                residual=float(v-(h@x)[0])
                 S=float((h@P@h.T)[0,0]+model.measurement_variance)
                 if not isfinite(S) or S<=0:
                     return TemporalResult("UNKNOWN_NONPOSITIVE_COVARIANCE")
