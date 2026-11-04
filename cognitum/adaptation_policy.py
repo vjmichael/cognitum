@@ -13,7 +13,7 @@ MAX_ROWS=512
 MAX_FEATURES=8
 ROUTES=("direct","specialist","abstain")
 PRIVACY=("public_synthetic","consented_aggregate")
-TARGETS=("tool_router","retrieval_ranker")
+TARGETS=("tool_router",)
 
 @dataclass(frozen=True)
 class Trace:
