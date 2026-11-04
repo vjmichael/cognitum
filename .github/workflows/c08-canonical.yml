@@ -8,6 +8,7 @@ on:
       - 'cognitum/research/hdc_index_lifecycle.py'
       - 'cognitum/research/hdc_recovered/**'
       - 'cognitum/research/ssm_recovered.py'
+      - 'tools/run_hdc_kan_ssm_recovery_benchmark.py'
       - 'tests/test_c08_canonical.py tests/test_c08_admission.py tests/test_c08_lifecycle_recovery.py'
       - 'tools/run_c08_candidate_benchmark.py'
       - 'tools/run_c08_conventional_baselines.py'
@@ -48,5 +49,7 @@ jobs:
         run: python -m tools.run_c08_candidate_benchmark
       - name: Compare conventional exact and SQLite FTS5 baselines
         run: python -m tools.run_c08_conventional_baselines
+      - name: Audit recovered HDC KAN SSM task-specific benchmarks
+        run: python -m tools.run_hdc_kan_ssm_recovery_benchmark
       - name: Compile source
         run: python -m compileall -q cognitum/research
