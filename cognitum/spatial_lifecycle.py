@@ -71,6 +71,9 @@ def validate_revision(rev:SceneRevision):
             or not _ident(rev.workspace_id)
             or type(rev.detached) is not bool):
         raise ValueError("invalid scene revision")
+    if any(type(e) is not Entity or type(e.obj) is not SceneObject
+           for e in rev.entities):
+        raise ValueError("malformed scene entity")
     objects=tuple(e.obj for e in rev.entities)
     validate_scene(Scene(rev.frames,objects,rev.epoch))
     alias_owners={}
