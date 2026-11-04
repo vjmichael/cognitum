@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.16)
+project(ch40m4_ibex_point LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+find_package(ibex REQUIRED CONFIG)
+add_executable(ibex_point ibex_point.cpp)
+target_link_libraries(ibex_point PRIVATE Ibex::ibex)
