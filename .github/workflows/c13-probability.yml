@@ -6,6 +6,7 @@ on:
       - 'cognitum/proto/probability_pb2.py'
       - 'proto/cognitum/probability/v1/**'
       - 'tests/test_c13_*.py'
+      - 'tools/c13_component_benchmark.py'
       - 'tools/check_proto_descriptors.py'
       - 'pyproject.toml'
       - '.github/workflows/c13-probability.yml'
@@ -46,3 +47,5 @@ jobs:
           python tools/check_proto_descriptors.py compiled-c13.pb
       - name: Genuine Bayesian, calibration and negative-path tests
         run: python -W error -m unittest discover -s tests -p "test_c13_*.py" -v
+      - name: Measured real-library reference benchmark
+        run: python tools/c13_component_benchmark.py
