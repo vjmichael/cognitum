@@ -41,8 +41,8 @@ def main():
             print("C10 producer exit:", produced.returncode,
                   "stdout-prefix:", repr(produced.stdout[:200]),
                   "stderr-prefix:", repr(produced.stderr[:600]), flush=True)
-            if produced.returncode == 0 and produced.stdout.startswith(b"unsat\\n"):
-                proof_file.write_bytes(produced.stdout.split(b"\\n",1)[1])
+            if produced.returncode == 0 and produced.stdout.startswith(b"unsat\n"):
+                proof_file.write_bytes(produced.stdout.split(b"\n",1)[1])
                 checked=subprocess.run(
                     [carcara, "check", str(proof_file), str(problem_file)],
                     cwd=folder, input=b"", stdout=subprocess.PIPE, stderr=subprocess.PIPE,
