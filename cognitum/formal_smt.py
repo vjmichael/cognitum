@@ -163,7 +163,7 @@ def _cvc5(problem,timeout_ms):
     status=s.checkSat()
     if status.isSat():
         try:
-            witness=tuple(int(str(s.getValue(variables[v.name]))) for v in problem.integers)
+            witness=tuple(s.getValue(variables[v.name]).getIntegerValue() for v in problem.integers)
         except (ValueError,TypeError):
             return SMTResult("UNKNOWN",backend="cvc5",limitation="model_decode_failed")
         return SMTResult("SAT",witness,"cvc5","witness_rechecked")
