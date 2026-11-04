@@ -16,7 +16,7 @@ for name, members in (
                      ("IMPORTED_CLAIM", 2), ("MODEL_HYPOTHESIS", 3))),
     ("StateAction", (("STATE_ACTION_UNSPECIFIED", 0), ("ASSERT", 1),
                      ("CONFIRM", 2), ("CHALLENGE", 3), ("SUPERSEDE", 4),
-                     ("RETRACT", 5), ("EXPIRE", 6))),
+                     ("RETRACT", 5), ("EXPIRE", 6), ("MERGE", 7))),
 ):
     enum = _fd.enum_type.add()
     enum.name = name
