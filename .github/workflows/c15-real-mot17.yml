@@ -45,10 +45,9 @@ jobs:
         run: |
           trackers eval \
             --gt mot_data/mot17/val/MOT17-02-FRCNN/gt/gt.txt \
-            --predictions evidence/c15-MOT17-02-FRCNN.txt \
-            --metrics '[CLEAR,HOTA,Identity]' \
-            --columns '[MOTA,HOTA,IDF1]' \
-            --class_config mot17 \
+            --tracker evidence/c15-MOT17-02-FRCNN.txt \
+            --metrics CLEAR HOTA Identity \
+            --columns MOTA HOTA IDF1 \
             --output evidence/c15-real-mot17-scores.json
           test -s evidence/c15-real-mot17-scores.json
       - name: Conventional ByteTrack comparison on identical public detections
@@ -59,10 +58,9 @@ jobs:
             --output.mot_results evidence/bytetrack-MOT17-02-FRCNN.txt
           trackers eval \
             --gt mot_data/mot17/val/MOT17-02-FRCNN/gt/gt.txt \
-            --predictions evidence/bytetrack-MOT17-02-FRCNN.txt \
-            --metrics '[CLEAR,HOTA,Identity]' \
-            --columns '[MOTA,HOTA,IDF1]' \
-            --class_config mot17 \
+            --tracker evidence/bytetrack-MOT17-02-FRCNN.txt \
+            --metrics CLEAR HOTA Identity \
+            --columns MOTA HOTA IDF1 \
             --output evidence/bytetrack-real-mot17-scores.json
           test -s evidence/bytetrack-real-mot17-scores.json
       - name: Upload bounded evaluation evidence, not licensed image/dataset files
