@@ -40,7 +40,7 @@ class C05SpecialistTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             invoke("symbolic",pb.SymbolicRequest(expression="x**3+1",action="factor"))
         with self.assertRaises(ValueError):
-            invoke("symbolic",pb.SymbolicRequest(expression="x",action="integrate"))
+            invoke("symbolic",pb.SymbolicRequest(expression="x**6",action="integrate"))
 
     def test_exact_factorization_expands_to_original_polynomial(self):
         for expression in (
@@ -66,6 +66,58 @@ class C05SpecialistTests(unittest.TestCase):
             with self.subTest(expression=expression),self.assertRaises(ValueError):
                 invoke("symbolic",pb.SymbolicRequest(
                     expression=expression,action="factor"))
+
+    def test_polynomial_integral_exact_derivative_identity(self):
+        inputs=(
+            ("0","0"),
+            ("7","7*x"),
+            ("x","1/2*x**2"),
+            ("3*x**2 - 2*x + 1","x**3 - x**2 + x"),
+            ("1/2*x**3 - 1/3*x","1/8*x**4 - 1/6*x**2"),
+            ("x**5","1/6*x**6"),
+            ("-x**4 + x**2 - 3","-1/5*x**5 + 1/3*x**3 - 3*x"),
+        )
+        for integrand, expected in inputs:
+            with self.subTest(integrand=integrand):
+                result=invoke("symbolic",pb.SymbolicRequest(
+                    expression=integrand,action="integrate"))
+                self.assertEqual(result.polynomial,expected)
+                self.assertEqual(result.assurance,"exact_symbolic")
+                self.assertIn("antiderivative_constant_zero",result.limitations)
+                self.assertIn("derivative_identity_checked",result.limitations)
+                derivative=invoke("symbolic",pb.SymbolicRequest(
+                    expression=result.polynomial,action="derivative"))
+                self.assertEqual(_polynomial(derivative.polynomial),
+                                 _polynomial(integrand))
+
+    def test_integral_rejects_exceeding_output_degree_and_unsafe_ast(self):
+        for expression in ("x**6","x**6 + x","x**100",
+                           "sin(x)","__import__('os')","x.__class__"):
+            with self.subTest(expression=expression),self.assertRaises(ValueError):
+                invoke("symbolic",pb.SymbolicRequest(
+                    expression=expression,action="integrate"))
+
+    def test_integral_derivative_identity_on_deterministic_rational_cases(self):
+        # Independent coefficient identity with evaluations at exact rational points.
+        from random import Random
+        rng=Random(0xC0523)
+        for _ in range(60):
+            degree=rng.randrange(0,6)
+            coefficients=[Fraction(rng.randrange(-8,9),
+                                   rng.randrange(1,8)) for _ in range(degree+1)]
+            expression=" + ".join("("+str(c)+")*x**"+str(i)
+                                  for i,c in enumerate(coefficients))
+            if len(expression)>160:
+                continue
+            result=invoke("symbolic",pb.SymbolicRequest(
+                expression=expression,action="integrate"))
+            derived=_polynomial(result.polynomial)
+            for x in (Fraction(-2),Fraction(0),Fraction(1,3),Fraction(3)):
+                actual=sum((Fraction(i)*coefficient*x**(i-1)
+                            for i,coefficient in derived.items() if i),Fraction(0))
+                expected=sum((coefficient*x**i
+                              for i,coefficient in enumerate(coefficients)),Fraction(0))
+                self.assertEqual(actual,expected)
 
     def test_scientific_functions_respect_precision_and_real_domain(self):
         for function,argument,leading in (
