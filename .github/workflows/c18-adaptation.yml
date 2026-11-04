@@ -56,6 +56,8 @@ jobs:
         run: |
           python -m grpc_tools.protoc -Iproto --descriptor_set_out=c18-compiled.pb proto/cognitum/adaptation/v1/adaptation.proto
           python tools/check_proto_descriptors.py c18-compiled.pb
+      - name: Compile all adaptation Python modules before loading test suites
+        run: python -m compileall -q cognitum tests tools
       - name: Actual training, permission, rollback, retention, retrieval and wire regression
         run: python -m unittest discover -s tests -p "test_c18_*.py" -v
       - name: Measured future-holdout adaptation benchmark
