@@ -87,7 +87,8 @@ jobs:
             --root "$PWD/official-stage" \
             --gt "$PWD/mot_data/mot17/val/MOT17-02-FRCNN/gt/gt.txt" \
             --c15 "$PWD/evidence/c15-MOT17-02-FRCNN.txt" \
-            --bytetrack "$PWD/evidence/bytetrack-MOT17-02-FRCNN.txt"
+            --bytetrack "$PWD/evidence/bytetrack-MOT17-02-FRCNN.txt" \
+            | tee evidence/trackeval-staging-audit.txt
       - name: Independently check C15 and ByteTrack with pinned official TrackEval
         run: |
           python official-trackeval/scripts/run_mot_challenge.py \
