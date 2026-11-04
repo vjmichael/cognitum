@@ -110,6 +110,15 @@ class C07Tests(unittest.TestCase):
             propose(s,event("bad","SUPERSEDE",target="unknown"),
                     host_authorized_scope="workspace_A")
 
+    def test_json_scalar_nonfinite_rejected(self):
+        for value in ("NaN","Infinity","-Infinity","null",'{"exec":"code"}'):
+            item=replace(event("json_event"),value_type="json_scalar",value=value)
+            with self.subTest(value=value),self.assertRaises(ValueError):
+                propose(snapshot(),item,host_authorized_scope="workspace_A")
+        allowed=replace(event("json_number"),value_type="json_scalar",value="2.5")
+        self.assertEqual(propose(snapshot(),allowed,
+             host_authorized_scope="workspace_A").status,"HOST_COMMIT_REQUIRED")
+
     def test_invalid_typed_value_and_fake_ANSF_owner(self):
         with self.assertRaises(ValueError):
             propose(snapshot(),replace(event("e_1"),value_type="boolean",value="maybe"),
