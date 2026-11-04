@@ -53,3 +53,20 @@ The missing **general solver-proof verification path** is now implemented as an 
 **Important acceptance separation:** Until the dedicated native Carcara workflow actually passes, the existence of this adapter is **not** evidence of an independently checked real certificate. If the chosen cvc5/Carcara versions produce incompatible or `holey` proofs, the correct result is unverified, not certified. The standalone proof adapter does not grant arbitrary user/tool callers native subprocess execution; actual Lu exposure still requires OS-isolated workers with trusted binary configuration.
 
 This completes the code path required for external proof certification while keeping advanced unsupported theories and Lu-specific deployment honest. C10's code scope remains frozen for review, but **merge and verified closeout require actual CI evidence**.
+
+## Typed proof-required request behavior
+
+The `VerifyRequest.proof_required` flag is explicit and fail-closed. Ordinary
+C10 Protobuf execution is NOT an Alethe verifier: when a backend reports
+`UNSAT_UNVERIFIED` and the request requires proof, the native reply is
+`UNKNOWN` with `proof_required_but_not_certified`, not an accepted UNSAT.
+The optional trusted host's Carcara proof acceptance is kept separately in
+`formal_proofs.py` until Lu has a secure admission channel for authenticated
+proof bytes/receipts; a bare proof hash cannot authenticate verification.
+
+The proof producer uses the supported SMT-LIB QF_LIA fragment, and independent
+Carcara checks the original problem plus the emitted proof. The sole positive
+status `CERTIFIED_UNSAT` is reserved for the trusted-host proof-adapter result
+after Carcara reports fully `valid` and exits successfully. Incompatible,
+partial/`holey` or unrecognized certificates are unverified. Never substitute
+a solver vote for a checker.
