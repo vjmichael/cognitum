@@ -8,6 +8,7 @@ on:
       - 'cognitum/proto/spatial_core_pb2.py'
       - 'proto/cognitum/spatial_core/v1/**'
       - 'tests/test_c15_spatial_*.py'
+      - 'tools/c15_spatial_benchmark.py'
       - 'pyproject.toml'
       - '.github/workflows/c15-spatial-core.yml'
   pull_request:
@@ -48,3 +49,5 @@ jobs:
           python tools/check_proto_descriptors.py compiled-c15-core.pb
       - name: C15 geometry, occlusion, tracking and wire regression
         run: python -W error -m unittest discover -s tests -p "test_c15_spatial_*.py" -v
+      - name: Fixed-synthetic-scene native SciPy identity benchmark
+        run: python tools/c15_spatial_benchmark.py
