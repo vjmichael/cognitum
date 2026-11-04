@@ -1,0 +1,7 @@
+test_sigkill_before_anchor_rename_reconciles_from_signed_db (test_m11.LiveCrashAnchorTests.test_sigkill_before_anchor_rename_reconciles_from_signed_db) ... ok
+test_sigkill_verifier_after_sqlite_commit_then_external_anchor_recovers (test_m11.LiveCrashVerifierTests.test_sigkill_verifier_after_sqlite_commit_then_external_anchor_recovers) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 19.568s
+
+OK
