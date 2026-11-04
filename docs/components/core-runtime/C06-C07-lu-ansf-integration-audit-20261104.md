@@ -61,3 +61,21 @@ Source: `vjmichael/Lu-AI-GUI` main, reviewed without modifying Lu.
 
 This is an evidence-based integration specification, not a claim that
 Cognitum is already linked to the Lu executable.
+
+
+## Implementation update: Rust Lu bridge
+
+The proposed C06 host read boundary is now implemented in
+`vjmichael/Lu-AI-GUI` draft PR #21
+(`lu/c06-c07-ansf-fts5-bridge-20261104`).
+`AnsfStore::search_cognitum_evidence` reuses the original Rust
+`ansf_entries_fts` FTS5/BM25 tables and ANSF revision links, enforces
+host authorizer callback plus independently checked canonical workspace
+and session, returns only current revised entries and opaque source
+citations. Windows/Linux Rust integration-test workflow was added.
+
+This resolves the previously mistaken assumption that the Python
+SQLite adapter would be Cognitum's *production* storage path.
+It does **not** establish that Lu's model tool registry and Cognitum's
+Protobuf dispatcher are connected or that C07 host mutations are approved.
+Those are separate integration gates.
