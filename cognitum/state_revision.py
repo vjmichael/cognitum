@@ -118,6 +118,12 @@ def replay(events: Iterable[StateEvent]) -> StateSnapshot:
             raise StateError("cannot revise inactive claim")
         if event.action in (Action.RETRACT, Action.EXPIRE) and old and old.status in ("RETRACTED", "EXPIRED"):
             raise StateError("already inactive")
+        if (
+            old is not None and old.origin == Origin.USER_DECISION
+            and event.origin != Origin.USER_DECISION
+            and event.action in (Action.SUPERSEDE, Action.RETRACT, Action.EXPIRE)
+        ):
+            raise StateError("model or imported claim cannot override user decision")
         if event.action == Action.ASSERT:
             value, origin, status = event.typed_value, event.origin, "ACTIVE"
             sources, conflicts = (event.source_id,), ()
