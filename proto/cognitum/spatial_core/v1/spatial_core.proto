@@ -17,6 +17,9 @@ message SceneObject {
   string observation_source = 6;
   uint64 timestamp_ms = 7;
   uint32 version = 8;
+  repeated double orientation_xyzw = 9;  // exactly 4, quaternion
+  string geometry_ref = 10;              // caller-supplied asset reference, not a path grant
+  double confidence = 11;               // caller-supplied, not calibrated
 }
 message SceneQuery {
   uint32 schema_version = 1;
