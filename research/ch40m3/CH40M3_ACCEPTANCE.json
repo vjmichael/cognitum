@@ -1,0 +1,85 @@
+{
+  "protocol": "CH40M3_NATIVE_STANDARD_LIBRARY_RESEARCH_V1",
+  "date": "2026-11-03",
+  "scientific_release": "NO_GO",
+  "scope": "research-only; no Lu or C14 production activation",
+  "source_archives": {
+    "FLINT": {
+      "source_archive": "Cognitum_FLINT_Arb_20261103_2.zip",
+      "sha256": "97321a299454c2d60984b7caea6240265ad2ed79d5eb643b76fe43995bddcb25",
+      "bytes": 20364634
+    },
+    "SCIP": {
+      "source_archive": "Cognitum_SCIP_20261103.zip",
+      "sha256": "282572f0d67d92969579f3024145f91884833618e3e8d5f4dcfc11b605a53c61",
+      "bytes": 135053146
+    },
+    "IPOPT": {
+      "source_archive": "Cognitum_Ipopt_20261103_2.zip",
+      "sha256": "9cda01141d5e3eeb1270564a13a53e8b0333e4307f9b16e1faf2be406b910f13",
+      "bytes": 47515711
+    },
+    "IBEX": {
+      "source_archive": "Cognitum_IBEX_Source_Repair_20261103_2.zip",
+      "sha256": "f6daea0c1f87b4fcc3f9b5ee4b6e858ae83daf0b8a60af0dd9ee9c2956ef57c6",
+      "bytes": 16731696
+    }
+  },
+  "frozen_15_case_sha256_checked": true,
+  "flint": {
+    "python_flint": "0.9.0",
+    "libflint": "3.6.0",
+    "precision_bits": 256,
+    "independent_point_enclosures_pass": 15,
+    "conservative_hadamard_region_upper_matches_reference": 15,
+    "improved_frozen_frontiers": 0,
+    "arb_total_cpu_seconds": 0.1545,
+    "rational_reference_total_cpu_seconds": 6.38068,
+    "measured_kernel_speed_ratio": 41.299,
+    "warning": "benchmark applies only to 15 highest-cap leaf kernel calls, not complete global solver performance"
+  },
+  "scip": {
+    "pyscipopt": "6.3.0",
+    "libscip": "10.0.2",
+    "old_expanded_expression": "OOM_KILLED_NOT_ACCEPTED",
+    "compact_model_frozen_cases_executed": 15,
+    "candidate_cases": 3,
+    "independent_point_enclosure_checks_pass": 3,
+    "material_improvements_over_original_incumbent": 0,
+    "resource_limits": {
+      "real_seconds_per_case": 1.5,
+      "memory_scip_mb": 512,
+      "process_address_space_gb": 1.4,
+      "external_wall_seconds": 12
+    },
+    "new_global_upper_bounds_certified": 0,
+    "warning": "nonlinear solver statuses and dual bounds are NOT rigorous interval evidence"
+  },
+  "ibex": {
+    "version": "2.9.1",
+    "source_verified": true,
+    "native_build": "BLOCKED_BEFORE_COMPILE",
+    "reason": "Flex and Bison are absent; CMake parser build rejects configuration",
+    "native_bch_parser_acceptance": 0,
+    "licensing_review_pending": true
+  },
+  "ipopt": {
+    "version": "3.14.20",
+    "conda_native_lib_extracted": true,
+    "native_execution": "BLOCKED_MISSING_SHARED_LIBRARIES",
+    "missing_runtime": [
+      "libspral.so",
+      "libdmumps_seq.so"
+    ],
+    "cyipopt": "SOURCE_ONLY_NOT_BUILT"
+  },
+  "global_0_05_tolerance_proved": false,
+  "C14_causal_identification_proved": false,
+  "remaining_gates": [
+    "Acquire pinned Flex/Bison Linux executables, then build and smoke IBEX; parser-check frozen Minibex expressions",
+    "Resolve Ipopt shared-library dependency closure and compile cyipopt or invoke Ipopt directly",
+    "Independently validate native solver bounds; compare matched CPU, RAM and outcome quality",
+    "Port research scripts to feature-flagged Cognitum C14 adapters and run on Windows/Linux CI"
+  ]
+}
+
