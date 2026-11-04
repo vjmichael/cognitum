@@ -79,11 +79,19 @@ def decode_result(frame: bytes, request: bytes):
             or result.status not in ("SAT","UNSAT_EXHAUSTIVE","UNSAT_UNVERIFIED",
                                      "UNKNOWN","UNSUPPORTED")):
         raise ValueError("formal result mismatch")
+    if result.assurance not in ("solver_reported","witness_rechecked",
+                                "independent_exhaustion"):
+        raise ValueError("unknown formal result assurance")
     if result.status=="SAT":
-        if not satisfies(problem,tuple(result.witness)):
+        if (result.assurance!="witness_rechecked"
+                or not satisfies(problem,tuple(result.witness))):
             raise ValueError("invalid formal SAT witness")
     elif result.witness:
         raise ValueError("non-SAT result contains witness")
+    if result.status=="UNSAT_EXHAUSTIVE" and result.assurance!="independent_exhaustion":
+        raise ValueError("exhaustion result lacks correct assurance")
+    if result.status=="UNSAT_UNVERIFIED" and result.assurance!="solver_reported":
+        raise ValueError("unverified UNSAT cannot claim proof assurance")
     if result.status=="UNSAT_EXHAUSTIVE":
         from .formal_smt import exhaustive
         if exhaustive(problem)!=():
