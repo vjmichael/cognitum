@@ -1,0 +1,4 @@
+RECOVERED signed_cases=0 signed_children=0
+COMMITTED 1/2 quasi_separated_n80_i00 children=34 tip=9d40e9909154
+INJECTING_REAL_SIGKILL_AFTER_COMMIT
+TRUE_KILL_EXIT=137
