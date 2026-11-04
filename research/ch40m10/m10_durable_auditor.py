@@ -31,7 +31,15 @@ from cryptography.hazmat.primitives.serialization import Encoding, PrivateFormat
 HERE=Path(__file__).resolve().parent
 ROOT=Path(os.environ.get('CH40M10_WORKSPACE','/mnt/data')).resolve()
 sys.path.insert(0,str(ROOT/'CH40M8'))
-from audit_m8 import run_batch, _load_pins, _prepare_original
+try:
+    from audit_m8 import run_batch, _load_pins, _prepare_original
+    AUDITOR_AVAILABLE=True
+except ModuleNotFoundError:
+    # Standalone research source may be inspected/contract-tested without the
+    # separately distributed 800 MB frozen original suite. NEVER substitute
+    # a fake auditor: all mathematical operations below refuse explicitly.
+    run_batch=_load_pins=_prepare_original=None
+    AUDITOR_AVAILABLE=False
 
 PROTOCOL='CH40M10-TRUSTED-VERIFIER-DURABLE-CHECKPOINT-V1'
 RULE='PSD_GRAM_DOMINANCE'
@@ -102,6 +110,8 @@ def source_code_pins()->dict:
 def manifest(cases,source_root:Path,public_fingerprint:str):
     if not cases or len(cases)!=len(set(cases)) or any(c not in CASE_ORDER for c in cases):
         raise Refusal('case list contains duplicates or non-original case')
+    if not AUDITOR_AVAILABLE:
+        raise Refusal('original CH40-M.8 independent rational verifier unavailable')
     pins=_load_pins()
     if len(pins)!=15:raise Refusal('original 15-case pinset is incomplete')
     p=source_root/'CH40K/CH40K_ACCEPTANCE.json'
