@@ -45,7 +45,8 @@ def from_frame(frame_bytes:bytes,*, source_id:str, observation_id:str,
         if not w or not h or x+w>im.width or y+h>im.height:
             raise ValueError("crop outside image bounds")
         rgb=np.asarray(im.convert("RGB").crop((x,y,x+w,y+h)),dtype=np.uint8)
-    except (OSError,UnidentifiedImageError,ValueError) as exc:
+    except (OSError,UnidentifiedImageError,Image.DecompressionBombError,
+            Image.DecompressionBombWarning,ValueError) as exc:
         raise ValueError("invalid encoded image") from exc
     hsv=cv2.cvtColor(rgb,cv2.COLOR_RGB2HSV)
     histogram=cv2.calcHist([hsv],[0,1,2],None,[8,4,4],[0,180,0,256,0,256]).reshape(-1)
