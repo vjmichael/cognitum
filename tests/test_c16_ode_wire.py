@@ -19,6 +19,13 @@ def request():
 
 
 class C16WireTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        try:
+            from scipy.integrate import solve_ivp
+        except ImportError:
+            raise unittest.SkipTest("optional SciPy ODE backend not installed")
+
     def test_real_scipy_typed_trajectory_and_verification(self):
         try:
             import scipy
