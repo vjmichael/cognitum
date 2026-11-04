@@ -152,6 +152,8 @@ class SceneJournal:
                 _verify_successor(stored,revision)
                 prior_hash=previous[1]
             else:
+                if revision.event_ids or revision.detached:
+                    raise ValueError("initial scene cannot forge history or detachment")
                 prior_hash="0"*64
             self.db.execute(
                 "INSERT INTO scene_revisions(workspace_id,scene_id,revision,prior_sha256,payload_sha256,payload)"
