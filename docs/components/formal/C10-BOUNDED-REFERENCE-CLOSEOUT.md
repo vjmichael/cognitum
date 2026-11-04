@@ -1,3 +1,5 @@
+> **SUPERSEDED — C10 REOPENED 2026-11-04.** The bounded Boolean slice is retained as an independent reference, not the primary solution. C10 development now adopts mature Z3/cvc5 backends. See docs/design/ADR-established-libraries-first-2026-11-04.md and docs/design/library-adoption-audit-C01-C19-2026-11-04.md. Do not treat the old scope-closure wording as an active decision.
+
 # C10 — Formal Reasoning: bounded Boolean reference closeout
 
 **Date:** November 4, 2026.
