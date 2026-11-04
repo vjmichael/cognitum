@@ -1,0 +1,66 @@
+syntax = "proto3";
+package cognitum.optimization.v1;
+
+// Inert C11 component contract: no host authorization, filesystem or scripts.
+// All quantities and times are bounded integers; units are explicit.
+message ScheduleJob {
+  string name = 1;
+  uint32 duration = 2;
+  uint32 release = 3;
+  uint32 deadline = 4;
+  repeated string eligible_resources = 5;
+  repeated string after = 6;
+}
+message ScheduleRequest {
+  uint32 schema_version = 1;
+  uint32 horizon = 2;
+  repeated string resources = 3;
+  repeated ScheduleJob jobs = 4;
+  string unit = 5;       // slot | minute | hour | day
+  uint32 timeout_ms = 6;
+}
+message ScheduledJob {
+  string name = 1;
+  string resource = 2;
+  uint32 start = 3;
+  uint32 end = 4;
+}
+message ScheduleResult {
+  uint32 schema_version = 1;
+  string status = 2;      // OPTIMAL | FEASIBLE | INFEASIBLE | UNKNOWN | UNSUPPORTED | INVALID_SOLUTION
+  repeated ScheduledJob assignments = 3;
+  bool has_objective = 4;
+  sint64 makespan = 5;
+  string solver_bound = 6; // advisory only, NOT independently certified
+  repeated string limitations = 7;
+  string request_sha256 = 8;
+}
+message AllocationQuantity {
+  string name = 1;
+  sint64 lower = 2;
+  sint64 upper = 3;
+  sint64 cost = 4;
+}
+message AllocationConstraint {
+  repeated sint64 coefficients = 1;
+  string relation = 2;  // le | ge | eq
+  sint64 rhs = 3;
+}
+message AllocationRequest {
+  uint32 schema_version = 1;
+  repeated AllocationQuantity quantities = 2;
+  repeated AllocationConstraint constraints = 3;
+  string unit = 4;     // item | unit | hour | kg
+  uint32 timeout_ms = 5;
+}
+message AllocationResult {
+  uint32 schema_version = 1;
+  string status = 2;   // OPTIMAL | FEASIBLE | INFEASIBLE | UNKNOWN | UNSUPPORTED | INVALID_SOLUTION
+  repeated sint64 values = 3;
+  bool has_objective = 4;
+  sint64 objective = 5;
+  string solver_bound = 6; // advisory, not independent mathematical witness
+  string gap = 7;          // advisory
+  repeated string limitations = 8;
+  string request_sha256 = 9;
+}
