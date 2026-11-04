@@ -51,6 +51,12 @@ preserved without unwarranted evidence/identity assumptions.
   host-supplied PNG/JPEG bytes** and an OpenCV normalized HSV histogram
   descriptor with exact source-frame SHA-256. No camera opening, automatic
   file discovery, model download, detector weights or host tool grants.
+- `spatial_cv_segmentation.py`: explicit host-admitted image bytes are
+  converted to deterministic HSV threshold masks using OpenCV's
+  `inRange` and `connectedComponentsWithStats`. Records exact input
+  SHA-256, mask SHA-256, threshold parameters, foreground pixel counts
+  and source/observation IDs. Color segmentation is **not semantic
+  object classification** or sensor authentication.
 - Capsule models are an **optional learned challenger**, per the controlling
   design, not a mandatory production dependency. The benchmark recognizes
   caller-supplied challenger descriptors without executing arbitrary networks
@@ -70,7 +76,7 @@ preserved without unwarranted evidence/identity assumptions.
   stale or forged Protobuf replies, aliases/identity swaps, occlusion,
   deletion, workspace detachment, concurrent edit conflict, duplicate
   evidence, source mismatch, descriptor near-ties, image byte bounds,
-  SQLite restart, tampered hash chains and false metric claims.
+  SQLite restart, tampered hash chains and false metric claims, including real OpenCV mask reproducibility, oversized-image/decompression-bomb rejection and source lineage.
 - **Trust boundary:** A Boolean test seam or caller-provided source identifier
   is not Lu authorization. A real host must authorize the source bytes,
   filesystem path, permissions and OS-isolated worker before use. Host paths,
