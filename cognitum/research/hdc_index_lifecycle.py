@@ -73,3 +73,42 @@ class EphemeralDerivedIndex:
             # Final check + publication under the same lock as invalidation.
             sink(result)
             return self._generation
+
+    def deliver_verified(
+        self, revision: str, role: str, entity: str, top_k: int, *,
+        authorized_scope: str, current_snapshot_id: str,
+        required_revision: int, canonical_records, sink,
+    ):
+        """Publish only canonical-verified hits, never raw HDC candidates.
+
+        Host MUST supply an independently authenticated scope and up-to-date
+        canonical snapshot. The local lock serializes in-process invalidation
+        but cannot attest host-side revision changes or cross-process state.
+        """
+        from .hdc_canonical import verify_hdc_candidates
+        if not callable(sink):
+            raise ValueError("SINK_REQUIRED")
+        with self._lock:
+            if self._revision is None or self._revision != revision:
+                raise ValueError("STALE_OR_UNINITIALIZED_INDEX")
+            if type(top_k) is not int or not 1 <= top_k <= 8:
+                raise ValueError("INVALID_TOP_K")
+            call = pb.HdcQuery(
+                schema_version=1, source_snapshot_id=revision,
+                index_snapshot_id=revision, role=role, entity=entity, top_k=top_k,
+            )
+            for candidate, r, e in self._records:
+                call.records.add(candidate_id=candidate, role=r, entity=e)
+            wire = call.SerializeToString(deterministic=True)
+            if len(wire) > MAX_BYTES:
+                raise ValueError("INDEX_QUERY_BUDGET")
+            verified = verify_hdc_candidates(
+                wire, query(wire), canonical_records=canonical_records,
+                authorized_scope=authorized_scope,
+                canonical_snapshot_id=revision,
+                current_snapshot_id=current_snapshot_id,
+                required_revision=required_revision,
+            )
+            # Publish under the same local invalidation lock as verification.
+            sink(verified)
+            return self._generation
