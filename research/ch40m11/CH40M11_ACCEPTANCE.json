@@ -1,0 +1,32 @@
+{
+  "anchor_public_sha256": "ea1ca12500f068cf3fd924910fbd27bea976f4056011b29161afbedca2b2aa71",
+  "anchor_tip": "50a82f01d0f2ae058db3b12eb109b8e27c892ef8958ec55e15c3236efd43d51b",
+  "cases": 15,
+  "crash_tests_passed": 2,
+  "database_rollback_behind_external_anchor_refused": true,
+  "full_run_checkpoint_signing_completed_before_recovery": 15,
+  "host_linux_user_mount_network_namespaces": true,
+  "host_os_uid_isolation": {
+    "anchor": 25223,
+    "producer": 25222,
+    "verifier": 25221
+  },
+  "isolated_full_run_completed_without_interruption": false,
+  "linux_landlock_enosys": true,
+  "math_independently_recomputed_in_this_public_audit": false,
+  "notes": "The verifier ran original independent M8 rational replay before signing; this exported public chain does not re-run that mathematics. Three grouped test invocations passed separately.",
+  "original_mathematical_certification_0_05_met": false,
+  "os_boundary_tests_passed": 9,
+  "protocol": "CH40M11-PUBLIC-DUAL-CHAIN-AUDIT-V1",
+  "public_chain_sha256": "e663dab41a46b45df70e2394f70704257710b2f833401f4cd792c3052d85b6d0",
+  "public_chain_tests_passed": 9,
+  "real_sigkill_after_checkpoint_and_before_anchor_reconciled": true,
+  "real_sigkill_before_anchor_atomic_rename_reconciled": true,
+  "scientific_release": "NO_GO",
+  "signed_child_coverage": 296,
+  "source_journal_change_refused": true,
+  "source_provenance": "original CH40-M.9 30 journals and original CH40-K SHA pins; 15 signed M10 audits",
+  "status": "CRYPTOGRAPHIC_CHAIN_ONLY",
+  "trusted_root_supervisor_in_tcb": true,
+  "verifier_public_sha256": "b066054cb3722921461bd476cf0963ebb9c5eb6bb49f323ddba292514c23abae"
+}
