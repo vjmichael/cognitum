@@ -232,7 +232,7 @@
 
 ## C15 — Spatial objects, scene graphs and capsule-model research
 
-**Current:** Design only. Film Studio Workspace can prioritize domain tasks under a later explicit integration plan.
+**Current (2026-11-04):** P0–P3 practical implementation committed in PR #71, including typed persistent scene identities, full metric world poses, relation graphs, aliases and tombstones, workspace-scoped SQLite replay, source-aware occlusion/appearance tracking, opt-in OpenCV features/segmentation, cross-camera conflict checks, and matched synthetic plus optional external TrackEval evaluation adapters. **Not yet verified, merged or accepted on real image/video benchmarks.** Historical experimental source PR #19 remains separately open. Complete implementation and acceptance matrix: `docs/components/spatial/C15-FULL-DESIGN-IMPLEMENTATION-2026-11-04.md`. Capsule networks remain optional learned challengers, not a mandatory production solver. Film Studio Workspace can prioritize domain tasks under a later explicit Lu integration plan.
 
 **Question:** Can the host preserve object identity, geometry and relations under occlusion, edits, scene changes, renaming and multimodal evidence?
 

@@ -1,0 +1,115 @@
+name: C15 real MOT17 public-detection acceptance (research-only)
+on:
+  push:
+    paths:
+      - 'tools/c15_real_mot_acceptance.py'
+      - 'tools/c15_stage_trackeval.py'
+      - 'tests/test_c15_real_mot_acceptance.py'
+      - 'docs/components/spatial/C15-CROSSPLATFORM-REALDATA-ACCEPTANCE-2026-11-04.md'
+      - '.github/workflows/c15-real-mot17.yml'
+  pull_request:
+    paths:
+      - 'tools/c15_real_mot_acceptance.py'
+      - 'tools/c15_stage_trackeval.py'
+      - 'tests/test_c15_real_mot_acceptance.py'
+      - 'docs/components/spatial/C15-CROSSPLATFORM-REALDATA-ACCEPTANCE-2026-11-04.md'
+      - '.github/workflows/c15-real-mot17.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  real-public-mot17:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install actual tracking, SciPy and evaluation engines
+        run: |
+          python -m pip install -e ".[spatial-core]" trackers
+          python -m pip check
+      - name: Retrieve public benchmark detections and annotations ONLY
+        run: |
+          trackers download mot17 --split val --asset annotations,detections --output mot_data
+          test -s mot_data/mot17/val/MOT17-02-FRCNN/gt/gt.txt
+          test -s mot_data/mot17/val/MOT17-02-FRCNN/det/det.txt
+      - name: Run actual Cognitum tracker BEFORE loading ground truth
+        run: |
+          mkdir -p evidence
+          python tools/c15_real_mot_acceptance.py \
+            --gt mot_data/mot17/val/MOT17-02-FRCNN/gt/gt.txt \
+            --det mot_data/mot17/val/MOT17-02-FRCNN/det/det.txt \
+            --output evidence/c15-MOT17-02-FRCNN.txt \
+            --sequence MOT17-02-FRCNN --i-have-dataset-rights \
+            > evidence/c15-diagnostic.json
+          cat evidence/c15-diagnostic.json
+      - name: Evaluate actual C15 predictions using standard MOT metrics
+        run: |
+          trackers eval \
+            --gt mot_data/mot17/val/MOT17-02-FRCNN/gt/gt.txt \
+            --tracker evidence/c15-MOT17-02-FRCNN.txt \
+            --metrics CLEAR HOTA Identity \
+            --columns MOTA HOTA IDF1 \
+            --output evidence/c15-real-mot17-scores.json
+          test -s evidence/c15-real-mot17-scores.json
+      - name: Conventional ByteTrack comparison on identical public detections
+        run: |
+          trackers track \
+            --detections mot_data/mot17/val/MOT17-02-FRCNN/det/det.txt \
+            --tracker bytetrack \
+            --mot-output evidence/bytetrack-MOT17-02-FRCNN.txt
+          trackers eval \
+            --gt mot_data/mot17/val/MOT17-02-FRCNN/gt/gt.txt \
+            --tracker evidence/bytetrack-MOT17-02-FRCNN.txt \
+            --metrics CLEAR HOTA Identity \
+            --columns MOTA HOTA IDF1 \
+            --output evidence/bytetrack-real-mot17-scores.json
+          test -s evidence/bytetrack-real-mot17-scores.json
+      - name: Check out pinned MOTChallenge official TrackEval source
+        uses: actions/checkout@v4
+        with:
+          repository: JonathonLuiten/TrackEval
+          ref: 12c8791b303e0a0b50f753af204249e622d0281a
+          path: official-trackeval
+          persist-credentials: false
+      - name: Stage the two frozen tracker outputs for independent official evaluator
+        run: |
+          python -m pip install tabulate
+          python tools/c15_stage_trackeval.py \
+            --root "$PWD/official-stage" \
+            --gt "$PWD/mot_data/mot17/val/MOT17-02-FRCNN/gt/gt.txt" \
+            --c15 "$PWD/evidence/c15-MOT17-02-FRCNN.txt" \
+            --bytetrack "$PWD/evidence/bytetrack-MOT17-02-FRCNN.txt" \
+            | tee evidence/trackeval-staging-audit.txt
+      - name: Independently check C15 and ByteTrack with pinned official TrackEval
+        run: |
+          python official-trackeval/scripts/run_mot_challenge.py \
+            --GT_FOLDER "$PWD/official-stage/gt" \
+            --TRACKERS_FOLDER "$PWD/official-stage/trackers" \
+            --BENCHMARK MOT17 --SPLIT_TO_EVAL train \
+            --SEQMAP_FILE "$PWD/official-stage/gt/seqmaps/MOT17-train.txt" \
+            --TRACKERS_TO_EVAL C15 ByteTrack \
+            --CLASSES_TO_EVAL pedestrian \
+            --METRICS HOTA CLEAR Identity \
+            --DO_PREPROC False --PLOT_CURVES False \
+            --USE_PARALLEL False --PRINT_CONFIG False
+          cp official-stage/trackers/MOT17-train/C15/pedestrian_summary.txt evidence/trackeval-C15-summary.txt
+          cp official-stage/trackers/MOT17-train/ByteTrack/pedestrian_summary.txt evidence/trackeval-ByteTrack-summary.txt
+          test -s evidence/trackeval-C15-summary.txt
+          test -s evidence/trackeval-ByteTrack-summary.txt
+      - name: Upload bounded evaluation evidence, not licensed image/dataset files
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: c15-real-mot17-research-evidence
+          path: evidence/
+          if-no-files-found: warn
+          retention-days: 14
