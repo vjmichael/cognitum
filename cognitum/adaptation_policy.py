@@ -132,12 +132,16 @@ def validate_proposal(p,rows,*,now_ms):
             or len(set(p.allowed_families))!=len(p.allowed_families)
             or any(not _id(x) for x in p.allowed_families)
             or not 16<=len(rows)<=MAX_ROWS
-            or type(p.maximum_training_rows) is not int\n            or not 16<=p.maximum_training_rows<=MAX_ROWS
-            or type(p.maximum_cpu_ms) is not int\n            or not 1<=p.maximum_cpu_ms<=120000
+            or type(p.maximum_training_rows) is not int
+            or not 16<=p.maximum_training_rows<=MAX_ROWS
+            or type(p.maximum_cpu_ms) is not int
+            or not 1<=p.maximum_cpu_ms<=120000
             or not 0<p.train_before_ms<=p.holdout_from_ms<=now_ms<p.retention_until_ms
             or p.rollback_policy_digest!=p.base_policy_digest):
         raise ValueError("invalid or unbounded adaptation proposal")
-    if type(rows[0]) is not Trace:\n        raise ValueError("malformed source trace")\n    dim=len(rows[0].features)
+    if type(rows[0]) is not Trace:
+        raise ValueError("malformed source trace")
+    dim=len(rows[0].features)
     if not 1<=dim<=MAX_FEATURES:raise ValueError("invalid feature dimension")
     last=-1
     ids=set()
