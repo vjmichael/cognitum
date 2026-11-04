@@ -198,7 +198,7 @@ def _scientific(req):
 
 def _precision(req):
     digits=_digits(req.digits,maximum=256)
-    if req.action not in ("add","divide","sqrt"):
+    if req.action not in ("add","subtract","multiply","divide","sqrt"):
         raise ValueError("unsupported precision action")
     x=_number(req.left,as_fraction=False)
     if req.action!="sqrt":
@@ -216,6 +216,8 @@ def _precision(req):
             ctx.traps[DivisionByZero]=True
             ctx.traps[Overflow]=True
             result=(+(x+y) if req.action=="add" else
+                    +(x-y) if req.action=="subtract" else
+                    +(x*y) if req.action=="multiply" else
                     +(x/y) if req.action=="divide" else
                     x.sqrt(context=ctx))
     except (InvalidOperation,DivisionByZero,Overflow) as exc:
