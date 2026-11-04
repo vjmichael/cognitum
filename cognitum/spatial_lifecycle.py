@@ -42,6 +42,8 @@ class SceneRevision:
     entities:tuple[Entity,...]
     epoch:int
     event_ids:tuple[str,...]=()
+    workspace_id:str="workspace_default"
+    detached:bool=False
 
 
 @dataclass(frozen=True)
@@ -65,7 +67,9 @@ def validate_revision(rev:SceneRevision):
             or type(rev.entities) is not tuple or len(rev.entities)>64
             or type(rev.event_ids) is not tuple or len(rev.event_ids)>MAX_EVENTS
             or len(set(rev.event_ids))!=len(rev.event_ids)
-            or any(not _ident(v) for v in rev.event_ids)):
+            or any(not _ident(v) for v in rev.event_ids)
+            or not _ident(rev.workspace_id)
+            or type(rev.detached) is not bool):
         raise ValueError("invalid scene revision")
     objects=tuple(e.obj for e in rev.entities)
     validate_scene(Scene(rev.frames,objects,rev.epoch))
@@ -107,6 +111,8 @@ def validate_revision(rev:SceneRevision):
 
 def resolve(rev:SceneRevision,name:str,*,include_deleted:bool=False)->Entity:
     validate_revision(rev)
+    if rev.detached:
+        raise ValueError("workspace detached; scene lookup prohibited")
     matches=[e for e in rev.entities
              if name==e.obj.stable_id or name in e.aliases]
     if len(matches)!=1 or (matches[0].state=="deleted" and not include_deleted):
@@ -121,6 +127,8 @@ def mutate(rev:SceneRevision,change:SceneMutation,*,expected_revision:int,
     Caller's Boolean alone cannot be used as a security boundary.
     """
     validate_revision(rev)
+    if rev.detached:
+        raise ValueError("detached workspace is immutable")
     if (type(change) is not SceneMutation or type(expected_revision) is not int
             or expected_revision!=rev.revision or admitted_by_trusted_host is not True
             or not _ident(change.mutation_id) or change.mutation_id in rev.event_ids
@@ -169,3 +177,16 @@ def mutate(rev:SceneRevision,change:SceneMutation,*,expected_revision:int,
     result=replace(rev,entities=updated,revision=rev.revision+1,
                    event_ids=rev.event_ids+(change.mutation_id,))
     return validate_revision(result)
+
+
+def detach_workspace(rev:SceneRevision,*,expected_revision:int,
+                     event_id:str,admitted_by_trusted_host:bool=False)->SceneRevision:
+    """Irreversible local detachment barrier; host must authorize externally."""
+    validate_revision(rev)
+    if (rev.detached or admitted_by_trusted_host is not True
+            or type(expected_revision) is not int or expected_revision!=rev.revision
+            or not _ident(event_id) or event_id in rev.event_ids):
+        raise ValueError("invalid or unauthorized scene workspace detachment")
+    return validate_revision(replace(
+        rev,revision=rev.revision+1,event_ids=rev.event_ids+(event_id,),
+        detached=True))
