@@ -25,7 +25,7 @@ def hmm_request():
     req=pb.HMMRequest(
         schema_version=1,state_names=["normal","alarm"],prior=[.9,.1],
         sampling_interval_ms=1000,model_source="prepared_model",
-        alert_probability=.65)
+        alert_probability=.5)
     req.transition_rows.add(values=[.95,.05])
     req.transition_rows.add(values=[.05,.95])
     req.emission_rows.add(values=[.95,.05])
