@@ -81,7 +81,10 @@ def validate_snapshot(s:Snapshot):
     return s
 
 class DerivedIndex:
-    def __init__(self,snapshot:Snapshot):
+    def __init__(self,snapshot:Snapshot,*,host_authorized_scope:str):
+        if not _id(host_authorized_scope):
+            raise ValueError("Lu host must provide authorized scope")
+        self.host_authorized_scope=host_authorized_scope
         self.snapshot=validate_snapshot(snapshot)
         self.conn=sqlite3.connect(":memory:")
         try:
@@ -97,6 +100,8 @@ class DerivedIndex:
         self.conn.execute("BEGIN")
         try:
             for i,r in enumerate(snapshot.rows,1):
+                if r.scope_id!=host_authorized_scope:
+                    continue
                 self.conn.execute(
                     "INSERT INTO evidence_meta VALUES (?,?,?,?,?,?,?,?,?)",
                     (i,r.scope_id,r.source_id,r.source_revision,r.subject,
@@ -115,6 +120,7 @@ class DerivedIndex:
 
     def query(self,q:Query)->tuple[Hit,...]:
         if (type(q) is not Query or not _id(q.scope_id)
+                or q.scope_id!=self.host_authorized_scope
                 or q.expected_snapshot_id!=self.snapshot.snapshot_id
                 or type(q.expected_owner_revision) is not int
                 or q.expected_owner_revision!=self.snapshot.owner_revision
@@ -147,7 +153,8 @@ class DerivedIndex:
                      for a,b,c,d,e,f in rows)
 
     def exact(self,scope_id:str,source_id:str,*,expected_owner_revision:int)->Optional[Hit]:
-        if (not _id(scope_id) or not _id(source_id)
+        if (not _id(scope_id) or scope_id!=self.host_authorized_scope
+                or not _id(source_id)
                 or type(expected_owner_revision) is not int
                 or expected_owner_revision!=self.snapshot.owner_revision):
             raise ValueError("invalid scope or stale owner revision")
