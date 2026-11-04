@@ -122,3 +122,26 @@ def test_reject_untyped_and_oversized_events():
         StateEvent("a", "ship", "status", 2 ** 72,
                    Origin.MODEL_HYPOTHESIS, "opaque", 0, T, T,
                    Action.ASSERT, "source")
+
+
+def test_c07_merge_requires_user_decision_and_preserves_conflict_history():
+    challenged = [
+        event("a", Action.ASSERT, 0),
+        StateEvent("b", "ship", "status", "contradiction",
+                   Origin.IMPORTED_CLAIM, "host-opaque", 1, T, T,
+                   Action.CHALLENGE, "observation"),
+    ]
+    invalid = StateEvent("c", "ship", "status", "changed",
+                         Origin.MODEL_HYPOTHESIS, "host-opaque", 2, T, T,
+                         Action.MERGE, "model")
+    with pytest.raises(StateError, match="verified user"):
+        replay(challenged + [invalid])
+    accepted = StateEvent("c", "ship", "status", "resolved",
+                          Origin.USER_DECISION, "host-opaque", 2, T, T,
+                          Action.MERGE, "reviewer")
+    resolved = replay(challenged + [accepted]).claims[0]
+    assert resolved.status == "ACTIVE"
+    assert resolved.typed_value == "resolved"
+    assert resolved.origin is Origin.USER_DECISION
+    assert resolved.conflict_refs == ("observation",)
+    assert resolved.source_refs == ("user", "observation", "reviewer")
