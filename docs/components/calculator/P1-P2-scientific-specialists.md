@@ -66,3 +66,13 @@ The typed `SymbolicRequest.action` now accepts `factor` for polynomials of degre
 The current `SymbolicResult.polynomial` Protobuf field is reused for the equivalent factor **expression**, rather than introducing a wire-incompatible result. The response includes `polynomial_field_contains_factor_expression`, `factor_degree_le_2`, and the relevant status limitation so consumers do not misinterpret representation. Every returned factor expression must pass the existing bounded AST parser and re-expand exactly to the original rational polynomial. This is not a completeness proof for general symbolic algebra. Existing negative tests remain in force; new tests require exact equivalence across integer/rational, repeated-root, zero-root, negative-leading, constant and rational-irreducible cases.
 
 All six specialist entries remain inert and unavailable to models. Lu authorization, worker isolation, and controlled benchmark evidence remain separate future gates.
+
+## P2.3 exact polynomial integration (November 4, 2026)
+
+The inert Protobuf `SymbolicRequest.action` supports `integrate` for single-variable rational polynomials of input degree at most **five**, producing exact antiderivatives of degree at most six. This is an **indefinite integral with the integration constant normalized to zero**: other antiderivatives differ by an arbitrary additive constant. The existing `SymbolicResult.polynomial` field contains the canonical zero-constant antiderivative (not a numerical definite integral).
+
+The input retains the existing strict, non-evaluating AST and all size, degree and rational coefficient bounds. The producer reparses the result through the same bounded grammar and differentiates it to assert exact coefficient identity before returning the response. The response includes `antiderivative_constant_zero`, `integrand_degree_le_5`, `indefinite_polynomial_integral`, `derivative_identity_checked`, and `intent_not_verified`. This is an internal invariant, not an independent verifier or user-intent certification.
+
+The regression suite exercises zero/constant, rational, negative, sparse, degree-five, and disallowed degree-six inputs. It checks typed Protobuf responses and performs 60 seeded rational-polynomial cases with **independent exact rational sample-point derivative identities**. Cases exceeding existing 160-character expression grammar are excluded by the same bounded input policy.
+
+C05 remains unregistered, unadvertised, and unavailable to models. CI/on-host validation is a separate gate; no Lu/C02 capability or OS privilege is granted.
