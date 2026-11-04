@@ -20,6 +20,8 @@ All training requests originate outside Lu and accept only typed, numeric, host-
 
 `adaptation_retrieval.py` independently trains a binary relevance scorer with scikit-learn logistic regression on numeric retrieval signals, never raw source documents or uncontrolled embeddings. It splits by **whole query and timestamp**; reports held-out hit@1 and mean reciprocal rank against the existing first-feature deterministic score. Checkpoints are candidates only, with explicit consent/source and tamper refusal. This provides a meaningful conventional retrieval-tuning reference without building neural retrievers, MAML, LoRA, or modifying the transformer.
 
+`cognitum/adaptation_calibration.py` adds a bounded SciPy temperature-scale calibrator. It fits solely on an independently permitted **middle chronological calibration window** after training and before the final future holdout. It stores a checksum-bound calibrator artifact, refuses training/final-test overlap, and compares raw versus calibrated future log-loss and multiclass Brier score. Optimization against final acceptance labels is prohibited. A smaller calibration loss is never automatically interpreted as real-world calibrated probability or approval to activate a policy. `tests/test_c18_calibration.py` uses the real SciPy optimizer on three disjoint synthetic windows.
+
 `cognitum/adaptation_wire.py`, `cognitum/proto/adaptation_pb2.py` and `proto/cognitum/adaptation/v1/adaptation.proto` expose a **read-only** canonical typed candidate-vs-incumbent comparison. It rejects unknown/noncanonical/oversized requests, recomputes frozen policy/holdout results independently, and returns SHA-256-correlated evaluation. **No train or policy-activation command is present in the model-visible Protobuf.**
 
 ## P2 — Poisoning, revocation, recovery and fail-closed behavior
@@ -32,7 +34,7 @@ Limitations: The in-process wall-clock check cannot hard-kill malicious or hung 
 
 ## P3 — Strict future evaluation and negative transfer
 
-`tools/c18_adaptation_benchmark.py` runs actual sklearn on **synthetic** numeric routing examples, compares future-only accuracy, log loss and worst-family results to the incumbent, measures CPU/wall training cost, and runs a separate full-query heldout retrieval ranking against original scores. `tests/test_c18_adaptation.py`, `tests/test_c18_retrieval.py` and `tests/test_c18_wire.py` exercise real training, promotion refusal, rollback, revocation, expiry, train/eval leakage, malformed source, checkpoint corruption, forbidden raw code/grants and forged Protobuf results.
+`tools/c18_adaptation_benchmark.py` runs actual sklearn on **synthetic** numeric routing examples, compares future-only accuracy, log loss, worst-family and independent calibration results to the incumbent, measures CPU/wall training cost, and runs a separate full-query heldout retrieval ranking against original scores. `tests/test_c18_adaptation.py`, `tests/test_c18_retrieval.py`, `tests/test_c18_calibration.py` and `tests/test_c18_wire.py` exercise real training, promotion refusal, rollback, revocation, expiry, train/eval leakage, malformed source, checkpoint corruption, forbidden raw code/grants and forged Protobuf results.
 
 `.github/workflows/c18-adaptation.yml` requires real NumPy/scikit-learn on Windows/Linux Python 3.11/3.13, independent `protoc` source/binding comparison, adversarial tests and measured synthetic held-out benchmarks.
 
