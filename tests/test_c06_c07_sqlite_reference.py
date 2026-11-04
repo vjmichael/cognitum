@@ -64,7 +64,17 @@ def test_query_injection_is_literal():
                memory("s2", text="nothing relevant")]
     result = retrieve(records, MemoryQuery("alice", '" OR *', as_of=T),
                       snapshot_id="s", origin_revision=1)
-    assert result.evidence == ()
+    # FTS5 treats the whole input as literal terms: the token OR exists
+    # in this first document, so returning it is correct, not injection.
+    assert result.evidence == (records[0],)
+    no_match = retrieve(records, MemoryQuery("alice", '" OR * missingword', as_of=T),
+                        snapshot_id="s", origin_revision=1)
+    assert no_match.evidence == ()
+    # No injected expression may widen the authorized host snapshot scope.
+    private = records + [memory("s3", scope="bob", text="secret missingword OR")]
+    isolated = retrieve(private, MemoryQuery("alice", '" OR *', as_of=T),
+                        snapshot_id="s", origin_revision=1)
+    assert isolated.evidence == (records[0],)
     with pytest.raises(RetrievalError, match="oversized"):
         MemoryQuery("alice", "a" * 513)
 
