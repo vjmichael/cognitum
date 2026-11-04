@@ -20,8 +20,8 @@ scientific = ["protobuf>=6.31,<8", "mpmath>=1.3,<2"]
 research-hdc-kan = ["protobuf>=6.31,<8", "numpy>=1.26,<3"]
 
 # C10 mature SMT solvers are optional; no Lu model or worker privileges granted.
-formal-z3 = ["z3-solver>=4.12,<5"]
-formal-cvc5 = ["cvc5>=1.1,<2"]
+formal-z3 = ["protobuf>=6.31,<8", "z3-solver>=4.12,<5"]
+formal-cvc5 = ["protobuf>=6.31,<8", "cvc5>=1.1,<2"]
 
 # C14 production-target maintained causal-library adapters; never auto-launch.
 causal-stats = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.10,<2", "statsmodels>=0.14,<0.16"]
