@@ -38,3 +38,18 @@ Logical solver timeouts are not OS process termination. No hostile native solver
 Do not open a C14-style optimization program for C10. Freeze this *practical implementation scope* and defer extensions until actual tasks require a specific SMT theory or checker. Do not label the entire original full-theory/formal-proof research design implemented. Future model-facing privileges and production acceptance remain host-owned integration gates. C14 remains closed.
 
 The engineering work can be closed after verification and merge; until then, the correct state is **implementation committed, validation pending**.
+
+## Independent Alethe proof certification engineering (post-freeze completion)
+
+The missing **general solver-proof verification path** is now implemented as an **optional, trusted-host-only adapter**, not a new theorem prover:
+
+- `cognitum/formal_proofs.py` serializes the strictly validated QF_LIA constraints into canonical bounded SMT-LIB, with correctly encoded negative numerals, and asks the established **cvc5 CLI** for an Alethe UNSAT proof.
+- The Alethe proof and the *same original SMT-LIB problem* are passed to independent Rust **Carcara**, using its documented `carcara check proof.alethe problem.smt2` invocation.
+- Only a successful checker exit with the complete **`valid`** verdict can produce `CERTIFIED_UNSAT`. `invalid`, `holey`, unsupported proof rules, solver SAT, missing executables, timeout, oversized proofs or checker failures never certify.
+- Request and proof digests are recorded for traceability. These digests are **not authenticated signed receipts** and do not prove that the model formalized the right problem.
+- `tests/test_c10_proofs.py` covers SMT-LIB number grammar, missing executables, malformed/holey outcomes, timeouts, and mocked checker response routing. The mocked positive test is explicitly **not** real certificate evidence.
+- `tools/c10_real_proof_smoke.py` requires real preinstalled cvc5 + Carcara executables and tests genuinely checked UNSAT plus a SAT negative control. `.github/workflows/c10-alethe-proof.yml` sets up a real isolated CI attempt.
+
+**Important acceptance separation:** Until the dedicated native Carcara workflow actually passes, the existence of this adapter is **not** evidence of an independently checked real certificate. If the chosen cvc5/Carcara versions produce incompatible or `holey` proofs, the correct result is unverified, not certified. The standalone proof adapter does not grant arbitrary user/tool callers native subprocess execution; actual Lu exposure still requires OS-isolated workers with trusted binary configuration.
+
+This completes the code path required for external proof certification while keeping advanced unsupported theories and Lu-specific deployment honest. C10's code scope remains frozen for review, but **merge and verified closeout require actual CI evidence**.
