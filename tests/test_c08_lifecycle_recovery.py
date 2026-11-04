@@ -73,5 +73,33 @@ class HdcIndexLifecycleTests(unittest.TestCase):
             index.deliver("snap1", "owns", "ship", 2, lambda _: None)
 
 
+    def test_verified_delivery_never_publishes_raw_candidates(self):
+        from cognitum.research.hdc_canonical import CanonicalRelation
+        index=EphemeralDerivedIndex()
+        index.install("snap1", ROWS)
+        observed=[]
+        index.deliver_verified(
+            "snap1", "owns", "ship", 2,
+            authorized_scope="alice", current_snapshot_id="snap1",
+            required_revision=2,
+            canonical_records=[
+                CanonicalRelation("a", 1, "alice", "owns", "ship", "citation:old"),
+                CanonicalRelation("a", 2, "bob", "owns", "ship", "citation:restricted"),
+                CanonicalRelation("b", 1, "alice", "owns", "station", "citation:b"),
+            ],
+            sink=observed.append,
+        )
+        self.assertEqual(len(observed), 1)
+        self.assertFalse(observed[0].verified)
+        self.assertIn("a", observed[0].rejected)
+        with self.assertRaisesRegex(ValueError, "STALE"):
+            index.deliver_verified(
+                "snap1", "owns", "ship", 2,
+                authorized_scope="alice", current_snapshot_id="snap2",
+                required_revision=2, canonical_records=[], sink=observed.append,
+            )
+        self.assertEqual(len(observed), 1)
+
+
 if __name__=="__main__":
     unittest.main()
