@@ -2,7 +2,7 @@
 from dataclasses import replace
 from math import pi,exp,sqrt
 import unittest
-from cognitum.physics_ode import PhysicalModel,validate,integrate
+from cognitum.physics_ode import PhysicalModel,validate,integrate,compare_refinement
 
 
 def harmonic(method="DOP853"):
@@ -30,6 +30,14 @@ class C16ODETests(unittest.TestCase):
                 self.assertLess(r.max_invariant_relative_drift,1e-3)
                 self.assertAlmostEqual(r.samples[-1].position_m,1.,places=4)
                 self.assertGreater(r.function_evals,0)
+
+    def test_independent_tighter_solver_disagreement(self):
+        first=compare_refinement(harmonic("RK45"))
+        self.assertEqual(first.status,"COMPARED")
+        self.assertLess(first.max_position_disagreement_m,2e-5)
+        self.assertLess(first.max_velocity_disagreement_m_per_s,2e-5)
+        self.assertGreater(first.refined_evaluations,0)
+        self.assertIn("not_rigorous_error_bound","_".join(first.limitations))
 
     def test_forced_and_damped_energy_balance(self):
         base=harmonic("RK45")
