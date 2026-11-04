@@ -139,26 +139,27 @@ def _cvc5(problem,timeout_ms):
         from cvc5 import Kind
     except ImportError:
         return SMTResult("UNSUPPORTED",backend="cvc5",limitation="cvc5_not_installed")
-    s=cvc5.Solver()
-    s.setLogic("QF_LIA")
+    tm=cvc5.TermManager()
+    s=cvc5.Solver(tm)
+    s.setOption("produce-models","true")
     s.setOption("tlimit-per",str(timeout_ms))
-    integer=s.getIntegerSort()
-    variables={v.name:s.mkConst(integer,v.name) for v in problem.integers}
-    def integer_constant(n):return s.mkInteger(n)
+    s.setLogic("QF_LIA")
+    integer=tm.getIntegerSort()
+    variables={v.name:tm.mkConst(integer,v.name) for v in problem.integers}
+    def integer_constant(n):return tm.mkInteger(n)
     for v in problem.integers:
-        s.assertFormula(s.mkTerm(Kind.GEQ,variables[v.name],integer_constant(v.lower)))
-        s.assertFormula(s.mkTerm(Kind.LEQ,variables[v.name],integer_constant(v.upper)))
+        s.assertFormula(tm.mkTerm(Kind.GEQ,variables[v.name],integer_constant(v.lower)))
+        s.assertFormula(tm.mkTerm(Kind.LEQ,variables[v.name],integer_constant(v.upper)))
     kind={"eq":Kind.EQUAL,"le":Kind.LEQ,"lt":Kind.LT,
           "ge":Kind.GEQ,"gt":Kind.GT}
     for a in problem.atoms:
-        terms=[s.mkTerm(Kind.MULT,integer_constant(coef),variables[name]) for name,coef in a.terms]
-        lhs=s.mkTerm(Kind.ADD,*terms) if len(terms)>1 else terms[0] if terms else integer_constant(0)
+        terms=[tm.mkTerm(Kind.MULT,integer_constant(coef),variables[name]) for name,coef in a.terms]
+        lhs=tm.mkTerm(Kind.ADD,*terms) if len(terms)>1 else terms[0] if terms else integer_constant(0)
         if a.relation=="ne":
-            term=s.mkTerm(Kind.NOT,s.mkTerm(Kind.EQUAL,lhs,integer_constant(a.rhs)))
+            term=tm.mkTerm(Kind.NOT,tm.mkTerm(Kind.EQUAL,lhs,integer_constant(a.rhs)))
         else:
-            term=s.mkTerm(kind[a.relation],lhs,integer_constant(a.rhs))
+            term=tm.mkTerm(kind[a.relation],lhs,integer_constant(a.rhs))
         s.assertFormula(term)
-    s.setOption("produce-models","true")
     status=s.checkSat()
     if status.isSat():
         try:
