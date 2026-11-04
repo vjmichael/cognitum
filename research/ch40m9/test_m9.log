@@ -1,0 +1,18 @@
+test_atomic_output_writes_complete_json (test_m9.TestM9.test_atomic_output_writes_complete_json) ... ok
+test_duplicate_case_refused (test_m9.TestM9.test_duplicate_case_refused) ... ok
+test_false_release_refused (test_m9.TestM9.test_false_release_refused) ... ok
+test_full15_acceptance_when_present (test_m9.TestM9.test_full15_acceptance_when_present) ... ok
+test_missing_metrics_refused (test_m9.TestM9.test_missing_metrics_refused) ... ok
+test_missing_original_case_audit_refused (test_m9.TestM9.test_missing_original_case_audit_refused) ... ok
+test_modified_proof_ledger_refused (test_m9.TestM9.test_modified_proof_ledger_refused) ... ok
+test_modified_receipt_refused (test_m9.TestM9.test_modified_receipt_refused) ... ok
+test_negative_time_refused (test_m9.TestM9.test_negative_time_refused) ... ok
+test_original_frozen_pinset_is_complete (test_m9.TestM9.test_original_frozen_pinset_is_complete) ... ok
+test_original_pilot_journals_accepted (test_m9.TestM9.test_original_pilot_journals_accepted) ... ok
+test_rehashed_journal_bytes_refused (test_m9.TestM9.test_rehashed_journal_bytes_refused) ... ok
+test_unknown_case_refused (test_m9.TestM9.test_unknown_case_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.009s
+
+OK

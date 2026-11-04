@@ -1,0 +1,766 @@
+{
+  "auditor_receipt_sha256": "937fa935520a1d4886541e2c51444a230943fefb9a9ba59ec9c3e910ef8a24a9",
+  "bound_formula": "PSD_GRAM_DOMINANCE for both native producers",
+  "case_hash_pinning": "CH40K original trace and certificate SHA pins validated by worker and auditor",
+  "config": {
+    "audit_order": "fresh then cache (single-trial; OS cache order confound)",
+    "auditor": "CH40M8/audit_m8.py unchanged",
+    "max_process_virtual_memory_mib": 1500,
+    "max_splits": 256,
+    "requested_worker_cpu_seconds": 1.15,
+    "run_order": "alternate FLINT/MPFR by original case position",
+    "wall_limit_seconds": 20.0,
+    "worker": "CH40M7/worker_m7.py unchanged",
+    "worker_formula": "PSD_GRAM_DOMINANCE"
+  },
+  "engines": {
+    "arb_gram": {
+      "children": 156,
+      "frontier_reduction_sum_approx": 1.1559742758490532,
+      "full_subprocess_cpu_seconds": 28.64,
+      "max_worker_rss_kib": 426084.0,
+      "per_case": [
+        {
+          "case": "quasi_separated_n80_i00",
+          "frontier_reduction": "96268342256025346898381001852977937655260162717/365375409332725729550921208179070754913983135744",
+          "measured_cpu": 1.9000000000000001,
+          "splits": 9
+        },
+        {
+          "case": "quasi_separated_n160_i00",
+          "frontier_reduction": "180240845501288031679533459642313682257692958867/730750818665451459101842416358141509827966271488",
+          "measured_cpu": 1.94,
+          "splits": 4
+        },
+        {
+          "case": "zero_balanced_n80_i00",
+          "frontier_reduction": "0",
+          "measured_cpu": 1.8499999999999999,
+          "splits": 8
+        },
+        {
+          "case": "zero_balanced_n160_i00",
+          "frontier_reduction": "53241946422913279988611707490712718829537055389/730750818665451459101842416358141509827966271488",
+          "measured_cpu": 1.97,
+          "splits": 3
+        },
+        {
+          "case": "one_event_n80_i00",
+          "frontier_reduction": "20835521183191348603301640638139283142084584003/91343852333181432387730302044767688728495783936",
+          "measured_cpu": 1.88,
+          "splits": 8
+        },
+        {
+          "case": "one_event_n160_i00",
+          "frontier_reduction": "13583039521828880831786538049827592464061684081/182687704666362864775460604089535377456991567872",
+          "measured_cpu": 2.04,
+          "splits": 3
+        },
+        {
+          "case": "zero_imbalanced_n80_i00",
+          "frontier_reduction": "0",
+          "measured_cpu": 1.9300000000000002,
+          "splits": 8
+        },
+        {
+          "case": "zero_imbalanced_n160_i00",
+          "frontier_reduction": "2075519101634198814860356780792351611733530923/45671926166590716193865151022383844364247891968",
+          "measured_cpu": 1.8299999999999998,
+          "splits": 3
+        },
+        {
+          "case": "rare_1pct_n80_i00",
+          "frontier_reduction": "12875374257327858423961088501144373531617853993/365375409332725729550921208179070754913983135744",
+          "measured_cpu": 1.8,
+          "splits": 8
+        },
+        {
+          "case": "rare_1pct_n160_i00",
+          "frontier_reduction": "6413206162317600949743169358040084187392296145/2923003274661805836407369665432566039311865085952",
+          "measured_cpu": 1.96,
+          "splits": 3
+        },
+        {
+          "case": "rare_5pct_n80_i00",
+          "frontier_reduction": "578879429789556461110708609747995086438348519/22835963083295358096932575511191922182123945984",
+          "measured_cpu": 1.9,
+          "splits": 8
+        },
+        {
+          "case": "rare_5pct_n160_i00",
+          "frontier_reduction": "79673818152639719584770632518402763166646845/22835963083295358096932575511191922182123945984",
+          "measured_cpu": 1.8399999999999999,
+          "splits": 3
+        },
+        {
+          "case": "zero_imbalanced_n160_i05",
+          "frontier_reduction": "0",
+          "measured_cpu": 2.0100000000000002,
+          "splits": 4
+        },
+        {
+          "case": "zero_imbalanced_n160_i07",
+          "frontier_reduction": "8104108990343534094963422905330585182508415663/182687704666362864775460604089535377456991567872",
+          "measured_cpu": 1.91,
+          "splits": 3
+        },
+        {
+          "case": "rare_1pct_n160_i13",
+          "frontier_reduction": "326722065886300620838189763567084914219745983/2854495385411919762116571938898990272765493248",
+          "measured_cpu": 1.88,
+          "splits": 3
+        }
+      ],
+      "split_count": 78
+    },
+    "mpfr_gram": {
+      "children": 140,
+      "frontier_reduction_sum_approx": 1.0064987477445364,
+      "full_subprocess_cpu_seconds": 29.240000000000002,
+      "max_worker_rss_kib": 425928.0,
+      "per_case": [
+        {
+          "case": "quasi_separated_n80_i00",
+          "frontier_reduction": "91268156603106037904547440844982665747604477981/365375409332725729550921208179070754913983135744",
+          "measured_cpu": 1.9000000000000001,
+          "splits": 8
+        },
+        {
+          "case": "quasi_separated_n160_i00",
+          "frontier_reduction": "134573808367013814627993367091500721385097705729/730750818665451459101842416358141509827966271488",
+          "measured_cpu": 1.8499999999999999,
+          "splits": 3
+        },
+        {
+          "case": "zero_balanced_n80_i00",
+          "frontier_reduction": "0",
+          "measured_cpu": 1.96,
+          "splits": 7
+        },
+        {
+          "case": "zero_balanced_n160_i00",
+          "frontier_reduction": "53241946422913279988611707490712718829537055389/730750818665451459101842416358141509827966271488",
+          "measured_cpu": 1.91,
+          "splits": 3
+        },
+        {
+          "case": "one_event_n80_i00",
+          "frontier_reduction": "1462070339860645904493075348003946467146002040355953556303734577639288072040875350787010046418931868161639/9444732965739290427392000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "measured_cpu": 1.85,
+          "splits": 7
+        },
+        {
+          "case": "one_event_n160_i00",
+          "frontier_reduction": "13583039521828880831786538049827592464061684081/182687704666362864775460604089535377456991567872",
+          "measured_cpu": 2.0,
+          "splits": 3
+        },
+        {
+          "case": "zero_imbalanced_n80_i00",
+          "frontier_reduction": "0",
+          "measured_cpu": 1.8800000000000001,
+          "splits": 7
+        },
+        {
+          "case": "zero_imbalanced_n160_i00",
+          "frontier_reduction": "2075519101634198814860356780792351611733530923/45671926166590716193865151022383844364247891968",
+          "measured_cpu": 1.98,
+          "splits": 3
+        },
+        {
+          "case": "rare_1pct_n80_i00",
+          "frontier_reduction": "12875374257327858423961088501144373531617853993/365375409332725729550921208179070754913983135744",
+          "measured_cpu": 1.8900000000000001,
+          "splits": 7
+        },
+        {
+          "case": "rare_1pct_n160_i00",
+          "frontier_reduction": "6413206162317600949743169358040084187392296145/2923003274661805836407369665432566039311865085952",
+          "measured_cpu": 2.15,
+          "splits": 3
+        },
+        {
+          "case": "rare_5pct_n80_i00",
+          "frontier_reduction": "578879429789556461110708609747995086438348519/22835963083295358096932575511191922182123945984",
+          "measured_cpu": 1.83,
+          "splits": 7
+        },
+        {
+          "case": "rare_5pct_n160_i00",
+          "frontier_reduction": "79673818152639719584770632518402763166646845/22835963083295358096932575511191922182123945984",
+          "measured_cpu": 1.93,
+          "splits": 3
+        },
+        {
+          "case": "zero_imbalanced_n160_i05",
+          "frontier_reduction": "0",
+          "measured_cpu": 1.99,
+          "splits": 3
+        },
+        {
+          "case": "zero_imbalanced_n160_i07",
+          "frontier_reduction": "8104108990343534094963422905330585182508415663/182687704666362864775460604089535377456991567872",
+          "measured_cpu": 2.08,
+          "splits": 3
+        },
+        {
+          "case": "rare_1pct_n160_i13",
+          "frontier_reduction": "326722065886300620838189763567084914219745983/2854495385411919762116571938898990272765493248",
+          "measured_cpu": 2.04,
+          "splits": 3
+        }
+      ],
+      "split_count": 70
+    }
+  },
+  "exact_unique_proof_statements": 156,
+  "external_rational_checks": 296,
+  "frozen_case_names": [
+    "quasi_separated_n80_i00",
+    "quasi_separated_n160_i00",
+    "zero_balanced_n80_i00",
+    "zero_balanced_n160_i00",
+    "one_event_n80_i00",
+    "one_event_n160_i00",
+    "zero_imbalanced_n80_i00",
+    "zero_imbalanced_n160_i00",
+    "rare_1pct_n80_i00",
+    "rare_1pct_n160_i00",
+    "rare_5pct_n80_i00",
+    "rare_5pct_n160_i00",
+    "zero_imbalanced_n160_i05",
+    "zero_imbalanced_n160_i07",
+    "rare_1pct_n160_i13"
+  ],
+  "independent_audit_cpu_cached_seconds": 18.06,
+  "independent_audit_cpu_fresh_seconds": 28.720000000000002,
+  "max_independent_audit_rss_kib": 618524.0,
+  "max_search_worker_rss_kib": 426084.0,
+  "online_rational_checks": 296,
+  "original_cases": 15,
+  "paired_worker_runs": 30,
+  "precision_bits": 256,
+  "proof_ledger_sha256": "cbc7b47ee2251ff26a37511ba870740ae1d9a05077de95b6514779606ba94ef0",
+  "protocol": "CH40M9-WHOLE-PIPELINE-RESEARCH-V1",
+  "qualification": "Native search includes online independent rational checking. Post-search independent audit is a SECOND check. Cache is reusable only across paired journals audited in one trusted process; do not attribute total-batch savings to a standalone single backend. Search timer caps and startup CPU are not identical full-process budgets; no confidence interval or proof of whole-C14 optimizer superiority. No global convergence or causal identification proved.",
+  "reused_exact_proofs": 140,
+  "scientific_release": "NO_GO",
+  "search_full_subprocess_cpu_seconds": 57.88,
+  "status": "RESEARCH_ACCEPTED",
+  "whole_batch_pipeline_cpu_cached_seconds": 75.94,
+  "whole_batch_pipeline_cpu_fresh_seconds": 86.60000000000001,
+  "whole_batch_pipeline_cpu_reduction_fraction": 0.12309468822170903,
+  "whole_batch_pipeline_saved_cpu_seconds": 10.660000000000004,
+  "workers": [
+    {
+      "case": "quasi_separated_n80_i00",
+      "children": 18,
+      "engine": "arb_gram",
+      "sha256": "4095a20432a88fcdda702dcede0e183e96014126fe363e828cf6011b79a8b213",
+      "splits": 9,
+      "telemetry": {
+        "cpu_seconds": 1.9000000000000001,
+        "elapsed_seconds": 1.9,
+        "exit_status": 0.0,
+        "rss_kib": 224472.0,
+        "system": 0.1,
+        "user": 1.8
+      },
+      "trace_sha256": "2d156dc3a0635da1f00304edf127dde69e79696c66bbc66d77963776fc5e3ef8",
+      "upper_reduction": "96268342256025346898381001852977937655260162717/365375409332725729550921208179070754913983135744"
+    },
+    {
+      "case": "quasi_separated_n80_i00",
+      "children": 16,
+      "engine": "mpfr_gram",
+      "sha256": "6e0fbca80a89554e0ce6eaae213fbaf6c67594645bab312e4cacb9f247ce458d",
+      "splits": 8,
+      "telemetry": {
+        "cpu_seconds": 1.9000000000000001,
+        "elapsed_seconds": 1.9,
+        "exit_status": 0.0,
+        "rss_kib": 224480.0,
+        "system": 0.1,
+        "user": 1.8
+      },
+      "trace_sha256": "2d156dc3a0635da1f00304edf127dde69e79696c66bbc66d77963776fc5e3ef8",
+      "upper_reduction": "91268156603106037904547440844982665747604477981/365375409332725729550921208179070754913983135744"
+    },
+    {
+      "case": "quasi_separated_n160_i00",
+      "children": 6,
+      "engine": "mpfr_gram",
+      "sha256": "c58928d070c04baf7efc2266baf7df2121504b047ec4e43defe95f536a606ad1",
+      "splits": 3,
+      "telemetry": {
+        "cpu_seconds": 1.8499999999999999,
+        "elapsed_seconds": 1.86,
+        "exit_status": 0.0,
+        "rss_kib": 337700.0,
+        "system": 0.16,
+        "user": 1.69
+      },
+      "trace_sha256": "bb71de02722e88124b07c744e29a222f507e6769c79b0ccbe435f093050c0f89",
+      "upper_reduction": "134573808367013814627993367091500721385097705729/730750818665451459101842416358141509827966271488"
+    },
+    {
+      "case": "quasi_separated_n160_i00",
+      "children": 8,
+      "engine": "arb_gram",
+      "sha256": "69fd964b872dbacafbc9bd4df0ad17133688141fab92e53510183198f3f7ac05",
+      "splits": 4,
+      "telemetry": {
+        "cpu_seconds": 1.94,
+        "elapsed_seconds": 1.95,
+        "exit_status": 0.0,
+        "rss_kib": 337596.0,
+        "system": 0.13,
+        "user": 1.81
+      },
+      "trace_sha256": "bb71de02722e88124b07c744e29a222f507e6769c79b0ccbe435f093050c0f89",
+      "upper_reduction": "180240845501288031679533459642313682257692958867/730750818665451459101842416358141509827966271488"
+    },
+    {
+      "case": "zero_balanced_n80_i00",
+      "children": 16,
+      "engine": "arb_gram",
+      "sha256": "72aa2671668f1a78fe2b9f83e3d13dd89b73b7584dd23bd3dd3b215b97c4560d",
+      "splits": 8,
+      "telemetry": {
+        "cpu_seconds": 1.8499999999999999,
+        "elapsed_seconds": 1.86,
+        "exit_status": 0.0,
+        "rss_kib": 264380.0,
+        "system": 0.15,
+        "user": 1.7
+      },
+      "trace_sha256": "3a699c4816f1e72e31090d4d2fae766fe6084210f940ad994d62e03a315f248a",
+      "upper_reduction": "0"
+    },
+    {
+      "case": "zero_balanced_n80_i00",
+      "children": 14,
+      "engine": "mpfr_gram",
+      "sha256": "1b479f10314955cd9b2aa364b57327285043e010efd7039862c3ea568f321402",
+      "splits": 7,
+      "telemetry": {
+        "cpu_seconds": 1.96,
+        "elapsed_seconds": 1.97,
+        "exit_status": 0.0,
+        "rss_kib": 264480.0,
+        "system": 0.14,
+        "user": 1.82
+      },
+      "trace_sha256": "3a699c4816f1e72e31090d4d2fae766fe6084210f940ad994d62e03a315f248a",
+      "upper_reduction": "0"
+    },
+    {
+      "case": "zero_balanced_n160_i00",
+      "children": 6,
+      "engine": "mpfr_gram",
+      "sha256": "35a04f14d175c981e5f4ebc2b25886b5d95b72e7f91036a2b45016cf9e8257f2",
+      "splits": 3,
+      "telemetry": {
+        "cpu_seconds": 1.91,
+        "elapsed_seconds": 1.92,
+        "exit_status": 0.0,
+        "rss_kib": 408084.0,
+        "system": 0.23,
+        "user": 1.68
+      },
+      "trace_sha256": "3dd2dfe0be64c0869cec4e174727b3a6ff015cab9196b971ab8a2acbcf92b505",
+      "upper_reduction": "53241946422913279988611707490712718829537055389/730750818665451459101842416358141509827966271488"
+    },
+    {
+      "case": "zero_balanced_n160_i00",
+      "children": 6,
+      "engine": "arb_gram",
+      "sha256": "7bbe2e817df056d71c45d62696b4985e240fd7cc77215f5c8fafb49cfc0e808b",
+      "splits": 3,
+      "telemetry": {
+        "cpu_seconds": 1.97,
+        "elapsed_seconds": 1.99,
+        "exit_status": 0.0,
+        "rss_kib": 408120.0,
+        "system": 0.17,
+        "user": 1.8
+      },
+      "trace_sha256": "3dd2dfe0be64c0869cec4e174727b3a6ff015cab9196b971ab8a2acbcf92b505",
+      "upper_reduction": "53241946422913279988611707490712718829537055389/730750818665451459101842416358141509827966271488"
+    },
+    {
+      "case": "one_event_n80_i00",
+      "children": 16,
+      "engine": "arb_gram",
+      "sha256": "2bbf6c920f28cf979789631b2e101002172657edbcbafe61dc33d678328bcb0f",
+      "splits": 8,
+      "telemetry": {
+        "cpu_seconds": 1.88,
+        "elapsed_seconds": 1.89,
+        "exit_status": 0.0,
+        "rss_kib": 269836.0,
+        "system": 0.13,
+        "user": 1.75
+      },
+      "trace_sha256": "a875e26c2d41c22145d137bab4fddc1b444f0bf664ca8456584025bce6cce27b",
+      "upper_reduction": "20835521183191348603301640638139283142084584003/91343852333181432387730302044767688728495783936"
+    },
+    {
+      "case": "one_event_n80_i00",
+      "children": 14,
+      "engine": "mpfr_gram",
+      "sha256": "9bb3e2ff99d9c88a924fc44db68ecdf8e47d67e2bf0cf2ab094c34e208e9f806",
+      "splits": 7,
+      "telemetry": {
+        "cpu_seconds": 1.85,
+        "elapsed_seconds": 1.85,
+        "exit_status": 0.0,
+        "rss_kib": 269876.0,
+        "system": 0.14,
+        "user": 1.71
+      },
+      "trace_sha256": "a875e26c2d41c22145d137bab4fddc1b444f0bf664ca8456584025bce6cce27b",
+      "upper_reduction": "1462070339860645904493075348003946467146002040355953556303734577639288072040875350787010046418931868161639/9444732965739290427392000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "case": "one_event_n160_i00",
+      "children": 6,
+      "engine": "mpfr_gram",
+      "sha256": "10d9147519d13a648e60202f6cc6dfbd4d416f44fe375023ddd66c5c76b4622a",
+      "splits": 3,
+      "telemetry": {
+        "cpu_seconds": 2.0,
+        "elapsed_seconds": 2.01,
+        "exit_status": 0.0,
+        "rss_kib": 425928.0,
+        "system": 0.24,
+        "user": 1.76
+      },
+      "trace_sha256": "24f6d50a3bf5d983ebf8d90f3da8dcad2398c378355bec05a3db5c272ad8d624",
+      "upper_reduction": "13583039521828880831786538049827592464061684081/182687704666362864775460604089535377456991567872"
+    },
+    {
+      "case": "one_event_n160_i00",
+      "children": 6,
+      "engine": "arb_gram",
+      "sha256": "ba95e38390a1144456ef60e7ba616372f55f5c733f08302b00c2f25f35190d32",
+      "splits": 3,
+      "telemetry": {
+        "cpu_seconds": 2.04,
+        "elapsed_seconds": 2.05,
+        "exit_status": 0.0,
+        "rss_kib": 426084.0,
+        "system": 0.21,
+        "user": 1.83
+      },
+      "trace_sha256": "24f6d50a3bf5d983ebf8d90f3da8dcad2398c378355bec05a3db5c272ad8d624",
+      "upper_reduction": "13583039521828880831786538049827592464061684081/182687704666362864775460604089535377456991567872"
+    },
+    {
+      "case": "zero_imbalanced_n80_i00",
+      "children": 16,
+      "engine": "arb_gram",
+      "sha256": "90c07ff1967e5f684846f56e2fe7e52a14cdac2661bf3874d2e64a925cc90c2b",
+      "splits": 8,
+      "telemetry": {
+        "cpu_seconds": 1.9300000000000002,
+        "elapsed_seconds": 1.94,
+        "exit_status": 0.0,
+        "rss_kib": 270160.0,
+        "system": 0.13,
+        "user": 1.8
+      },
+      "trace_sha256": "81f8327c782d5ecd5b8e633e7c59b23457eb4f2a9b4be77b555018cac52df58d",
+      "upper_reduction": "0"
+    },
+    {
+      "case": "zero_imbalanced_n80_i00",
+      "children": 14,
+      "engine": "mpfr_gram",
+      "sha256": "64110ca3fa120ddcc827f3ea4836b184a6881dd639f8fd15d8ae58877ce9e16e",
+      "splits": 7,
+      "telemetry": {
+        "cpu_seconds": 1.8800000000000001,
+        "elapsed_seconds": 1.88,
+        "exit_status": 0.0,
+        "rss_kib": 270136.0,
+        "system": 0.1,
+        "user": 1.78
+      },
+      "trace_sha256": "81f8327c782d5ecd5b8e633e7c59b23457eb4f2a9b4be77b555018cac52df58d",
+      "upper_reduction": "0"
+    },
+    {
+      "case": "zero_imbalanced_n160_i00",
+      "children": 6,
+      "engine": "mpfr_gram",
+      "sha256": "e0ec17abb676417948952126be853f2b6fcf5b8f1bf25ef5c797bd6dd7b18e97",
+      "splits": 3,
+      "telemetry": {
+        "cpu_seconds": 1.98,
+        "elapsed_seconds": 1.99,
+        "exit_status": 0.0,
+        "rss_kib": 422048.0,
+        "system": 0.22,
+        "user": 1.76
+      },
+      "trace_sha256": "a83c408dd3b208b9da35e5043be5a336b2de13c6ff37212d2685d219432e48a3",
+      "upper_reduction": "2075519101634198814860356780792351611733530923/45671926166590716193865151022383844364247891968"
+    },
+    {
+      "case": "zero_imbalanced_n160_i00",
+      "children": 6,
+      "engine": "arb_gram",
+      "sha256": "e9ea80cfc2eb7d3d4fc34031bbad0e55cf3665bcb727f26bde0235a5e4514afa",
+      "splits": 3,
+      "telemetry": {
+        "cpu_seconds": 1.8299999999999998,
+        "elapsed_seconds": 1.83,
+        "exit_status": 0.0,
+        "rss_kib": 421952.0,
+        "system": 0.18,
+        "user": 1.65
+      },
+      "trace_sha256": "a83c408dd3b208b9da35e5043be5a336b2de13c6ff37212d2685d219432e48a3",
+      "upper_reduction": "2075519101634198814860356780792351611733530923/45671926166590716193865151022383844364247891968"
+    },
+    {
+      "case": "rare_1pct_n80_i00",
+      "children": 16,
+      "engine": "arb_gram",
+      "sha256": "14b9b65783e510117a905d7e44b422b58f1a303de0a8c96fa77f9604e816974a",
+      "splits": 8,
+      "telemetry": {
+        "cpu_seconds": 1.8,
+        "elapsed_seconds": 1.81,
+        "exit_status": 0.0,
+        "rss_kib": 262756.0,
+        "system": 0.1,
+        "user": 1.7
+      },
+      "trace_sha256": "1ccaad21a2edda191852df587fc0e7496a0827cf705cb6e96081027905cd1c3b",
+      "upper_reduction": "12875374257327858423961088501144373531617853993/365375409332725729550921208179070754913983135744"
+    },
+    {
+      "case": "rare_1pct_n80_i00",
+      "children": 14,
+      "engine": "mpfr_gram",
+      "sha256": "ad2d644c44bb4b033e9c6ce9607ac01335e3034ecac756a4e379705ad18e5011",
+      "splits": 7,
+      "telemetry": {
+        "cpu_seconds": 1.8900000000000001,
+        "elapsed_seconds": 1.9,
+        "exit_status": 0.0,
+        "rss_kib": 262828.0,
+        "system": 0.09,
+        "user": 1.8
+      },
+      "trace_sha256": "1ccaad21a2edda191852df587fc0e7496a0827cf705cb6e96081027905cd1c3b",
+      "upper_reduction": "12875374257327858423961088501144373531617853993/365375409332725729550921208179070754913983135744"
+    },
+    {
+      "case": "rare_1pct_n160_i00",
+      "children": 6,
+      "engine": "mpfr_gram",
+      "sha256": "ea3afa3e7c78a1f48e47c409f58496ff6a95004d1fba901a75a2f3ceea0d9c60",
+      "splits": 3,
+      "telemetry": {
+        "cpu_seconds": 2.15,
+        "elapsed_seconds": 2.15,
+        "exit_status": 0.0,
+        "rss_kib": 415292.0,
+        "system": 0.21,
+        "user": 1.94
+      },
+      "trace_sha256": "64a64dcbe5006b18d09f3d973d0ea8623c1514f4fe9bd83e6d7339b5867c3907",
+      "upper_reduction": "6413206162317600949743169358040084187392296145/2923003274661805836407369665432566039311865085952"
+    },
+    {
+      "case": "rare_1pct_n160_i00",
+      "children": 6,
+      "engine": "arb_gram",
+      "sha256": "c55534d026d572b9495ccdc07d26bad1d86b6808d5e937668a1ca72f0843bcbe",
+      "splits": 3,
+      "telemetry": {
+        "cpu_seconds": 1.96,
+        "elapsed_seconds": 1.97,
+        "exit_status": 0.0,
+        "rss_kib": 415292.0,
+        "system": 0.19,
+        "user": 1.77
+      },
+      "trace_sha256": "64a64dcbe5006b18d09f3d973d0ea8623c1514f4fe9bd83e6d7339b5867c3907",
+      "upper_reduction": "6413206162317600949743169358040084187392296145/2923003274661805836407369665432566039311865085952"
+    },
+    {
+      "case": "rare_5pct_n80_i00",
+      "children": 16,
+      "engine": "arb_gram",
+      "sha256": "e566de05e1f5716931a1803e295142e7df12bddcfbef238ce046faeafdd5e67d",
+      "splits": 8,
+      "telemetry": {
+        "cpu_seconds": 1.9,
+        "elapsed_seconds": 1.9,
+        "exit_status": 0.0,
+        "rss_kib": 264636.0,
+        "system": 0.13,
+        "user": 1.77
+      },
+      "trace_sha256": "20876767b3a53cbfd257650926a18efefad13b259047722c98497a864bb8a09a",
+      "upper_reduction": "578879429789556461110708609747995086438348519/22835963083295358096932575511191922182123945984"
+    },
+    {
+      "case": "rare_5pct_n80_i00",
+      "children": 14,
+      "engine": "mpfr_gram",
+      "sha256": "34831ced3e6f3b95ba8431d8167ff5a71ee159455f2e5d89022434aa2d756da8",
+      "splits": 7,
+      "telemetry": {
+        "cpu_seconds": 1.83,
+        "elapsed_seconds": 1.83,
+        "exit_status": 0.0,
+        "rss_kib": 264692.0,
+        "system": 0.11,
+        "user": 1.72
+      },
+      "trace_sha256": "20876767b3a53cbfd257650926a18efefad13b259047722c98497a864bb8a09a",
+      "upper_reduction": "578879429789556461110708609747995086438348519/22835963083295358096932575511191922182123945984"
+    },
+    {
+      "case": "rare_5pct_n160_i00",
+      "children": 6,
+      "engine": "mpfr_gram",
+      "sha256": "f83552a70e757169e08085db96f8933d5fa6126d2f49f132d3905ea12ada7066",
+      "splits": 3,
+      "telemetry": {
+        "cpu_seconds": 1.93,
+        "elapsed_seconds": 1.94,
+        "exit_status": 0.0,
+        "rss_kib": 415176.0,
+        "system": 0.17,
+        "user": 1.76
+      },
+      "trace_sha256": "590b8c6bd5c70cc634457a85f0646f01c1e62f9bd4d583c2fa982397a0d9606c",
+      "upper_reduction": "79673818152639719584770632518402763166646845/22835963083295358096932575511191922182123945984"
+    },
+    {
+      "case": "rare_5pct_n160_i00",
+      "children": 6,
+      "engine": "arb_gram",
+      "sha256": "4623d5e8d43ea708971c4aad58741d4517b4e26d71be51c6c483411495dba679",
+      "splits": 3,
+      "telemetry": {
+        "cpu_seconds": 1.8399999999999999,
+        "elapsed_seconds": 1.84,
+        "exit_status": 0.0,
+        "rss_kib": 415152.0,
+        "system": 0.17,
+        "user": 1.67
+      },
+      "trace_sha256": "590b8c6bd5c70cc634457a85f0646f01c1e62f9bd4d583c2fa982397a0d9606c",
+      "upper_reduction": "79673818152639719584770632518402763166646845/22835963083295358096932575511191922182123945984"
+    },
+    {
+      "case": "zero_imbalanced_n160_i05",
+      "children": 8,
+      "engine": "arb_gram",
+      "sha256": "a0bd71012eddf45cbaf70fc486ee51aceb8eaf716170670c903d5026c1bcecae",
+      "splits": 4,
+      "telemetry": {
+        "cpu_seconds": 2.0100000000000002,
+        "elapsed_seconds": 2.01,
+        "exit_status": 0.0,
+        "rss_kib": 425600.0,
+        "system": 0.21,
+        "user": 1.8
+      },
+      "trace_sha256": "77eefe0d586259395fcb05661eedb83559d6983d0894b1463c10cf82a27d3588",
+      "upper_reduction": "0"
+    },
+    {
+      "case": "zero_imbalanced_n160_i05",
+      "children": 6,
+      "engine": "mpfr_gram",
+      "sha256": "5b3b9edb35e229da12cd0ce86ce12db6562eac9c74a02f242ffcdf37e9e07201",
+      "splits": 3,
+      "telemetry": {
+        "cpu_seconds": 1.99,
+        "elapsed_seconds": 1.99,
+        "exit_status": 0.0,
+        "rss_kib": 425644.0,
+        "system": 0.2,
+        "user": 1.79
+      },
+      "trace_sha256": "77eefe0d586259395fcb05661eedb83559d6983d0894b1463c10cf82a27d3588",
+      "upper_reduction": "0"
+    },
+    {
+      "case": "zero_imbalanced_n160_i07",
+      "children": 6,
+      "engine": "mpfr_gram",
+      "sha256": "1af842411cbcfc0c4734ca75d3c7152a70aa0afc429d328ffdae77a0d8aecf60",
+      "splits": 3,
+      "telemetry": {
+        "cpu_seconds": 2.08,
+        "elapsed_seconds": 2.08,
+        "exit_status": 0.0,
+        "rss_kib": 425904.0,
+        "system": 0.22,
+        "user": 1.86
+      },
+      "trace_sha256": "0a7d58fbec3a6e755bcc20cd2c212beef8066f416e896b1ad013cbd22771a7e6",
+      "upper_reduction": "8104108990343534094963422905330585182508415663/182687704666362864775460604089535377456991567872"
+    },
+    {
+      "case": "zero_imbalanced_n160_i07",
+      "children": 6,
+      "engine": "arb_gram",
+      "sha256": "36c81194f75bb09773e6dd57da1e34a1d6897b11532ed2f16e90f87e7e7073a7",
+      "splits": 3,
+      "telemetry": {
+        "cpu_seconds": 1.91,
+        "elapsed_seconds": 1.91,
+        "exit_status": 0.0,
+        "rss_kib": 425828.0,
+        "system": 0.2,
+        "user": 1.71
+      },
+      "trace_sha256": "0a7d58fbec3a6e755bcc20cd2c212beef8066f416e896b1ad013cbd22771a7e6",
+      "upper_reduction": "8104108990343534094963422905330585182508415663/182687704666362864775460604089535377456991567872"
+    },
+    {
+      "case": "rare_1pct_n160_i13",
+      "children": 6,
+      "engine": "arb_gram",
+      "sha256": "798147ff92da23883fd2b14cadf62ecb4b7231414c6b0e62a0ce60826c9edd18",
+      "splits": 3,
+      "telemetry": {
+        "cpu_seconds": 1.88,
+        "elapsed_seconds": 1.89,
+        "exit_status": 0.0,
+        "rss_kib": 393600.0,
+        "system": 0.22,
+        "user": 1.66
+      },
+      "trace_sha256": "68dabdd5345184630f8ba05518706579f9d776d0f9c4a4eb25bb6013ebc1413d",
+      "upper_reduction": "326722065886300620838189763567084914219745983/2854495385411919762116571938898990272765493248"
+    },
+    {
+      "case": "rare_1pct_n160_i13",
+      "children": 6,
+      "engine": "mpfr_gram",
+      "sha256": "213b09bbca548c2e65ea54f19fa3529e20b72a23c35140aeef59a9ffabe439e1",
+      "splits": 3,
+      "telemetry": {
+        "cpu_seconds": 2.04,
+        "elapsed_seconds": 2.04,
+        "exit_status": 0.0,
+        "rss_kib": 393424.0,
+        "system": 0.18,
+        "user": 1.86
+      },
+      "trace_sha256": "68dabdd5345184630f8ba05518706579f9d776d0f9c4a4eb25bb6013ebc1413d",
+      "upper_reduction": "326722065886300620838189763567084914219745983/2854495385411919762116571938898990272765493248"
+    }
+  ]
+}
