@@ -1,41 +1,56 @@
-# C06/C07 host-owned reference — initial implementation (2026-11-04)
+# C06/C07 host-owned reference checkpoint — 2026-11-04
 
-## Ownership and scope
+## Implemented on PR #78
 
-Lu remains the **only** canonical ANSF/SQLite memory and permission authority.
-Cognitum does not open a canonical database, mint scope or user identities,
-apply mutations, schedule workers, or persist alternate memory.
+- C06 `memory_retrieval.py`: host-provided ANSF canonical snapshot input,
+  exact-scope and temporal checks, bounded latest-revision processing,
+  tombstone and scope-change suppression, query-literalization and ephemeral
+  SQLite FTS5/BM25 ranking; exact-token comparator for deterministic controls.
+  FTS5 indexes are ephemeral derived structures, **not** competing memory
+  stores and **not** asserted to be connected to Lu's actual ANSF database.
+- C07 `state_revision.py`: deterministic typed scalar (string/int64/bool)
+  event replay with origin separation, expected revisions, idempotency,
+  challenge/conflict provenance, supersession, retraction, expiration and
+  fail-closed transitions.
+- C07 `host_event_adapter.py`: injected host SQLite connection, required
+  host authorization callback, `BEGIN IMMEDIATE` atomic append, canonical
+  SHA256 payload digests, optimistic revision conflicts and persisted replay.
+  Its isolated `HOST_TEST_SCHEMA` is a **reference test schema only**:
+  production must use existing Lu ANSF/effect-journal schema.
+- `proto/cognitum/memory/v1/memory_state.proto` and
+  `memory_state_wire.py`: versioned typed native messages, snapshot pins,
+  host scope matching, canonical deterministic encoding and unknown/duplicate
+  field rejection, bounded payloads, presence-aware scalar union.
+- Dedicated C06/C07 acceptance workflow tests genuine SQLite FTS5 and
+  durability on Windows/Linux Python 3.11/3.13, native Proto descriptor
+  compiler parity and adversarial boundary cases.
 
-- `cognitum.memory_retrieval` accepts host-supplied canonical record snapshots,
-  provides explicit exact-scope and validity filtering, bounded literal-token
-  matching, latest-revision suppression and tombstone handling.
-- `cognitum.state_revision` replays host-supplied ordered claim events and rejects
-  stale expected revisions, conflicting event IDs and invalid transitions. The
-  result is a *derived* state view, never a durable authoritative event writer.
-- Provenance includes source IDs, citation handles, claim origins and conflict
-  source references. USER_DECISION, IMPORTED_CLAIM and MODEL_HYPOTHESIS stay distinct.
+## Non-negotiable trust boundary
 
-## Security boundary
+Lu remains the sole authority for canonical SQLite/ANSF data, identity,
+scope, authorization and effect journaling. Cognitum must **never** mint
+host grants or import its reference test table as a production canonical
+store. Host authorization precedes all state writes; the event's opaque
+`actor_authority` text is not a capability. C06 query scope checks remain
+defense in depth and cannot replace host-enforced filtering.
 
-`actor_authority` is an opaque host attestation field, **not** a permission
-that Cognitum may validate or mint. Host validation must happen before dispatch.
-The pure Python reducer does not provide cross-process exactly-once semantics:
-Lu's atomic effect journal/ANSF transaction must enforce it.
+## Remaining engineering gates (NOT completed)
 
-## Gates remaining
+1. Port the host adapter to real Lu ANSF read/snapshot and durable
+   transaction APIs; prove cancellation/recovery, concurrent writers,
+   restart, tombstone compaction and scope-reassignment safety.
+2. Add host-side cryptographic/opaque validated authorization receipt
+   at the Lu native boundary and negative OS-process boundary tests.
+3. Implement a refreshable derived FTS5/BM25 index with canonical revision
+   reconciliation and permission-filtered persistent host reads; benchmark
+   end-answer accuracy and index update costs against direct exact lookup.
+4. Confirm real Protobuf tool dispatch by Lu with request/result/effect
+   journals, and independent decoded-result revalidation where applicable.
+5. Human policy for consequential merge/conflict revision and cross-chat
+   consistency reconciler; provenance-rich belief views with effective
+   validity intervals and negative evidence.
+6. Run real matched Lu model tasks and independently measured memory,
+   latency, power/energy if available, correctness and ablation baselines.
 
-1. Pass the new `tests/test_c06_c07_reference.py` and the full portable
-   Python regression across Windows/Linux 3.11 and 3.13.
-2. Replace reference token matching with a host-owned SQLite FTS5/BM25
-   index contract, including index invalidation, canonical revision and
-   tombstone synchronization. Benchmark retrieval vs exact lookup.
-3. Define and compile strict native Protobuf C06/C07 wire schemas. Test
-   malicious, malformed, oversized and cross-scope input.
-4. Integrate against Lu's current ANSF snapshot/read and atomic
-   append/journal APIs, using actual host grants and durable replay.
-5. Validate authorization, revision conflicts and crash/restart recovery
-   across process boundary before any model tool registration.
-6. Evaluate retrieval accuracy and task impact with fixed model and
-   measured resource budgets, not just deterministic unit tests.
-
-No C06/C07 production gate is asserted by this checkpoint.
+**No C06/C07 production or Lu integration gate is claimed closed.** CI
+green alone means the isolated reference acceptance passes, not deployment.
