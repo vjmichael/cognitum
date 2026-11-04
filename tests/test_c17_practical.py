@@ -129,6 +129,15 @@ class C17HiddenTests(unittest.TestCase):
         self.assertAlmostEqual(sum(result.posteriors[-1]),1,places=12)
         self.assertIn("state_labels_not_semantic_event_truth",result.limitations)
 
+    def test_stationary_hmm_does_not_invent_change_point(self):
+        obs=tuple(HiddenObservation(1000*i,0,"sensor","stable_"+str(i))
+                  for i in range(60))
+        result=infer_hidden(hmm(),obs,alert_probability=.9)
+        self.assertEqual(result.status,"OK")
+        self.assertEqual(result.probable_states[0],"normal")
+        self.assertEqual(result.probable_states[-1],"normal")
+        self.assertFalse(any(result.change_alerts))
+
     def test_missing_emission_and_impossible_evidence(self):
         obs=tuple(HiddenObservation(1000*i,None if i in (3,7) else 0,
                                    "sensor","obs"+str(i)) for i in range(12))
