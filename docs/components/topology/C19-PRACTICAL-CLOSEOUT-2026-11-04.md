@@ -26,6 +26,8 @@ Library references:
 
 Strict numeric, source, filtration, dimension, metric and scale validation; bounded points/coordinates, matrix size and interval output; explicit refusal on malformed/noncanonical Protobuf and tampered results. `perturbation_stability` computes actual Persim bottleneck distances for the finite diagrams of two compatible queries. Stability distance is **descriptive**, not an input-noise uncertainty certificate or cross-metric proof. Degenerate/duplicate sets and truncated scales have dedicated tests. Further host-hard CPU cancellation, memory limits, trusted input provenance, confidential coordinates, outlier policies, dataset retention and OS worker isolation are **Lu integration concerns**; bounded dimensions do not replace kernel-enforced resource containment.
 
+`cognitum/topology_sensitivity.py` additionally provides deterministic farthest-point sampling (stable tie-breaking, no labels), a new exact snapshot digest for the retained points, and an actual per-dimension Persim bottleneck comparison of the original and sampled diagrams. It reports the number and indices retained and the change in strongest finite H₁ persistence. These are empirical sensitivity diagnostics, not probability intervals or formal topological stability guarantees. Native regression exercises repeated determinism, bounded retention, and real diagram distances.
+
 ## P3: falsifiable task-level benchmark
 
 `cognitum/topology_evaluation.py` and `tools/c19_topology_benchmark.py` generate fixed-seed synthetic ring vs disk clouds, fit strictly on earlier seeded examples, and report held-out accuracy for four matched scikit-learn models:
