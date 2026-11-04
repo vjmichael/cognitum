@@ -1,0 +1,26 @@
+test_anchor_cannot_be_tricked_by_forged_or_duplicate_row (test_m11.OSBoundaryTests.test_anchor_cannot_be_tricked_by_forged_or_duplicate_row) ... ok
+test_anchor_cannot_read_verifier_private_key (test_m11.OSBoundaryTests.test_anchor_cannot_read_verifier_private_key) ... M11_ROLE_START anchor
+M11_ROLE_DONE anchor 0
+ok
+test_anchored_database_rollback_is_refused (test_m11.OSBoundaryTests.test_anchored_database_rollback_is_refused) ... ok
+test_changed_producer_journal_breaks_signed_recovery (test_m11.OSBoundaryTests.test_changed_producer_journal_breaks_signed_recovery) ... ok
+test_live15_reconciled_public_only (test_m11.OSBoundaryTests.test_live15_reconciled_public_only) ... ok
+test_network_namespace_blocks_tcp_and_capabilities_dropped (test_m11.OSBoundaryTests.test_network_namespace_blocks_tcp_and_capabilities_dropped) ... M11_ROLE_START producer
+M11_ROLE_DONE producer 0
+M11_ROLE_START verifier
+M11_ROLE_DONE verifier 0
+M11_ROLE_START anchor
+M11_ROLE_DONE anchor 0
+ok
+test_process_group_watchdog_kills_isolated_descendants (test_m11.OSBoundaryTests.test_process_group_watchdog_kills_isolated_descendants) ... ok
+test_producer_cannot_see_verifier_signer_anchor_or_source (test_m11.OSBoundaryTests.test_producer_cannot_see_verifier_signer_anchor_or_source) ... M11_ROLE_START producer
+M11_ROLE_DONE producer 0
+ok
+test_verifier_cannot_read_anchor_or_modify_frozen_source (test_m11.OSBoundaryTests.test_verifier_cannot_read_anchor_or_modify_frozen_source) ... M11_ROLE_START verifier
+M11_ROLE_DONE verifier 0
+ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 18.249s
+
+OK
