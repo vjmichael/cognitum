@@ -6,6 +6,7 @@ resource limits, permission scopes and deletion of its own raw sources.
 """
 from dataclasses import dataclass,replace
 from hashlib import sha256
+from math import isfinite
 import json
 
 from .adaptation_policy import (
@@ -76,6 +77,19 @@ def evaluate_promotion(proposal:AdaptationProposal,candidate:RoutingPolicy,
                        incumbent:RoutingPolicy,holdout:tuple[Trace,...],*,
                        gate:Gate=Gate())->Promotion:
     verify_policy(candidate);verify_policy(incumbent)
+    if (type(gate) is not Gate
+            or any(type(x) not in (int,float) or not isfinite(x) for x in
+                   (gate.minimum_accuracy_gain,gate.maximum_log_loss_regression,
+                    gate.maximum_worst_family_drop,gate.minimum_baseline_accuracy,
+                    gate.max_ood_abstention))
+            or not 0<=gate.minimum_accuracy_gain<=1
+            or not 0<=gate.maximum_log_loss_regression<=5
+            or not 0<=gate.maximum_worst_family_drop<=1
+            or not 0<=gate.minimum_baseline_accuracy<=1
+            or not 0<=gate.max_ood_abstention<=1
+            or type(gate.minimum_heldout_rows) is not int
+            or not 4<=gate.minimum_heldout_rows<=512):
+        raise ValueError("invalid or nonfinite evaluation gate")
     if (candidate.status!="candidate" or incumbent.status!="approved"
             or candidate.workspace_id!=proposal.workspace_id
             or incumbent.workspace_id!=proposal.workspace_id
@@ -89,12 +103,22 @@ def evaluate_promotion(proposal:AdaptationProposal,candidate:RoutingPolicy,
             or not 4<=len(holdout)<=512
             or type(gate) is not Gate):
         raise ValueError("incompatible candidate, baseline or evaluation gate")
-    if (any(type(x) is not Trace or x.occurred_ms<proposal.holdout_from_ms
-            or x.occurred_ms>proposal.retention_until_ms
-            or x.consent_receipt!=proposal.consent_receipt
-            or x.source_digest!=proposal.source_digest
-            for x in holdout)):
-        raise ValueError("untrusted or training-overlapping holdout")
+    if (type(holdout) is not tuple
+            or len({x.event_id for x in holdout if type(x) is Trace})!=len(holdout)
+            or any(type(x) is not Trace
+                   or not _id(x.event_id)
+                   or type(x.occurred_ms) is not int
+                   or x.occurred_ms<proposal.holdout_from_ms
+                   or x.occurred_ms>=proposal.retention_until_ms
+                   or x.consent_receipt!=proposal.consent_receipt
+                   or x.source_digest!=proposal.source_digest
+                   or x.privacy_class!=proposal.privacy_class
+                   or x.task_family not in proposal.allowed_families
+                   or type(x.features) is not tuple
+                   for x in holdout)
+            or any(b.occurred_ms<=a.occurred_ms
+                   for a,b in zip(holdout,holdout[1:]))):
+        raise ValueError("untrusted, duplicated or training-overlapping holdout")
     test=score(candidate,holdout)
     baseline=score(incumbent,holdout)
     reasons=[]
@@ -111,7 +135,8 @@ def evaluate_promotion(proposal:AdaptationProposal,candidate:RoutingPolicy,
     if test.abstention_rate>gate.max_ood_abstention:
         reasons.append("excessive_abstention")
     holdout_hash=sha256(_canonical([
-        (x.event_id,x.occurred_ms,x.expected_route,x.source_digest)
+        (x.event_id,x.occurred_ms,x.features,x.expected_route,
+         x.task_family,x.source_digest,x.consent_receipt,x.privacy_class)
         for x in holdout])).hexdigest()
     return Promotion("REJECTED" if reasons else "READY_FOR_HOST_APPROVAL",
                      candidate.digest,incumbent.digest,test,baseline,
@@ -131,7 +156,10 @@ def prepare(proposal:AdaptationProposal,incumbent:RoutingPolicy)->Lifecycle:
 def transition(lifecycle:Lifecycle,*,mutation_id:str,expected_revision:int,
                decision:str,host_authorized:bool=False,
                candidate:RoutingPolicy|None=None,
-               promotion:Promotion|None=None)->Lifecycle:
+               promotion:Promotion|None=None,
+               proposal:AdaptationProposal|None=None,
+               incumbent:RoutingPolicy|None=None,
+               holdout:tuple[Trace,...]|None=None)->Lifecycle:
     verify_lifecycle(lifecycle)
     if (host_authorized is not True or not _id(mutation_id)
             or mutation_id in lifecycle.seen_mutations
@@ -141,12 +169,18 @@ def transition(lifecycle:Lifecycle,*,mutation_id:str,expected_revision:int,
     status=lifecycle.status
     if decision=="approve":
         if (status!="prepared" or candidate is None or promotion is None
-                or promotion.status!="READY_FOR_HOST_APPROVAL"
-                or promotion.candidate_digest!=candidate.digest
-                or promotion.incumbent_digest!=lifecycle.fallback_policy_digest
+                or proposal is None or incumbent is None or holdout is None
                 or candidate.status!="candidate"
-                or candidate.workspace_id!=lifecycle.workspace_id):
-            raise ValueError("candidate not independently admitted by evaluation")
+                or candidate.workspace_id!=lifecycle.workspace_id
+                or incumbent.digest!=lifecycle.fallback_policy_digest
+                or proposal.proposal_id!=lifecycle.proposal_id):
+            raise ValueError("candidate lacks independent promotion inputs")
+        recalculated=evaluate_promotion(proposal,candidate,incumbent,holdout)
+        if (recalculated.status!="READY_FOR_HOST_APPROVAL"
+                or recalculated!=promotion
+                or promotion.candidate_digest!=candidate.digest
+                or promotion.incumbent_digest!=lifecycle.fallback_policy_digest):
+            raise ValueError("forged, stale or failed independent promotion")
         target=replace(lifecycle,current_policy_digest=candidate.digest,status="active")
     elif decision=="pause" and status=="active":
         target=replace(lifecycle,status="paused")
