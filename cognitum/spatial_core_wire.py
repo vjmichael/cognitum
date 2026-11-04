@@ -35,7 +35,9 @@ def _scene(req):
         tuple(Frame(f.name,f.parent,tuple(f.translation_m),tuple(f.quaternion_xyzw))
               for f in req.frames),
         tuple(SceneObject(o.stable_id,o.frame,tuple(o.position_m),tuple(o.dimensions_m),
-                          o.visible,o.observation_source,o.timestamp_ms,o.version)
+                          o.visible,o.observation_source,o.timestamp_ms,o.version,
+                          tuple(o.orientation_xyzw) if o.orientation_xyzw else (0.,0.,0.,1.),
+                          o.geometry_ref or "unresolved",o.confidence)
               for o in req.objects),
         req.epoch,
     ))
