@@ -166,3 +166,44 @@ The current closeout rules require this real-data workflow, native Windows/
 Linux matrix and portable/core regression to pass at the **same exact latest
 PR SHA**, not merely earlier heads.
 
+
+## 6. Matched real C15 versus ByteTrack evaluation
+
+[GitHub workflow 41852572707](https://github.com/vjmichael/cognitum/actions/runs/41852572707)
+completed successfully using installed `trackers==2.6.1` on the real public
+`MOT17-02-FRCNN` validation detector rows. Both C15 and the established
+ByteTrack baseline used the **same independent detection file**, not GT input:
+
+| Standardized metric (higher is better) | C15 SciPy Hungarian | ByteTrack | C15 − ByteTrack |
+|---|---:|---:|---:|
+| MOTA | 30.202 | 30.213 | −0.011 |
+| HOTA | 31.143 | 35.468 | −4.325 |
+| IDF1 | 34.205 | 38.501 | −4.296 |
+
+The workflow saved C15 and ByteTrack prediction files and each evaluator
+score JSON as CI artifacts; dataset bytes were excluded. This is an actual
+single-sequence measured comparison. **ByteTrack wins HOTA and IDF1.** We
+must not tune using that same validation sequence and claim the improved
+score is held-out.
+
+The additional, independent `TrackEval` official-reference verification now
+checks out pinned commit
+`12c8791b303e0a0b50f753af204249e622d0281a`,
+prepares original GT and the two frozen predictions via
+`tools/c15_stage_trackeval.py`, and executes reference HOTA/CLEAR/Identity
+scoring. Its code and regression contract are committed, **but this pinned
+official-reference step has not yet been shown to succeed**. The original
+2022 source revision must be identified in any acceptance report and its
+metrics may not be conflated with the newer `trackers eval` CLI scores,
+especially when preprocessing and ignore-region policies differ.
+
+The global regression now installs `spatial-vision` and `causal-stats`, runs
+its harness as a Python package module to preserve `tools` and `tests`
+imports, and explicitly segregates Linux kernel-only recovery tests on
+Windows. This reconciliation must also pass on the latest PR head before
+merge; cross-platform success of the C15-specific matrix alone is not
+sufficient proof of the full repository.
+
+Superseded GitHub Actions runs are canceled through per-workflow/ref
+concurrency. Cancellation of stale revisions is not a test failure; **only
+the latest exact-head completed checks count for closeout**.
