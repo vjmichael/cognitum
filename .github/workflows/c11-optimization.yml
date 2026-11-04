@@ -1,0 +1,48 @@
+name: C11 real OR-Tools and HiGHS optimization acceptance
+on:
+  push:
+    paths:
+      - 'cognitum/optimization_*.py'
+      - 'cognitum/proto/optimization_pb2.py'
+      - 'proto/cognitum/optimization/v1/**'
+      - 'tests/test_c11_*.py'
+      - 'tools/check_proto_descriptors.py'
+      - 'pyproject.toml'
+      - '.github/workflows/c11-optimization.yml'
+  pull_request:
+    paths:
+      - 'cognitum/optimization_*.py'
+      - 'cognitum/proto/optimization_pb2.py'
+      - 'proto/cognitum/optimization/v1/**'
+      - 'tests/test_c11_*.py'
+      - 'tools/check_proto_descriptors.py'
+      - 'pyproject.toml'
+      - '.github/workflows/c11-optimization.yml'
+  workflow_dispatch:
+
+jobs:
+  real-optimization:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11', '3.13']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install mature engines and Protobuf compiler
+        run: python -m pip install -e ".[optimization-schedule,optimization-mip]" grpcio-tools
+      - name: Require installed OR-Tools and HiGHS
+        run: |
+          python -m pip check
+          python -c "from ortools.sat.python import cp_model; from scipy.optimize import milp; print('C11 real backend packages import')"
+      - name: Independently compile and compare native Protobuf
+        run: |
+          python -m grpc_tools.protoc -Iproto --descriptor_set_out=compiled-c11.pb proto/cognitum/optimization/v1/optimization.proto
+          python tools/check_proto_descriptors.py compiled-c11.pb
+      - name: Run all C11 regression and true backend calls
+        run: python -W error -m unittest discover -s tests -p "test_c11_*.py" -v
