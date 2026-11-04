@@ -13,6 +13,9 @@ on:
       - 'tools/c15_spatial_benchmark.py'
       - 'tools/c15_full_design_benchmark.py'
       - 'pyproject.toml'
+      - 'docs/components/spatial/C15-FULL-DESIGN-IMPLEMENTATION-2026-11-04.md'
+      - 'docs/design/technology-portfolio-C01-C19.md'
+      - 'README.md'
       - '.github/workflows/c15-spatial-core.yml'
   pull_request:
     paths:
@@ -27,6 +30,9 @@ on:
       - 'tools/c15_spatial_benchmark.py'
       - 'tools/c15_full_design_benchmark.py'
       - 'pyproject.toml'
+      - 'docs/components/spatial/C15-FULL-DESIGN-IMPLEMENTATION-2026-11-04.md'
+      - 'docs/design/technology-portfolio-C01-C19.md'
+      - 'README.md'
       - '.github/workflows/c15-spatial-core.yml'
   workflow_dispatch:
 
