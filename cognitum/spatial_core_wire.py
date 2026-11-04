@@ -4,6 +4,7 @@ from google.protobuf.message import DecodeError
 from .proto import spatial_core_pb2 as pb
 from .spatial_geometry import Frame,SceneObject,Scene,world_position,world_pose,relation,validate as validate_scene
 from .spatial_tracking import Track,Detection,update,validate as validate_track
+from .spatial_scene_graph import graph_relations
 
 MAX_INPUT=65536
 MAX_OUTPUT=65536
@@ -68,6 +69,16 @@ def execute_scene(frame:bytes)->bytes:
                           limitations=["caller_supplied_geometry_not_authenticated",
                                        "no_sensor_observations_acquired"],
                           request_sha256=sha256(frame).hexdigest())
+    relevant={req.object_id,req.reference_id}
+    for edge in graph_relations(scene):
+        if edge.subject_id not in relevant or edge.object_id not in relevant:
+            continue
+        result.relations.add(
+            subject_id=edge.subject_id,predicate=edge.predicate,
+            object_id=edge.object_id,coordinate_frame=edge.coordinate_frame,
+            value_m=edge.value_m,subject_version=edge.subject_version,
+            object_version=edge.object_version,scene_epoch=edge.scene_epoch,
+            evidence_sources=edge.evidence_sources,status=edge.status)
     return _write(result)
 
 
