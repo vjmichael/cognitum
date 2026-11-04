@@ -229,18 +229,25 @@ def _estimate_dowhy(v,out):
     identified=set(estimand.get_backdoor_variables())
     if identified != set(q.adjustment):
         raise CausalBackendError('adjustment_set_disagrees_with_identification')
+    # DoWhy establishes an identified *graphical* backdoor estimand.
+    # Independently compute an HC3 interval using a maintained regression
+    # engine: DoWhy estimators do not all expose intervals consistently.
     estimate=model.estimate_effect(estimand,method_name='backdoor.linear_regression',
-                                   confidence_intervals=True,control_value=0,treatment_value=1)
-    if not hasattr(estimate,'get_confidence_intervals'):
-        raise CausalBackendError('interval_not_available')
-    interval=estimate.get_confidence_intervals(confidence_level=1-q.alpha)
-    if interval is None or len(interval)!=2:
-        raise CausalBackendError('interval_not_available')
-    x,l,h=_clean_effect(estimate.value,interval[0],interval[1])
-    out.estimand='backdoor_ate_identified_from_declared_dag'
-    out.effect=x;out.interval_lower=l;out.interval_upper=h
-    out.has_effect=True;out.has_interval=True;out.confidence_level=1-q.alpha
-    out.uncertainty_kind='backend_confidence_interval'
+                                   confidence_intervals=False,control_value=0,treatment_value=1)
+    _estimate_statsmodels(v,out)
+    try:
+        from numpy import asarray
+        if asarray(estimate.value).size != 1:
+            raise CausalBackendError('malformed_backend_result')
+        dowhy_value=float(asarray(estimate.value).reshape(-1)[0])
+    except (TypeError,ValueError,AttributeError,IndexError) as e:
+        raise CausalBackendError('malformed_backend_result') from e
+    if (not math.isfinite(dowhy_value) or
+        abs(dowhy_value-out.effect)>max(1e-6,1e-3*max(abs(dowhy_value),abs(out.effect)))):
+        raise CausalBackendError('backdoor_estimator_disagreement')
+    out.estimand='dag_identified_backdoor_ate_linear_model'
+    out.uncertainty_kind='HC3_asymptotic_interval_after_DAG_identification'
+
 
 
 def _estimate_econml(v,out):
