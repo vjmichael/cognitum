@@ -43,9 +43,9 @@ class C15RealMOTAcceptanceContract(unittest.TestCase):
             gt=root/"gt.txt"
             c15=root/"c15.txt"
             byte=root/"bytetrack.txt"
-            gt.write_text("1,1,0,0,10,10,1,1,1\\n")
-            c15.write_text("1,3,0,0,10,10,0.8,-1,-1,-1\\n")
-            byte.write_text("1,4,0,0,10,10,0.8,-1,-1,-1\\n")
+            gt.write_text("1,1,0,0,10,10,1,1,1\n")
+            c15.write_text("1,3,0,0,10,10,0.8,-1,-1,-1\n")
+            byte.write_text("1,4,0,0,10,10,0.8,-1,-1,-1\n")
             target=root/"stage"
             seqmap,hashes=stage(target,gt,c15,byte)
             self.assertTrue(seqmap.is_file())
