@@ -82,3 +82,29 @@ dataset split hashes, baseline identity/version, trained checkpoint digest
 whether it was actually exercised through Lu's model/tool orchestration.
 Hardware acceleration, especially HDC low-power edge hardware, is a distinct
 research track; desktop timing is not a valid proxy for joules/inference.
+
+
+## Deferred research decision — ARM/low-power hypothesis (owner direction)
+
+**Provisional interpretation of historical benchmarks, not a general HDC verdict:**
+HDC may have its most compelling engineering niche in resource-constrained,
+low-power devices, particularly ARM microcontrollers/embedded targets.
+Current high-end Lu environments should keep HDC **research-only**.
+
+**Do not declare HDC, KAN or SSM defeated:** the tested reference slices do
+not cover all major published techniques or the project owner's earlier
+recovered implementations. The comparative results are conditional on
+implementations, task selection, hardware and optimization, not universal
+architecture rankings.
+
+**Deferred C08-EDGE gate:** when resumed, choose specific ARM processors and
+microcontroller memory/power budgets; port representative BSC/MAP/HRR/FHRR
+and incremental classifiers to equivalent optimized native kernels; compare
+against optimized classical tinyML/classifiers and direct exact lookup under
+identical streaming/noise workloads; report measured energy per sample,
+RAM/flash, quality, cold start and update cost. Do not claim that a desktop
+Python XOR benchmark measures edge energy.
+
+**Current priority:** preserve this research direction; continue recovering
+and testing the existing component work instead of diverting the entire
+Cognitum development program into ARM hardware engineering.
