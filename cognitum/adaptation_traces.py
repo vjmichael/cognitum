@@ -6,7 +6,22 @@ This in-memory reference retains only event digests after revocation.
 """
 from dataclasses import dataclass,replace,asdict
 from hashlib import sha256
-from .adaptation_policy import Trace,_canonical,_id,_digest,MAX_ROWS
+from math import isfinite
+from .adaptation_policy import Trace,_canonical,_id,_digest,MAX_ROWS,MAX_FEATURES,ROUTES,PRIVACY
+
+def _safe_numeric_trace(t,consent,source):
+    return (type(t) is Trace and _id(t.event_id)
+            and type(t.occurred_ms) is int and t.occurred_ms>=0
+            and type(t.retention_until_ms) is int
+            and t.retention_until_ms>t.occurred_ms
+            and t.consent_receipt==consent and t.source_digest==source
+            and t.privacy_class in PRIVACY and _id(t.task_family)
+            and t.expected_route in ROUTES
+            and type(t.features) is tuple
+            and 1<=len(t.features)<=MAX_FEATURES
+            and all(type(v) in (float,int) and isfinite(v) and abs(v)<=1e5
+                    for v in t.features))
+
 
 @dataclass(frozen=True)
 class TraceCollection:
@@ -32,6 +47,8 @@ def verify_collection(c):
             or c.status not in ("collecting","paused","revoked")
             or type(c.revision) is not int or c.revision<0
             or type(c.traces) is not tuple or len(c.traces)>MAX_ROWS
+            or any(not _safe_numeric_trace(t,c.consent_receipt,c.source_digest)
+                   for t in c.traces)
             or type(c.mutation_ids) is not tuple
             or len(set(c.mutation_ids))!=len(c.mutation_ids)
             or any(not _id(m) for m in c.mutation_ids)
@@ -54,9 +71,8 @@ def mutate(c,*,decision,mutation_id,expected_revision,host_authorized=False,
             or type(expected_revision) is not int or expected_revision!=c.revision):
         raise PermissionError("trace source/consent host gate or revision failed")
     if decision=="append" and c.status=="collecting":
-        if (type(trace) is not Trace or trace.consent_receipt!=c.consent_receipt
-                or trace.source_digest!=c.source_digest
-                or not _id(trace.event_id) or len(c.traces)>=MAX_ROWS
+        if (not _safe_numeric_trace(trace,c.consent_receipt,c.source_digest)
+                or len(c.traces)>=MAX_ROWS
                 or type(now_ms) is not int or now_ms<0
                 or trace.occurred_ms>now_ms or now_ms>=trace.retention_until_ms
                 or trace.event_id in {x.event_id for x in c.traces}
