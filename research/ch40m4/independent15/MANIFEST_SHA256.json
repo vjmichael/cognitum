@@ -1,0 +1,37 @@
+{
+  "protocol": "CH40M4-15-NATIVE-POINT-AUDIT-PROVENANCE-V1",
+  "research_only": true,
+  "scientific_release": "NO_GO",
+  "files": [
+    {
+      "name": "README.md",
+      "size_bytes": 3959,
+      "sha256": "732c43f79f142d113ea326a90e9d759da4a1adecefe09cdbfc68f7982dc98817"
+    },
+    {
+      "name": "IBEX15_SOPLEX_04S.json",
+      "size_bytes": 21972,
+      "sha256": "4de5a2636a302c4b6b6b06c188128e92e95d7367aae88da539abb5f141056455"
+    },
+    {
+      "name": "IBEX15_INDEPENDENT_AUDIT.json",
+      "size_bytes": 34322,
+      "sha256": "5febd9b9b57f3a5b4f08356b9fb870f0b53e12ec943576bb41378a1de227136a"
+    },
+    {
+      "name": "opt15_soplex.py",
+      "size_bytes": 2711,
+      "sha256": "7bc6ee1d0028ca1b372bdce6687c93c4cf10b6bfe31f80a018c49056a92915a6"
+    },
+    {
+      "name": "audit_native15.py",
+      "size_bytes": 5238,
+      "sha256": "a007efe260ceeeb00ef60714f194a6713eecae6d9daf6698633e1c4588df543c"
+    },
+    {
+      "name": "test_acceptance.py",
+      "size_bytes": 3350,
+      "sha256": "5cfb273ea4fbe69df4b677d8a0b79807b8805974da432cc037c4fa4bcfc321d3"
+    }
+  ]
+}
