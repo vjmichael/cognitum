@@ -53,7 +53,7 @@ def smtlib_for_problem(problem: SMTProblem) -> bytes:
         if not a.terms:
             lhs="0"
         else:
-            members=["(* "+_int(c)+" "+_atom(n)+")" for n,c in a.terms]
+            members=[(_atom(n) if c == 1 else "(- "+_atom(n)+")" if c == -1 else "(* "+_int(c)+" "+_atom(n)+")") for n,c in a.terms]
             lhs=members[0] if len(members)==1 else "(+ "+" ".join(members)+")"
         lines.append("(assert ("+relation[a.relation]+" "+lhs+" "+_int(a.rhs)+"))")
     lines.append("(check-sat)")
