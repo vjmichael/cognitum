@@ -45,6 +45,23 @@ class C10WireTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             decode_result(forged.SerializeToString(deterministic=True),req)
 
+    def test_forged_assurance_and_unsat_labels_are_rejected(self):
+        sat=make()
+        packet=pb.VerifyResult()
+        packet.ParseFromString(execute(sat))
+        packet.assurance="independent_exhaustion"
+        with self.assertRaises(ValueError):
+            decode_result(packet.SerializeToString(deterministic=True),sat)
+        unsat=make(impossible=True)
+        packet.ParseFromString(execute(unsat))
+        packet.assurance="solver_reported"
+        with self.assertRaises(ValueError):
+            decode_result(packet.SerializeToString(deterministic=True),unsat)
+        packet.assurance="independent_exhaustion"
+        packet.status="UNSAT_UNVERIFIED"
+        with self.assertRaises(ValueError):
+            decode_result(packet.SerializeToString(deterministic=True),unsat)
+
     def test_canonical_request_and_schema_fail_closed(self):
         req=make()
         for invalid in (b"",b"\x0a\xff",req+b"\x98\x06\x01",
