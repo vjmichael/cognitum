@@ -60,6 +60,49 @@ class C15RealMOTAcceptanceContract(unittest.TestCase):
             with self.assertRaises(ValueError):
                 stage(root/"bad_stage",gt,gt,byte)
 
+    def test_bytetrack_minus_one_placeholders_excluded_without_id_rewrite(self):
+        from tools.c15_stage_trackeval import stage
+        from cognitum.spatial_mot_adapter import read_mot
+        with TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            gt=root/"gt.txt"
+            c15=root/"c15.txt"
+            bytetrack=root/"byte.txt"
+            gt.write_text("1,1,0,0,10,10,1,1,1\n"
+                          "2,1,1,0,10,10,1,1,1\n")
+            c15.write_text("1,3,0,0,10,10,0.8,-1,-1,-1\n"
+                           "2,3,1,0,10,10,0.8,-1,-1,-1\n")
+            # ByteTrack emits -1 when a detector observation is unassigned.
+            bytetrack.write_text("1,-1,40,40,10,10,0.1,-1,-1,-1\n"
+                                 "1,17,0,0,10,10,0.8,-1,-1,-1\n"
+                                 "2,17,1,0,10,10,0.8,-1,-1,-1\n"
+                                 "2,-1,45,45,10,10,0.2,-1,-1,-1\n")
+            original=bytetrack.read_bytes()
+            staging=root/"stage"
+            _,hashes=stage(staging,gt,c15,bytetrack)
+            staged=staging/"trackers"/"MOT17-train"/"ByteTrack"/"data"/"MOT17-02-FRCNN.txt"
+            rows,_=read_mot(staged,kind="prediction")
+            self.assertEqual([(x.frame,x.track_id) for x in rows],[(1,17),(2,17)])
+            self.assertEqual(hashes["bytetrack_unassigned_rows_excluded"],2)
+            self.assertNotEqual(hashes["bytetrack"],hashes["bytetrack_staged"])
+            self.assertEqual(bytetrack.read_bytes(),original)
+
+    def test_trackeval_staging_rejects_other_negative_or_all_unassigned(self):
+        from tools.c15_stage_trackeval import stage
+        with TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            gt=root/"gt.txt"
+            c15=root/"c15.txt"
+            bytetrack=root/"byte.txt"
+            gt.write_text("1,1,0,0,10,10,1,1,1\n")
+            c15.write_text("1,3,0,0,10,10,0.8,-1,-1,-1\n")
+            bytetrack.write_text("1,-2,0,0,10,10,0.8,-1,-1,-1\n")
+            with self.assertRaises(ValueError):
+                stage(root/"bad",gt,c15,bytetrack)
+            bytetrack.write_text("1,-1,0,0,10,10,0.8,-1,-1,-1\n")
+            with self.assertRaises(ValueError):
+                stage(root/"empty",gt,c15,bytetrack)
+
     def test_missing_rights_and_identical_path_block(self):
         with TemporaryDirectory() as tmp:
             file=Path(tmp)/"data.txt"
