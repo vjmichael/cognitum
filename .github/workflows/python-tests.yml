@@ -48,7 +48,7 @@ jobs:
           python -m grpc_tools.protoc -Iproto --descriptor_set_out=compiled_specialists.pb proto/cognitum/math/v1/specialists.proto
           python tools/check_proto_descriptors.py compiled_specialists.pb
       - name: Verify core tests
-        run: python -m unittest discover -s tests -p "test_*.py" -v
+        run: python -m tools.run_crossplatform_regression
       - name: Verify synthetic replay
         run: python -m cognitum --calculator replay evals/smoke.json
       - name: Verify deterministic C03 synthetic evaluation (no Lu model)
