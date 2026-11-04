@@ -68,6 +68,7 @@ def _adjust(prob,temperature):
 def _check(proposal,policy,rows,*,mode):
     verify_policy(policy)
     if (type(proposal) is not AdaptationProposal
+            or policy.status!="candidate"
             or policy.proposal_id!=proposal.proposal_id
             or policy.workspace_id!=proposal.workspace_id
             or policy.base_policy_digest!=proposal.base_policy_digest
