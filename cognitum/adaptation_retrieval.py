@@ -84,7 +84,9 @@ def validate(examples,*,cutoff_ms,now_ms,consent_receipt,source_digest):
             or not 0<cutoff_ms<=now_ms
             or not _id(consent_receipt) or not _digest(source_digest)):
         raise ValueError("invalid bounded retrieval evaluation input")
-    if type(examples[0]) is not RetrievalExample:\n        raise ValueError("invalid retrieval example shape")\n    count=len(examples[0].features)
+    if type(examples[0]) is not RetrievalExample:
+        raise ValueError("invalid retrieval example shape")
+    count=len(examples[0].features)
     if not 1<=count<=MAX_DIMENSIONS:
         raise ValueError("invalid retrieval feature count")
     seen=set();query_times={};query_splits={};last=-1
