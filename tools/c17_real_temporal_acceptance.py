@@ -94,7 +94,7 @@ def main():
     ap.add_argument("--unit",required=True)
     ap.add_argument("--authorized-data-use",action="store_true")
     opts=ap.parse_args()
-    print(json.dumps(run(Path(opts.data).resolve(),train_count=opts.train_count,
+    print(json.dumps(run(Path(opts.data).absolute(),train_count=opts.train_count,
         origin_id=opts.origin_id,unit=opts.unit,
         admitted_by_trusted_host=opts.authorized_data_use),indent=2,sort_keys=True))
 
