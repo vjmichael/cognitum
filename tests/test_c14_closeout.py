@@ -1,5 +1,7 @@
 """Production-facing C14 contracts: actual statsmodels, optional-engine mocks, failure refusal."""
 import math
+import importlib
+import importlib.util
 import sys
 import types
 import unittest
@@ -35,7 +37,9 @@ def invoke(r,**kwargs):
     blob=r.SerializeToString(deterministic=True)
     ans=pb.CausalReply();ans.ParseFromString(run_causal_wire(blob,**kwargs));return ans
 
+@unittest.skipUnless(importlib.util.find_spec('numpy'), 'C14 optional NumPy engine absent')
 class InputTests(unittest.TestCase):
+    @unittest.skipUnless(importlib.util.find_spec('statsmodels'), 'C14 optional statsmodels engine absent')
     def test_real_statsmodels_hc3_effect_and_interval(self):
         a=invoke(request())
         self.assertEqual(a.status,'completed');self.assertEqual(a.backend,'statsmodels')
@@ -118,22 +122,26 @@ class InputTests(unittest.TestCase):
         self.assertFalse(a.has_effect)
     def test_missing_optional_library(self):
         q=request('ate_dowhy')
-        a=invoke(q)
+        original=importlib.import_module
+        def reject_dowhy(module_name, *args, **kwargs):
+            if module_name=='dowhy':
+                raise ImportError('deliberate absent optional library')
+            return original(module_name,*args,**kwargs)
+        with mock.patch('cognitum.causal_specialists.importlib.import_module',side_effect=reject_dowhy):
+            a=invoke(q)
         self.assertEqual((a.status,a.code),('unavailable','optional_dependency_unavailable'))
         self.assertFalse(a.has_effect and a.has_interval)
     def test_no_swallow_invalid_wire_as_success(self):
         with self.assertRaises(Exception):run_causal_wire(b'\xff\xff')
 
+@unittest.skipUnless(importlib.util.find_spec('numpy') and importlib.util.find_spec('pandas') and importlib.util.find_spec('statsmodels'), 'C14 optional numerical dependencies absent')
 class OptionalEngineContractTests(unittest.TestCase):
     def test_dowhy_identification_and_interval(self):
         class Estimand:
             estimands={'backdoor':'foo'}
             def get_backdoor_variables(self):return ['W']
         class Estimate:
-            value=2.2
-            def get_confidence_intervals(self,confidence_level):
-                assert abs(confidence_level-0.95)<1e-9
-                return [1.9,2.5]
+            value=invoke(request('ate_statsmodels')).effect
         class Model:
             def __init__(self,**kwargs):
                 self.assertion=kwargs
@@ -142,12 +150,13 @@ class OptionalEngineContractTests(unittest.TestCase):
             def identify_effect(self,**kwargs):return Estimand()
             def estimate_effect(self,*a,**kw):
                 assert kw['method_name']=='backdoor.linear_regression'
-                assert kw['confidence_intervals']
+                assert kw['confidence_intervals'] is False
                 return Estimate()
         with mock.patch.dict(sys.modules,{'dowhy':types.SimpleNamespace(CausalModel=Model)}):
             a=invoke(request('ate_dowhy'))
         self.assertEqual(a.status,'completed')
-        self.assertAlmostEqual(a.effect,2.2);self.assertTrue(a.has_interval)
+        self.assertAlmostEqual(a.effect,2.0,delta=.1);self.assertTrue(a.has_interval)
+        self.assertIn('HC3',a.uncertainty_kind)
     def test_dowhy_refuses_unidentified(self):
         class Model:
             def __init__(self,**kw):pass
@@ -155,17 +164,17 @@ class OptionalEngineContractTests(unittest.TestCase):
         with mock.patch.dict(sys.modules,{'dowhy':types.SimpleNamespace(CausalModel=Model)}):
             a=invoke(request('ate_dowhy'))
         self.assertEqual((a.status,a.code),('error','effect_not_identified'))
-    def test_dowhy_refuses_missing_interval(self):
+    def test_dowhy_refuses_estimator_disagreement(self):
         class Estimand:
             estimands={'backdoor':'x'}
             def get_backdoor_variables(self):return ['W']
         class Model:
             def __init__(self,**kw):pass
             def identify_effect(self,**kw):return Estimand()
-            def estimate_effect(self,*a,**kw):return types.SimpleNamespace(value=2,get_confidence_intervals=lambda confidence_level:None)
+            def estimate_effect(self,*a,**kw):return types.SimpleNamespace(value=99)
         with mock.patch.dict(sys.modules,{'dowhy':types.SimpleNamespace(CausalModel=Model)}):
             a=invoke(request('ate_dowhy'))
-        self.assertEqual((a.status,a.code),('error','interval_not_available'))
+        self.assertEqual((a.status,a.code),('error','backdoor_estimator_disagreement'))
     def test_econml_conditional_effect_at_profile(self):
         class LinearDML:
             def __init__(self,**kwargs):assert kwargs['discrete_treatment'];assert kwargs['cv']==3
