@@ -91,11 +91,11 @@ class C10ProofTests(unittest.TestCase):
             cases=(
                 ([subprocess.CompletedProcess([],4,b"",b"solver error")],
                  "producer_nonzero_exit"),
-                ([subprocess.CompletedProcess([],0,b"unsat\\n(step proof)",b""),
-                  subprocess.CompletedProcess([],1,b"invalid\\n",b"rejected")],
+                ([subprocess.CompletedProcess([],0,b"unsat\n(step proof)",b""),
+                  subprocess.CompletedProcess([],1,b"invalid\n",b"rejected")],
                  "checker_failed_or_not_valid"),
-                ([subprocess.CompletedProcess([],0,b"unsat\\n(step proof)",b""),
-                  subprocess.CompletedProcess([],0,b"holey\\n",b"")],
+                ([subprocess.CompletedProcess([],0,b"unsat\n(step proof)",b""),
+                  subprocess.CompletedProcess([],0,b"holey\n",b"")],
                  "checker_failed_or_not_valid"),
             )
             for side_effect, limitation in cases:
