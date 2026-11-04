@@ -1,0 +1,56 @@
+name: C18 consent-scoped practical adaptation native acceptance
+on:
+  push:
+    paths:
+      - 'cognitum/adaptation_*.py'
+      - 'cognitum/proto/adaptation_pb2.py'
+      - 'proto/cognitum/adaptation/v1/**'
+      - 'tests/test_c18_*.py'
+      - 'tools/c18_adaptation_benchmark.py'
+      - 'tools/check_proto_descriptors.py'
+      - 'pyproject.toml'
+      - '.github/workflows/c18-adaptation.yml'
+  pull_request:
+    paths:
+      - 'cognitum/adaptation_*.py'
+      - 'cognitum/proto/adaptation_pb2.py'
+      - 'proto/cognitum/adaptation/v1/**'
+      - 'tests/test_c18_*.py'
+      - 'tools/c18_adaptation_benchmark.py'
+      - 'tools/check_proto_descriptors.py'
+      - 'pyproject.toml'
+      - '.github/workflows/c18-adaptation.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  c18-native:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11','3.13']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install real classical adaptation and Protobuf compiler
+        run: python -m pip install -e ".[adaptation-classical]" grpcio-tools
+      - name: Verify installed maintained scikit-learn engine
+        run: |
+          python -m pip check
+          python -c "import numpy,sklearn; from sklearn.linear_model import LogisticRegression; print('scikit-learn',sklearn.__version__)"
+      - name: Independently compile and verify canonical adapter Protobuf
+        run: |
+          python -m grpc_tools.protoc -Iproto --descriptor_set_out=c18-compiled.pb proto/cognitum/adaptation/v1/adaptation.proto
+          python tools/check_proto_descriptors.py c18-compiled.pb
+      - name: Actual training, permission, rollback, retention, retrieval and wire regression
+        run: python -m unittest discover -s tests -p "test_c18_*.py" -v
+      - name: Measured future-holdout adaptation benchmark
+        run: python -m tools.c18_adaptation_benchmark
