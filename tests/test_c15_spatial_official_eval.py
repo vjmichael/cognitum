@@ -64,6 +64,11 @@ class C15OfficialTrackEvalAdapter(unittest.TestCase):
             def pretend(command,**kwargs):
                 self.assertIn("--GT_FOLDER",command)
                 self.assertIn("--TRACKERS_FOLDER",command)
+                # Pinned TrackEval CLI treats an explicitly supplied
+                # SEQMAP_FILE as a list and its dataset expects one path.
+                # The pinned evaluator uses GT_FOLDER/seqmaps by default.
+                self.assertNotIn("--SEQMAP_FILE",command)
+                self.assertTrue((m.data_root/"gt"/"seqmaps"/"MOT17-train.txt").is_file())
                 self.assertIn("Candidate",command)
                 summary.write_text("HOTA MOTA IDF1\n90 80 70\n")
                 return subprocess.CompletedProcess(command,0,b"fake stdout",b"")
