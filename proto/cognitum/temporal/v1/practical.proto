@@ -1,0 +1,78 @@
+syntax = "proto3";
+package cognitum.temporal_practical.v1;
+// Declarative typed temporal evidence and CPU model parameters.
+// No executable model source, file/network access, or Lu authorizations.
+message Sample {
+  uint64 time_ms = 1;
+  repeated double values = 2;
+  repeated bool observed = 3; // length equals values; false means missing
+  string source_id = 4;
+  string observation_id = 5;
+}
+message FilterRequest {
+  uint32 schema_version = 1;
+  repeated string units = 2;
+  repeated Sample samples = 3;
+  string origin_id = 4;
+  string provenance_kind = 5;
+  string quality_declared = 6;
+  string kind = 7;
+  double process_variance_per_second = 8;
+  double measurement_variance = 9;
+  double prior_variance = 10;
+  double innovation_gate_sigma = 11;
+  uint32 max_forecast_ms = 12;
+  uint64 forecast_time_ms = 13;
+}
+message FilterPoint {
+  uint64 time_ms = 1;
+  repeated double mean = 2;
+  repeated double variance = 3;
+  repeated double normalized_innovation = 4;
+  repeated bool has_innovation = 5;
+  repeated bool missing = 6;
+  repeated bool anomalies = 7;
+}
+message FilterResult {
+  uint32 schema_version = 1;
+  string status = 2;
+  repeated FilterPoint points = 3;
+  repeated double forecast_mean = 4;
+  repeated double forecast_variance = 5;
+  uint64 forecast_time_ms = 6;
+  uint32 observed_count = 7;
+  uint32 missing_count = 8;
+  uint32 anomalies_count = 9;
+  bool ood = 10;
+  repeated string limitations = 11;
+  string request_sha256 = 12;
+}
+message HMMObservation {
+  uint64 time_ms = 1;
+  uint32 category = 2;
+  bool observed = 3;
+  string source_id = 4;
+  string observation_id = 5;
+}
+message HMMRequest {
+  uint32 schema_version = 1;
+  repeated string state_names = 2;
+  repeated double prior = 3;
+  repeated DoubleVector transition_rows = 4;
+  repeated DoubleVector emission_rows = 5;
+  uint32 sampling_interval_ms = 6;
+  string model_source = 7;
+  repeated HMMObservation observations = 8;
+  double alert_probability = 9;
+}
+message DoubleVector { repeated double values = 1; }
+message HMMResult {
+  uint32 schema_version = 1;
+  string status = 2;
+  repeated DoubleVector posterior_rows = 3;
+  repeated string probable_states = 4;
+  repeated bool change_alerts = 5;
+  double total_log_likelihood = 6;
+  repeated string limitations = 7;
+  string request_sha256 = 8;
+}
