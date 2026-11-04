@@ -8,7 +8,7 @@ The user's requested C05 expansion includes symbolic algebra, scientific functio
 
 | Specialist / experimental operation | Implemented scope | Output semantics and main limit |
 |---|---|---|
-| `cognitum.math.symbolic` | Expand/derivative of one-variable rational polynomials `x`, degree ≤6; ≤48 AST nodes and limited coefficient bit size | Canonical exact polynomial; **not** arbitrary symbolic simplification, integration, factorization or equation reasoning |
+| `cognitum.math.symbolic` | Expand/derivative of rational polynomials through degree 6; exact rational-root factorization of degree ≤2 only; ≤48 AST nodes and bounded coefficients | Exact polynomial for expansion/derivative, or an equivalent factor expression in the existing `polynomial` field; irreducible rational quadratics remain expanded; **not** general factorization, integration or equation reasoning |
 | `cognitum.math.scientific` | mpmath real `sin`, `cos`, `exp`, `log`, `sqrt`; 15–80 significant digits; finite canonical decimal input; absolute argument ≤100; trig in **radians** | Numerical approximation, **no certified error interval**. Precision context cloned per call so global `mp.dps` is unaffected |
 | `cognitum.math.precision` | Decimal context add/subtract/multiply/divide/sqrt at 15–256 significant decimal digits | Finite-precision rounded decimal result, **not exact rational provenance**; core stdlib `decimal` |
 | `cognitum.math.linear` | Exact determinant, matrix multiplication, and nonsingular linear solve; 1–4 rows/columns; `Fraction` inputs and outputs | Exact small rational matrix arithmetic; rejects invalid shapes, singular systems and unbounded values |
@@ -58,3 +58,11 @@ new Decimal operations and rounding behavior.
 **Admission remains unchanged:** no model-visible tool or Lu registration,
 no OS-isolated scientific worker, no general CAS claim. CI and independent
 on-host validation must pass before this checkpoint can be called verified.
+
+## P2.2 rational quadratic factorization (November 4, 2026)
+
+The typed `SymbolicRequest.action` now accepts `factor` for polynomials of degree **at most two** over the rational numbers. Discriminants are computed exactly, and `math.isqrt` checks whether numerator and denominator are perfect squares; there are **no floating-point square-root guesses**. If two rational roots exist (including repeated roots), the result is an expression of exact linear factors with the leading rational coefficient. Linear and constant cases are supported. Irreducible rational quadratics return their expanded polynomial with `irreducible_over_rationals` in limitations. Degree three and higher is rejected for this operation, not silently called fully factored.
+
+The current `SymbolicResult.polynomial` Protobuf field is reused for the equivalent factor **expression**, rather than introducing a wire-incompatible result. The response includes `polynomial_field_contains_factor_expression`, `factor_degree_le_2`, and the relevant status limitation so consumers do not misinterpret representation. Every returned factor expression must pass the existing bounded AST parser and re-expand exactly to the original rational polynomial. This is not a completeness proof for general symbolic algebra. Existing negative tests remain in force; new tests require exact equivalence across integer/rational, repeated-root, zero-root, negative-leading, constant and rational-irreducible cases.
+
+All six specialist entries remain inert and unavailable to models. Lu authorization, worker isolation, and controlled benchmark evidence remain separate future gates.
