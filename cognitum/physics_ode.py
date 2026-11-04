@@ -212,3 +212,51 @@ def integrate(p:PhysicalModel)->PhysicsResult:
         analytical,max_res,drift,event_t,
         actual_end>=p.t_end_s-1e-9,
     )
+
+
+@dataclass(frozen=True)
+class RefinementResult:
+    status: str
+    coarse_status: str
+    refined_status: str
+    max_position_disagreement_m: float | None = None
+    max_velocity_disagreement_m_per_s: float | None = None
+    coarse_evaluations: int = 0
+    refined_evaluations: int = 0
+    limitations: tuple[str,...] = (
+        "step_refinement_disagreement_not_rigorous_error_bound",
+        "common_integrator_bias_possible",
+        "input_model_and_boundary_uncertainty_not_measured",
+    )
+
+
+def compare_refinement(p:PhysicalModel)->RefinementResult:
+    """Independent second numerical solve with tighter tolerances/smaller steps.
+
+    A disagreement is a useful convergence alarm, NOT a guaranteed true
+    solution error; exact physical correspondence remains unverified.
+    """
+    from dataclasses import replace
+    validate(p)
+    tighter=replace(p,
+        rtol=max(1e-11,p.rtol/10),
+        atol=max(1e-13,p.atol/10),
+        max_internal_step_s=max(1e-7,p.max_internal_step_s/2),
+    )
+    coarse=integrate(p)
+    refined=integrate(tighter)
+    if coarse.status not in ("OK","EVENT_STOP") or refined.status not in ("OK","EVENT_STOP"):
+        return RefinementResult("UNKNOWN_COMPARISON",coarse.status,refined.status,
+                                coarse_evaluations=coarse.function_evals,
+                                refined_evaluations=refined.function_evals)
+    if coarse.status!=refined.status or len(coarse.samples)!=len(refined.samples):
+        return RefinementResult("NONCONVERGENT_EVENT_OR_SAMPLE_GRID",
+                                coarse.status,refined.status,
+                                coarse_evaluations=coarse.function_evals,
+                                refined_evaluations=refined.function_evals)
+    differences=[(abs(a.position_m-b.position_m),abs(a.velocity_m_per_s-b.velocity_m_per_s))
+                 for a,b in zip(coarse.samples,refined.samples)]
+    return RefinementResult("COMPARED",coarse.status,refined.status,
+                            max(x for x,_ in differences),
+                            max(v for _,v in differences),
+                            coarse.function_evals,refined.function_evals)
