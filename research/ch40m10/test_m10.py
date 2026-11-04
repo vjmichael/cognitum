@@ -57,7 +57,7 @@ class ContractTests(unittest.TestCase):
                     m.init_or_check(conn,{'different':True})
             finally:conn.close()
 
-@unittest.skipUnless(FULL.is_file() and PUBLIC.is_file() and INPUTS.is_dir() and (ROOT/'CH40K/traces').is_dir(),
+@unittest.skipUnless(m.AUDITOR_AVAILABLE and FULL.is_file() and PUBLIC.is_file() and INPUTS.is_dir() and (ROOT/'CH40K/traces').is_dir(),
     'original frozen cases, trusted test public key or M.10 signed research database absent')
 class OriginalEvidenceTests(unittest.TestCase):
     @classmethod
