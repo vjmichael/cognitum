@@ -36,7 +36,7 @@ jobs:
             --jq '.assets[] | select(.name == "cvc5-Linux-x86_64-static.zip") | .digest')
           test -n "$EXPECTED"
           test "${EXPECTED#sha256:}" != "$EXPECTED"
-          printf '%s  %s\\n' "${EXPECTED#sha256:}" "$RUNNER_TEMP/cvc5/cvc5-Linux-x86_64-static.zip" | sha256sum -c -
+          printf '%s  %s\n' "${EXPECTED#sha256:}" "$RUNNER_TEMP/cvc5/cvc5-Linux-x86_64-static.zip" | sha256sum -c -
           unzip -q "$RUNNER_TEMP/cvc5/cvc5-Linux-x86_64-static.zip" -d "$RUNNER_TEMP/cvc5/unpacked"
           CVC5_BIN=$(find "$RUNNER_TEMP/cvc5/unpacked" -type f -name cvc5 -print -quit)
           test -n "$CVC5_BIN"
