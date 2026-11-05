@@ -1,0 +1,14 @@
+{
+  "milestone":"C15 T3 P2Y",
+  "status":"offline engineering verified; independent host and sensor acceptance open",
+  "preserve_prior":"C15 T3 P2X research checkpoint, P2V and R1 performance baseline remain unchanged",
+  "deferred":[
+    {"gate":"real_host_anchor_and_key","required":"Implement actual host-managed secret, durable cross-process CAS, revocation and lease authority; compare trusted and untrusted restart states","status":"deferred"},
+    {"gate":"windows_crash_recovery","required":"Native Win x86-64 ACL, file sync and system restart/power-loss tests including rollback, torn writes and concurrency","status":"deferred"},
+    {"gate":"key_rotation_and_compaction","required":"Key enrollment, epoch migration, safe tail reconciliation, disk limits and retention policy","status":"deferred"},
+    {"gate":"real_sensor_3d","required":"Calibrated depth/poses and independently annotated moving-object 3D accuracy on dynamic scenes","status":"deferred"},
+    {"gate":"sustained_latency_and_privacy","required":"End-to-end p50/p95/p99 CPU/GPU, disk, memory, key custody and data-at-rest encryption review","status":"deferred"}
+  ],
+  "failure_policy":"fail closed; never treat a cache checksum or in-memory authority mock as host attestation",
+  "baseline_policy":"Do not overwrite R1 benchmark or earlier T3 backlogs; source and hardware comparisons must be matched"
+}
