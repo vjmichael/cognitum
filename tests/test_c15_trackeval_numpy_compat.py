@@ -21,6 +21,20 @@ class C15TrackEvalNumPyCompatibility(unittest.TestCase):
             with self.assertRaises(ValueError):
                 patch(root)
 
+    def test_modern_pinned_loader_is_accepted_without_mutation(self):
+        with TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            path=root/TARGET
+            path.parent.mkdir(parents=True)
+            source=b"class MotChallenge2DBox:\\n    def load(self):\\n        return np.asarray([1], dtype=np.float64)\\n"
+            # Literal newlines in a synthetic loader, not a real TrackEval result.
+            source=source.replace(b"\\\\n", b"\\n")
+            path.write_bytes(source)
+            record=patch(root)
+            self.assertEqual(record["replacements"],0)
+            self.assertEqual(path.read_bytes(),source)
+            self.assertFalse(record["metric_logic_modified"])
+
     def test_reject_unexpected_checkout_variant(self):
         with TemporaryDirectory() as tmp:
             root=Path(tmp)
