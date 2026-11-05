@@ -26,9 +26,9 @@ class C15TrackEvalNumPyCompatibility(unittest.TestCase):
             root=Path(tmp)
             path=root/TARGET
             path.parent.mkdir(parents=True)
-            source=b"class MotChallenge2DBox:\\n    def load(self):\\n        return np.asarray([1], dtype=np.float64)\\n"
-            # Literal newlines in a synthetic loader, not a real TrackEval result.
-            source=source.replace(b"\\\\n", b"\\n")
+            source=(b"class MotChallenge2DBox:\\n"
+                    b"    def load(self):\\n"
+                    b"        return np.asarray([1], dtype=np.float64)\\n")
             path.write_bytes(source)
             record=patch(root)
             self.assertEqual(record["replacements"],0)
