@@ -32,5 +32,21 @@ causal-discovery = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "causal-learn>=0.1.4,
 # GPLv3+: manual host review; no default product distribution.
 causal-timeseries-gpl = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "tigramite>=5.2,<6"]
 
+
+# Combined-tree specialist extras; base Cognitum core remains stdlib-only.
+adaptation-classical = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.14,<2", "scikit-learn>=1.5,<2"]
+formal-cvc5 = ["protobuf>=6.31,<8", "cvc5>=1.2,<2"]
+formal-z3 = ["protobuf>=6.31,<8", "z3-solver>=4.12,<5"]
+optimization-mip = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.14,<2"]
+optimization-schedule = ["protobuf>=6.31,<8", "ortools>=9.12,<10"]
+physics-ode = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.14,<2"]
+probability-stats = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.14,<2"]
+spatial-core = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.14,<2"]
+spatial-vision = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.14,<2", "opencv-python-headless>=4.9,<5", "pillow>=10,<13"]
+temporal-learned = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.14,<2", "scikit-learn>=1.5,<2"]
+temporal-statespace = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.14,<2"]
+topology-rips = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.14,<2", "ripser>=0.6.12,<0.7", "persim>=0.3.8,<0.5", "scikit-learn>=1.5,<2"]
+topology-verify = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.14,<2", "ripser>=0.6.12,<0.7", "persim>=0.3.8,<0.5", "scikit-learn>=1.5,<2", "gudhi>=3.13,<3.14"]
+
 [tool.setuptools.packages.find]
 include = ["cognitum*"]

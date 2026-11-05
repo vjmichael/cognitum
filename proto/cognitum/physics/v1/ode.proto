@@ -1,0 +1,51 @@
+syntax = "proto3";
+package cognitum.physics_ode.v1;
+// Inert typed SI physical-model request. No callable code, shell, host tool
+// authority, user-provided differential equation source, or external files.
+message PhysicalRequest {
+  uint32 schema_version = 1;
+  string kind = 2;                // harmonic | damped | forced | falling_drag
+  string unit_system = 3;         // SI:m,s,kg,N
+  double mass_kg = 4;
+  double spring_n_per_m = 5;
+  double damping_n_s_per_m = 6;
+  double force_n = 7;
+  double gravity_m_per_s2 = 8;
+  double initial_position_m = 9;
+  double initial_velocity_m_per_s = 10;
+  double t_end_s = 11;
+  uint32 output_steps = 12;
+  double rtol = 13;
+  double atol = 14;
+  string method = 15;             // RK45 | DOP853 | Radau | BDF
+  double max_internal_step_s = 16;
+  uint32 max_function_evals = 17;
+  bool has_stop_boundary = 18;
+  double stop_at_position_m = 19;
+  string validation_domain = 20;
+}
+message PhysicsSample {
+  double t_s = 1;
+  double position_m = 2;
+  double velocity_m_per_s = 3;
+  double mechanical_energy_j = 4;
+}
+message PhysicalResult {
+  uint32 schema_version = 1;
+  string status = 2;
+  repeated PhysicsSample samples = 3;
+  string solver_method = 4;
+  double requested_rtol = 5;
+  double requested_atol = 6;
+  uint32 function_evals = 7;
+  bool has_analytic_comparison = 8;
+  double convergence_max_error_m = 9;
+  bool has_balance = 10;
+  double max_balance_residual_j = 11;
+  double max_invariant_relative_drift = 12;
+  bool has_event = 13;
+  double event_time_s = 14;
+  bool reached_end = 15;
+  string request_sha256 = 16;
+  repeated string limitations = 17;
+}

@@ -1,0 +1,86 @@
+name: Cognitum C01-C19 integration and release source gate
+
+on:
+  pull_request:
+    paths:
+      - 'cognitum/**'
+      - 'tests/**'
+      - 'tools/**'
+      - 'proto/**'
+      - 'pyproject.toml'
+      - '.github/workflows/cognitum-integration-closeout.yml'
+  push:
+    branches:
+      - main
+      - 'integration/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  combined-tree:
+    name: Combined tree / ${{ matrix.os }} / Python ${{ matrix.python-version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11', '3.13']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Guard additive C01-C19 optional dependency manifest
+        run: python -m unittest discover -s tests -p test_pyproject_component_extras.py
+      - name: Install real maintained baseline optional dependencies
+        run: python -m pip install -e ".[security,scientific,causal-stats,planning-graph,planning-validation,research-hdc-kan]" "grpcio-tools>=1.70,<2" "pytest>=9,<10" "jsonschema>=4,<5"
+      - name: Check dependency constraints and source compilation
+        run: |
+          python -m pip check
+          python -m compileall -q cognitum tests tools
+      - name: Cross-platform common-tree unit regression with explicit OS ownership
+        run: python -m tools.run_crossplatform_regression
+      - name: Detect C01-C19 integration gaps without claiming release readiness
+        run: python -m tools.cognitum_integration_source_gate --report integration-artifacts/source-inventory.json
+      - name: Strict 19-component source convergence gate
+        run: python -m tools.cognitum_integration_source_gate --require-sources --report integration-artifacts/source-strict.json
+      - name: Install all real specialist extras on converged tree
+        run: python -m pip install -e ".[security,scientific,research-hdc-kan,formal-z3,formal-cvc5,optimization-schedule,optimization-mip,planning-graph,planning-validation,probability-stats,causal-stats,spatial-core,physics-ode,temporal-statespace,temporal-learned,adaptation-classical,topology-rips,topology-verify]" "grpcio-tools>=1.70,<2" "pytest>=9,<10"
+      - name: Validate real cross-specialist dependency graph
+        run: python -m pip check
+      - name: Rerun combined-tree regression with real optional numerical backends
+        run: python -m tools.run_crossplatform_regression
+      - name: Enforce real SQLite host-memory reference tests on converged tree
+        run: python -m pytest -q tests/test_c06_c07_sqlite_reference.py
+      - name: Upload source status even when missing components block release
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-source-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: integration-artifacts/
+          if-no-files-found: warn
+          retention-days: 14
+
+  dependency-coexistence:
+    name: All optional extras / ${{ matrix.os }} / Python ${{ matrix.python-version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11', '3.13']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Validate full optional dependency manifest and negative cases
+        run: python -m unittest discover -s tests -p test_pyproject_component_extras.py
+      - name: Install every declared optional extra together (including GPL research compatibility only)
+        run: python -m tools.check_optional_dependency_coexistence --include-gpl
+      - name: Record exact resolved dependency graph
+        run: python -m pip freeze

@@ -1,0 +1,53 @@
+name: C10 native independent proof certificate acceptance
+on:
+  push:
+    paths:
+      - 'cognitum/formal_proofs.py'
+      - 'tests/test_c10_proofs.py'
+      - 'tools/c10_real_proof_smoke.py'
+      - '.github/workflows/c10-alethe-proof.yml'
+  pull_request:
+    paths:
+      - 'cognitum/formal_proofs.py'
+      - 'tests/test_c10_proofs.py'
+      - 'tools/c10_real_proof_smoke.py'
+      - '.github/workflows/c10-alethe-proof.yml'
+  workflow_dispatch:
+
+jobs:
+  real-alethe-checker:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install project and pinned cvc5 native release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python -m pip install -e ".[formal-cvc5]"
+          mkdir -p "$RUNNER_TEMP/cvc5"
+          gh release download cvc5-1.4.2 -R cvc5/cvc5 \
+            --pattern cvc5-Linux-x86_64-static.zip \
+            --dir "$RUNNER_TEMP/cvc5"
+          EXPECTED=$(gh api repos/cvc5/cvc5/releases/tags/cvc5-1.4.2 \
+            --jq '.assets[] | select(.name == "cvc5-Linux-x86_64-static.zip") | .digest')
+          test -n "$EXPECTED"
+          test "${EXPECTED#sha256:}" != "$EXPECTED"
+          printf '%s  %s\n' "${EXPECTED#sha256:}" "$RUNNER_TEMP/cvc5/cvc5-Linux-x86_64-static.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/cvc5/cvc5-Linux-x86_64-static.zip" -d "$RUNNER_TEMP/cvc5/unpacked"
+          CVC5_BIN=$(find "$RUNNER_TEMP/cvc5/unpacked" -type f -name cvc5 -print -quit)
+          test -n "$CVC5_BIN"
+          chmod +x "$CVC5_BIN"
+          "$CVC5_BIN" --version
+          echo "C10_CVC5_BINARY=$CVC5_BIN" >> "$GITHUB_ENV"
+      - name: Build established Carcara Alethe checker
+        run: |
+          cargo install --git https://github.com/ufmg-smite/carcara.git --locked
+          "${HOME}/.cargo/bin/carcara" --help
+      - name: Genuine UNSAT proof validation and SAT negative control
+        env:
+          C10_CARCARA_BINARY: /home/runner/.cargo/bin/carcara
+        run: python tools/c10_real_proof_smoke.py

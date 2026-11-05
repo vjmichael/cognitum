@@ -1,0 +1,67 @@
+syntax = "proto3";
+package cognitum.probability.v1;
+
+// Declarative observational probability; no model-generated executable code.
+message Evidence {
+  string name = 1;
+  repeated double likelihood_by_hypothesis = 2;
+  bool observed = 3;
+}
+message BayesRequest {
+  uint32 schema_version = 1;
+  repeated string hypotheses = 2;
+  repeated double prior = 3;
+  repeated Evidence observations = 4;
+  string prior_source = 5;
+  string likelihood_source = 6;
+  repeated string assumptions = 7;
+}
+message BayesResult {
+  uint32 schema_version = 1;
+  string status = 2;
+  repeated double posterior = 3;
+  double evidence_probability = 4;
+  double log_evidence = 5;
+  string method = 6;
+  repeated string limitations = 7;
+  string request_sha256 = 8;
+}
+message BetaRequest {
+  uint32 schema_version = 1;
+  uint32 successes = 2;
+  uint32 failures = 3;
+  double alpha_prior = 4;
+  double beta_prior = 5;
+  double credibility = 6;
+  string prior_source = 7;
+  string data_source = 8;
+}
+message BetaResult {
+  uint32 schema_version = 1;
+  string status = 2;
+  double posterior_mean = 3;
+  double credible_lower = 4;
+  double credible_upper = 5;
+  double alpha_posterior = 6;
+  double beta_posterior = 7;
+  repeated string limitations = 8;
+  string request_sha256 = 9;
+}
+message CalibrationRequest {
+  uint32 schema_version = 1;
+  repeated double probabilities = 2;
+  repeated uint32 labels = 3;
+  string source = 4;
+  uint32 bins = 5;
+}
+message CalibrationResult {
+  uint32 schema_version = 1;
+  string status = 2;
+  double brier = 3;
+  double log_loss = 4;
+  double expected_calibration_error = 5;
+  uint32 count = 6;
+  uint32 bins_with_data = 7;
+  repeated string limitations = 8;
+  string request_sha256 = 9;
+}

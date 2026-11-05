@@ -14,7 +14,19 @@ from google.protobuf.descriptor_pb2 import FileDescriptorProto, FileDescriptorSe
 from cognitum.proto import planning_pb2, physics_linear_motion_pb2
 from cognitum.proto import capability_pb2, ce_handoff_pb2, worker_pb2, supervisor_acceptance_pb2, evaluation_pb2, benchmark_pb2, collector_pb2, specialists_pb2
 
+from cognitum.proto import host_owned_memory_pb2, formal_pb2, optimization_pb2, probability_pb2, spatial_core_pb2, physics_ode_pb2, temporal_practical_pb2, adaptation_pb2, topology_pb2, memory_state_pb2
+
 EXPECTED = {
+    "cognitum/memory/v1/host_owned.proto": host_owned_memory_pb2.DESCRIPTOR,
+    "cognitum/formal/v1/formal.proto": formal_pb2.DESCRIPTOR,
+    "cognitum/optimization/v1/optimization.proto": optimization_pb2.DESCRIPTOR,
+    "cognitum/probability/v1/probability.proto": probability_pb2.DESCRIPTOR,
+    "cognitum/spatial_core/v1/spatial_core.proto": spatial_core_pb2.DESCRIPTOR,
+    "cognitum/physics/v1/ode.proto": physics_ode_pb2.DESCRIPTOR,
+    "cognitum/temporal/v1/practical.proto": temporal_practical_pb2.DESCRIPTOR,
+    "cognitum/adaptation/v1/adaptation.proto": adaptation_pb2.DESCRIPTOR,
+    "cognitum/topology/v1/topology.proto": topology_pb2.DESCRIPTOR,
+    "cognitum/memory/v1/memory_state.proto": memory_state_pb2.DESCRIPTOR,
     "cognitum/planning/v1/planning.proto": planning_pb2.DESCRIPTOR,
     "cognitum/physics/v1/linear_motion.proto": physics_linear_motion_pb2.DESCRIPTOR,
     "cognitum/v1/capability.proto": capability_pb2.DESCRIPTOR,
