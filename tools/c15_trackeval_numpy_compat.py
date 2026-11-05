@@ -26,20 +26,28 @@ def patch(root: Path) -> dict:
     # Match only removed exact aliases, not np.float64 or np.int64.
     pattern = rb"np\.(float|int)\b"
     matches = list(re.finditer(pattern, original))
-    if not matches or len(matches) > 16:
-        raise ValueError("pinned TrackEval legacy NumPy aliases absent or unexpected")
-    updated = re.sub(pattern, lambda match: b"np." + ALIASES[match.group(1)], original)
-    if updated == original:
-        raise ValueError("compatibility patch changed nothing")
-    # Check expected exact sequence before writing.
-    if b"dtype=np.float" not in original or b"dtype=np.int" not in original:
-        raise ValueError("expected TrackEval loader alias missing")
-    path.write_bytes(updated)
-    compile(updated, str(path), "exec")
+    if len(matches) > 16:
+        raise ValueError("unexpected TrackEval legacy NumPy alias count")
+    # The pinned checkout may already have removed obsolete aliases.
+    # In that case, attest an unmodified recognized loader rather than
+    # manufacturing a modification or failing the official benchmark.
+    if not matches:
+        if b"class MotChallenge2DBox" not in original:
+            raise ValueError("unrecognized modern TrackEval loader")
+        compile(original, str(path), "exec")
+        updated = original
+    else:
+        # Patch only the reviewed dtype conversions, never arbitrary calls.
+        if not all(b"dtype=np." in original[max(0,m.start()-6):m.end()] for m in matches):
+            raise ValueError("unexpected legacy NumPy alias context")
+        updated = re.sub(pattern, lambda match: b"np." + ALIASES[match.group(1)], original)
+        compile(updated, str(path), "exec")
+        path.write_bytes(updated)
     return {
         "source":"pinned TrackEval legacy NumPy type alias compatibility",
         "file":str(TARGET),
-        "transform":"np.float -> np.float64; np.int -> np.int64 (exact aliases only)",
+        "transform":("np.float -> np.float64; np.int -> np.int64 (exact aliases only)"
+                     if matches else "no-op: pinned loader already avoids removed aliases"),
         "replacements":len(matches),
         "by_alias": {alias.decode():sum(m.group(1)==alias for m in matches)
                       for alias in ALIASES},
