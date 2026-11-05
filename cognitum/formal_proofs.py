@@ -119,7 +119,8 @@ def certify_unsat(
         proof_path.write_bytes(proof)
         try:
             checked=subprocess.run(
-                [carcara_binary,"check",str(proof_path),str(source_path)],
+                [carcara_binary,"check","--allow-int-real-subtyping",
+                 "--expand-let-bindings",str(proof_path),str(source_path)],
                 cwd=work,stdin=subprocess.DEVNULL,
                 stdout=subprocess.PIPE,stderr=subprocess.PIPE,
                 timeout=timeout_seconds,check=False,
