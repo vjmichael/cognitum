@@ -1,0 +1,899 @@
+--- a/cognitum/spatial_dynamic_scene_mapping.py
++++ b/cognitum/spatial_dynamic_scene_mapping.py
+@@ -43,7 +43,8 @@
+ def _coord(cell):
+     return (cell.x, cell.y, cell.z)
+ 
+-def map_scene(req: pb.P2UDynamicSceneRequest) -> pb.P2UDynamicSceneResult:
++def _map_scene(req: pb.P2UDynamicSceneRequest, *, _evaluate_window=p2t_analyze,
++               _reconcile_temporal=temporal_reconcile) -> pb.P2UDynamicSceneResult:
+     require(isinstance(req, pb.P2UDynamicSceneRequest) and req.schema_version == 1
+             and req.research_only and not req.grants_authority and _known(req)
+             and req.ByteSize() <= MAX_REQUEST_BYTES, 'INVALID_P2U_CONTRACT')
+@@ -108,14 +109,14 @@
+                 new_capture_ids.add(depth.capture_id)
+         require(new_captures > 0, 'WINDOW_WITH_NO_NEW_CAPTURE')
+         try:
+-            output = p2t_analyze(window)
++            output = _evaluate_window(window)
+         except ObjectAwareVolumeRejected as exc:
+             raise DynamicSceneRejected('INVALID_P2T_WINDOW:' + str(exc)) from exc
+         # P2T deliberately does not expose the P2S provenance fields.
+         # Re-evaluate that bounded request for per-cell freshness instead of
+         # treating overlapping-window observations as independent support.
+         try:
+-            per_capture = temporal_reconcile(temporal)
++            per_capture = _reconcile_temporal(temporal)
+         except TemporalConsistencyRejected as exc:
+             raise DynamicSceneRejected('INVALID_CELL_PROVENANCE:' + str(exc)) from exc
+         fresh_cells = {(_coord(c)) for c in per_capture.cells if any(
+@@ -234,3 +235,8 @@
+             result.SerializeToString(deterministic=True) ==
+             map_scene(req).SerializeToString(deterministic=True), 'P2U_REPLAY_MISMATCH')
+     return True
++
++
++def map_scene(req: pb.P2UDynamicSceneRequest) -> pb.P2UDynamicSceneResult:
++    """Original independent, full-replay public evaluator."""
++    return _map_scene(req)
+--- a/cognitum/spatial_dynamic_scene_robustness.py
++++ b/cognitum/spatial_dynamic_scene_robustness.py
+@@ -52,7 +52,8 @@
+     cos_half = min(1.0, abs(sum(x*y for x, y in zip(q1,q2))))
+     return math.degrees(2 * math.acos(cos_half))
+ 
+-def analyze(req: pb.P2VRobustnessRequest) -> pb.P2VRobustnessResult:
++def _analyze(req: pb.P2VRobustnessRequest, *, _map_scene_eval=map_scene,
++             _reconcile_temporal=reconcile) -> pb.P2VRobustnessResult:
+     _check(isinstance(req,pb.P2VRobustnessRequest) and req.schema_version == 1
+            and req.research_only and not req.grants_authority and _known(req)
+            and req.ByteSize() <= MAX_BYTES, 'INVALID_P2V_CONTRACT')
+@@ -67,7 +68,7 @@
+            and 0 <= req.missing_object_exclusion_radius_m <= 20,
+            'INVALID_P2V_POLICY')
+     try:
+-        base = map_scene(req.dynamic_request)
++        base = _map_scene_eval(req.dynamic_request)
+     except DynamicSceneRejected as exc:
+         raise RobustnessRejected('INVALID_P2U_INPUT:' + str(exc)) from exc
+ 
+@@ -78,7 +79,7 @@
+     newest_cell_capture_tick = {}
+     for window in req.dynamic_request.windows:
+         try:
+-            temporal = reconcile(window.temporal_request)
++            temporal = _reconcile_temporal(window.temporal_request)
+         except TemporalConsistencyRejected as exc:
+             raise RobustnessRejected('TEMPORAL_SOURCE_INVALID:' + str(exc)) from exc
+         for cell in temporal.cells:
+@@ -230,3 +231,8 @@
+            analyze(req).SerializeToString(deterministic=True),
+            'P2V_REPLAY_MISMATCH')
+     return True
++
++
++def analyze(req: pb.P2VRobustnessRequest) -> pb.P2VRobustnessResult:
++    """Original independent, full-replay public evaluator."""
++    return _analyze(req)
+--- a/cognitum/spatial_map_lifecycle.py
++++ b/cognitum/spatial_map_lifecycle.py
+@@ -83,12 +83,7 @@
+     _check(all(c.state == volume_pb.CELL_UNKNOWN for c in audited.cells),
+            'MAP_MEASUREMENT_PROMOTION')
+ 
+-def advance(req: pb.P2WUpdateRequest) -> pb.P2WUpdateResult:
+-    """Verify entire upstream P2V snapshot, then incrementally merge its metadata.
+-
+-    The expensive P2V evaluation still runs in full. Only this metadata merge
+-    has bounded O(previous + snapshot) work and a capped resident state.
+-    """
++def _validate_request(req: pb.P2WUpdateRequest) -> None:
+     _check(isinstance(req,pb.P2WUpdateRequest) and req.schema_version == 1
+            and req.research_only and not req.grants_authority and _known(req)
+            and req.ByteSize() <= MAX_REQUEST_BYTES, 'INVALID_P2W_CONTRACT')
+@@ -96,6 +91,14 @@
+            and 1 <= req.max_resident_objects <= MAX_OBJECTS
+            and 1 <= req.max_idle_ticks <= 10_000_000 and req.sequence >= 1,
+            'INVALID_P2W_BUDGET')
++
++def advance(req: pb.P2WUpdateRequest) -> pb.P2WUpdateResult:
++    """Verify entire upstream P2V snapshot, then incrementally merge its metadata.
++
++    The expensive P2V evaluation still runs in full. Only this metadata merge
++    has bounded O(previous + snapshot) work and a capped resident state.
++    """
++    _validate_request(req)
+     try:
+         p2v_verify(req.source_request, req.source_result)
+     except RobustnessRejected as exc:
+--- a/tools/check_proto_descriptors.py
++++ b/tools/check_proto_descriptors.py
+@@ -11,11 +11,12 @@
+ import sys
+ 
+ from google.protobuf.descriptor_pb2 import FileDescriptorProto, FileDescriptorSet
+-from cognitum.proto import spatial_map_lifecycle_pb2, spatial_dynamic_scene_robustness_pb2, spatial_dynamic_scene_mapping_pb2
++from cognitum.proto import spatial_incremental_volume_pb2, spatial_map_lifecycle_pb2, spatial_dynamic_scene_robustness_pb2, spatial_dynamic_scene_mapping_pb2
+ from cognitum.proto import spatial_object_aware_volume_pb2
+ from cognitum.proto import spatial_temporal_consistency_pb2, spatial_correlated_fusion_pb2, spatial_calibrated_depth_pb2, capability_pb2, ce_handoff_pb2, worker_pb2, supervisor_acceptance_pb2, evaluation_pb2, benchmark_pb2, collector_pb2, specialists_pb2, memory_pb2, state_pb2, interpretation_pb2, formal_pb2, formal_backend_pb2, formal_advanced_pb2, optimization_pb2, workflows_pb2, optimization_runtime_pb2, planning_pb2, planning_engines_pb2, planning_stochastic_pb2, planning_structured_pb2, planning_guidance_pb2, probability_pb2, probability_backend_pb2, probability_continuous_pb2, probability_conjugate_pb2, probability_diagnostics_pb2, causal_pb2, causal_estimation_pb2, causal_dowhy_pb2, causal_heterogeneity_pb2, causal_discovery_pb2, causal_mature_pb2, causal_validation_pb2, causal_stability_pb2, causal_ambiguity_pb2, causal_temporal_pb2, causal_temporal_scm_pb2, causal_temporal_diagnostics_pb2, causal_temporal_advanced_pb2, causal_temporal_discovery_pb2, causal_uncertainty_pb2, causal_interval_comparison_pb2, causal_assurance_policy_pb2, causal_holdout_assurance_pb2, causal_adversarial_assurance_pb2, causal_integrated_assurance_pb2, causal_genuine_worker_assurance_pb2, causal_llm_caller_evaluation_pb2, spatial_scene_pb2, spatial_appearance_pipeline_pb2, spatial_structural_reconciliation_pb2, spatial_structural_c07_bridge_pb2, spatial_ontology_subset_pb2, spatial_identity_pb2, spatial_temporal_pb2, spatial_composition_pb2, spatial_volume_pb2, spatial_appearance_pb2, spatial_structural_audit_pb2, assembly_pb2, ray_occupancy_pb2, structural_hypotheses_pb2, temporal_occupancy_pb2, benchmark_observation_pb2
+ 
+ EXPECTED = {
++    "cognitum/spatial/v1/incremental_volume.proto": spatial_incremental_volume_pb2.DESCRIPTOR,
+     "cognitum/spatial/v1/map_lifecycle.proto": spatial_map_lifecycle_pb2.DESCRIPTOR,
+     "cognitum/spatial/v1/dynamic_scene_robustness.proto": spatial_dynamic_scene_robustness_pb2.DESCRIPTOR,
+     "cognitum/spatial/v1/dynamic_scene_mapping.proto": spatial_dynamic_scene_mapping_pb2.DESCRIPTOR,
+--- /dev/null
++++ b/P2X_START_HERE.md
+@@ -0,0 +1,10 @@
++# Cognitum C15 T3 P2X — exact-input incremental volumetric replay
++
++- Based on the frozen T3 P2W Library checkpoint. Lu, GitHub, original MOT17 data, and the R1 tracking-performance baseline were not modified.
++- New `cognitum/spatial_incremental_volume.py` provides `P2XSession`. A process-local HMAC-protected LRU caches exact-input P2T window outputs, P2S temporal results and complete P2V verification results. The public P2W result is identical to full `advance()`.
++- Explicit internal evaluators were introduced in P2U and P2V; their public `map_scene()` and `analyze()` remain exact full-replay entrypoints, and existing tests still pass.
++- New `proto/cognitum/spatial/v1/incremental_volume.proto` and `cognitum/proto/spatial_incremental_volume_pb2.py` define a typed result/receipt. The HMAC key is ephemeral, never handed to the caller, and not a durable host attestation.
++- Verify: `PYTHONPATH=. python -m pytest -q tests/test_c15_t3_p2x_incremental_volume.py`; `PYTHONPATH=. python tools/verify_protobuf_schemas.py --require`.
++- Profile: `PYTHONPATH=. python tools/run_c15_t3_p2x_profile.py --out /tmp/p2x_profile.json --rounds 5`.
++- Exact full-replay parity can also be demanded for each `P2XSession.advance(req, validate_parity=True)`; that switch deliberately removes most speed benefit.
++- Limitations: cache misses/restarts still trigger full replay, P2U cross-window aggregation still computes fully, upstream source_result construction is excluded from profile, caller-provided sensor/identity statements are unauthenticated, real 3D sensor validation and Windows profiling remain outstanding. No authority to navigate or alter Lu canonical state.
+--- /dev/null
++++ b/cognitum/proto/spatial_incremental_volume_pb2.py
+@@ -0,0 +1,7 @@
++"""Pinned generated binding from independently compiled P2X Protobuf schema."""
++from cognitum.proto import spatial_map_lifecycle_pb2 as _lifecycle
++from google.protobuf import descriptor_pool as _pool
++from google.protobuf.internal import builder as _builder
++DESCRIPTOR = _pool.Default().AddSerializedFile(bytes.fromhex('0a2c636f676e6974756d2f7370617469616c2f76312f696e6372656d656e74616c5f766f6c756d652e70726f746f1213636f676e6974756d2e7370617469616c2e76311a27636f676e6974756d2f7370617469616c2f76312f6d61705f6c6966656379636c652e70726f746f22d6030a0a5032585265636569707412250a0e736368656d615f76657273696f6e18012001280d520d736368656d6156657273696f6e12270a0f636f6e766572736174696f6e5f6964180220012809520e636f6e766572736174696f6e4964121b0a09766f6c756d655f69641803200128095208766f6c756d654964121a0a0873657175656e6365180420012804520873657175656e636512250a0e726571756573745f73686132353618052001280c520d72657175657374536861323536122a0a117032765f726573756c745f73686132353618062001280c520f703276526573756c74536861323536122b0a11636865636b706f696e745f73686132353618072001280c5210636865636b706f696e74536861323536123f0a1c70726576696f75735f726563656970745f686d61635f73686132353618082001280c521970726576696f757352656365697074486d6163536861323536122e0a13726563656970745f686d61635f73686132353618092001280c521172656365697074486d616353686132353612230a0d72657365617263685f6f6e6c79180a20012808520c72657365617263684f6e6c7912290a106772616e74735f617574686f72697479180b20012808520f6772616e7473417574686f7269747922d3040a14503258496e6372656d656e74616c526573756c7412250a0e736368656d615f76657273696f6e18012001280d520d736368656d6156657273696f6e12420a096c6966656379636c6518022001280b32242e636f676e6974756d2e7370617469616c2e76312e503257557064617465526573756c7452096c6966656379636c6512390a077265636569707418032001280b321f2e636f676e6974756d2e7370617469616c2e76312e50325852656365697074520772656365697074122c0a127265757365645f7032745f77696e646f777318042001280d521072657573656450327457696e646f777312340a167265636f6d70757465645f7032745f77696e646f777318052001280d52147265636f6d707574656450327457696e646f777312360a177265757365645f74656d706f72616c5f77696e646f777318062001280d521572657573656454656d706f72616c57696e646f7773123e0a1b7265636f6d70757465645f74656d706f72616c5f77696e646f777318072001280d52197265636f6d707574656454656d706f72616c57696e646f7773122a0a117265757365645f7032765f726573756c74180820012808520f726575736564503276526573756c74123d0a1b66756c6c5f7265706c61795f7061726974795f7665726966696564180920012808521866756c6c5265706c6179506172697479566572696669656412230a0d72657365617263685f6f6e6c79180a20012808520c72657365617263684f6e6c7912290a106772616e74735f617574686f72697479180b20012808520f6772616e7473417574686f72697479620670726f746f33'))
++_builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
++_builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'cognitum.proto.spatial_incremental_volume_pb2', globals())
+--- /dev/null
++++ b/cognitum/spatial_incremental_volume.py
+@@ -0,0 +1,187 @@
++"""C15 T3 P2X: bounded session-local exact-input memoization of P2V replay.
++
++P2X reuses P2T and P2S computations only when their *entire deterministic
++Protobuf requests* match a previously locally computed request. A cached P2V
++result is accepted only after exact comparison with the caller-supplied result.
++The public P2W merge is unchanged and remains the source of the output bits.
++
++The journal uses a secret generated inside the running process to authenticate
++its own receipts. It cannot attest cameras, object identities, a host, persistent
++storage, or any prior process: host authority remains out of scope.
++"""
++from __future__ import annotations
++
++from collections import OrderedDict
++import hashlib
++import hmac
++import secrets
++
++from cognitum.proto import spatial_incremental_volume_pb2 as pb
++from cognitum.proto import spatial_dynamic_scene_robustness_pb2 as vp
++from cognitum.proto import spatial_dynamic_scene_mapping_pb2 as up
++from cognitum.proto import spatial_object_aware_volume_pb2 as tp
++from cognitum.proto import spatial_temporal_consistency_pb2 as sp
++from cognitum.spatial_dynamic_scene_robustness import _analyze, RobustnessRejected
++from cognitum.spatial_dynamic_scene_mapping import _map_scene
++from cognitum.spatial_object_aware_volume import analyze as p2t_analyze
++from cognitum.spatial_temporal_consistency import reconcile as p2s_reconcile
++from cognitum.spatial_map_lifecycle import (_validate_request, _merge_preverified,
++                                            LifecycleRejected, _check_checkpoint)
++
++
++class IncrementalRejected(ValueError):
++    """Input, continuity, provenance or cache integrity is insufficient."""
++
++
++def _serialize(msg):
++    return msg.SerializeToString(deterministic=True)
++
++
++def _sha(data):
++    return hashlib.sha256(data).digest()
++
++
++class P2XSession:
++    """Isolated and bounded in-memory acceleration for one volume/conversation.
++
++    Never expose `_evaluate_p2v` or cached substage outputs as public trust
++    boundaries. `advance` checks a caller's source result and previous P2W
++    checkpoint, and has an optional expensive full-replay parity guard.
++    """
++
++    def __init__(self, *, max_cache_bytes=16_000_000, max_entries=128):
++        if not (128_000 <= max_cache_bytes <= 64_000_000 and
++                2 <= max_entries <= 1024):
++            raise ValueError('INVALID_CACHE_BUDGET')
++        self.max_cache_bytes = max_cache_bytes
++        self.max_entries = max_entries
++        self._entries = OrderedDict()  # stage+sha(request) -> (response bytes, integrity tag)
++        self._bytes = 0
++        self._key = secrets.token_bytes(32)
++        self._scope = None
++        self._sequence = 0
++        self._checkpoint_sha = b''
++        self._last_receipt_mac = b''
++        self._stats = {}
++
++    @property
++    def cached_bytes(self):
++        return self._bytes
++
++    @property
++    def cache_entries(self):
++        return len(self._entries)
++
++    def _auth(self, label, blob):
++        return hmac.new(self._key, label + blob, hashlib.sha256).digest()
++
++    def _memo(self, stage, source, output_class, compute):
++        request_blob = _serialize(source)
++        key = (stage, _sha(request_blob))
++        # The request itself is compared by full SHA-256; a collision would
++        # violate standard cryptographic assumptions, not the cache contract.
++        if key in self._entries:
++            data, tag = self._entries.pop(key)
++            if not hmac.compare_digest(self._auth(stage.encode(), key[1] + data), tag):
++                self._entries.clear()
++                self._bytes = 0
++                raise IncrementalRejected('CACHE_INTEGRITY_FAILURE')
++            self._entries[key] = (data, tag)
++            self._stats[stage][0] += 1
++            return output_class.FromString(data)
++        output = compute()
++        encoded = _serialize(output)
++        self._stats[stage][1] += 1
++        if len(encoded) <= self.max_cache_bytes:
++            while self._entries and (len(self._entries) >= self.max_entries or
++                                     self._bytes + len(encoded) > self.max_cache_bytes):
++                _, (data, _) = self._entries.popitem(last=False)
++                self._bytes -= len(data)
++            self._entries[key] = (encoded, self._auth(stage.encode(), key[1] + encoded))
++            self._bytes += len(encoded)
++        return output_class.FromString(encoded)
++
++    def _temporal(self, source):
++        return self._memo('p2s', source, sp.P2STemporalResult,
++                          lambda: p2s_reconcile(source))
++
++    def _window(self, source):
++        return self._memo('p2t', source, tp.P2TObjectAwareResult,
++                          lambda: p2t_analyze(source))
++
++    def _scene(self, source):
++        return _map_scene(source, _evaluate_window=self._window,
++                          _reconcile_temporal=self._temporal)
++
++    def _p2v(self, source):
++        return self._memo('p2v', source, vp.P2VRobustnessResult,
++                          lambda: _analyze(source, _map_scene_eval=self._scene,
++                                           _reconcile_temporal=self._temporal))
++
++    def verify_receipt(self, receipt):
++        if (not isinstance(receipt, pb.P2XReceipt) or receipt.schema_version != 1 or
++            not receipt.research_only or receipt.grants_authority or
++            len(receipt.receipt_hmac_sha256) != 32):
++            return False
++        copy = pb.P2XReceipt()
++        copy.CopyFrom(receipt)
++        copy.ClearField('receipt_hmac_sha256')
++        return hmac.compare_digest(receipt.receipt_hmac_sha256,
++            self._auth(b'P2X-receipt-v1', _serialize(copy)))
++
++    def advance(self, req, *, validate_parity=False):
++        """Verify and merge one sequential input. Output lifecycle equals P2W.
++
++        With validate_parity=True an independent full P2W replay is performed
++        and exact bytes compared; use in QA, not speed measurements.
++        """
++        _validate_request(req)
++        scope = (req.source_request.dynamic_request.conversation_id,
++                 req.source_request.dynamic_request.volume_id)
++        if self._scope is not None and self._scope != scope:
++            raise IncrementalRejected('CROSS_SCOPE_SESSION')
++        if req.sequence != self._sequence + 1:
++            raise IncrementalRejected('SESSION_SEQUENCE_MISMATCH')
++        if self._sequence and (not req.HasField('previous') or
++                              req.previous.checkpoint_sha256 != self._checkpoint_sha):
++            raise IncrementalRejected('SESSION_CHECKPOINT_CHAIN_MISMATCH')
++        if not self._sequence and req.HasField('previous'):
++            raise IncrementalRejected('SESSION_UNANCHORED_PREDECESSOR')
++        if req.HasField('previous'):
++            _check_checkpoint(req.previous)
++        self._stats = {x: [0, 0] for x in ('p2s','p2t','p2v')}
++        try:
++            evaluated = self._p2v(req.source_request)
++        except (RobustnessRejected, ValueError) as exc:
++            if isinstance(exc, IncrementalRejected):
++                raise
++            raise IncrementalRejected('UPSTREAM_REPLAY_REJECTED:' + str(exc)) from exc
++        if _serialize(evaluated) != _serialize(req.source_result):
++            raise IncrementalRejected('UNVERIFIED_UPSTREAM_P2V_RESULT')
++        try:
++            lifecycle = _merge_preverified(req)
++        except LifecycleRejected as exc:
++            raise IncrementalRejected('INVALID_LIFECYCLE:' + str(exc)) from exc
++        if validate_parity:
++            from cognitum.spatial_map_lifecycle import advance as full_advance
++            if _serialize(full_advance(req)) != _serialize(lifecycle):
++                raise IncrementalRejected('FULL_REPLAY_PARITY_FAILURE')
++        receipt = pb.P2XReceipt(schema_version=1,conversation_id=scope[0],volume_id=scope[1],
++                sequence=req.sequence,request_sha256=_sha(_serialize(req)),
++                p2v_result_sha256=_sha(_serialize(evaluated)),
++                checkpoint_sha256=lifecycle.checkpoint.checkpoint_sha256,
++                previous_receipt_hmac_sha256=self._last_receipt_mac,
++                research_only=True)
++        receipt.receipt_hmac_sha256 = self._auth(b'P2X-receipt-v1', _serialize(receipt))
++        output = pb.P2XIncrementalResult(schema_version=1, lifecycle=lifecycle, receipt=receipt,
++            reused_p2t_windows=self._stats['p2t'][0],
++            recomputed_p2t_windows=self._stats['p2t'][1],
++            reused_temporal_windows=self._stats['p2s'][0],
++            recomputed_temporal_windows=self._stats['p2s'][1],
++            reused_p2v_result=bool(self._stats['p2v'][0]),
++            full_replay_parity_verified=bool(validate_parity),research_only=True)
++        self._scope = scope
++        self._sequence = req.sequence
++        self._checkpoint_sha = lifecycle.checkpoint.checkpoint_sha256
++        self._last_receipt_mac = receipt.receipt_hmac_sha256
++        return output
+--- /dev/null
++++ b/docs/components/spatial/C15-T3-P2X-deferred-validation-backlog-v1.json
+@@ -0,0 +1,164 @@
++{
++  "schema": "cognitum-c15-t3-p2x-backlog-v1",
++  "status": "deferred-not-passed",
++  "baseline": "C15 T3 P2W checkpoint",
++  "preservation": "All earlier T1/T2/T3/R1 backlogs unchanged. Frozen R1 baseline remains accepted.",
++  "carried_forward_P2W_experiments": [
++    {
++      "id": "P2W-B01",
++      "title": "Large-scene long-horizon resident cache",
++      "requires": [
++        "calibrated real 3D streams",
++        "registered trajectories",
++        "measured memory and reference occupancy"
++      ],
++      "measures": [
++        "peak RSS",
++        "false-static retention",
++        "evicted-cell recall",
++        "occupancy precision and coverage"
++      ],
++      "acceptance": "Held-out scenes; budget sweep with confidence intervals and explicit evicted-cell loss"
++    },
++    {
++      "id": "P2W-B02",
++      "title": "True incremental upstream P2V validation",
++      "requires": [
++        "host-authenticated append-only capture journal",
++        "verified delta semantics and durable checkpoints",
++        "parity oracle from full recomputation"
++      ],
++      "measures": [
++        "full versus delta exact parity",
++        "CPU latency",
++        "peak memory",
++        "replay rejection"
++      ],
++      "acceptance": "No false claims of incremental P2V until exact parity and hostile replay gates pass"
++    },
++    {
++      "id": "P2W-B03",
++      "title": "Windows crash/restart and host authority",
++      "requires": [
++        "authorized Windows Lu test host",
++        "persistent trust store and revocation harness",
++        "durable journal anchoring checkpoint digests"
++      ],
++      "measures": [
++        "restart recovery",
++        "tamper rejection",
++        "revocation abort",
++        "scope isolation"
++      ],
++      "acceptance": "Offline checksums and Linux mocks are not valid substitute for Windows host tests"
++    },
++    {
++      "id": "P2W-B04",
++      "title": "Independent occupancy engine comparison",
++      "requires": [
++        "pinned OctoMap/OpenVDB reference",
++        "matched sensor streams, registration and voxel resolution"
++      ],
++      "measures": [
++        "voxel disagreements",
++        "eviction effects",
++        "time and resident memory"
++      ],
++      "acceptance": "Independent engine actually executed; report semantic mismatches"
++    },
++    {
++      "id": "P2W-B05",
++      "title": "Real-time resource scalability",
++      "requires": [
++        "representative high-density 3D trajectories",
++        "controlled Windows CPU/GPU platform",
++        "profiling instrumentation"
++      ],
++      "measures": [
++        "p50/p95/p99 end-to-end",
++        "peak private bytes/RSS",
++        "eviction I/O costs"
++      ],
++      "acceptance": "Compare complete pipeline, not merely preverified merge; include batching and worst case"
++    }
++  ],
++  "new_experiments": [
++    {
++      "id": "P2X-B01",
++      "title": "host-authenticated durable append-only observation journal",
++      "requires": [
++        "scoped Windows host key and rotation",
++        "durable authenticated P2X checkpoints",
++        "intentional replay and revoked-lease test harness"
++      ],
++      "measures": [
++        "restart recovery",
++        "tamper detection",
++        "key rotation behavior",
++        "host authority rejection"
++      ],
++      "status": "deferred"
++    },
++    {
++      "id": "P2X-B02",
++      "title": "true delta-verification instead of exact-input memoization",
++      "requires": [
++        "signed capture append semantics",
++        "proof of per-window dependency independence",
++        "full P2V parity oracle"
++      ],
++      "measures": [
++        "exact map/identity parity",
++        "CPU cost",
++        "failure-domain isolation"
++      ],
++      "status": "deferred"
++    },
++    {
++      "id": "P2X-B03",
++      "title": "real 3D sensor occupancy and dynamic scene accuracy",
++      "requires": [
++        "calibrated real depth streams",
++        "object/pose ground truth",
++        "held-out scenes"
++      ],
++      "measures": [
++        "occupancy precision/recall",
++        "false-static rate",
++        "recovery and reappearance accuracy"
++      ],
++      "status": "deferred"
++    },
++    {
++      "id": "P2X-B04",
++      "title": "Windows end-to-end throughput and memory",
++      "requires": [
++        "Windows x86-64 hardware run",
++        "full sensor to result pipeline",
++        "many large-scene sessions"
++      ],
++      "measures": [
++        "end-to-end p50/p95/p99",
++        "peak RSS and cache memory",
++        "cold restart misses",
++        "eviction behavior"
++      ],
++      "status": "deferred"
++    },
++    {
++      "id": "P2X-B05",
++      "title": "independent map engine match",
++      "requires": [
++        "pinned reference OctoMap or OpenVDB runtime",
++        "same calibration and scenes"
++      ],
++      "measures": [
++        "map disagreement",
++        "CPU time",
++        "memory usage"
++      ],
++      "status": "deferred"
++    }
++  ],
++  "research_status": "offline-verified-exact-input-reuse-real-host-and-sensor-acceptance-pending"
++}
+--- /dev/null
++++ b/docs/components/spatial/P2X-incremental-volumetric-replay.md
+@@ -0,0 +1,27 @@
++# C15 T3 P2X — incremental volumetric replay
++
++## Architecture
++
++P2X is a **session-local reuse layer** for the P2W verification workload, rather than a new estimator. It introduces bounded LRU exact-Protobuf-request memoization at P2T and P2S, and for complete P2V results. All cache values are generated internally from previous requests within the same scope. They carry per-entry HMAC integrity tags; an unmodified request SHA-256 digest must match for reuse. An integrity mismatch immediately rejects and clears the cache.
++
++P2V still performs full P2U cross-window aggregation, per-cell camera and object checks, and stationary-map filtering on cache misses. P2W still recomputes its bounded latest-state merge on every update. Caller supplied P2V result is compared byte-for-byte to the internally evaluated/cached expected output before any P2W merge. A `validate_parity=True` QA option performs an independent full P2W replay and compares exact output bytes.
++
++Sequence continuity is enforced with the previous P2W checkpoint hash, increasing request sequence number, and one conversation/volume scope per session. The HMAC receipt binds full input request, P2V result, P2W checkpoint, sequence, scope and prior receipt. The key exists only in memory. This makes local receipts detectable against accidental corruption or a caller who does not possess the key; it does **not** prove that the sensor or host was authentic and cannot be used to certify a checkpoint after restart.
++
++## Scientific and security limitations
++
++* SHA-256 hashes of caller-provided frame and 3D object observations do not attest sensor truth or object identity.
++* An in-process cache is not a durable authenticated observation journal, and does not survive process death.
++* No re-use on changed P2T/P2S request content; policies and capture changes cause cache misses.
++* Current public API still includes the complete P2V request/result. It is not append-only delta validation of new observations.
++* Synthetic Linux CPU timings are **verification workload only**. They exclude upstream source-result generation and real-sensor inference costs. Windows real-time p95/p99 and memory must be separately tested.
++* All T2 stationary-map outputs remain `predicted` and the existing static safety gate remains intact.
++
++## Commands
++
++```
++PYTHONPATH=. python -m pytest -q tests/test_c15_t3_p2x_incremental_volume.py
++PYTHONPATH=. python -m pytest -q tests/test_c07* tests/test_c13* tests/test_c14* tests/test_c15*
++PYTHONPATH=. python tools/verify_protobuf_schemas.py --require
++PYTHONPATH=. python tools/run_c15_t3_p2x_profile.py --rounds 5 --out /tmp/p2x-profile.json
++```
+--- /dev/null
++++ b/docs/components/spatial/P2X-local-profile.json
+@@ -0,0 +1,76 @@
++{
++  "milestone": "C15 T3 P2X",
++  "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
++  "python": "3.13.5",
++  "description": "isolated Linux CPU synthetic sliding-window benchmark; construction excluded",
++  "rounds": 5,
++  "updates_per_round": 4,
++  "first_round": {
++    "steps": [
++      {
++        "windows": 2,
++        "full_ms": 21.905,
++        "incremental_ms": 15.495,
++        "cached_p2t_windows": 0,
++        "recomputed_p2t_windows": 2,
++        "cached_temporal_windows": 2,
++        "recomputed_temporal_windows": 2,
++        "full_p2v_cache_hit": false,
++        "cache_bytes": 20690,
++        "result_exact_parity": true
++      },
++      {
++        "windows": 3,
++        "full_ms": 31.967,
++        "incremental_ms": 9.408,
++        "cached_p2t_windows": 2,
++        "recomputed_p2t_windows": 1,
++        "cached_temporal_windows": 5,
++        "recomputed_temporal_windows": 1,
++        "full_p2v_cache_hit": false,
++        "cache_bytes": 32898,
++        "result_exact_parity": true
++      },
++      {
++        "windows": 4,
++        "full_ms": 42.898,
++        "incremental_ms": 10.307,
++        "cached_p2t_windows": 3,
++        "recomputed_p2t_windows": 1,
++        "cached_temporal_windows": 7,
++        "recomputed_temporal_windows": 1,
++        "full_p2v_cache_hit": false,
++        "cache_bytes": 45498,
++        "result_exact_parity": true
++      },
++      {
++        "windows": 5,
++        "full_ms": 54.411,
++        "incremental_ms": 9.431,
++        "cached_p2t_windows": 4,
++        "recomputed_p2t_windows": 1,
++        "cached_temporal_windows": 9,
++        "recomputed_temporal_windows": 1,
++        "full_p2v_cache_hit": false,
++        "cache_bytes": 58488,
++        "result_exact_parity": true
++      }
++    ],
++    "full_total_ms": 151.180944,
++    "incremental_total_ms": 44.641384,
++    "later_full_ms": 129.275927,
++    "later_incremental_ms": 29.146119
++  },
++  "median_total_full_ms": 169.887,
++  "median_total_incremental_ms": 44.646,
++  "median_later_full_ms": 141.648,
++  "median_later_incremental_ms": 29.163,
++  "all_exact_parity": true,
++  "warnings": [
++    "synthetic only; not real-sensor validation",
++    "P2X HMAC receipts are process-local, not durable host attestations",
++    "upstream source_result generation is excluded from benchmark",
++    "full recomputation remains required after eviction, restart or cache miss",
++    "not measured on Windows; no real-device performance guarantee"
++  ]
++}
+--- /dev/null
++++ b/proto/cognitum/spatial/v1/incremental_volume.proto
+@@ -0,0 +1,30 @@
++syntax = "proto3";
++package cognitum.spatial.v1;
++// T3 P2X: process-local verified-cache receipt, NOT durable host authority.
++import "cognitum/spatial/v1/map_lifecycle.proto";
++message P2XReceipt {
++  uint32 schema_version = 1;
++  string conversation_id = 2;
++  string volume_id = 3;
++  uint64 sequence = 4;
++  bytes request_sha256 = 5;
++  bytes p2v_result_sha256 = 6;
++  bytes checkpoint_sha256 = 7;
++  bytes previous_receipt_hmac_sha256 = 8;
++  bytes receipt_hmac_sha256 = 9;
++  bool research_only = 10;
++  bool grants_authority = 11;
++}
++message P2XIncrementalResult {
++  uint32 schema_version = 1;
++  P2WUpdateResult lifecycle = 2;
++  P2XReceipt receipt = 3;
++  uint32 reused_p2t_windows = 4;
++  uint32 recomputed_p2t_windows = 5;
++  uint32 reused_temporal_windows = 6;
++  uint32 recomputed_temporal_windows = 7;
++  bool reused_p2v_result = 8;
++  bool full_replay_parity_verified = 9;
++  bool research_only = 10;
++  bool grants_authority = 11;
++}
+--- /dev/null
++++ b/tests/test_c15_t3_p2x_incremental_volume.py
+@@ -0,0 +1,151 @@
++"""P2X exact-bit parity, per-window reuse, fail-closed cache and receipt tests."""
++import unittest
++from cognitum.spatial_incremental_volume import P2XSession, IncrementalRejected
++from cognitum.spatial_map_lifecycle import advance as full_advance, LifecycleRejected
++from tests.test_c15_t3_p2w_map_lifecycle import request, next_source
++from tests.test_c15_t3_p2v_dynamic_scene_robustness import fixture
++from cognitum.proto import spatial_incremental_volume_pb2 as px
++
++
++def encoded(msg):
++    return msg.SerializeToString(deterministic=True)
++
++
++class P2XTests(unittest.TestCase):
++    def test_exact_parity_two_sequential_windows(self):
++        session = P2XSession()
++        one_req = request()
++        one = session.advance(one_req, validate_parity=True)
++        self.assertEqual(encoded(one.lifecycle), encoded(full_advance(one_req)))
++        two_req = request(next_source(fixture()), previous=one.lifecycle.checkpoint,sequence=2)
++        two = session.advance(two_req,validate_parity=True)
++        self.assertEqual(encoded(two.lifecycle),encoded(full_advance(two_req)))
++        self.assertGreater(two.reused_p2t_windows,0)
++        self.assertGreater(two.reused_temporal_windows,0)
++        self.assertGreater(two.recomputed_p2t_windows,0)
++        self.assertTrue(session.verify_receipt(one.receipt))
++        self.assertTrue(session.verify_receipt(two.receipt))
++        self.assertEqual(two.receipt.previous_receipt_hmac_sha256,one.receipt.receipt_hmac_sha256)
++        self.assertTrue(one.full_replay_parity_verified)
++        self.assertTrue(two.full_replay_parity_verified)
++
++    def test_replayed_source_hash_detected(self):
++        q=request()
++        q.source_result.cells[0].retained=not q.source_result.cells[0].retained
++        with self.assertRaisesRegex(IncrementalRejected,'UNVERIFIED_UPSTREAM_P2V_RESULT'):
++            P2XSession().advance(q)
++
++    def test_cached_output_tamper_fails_closed(self):
++        session=P2XSession()
++        q=request()
++        session._stats={s:[0,0] for s in ('p2s','p2t','p2v')}
++        session._p2v(q.source_request)
++        key=next(x for x in session._entries if x[0]=='p2v')
++        data,tag=session._entries[key]
++        session._entries[key]=(data+b'\x00',tag)
++        with self.assertRaisesRegex(IncrementalRejected,'CACHE_INTEGRITY_FAILURE'):
++            session.advance(q)
++        self.assertEqual(session.cached_bytes,0)
++
++    def test_different_session_does_not_accept_receipt(self):
++        original=P2XSession(); out=original.advance(request())
++        altered=px.P2XReceipt.FromString(encoded(out.receipt))
++        altered.checkpoint_sha256=b'1'*32
++        self.assertFalse(original.verify_receipt(altered))
++        self.assertFalse(P2XSession().verify_receipt(out.receipt))
++
++    def test_sequence_and_scope_are_isolated(self):
++        s=P2XSession()
++        out=s.advance(request())
++        with self.assertRaisesRegex(IncrementalRejected,'SESSION_SEQUENCE_MISMATCH'):
++            s.advance(request())
++        q=request(next_source(fixture()),previous=out.lifecycle.checkpoint,sequence=2)
++        q.source_request.dynamic_request.volume_id='different'
++        with self.assertRaisesRegex(IncrementalRejected,'CROSS_SCOPE_SESSION'):
++            s.advance(q)
++
++    def test_chain_rejects_different_checkpoint_even_rehashed(self):
++        from cognitum.spatial_map_lifecycle import checkpoint_digest
++        s=P2XSession(); initial=s.advance(request())
++        q=request(next_source(fixture()),previous=initial.lifecycle.checkpoint,sequence=2)
++        q.previous.cells[0].last_support_tick += 1
++        q.previous.checkpoint_sha256=checkpoint_digest(q.previous)
++        with self.assertRaisesRegex(IncrementalRejected,'SESSION_CHECKPOINT_CHAIN_MISMATCH'):
++            s.advance(q)
++
++    def test_budget_and_lru_eviction(self):
++        with self.assertRaises(ValueError):P2XSession(max_cache_bytes=100)
++        s=P2XSession(max_cache_bytes=128000,max_entries=2)
++        out=s.advance(request())
++        self.assertLessEqual(s.cached_bytes,128000)
++        self.assertLessEqual(s.cache_entries,2)
++        self.assertEqual(out.lifecycle.checkpoint.sequence,1)
++
++    def test_unchanged_legacy_p2u_and_p2v_full_replay(self):
++        from cognitum.spatial_dynamic_scene_robustness import analyze, _analyze
++        from cognitum.spatial_dynamic_scene_mapping import map_scene, _map_scene
++        q=fixture()
++        self.assertEqual(encoded(analyze(q)),encoded(_analyze(q)))
++        self.assertEqual(encoded(map_scene(q.dynamic_request)),
++                         encoded(_map_scene(q.dynamic_request)))
++
++    def test_policy_change_invalidates_p2v_but_preserves_substage_cache(self):
++        from cognitum.spatial_dynamic_scene_robustness import analyze
++        session=P2XSession()
++        one=session.advance(request())
++        q=next_source(fixture())
++        q.max_static_age_ticks += 10
++        two_req=request(q,previous=one.lifecycle.checkpoint,sequence=2)
++        two_req.source_result.CopyFrom(analyze(q))
++        two=session.advance(two_req)
++        self.assertFalse(two.reused_p2v_result)
++        self.assertGreater(two.reused_p2t_windows,0)
++        self.assertEqual(encoded(two.lifecycle),encoded(full_advance(two_req)))
++
++    def test_cache_eviction_forces_recompute_without_changing_result(self):
++        session=P2XSession(max_entries=2,max_cache_bytes=128_000)
++        one=session.advance(request())
++        q=request(next_source(fixture()),previous=one.lifecycle.checkpoint,sequence=2)
++        two=session.advance(q)
++        self.assertEqual(encoded(two.lifecycle),encoded(full_advance(q)))
++        self.assertLessEqual(session.cache_entries,2)
++
++    def test_source_input_unknown_wire_fails_before_cache_access(self):
++        from cognitum.proto import spatial_map_lifecycle_pb2 as lifecycle_pb
++        source=request()
++        polluted=lifecycle_pb.P2WUpdateRequest.FromString(encoded(source)+b'\x98\x06\x01')
++        with self.assertRaisesRegex(LifecycleRejected,'INVALID_P2W_CONTRACT'):
++            P2XSession().advance(polluted)
++
++    def test_reused_substage_cache_corruption_is_rejected(self):
++        session=P2XSession()
++        first=session.advance(request())
++        key=next(x for x in session._entries if x[0]=='p2t')
++        data,tag=session._entries[key]
++        session._entries[key]=(data[:-1]+bytes([data[-1]^1]),tag)
++        q=request(next_source(fixture()),previous=first.lifecycle.checkpoint,sequence=2)
++        with self.assertRaisesRegex(IncrementalRejected,'CACHE_INTEGRITY_FAILURE'):
++            session.advance(q)
++
++    def test_stationary_evidence_stays_non_authoritative(self):
++        from cognitum.proto import spatial_volume_pb2 as v
++        from cognitum.spatial_volume import classify
++        out=P2XSession().advance(request())
++        grid=out.lifecycle.checkpoint.current_stationary_hypothetical_volume
++        self.assertFalse(grid.grants_authority)
++        self.assertTrue(all(c.state==v.CELL_UNKNOWN for c in classify(grid).cells))
++        self.assertTrue(all(e.kind in (v.VOLUME_PREDICTED_FREE,v.VOLUME_PREDICTED_OCCUPIED) for e in grid.evidence))
++
++    def test_first_update_without_parity_does_not_claim_it(self):
++        s=P2XSession()
++        out=s.advance(request())
++        self.assertFalse(out.full_replay_parity_verified)
++        self.assertEqual(encoded(out.lifecycle),encoded(full_advance(request())))
++
++    def test_full_parity_stays_false_after_rejected_source(self):
++        s=P2XSession()
++        q=request();q.source_result.pose_discontinuity_found=True
++        with self.assertRaises(IncrementalRejected):s.advance(q,validate_parity=True)
++        self.assertEqual(s._sequence,0)
++
++if __name__=='__main__':unittest.main()
+--- /dev/null
++++ b/tools/run_c15_t3_p2x_profile.py
+@@ -0,0 +1,96 @@
++"""P2X same-input/full-replay timing comparison on synthetic sliding windows.
++
++PYTHONPATH=. python tools/run_c15_t3_p2x_profile.py --out /tmp/p2x-profile.json
++"""
++from __future__ import annotations
++import argparse
++import json
++import platform
++from pathlib import Path
++import statistics
++import time
++import sys
++
++from tests.test_c15_t3_p2v_dynamic_scene_robustness import fixture
++from tests.test_c15_t3_p2u_dynamic_scene_mapping import shifted
++from tests.test_c15_t3_p2w_map_lifecycle import request
++from cognitum.spatial_map_lifecycle import advance as full_advance
++from cognitum.spatial_incremental_volume import P2XSession
++
++
++def build_sources():
++    base=fixture()
++    result=[]
++    for i in range(4):
++        if i:
++            base.dynamic_request.windows.add().CopyFrom(shifted(base.dynamic_request.windows[0],200*i))
++        result.append(request(base))
++    return result
++
++
++def run(sources):
++    engine=P2XSession()
++    full_previous=None
++    fast_previous=None
++    full_times=[]
++    fast_times=[]
++    step_stats=[]
++    for idx,prepared in enumerate(sources):
++        from cognitum.proto import spatial_map_lifecycle_pb2 as lp
++        full=lp.P2WUpdateRequest();full.CopyFrom(prepared)
++        fast=lp.P2WUpdateRequest();fast.CopyFrom(prepared)
++        for r,prior in ((full,full_previous),(fast,fast_previous)):
++            r.sequence=idx+1
++            if prior is not None:r.previous.CopyFrom(prior)
++        t=time.perf_counter_ns(); expected=full_advance(full);full_ms=(time.perf_counter_ns()-t)/1e6
++        t=time.perf_counter_ns();actual=engine.advance(fast); fast_ms=(time.perf_counter_ns()-t)/1e6
++        if expected.SerializeToString(deterministic=True)!=actual.lifecycle.SerializeToString(deterministic=True):
++            raise AssertionError('P2X output differs from full P2W at '+str(idx))
++        full_previous=expected.checkpoint
++        fast_previous=actual.lifecycle.checkpoint
++        full_times.append(full_ms);fast_times.append(fast_ms)
++        step_stats.append({
++            'windows':len(full.source_request.dynamic_request.windows),
++            'full_ms':round(full_ms,3),'incremental_ms':round(fast_ms,3),
++            'cached_p2t_windows':actual.reused_p2t_windows,
++            'recomputed_p2t_windows':actual.recomputed_p2t_windows,
++            'cached_temporal_windows':actual.reused_temporal_windows,
++            'recomputed_temporal_windows':actual.recomputed_temporal_windows,
++            'full_p2v_cache_hit':actual.reused_p2v_result,
++            'cache_bytes':engine.cached_bytes,
++            'result_exact_parity':True})
++    return {'steps':step_stats,'full_total_ms':sum(full_times),
++            'incremental_total_ms':sum(fast_times),
++            'later_full_ms':sum(full_times[1:]),'later_incremental_ms':sum(fast_times[1:])}
++
++
++def main():
++    ap=argparse.ArgumentParser()
++    ap.add_argument('--out',required=True)
++    ap.add_argument('--rounds',type=int,default=5)
++    args=ap.parse_args()
++    if not 1<=args.rounds<=30:ap.error('rounds must be 1..30')
++    # Source construction and first P2V computation are excluded from timed calls.
++    sources=build_sources()
++    rounds=[run(sources) for _ in range(args.rounds)]
++    report={
++        'milestone':'C15 T3 P2X', 'platform':platform.platform(),
++        'python':sys.version.split()[0],
++        'description':'isolated Linux CPU synthetic sliding-window benchmark; construction excluded',
++        'rounds':args.rounds,'updates_per_round':len(sources),
++        'first_round':rounds[0],
++        'median_total_full_ms':round(statistics.median(x['full_total_ms'] for x in rounds),3),
++        'median_total_incremental_ms':round(statistics.median(x['incremental_total_ms'] for x in rounds),3),
++        'median_later_full_ms':round(statistics.median(x['later_full_ms'] for x in rounds),3),
++        'median_later_incremental_ms':round(statistics.median(x['later_incremental_ms'] for x in rounds),3),
++        'all_exact_parity':all(all(step['result_exact_parity'] for step in row['steps']) for row in rounds),
++        'warnings':['synthetic only; not real-sensor validation',
++                    'P2X HMAC receipts are process-local, not durable host attestations',
++                    'upstream source_result generation is excluded from benchmark',
++                    'full recomputation remains required after eviction, restart or cache miss',
++                    'not measured on Windows; no real-device performance guarantee']}
++    Path(args.out).parent.mkdir(parents=True,exist_ok=True)
++    Path(args.out).write_text(json.dumps(report,indent=2)+'\n')
++    print(json.dumps({k:v for k,v in report.items() if k.startswith('median') or k in ('rounds','updates_per_round','all_exact_parity')},indent=2))
++
++if __name__=='__main__':main()

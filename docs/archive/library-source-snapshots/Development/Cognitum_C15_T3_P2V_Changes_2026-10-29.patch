@@ -1,0 +1,598 @@
+--- a/tools/check_proto_descriptors.py
++++ b/tools/check_proto_descriptors.py
+@@ -11,11 +11,12 @@
+ import sys
+ 
+ from google.protobuf.descriptor_pb2 import FileDescriptorProto, FileDescriptorSet
+-from cognitum.proto import spatial_dynamic_scene_mapping_pb2
++from cognitum.proto import spatial_dynamic_scene_robustness_pb2, spatial_dynamic_scene_mapping_pb2
+ from cognitum.proto import spatial_object_aware_volume_pb2
+ from cognitum.proto import spatial_temporal_consistency_pb2, spatial_correlated_fusion_pb2, spatial_calibrated_depth_pb2, capability_pb2, ce_handoff_pb2, worker_pb2, supervisor_acceptance_pb2, evaluation_pb2, benchmark_pb2, collector_pb2, specialists_pb2, memory_pb2, state_pb2, interpretation_pb2, formal_pb2, formal_backend_pb2, formal_advanced_pb2, optimization_pb2, workflows_pb2, optimization_runtime_pb2, planning_pb2, planning_engines_pb2, planning_stochastic_pb2, planning_structured_pb2, planning_guidance_pb2, probability_pb2, probability_backend_pb2, probability_continuous_pb2, probability_conjugate_pb2, probability_diagnostics_pb2, causal_pb2, causal_estimation_pb2, causal_dowhy_pb2, causal_heterogeneity_pb2, causal_discovery_pb2, causal_mature_pb2, causal_validation_pb2, causal_stability_pb2, causal_ambiguity_pb2, causal_temporal_pb2, causal_temporal_scm_pb2, causal_temporal_diagnostics_pb2, causal_temporal_advanced_pb2, causal_temporal_discovery_pb2, causal_uncertainty_pb2, causal_interval_comparison_pb2, causal_assurance_policy_pb2, causal_holdout_assurance_pb2, causal_adversarial_assurance_pb2, causal_integrated_assurance_pb2, causal_genuine_worker_assurance_pb2, causal_llm_caller_evaluation_pb2, spatial_scene_pb2, spatial_appearance_pipeline_pb2, spatial_structural_reconciliation_pb2, spatial_structural_c07_bridge_pb2, spatial_ontology_subset_pb2, spatial_identity_pb2, spatial_temporal_pb2, spatial_composition_pb2, spatial_volume_pb2, spatial_appearance_pb2, spatial_structural_audit_pb2, assembly_pb2, ray_occupancy_pb2, structural_hypotheses_pb2, temporal_occupancy_pb2, benchmark_observation_pb2
+ 
+ EXPECTED = {
++    "cognitum/spatial/v1/dynamic_scene_robustness.proto": spatial_dynamic_scene_robustness_pb2.DESCRIPTOR,
+     "cognitum/spatial/v1/dynamic_scene_mapping.proto": spatial_dynamic_scene_mapping_pb2.DESCRIPTOR,
+     "cognitum/spatial/v1/temporal_consistency.proto": spatial_temporal_consistency_pb2.DESCRIPTOR,
+     "cognitum/spatial/v1/object_aware_volume.proto": spatial_object_aware_volume_pb2.DESCRIPTOR,
+--- a/P2V_START_HERE.md
++++ b/P2V_START_HERE.md
+@@ -0,0 +1,13 @@
++# C15 T3 P2V: Dynamic Scene Robustness
++
++Opt-in, offline, Protobuf-native research contract. P2U remains unmodified.
++
++- Contract: `proto/cognitum/spatial/v1/dynamic_scene_robustness.proto`
++- Binding: `cognitum/proto/spatial_dynamic_scene_robustness_pb2.py`
++- Runtime: `cognitum/spatial_dynamic_scene_robustness.py`
++- Tests: `tests/test_c15_t3_p2v_dynamic_scene_robustness.py`
++- Demo: `tools/run_c15_t3_p2v_demo.py`
++- Safety details: `docs/components/spatial/P2V-dynamic-scene-robustness.md`
++- Deferred tests: `docs/components/spatial/C15-T3-P2V-deferred-validation-backlog-v1.json`
++
++P2V validates declared camera pose continuity, treats object reappearance as **unverified**, and filters stale or disputed static hypotheses. It never performs camera pose estimation, independent re-identification, 3D reconstruction, canonical writes, or real Lu security checks.
+--- a/cognitum/spatial_dynamic_scene_robustness.py
++++ b/cognitum/spatial_dynamic_scene_robustness.py
+@@ -0,0 +1,232 @@
++"""C15 T3 P2V: conservative, replayable camera/occlusion/static-map gates.
++
++A read-only research adapter over P2U. P2Q has already transformed calibrated
++rays into the caller's world frame; this module never reprojects them again.
++Camera extrinsics, frame digests and T1 identities are caller supplied, not
++sensor or identity authentication. Missing observations are NOT proof of occlusion.
++"""
++from __future__ import annotations
++
++from collections import defaultdict
++import hashlib
++import math
++
++from cognitum.proto import spatial_dynamic_scene_robustness_pb2 as pb
++from cognitum.proto import spatial_dynamic_scene_mapping_pb2 as upb
++from cognitum.proto import spatial_volume_pb2 as vpb
++from cognitum.spatial_dynamic_scene_mapping import map_scene, DynamicSceneRejected
++from cognitum.spatial_temporal_consistency import reconcile, TemporalConsistencyRejected
++from cognitum.spatial_volume import classify, VolumeRejected
++
++MAX_BYTES = 8_000_000
++MAX_CAPTURES = 96
++
++class RobustnessRejected(ValueError):
++    pass
++
++def _check(condition, reason):
++    if not condition:
++        raise RobustnessRejected(reason)
++
++def _sha(msg):
++    return hashlib.sha256(msg.SerializeToString(deterministic=True)).digest()
++
++def _known(msg):
++    clean = type(msg)()
++    clean.CopyFrom(msg)
++    clean.DiscardUnknownFields()
++    return clean.SerializeToString(deterministic=True) == msg.SerializeToString(deterministic=True)
++
++def _xyz(v):
++    result = (v.x, v.y, v.z)
++    _check(all(math.isfinite(x) and abs(x) <= 1e6 for x in result), 'INVALID_CAMERA_TRANSLATION')
++    return result
++
++def _rotation_step(a, b):
++    q1 = (a.qw, a.qx, a.qy, a.qz)
++    q2 = (b.qw, b.qx, b.qy, b.qz)
++    _check(all(math.isfinite(x) for x in q1 + q2), 'INVALID_CAMERA_ROTATION')
++    na = math.sqrt(sum(x*x for x in q1))
++    nb = math.sqrt(sum(x*x for x in q2))
++    _check(abs(na-1) < 1e-5 and abs(nb-1) < 1e-5, 'INVALID_CAMERA_ROTATION')
++    cos_half = min(1.0, abs(sum(x*y for x, y in zip(q1,q2))))
++    return math.degrees(2 * math.acos(cos_half))
++
++def analyze(req: pb.P2VRobustnessRequest) -> pb.P2VRobustnessResult:
++    _check(isinstance(req,pb.P2VRobustnessRequest) and req.schema_version == 1
++           and req.research_only and not req.grants_authority and _known(req)
++           and req.ByteSize() <= MAX_BYTES, 'INVALID_P2V_CONTRACT')
++    _check(math.isfinite(req.max_camera_translation_step_m)
++           and 0 < req.max_camera_translation_step_m <= 1000
++           and math.isfinite(req.max_camera_rotation_step_deg)
++           and 0 < req.max_camera_rotation_step_deg <= 180
++           and 1 <= req.max_static_age_ticks <= 10_000_000
++           and 1 <= req.max_missing_object_ticks <= 10_000_000
++           and 1 <= req.reappearance_gap_ticks <= 10_000_000
++           and math.isfinite(req.missing_object_exclusion_radius_m)
++           and 0 <= req.missing_object_exclusion_radius_m <= 20,
++           'INVALID_P2V_POLICY')
++    try:
++        base = map_scene(req.dynamic_request)
++    except DynamicSceneRejected as exc:
++        raise RobustnessRejected('INVALID_P2U_INPUT:' + str(exc)) from exc
++
++    # Build one canonical per-capture record and fail closed on incompatible
++    # camera reference frames. P2U already rejects capture redefinition.
++    capture_index = {}
++    observation_ticks = defaultdict(dict)  # object_id -> capture_id -> tick
++    newest_cell_capture_tick = {}
++    for window in req.dynamic_request.windows:
++        try:
++            temporal = reconcile(window.temporal_request)
++        except TemporalConsistencyRejected as exc:
++            raise RobustnessRejected('TEMPORAL_SOURCE_INVALID:' + str(exc)) from exc
++        for cell in temporal.cells:
++            coord = (cell.x,cell.y,cell.z)
++            for evidence in cell.provenance:
++                newest_cell_capture_tick[coord] = max(
++                    newest_cell_capture_tick.get(coord, 0), evidence.tick)
++        for capture in window.temporal_request.captures:
++            d = capture.depth
++            key = d.capture_id
++            camera = d.camera
++            frame = d.pixels[0]
++            fingerprint = _sha(capture)
++            if key in capture_index:
++                _check(capture_index[key][3] == fingerprint, 'CAPTURE_REDEFINED')
++            else:
++                capture_index[key] = (frame.tick, camera, bytes(d.camera_sha256), fingerprint)
++        for tr in window.tracks:
++            for sample in tr.samples:
++                _check(sample.capture_id in capture_index and
++                       sample.tick == capture_index[sample.capture_id][0],
++                       'UNBOUND_REAPPEARANCE_OBSERVATION')
++                prev = observation_ticks[tr.object_id].get(sample.capture_id)
++                _check(prev is None or prev == sample.tick, 'OBJECT_CAPTURE_REDEFINED')
++                observation_ticks[tr.object_id][sample.capture_id] = sample.tick
++    _check(1 <= len(capture_index) <= MAX_CAPTURES, 'CAMERA_RESOURCE_LIMIT')
++    # Reject two genuinely different frames at the same tick; this v1 contract
++    # intentionally does not solve multi-camera clock synchronization.
++    frames = sorted(((tick, ident, camera, digest) for ident,(tick,camera,digest,_) in
++                     capture_index.items()), key=lambda x:(x[0],x[1]))
++    _check(len({r[0] for r in frames}) == len(frames), 'MULTICAMERA_CLOCK_UNSUPPORTED')
++    result = pb.P2VRobustnessResult(schema_version=1,
++        conversation_id=base.conversation_id, volume_id=base.volume_id,
++        request_sha256=_sha(req), p2u_result_sha256=_sha(base),
++        research_only=True, grants_authority=False)
++    pose_disputed = False
++    frame_id = frames[0][2].frame_id
++    calibration_source = frames[0][2].calibration_source_ref
++    previous_camera = None
++    for tick, capture_id, camera, digest in frames:
++        _check(bool(frame_id) and camera.frame_id == frame_id,
++               'CAMERA_FRAME_DISCONTINUITY_REQUIRES_REGISTRATION')
++        _check(bool(calibration_source) and camera.calibration_source_ref == calibration_source,
++               'CALIBRATION_SOURCE_CHANGED_REQUIRES_REVIEW')
++        if previous_camera is None:
++            distance,rotation = 0.0,0.0
++        else:
++            distance = math.dist(_xyz(camera.translation), _xyz(previous_camera.translation))
++            rotation = _rotation_step(camera,previous_camera)
++        bad = distance > req.max_camera_translation_step_m + 1e-9 or (
++            rotation > req.max_camera_rotation_step_deg + 1e-7)
++        pose_disputed |= bad
++        result.cameras.add(capture_id=capture_id,tick=tick,
++            camera_frame_id=frame_id, camera_sha256=digest,
++            translation_step_m=distance,rotation_step_deg=rotation,
++            state=pb.P2V_CAMERA_DISCONTINUITY if bad else pb.P2V_CAMERA_CONTINUOUS)
++        previous_camera = camera
++    result.pose_discontinuity_found = pose_disputed
++    # A track's last observation is only a caller-asserted identity hint.
++    # No identity inference can be made from a missing detection alone.
++    evaluation_tick = req.dynamic_request.windows[-1].temporal_request.evaluation_tick
++    uncertain_centers = []
++    for prior in sorted(base.objects,key=lambda x:x.object_id):
++        samples = observation_ticks.get(prior.object_id,{})
++        sorted_observations = sorted(((tick,cid) for cid,tick in samples.items()))
++        _check(bool(sorted_observations), 'OBJECT_WITH_NO_SUPPORTING_FRAME')
++        latest_tick = sorted_observations[-1][0]
++        _check(latest_tick <= evaluation_tick, 'OBJECT_OBSERVED_IN_FUTURE')
++        worst_gap = max((b[0]-a[0] for a,b in zip(sorted_observations,sorted_observations[1:])),default=0)
++        # A long gap causes an UNVERIFIED reappearance, never a confirmed ID.
++        if prior.state == upb.P2U_RETIRED or evaluation_tick-latest_tick > 2*req.max_missing_object_ticks:
++            state = pb.P2V_RETIRED_UNVERIFIED
++        elif evaluation_tick-latest_tick > req.max_missing_object_ticks:
++            state = pb.P2V_MISSING_UNEXPLAINED
++        elif worst_gap > req.reappearance_gap_ticks:
++            state = pb.P2V_REAPPEARANCE_UNVERIFIED
++        else:
++            state = pb.P2V_OBSERVED_CANDIDATE
++        record = result.identities.add(object_id=prior.object_id,state=state,
++            last_observed_tick=latest_tick,gap_to_previous_observation_ticks=worst_gap,
++            authenticated_identity=False)
++        record.distinct_support_capture_ids.extend(cid for _,cid in sorted_observations)
++        if state in (pb.P2V_MISSING_UNEXPLAINED,pb.P2V_REAPPEARANCE_UNVERIFIED):
++            # Suppress nearby voxels using the last supplied world position.
++            for window in reversed(req.dynamic_request.windows):
++                for track in window.tracks:
++                    if track.object_id == prior.object_id:
++                        sample = max(track.samples,key=lambda x:x.tick)
++                        if sample.tick == latest_tick:
++                            uncertain_centers.append(_xyz(sample.center_world_m))
++                            break
++                else:
++                    continue
++                break
++    # P2U candidates form the maximum set. P2V can only REMOVE evidence.
++    candidates = {(e.x,e.y,e.z):e for e in base.stationary_hypothetical_volume.evidence}
++    _check(len(candidates)==len(base.stationary_hypothetical_volume.evidence),'DUPLICATE_STATIC_EVIDENCE')
++    stationary = vpb.VolumeGrid()
++    stationary.CopyFrom(base.stationary_hypothetical_volume)
++    accepted = set()
++    voxel_size = req.dynamic_request.windows[-1].temporal_request.captures[0].depth.voxel_size_m
++    for cell in base.cells:
++        xyz = (cell.x,cell.y,cell.z)
++        latest = newest_cell_capture_tick.get(xyz, 0)
++        _check(latest <= evaluation_tick, 'FUTURE_CELL_PROVENANCE')
++        age = evaluation_tick-latest
++        center = tuple((x+.5)*voxel_size for x in xyz)
++        nearby = any(math.dist(center,loc) <= req.missing_object_exclusion_radius_m
++                     for loc in uncertain_centers)
++        if not cell.static_handoff_allowed or xyz not in candidates:
++            state = pb.P2V_STATIC_NOT_ELIGIBLE
++        elif pose_disputed:
++            state = pb.P2V_STATIC_POSE_DISPUTED
++        elif latest == 0 or age > req.max_static_age_ticks:
++            state = pb.P2V_STATIC_STALE
++        elif nearby:
++            state = pb.P2V_STATIC_OBJECT_UNCERTAIN
++        else:
++            state = pb.P2V_STATIC_RETAINED_PREDICTION
++            accepted.add(xyz)
++        result.cells.add(x=xyz[0],y=xyz[1],z=xyz[2],state=state,
++                         latest_support_tick=latest,age_ticks=age,
++                         retained=xyz in accepted)
++    retained = [e for e in stationary.evidence if (e.x,e.y,e.z) in accepted]
++    stationary.ClearField('evidence')
++    stationary.evidence.extend(retained)
++    try:
++        audited = classify(stationary)
++    except VolumeRejected as exc:
++        raise RobustnessRejected('INVALID_CONSERVATIVE_STATIC_VOLUME:' + str(exc)) from exc
++    _check(all(e.kind in (vpb.VOLUME_PREDICTED_FREE,vpb.VOLUME_PREDICTED_OCCUPIED)
++               for e in stationary.evidence) and
++           all(c.state == vpb.CELL_UNKNOWN for c in audited.cells) and
++           stationary.research_only and not stationary.grants_authority,
++           'UNAUTHORIZED_STATIC_EVIDENCE')
++    result.conservative_static_hypothetical_volume.CopyFrom(stationary)
++    result.warnings.extend([
++        'POSE_CONTINUITY_IS_NOT_CAMERA_MOTION_ESTIMATION_OR_SENSOR_ATTESTATION',
++        'P2Q_ALREADY_APPLIES_CALLER_SUPPLIED_CAMERA_TO_WORLD_TRANSFORM',
++        'MISSING_OBJECT_MAY_BE_OCCLUDED_OUT_OF_VIEW_OR_UNDETECTED',
++        'REAPPEARANCE_PRESERVES_CALLER_ID_ONLY_AND_IS_NOT_REIDENTIFICATION',
++        'STATIC_VOXELS_ARE_PREDICTIONS_NOT_SAFE_SPACE_OR_PHYSICAL_TRUTH',
++        'NO_SCENE_VOLUME_OR_LU_STATE_MUTATION'])
++    return result
++
++def verify(req: pb.P2VRobustnessRequest, result: pb.P2VRobustnessResult) -> bool:
++    _check(isinstance(result,pb.P2VRobustnessResult) and _known(result) and
++           result.SerializeToString(deterministic=True) ==
++           analyze(req).SerializeToString(deterministic=True),
++           'P2V_REPLAY_MISMATCH')
++    return True
+--- a/tools/run_c15_t3_p2v_demo.py
++++ b/tools/run_c15_t3_p2v_demo.py
+@@ -0,0 +1,43 @@
++"""Synthetic P2V preflight. No calibrated real sensors or authenticated object IDs."""
++import argparse
++import json
++from pathlib import Path
++
++from cognitum.proto import spatial_dynamic_scene_robustness_pb2 as p
++from cognitum.spatial_dynamic_scene_robustness import analyze, verify
++from tests.test_c15_t3_p2v_dynamic_scene_robustness import fixture, pose_translate
++
++
++def study():
++    def run(name,request):
++        result=analyze(request)
++        verify(request,result)
++        return {
++            'name':name, 'request_sha256':result.request_sha256.hex(),
++            'p2u_sha256':result.p2u_result_sha256.hex(),
++            'poses_disputed':result.pose_discontinuity_found,
++            'distinct_frames':len(result.cameras),
++            'static_hypothetical_cells':len(result.conservative_static_hypothetical_volume.evidence),
++            'camera_discontinuities':sum(x.state==p.P2V_CAMERA_DISCONTINUITY for x in result.cameras),
++            'object_states':{x.object_id:p.P2VIdentityState.Name(x.state) for x in result.identities},
++            'rejected_static_reasons':{p.P2VStaticState.Name(state):sum(c.state==state for c in result.cells)
++                for state in (p.P2V_STATIC_STALE,p.P2V_STATIC_POSE_DISPUTED,
++                    p.P2V_STATIC_OBJECT_UNCERTAIN,p.P2V_STATIC_NOT_ELIGIBLE)},
++            'no_authority':not result.grants_authority,
++        }
++    baseline=fixture()
++    changed=fixture();pose_translate(changed,.05);changed.max_camera_translation_step_m=.01
++    stale=fixture();stale.max_static_age_ticks=1
++    stale.dynamic_request.windows[-1].temporal_request.evaluation_tick+=3
++    uncertain=fixture();uncertain.reappearance_gap_ticks=30;uncertain.missing_object_exclusion_radius_m=3
++    return {'schema':'C15-T3-P2V-synthetic-study-v1','experimental':True,
++            'real_3d_sensor_data':False,'baseline':'P2U unchanged',
++            'arms':[run('baseline',baseline),run('pose_discontinuity',changed),
++                    run('static_staleness',stale),run('reappearance_uncertainty',uncertain)]}
++
++if __name__=='__main__':
++    a=argparse.ArgumentParser();a.add_argument('--output',type=Path);args=a.parse_args()
++    s=json.dumps(study(),indent=2,sort_keys=True)+'\n'
++    if args.output:
++        args.output.parent.mkdir(parents=True,exist_ok=True);args.output.write_text(s)
++    print(s)
+--- a/tests/test_c15_t3_p2v_dynamic_scene_robustness.py
++++ b/tests/test_c15_t3_p2v_dynamic_scene_robustness.py
+@@ -0,0 +1,199 @@
++"""P2V camera, missing-object and stale-static safety regression tests."""
++import hashlib
++import math
++import unittest
++
++from cognitum.proto import spatial_dynamic_scene_robustness_pb2 as pb
++from cognitum.proto import spatial_volume_pb2 as vp
++from cognitum.spatial_dynamic_scene_robustness import analyze, verify, RobustnessRejected
++from cognitum.spatial_dynamic_scene_mapping import map_scene
++from cognitum.spatial_volume import classify
++from tests.test_c15_t3_p2u_dynamic_scene_mapping import request as p2u_fixture, digest
++
++
++def fixture():
++    return pb.P2VRobustnessRequest(schema_version=1, dynamic_request=p2u_fixture(),
++        max_camera_translation_step_m=.25, max_camera_rotation_step_deg=10,
++        max_static_age_ticks=30, max_missing_object_ticks=30,
++        reappearance_gap_ticks=200, missing_object_exclusion_radius_m=1,
++        research_only=True)
++
++
++def pose_translate(q, value, *, window=1):
++    for c in q.dynamic_request.windows[window].temporal_request.captures:
++        c.depth.camera.translation.x += value
++        c.depth.camera_sha256 = digest(c.depth.camera)
++
++
++def pose_rotate(q, degrees, *, window=1):
++    angle=math.radians(degrees)/2
++    for c in q.dynamic_request.windows[window].temporal_request.captures:
++        c.depth.camera.qw=math.cos(angle)
++        c.depth.camera.qz=math.sin(angle)
++        c.depth.camera_sha256=digest(c.depth.camera)
++
++
++class P2VTests(unittest.TestCase):
++    def rejected(self, q, reason):
++        with self.assertRaises(RobustnessRejected) as exc:
++            analyze(q)
++        self.assertIn(reason,str(exc.exception))
++
++    def test_baseline_p2u_is_unchanged_and_p2v_is_subset(self):
++        q=fixture()
++        old=map_scene(q.dynamic_request).SerializeToString(deterministic=True)
++        result=analyze(q)
++        self.assertEqual(old,map_scene(q.dynamic_request).SerializeToString(deterministic=True))
++        self.assertFalse(result.pose_discontinuity_found)
++        self.assertEqual(len(result.cameras),10)
++        before={(e.x,e.y,e.z) for e in map_scene(q.dynamic_request).stationary_hypothetical_volume.evidence}
++        after={(e.x,e.y,e.z) for e in result.conservative_static_hypothetical_volume.evidence}
++        self.assertEqual(before,after)
++        self.assertEqual(len(result.request_sha256),32)
++        self.assertTrue(verify(q,result))
++
++    def test_real_sized_pose_change_within_threshold_is_recorded(self):
++        q=fixture();pose_translate(q,.05)
++        out=analyze(q)
++        self.assertFalse(out.pose_discontinuity_found)
++        self.assertAlmostEqual(max(c.translation_step_m for c in out.cameras),.05,places=6)
++        self.assertTrue(out.conservative_static_hypothetical_volume.evidence)
++
++    def test_translation_jump_quarantines_all_static_cells(self):
++        q=fixture();pose_translate(q,.05);q.max_camera_translation_step_m=.01
++        out=analyze(q)
++        self.assertTrue(out.pose_discontinuity_found)
++        self.assertTrue(any(c.state==pb.P2V_CAMERA_DISCONTINUITY for c in out.cameras))
++        self.assertEqual(len(out.conservative_static_hypothetical_volume.evidence),0)
++        self.assertTrue(any(c.state==pb.P2V_STATIC_POSE_DISPUTED for c in out.cells))
++
++    def test_rotation_step_quarantines(self):
++        q=fixture();pose_rotate(q,1);q.max_camera_rotation_step_deg=.1
++        out=analyze(q)
++        self.assertTrue(out.pose_discontinuity_found)
++        self.assertGreater(max(c.rotation_step_deg for c in out.cameras),.8)
++
++    def test_quaternion_sign_equivalence(self):
++        q=fixture()
++        for c in q.dynamic_request.windows[1].temporal_request.captures:
++            camera=c.depth.camera
++            camera.qw*=-1;camera.qx*=-1;camera.qy*=-1;camera.qz*=-1
++            c.depth.camera_sha256=digest(camera)
++        out=analyze(q)
++        self.assertFalse(out.pose_discontinuity_found)
++        self.assertAlmostEqual(max(x.rotation_step_deg for x in out.cameras),0.,places=5)
++
++    def test_camera_frame_namespace_mismatch_rejected(self):
++        q=fixture()
++        for c in q.dynamic_request.windows[1].temporal_request.captures:
++            c.depth.camera.frame_id='unregistered_camera_frame'
++            c.depth.camera_sha256=digest(c.depth.camera)
++        self.rejected(q,'CAMERA_FRAME_DISCONTINUITY_REQUIRES_REGISTRATION')
++
++    def test_calibration_source_change_is_not_silent(self):
++        q=fixture()
++        for c in q.dynamic_request.windows[1].temporal_request.captures:
++            c.depth.camera.calibration_source_ref='different_source'
++            c.depth.camera_sha256=digest(c.depth.camera)
++        self.rejected(q,'CALIBRATION_SOURCE_CHANGED_REQUIRES_REVIEW')
++
++    def test_t2_still_classifies_predictions_as_unknown(self):
++        from tests.test_c15_t2_composition import fixture as structural_fixture
++        from cognitum.proto import spatial_structural_audit_pb2 as ap
++        from cognitum.spatial_structural_audit import audit
++        q=fixture()
++        out=analyze(q)
++        graph=structural_fixture()
++        graph.conversation_id=q.dynamic_request.conversation_id
++        target=next(c for c in out.cells if c.retained)
++        rq=ap.StructuralAuditRequest(schema_version=1,conversation_id=q.dynamic_request.conversation_id,
++            graph_id=graph.graph_id,volume_id=q.dynamic_request.volume_id,research_only=True)
++        claim=rq.claims.add(claim_id='maybe_wall',node_id='wall',source_ref='synthetic',expected=ap.SPATIAL_EXPECT_OCCUPIED)
++        claim.box.min_x=claim.box.max_x=target.x
++        claim.box.min_y=claim.box.max_y=target.y
++        claim.box.min_z=claim.box.max_z=target.z
++        check=audit(graph,out.conservative_static_hypothetical_volume,rq)
++        self.assertEqual(check.audits[0].state,ap.SPATIAL_AUDIT_INDETERMINATE)
++
++    def test_camera_digest_tampering_fails_closed(self):
++        q=fixture();q.dynamic_request.windows[1].temporal_request.captures[-1].depth.camera_sha256=b'x'*32
++        self.rejected(q,'INVALID_P2U_INPUT')
++
++    def test_stale_static_evidence_not_returned(self):
++        q=fixture();q.max_static_age_ticks=1
++        q.dynamic_request.windows[1].temporal_request.evaluation_tick+=3
++        out=analyze(q)
++        self.assertTrue(any(c.state==pb.P2V_STATIC_STALE for c in out.cells))
++        self.assertEqual(len(out.conservative_static_hypothetical_volume.evidence),0)
++
++    def test_missing_not_equated_to_confirmed_occlusion(self):
++        q=fixture();q.max_missing_object_ticks=5
++        result=analyze(q)
++        self.assertEqual(result.identities[0].state,pb.P2V_MISSING_UNEXPLAINED)
++        self.assertFalse(result.identities[0].authenticated_identity)
++        self.assertFalse(result.grants_authority)
++        self.assertIn('MISSING_OBJECT_MAY_BE_OCCLUDED_OUT_OF_VIEW_OR_UNDETECTED',result.warnings)
++
++    def test_reappearance_is_unverified(self):
++        q=fixture();q.reappearance_gap_ticks=30
++        out=analyze(q)
++        self.assertEqual(out.identities[0].state,pb.P2V_REAPPEARANCE_UNVERIFIED)
++        self.assertEqual(out.identities[0].gap_to_previous_observation_ticks,80)
++        self.assertEqual(len(out.identities[0].distinct_support_capture_ids),4)
++
++    def test_reappearance_uncertainty_filters_nearby_voxels(self):
++        q=fixture();q.reappearance_gap_ticks=30;q.missing_object_exclusion_radius_m=3.0
++        out=analyze(q)
++        base=map_scene(q.dynamic_request)
++        self.assertLess(len(out.conservative_static_hypothetical_volume.evidence),
++                        len(base.stationary_hypothetical_volume.evidence))
++        self.assertTrue(any(c.state==pb.P2V_STATIC_OBJECT_UNCERTAIN for c in out.cells))
++
++    def test_reappearance_outside_missing_radius_not_all_quarantined(self):
++        q=fixture();q.reappearance_gap_ticks=30;q.missing_object_exclusion_radius_m=.1
++        out=analyze(q)
++        self.assertTrue(out.conservative_static_hypothetical_volume.evidence)
++
++    def test_static_map_cannot_promote_predictions_to_measurements(self):
++        q=fixture();out=analyze(q)
++        v=out.conservative_static_hypothetical_volume
++        self.assertTrue(v.research_only)
++        self.assertFalse(v.grants_authority)
++        self.assertTrue(all(e.kind in (vp.VOLUME_PREDICTED_FREE,vp.VOLUME_PREDICTED_OCCUPIED) for e in v.evidence))
++        self.assertTrue(all(x.state==vp.CELL_UNKNOWN for x in classify(v).cells))
++
++    def test_determinism_and_tampered_replay_rejection(self):
++        q=fixture();a=analyze(q);b=analyze(q)
++        self.assertEqual(a.SerializeToString(deterministic=True),b.SerializeToString(deterministic=True))
++        a.cells[0].retained=not a.cells[0].retained
++        with self.assertRaisesRegex(RobustnessRejected,'P2V_REPLAY_MISMATCH'):
++            verify(q,a)
++
++    def test_unknown_fields_and_authority_rejected(self):
++        q=fixture();q.grants_authority=True;self.rejected(q,'INVALID_P2V_CONTRACT')
++        q=fixture();q.schema_version=3;self.rejected(q,'INVALID_P2V_CONTRACT')
++        q=fixture();q2=pb.P2VRobustnessRequest.FromString(q.SerializeToString()+b'\x98\x06\x01')
++        self.rejected(q2,'INVALID_P2V_CONTRACT')
++
++    def test_policy_bounds_fail_closed(self):
++        q=fixture();q.max_static_age_ticks=0;self.rejected(q,'INVALID_P2V_POLICY')
++        q=fixture();q.max_camera_translation_step_m=float('nan');self.rejected(q,'INVALID_P2V_POLICY')
++        q=fixture();q.max_camera_rotation_step_deg=0;self.rejected(q,'INVALID_P2V_POLICY')
++        q=fixture();q.missing_object_exclusion_radius_m=30;self.rejected(q,'INVALID_P2V_POLICY')
++
++    def test_cross_scope_rejected_by_p2u(self):
++        q=fixture();q.dynamic_request.windows[1].volume_id='forged'
++        self.rejected(q,'INVALID_P2U_INPUT')
++
++    def test_repeated_windows_do_not_duplicate_capture_provenance(self):
++        q=fixture();out=analyze(q)
++        self.assertEqual(len(out.cameras),map_scene(q.dynamic_request).unique_capture_count)
++        self.assertEqual(len({x.capture_id for x in out.cameras}),len(out.cameras))
++
++    def test_unchanged_r1_r2_and_t2_contracts(self):
++        from cognitum.proto import spatial_dynamic_scene_mapping_pb2 as upstream
++        q=fixture();out=analyze(q)
++        self.assertIsInstance(q.dynamic_request,upstream.P2UDynamicSceneRequest)
++        self.assertFalse(out.conservative_static_hypothetical_volume.grants_authority)
++
++if __name__=='__main__':unittest.main()
+--- a/proto/cognitum/spatial/v1/dynamic_scene_robustness.proto
++++ b/proto/cognitum/spatial/v1/dynamic_scene_robustness.proto
+@@ -0,0 +1,80 @@
++syntax = "proto3";
++package cognitum.spatial.v1;
++// T3 P2V: research-only continuity checks on P2U dynamic/static hypotheses.
++// Camera poses, 3D object IDs and depth hashes remain caller assertions.
++import "cognitum/spatial/v1/dynamic_scene_mapping.proto";
++import "cognitum/spatial/v1/volume.proto";
++
++message P2VRobustnessRequest {
++  uint32 schema_version = 1;
++  P2UDynamicSceneRequest dynamic_request = 2;
++  double max_camera_translation_step_m = 3;
++  double max_camera_rotation_step_deg = 4;
++  uint64 max_static_age_ticks = 5;
++  uint64 max_missing_object_ticks = 6;
++  uint64 reappearance_gap_ticks = 7;
++  double missing_object_exclusion_radius_m = 8;
++  bool research_only = 9;
++  bool grants_authority = 10;
++}
++enum P2VCameraState {
++  P2V_CAMERA_UNSPECIFIED = 0;
++  P2V_CAMERA_CONTINUOUS = 1;
++  P2V_CAMERA_DISCONTINUITY = 2;
++}
++enum P2VIdentityState {
++  P2V_IDENTITY_UNSPECIFIED = 0;
++  P2V_OBSERVED_CANDIDATE = 1;
++  P2V_MISSING_UNEXPLAINED = 2;
++  P2V_REAPPEARANCE_UNVERIFIED = 3;
++  P2V_RETIRED_UNVERIFIED = 4;
++}
++enum P2VStaticState {
++  P2V_STATIC_UNSPECIFIED = 0;
++  P2V_STATIC_RETAINED_PREDICTION = 1;
++  P2V_STATIC_STALE = 2;
++  P2V_STATIC_POSE_DISPUTED = 3;
++  P2V_STATIC_OBJECT_UNCERTAIN = 4;
++  P2V_STATIC_NOT_ELIGIBLE = 5;
++}
++message P2VCameraRecord {
++  string capture_id = 1;
++  uint64 tick = 2;
++  string camera_frame_id = 3;
++  bytes camera_sha256 = 4;
++  double translation_step_m = 5;
++  double rotation_step_deg = 6;
++  P2VCameraState state = 7;
++}
++message P2VIdentityRecord {
++  string object_id = 1;
++  P2VIdentityState state = 2;
++  uint64 last_observed_tick = 3;
++  uint64 gap_to_previous_observation_ticks = 4;
++  repeated string distinct_support_capture_ids = 5;
++  bool authenticated_identity = 6;
++}
++message P2VStaticRecord {
++  sint32 x = 1;
++  sint32 y = 2;
++  sint32 z = 3;
++  P2VStaticState state = 4;
++  uint64 latest_support_tick = 5;
++  uint64 age_ticks = 6;
++  bool retained = 7;
++}
++message P2VRobustnessResult {
++  uint32 schema_version = 1;
++  string conversation_id = 2;
++  string volume_id = 3;
++  bytes request_sha256 = 4;
++  bytes p2u_result_sha256 = 5;
++  repeated P2VCameraRecord cameras = 6;
++  repeated P2VIdentityRecord identities = 7;
++  repeated P2VStaticRecord cells = 8;
++  VolumeGrid conservative_static_hypothetical_volume = 9;
++  repeated string warnings = 10;
++  bool research_only = 11;
++  bool grants_authority = 12;
++  bool pose_discontinuity_found = 13;
++}
