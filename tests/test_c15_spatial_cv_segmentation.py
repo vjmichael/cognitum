@@ -39,6 +39,11 @@ class C15SegmentationTests(unittest.TestCase):
                 segment_color(b"image",source_id="src",observation_id="obs",
                               frame_index=1,hsv_lower=bad[0],hsv_upper=bad[1],
                               host_admitted=True)
+        try:
+            import cv2  # noqa: F401
+            from PIL import Image  # noqa: F401
+        except ImportError:
+            self.skipTest("encoded-image validation requires optional spatial-vision dependencies")
         with self.assertRaises(ValueError):
             segment_color(b"not_an_image",source_id="src",observation_id="obs",
                           frame_index=1,hsv_lower=(0,0,0),
