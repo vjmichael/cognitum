@@ -114,6 +114,15 @@ class C05SpecialistTests(unittest.TestCase):
                 _polynomial(expression)
             except ValueError:
                 continue
+            # The independently produced exact antiderivative must also fit
+            # the unchanged 48-node / 160-character production parser.
+            # A valid input may integrate to a longer canonical expression.
+            integral_text=_poly_text({i+1:c/Fraction(i+1)
+                                      for i,c in enumerate(coefficients) if c})
+            try:
+                _polynomial(integral_text)
+            except ValueError:
+                continue
             accepted+=1
             result=invoke("symbolic",pb.SymbolicRequest(
                 expression=expression,action="integrate"))
