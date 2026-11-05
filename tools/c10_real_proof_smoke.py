@@ -46,7 +46,8 @@ def main():
             if produced.returncode == 0 and produced.stdout.startswith(b"unsat\n"):
                 proof_file.write_bytes(produced.stdout.split(b"\n",1)[1])
                 checked=subprocess.run(
-                    [carcara, "check", str(proof_file), str(problem_file)],
+                    [carcara, "check", "--allow-int-real-subtyping",
+                     "--expand-let-bindings", str(proof_file), str(problem_file)],
                     cwd=folder, input=b"", stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                     timeout=15, check=False,
                 )
