@@ -1,0 +1,91 @@
+--- a/standalone_windows_host/acl_audit.py
++++ b/standalone_windows_host/acl_audit.py
+@@ -159,12 +159,16 @@
+             expected_flags = 0x03 if path.is_dir() else 0
+             if header[0] != 0 or header[1] != expected_flags:
+                 raise AclGateError('UNEXPECTED_OR_INHERITED_ACE')
++            # Check principal membership before the access mask. An unknown SID
++            # must have a deterministic rejection reason even when icacls maps
++            # its requested access (e.g. RX) to a non-full-control bitmask.
++            # Both SID and exact access-mask validation remain mandatory.
++            sid = _sid_string(adv, kernel, ace.value + 8)
++            if sid not in allowed or sid in actual:
++                raise AclGateError('UNAUTHORIZED_OR_DUPLICATE_ACE:' + sid)
+             mask = ctypes.c_uint32.from_address(ace.value + 4).value
+             if mask != 0x001F01FF:
+                 raise AclGateError('UNEXPECTED_ACE_ACCESS_MASK')
+-            sid = _sid_string(adv, kernel, ace.value + 8)
+-            if sid not in allowed or sid in actual:
+-                raise AclGateError('UNAUTHORIZED_OR_DUPLICATE_ACE:' + sid)
+             actual.add(sid)
+         if actual != allowed:
+             raise AclGateError('REQUIRED_USER_OR_SYSTEM_ACE_MISSING')
+--- a/tests/test_c15_t3_windows_acl_gate.py
++++ b/tests/test_c15_t3_windows_acl_gate.py
+@@ -61,3 +61,24 @@
+                 audit_exact_acl(root)
+         finally:
+             apply_exact_acl(root)
++
++
++def test_authorized_user_with_reduced_access_mask_is_rejected():
++    """Known principal is not sufficient: allowed ACE must remain exact full control."""
++    from standalone_windows_host.acl_audit import _libs, _current_sid
++    with tempfile.TemporaryDirectory(prefix='cognitum-acl-gate-') as tmp:
++        root = Path(tmp)
++        apply_exact_acl(root)
++        adv, kernel = _libs()
++        user_sid = _current_sid(adv, kernel)
++        # /grant:r replaces this SID's existing full-control ACE with RX.
++        p = subprocess.run(['icacls', str(root), '/grant:r',
++                            '*' + user_sid + ':(OI)(CI)(RX)'],
++                           capture_output=True, text=True, timeout=15)
++        if p.returncode:
++            pytest.fail('Cannot replace current-user test ACE: ' + p.stderr)
++        try:
++            with pytest.raises(AclGateError, match='UNEXPECTED_ACE_ACCESS_MASK'):
++                audit_exact_acl(root)
++        finally:
++            apply_exact_acl(root)
+--- /dev/null
++++ b/tests/test_c15_t3_acl_audit_order.py
+@@ -0,0 +1,13 @@
++"""Portable source-level regression for Windows ACL validation ordering.
++This is NOT Windows-native runtime evidence; it prevents accidental reordering.
++"""
++from pathlib import Path
++
++
++def test_unknown_sid_checked_before_exact_full_control_mask():
++    source = (Path(__file__).resolve().parents[1] /
++              'standalone_windows_host' / 'acl_audit.py').read_text()
++    fn = source.split('def audit_exact_acl(',1)[1]
++    assert fn.index('if sid not in allowed or sid in actual:') < fn.index('if mask != 0x001F01FF:')
++    assert "raise AclGateError('UNEXPECTED_ACE_ACCESS_MASK')" in fn
++    assert "raise AclGateError('UNAUTHORIZED_OR_DUPLICATE_ACE:' + sid)" in fn
+--- /dev/null
++++ b/NATIVE_GATE_ACL_ORDER_RETEST.md
+@@ -0,0 +1,23 @@
++# Windows ACL diagnostic-order correction — 2026-10-29
++
++The second user-run Windows x64 native gate reached the ACL negative tests and
++reported 3 passed, 1 failed, 3 skipped. The failure was an over-specific test
++expectation: `icacls` created an unauthorized Users ACE with `(OI)(CI)(RX)`;
++Cognitum correctly rejected it as `UNEXPECTED_ACE_ACCESS_MASK`, before reaching
++the SID check expected by the test.
++
++This checkpoint reorders *existing mandatory ACL validations*:
++1. ACE type and inheritance flags (unchanged).
++2. Authorization/uniqueness of SID (now before the mask).
++3. Exact full-control access mask (still mandatory for allowed SIDs).
++
++It adds a Windows-only negative test that replaces the *authorized user's*
++full-control ACE with an RX ACE; the auditor must reject it for a wrong mask.
++The earlier unauthorized-Users tests remain unchanged.
++
++Nothing is being allowed that the older auditor rejected. Exact ACE count,
++protected DACL, explicit ACE flags, exact mask, and current-user + SYSTEM
++requirements all remain fail-closed. This is not a Windows pass; rerun natively.
++
++The Windows Python 3.14.6 discovery repair and isolated test runner are preserved.
++Do not modify Lu, AppData or original Cognitum baselines.
