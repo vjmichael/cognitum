@@ -1,0 +1,18 @@
+{
+  "milestone": "C15 T3 standalone VM reboot and host witness",
+  "date": "2026-10-29",
+  "baseline_source_files_preserved": 851,
+  "baseline_hash_changes": [],
+  "source_manifest_files": 859,
+  "archive_crc": "PASS",
+  "source_sha256": "PASS",
+  "portable_new_tests": 12,
+  "focused_regression_passed": 43,
+  "windows_only_skipped": 5,
+  "protobuf_schemas_verified": 75,
+  "real_windows_vm_reboot_performed": false,
+  "real_hypervisor_powercut_performed": false,
+  "real_host_witness_isolated_and_tested": false,
+  "archive_sha256": "ad8fb1e6096082383a2ed28674831168a0f5362a11a5ae3ed499deafca139a99",
+  "research_only": true
+}
