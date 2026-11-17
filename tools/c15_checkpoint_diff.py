@@ -42,9 +42,12 @@ def inventory(path: Path) -> dict[str, dict]:
     total = 0
     with zipfile.ZipFile(path, "r") as archive:
         for item in archive.infolist():
-            name = item.filename
+            # Windows ZipInfo.filename normalizes backslashes; validate the
+            # original central-directory name before any OS normalization.
+            name = item.orig_filename
             posix = PurePosixPath(name)
-            if (not name or name.startswith("/") or "\\" in name or
+            if (not name or not posix.parts or "\x00" in name or
+                    name.startswith("/") or "\\" in name or
                     ".." in posix.parts or ":" in posix.parts[0] or
                     str(posix) != name or name in result):
                 raise UnsafeCheckpoint(f"UNSAFE_OR_DUPLICATE_PATH:{name}")

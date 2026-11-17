@@ -13,7 +13,8 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "cog00-artifacts"
 RECOVERY = "04d12fdd118f1788d3054167cf942e05b939d621"
 ADDED = {".github/workflows/cog00-recovery-acceptance.yml",
-         "tools/cog00_recovery_acceptance.py"}
+         "tools/cog00_recovery_acceptance.py",
+         "tools/c15_checkpoint_diff.py", "tests/test_c15_checkpoint_diff.py"}
 FOCUSED = (
     "test_research_optional", "test_c08_admission", "test_c08_canonical",
     "test_c08_lifecycle_recovery", "test_c08_index_lifecycle",
@@ -139,7 +140,7 @@ def main():
     ignores = [f"--ignore=tests/{n}.py" for n in sorted(LINUX_KERNEL_ONLY)] if os.name == "nt" else []
     evidence["kernel_suites_not_run"] = sorted(LINUX_KERNEL_ONLY) if os.name == "nt" else []
     save()
-    run("combined_pytest", [PY, "-m", "pytest", "-q", "-ra", "tests", *ignores], 1500)
+    run("combined_pytest", [PY, "-m", "pytest", "-q", "-ra", "-o", "pythonpath=tests", "tests", *ignores], 1500)
     run("synthetic_replay", [PY, "-m", "cognitum", "--calculator", "replay", "evals/smoke.json"])
     run("evaluation_smoke", [PY, "tools/run_c03_smoke.py", "--check"])
     evidence["source_after"] = verify_source()

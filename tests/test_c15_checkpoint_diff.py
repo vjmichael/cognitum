@@ -30,7 +30,19 @@ def test_detects_changed_added_and_deleted(tmp_path):
 @pytest.mark.parametrize("bad", ["../escape.txt", "/absolute.py", "C:/drive.py", "foo\\bar.py", "x/../y.py"])
 def test_rejects_unsafe_path(tmp_path, bad):
     path = tmp_path / "unsafe.zip"
-    make_zip(path, [(bad, "bad")])
+    # ZipInfo on Windows canonicalizes the host separator on write. Create
+    # the malicious on-wire name identically on every platform, in both the
+    # local and central headers, without changing entry lengths or offsets.
+    if "\\" in bad:
+        safe = bad.replace("\\", "/")
+        make_zip(path, [(safe, "bad")])
+        data = path.read_bytes()
+        assert data.count(safe.encode("ascii")) == 2
+        path.write_bytes(data.replace(safe.encode("ascii"), bad.encode("ascii")))
+        with zipfile.ZipFile(path) as archive:
+            assert archive.infolist()[0].orig_filename == bad
+    else:
+        make_zip(path, [(bad, "bad")])
     with pytest.raises(UnsafeCheckpoint): inventory(path)
 
 
