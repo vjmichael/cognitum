@@ -64,7 +64,7 @@ def source_check():
         if actual!=expected.strip():
             raise RuntimeError("unexpected change within identity repair: "+rel)
     # The exact reviewed COG-06E proof repair is the only additional exception.
-    proof_repair={'cognitum/formal_proofs.py':'c6832412e8c1f1f10492594cf275404528206672'}
+    proof_repair={'cognitum/formal_proofs.py':'71f5354a1e1cd0750f7e51acb77cd90e4bd1c711'}
     for rel,expected in proof_repair.items():
         if git('rev-parse','HEAD:'+rel)!=expected:
             raise RuntimeError('unreviewed proof repair mutation: '+rel)

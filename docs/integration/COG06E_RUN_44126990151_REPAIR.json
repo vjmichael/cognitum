@@ -1,0 +1,100 @@
+{
+  "schema": "cognitum.cog06e.failure-reconciliation.v1",
+  "run_id": 44126990151,
+  "run_url": "https://github.com/vjmichael/cognitum/actions/runs/44126990151",
+  "source_sha": "7efda52a884322c05364e1781bfdf091eb832b07",
+  "conclusion": "failure",
+  "successful_cpu_jobs": [
+    134193375296,
+    134193375856,
+    134193375976,
+    134193376043
+  ],
+  "failed_native_jobs": [
+    {
+      "job_id": 134193376074,
+      "scope": "C10",
+      "artifact_id": 14348685906,
+      "artifact_sha256": "412a14ca3969a587b798620ef8507a2c58498a9569b681ed02dda48b941adcee",
+      "artifact_locally_rehashed": true,
+      "proofs": [
+        {
+          "case": "contradiction",
+          "sha256": "5f9e444fd138e90b8d0a4927ac130e773f9e7f88792a32af78e5b3568663a563",
+          "hole_step": "t3",
+          "status": "holey",
+          "reason": "untranslated rewrite"
+        },
+        {
+          "case": "wide_contradiction",
+          "sha256": "69f6932148795f5deaabe9922542a32e2b811729b41634da3e32e89eb3f0a9a1",
+          "hole_step": "t1",
+          "status": "holey",
+          "reason": "untranslated rewrite"
+        }
+      ],
+      "negative_controls": {
+        "sat": "NOT_UNSAT",
+        "wrong_problem": true,
+        "unsupported_rule": true,
+        "explicit_hole": true
+      },
+      "repair": "paired producer requests --proof-granularity=dsl-rewrite-strict; original problem bytes, checker pin, rewrite database, aggregate deadline and strict valid-only acceptance unchanged. No proof holes replaced or waived.",
+      "native_pass": false
+    },
+    {
+      "job_id": 134193377725,
+      "scope": "C15",
+      "artifact_id": 14348920432,
+      "artifact_sha256": "3fc9ef84b14d30b59051a6680823fdc810fd18415cb277ed7bdff43117811594",
+      "artifact_locally_rehashed": true,
+      "original_failure": "ValueError: unexpected transformed source; actual matched tracker generation and both unmodified legacy-dtype official evaluations completed",
+      "validation_frames": 299,
+      "public_detections": 4009,
+      "capacity_drops": 0,
+      "bytetrack_unassigned_rows_excluded": 221,
+      "metrics_percent": {
+        "standard": {
+          "C15": {
+            "HOTA": 31.143,
+            "MOTA": 30.202,
+            "IDF1": 34.205
+          },
+          "ByteTrack": {
+            "HOTA": 35.468,
+            "MOTA": 30.213,
+            "IDF1": 38.501
+          }
+        },
+        "official_legacy_dtype": {
+          "C15": {
+            "MOTA": 25.111,
+            "IDF1": 32.961
+          },
+          "ByteTrack": {
+            "HOTA": 34.666,
+            "MOTA": 25.283,
+            "IDF1": 37.123
+          }
+        }
+      },
+      "repair": "Require both reviewed Git blob and original SHA-256, exact 12 approved alias offsets, independently reconstruct postimage and check regex equality plus post-write readback. No metric code outside exact dtype spans changed. Original copied expected postimage hashes reproduced locally; exact reason CI differed not established from generic failure message.",
+      "local_tests": {
+        "passed": 2,
+        "all_three_real_source_files_passed": true,
+        "exact_after_hashes_match_prior_locally_evaluated_files": true,
+        "locally_tested_blobs": [
+          "bb7ac2b6ebc509deabb9bc5f4638f11d071e56c0",
+          "de4f58693702b2d2d8d8ab01d00b981ef9b695fe"
+        ]
+      },
+      "native_pass": false
+    }
+  ],
+  "limitations": [
+    "C10 native binaries unavailable locally; strict DSL profile is a supported upstream reconstruction hypothesis, not a verified repair result.",
+    "C15 no patched official 299-frame summary from failed run; legacy metrics not a patched-parity acceptance.",
+    "No production or full-image gate promotion."
+  ],
+  "next": "repeat grouped same-candidate-SHA acceptance"
+}
