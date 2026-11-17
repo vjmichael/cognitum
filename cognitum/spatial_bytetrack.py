@@ -11,6 +11,7 @@ from importlib.metadata import distribution, version, PackageNotFoundError
 from math import isfinite
 from pathlib import Path
 from time import monotonic
+from types import MappingProxyType
 import re
 
 from .contracts import HostContext, digest
@@ -25,10 +26,10 @@ MAX_FRAMES=512
 MAX_OBSERVATIONS=MAX_FRAMES*MAX_DETECTIONS
 MAX_MS=30000
 MAX_MISSED=4
-CONFIG={"lost_track_buffer":MAX_MISSED,"frame_rate":30.,
+CONFIG=MappingProxyType({"lost_track_buffer":MAX_MISSED,"frame_rate":30.,
         "track_activation_threshold":.7,"minimum_consecutive_frames":2,
-        "minimum_iou_threshold":.1,"high_conf_det_threshold":.6}
-BLOBS={
+        "minimum_iou_threshold":.1,"high_conf_det_threshold":.6})
+BLOBS=MappingProxyType({
     "core/base.py":"070703180ead001a39751982bf72a505305f254b",
     "core/bytetrack/__init__.py":"57226e8851e3d327e91a943834ef19275c47ee88",
     "core/bytetrack/tracker.py":"158c31be2186813fb16fbc549cb380cf1af9f8cc",
@@ -39,7 +40,7 @@ BLOBS={
     "utils/iou.py":"dadd6e0d105661b1080c79084e98b0ff6908bd5b",
     "utils/predict_timing.py":"b14a4938f63a90253f5430194e0b0795b9caa3b0",
     "utils/state_representations.py":"98e833b54135fa243e8bf40bd20d30ac0c3071b6",
-}
+})
 _ID=re.compile(r"[A-Za-z0-9_.:-]{1,48}\Z",re.ASCII)
 _SHA=re.compile(r"[0-9a-f]{64}\Z",re.ASCII)
 _BUILD=re.compile(r"[0-9a-f]{40}\Z",re.ASCII)
@@ -195,6 +196,8 @@ def _adapt(np,sv,engine,frame,namespace,previous,max_seen):
     if (len(live)!=len(alive) or any(t<0 or t>=MAX_OBSERVATIONS for t in live)
             or not set(observed)<=live or not np.isfinite(alive.xyxy).all()):
         raise ValueError("invalid alive track set")
+    if any(previous[t].missed<MAX_MISSED for t in set(previous)-live):
+        raise ValueError("confirmed track retired before retention budget")
     new=live-set(previous)
     if (not new<=set(observed) or any(t<=max_seen for t in new)
             or any(t<0 for t in observed)):
