@@ -8,6 +8,7 @@ Run under host custody for untrusted inputs; Python checks are not OS isolation.
 from dataclasses import asdict, dataclass
 from hashlib import sha1
 from importlib.metadata import distribution, version, PackageNotFoundError
+from importlib.util import find_spec
 from math import isfinite
 from pathlib import Path
 from time import monotonic
@@ -115,7 +116,8 @@ def _validate(scope,frames,context,expected_build,timeout_ms,resume):
         if (type(frame) is not Frame or type(frame.number) is not int or frame.number!=n
                 or not _valid_str(frame.source_id,_ID) or not _valid_str(frame.source_revision,_ID)
                 or not _valid_str(frame.source_sha256,_SHA)
-                or type(frame.confidence) is not tuple or len(frame.confidence)!=len(frame.detections)):
+                or type(frame.detections) is not tuple or type(frame.confidence) is not tuple
+                or len(frame.detections)>MAX_DETECTIONS or len(frame.confidence)!=len(frame.detections)):
             raise ValueError("invalid ordered source frame")
         validate((),frame.detections)
         if (any(d.source!=frame.source_id for d in frame.detections)
@@ -143,9 +145,16 @@ def _engine():
             raw=path.read_bytes()
             if sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()!=expected:
                 raise _Stop("UNSUPPORTED")
+        spec=find_spec("trackers")
+        if (spec is None or spec.origin is None or
+                Path(spec.origin).resolve()!=Path(dist.locate_file("trackers/__init__.py")).resolve()):
+            raise _Stop("UNSUPPORTED")
         import numpy as np
         import supervision as sv
         from trackers import ByteTrackTracker
+        import inspect
+        if Path(inspect.getfile(ByteTrackTracker)).resolve()!=Path(dist.locate_file("trackers/core/bytetrack/tracker.py")).resolve():
+            raise _Stop("UNSUPPORTED")
         identity=digest({"backend":BACKEND,"commit":UPSTREAM,"wheel":WHEEL_SHA256,
                          "config":dict(CONFIG),"versions":{k:version(k) for k in
                             ("trackers","numpy","scipy","supervision","opencv-python")}})
@@ -248,12 +257,15 @@ def execute(scope,frames,context,*,expected_build_sha,admit,source_current,cance
         if monotonic()>=deadline:raise _Stop("TIMED_OUT")
         if frame is not None and source_current(frame,context) is not True:raise _Stop("STALE_SOURCE")
         if monotonic()>=deadline:raise _Stop("TIMED_OUT")
+        if cancelled() is not False:raise _Stop("CANCELLED")
     def authorize(phase,n=0,frame_hash="",receipt=""):
         if admit(Admission(phase,namespace,request,n,frame_hash,receipt),context) is not True:
             raise _Stop("DENIED")
     try:
         check();authorize("sequence");check()
+        for frame in frames:check(frame)
         np,sv,engine,backend_hash=_engine()
+        check()
         if resume is not None and resume.backend_sha256!=backend_hash:raise _Stop("REPLAY_MISMATCH")
         history=[];previous={};max_seen=-1
         parent=digest({"scope":namespace,"backend":backend_hash})

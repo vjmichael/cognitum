@@ -4,7 +4,6 @@ Combined CPU regression can run without the optional wheel. The dedicated
 grouped native matrix sets C15_REQUIRE_BYTETRACK=1: unavailability is failure.
 """
 from dataclasses import replace
-import importlib.metadata
 import os
 from unittest.mock import patch
 import pytest
@@ -53,6 +52,7 @@ def test_invalid_inputs_and_scope_rejected_before_import():
         assert run((f,),admit=lambda a,c:1).status=="DENIED"
         assert run((f,),timeout_ms=MAX_MS+1).status=="INVALID_INPUT"
         assert run((f,),cancelled=lambda:True).status=="CANCELLED"
+        assert run((f,),source_current=lambda f,c:False).status=="STALE_SOURCE"
         engine.assert_not_called()
 
 def test_missing_backend_and_deadline_have_no_outputs():

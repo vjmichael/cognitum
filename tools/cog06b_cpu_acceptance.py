@@ -68,6 +68,11 @@ def source_check():
     for rel,expected in proof_repair.items():
         if git('rev-parse','HEAD:'+rel)!=expected:
             raise RuntimeError('unreviewed proof repair mutation: '+rel)
+    # COG-06G is additive to the complete accepted COG-06F implementation.
+    frozen="10dd3be219dd59a7e9a2f27fb6f958404e33ddb7"
+    prior_changes=git("diff","--name-only","--diff-filter=MDTRC",frozen,head,"--","cognitum","proto","tests").splitlines()
+    if prior_changes:
+        raise RuntimeError("COG-06F accepted runtime/schema/test modified: "+repr(prior_changes))
     # No other replacement of accepted mature runtime or existing schemas.
     changed=git("diff","--name-only",baseline,head).splitlines()
     for rel in changed:
@@ -113,9 +118,9 @@ def descriptors():
 
 def main():
     OUT.mkdir(exist_ok=True)
-    report={"schema":"cognitum.cog06e.cpu-regression.v1","platform":sys.platform,
+    report={"schema":"cognitum.cog06g.cpu-regression.v1","platform":sys.platform,
             "python":sys.version,"production_enabled":False,"lu_roundtrip":False,
-            "optional_unvalidated":["pgmpy native worker","PyMC native worker","Fast Downward native planner","Carcara actual proof acceptance","official MOT17 TrackEval"],
+            "optional_unvalidated":["pgmpy native worker","PyMC native worker","Fast Downward native planner","Carcara actual proof acceptance","official MOT17 TrackEval","reviewed ByteTrack optional separate native matrix"],
             "steps":[]}
     def save():(OUT/"result.json").write_text(json.dumps(report,indent=2)+"\n",encoding="utf-8")
     def run(name,args,timeout=900):
