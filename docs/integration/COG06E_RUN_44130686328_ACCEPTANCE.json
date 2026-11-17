@@ -1,0 +1,232 @@
+{
+  "schema": "cognitum.cog06e.acceptance.closeout.v1",
+  "date_utc": "2026-11-17",
+  "run_id": 44130686328,
+  "run_attempt": 1,
+  "run_url": "https://github.com/vjmichael/cognitum/actions/runs/44130686328",
+  "source_sha": "10dd3be219dd59a7e9a2f27fb6f958404e33ddb7",
+  "conclusion": "success",
+  "prior_failed_run": 44126990151,
+  "cpu_jobs": [
+    {
+      "os": "linux",
+      "python": "3.13",
+      "id": 134206585188,
+      "conclusion": "success",
+      "focused": {
+        "passed": 746,
+        "skipped": 2,
+        "subtests": 950,
+        "failed": 0
+      },
+      "combined": {
+        "passed": 1341,
+        "skipped": 12,
+        "subtests": 1547,
+        "failed": 0
+      },
+      "descriptor_parity": 37,
+      "component_benchmarks_passed": 6,
+      "cooperative_evidence": "passed",
+      "artifact": {
+        "id": 14349168454,
+        "sha256": "28386d7bbb5e14063a5d094cfb007f26bd736df193318b2c95552eb93c6786f6",
+        "size_bytes": 84809,
+        "locally_rehashed": false
+      }
+    },
+    {
+      "os": "linux",
+      "python": "3.11",
+      "id": 134206585825,
+      "conclusion": "success",
+      "focused": {
+        "passed": 746,
+        "skipped": 2,
+        "subtests": 950,
+        "failed": 0
+      },
+      "combined": {
+        "passed": 1341,
+        "skipped": 12,
+        "subtests": 1547,
+        "failed": 0
+      },
+      "descriptor_parity": 37,
+      "component_benchmarks_passed": 6,
+      "cooperative_evidence": "passed",
+      "artifact": {
+        "id": 14348384518,
+        "sha256": "1340b0c65f0672d4ad659c8a4a50eb99f5421239c1bc5dd5ce4e9a82cd9ca98e",
+        "size_bytes": 85290,
+        "locally_rehashed": false
+      }
+    },
+    {
+      "os": "windows",
+      "python": "3.13",
+      "id": 134206585694,
+      "conclusion": "success",
+      "focused": {
+        "passed": 746,
+        "skipped": 2,
+        "subtests": 950,
+        "failed": 0
+      },
+      "combined": {
+        "passed": 1231,
+        "skipped": 72,
+        "subtests": 1533,
+        "failed": 0
+      },
+      "descriptor_parity": 37,
+      "component_benchmarks_passed": 6,
+      "cooperative_evidence": "passed",
+      "artifact": {
+        "id": 14348344903,
+        "sha256": "7113febc96af6509abe6ae078a60ef0fdc443b1e58719f8cd2802e833b644d9b",
+        "size_bytes": 84613,
+        "locally_rehashed": false
+      }
+    },
+    {
+      "os": "windows",
+      "python": "3.11",
+      "id": 134206585714,
+      "conclusion": "success",
+      "focused": {
+        "passed": 746,
+        "skipped": 2,
+        "subtests": 950,
+        "failed": 0
+      },
+      "combined": {
+        "passed": 1231,
+        "skipped": 72,
+        "subtests": 1533,
+        "failed": 0
+      },
+      "descriptor_parity": 37,
+      "component_benchmarks_passed": 6,
+      "cooperative_evidence": "passed",
+      "artifact": {
+        "id": 14350491091,
+        "sha256": "31d2f886d6a65f8d761a755ce1b14c9e32011bc0a0e7b6029ca3ee341344c546",
+        "size_bytes": 85034,
+        "locally_rehashed": false
+      }
+    }
+  ],
+  "native_proof": {
+    "job_id": 134206586130,
+    "conclusion": "success",
+    "artifact": {
+      "id": 14348544289,
+      "sha256": "ad00ab1fe77865e19c1bca952e5ea9b2dc8fe4bf6fd4f751f72a3998dc0139cb",
+      "size_bytes": 9142,
+      "locally_rehashed": true,
+      "zip_crc_valid": true
+    },
+    "producer": "cvc5-1.4.2",
+    "profile": "dsl-rewrite-strict",
+    "checker_commit": "394edbb15ba95c47893f1d821fddde7e016af178",
+    "producer_binary_sha256": "6aecddf466552b83bb5883756c7955e0c9d5ddcc6d7f45b48c2f6e06a741b102",
+    "checker_binary_sha256": "4b7e9733e4fa6350de2a50a4194ad3b0f1c8468e90de7249286fc86ba5fc34ca",
+    "rewrite_blob": "752a737f289c62c665f850fe2ab05328295ce8bb",
+    "rewrite_sha256": "24c5083754312842b951b1af2a59c2c29f571562b94d7fc8c04c5469e87b82ea",
+    "cases": [
+      {
+        "name": "contradiction",
+        "problem_sha256": "5ca51ff10655f3a8b4201a7ff610581e745d0bfd61a4a0906c22bcb8d3ba754c",
+        "proof_sha256": "3bc3ddd52e7f7c5a453b9a225c2c1bdceebd2b9527f36c7d2af979b9d67f24e7",
+        "checker": "valid",
+        "adapter": "CERTIFIED_UNSAT",
+        "rule_steps": 8
+      },
+      {
+        "name": "wide_contradiction",
+        "domain_cardinality": 35937,
+        "problem_sha256": "b2b0b085bc18f79ebb3c429428fb5be149d4ed0f49a2c3c072cbf6ba6746f920",
+        "proof_sha256": "d8299a63672e53b65e8aff2485f83f2e593b70c7430c4fee5c4b3a112b67f8cf",
+        "checker": "valid",
+        "adapter": "CERTIFIED_UNSAT",
+        "rule_steps": 8
+      }
+    ],
+    "negative_controls": {
+      "sat": "NOT_UNSAT",
+      "wrong_problem": "invalid",
+      "unsupported_rule": "invalid",
+      "explicit_hole": "holey"
+    },
+    "audit": "locally rehashed proof and SMT source, rewrite byte hash and Git blob, exact producer envelope-to-proof equality, adapter/archive hash parity, archived valid checker transcripts and negative transcripts; no explicit hole, undefined or lia_generic rule in either accepted proof; no local native checker rerun"
+  },
+  "native_trackeval": {
+    "job_id": 134206585870,
+    "conclusion": "success",
+    "artifact": {
+      "id": 14349153370,
+      "sha256": "77d278be2a50f5e2e42629e4894b0256e32a5e62c080650ca7c4efd5221a41fa",
+      "size_bytes": 107273,
+      "locally_rehashed": true,
+      "zip_crc_valid": true
+    },
+    "upstream_commit": "12c8791b303e0a0b50f753af204249e622d0281a",
+    "scope": "MOT17-02-FRCNN 299-frame public-detection validation subset, DO_PREPROC=False, not leaderboard",
+    "detections": 4009,
+    "gt_boxes": 9880,
+    "capacity_drops": 0,
+    "det_sha256": "bc4b9db23735d22333422a63457641f282ef2052fb583e04b155f8d820a475a6",
+    "gt_sha256": "54cfe9a00b402996589c69ae348adc730ccb68254c51a434db291266f79a7b6a",
+    "c15": {
+      "predictions": 4009,
+      "pred_sha256": "86c30ab3c6f1eeb2945c7d916dc5d2de5bab007d85f7b9c8792d3af11176ce18",
+      "tracking_wall_ms": 71.429,
+      "official": {
+        "HOTA": 30.435,
+        "MOTA": 25.111,
+        "IDF1": 32.961
+      },
+      "summary_sha256": "a58c1e3357ad830ce11c0b4206df35f2fc177eb0ec7daf62b21e92c06cde1a98",
+      "arithmetic_MOTA": 25.111336032388664,
+      "arithmetic_IDF1": 32.96133630930952
+    },
+    "bytetrack": {
+      "predictions_original": 4009,
+      "unassigned_excluded": 221,
+      "predictions_staged": 3788,
+      "original_sha256": "03d26ed97aed2430ea5f3b974041e3eaba4c015e596c5aca05570870631d37cf",
+      "staged_sha256": "21077841f796a7ebfa18bbad9068eb6f2f018589e48527c887ca2e5198d2e558",
+      "official": {
+        "HOTA": 34.666,
+        "MOTA": 25.283,
+        "IDF1": 37.123
+      },
+      "summary_sha256": "f5717d3d34ae5c0603a3e9492ff72bca9f1ee04a3716ff863ad69ce99024815e",
+      "arithmetic_MOTA": 25.283400809716593,
+      "arithmetic_IDF1": 37.123207491952
+    },
+    "delta": {
+      "HOTA": -4.231,
+      "MOTA": -0.172,
+      "IDF1": -4.162
+    },
+    "dtype_patch": {
+      "files": 3,
+      "replacements": 12,
+      "metric_algorithms_modified": false,
+      "legacy_patched_byte_identical": true
+    },
+    "audit": "locally verified archive digest and CRC, source identity, summary hashes, parsed scores, prediction hashes, rebuilt staged ByteTrack from original 221 ID=-1 exclusions, recomputed MOTA and IDF1 from official counts; HOTA and full legacy parity rely on actual pinned evaluator and archived evidence; GT/detection bytes not archived or independently rehashed"
+  },
+  "limits": [
+    "native proof acceptance limited to two QF_LIA fixtures and negatives; no universal proof coverage or production activation; optional probability workers and Fast Downward remain unverified",
+    "C15 single public validation sequence noncommercial research, no original images/new perception, multiple sequences or commercial rights claim",
+    "four CPU artifact metadata and terminal logs reviewed, CPU archive bytes not downloaded/rehashed in this closeout",
+    "native binaries not rerun locally, native artifact evidence is CI output not independent runtime attestation",
+    "ArviZ negative diagnostic and Node20 deprecation warnings; two focused optional skips remain",
+    "no model efficacy or Lu integration"
+  ],
+  "next": "COG-06F",
+  "production_enabled": false
+}
