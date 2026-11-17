@@ -1,0 +1,208 @@
+{
+  "schema": "cognitum.cog06g.acceptance.v1",
+  "source_sha": "ce28a7ad6a584e6cce5a77c9be5d63bc5dabeaa0",
+  "run_id": 44138431170,
+  "status": "ACCEPTED_SCOPED_OPTIONAL_BACKEND",
+  "jobs": [
+    {
+      "job_id": 134234267358,
+      "artifact_id": 14354470077,
+      "sha256": "bd0270b1dee839be6d41f71a750e08b07339ede9271cf1e657b19c0eb55d4da7",
+      "bytes": 85468,
+      "environment": "Linux 3.11",
+      "conclusion": "success",
+      "local_sha256_and_zip_crc": "pass"
+    },
+    {
+      "job_id": 134234267536,
+      "artifact_id": 14352758168,
+      "sha256": "476acec7446d9da3c12064c00b5da5b8ee77b9df1911696de7800236bbaa0c5c",
+      "bytes": 85611,
+      "environment": "Linux 3.13",
+      "conclusion": "success",
+      "local_sha256_and_zip_crc": "pass"
+    },
+    {
+      "job_id": 134234268166,
+      "artifact_id": 14352988218,
+      "sha256": "6bd4c3f0f90a6b81a7a2f55cad21534e703ad0f8484c9cd13a909d04cd35c0ff",
+      "bytes": 85349,
+      "environment": "Windows 3.11",
+      "conclusion": "success",
+      "local_sha256_and_zip_crc": "pass"
+    },
+    {
+      "job_id": 134234267493,
+      "artifact_id": 14352578703,
+      "sha256": "8b74380480ccd1a43e0358323d1b6c9c965c35eea981a566ca8a29c072d940f4",
+      "bytes": 85113,
+      "environment": "Windows 3.13",
+      "conclusion": "success",
+      "local_sha256_and_zip_crc": "pass"
+    },
+    {
+      "job_id": 134234267676,
+      "artifact_id": 14354355097,
+      "sha256": "d1f31b4fb9e37011c617c032270066ec2cbdac14494abe15729674f222e95273",
+      "bytes": 19710,
+      "environment": "Windows ByteTrack",
+      "conclusion": "success",
+      "local_sha256_and_zip_crc": "pass"
+    },
+    {
+      "job_id": 134234267923,
+      "artifact_id": 14353326755,
+      "sha256": "f2930d338d03b9a1374d2792b185e9212689c34598f6ed968ab420e385613390",
+      "bytes": 34489,
+      "environment": "Linux ByteTrack",
+      "conclusion": "success",
+      "local_sha256_and_zip_crc": "pass"
+    },
+    {
+      "job_id": 134234268089,
+      "artifact_id": 14352932462,
+      "sha256": "2891c6a621c6aa618b39ccbcabec676aff5d1815c79bab8b39370a02bed365ec",
+      "bytes": 107273,
+      "environment": "Legacy/patched official TrackEval",
+      "conclusion": "success",
+      "local_sha256_and_zip_crc": "pass"
+    },
+    {
+      "job_id": 134234267667,
+      "artifact_id": 14352314823,
+      "sha256": "2fda84897a1c0d549408e86aa669bb5a699d5a67245ac5f7be4df19dd647a48f",
+      "bytes": 9143,
+      "environment": "Native Carcara",
+      "conclusion": "success",
+      "local_sha256_and_zip_crc": "pass"
+    }
+  ],
+  "cpu": {
+    "focused_each": 746,
+    "focused_skips_each": 2,
+    "focused_subtests_each": 950,
+    "linux_combined_each": 1344,
+    "linux_skips_each": 17,
+    "linux_subtests_each": 1547,
+    "windows_combined_each": 1234,
+    "windows_skips_each": 77,
+    "windows_subtests_each": 1533,
+    "local_step_log_hashes_verified": 60,
+    "descriptors": 37,
+    "descriptor_sha256": "030ef8fe3e9763d511d82d3b9ead344c8225d771c2b4a55142c5dc99dafc7cf7"
+  },
+  "native": {
+    "bytetrack_tests_each": 8,
+    "native_skips": 0,
+    "proof_gate": "pass",
+    "old_official_parity": "pass"
+  },
+  "benchmark": {
+    "library": "trackers==2.6.1",
+    "bounded_config": {
+      "lost_track_buffer": 4,
+      "frame_rate": 30,
+      "track_activation_threshold": 0.7,
+      "minimum_consecutive_frames": 2,
+      "minimum_iou_threshold": 0.1,
+      "high_conf_det_threshold": 0.6
+    },
+    "sequences": [
+      {
+        "name": "MOT17-02-FRCNN",
+        "frames": 299,
+        "rows": 4009,
+        "c15": {
+          "HOTA": 30.435,
+          "MOTA": 25.111,
+          "IDF1": 32.961,
+          "wall_ms": 90.664667,
+          "cpu_ms": 90.652254,
+          "peak_rss_kib": 94304,
+          "predictions": 4009
+        },
+        "direct_bt": {
+          "HOTA": 30.022,
+          "MOTA": 25.233,
+          "IDF1": 32.833,
+          "wall_ms": 308.76076,
+          "cpu_ms": 308.726495,
+          "peak_rss_kib": 177252,
+          "predictions": 3710
+        },
+        "integrated_bt": {
+          "HOTA": 30.022,
+          "MOTA": 25.233,
+          "IDF1": 32.833,
+          "wall_ms": 463.50616,
+          "cpu_ms": 463.493763,
+          "peak_rss_kib": 179332,
+          "predictions": 3710,
+          "unassigned": 299,
+          "max_internal_tracks": 18,
+          "prediction_sha256": "5f1d46463575bc62fe14102ec7442fc04461659d43a4ece455c58446a5aaba64"
+        }
+      },
+      {
+        "name": "MOT17-05-FRCNN",
+        "frames": 418,
+        "rows": 2036,
+        "c15": {
+          "HOTA": 48.356,
+          "MOTA": 54.513,
+          "IDF1": 59.077,
+          "wall_ms": 29.301748,
+          "cpu_ms": 29.294789,
+          "peak_rss_kib": 98996,
+          "predictions": 2036
+        },
+        "direct_bt": {
+          "HOTA": 45.723,
+          "MOTA": 51.862,
+          "IDF1": 54.028,
+          "wall_ms": 271.067762,
+          "cpu_ms": 271.056776,
+          "peak_rss_kib": 176072,
+          "predictions": 1881
+        },
+        "integrated_bt": {
+          "HOTA": 45.723,
+          "MOTA": 51.862,
+          "IDF1": 54.028,
+          "wall_ms": 382.942838,
+          "cpu_ms": 382.887828,
+          "peak_rss_kib": 177112,
+          "predictions": 1881,
+          "unassigned": 155,
+          "max_internal_tracks": 10,
+          "prediction_sha256": "76a8f1eeb815efc5b80fae22296f156b63360b4ed25a8fdf6463790381f2c07c"
+        }
+      }
+    ],
+    "detector_capacity_exclusions": 0,
+    "direct_integrated_parity": "CI byte equality and locally verified matching archived hashes, arm records and official summaries",
+    "earlier_conventional_cli": {
+      "sequence": "MOT17-02-FRCNN",
+      "HOTA": 34.666,
+      "MOTA": 25.283,
+      "IDF1": 37.123,
+      "configuration": "unrestricted comparator; not matched to the bounded adapter profile"
+    },
+    "limitations": [
+      "two public-detector validation sequences, DO_PREPROC=False",
+      "no new full-image perception, production authorization or real-dataset occlusion-slice acceptance",
+      "CPU wall/process RSS single observations, including import/setup and adapter overhead; not calibrated latency or incremental memory",
+      "raw detector/GT and gated prediction bytes not in new comparison archive; no independent local rerun or rehash of raw predictions",
+      "native and CPU archive digests, test records/log hash checks and recorded results verified; no new full receipt-chain reconstruction",
+      "five actual-library skips in each general CPU suite intentional; 8 dedicated native tests passed independently on both OSes",
+      "existing optional worker and OS custody gates remain outside acceptance"
+    ]
+  },
+  "decision": {
+    "preferred": "existing C15 SciPy bounded association",
+    "optional": "reviewed ByteTrack fixed profile for explicitly authorized confidence-aware use; no automatic promotion or switching",
+    "reason": "five of six metric cells favor C15, plus lower measured wall and process RSS in both sequences; original conventional ByteTrack configuration remains promising but different, and future independently held-out bounded profile evaluation needed before promotion",
+    "gpu": "CPU-first unchanged; potential GPU numerical/vision workloads may be benchmarked separately on supported hardware under concurrent transformer load; no blanket GPU claim or new implementation authorization"
+  },
+  "next": "COG-07"
+}
