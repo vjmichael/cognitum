@@ -1,0 +1,45 @@
+name: COG-00 consolidated historical source recovery acceptance
+on:
+  push:
+    branches:
+      - recovery/cog-00-hdc-kan-ssm-20261116
+    paths:
+      - .github/workflows/cog00-recovery-acceptance.yml
+      - tools/cog00_recovery_acceptance.py
+      - cognitum/**
+      - tests/**
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  recovery:
+    name: COG-00 / ${{ matrix.os }} / Python ${{ matrix.python-version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11', '3.13']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 100
+    env:
+      PYTHONUTF8: '1'
+      COG00_EXPECTED_SHA: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Execute original recovered tests and combined regression at one SHA
+        run: python -m tools.cog00_recovery_acceptance
+      - name: Preserve exact source-bound test and benchmark evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cog00-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: cog00-artifacts/
+          if-no-files-found: error
+          retention-days: 30
