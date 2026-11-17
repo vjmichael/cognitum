@@ -68,15 +68,20 @@ def source_check():
     for rel,expected in proof_repair.items():
         if git('rev-parse','HEAD:'+rel)!=expected:
             raise RuntimeError('unreviewed proof repair mutation: '+rel)
-    # COG-06G is additive to the complete accepted COG-06F implementation.
-    frozen="10dd3be219dd59a7e9a2f27fb6f958404e33ddb7"
+    # COG-07: only the exact reviewed practical C14 validation repair is new.
+    causal_repair={"cognitum/causal_specialists.py":"2fcecac96bfa1028a242d6a541eb64c1752e7b51"}
+    for rel,expected in causal_repair.items():
+        if git("rev-parse","HEAD:"+rel)!=expected:
+            raise RuntimeError("unreviewed causal guard mutation: "+rel)
+    # Preserve COG-06G and all earlier accepted runtime/schema/test paths.
+    frozen="ce28a7ad6a584e6cce5a77c9be5d63bc5dabeaa0"
     prior_changes=git("diff","--name-only","--diff-filter=MDTRC",frozen,head,"--","cognitum","proto","tests").splitlines()
-    if prior_changes:
-        raise RuntimeError("COG-06F accepted runtime/schema/test modified: "+repr(prior_changes))
+    if set(prior_changes)!=set(causal_repair):
+        raise RuntimeError("unexpected COG-06G accepted runtime/schema/test modification: "+repr(prior_changes))
     # No other replacement of accepted mature runtime or existing schemas.
     changed=git("diff","--name-only",baseline,head).splitlines()
     for rel in changed:
-        if rel not in identity_repair and rel not in proof_repair and rel.startswith(("cognitum/","proto/","tests/test_")):
+        if rel not in identity_repair and rel not in proof_repair and rel not in causal_repair and rel.startswith(("cognitum/","proto/","tests/test_")):
             if subprocess.run(["git","cat-file","-e",baseline+":"+rel],cwd=ROOT,
                               stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0:
                 raise RuntimeError("accepted existing runtime/schema/test replaced: "+rel)
@@ -118,9 +123,9 @@ def descriptors():
 
 def main():
     OUT.mkdir(exist_ok=True)
-    report={"schema":"cognitum.cog06g.cpu-regression.v1","platform":sys.platform,
+    report={"schema":"cognitum.cog07.cpu-regression.v1","platform":sys.platform,
             "python":sys.version,"production_enabled":False,"lu_roundtrip":False,
-            "optional_unvalidated":["pgmpy native worker","PyMC native worker","Fast Downward native planner","Carcara actual proof acceptance","official MOT17 TrackEval","reviewed ByteTrack optional separate native matrix"],
+            "optional_unvalidated":["pgmpy native worker","PyMC native worker","Fast Downward native planner","Carcara actual proof acceptance","official MOT17 TrackEval","reviewed ByteTrack optional separate native matrix","DoWhy/EconML/causal-learn separately required in COG-07 matrix","Tigramite license-gated"],
             "steps":[]}
     def save():(OUT/"result.json").write_text(json.dumps(report,indent=2)+"\n",encoding="utf-8")
     def run(name,args,timeout=900):
@@ -149,7 +154,7 @@ def main():
     run("native_preflight",[PY,"-m","tools.cog06b_cpu_acceptance","--native"])
     run("descriptor_parity",[PY,"-m","tools.cog06b_cpu_acceptance","--descriptors"])
     prefixes=("test_c05","test_c06","test_c07","test_c10","test_c11","test_c12",
-              "test_c13","test_c16","test_c17","test_cooperative",
+              "test_c13","test_c14_closeout","test_c14_practical_guards","test_c16","test_c17","test_cooperative",
               "test_cognitum_capability_route_proposal","test_c15_trackeval_")
     focused=sorted(str(p.relative_to(ROOT)) for p in (ROOT/"tests").glob("test_*.py")
                    if p.name.startswith(prefixes))
@@ -171,6 +176,7 @@ def main():
                                 "reason":"unexpected skip" if unexpected else ""});save()
     else:
         report["steps"].append({"name":"focused_skip_policy","exit":1,"reason":"missing junit"});save()
+    run("c14_statsmodels_evidence",[PY,"-m","tools.cog07_causal_evidence","--backend","statsmodels","--out",str(OUT/"c14-statsmodels-evidence.json")],300)
     run("cross_component_evidence",[PY,"-m","tools.cog06d_composition_evidence"],300)
     for module in ("c06_c07_benchmark","c11_component_benchmark","c12_component_benchmark",
                    "c13_component_benchmark","c16_physics_benchmark","c17_temporal_benchmark"):

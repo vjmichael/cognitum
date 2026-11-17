@@ -6,7 +6,7 @@ an identifying DAG. Estimates are conditional on the declared model.
 """
 from argparse import ArgumentParser
 from hashlib import sha256
-from importlib.metadata import version
+from importlib.metadata import version,distribution
 from pathlib import Path
 from statistics import NormalDist
 from time import perf_counter,process_time
@@ -196,6 +196,7 @@ def main():
         rss=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
     record={"schema":"cognitum.cog07.causal-reference.v1","source_sha":build,
             "backend":args.backend,"versions":{k:version(k) for k in sorted({"numpy","scipy","statsmodels",args.backend})},
+            "library_metadata":{k:{"version":version(k),"license":distribution(k).metadata.get("License-Expression") or distribution(k).metadata.get("License")} for k in sorted({"numpy","scipy","statsmodels",args.backend})},
             "cpu_only":True,"peak_process_rss_kib":rss,"fixture_data":"synthetic known mechanism, fixed seeds",
             "result":result,"production_enabled":False,"Tigramite":"license-gated NOT_RUN",
             "model_trial":"NOT_RUN","scientific_scope":"conditional on declared assumptions; no real-world causal proof"}

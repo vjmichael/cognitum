@@ -1,0 +1,49 @@
+{
+  "schema": "cognitum.cog07.local-statistical-preflight.v1",
+  "scope": "independently reconstructed candidate fixture/QR oracle, actual installed direct statsmodels API, not repository adapter/optional native execution",
+  "versions": {
+    "statsmodels": "0.14.6",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0"
+  },
+  "truth_ate": 2.5,
+  "adjusted": [
+    2.5015456223731807,
+    2.4125334659517055,
+    2.590557778794656
+  ],
+  "unadjusted": [
+    4.343688838119817,
+    4.151579697871152,
+    4.535797978368483
+  ],
+  "hc3_parity_cases": 22,
+  "coverage_trials": 20,
+  "coverage_count": 18,
+  "mean_absolute_error": 0.05267753650156022,
+  "conditional_truth": [
+    1.1,
+    2.9
+  ],
+  "interaction_oracle": [
+    [
+      0.9958761205084699,
+      0.8841086471005822,
+      1.1076435939163574
+    ],
+    [
+      2.9491788257659213,
+      2.8363499937960395,
+      3.062007657735803
+    ]
+  ],
+  "collider_marginal_correlation": 0.044288981813770126,
+  "chain_partial_correlation": -0.05534246980296331,
+  "limitations": [
+    "only descriptive coverage on 20 synthetic draws",
+    "no exact candidate adapter local execution",
+    "DoWhy/EconML/causal-learn not installed",
+    "Tigramite not installed and gated",
+    "no HDC/KAN/SSM research conclusions"
+  ]
+}

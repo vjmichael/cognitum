@@ -1,6 +1,7 @@
 name: C14 maintained causal-library integration
 on:
   push:
+    branches-ignore: [development/cog-06-cooperative-reasoning-20261116]
     paths:
       - 'cognitum/causal_specialists.py'
       - 'cognitum/proto/causal_pb2.py'

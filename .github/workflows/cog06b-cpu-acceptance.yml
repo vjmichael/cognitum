@@ -1,4 +1,4 @@
-name: COG-06G reviewed ByteTrack and preserved cooperative acceptance
+name: COG-07 practical CPU causal libraries and preserved cooperative acceptance
 on:
   push:
     branches: [development/cog-06-cooperative-reasoning-20261116]
@@ -18,13 +18,16 @@ on:
       - tools/c15_bytetrack_benchmark.py
       - tools/c15_install_bytetrack.py
       - .github/workflows/cog06g-bytetrack.yml
+      - tools/cog07_causal_evidence.py
+      - .github/workflows/c14-standard-libraries.yml
+      - .github/workflows/cog07-causal.yml
       - .github/workflows/cog06b-cpu-acceptance.yml
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
   cpu-components:
-    name: COG-06G / ${{ matrix.os }} / Python ${{ matrix.python-version }}
+    name: COG-07 / ${{ matrix.os }} / Python ${{ matrix.python-version }}
     strategy:
       fail-fast: false
       matrix:
@@ -54,7 +57,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cog06g-${{ matrix.os }}-py${{ matrix.python-version }}
+          name: cog07-${{ matrix.os }}-py${{ matrix.python-version }}
           path: cog06b-artifacts/
           if-no-files-found: error
           retention-days: 30
@@ -68,3 +71,7 @@ jobs:
   reviewed-bytetrack:
     name: COG-06G reviewed actual library and matched comparison
     uses: ./.github/workflows/cog06g-bytetrack.yml
+
+  practical-causal:
+    name: COG-07 actual maintained causal library acceptance
+    uses: ./.github/workflows/cog07-causal.yml

@@ -1,9 +1,11 @@
 """COG-07 practical reject controls; actual native evidence runs separately."""
 import unittest
+import importlib.util
 from unittest.mock import patch
 import types,sys
 from tests.test_c14_closeout import request,invoke
 
+@unittest.skipUnless(importlib.util.find_spec('numpy'), 'C14 optional NumPy engine absent')
 class PracticalCausalGuards(unittest.TestCase):
     def test_refuses_missing_backdoor_adjustment(self):
         q=request("ate_dowhy");del q.adjustment[:]

@@ -1,0 +1,69 @@
+name: COG-07 practical maintained causal library acceptance
+on:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  required-engine:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        library: [dowhy, econml, causal-learn]
+        include:
+          - library: dowhy
+            extra: causal-dowhy
+            native_test: test_real_dowhy_graph_identification
+          - library: econml
+            extra: causal-econml
+            native_test: test_real_econml_binary_heterogeneous_effect
+          - library: causal-learn
+            extra: causal-discovery
+            native_test: test_real_causal_learn_discovery
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 40
+    env:
+      COG06B_EXPECTED_SHA: ${{ github.sha }}
+      PYTHONUTF8: '1'
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      NUMEXPR_NUM_THREADS: '1'
+      CUDA_VISIBLE_DEVICES: ''
+      HIP_VISIBLE_DEVICES: ''
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install reviewed library within existing bounded dependency manifest
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p c14-evidence
+          python -m pip install -e ".[causal-stats,${{ matrix.extra }}]" "pytest>=9,<10" | tee c14-evidence/install.log
+          python -m pip check
+          python -m pip freeze > c14-evidence/dependencies.txt
+          python -c "import importlib.util; assert importlib.util.find_spec('tigramite') is None, 'GPL library must not be installed in this gate'"
+      - name: Preserve original C14 refusal and required actual library tests
+        run: python -m pytest -q -ra tests/test_c14_closeout.py tests/test_c14_practical_guards.py tests/test_c14_native_adapters.py::OptionalNativeSmoke::${{ matrix.native_test }} --junitxml=c14-evidence/tests.xml
+      - name: Strict no-skip independent synthetic causal truth experiment
+        run: python -m tools.cog07_causal_evidence --backend ${{ matrix.library }} --out c14-evidence/known-truth.json
+      - name: Verify mandatory test execution and frozen source
+        shell: bash
+        run: |
+          python -c "import xml.etree.ElementTree as E; r=E.parse('c14-evidence/tests.xml'); assert not list(r.iter('skipped')); assert any(c.attrib.get('name')=='${{ matrix.native_test }}' for c in r.iter('testcase'))"
+          test "$(git rev-parse HEAD)" = "$COG06B_EXPECTED_SHA"
+          test -z "$(git status --porcelain --untracked-files=no)"
+      - name: Archive exact-source evidence and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cog07-${{ matrix.library }}-${{ matrix.os }}
+          path: c14-evidence/
+          if-no-files-found: warn
+          retention-days: 30
