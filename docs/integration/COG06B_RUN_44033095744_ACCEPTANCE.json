@@ -1,0 +1,141 @@
+{
+  "schema": "cognitum.cog06b.acceptance.closeout.v1",
+  "date_local": "2026-11-16",
+  "run_id": 44033095744,
+  "run_attempt": 1,
+  "run_url": "https://github.com/vjmichael/cognitum/actions/runs/44033095744",
+  "source_sha": "9558beadb449706dd19d5d541e92a6c385b25b06",
+  "status": "completed",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "os": "windows",
+      "python": "3.11",
+      "id": 133869443746,
+      "status": "completed",
+      "conclusion": "success",
+      "focused": {
+        "passed": 690,
+        "skipped": 2,
+        "failed": 0,
+        "subtests": 950
+      },
+      "combined": {
+        "passed": 1178,
+        "skipped": 72,
+        "failed": 0,
+        "subtests": 1533
+      },
+      "descriptor_parity": 36,
+      "component_benchmarks_passed": 6,
+      "mandatory_native_preflight": "success",
+      "artifact": {
+        "id": 14305409702,
+        "sha256": "01b595d3041d0fa406b76b4de1f32608aa635f0de4df7463710ae1e293940b74",
+        "size_bytes": 72600,
+        "expired": false
+      }
+    },
+    {
+      "os": "windows",
+      "python": "3.13",
+      "id": 133869443432,
+      "status": "completed",
+      "conclusion": "success",
+      "focused": {
+        "passed": 690,
+        "skipped": 2,
+        "failed": 0,
+        "subtests": 950
+      },
+      "combined": {
+        "passed": 1178,
+        "skipped": 72,
+        "failed": 0,
+        "subtests": 1533
+      },
+      "descriptor_parity": 36,
+      "component_benchmarks_passed": 6,
+      "mandatory_native_preflight": "success",
+      "artifact": {
+        "id": 14305509668,
+        "sha256": "dc3f6e4d3412aff3b80350ebcf99fdc700675663547041ffd6a3b31f88df8da1",
+        "size_bytes": 72248,
+        "expired": false
+      }
+    },
+    {
+      "os": "linux",
+      "python": "3.11",
+      "id": 133869443745,
+      "status": "completed",
+      "conclusion": "success",
+      "focused": {
+        "passed": 690,
+        "skipped": 2,
+        "failed": 0,
+        "subtests": 950
+      },
+      "combined": {
+        "passed": 1288,
+        "skipped": 12,
+        "failed": 0,
+        "subtests": 1547
+      },
+      "descriptor_parity": 36,
+      "component_benchmarks_passed": 6,
+      "mandatory_native_preflight": "success",
+      "artifact": {
+        "id": 14305164337,
+        "sha256": "47f1b57ec70e69bd8bb37710887c67beaef5ce4bc4fed6506fbd7945d7a8be8d",
+        "size_bytes": 72943,
+        "expired": false
+      }
+    },
+    {
+      "os": "linux",
+      "python": "3.13",
+      "id": 133869443900,
+      "status": "completed",
+      "conclusion": "success",
+      "focused": {
+        "passed": 690,
+        "skipped": 2,
+        "failed": 0,
+        "subtests": 950
+      },
+      "combined": {
+        "passed": 1288,
+        "skipped": 12,
+        "failed": 0,
+        "subtests": 1547
+      },
+      "descriptor_parity": 36,
+      "component_benchmarks_passed": 6,
+      "mandatory_native_preflight": "success",
+      "artifact": {
+        "id": 14306375729,
+        "sha256": "76297c71e5ab0c9ba252a6c2502dd57e176653c712c07ec03adb64f8549ace94",
+        "size_bytes": 72760,
+        "expired": false
+      }
+    }
+  ],
+  "previous_failed_run": 44031679278,
+  "repair": "incompatible host-owned memory StateEvent descriptor renamed; wire encoding and original typed StateEvent URL retained",
+  "evidence_method": "GitHub run metadata, all four terminal logs, artifact upload metadata/digests; archive bytes not separately downloaded/rehashed",
+  "post_acceptance_branch": "4dee17441932cd735d8faaddf028a687367bb123",
+  "post_acceptance_diff": [
+    "docs/MASTER_TASK_LEDGER.md"
+  ],
+  "limitations": [
+    "optional pgmpy worker unavailable; PyMC/ArviZ worker unvalidated",
+    "Fast Downward native planner unvalidated",
+    "independent Carcara proof and official TrackEval remain COG-06E",
+    "combined regression includes deferred optional causal and OS-specific/security skips",
+    "ArviZ intentional constant-diagnostic negative case warning; Actions Node20 deprecation warning",
+    "no production host, Lu invocation, multi-component DAG, efficacy or research training acceptance"
+  ],
+  "next": "COG-06C",
+  "production_enabled": false
+}
