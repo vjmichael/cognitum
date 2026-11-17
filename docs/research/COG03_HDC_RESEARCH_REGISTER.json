@@ -1,0 +1,441 @@
+{
+  "schema": "cognitum.cog03.research-register.v1",
+  "date": "2026-11-17",
+  "source_baseline": "2bc26c13680f24fb05c8190998eb72fd34c369cc",
+  "accepted_runtime": "23ac5b87503d3e1c76f4614039f85c2ee9a67b0e",
+  "recovered_source": [
+    {
+      "path": "cognitum/research/hdc_recovered/__init__.py",
+      "blob": "b49255d66ea1c69494ab8de05adc202cfa5c2788"
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/core.py",
+      "blob": "cd44a322e50fbfc061dc7af4662b8458e02ba097"
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/dataio.py",
+      "blob": "faf394f9215dcd94fc7850d301a7d8579bf9d66d"
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/lowdisc.py",
+      "blob": "de0d9025b4ef62fe9361af724648cb32f7ccc61f"
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/memory.py",
+      "blob": "bdb2b1f13ff67174157c4de55992e6bda46f13f7"
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/metrics.py",
+      "blob": "640d5d0514bec01146fd879573d6bbd7bd9062fb"
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/models.py",
+      "blob": "5040859584d3d6b2a36909f6669794ee89436f66"
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/neuralhd.py",
+      "blob": "624e21eacc568666b960ccb08a88ec52ef001e1d"
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/parallel.py",
+      "blob": "84036fc4520a0743ed6085e3e78c1dc1577f57e8"
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/quantum.py",
+      "blob": "e5291f5d2745f846151264189a91feadb824c7fc"
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/resonator.py",
+      "blob": "366dba3f29dbc639b9c8fec44427b470645a019d"
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/runner.py",
+      "blob": "db1b799e2e7b842e012d792bec1037d62a84acf3"
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/sdm.py",
+      "blob": "b68644315fde9f00f14055ee9fff1929196fd66b"
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/selftest.py",
+      "blob": "2b649b0c6e1c0c8a5d30ab7f8ab4d21dec028aea"
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/stochastic.py",
+      "blob": "78e1631b27352eb5c077294f267ba84986514718"
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/text.py",
+      "blob": "8937036c31e1fd1d73dbc4e9134d5db9d4eadbab"
+    }
+  ],
+  "entries": [
+    {
+      "id": "V01",
+      "method": "BSC",
+      "status": "recovered",
+      "reference": "models.py / TorchHD",
+      "gate": "Boolean XOR, majority, ties, exact inverse, packed parity",
+      "accepted": false
+    },
+    {
+      "id": "V02",
+      "method": "MAP",
+      "status": "recovered",
+      "reference": "models.py / TorchHD",
+      "gate": "Bipolar multiplication, sum vs sign, packed and counter widths",
+      "accepted": false
+    },
+    {
+      "id": "V03",
+      "method": "HRR",
+      "status": "recovered",
+      "reference": "models.py / TorchHD",
+      "gate": "Circular convolution, approximate inverse, FFT vs direct oracle",
+      "accepted": false
+    },
+    {
+      "id": "V04",
+      "method": "FHRR",
+      "status": "recovered",
+      "reference": "models.py / TorchHD",
+      "gate": "Complex product/conjugate, phase8, capacity",
+      "accepted": false
+    },
+    {
+      "id": "V05",
+      "method": "Binary sparse block codes",
+      "status": "planned",
+      "reference": "TorchHD BSBC",
+      "gate": "Block integrity, modular shift, sparse storage",
+      "accepted": false
+    },
+    {
+      "id": "V06",
+      "method": "Cyclic group representation",
+      "status": "planned",
+      "reference": "TorchHD CGR",
+      "gate": "Cyclic algebra, distance, block constraints",
+      "accepted": false
+    },
+    {
+      "id": "V07",
+      "method": "Modular composite representation",
+      "status": "planned",
+      "reference": "TorchHD MCR",
+      "gate": "Modular binding, scalar oracle",
+      "accepted": false
+    },
+    {
+      "id": "V08",
+      "method": "Vector-derived transformation binding",
+      "status": "planned",
+      "reference": "TorchHD VTB",
+      "gate": "Noncommutativity, inverse and shape",
+      "accepted": false
+    },
+    {
+      "id": "V09",
+      "method": "Tensor product representations",
+      "status": "planned",
+      "reference": "Survey / NumPy reference",
+      "gate": "Contraction and tensor growth",
+      "accepted": false
+    },
+    {
+      "id": "V10",
+      "method": "Matrix binding of additive terms",
+      "status": "planned",
+      "reference": "Survey / NumPy reference",
+      "gate": "Role direction, recovery, cost",
+      "accepted": false
+    },
+    {
+      "id": "V11",
+      "method": "Sparse binary distributed representations: conjunction/disjunction",
+      "status": "planned",
+      "reference": "Survey",
+      "gate": "Sparsity and recovery",
+      "accepted": false
+    },
+    {
+      "id": "V12",
+      "method": "Sparse binary distributed representations: context-dependent thinning",
+      "status": "planned",
+      "reference": "Survey",
+      "gate": "Thinning, capacity, reproducibility",
+      "accepted": false
+    },
+    {
+      "id": "V13",
+      "method": "Geometric analogue of HRR",
+      "status": "planned",
+      "reference": "Survey",
+      "gate": "Restricted-size geometric product oracle",
+      "accepted": false
+    },
+    {
+      "id": "E01",
+      "method": "Random and indexed IID",
+      "status": "recovered",
+      "reference": "core.py / lowdisc.py / TorchHD",
+      "gate": "Seed replay, shared operand export",
+      "accepted": false
+    },
+    {
+      "id": "E02",
+      "method": "Level, thermometer, circular, density",
+      "status": "planned",
+      "reference": "TorchHD embeddings",
+      "gate": "Distance and ordinal preservation",
+      "accepted": false
+    },
+    {
+      "id": "E03",
+      "method": "Projection, sinusoid, fractional power",
+      "status": "planned",
+      "reference": "TorchHD embeddings",
+      "gate": "Continuous/spatial generalization",
+      "accepted": false
+    },
+    {
+      "id": "E04",
+      "method": "Scrambled Sobol and Halton QMC",
+      "status": "partial",
+      "reference": "lowdisc.py / SciPy QMC",
+      "gate": "Index/batch parity, collisions and antipodal screening",
+      "accepted": false
+    },
+    {
+      "id": "E05",
+      "method": "Text, n-gram, random indexing and ordered encoding",
+      "status": "recovered",
+      "reference": "text.py / TorchHD",
+      "gate": "Bag-IDF, order, hybrid, train-only statistics",
+      "accepted": false
+    },
+    {
+      "id": "E06",
+      "method": "Graph, tree, role/filler, sequence, FSA",
+      "status": "partial",
+      "reference": "C08 / P21c / TorchHD structures",
+      "gate": "Shared graph, unseen topology, direction, order",
+      "accepted": false
+    },
+    {
+      "id": "M01",
+      "method": "Item memory and cleanup",
+      "status": "recovered",
+      "reference": "memory.py / TorchHD Memory",
+      "gate": "Recall, abstention, exact keys",
+      "accepted": false
+    },
+    {
+      "id": "M02",
+      "method": "True Kanerva sparse distributed memory",
+      "status": "partial",
+      "reference": "sdm.py precursor / TorchHD SparseDistributed",
+      "gate": "Multi-location activation, counters, address allocation and capacity",
+      "accepted": false
+    },
+    {
+      "id": "M03",
+      "method": "Two-tier associative store",
+      "status": "partial",
+      "reference": "sdm.py / Teeters et al.",
+      "gate": "Short-term superposition, long-term memory and full cost",
+      "accepted": false
+    },
+    {
+      "id": "M04",
+      "method": "Hopfield and modern Hopfield cleanup",
+      "status": "planned",
+      "reference": "TorchHD memory",
+      "gate": "Matched capacity and key retrieval",
+      "accepted": false
+    },
+    {
+      "id": "M05",
+      "method": "Reversible incremental association",
+      "status": "partial",
+      "reference": "hdc_index_lifecycle.py / historical C6",
+      "gate": "Insert/update/delete/revision, restart, 100k churn",
+      "accepted": false
+    },
+    {
+      "id": "R01",
+      "method": "Pair-enumeration decoder",
+      "status": "recovered",
+      "reference": "resonator.py",
+      "gate": "Bounded exact oracle; not iterative resonator",
+      "accepted": false
+    },
+    {
+      "id": "R02",
+      "method": "Iterative resonator / beam factorization",
+      "status": "partial",
+      "reference": "resonator.py / TorchHD",
+      "gate": "Three-plus factors, superposition, unknown factors, convergence",
+      "accepted": false
+    },
+    {
+      "id": "R03",
+      "method": "Compositional relational HDC",
+      "status": "partial",
+      "reference": "P21c / C08 canonical verification",
+      "gate": "Multi-hop paths and independent witnesses",
+      "accepted": false
+    },
+    {
+      "id": "R04",
+      "method": "GraphHD and HD hashing",
+      "status": "planned",
+      "reference": "2024 review",
+      "gate": "Graph classification vs dynamic hashing separately",
+      "accepted": false
+    },
+    {
+      "id": "L01",
+      "method": "Vanilla centroid",
+      "status": "partial",
+      "reference": "TorchHD / historical P21 P24",
+      "gate": "Single-pass, calibration and confusion",
+      "accepted": false
+    },
+    {
+      "id": "L02",
+      "method": "AdaptHD",
+      "status": "planned",
+      "reference": "TorchHD",
+      "gate": "Adaptive training and matched budget",
+      "accepted": false
+    },
+    {
+      "id": "L03",
+      "method": "OnlineHD",
+      "status": "planned",
+      "reference": "TorchHD",
+      "gate": "Online drift, order and forgetting",
+      "accepted": false
+    },
+    {
+      "id": "L04",
+      "method": "RefineHD / corrective prototype updates",
+      "status": "planned",
+      "reference": "Historical guide; verify original algorithm",
+      "gate": "No invented API; mistake-driven comparison",
+      "accepted": false
+    },
+    {
+      "id": "L05",
+      "method": "NeuralHD",
+      "status": "partial",
+      "reference": "neuralhd.py precursor / TorchHD",
+      "gate": "Differentiate dimension slicing from actual adaptive learner",
+      "accepted": false
+    },
+    {
+      "id": "L06",
+      "method": "DistHD",
+      "status": "planned",
+      "reference": "TorchHD",
+      "gate": "Adaptive encoding and matched dimension",
+      "accepted": false
+    },
+    {
+      "id": "L07",
+      "method": "CompHD",
+      "status": "planned",
+      "reference": "TorchHD",
+      "gate": "Compression and total bytes",
+      "accepted": false
+    },
+    {
+      "id": "L08",
+      "method": "SparseHD",
+      "status": "planned",
+      "reference": "TorchHD",
+      "gate": "Sparsity, hardware readiness",
+      "accepted": false
+    },
+    {
+      "id": "L09",
+      "method": "QuantHD",
+      "status": "planned",
+      "reference": "TorchHD",
+      "gate": "Quantization, accuracy and bytes",
+      "accepted": false
+    },
+    {
+      "id": "L10",
+      "method": "LeHDC",
+      "status": "planned",
+      "reference": "TorchHD",
+      "gate": "Learned representations and binary inference",
+      "accepted": false
+    },
+    {
+      "id": "L11",
+      "method": "IntRVFL",
+      "status": "planned",
+      "reference": "TorchHD",
+      "gate": "Random features and ridge baseline",
+      "accepted": false
+    },
+    {
+      "id": "L12",
+      "method": "Learned projection / multi-prototype / continual and few-shot",
+      "status": "planned",
+      "reference": "2025 classification review / 2026 survey",
+      "gate": "Equal data, tuning and continual learning baseline",
+      "accepted": false
+    },
+    {
+      "id": "H01",
+      "method": "Packed BSC/MAP, CPU SIMD and parallelism",
+      "status": "partial",
+      "reference": "parallel.py / reported K4",
+      "gate": "Reproduce exact score parity; no unbounded thread changes",
+      "accepted": false
+    },
+    {
+      "id": "H02",
+      "method": "Stochastic-HD",
+      "status": "partial",
+      "reference": "stochastic.py / Morris et al.",
+      "gate": "Sampling, correlations and actual circuit distinction",
+      "accepted": false
+    },
+    {
+      "id": "H03",
+      "method": "ARM, Raspberry Pi and FPGA",
+      "status": "hardware-deferred",
+      "reference": "COG-08/09",
+      "gate": "Bit-exact readiness; hardware energy and synthesis later",
+      "accepted": false
+    },
+    {
+      "id": "H04",
+      "method": "Quantum HDC",
+      "status": "theory-partial",
+      "reference": "quantum.py / Cumbo et al.",
+      "gate": "Gate-accurate circuit, state prep, no QPU claim",
+      "accepted": false
+    },
+    {
+      "id": "H05",
+      "method": "OpenHD / GPU / ASIC / in-memory / neuromorphic",
+      "status": "hardware-deferred",
+      "reference": "OpenHD / hardware survey",
+      "gate": "Licensing, no GPU default, measured hardware gate",
+      "accepted": false
+    }
+  ],
+  "scope": "All listed representative viable mechanisms individually dispositioned; not every publication, not production enabled.",
+  "constraints": {
+    "cpu_first": true,
+    "production_enabled": false,
+    "canonical_owner": "Lu ANSF/SQLite",
+    "preserve_history": true
+  }
+}
