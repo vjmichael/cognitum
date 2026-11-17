@@ -31,7 +31,7 @@ class PracticalCausalGuards(unittest.TestCase):
         for a,b in (("W","T"),("W","X"),("V","X"),("V","Y"),("X","T"),("T","Y")):
             q.graph_edges.add(source=a,target=b)
         a=invoke(q)
-        self.assertEqual((a.status,a.code),("invalid_input","unblocked_backdoor_path")
+        self.assertEqual((a.status,a.code),("invalid_input","unblocked_backdoor_path"))
         self.assertFalse(a.has_effect or a.has_interval)
 
     def test_refuses_extrapolated_or_rank_deficient_econml(self):

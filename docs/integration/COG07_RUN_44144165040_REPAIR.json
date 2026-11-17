@@ -1,0 +1,199 @@
+{
+  "schema": "cognitum.cog07.failure-reconciliation.v1",
+  "source_sha": "079940348222881a7a39f8af5485424fb2b8da3d",
+  "run_id": 44144165040,
+  "run_url": "https://github.com/vjmichael/cognitum/actions/runs/44144165040",
+  "conclusion": "failure",
+  "jobs_passed": 4,
+  "jobs_failed": 10,
+  "root_cause": {
+    "path": "tests/test_c14_practical_guards.py",
+    "line": 34,
+    "diagnostic": "SyntaxError: '(' was never closed",
+    "failed_blob": "5ac45518b3df278d4eb6f13ce0942b151f724b5e",
+    "fixed_blob": "0fea6d56f71aa93f4e1e27c59088c46881f7a1c6",
+    "runtime_changes": false
+  },
+  "cpu": [
+    {
+      "environment": "Windows 3.11",
+      "job_id": 134254623088,
+      "artifact_id": 14356935146,
+      "sha256": "53a2b89d0e14665e5ffd2ea054ba8b5c9f66e214681d6f8a411bca53ccb39c00",
+      "locally_rehashed": true,
+      "zip_crc_pass": true,
+      "conclusion": "failure",
+      "compile_exit": 1,
+      "focused_exit": 2,
+      "combined_exit": 2,
+      "statsmodels_evidence_exit": 0,
+      "cooperative_evidence_exit": 0,
+      "component_benchmarks_passed": 6,
+      "descriptor_parity": "pass",
+      "versions": {
+        "numpy": "2.4.6",
+        "scipy": "1.17.1",
+        "statsmodels": "0.15.0"
+      }
+    },
+    {
+      "environment": "Windows 3.13",
+      "job_id": 134254622107,
+      "artifact_id": 14356176382,
+      "sha256": "a7364787fee05560941ba1c125aeb0011e0d26d102a2ff5e9c7e0bcdb6d71868",
+      "locally_rehashed": true,
+      "zip_crc_pass": true,
+      "conclusion": "failure",
+      "compile_exit": 1,
+      "focused_exit": 2,
+      "combined_exit": 2,
+      "statsmodels_evidence_exit": 0,
+      "cooperative_evidence_exit": 0,
+      "component_benchmarks_passed": 6,
+      "descriptor_parity": "pass",
+      "versions": {
+        "numpy": "2.5.5",
+        "scipy": "1.18.1",
+        "statsmodels": "0.15.0"
+      }
+    },
+    {
+      "environment": "Linux 3.11",
+      "job_id": 134254623052,
+      "artifact_id": 14355412866,
+      "sha256": "7ad354548193dfb226cf4ce25e664838f04f40d0cf6583f79889697fabb7ad43",
+      "locally_rehashed": true,
+      "zip_crc_pass": true,
+      "conclusion": "failure",
+      "compile_exit": 1,
+      "focused_exit": 2,
+      "combined_exit": 2,
+      "statsmodels_evidence_exit": 0,
+      "cooperative_evidence_exit": 0,
+      "component_benchmarks_passed": 6,
+      "descriptor_parity": "pass",
+      "versions": {
+        "numpy": "2.4.6",
+        "scipy": "1.17.1",
+        "statsmodels": "0.15.0"
+      }
+    },
+    {
+      "environment": "Linux 3.13",
+      "job_id": 134254623025,
+      "artifact_id": 14354958817,
+      "sha256": "407ac9b2dadcf6d66b292460ac185810e5bbd8b5e8359cfd42779606de78769f",
+      "locally_rehashed": true,
+      "zip_crc_pass": true,
+      "conclusion": "failure",
+      "compile_exit": 1,
+      "focused_exit": 2,
+      "combined_exit": 2,
+      "statsmodels_evidence_exit": 0,
+      "cooperative_evidence_exit": 0,
+      "component_benchmarks_passed": 6,
+      "descriptor_parity": "pass",
+      "versions": {
+        "numpy": "2.5.5",
+        "scipy": "1.18.1",
+        "statsmodels": "0.15.0"
+      }
+    }
+  ],
+  "native_jobs": {
+    "passed": [
+      {
+        "job_id": 134254622740,
+        "scope": "ByteTrack Windows"
+      },
+      {
+        "job_id": 134254622880,
+        "scope": "ByteTrack Linux"
+      },
+      {
+        "job_id": 134254622758,
+        "scope": "Carcara"
+      },
+      {
+        "job_id": 134254623316,
+        "scope": "TrackEval"
+      }
+    ],
+    "blocked_by_collection": [
+      {
+        "job_id": 134254622940,
+        "scope": "causal-learn Linux"
+      },
+      {
+        "job_id": 134254623373,
+        "scope": "causal-learn Windows"
+      },
+      {
+        "job_id": 134254623246,
+        "scope": "EconML Linux"
+      },
+      {
+        "job_id": 134254623740,
+        "scope": "EconML Windows"
+      },
+      {
+        "job_id": 134254623519,
+        "scope": "DoWhy Linux"
+      },
+      {
+        "job_id": 134254623510,
+        "scope": "DoWhy Windows"
+      }
+    ],
+    "evidence": "terminal job logs/status reviewed; native archives not locally rehashed in this partial closeout"
+  },
+  "actual_statsmodels": {
+    "source_bound_fixture_and_20_simulations": "pass all four CPU jobs; four archives SHA256/ZIP CRC verified and matching results inspected",
+    "true_ate": 2.5,
+    "adjusted": 2.5015456223731807,
+    "adjusted_ci95": [
+      2.4125334659517055,
+      2.590557778794656
+    ],
+    "unadjusted": 4.34368883811982,
+    "coverage": 18,
+    "coverage_trials": 20,
+    "mae": 0.05267753650156022,
+    "scope": "synthetic conditional estimand only; same seeds across four platforms, not 80 independent populations"
+  },
+  "local_preflight": {
+    "tested_exact_blobs": {
+      "cognitum/causal_specialists.py": "2fcecac96bfa1028a242d6a541eb64c1752e7b51",
+      "cognitum/proto/causal_pb2.py": "c63567cc572a8d1e179d700684d622be719b7515",
+      "tests/test_c14_closeout.py": "3108ed6a29137739b2adef4d51c898ecb2a44206",
+      "tests/test_c14_practical_guards.py": "0fea6d56f71aa93f4e1e27c59088c46881f7a1c6"
+    },
+    "compileall": "pass",
+    "pytest": {
+      "passed": 38,
+      "failed": 0,
+      "skipped": 0
+    },
+    "notes": "Exact four blobs reconstructed locally; initial attempt mistakenly used historical incompatible protobuf binding, corrected before passing exact current binding. No repository binding change. Native optional dependencies absent locally; original mocks are not native evidence."
+  },
+  "mot17": {
+    "required_for_COG07": false,
+    "existing_C15_validation": "accepted; CI fetches public detection/annotation subset automatically",
+    "local_archive": "/Cognitum/Datasets/TrackEval/data.zip",
+    "existing_ground_truth_and_seqinfo": [
+      "MOT17-02-FRCNN",
+      "MOT17-05-FRCNN",
+      "MOT17-09-FRCNN"
+    ],
+    "missing_public_detector_inputs": true,
+    "optional_minimal_upload": [
+      "train/MOT17-02-FRCNN/det/det.txt",
+      "train/MOT17-05-FRCNN/det/det.txt"
+    ],
+    "optional_distinct_sequence": "train/MOT17-09-FRCNN/det/det.txt; later distinct comparison subject to split/provenance and frame limits",
+    "notes": "Preserve directory names and original bytes; existing GT and seqinfo are full train, not prior CI validation split. Keep originals, align/truncate only as explicit reviewed evaluation decision. No images or duplicate detector variants needed. Include matching gt/gt.txt and seqinfo.ini only if differing/missing in existing archive. No bulk upload."
+  },
+  "next": "COG-07 grouped acceptance retry",
+  "production_enabled": false,
+  "HDC_KAN_SSM_research_unchanged": true
+}
