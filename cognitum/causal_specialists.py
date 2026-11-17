@@ -21,6 +21,7 @@ MAX_INPUT_BYTES = 512 * 1024
 MAX_OUTPUT_BYTES = 64 * 1024
 MAX_ROWS = 2048
 MAX_COLUMNS = 12
+MAX_MAGNITUDE = 1e12  # bounded numerical reference domain, not a unit conversion
 NAME = re.compile(r"[A-Za-z][A-Za-z0-9_]{0,31}\Z", re.ASCII)
 OPERATIONS = {
     'ate_statsmodels': 'statsmodels',
@@ -109,7 +110,9 @@ def _validate(req):
     a = np.asarray([list(r.values) for r in req.rows], dtype=float)
     if not np.isfinite(a).all():
         raise CausalInputError('nonfinite_data')
-    if any(float(np.var(a[:, k])) < 1e-14 for k in range(len(cols))):
+    if np.any(np.abs(a) > MAX_MAGNITUDE):
+        raise CausalInputError('numeric_range_exceeded')
+    if any(not math.isfinite(float(np.var(a[:, k]))) or float(np.var(a[:, k])) < 1e-14 for k in range(len(cols))):
         raise CausalInputError('constant_or_degenerate_column')
     if req.operation in ('discover_pc', 'discover_pcmci'):
         if not _no_graph(req):
@@ -141,6 +144,17 @@ def _validate(req):
         raise CausalInputError('positivity_not_supported_by_observed_groups')
     if len(req.rows) < max(50, 12 * (len(adj)+len(mods)+2)):
         raise CausalInputError('insufficient_samples')
+    if req.operation == 'conditional_effect_econml':
+        # Necessary observed-support checks only; never claim joint positivity.
+        design=np.column_stack([np.ones(len(a)), t, *[a[:,cols.index(c)] for c in adj+mods],
+                                 *[t*a[:,cols.index(c)] for c in mods]])
+        if np.linalg.matrix_rank(design)!=design.shape[1] or np.linalg.cond(design)>1e8:
+            raise CausalInputError('rank_deficient_design')
+        for c,value in zip(mods,req.modifier_profile):
+            for group in (0,1):
+                data=a[t==group,cols.index(c)]
+                if not float(data.min())<=value<=float(data.max()):
+                    raise CausalInputError('modifier_profile_outside_observed_support')
     if req.operation == 'ate_dowhy':
         _check_dag(req, cols)
     elif req.graph_edges:
@@ -172,6 +186,35 @@ def _check_dag(req, cols):
     for c in req.adjustment:
         if (c,req.treatment) not in edges and (c,req.outcome) not in edges:
             raise CausalInputError('adjustment_not_in_graph')
+    if set(req.adjustment) & _descendants(req.treatment,graph):
+        raise CausalInputError('post_treatment_adjustment')
+    # Independent graphical backdoor check on the *declared* DAG. Remove
+    # treatment's outgoing edges, restrict to ancestors of T,Y,Z, moralize,
+    # remove Z and check connectivity. This is not verification of the DAG's
+    # truth, measured confounders, or population exchangeability.
+    backdoor={x:tuple(v for v in children if x!=req.treatment) for x,children in graph.items()}
+    parents={x:set() for x in cols}
+    for x,children in backdoor.items():
+        for y in children:parents[y].add(x)
+    blocked=set(req.adjustment)
+    ancestors={req.treatment,req.outcome,*blocked}
+    todo=list(ancestors)
+    while todo:
+        for parent in parents[todo.pop()]:
+            if parent not in ancestors:
+                ancestors.add(parent);todo.append(parent)
+    undirected={x:set() for x in ancestors}
+    for y in ancestors:
+        ps=parents[y] & ancestors
+        for x in ps:
+            undirected[x].add(y);undirected[y].add(x)
+            undirected[x].update(ps-{x})
+    seen=set();todo=[req.treatment]
+    while todo:
+        x=todo.pop()
+        if x in blocked or x in seen:continue
+        if x==req.outcome:raise CausalInputError('unblocked_backdoor_path')
+        seen.add(x);todo.extend(undirected[x]-seen)
 
 
 def _descendants(start, graph):
@@ -219,7 +262,7 @@ def _estimate_dowhy(v,out):
     q=v.req
     frame=pd.DataFrame(v.matrix,columns=v.names)
     edges=' '.join(f'{e.source} -> {e.target};' for e in q.graph_edges)
-    graph='digraph {'+edges+'}'
+    graph='digraph {'+' '.join(c+';' for c in v.names)+' '+edges+'}'
     model=m.CausalModel(data=frame,treatment=q.treatment,outcome=q.outcome,graph=graph,
                         proceed_when_unidentifiable=False)
     estimand=model.identify_effect(proceed_when_unidentifiable=False)
@@ -268,6 +311,7 @@ def _estimate_econml(v,out):
     out.effect=x0;out.interval_lower=l;out.interval_upper=h
     out.has_effect=True;out.has_interval=True;out.confidence_level=1-q.alpha
     out.uncertainty_kind='backend_conditional_confidence_interval'
+    out.limitations.append('observed_marginal_modifier_support_not_joint_positivity')
 
 
 def _discover_pc(v,out):
@@ -277,7 +321,8 @@ def _discover_pc(v,out):
                  verbose=False,show_progress=False)
     matrix=np.asarray(graph.G.graph)
     n=len(v.names)
-    if matrix.shape!=(n,n) or not np.isin(matrix,[-1,0,1,2]).all():
+    if (matrix.shape!=(n,n) or not np.isin(matrix,[-1,0,1,2]).all()
+            or np.any(np.diag(matrix)!=0) or np.any((matrix==0)!=(matrix.T==0))):
         raise CausalBackendError('malformed_graph')
     for i in range(n):
         for j in range(i+1,n):
