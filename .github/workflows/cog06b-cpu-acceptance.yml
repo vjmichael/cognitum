@@ -4,6 +4,11 @@ on:
     branches: [development/cog-06-cooperative-reasoning-20261116]
     paths:
       - cognitum/**
+      - research_tests/hdc/**
+      - tools/cog03bc_research_acceptance.py
+      - tools/cog03c_capacity_pilot.py
+      - tools/cog03b2_ordered_retrieval.py
+      - docs/research/COG03BC_SOURCE_MANIFEST.json
       - proto/**
       - tests/**
       - tools/cog06b_cpu_acceptance.py
@@ -75,3 +80,37 @@ jobs:
   practical-causal:
     name: COG-07 actual maintained causal library acceptance
     uses: ./.github/workflows/cog07-causal.yml
+
+  hdc-research:
+    name: COG-03BC / ${{ matrix.os }} / Python ${{ matrix.python-version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11', '3.13']
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    env:
+      PYTHONUTF8: '1'
+      COG03BC_EXPECTED_SHA: ${{ github.sha }}
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Dedicated no-skip native HDC algebra and encoder research acceptance
+        run: python -m tools.cog03bc_research_acceptance
+      - name: Archive exact-source HDC evidence and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cog03bc-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: cog03bc-artifacts/
+          if-no-files-found: error
+          retention-days: 30

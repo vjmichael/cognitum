@@ -77,7 +77,7 @@
       "reference": "models.py / TorchHD",
       "gate": "Boolean XOR, majority, ties, exact inverse, packed parity",
       "accepted": false,
-      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
+      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
     },
     {
       "id": "V02",
@@ -86,7 +86,7 @@
       "reference": "models.py / TorchHD",
       "gate": "Bipolar multiplication, sum vs sign, packed and counter widths",
       "accepted": false,
-      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
+      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
     },
     {
       "id": "V03",
@@ -95,7 +95,7 @@
       "reference": "models.py / TorchHD",
       "gate": "Circular convolution, approximate inverse, FFT vs direct oracle",
       "accepted": false,
-      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
+      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
     },
     {
       "id": "V04",
@@ -104,7 +104,7 @@
       "reference": "models.py / TorchHD",
       "gate": "Complex product/conjugate, phase8, capacity",
       "accepted": false,
-      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
+      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
     },
     {
       "id": "V05",
@@ -113,7 +113,7 @@
       "reference": "TorchHD BSBC",
       "gate": "Block integrity, modular shift, sparse storage",
       "accepted": false,
-      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
+      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
     },
     {
       "id": "V06",
@@ -122,7 +122,7 @@
       "reference": "TorchHD CGR",
       "gate": "Cyclic algebra, distance, block constraints",
       "accepted": false,
-      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
+      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
     },
     {
       "id": "V07",
@@ -131,7 +131,7 @@
       "reference": "TorchHD MCR",
       "gate": "Modular binding, scalar oracle",
       "accepted": false,
-      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
+      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
     },
     {
       "id": "V08",
@@ -140,7 +140,7 @@
       "reference": "TorchHD VTB",
       "gate": "Noncommutativity, inverse and shape",
       "accepted": false,
-      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
+      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
     },
     {
       "id": "V09",
@@ -149,7 +149,7 @@
       "reference": "Survey / NumPy reference",
       "gate": "Contraction and tensor growth",
       "accepted": false,
-      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
+      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
     },
     {
       "id": "V10",
@@ -158,7 +158,7 @@
       "reference": "Survey / NumPy reference",
       "gate": "Role direction, recovery, cost",
       "accepted": false,
-      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
+      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
     },
     {
       "id": "V11",
@@ -167,7 +167,7 @@
       "reference": "Survey",
       "gate": "Sparsity and recovery",
       "accepted": false,
-      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
+      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
     },
     {
       "id": "V12",
@@ -176,7 +176,7 @@
       "reference": "Survey",
       "gate": "Thinning, capacity, reproducibility",
       "accepted": false,
-      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
+      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
     },
     {
       "id": "V13",
@@ -185,7 +185,7 @@
       "reference": "Survey",
       "gate": "Restricted-size geometric product oracle",
       "accepted": false,
-      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
+      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
     },
     {
       "id": "E01",
@@ -193,7 +193,8 @@
       "status": "recovered",
       "reference": "core.py / lowdisc.py / TorchHD",
       "gate": "Seed replay, shared operand export",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "initial indexed/orthogonal/packed reference and bounded pilot implemented; further research fidelity and whole-system benchmarks open"
     },
     {
       "id": "E02",
@@ -217,7 +218,8 @@
       "status": "partial",
       "reference": "lowdisc.py / SciPy QMC",
       "gate": "Index/batch parity, collisions and antipodal screening",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "initial indexed/orthogonal/packed reference and bounded pilot implemented; further research fidelity and whole-system benchmarks open"
     },
     {
       "id": "E05",
@@ -409,7 +411,8 @@
       "status": "partial",
       "reference": "parallel.py / reported K4",
       "gate": "Reproduce exact score parity; no unbounded thread changes",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "initial indexed/orthogonal/packed reference and bounded pilot implemented; further research fidelity and whole-system benchmarks open"
     },
     {
       "id": "H02",
@@ -455,7 +458,7 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "first algebra extension",
-      "local_candidate_status": "local primitive fidelity and bounded ordered retrieval pilot passed; B1/B2 integration and consolidated native acceptance pending"
+      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
     },
     {
       "id": "V15",
@@ -470,7 +473,7 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "first algebra extension",
-      "local_candidate_status": "local primitive fidelity and bounded ordered retrieval pilot passed; B1/B2 integration and consolidated native acceptance pending"
+      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
     },
     {
       "id": "V16",
@@ -509,7 +512,8 @@
       "gate": "Compare orthogonal/subsampled transforms against Gaussian, indexed IID and QMC. Verify scaling/orthogonality, power-of-two constraints; measure associative and ridge regressors separately.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "initial indexed/orthogonal/packed reference and bounded pilot implemented; further research fidelity and whole-system benchmarks open"
     },
     {
       "id": "E09",
@@ -522,7 +526,8 @@
       "gate": "Construct finite PSD-kernel feature map with train-only landmarks, eigenvalue checks and out-of-sample transform; graph/string benchmarks with identical kernel SVM and conventional Nyström baseline, include kernel construction cost.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "conventional RBF Nyström reference only, not NysHD replication"
     },
     {
       "id": "E10",
@@ -1086,5 +1091,37 @@
       "cases": "3 seeds × 3 D,m cells × 4 noise levels × 48 queries; known 336 ordered triples",
       "no_hardware_or_model_claim": true
     }
+  },
+  "cog03bc_integration_candidate": {
+    "status": "integrated candidate ready for grouped hosted acceptance; local isolated pass only",
+    "source_base": "e65456f55ae881a9d5fa546642064a4d85e99421",
+    "artifact_file_id": "file_00000000bf1881fd873207e015b9b33e",
+    "archive_sha256": "f8cfff73fd5ca915124d6268c310fc24cfb638298c77222b75eebde585e54383",
+    "manifest_blob": "8473d82c56283abfe573a91424f073d744254398",
+    "local_scratch_sha": "d80fe95c51f43c3838f82ec10dcc6de070a759a7",
+    "test_count": 226,
+    "failures": 0,
+    "skips": 0,
+    "composition": {
+      "prior_B1": 121,
+      "GHRR": 58,
+      "survey_operations": 13,
+      "encoders": 17,
+      "historical_native": 17
+    },
+    "runner": "dedicated source-bound local --installed passed plus 120-query smoke",
+    "pilot": {
+      "rows": 135,
+      "queries": 5400,
+      "geometry_audits": 60,
+      "bsc_dense_vs_packed_exact": true,
+      "phase8_rank_disagreements": 29,
+      "phase8_max_observed_score_error": 0.002059159043710679,
+      "sobol_antipodal_pairs": 480,
+      "hadamard_max_abs_coherence": 0,
+      "raw_sha256": "3f8b82ddd92428d017f175ae9ea976c1b24eebf2c862f2a02a199d1e74e3618e"
+    },
+    "hosted_required": 18,
+    "production_enabled": false
   }
 }

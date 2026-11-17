@@ -1,0 +1,41 @@
+{
+  "schema": "cognitum.cog03bc.source.v1",
+  "base": "e65456f55ae881a9d5fa546642064a4d85e99421",
+  "git_blobs": {
+    "cognitum/research/hdc_algebra.py": "1b64d122fd0a34e5de3e747c4076ffaa80216284",
+    "cognitum/research/hdc_encoders.py": "57f7a80af6a39315a5e8b003a19653c063c79826",
+    "cognitum/research/hdc_ghrr.py": "1b05d98c87e9bacea9e8548b56261d7a30fb28b6",
+    "cognitum/research/hdc_survey_algebra.py": "bd0b5cbd5ce178d84afadddab54174b26ce4acbe",
+    "research_tests/hdc/hdc_backend/__init__.py": "234a1b61a8c3d6d99ceca99ff70ac3e65e752951",
+    "research_tests/hdc/hdc_backend/torchhd.py": "2a1900a854a8616f38e19d001df10d0e316a6ee7",
+    "research_tests/hdc/hdc_backend/zogzoo.py": "cbc5293f4c7a80425e52a03db941fffa68c6f2db",
+    "research_tests/hdc/test_cog03b2_ghrr.py": "5b6d867475d3551c20f7d91ed907cbd55a780901",
+    "research_tests/hdc/test_cog03b_algebra.py": "050710275485e8554a4bebb0ae5bace12b26877c",
+    "research_tests/hdc/test_cog03b_recovered.py": "9d12f3f2d75096a98837187e91d0ca6d46f75caa",
+    "research_tests/hdc/test_cog03b_survey_algebra.py": "122bec5839c0b883f57ab8ec34cc0ea8adc8cf0e",
+    "research_tests/hdc/test_cog03b_survey_operations.py": "d90b4052da048a5fb5a5f19ccfe60c903f92f73f",
+    "research_tests/hdc/test_cog03c_encoders.py": "0f209a7cc7f5b564bd25da9f96fa9c154e13b1d2",
+    "research_tests/hdc/test_historical_torchhd_adapter.py": "4868c266d6fa2268c9aaada75fa72597b7bd8d90",
+    "tools/cog03b2_ordered_retrieval.py": "f55e806574c0e565ab9727418aa0e07dc3cec9f0",
+    "tools/cog03bc_research_acceptance.py": "6542bf92ea4a38bd467cd1cfc43e763cf93c46c2",
+    "tools/cog03c_capacity_pilot.py": "3d83b0300c5e45ef2f7761cf1254c2ce933ccb1d"
+  },
+  "preserved_recovered_blobs": {
+    "cognitum/research/hdc_recovered/metrics.py": "640d5d0514bec01146fd879573d6bbd7bd9062fb",
+    "cognitum/research/hdc_recovered/selftest.py": "2b649b0c6e1c0c8a5d30ab7f8ab4d21dec028aea",
+    "cognitum/research/hdc_recovered/models.py": "5040859584d3d6b2a36909f6669794ee89436f66",
+    "cognitum/research/hdc_recovered/runner.py": "db1b799e2e7b842e012d792bec1037d62a84acf3",
+    "cognitum/research/hdc_recovered/resonator.py": "366dba3f29dbc639b9c8fec44427b470645a019d",
+    "cognitum/research/hdc_recovered/parallel.py": "84036fc4520a0743ed6085e3e78c1dc1577f57e8",
+    "cognitum/research/hdc_recovered/neuralhd.py": "624e21eacc568666b960ccb08a88ec52ef001e1d",
+    "cognitum/research/hdc_recovered/sdm.py": "b68644315fde9f00f14055ee9fff1929196fd66b",
+    "cognitum/research/hdc_recovered/stochastic.py": "78e1631b27352eb5c077294f267ba84986514718",
+    "cognitum/research/hdc_recovered/dataio.py": "faf394f9215dcd94fc7850d301a7d8579bf9d66d",
+    "cognitum/research/hdc_recovered/quantum.py": "e5291f5d2745f846151264189a91feadb824c7fc",
+    "cognitum/research/hdc_recovered/memory.py": "bdb2b1f13ff67174157c4de55992e6bda46f13f7",
+    "cognitum/research/hdc_recovered/text.py": "8937036c31e1fd1d73dbc4e9134d5db9d4eadbab",
+    "cognitum/research/hdc_recovered/lowdisc.py": "de0d9025b4ef62fe9361af724648cb32f7ccc61f",
+    "cognitum/research/hdc_recovered/__init__.py": "b49255d66ea1c69494ab8de05adc202cfa5c2788",
+    "cognitum/research/hdc_recovered/core.py": "cd44a322e50fbfc061dc7af4662b8458e02ba097"
+  }
+}
