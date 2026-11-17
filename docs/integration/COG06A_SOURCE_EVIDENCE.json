@@ -1,0 +1,279 @@
+{
+  "schema": "cognitum.cog06a.audit.v1",
+  "date": "2026-11-16",
+  "working_baseline": "b1a9219e4201dd9e35af0e16d86d2859ae88dc06",
+  "accepted_cog00": "0486f0687ddae96ea829229d5f76db78ac2cc8f8",
+  "historical_c15_source": "1cca0f48960855a0ca121620e8644682563bc175",
+  "historical_p25_source": "aaa9580672028c0034e6138afa06e787b6249440",
+  "transfer_packet": {
+    "filename": "Cognitum_C15_T3_T4_Source_GitHub_Transfer_Packet_2026-10-29.jsonl",
+    "sha256": "cf8f8e78be0edf19206e1ecb71dfddc19eec3f6031d6f5cada783d20a5dadee1",
+    "records": 689,
+    "unique_paths": 689,
+    "blob_matches": 689,
+    "staged_exact_paths": 28,
+    "staged_github_matches": 28
+  },
+  "local_historical_execution": {
+    "python": "3.13.5",
+    "protobuf": "6.33.6",
+    "pytest": "9.0.2",
+    "platform": "Linux x86_64",
+    "system_z3_sha256": "7accc397d4ac387468b09489bdaff9d82bfac4ca6a7e339b8fbb2167edf9c1c0",
+    "command": "python -m pytest -q -ra -p no:cacheprovider tests/test_c05_scientific_math.py tests/test_c10_formal.py tests/test_c10_p2_backend.py tests/test_c10_p3_advanced.py",
+    "first_attempt": {
+      "passed": 90,
+      "failed": 1,
+      "subtests": 75,
+      "reason": "isolated staging omitted original calculator/worker wrapper dependency"
+    },
+    "final_attempt": {
+      "passed": 91,
+      "failed": 0,
+      "skipped": 0,
+      "subtests": 75,
+      "elapsed_seconds": 26.01,
+      "log_sha256": "d71d72bbda2e78b08d8fd835a6434ae3ff54961062dd4ddd43ff5c8db9faaffb"
+    },
+    "independent_integer_cube": {
+      "candidates": 729,
+      "solutions": [
+        [
+          1,
+          5,
+          6
+        ],
+        [
+          2,
+          3,
+          7
+        ]
+      ]
+    },
+    "source_changed": false,
+    "scope": "historical isolated source only; not new candidate, Lu or live LLM acceptance"
+  },
+  "reports": [
+    {
+      "name": "ENGINEERING_REPORT.md",
+      "topic": "C05+C10 bounded integer constraints",
+      "sha256": "9f980c072a31c8619f010089a0f4e6d8131cc03ff4de9cf994f73ad750d47aab",
+      "scope": "historical report; raw experiment runner and receipts unlocated"
+    },
+    {
+      "name": "P25_Expanded_Engineering_Report_2026-10-31.md",
+      "sha256": "cc983c1143a74c6ea37dffb4e29422501c810ebcd031d44d16f11dac35c987b8",
+      "scope": "historical report; raw host event journal not independently re-audited this turn"
+    }
+  ],
+  "inventory": [
+    {
+      "path": "cognitum/__init__.py",
+      "legacy_blob": "ed0d5ec0b7a5b659653b15519d16b0526b4adf6c",
+      "current_blob": "ed0d5ec0b7a5b659653b15519d16b0526b4adf6c",
+      "disposition": "retain_exact"
+    },
+    {
+      "path": "cognitum/capability_results.py",
+      "legacy_blob": "bd95f5d79e8b94a0b8cd8129f7125e260a2c3572",
+      "current_blob": "bd95f5d79e8b94a0b8cd8129f7125e260a2c3572",
+      "disposition": "retain_exact"
+    },
+    {
+      "path": "cognitum/contracts.py",
+      "legacy_blob": "11d129fb057641ac5da67fccd2f541da0860992f",
+      "current_blob": "11d129fb057641ac5da67fccd2f541da0860992f",
+      "disposition": "retain_exact"
+    },
+    {
+      "path": "cognitum/formal_backend.py",
+      "legacy_blob": "d9cd3ae1a1b51933756c6f5ad34c6c94811afc83",
+      "current_blob": null,
+      "disposition": "historical_missing_reconcile_before_import"
+    },
+    {
+      "path": "cognitum/formal_finite.py",
+      "legacy_blob": "b68714fa27d506417c89df491f44ddbfd0ec2b37",
+      "current_blob": null,
+      "disposition": "historical_missing_reconcile_before_import"
+    },
+    {
+      "path": "cognitum/formal_session.py",
+      "legacy_blob": "00f68b3f289fda2e39ee5a2f84c717c4e7ea501c",
+      "current_blob": null,
+      "disposition": "historical_missing_reconcile_before_import"
+    },
+    {
+      "path": "cognitum/formal_solver.py",
+      "legacy_blob": "c7ae1ac8899a280abf063c43bb1958d27ef6b762",
+      "current_blob": null,
+      "disposition": "historical_missing_reconcile_before_import"
+    },
+    {
+      "path": "cognitum/formal_z3_worker.py",
+      "legacy_blob": "45530e8c01001d55ad7174ed91ddc1373415ae58",
+      "current_blob": null,
+      "disposition": "historical_missing_reconcile_before_import"
+    },
+    {
+      "path": "cognitum/math_catalog.py",
+      "legacy_blob": "ef8f3a1d189c68d8ff306610acce5fb59cf2b568",
+      "current_blob": "ef8f3a1d189c68d8ff306610acce5fb59cf2b568",
+      "disposition": "retain_exact"
+    },
+    {
+      "path": "cognitum/plugins/__init__.py",
+      "legacy_blob": "40a7fb110f3c445f07111b552e7edc2f32456670",
+      "current_blob": "40a7fb110f3c445f07111b552e7edc2f32456670",
+      "disposition": "retain_exact"
+    },
+    {
+      "path": "cognitum/plugins/calculator.py",
+      "legacy_blob": "b2598748bb02f4c3a7e5d4942ab32b2f3fb5eef7",
+      "current_blob": "b2598748bb02f4c3a7e5d4942ab32b2f3fb5eef7",
+      "disposition": "retain_exact"
+    },
+    {
+      "path": "cognitum/proto/__init__.py",
+      "legacy_blob": "47b261df54f20f35dcf697e433ebc9462cc3c9b8",
+      "current_blob": "47b261df54f20f35dcf697e433ebc9462cc3c9b8",
+      "disposition": "retain_exact"
+    },
+    {
+      "path": "cognitum/proto/capability_pb2.py",
+      "legacy_blob": "81a92c7c89fe9ba9b7cb14085a25d1d93ef52db5",
+      "current_blob": "81a92c7c89fe9ba9b7cb14085a25d1d93ef52db5",
+      "disposition": "retain_exact"
+    },
+    {
+      "path": "cognitum/proto/formal_advanced_pb2.py",
+      "legacy_blob": "8507855bfd0479c2b5a27e660ba166ecabf5edb0",
+      "current_blob": null,
+      "disposition": "historical_missing_reconcile_before_import"
+    },
+    {
+      "path": "cognitum/proto/formal_backend_pb2.py",
+      "legacy_blob": "b236b254853a5d6cab2186fdc35ec74648cc7016",
+      "current_blob": null,
+      "disposition": "historical_missing_reconcile_before_import"
+    },
+    {
+      "path": "cognitum/proto/formal_pb2.py",
+      "legacy_blob": "d8e173541e75d92d1f651392524fb01f422c3600",
+      "current_blob": "7340216f72315ce729244925475368f0c2cdfae4",
+      "disposition": "schema_conflict_do_not_replace"
+    },
+    {
+      "path": "cognitum/proto/specialists_pb2.py",
+      "legacy_blob": "61478c8399a483e6bae70163465b04922128620e",
+      "current_blob": "61478c8399a483e6bae70163465b04922128620e",
+      "disposition": "retain_exact"
+    },
+    {
+      "path": "cognitum/proto/worker_pb2.py",
+      "legacy_blob": "0bef90dbf969f6b60fc9ff5d3b705ea801df19ee",
+      "current_blob": "0bef90dbf969f6b60fc9ff5d3b705ea801df19ee",
+      "disposition": "retain_exact"
+    },
+    {
+      "path": "cognitum/protobuf_codec.py",
+      "legacy_blob": "5e3ab8cc1e07c559bf3ac720cf1592907b76af6c",
+      "current_blob": "5e3ab8cc1e07c559bf3ac720cf1592907b76af6c",
+      "disposition": "retain_exact"
+    },
+    {
+      "path": "cognitum/scientific_math.py",
+      "legacy_blob": "06b0e993c0914b64ccb12a9c792c1b3dfcc1dca5",
+      "current_blob": "3af361fcbb390eb0e3d788ba116b2b654901e924",
+      "disposition": "retain_current_review_legacy_semantics"
+    },
+    {
+      "path": "cognitum/worker_wire.py",
+      "legacy_blob": "67539c67494a204b0fe40fd2f134c0f9cd05cf7c",
+      "current_blob": "67539c67494a204b0fe40fd2f134c0f9cd05cf7c",
+      "disposition": "retain_exact"
+    },
+    {
+      "path": "proto/cognitum/formal/v1/advanced.proto",
+      "legacy_blob": "05a5363cb94a5bed45366640af712e74e8034733",
+      "current_blob": null,
+      "disposition": "historical_missing_reconcile_before_import"
+    },
+    {
+      "path": "proto/cognitum/formal/v1/backend.proto",
+      "legacy_blob": "ddd2634c0e3ff28531957b9789ffffb664cbb67d",
+      "current_blob": null,
+      "disposition": "historical_missing_reconcile_before_import"
+    },
+    {
+      "path": "proto/cognitum/formal/v1/solve.proto",
+      "legacy_blob": "fd35f094bb10dc59e343b10f53eaf98595eebcbc",
+      "current_blob": null,
+      "disposition": "historical_missing_reconcile_before_import"
+    },
+    {
+      "path": "tests/test_c05_scientific_math.py",
+      "legacy_blob": "754b31fa1bbda07d5a28288b29b31d9349f909ba",
+      "current_blob": "cbd5e2c9d697188f8e98f4b1867e158e4835e456",
+      "disposition": "retain_current_review_legacy_semantics"
+    },
+    {
+      "path": "tests/test_c10_formal.py",
+      "legacy_blob": "198517de332fd3bcd34de8826a7740f6c25160d4",
+      "current_blob": null,
+      "disposition": "historical_missing_reconcile_before_import"
+    },
+    {
+      "path": "tests/test_c10_p2_backend.py",
+      "legacy_blob": "0f3fc2e7e56a45c8309502abf4a11f42bb1e529a",
+      "current_blob": null,
+      "disposition": "historical_missing_reconcile_before_import"
+    },
+    {
+      "path": "tests/test_c10_p3_advanced.py",
+      "legacy_blob": "4f790416aab8a5dd01a8e4dcb6222a97e5826e0d",
+      "current_blob": null,
+      "disposition": "historical_missing_reconcile_before_import"
+    }
+  ],
+  "route_sources": [
+    {
+      "path": "cognitum/capability_route_proposal.py",
+      "legacy_blob": "5647ceac3b30399ceb0e4ae96cde5f5ddb7d1091",
+      "current_blob": null,
+      "disposition": "adapt_review_retest_before_import"
+    },
+    {
+      "path": "docs/research/P25-Multicapability-Reviewed-Routes-C14-G16-2026-10-31.md",
+      "legacy_blob": "b840a6b9dceeabbbdfbcc539450b914af7ec4fbf",
+      "current_blob": null,
+      "disposition": "preserve_report"
+    },
+    {
+      "path": "tests/test_cognitum_capability_route_proposal.py",
+      "legacy_blob": "065111390e06453b1719844a7de7e3cf19a95c07",
+      "current_blob": null,
+      "disposition": "adapt_review_retest_before_import"
+    },
+    {
+      "path": "tests/test_p25_multicapability_independent_auditor.py",
+      "legacy_blob": "17f039e727bef9e9875373e8d32aa0dd7f99f903",
+      "current_blob": null,
+      "disposition": "adapt_review_retest_before_import"
+    },
+    {
+      "path": "tools/audit_p25_multicapability.py",
+      "legacy_blob": "5eabb5e00a09e4239018f7be0e65d7601450a73c",
+      "current_blob": null,
+      "disposition": "adapt_review_retest_before_import"
+    },
+    {
+      "path": "tools/run_p25_multicapability_holdout.py",
+      "legacy_blob": "ee57682897100afdecac424319e2ecd64f999197",
+      "current_blob": null,
+      "disposition": "adapt_review_retest_before_import"
+    }
+  ],
+  "status": "historical_audit_complete_with_explicit_evidence_gaps",
+  "production_enabled": false
+}
