@@ -69,5 +69,30 @@
       "destination": "tests/test_c10_p3_advanced.py"
     }
   ],
-  "boundary": "standalone reference only; no Lu grant or OS containment claim"
+  "boundary": "standalone reference only; no Lu grant or OS containment claim",
+  "local_adapted_reference_execution": {
+    "passed": 75,
+    "subtests": 6,
+    "skipped": 0,
+    "elapsed_seconds": 26.44,
+    "exact_staged_runtime_blobs": [
+      {
+        "path": "cognitum/formal_backend.py",
+        "sha": "71ed9f37e83378d896192e18439543f89379f9e7"
+      },
+      {
+        "path": "cognitum/formal_session.py",
+        "sha": "3762a99a4b2cfaca7e0a54081742b7e91af31dbb"
+      },
+      {
+        "path": "cognitum/formal_solver.py",
+        "sha": "cfc60e740a436883433a80a67aaacf6db81fba40"
+      },
+      {
+        "path": "cognitum/proto/formal_solver_pb2.py",
+        "sha": "00158165aed6c49677586e5d8c7d07654cec985d"
+      }
+    ],
+    "limitations": "Historical isolated test subset with adapted runtime; no portable fixture / new merged-schema acceptance yet."
+  }
 }
