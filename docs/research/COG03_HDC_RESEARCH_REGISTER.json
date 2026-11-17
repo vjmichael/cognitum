@@ -454,7 +454,8 @@
       "gate": "Implement complex unitary block/matrix binding, adjoint unbinding in correct order, trace similarity and scalar-matrix special case; distinguish GHRR from existing MBAT and VTB. Compare permutation FHRR and exact graph. Test AB≠BA, nested roles, inverse, norm and phase. Audit original author code/license before importing.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "first algebra extension"
+      "priority": "first algebra extension",
+      "local_candidate_status": "local primitive fidelity and bounded ordered retrieval pilot passed; B1/B2 integration and consolidated native acceptance pending"
     },
     {
       "id": "V15",
@@ -468,7 +469,8 @@
       "gate": "Validate exact flattening of matrix feature inner products, gradient/normalization equivalence and memory layout. Flattened similarity does not make arbitrary matrix products elementwise. CPU time and bytes vs full GHRR and FHRR; ASIC separately.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "first algebra extension"
+      "priority": "first algebra extension",
+      "local_candidate_status": "local primitive fidelity and bounded ordered retrieval pilot passed; B1/B2 integration and consolidated native acceptance pending"
     },
     {
       "id": "V16",
@@ -1055,5 +1057,34 @@
       "qiskit-ibm-runtime>=0.42.0"
     ],
     "runtime_verified": false
+  },
+  "cog03b2_local_candidate": {
+    "status": "local primitive fidelity and bounded ordered retrieval pilot passed; B1/B2 integration and consolidated native acceptance pending",
+    "artifact": "COG-03B2_GHRR_Research_Candidate.zip",
+    "file_id": "file_000000009c4c81fda9f0d70c10832666",
+    "sha256": "6353f16e6e5ad5795dca1b5a723176a4b7cc2cb0d82869a7a0bdf9f0fe418199",
+    "base": "d5f90f34a0826494f9fa3f29674828a5f378352d",
+    "prior_candidate_unchanged": true,
+    "tests": {
+      "prior_candidate": 121,
+      "new_ghrr": 58,
+      "historical_native": 17,
+      "total": 196,
+      "failed": 0,
+      "skipped": 0
+    },
+    "source_blobs": {
+      "cognitum/research/hdc_ghrr.py": "1b05d98c87e9bacea9e8548b56261d7a30fb28b6",
+      "tests/test_cog03b2_ghrr.py": "5b6d867475d3551c20f7d91ed907cbd55a780901",
+      "tools/cog03b2_ordered_retrieval.py": "f55e806574c0e565ab9727418aa0e07dc3cec9f0"
+    },
+    "pilot": {
+      "queries": 1728,
+      "rank1_disagreements": 0,
+      "max_absolute_score_error": 0.0000011920928955078125,
+      "report_sha256": "50e59a0053dd9c4a939694d5d2f281567936ffe6331559d757e5d6ea20f9f1a8",
+      "cases": "3 seeds × 3 D,m cells × 4 noise levels × 48 queries; known 336 ordered triples",
+      "no_hardware_or_model_claim": true
+    }
   }
 }
