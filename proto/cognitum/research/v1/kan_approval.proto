@@ -1,0 +1,12 @@
+syntax = "proto3";
+package cognitum.research.v1;
+// Signed scientific checkpoint metadata is not proof of signer identity or license.
+message KanCheckpointApproval {
+  uint32 schema_version = 1;
+  string signer_id = 2;
+  string model_id = 3;
+  string checkpoint_sha256 = 4;
+  string training_split_sha256 = 5;
+  repeated string feature_units = 6;
+  bytes signature = 7;  // Ed25519 over domain-separated deterministic payload without this field.
+}

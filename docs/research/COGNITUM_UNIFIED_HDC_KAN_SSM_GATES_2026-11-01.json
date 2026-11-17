@@ -1,0 +1,39 @@
+{
+  "date": "2026-11-01",
+  "project": "Cognitum",
+  "branch": "cognitum/unified-hdc-kan-ssm-20261101",
+  "one_cognitum_distribution": true,
+  "separate_calculator_only_package": false,
+  "specialists_included": [
+    "HDC",
+    "KAN",
+    "SSM"
+  ],
+  "original_hdc_kan_p1_tests": {
+    "passed": 15,
+    "failed": 0
+  },
+  "new_integration_ssm_tests": {
+    "passed": 29,
+    "failed": 0
+  },
+  "total_tests": {
+    "passed": 44,
+    "failed": 0
+  },
+  "independent_numerical_diagnostics": {
+    "ssm": 160,
+    "hdc": 50,
+    "kan": 50,
+    "passed": 260,
+    "failed": 0
+  },
+  "clean_prefix_component_wheel_import": "PASS",
+  "p3_historical_sources_recovered_identical": true,
+  "p3_current_branch_tests": "NOT_RUN",
+  "complete_current_repository_tests": "NOT_RUN",
+  "trained_mamba_ssm": "NOT_IMPLEMENTED",
+  "production_promotion": false,
+  "lu_changed": false,
+  "local_acceptance_archive_sha256": "7a875737d38816c027a142e37662cdbe6faa27fad48dad6f0a67585364e3f3b5"
+}

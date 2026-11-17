@@ -1,0 +1,9 @@
+# C08/C09 P3 — Durable source epoch and signing-key revocation reference
+
+**Status:** local SQLite reference only. Not a production trust store, authenticated model/publisher registry, authorized ANSF source, or actual Lu integration.
+
+`cognitum.research.durable_integrity.ResearchIntegrityLedger` stores caller-supplied C08 source revision identifiers, content digest and a monotonic local epoch; editing, retracting, deleting or restoring first invalidates the old epoch. An updated revision requires the exact new epoch and a changed revision ID. `SCOPE_REVOKED` persists as terminal. The wrapper performs source-epoch and digest checks while holding the same SQLite writer transaction across the existing ephemeral HDC index's guarded publication. Derived results remain candidate identifiers only, never source authorization or citations.
+
+For C09 the same store supports host-declared enrollment of an Ed25519 public key pinned to a signer/model/training-split identity. Key IDs are immutable; revocation is permanent across restarts. Inference is optional/default-off, and still relies on the P2 signed metadata verifier, checkpoint digest pin, bounded portable predictor and out-of-domain rejection. No key enrollment, trust-root authenticity or owner identity is established by a model-supplied flag. The SQLite file can be rolled back by an attacker who controls its bytes; a trusted external monotonic witness remains a future integration requirement.
+
+**Test gate:** restart survival, changed source/snapshot denial, stale epoch, invalidation and cross-thread publication contention; signer enrollment, signed inference, terminal revocation, duplicate key enrollment, malformed metadata and default-off controls. This is research-only mechanism validation, not comparative performance against a baseline or verified improvement of transformer behavior.

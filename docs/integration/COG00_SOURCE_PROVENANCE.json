@@ -1,0 +1,450 @@
+{
+  "schema": "cognitum.cog00.recovery.v1",
+  "baseline_commit": "3211fa1223c978039a3202b224539745eef912b5",
+  "baseline_tree": "7b44e5d99d3f46d2a9a1d39b4a7b18556fedc888",
+  "sources": [
+    {
+      "name": "hdc",
+      "commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "tree": "c316d53546bfea9a946fe44d562416c33f5c227a"
+    },
+    {
+      "name": "p25",
+      "commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "tree": "6054d07e3e86d2ff5f93f7df6809a7d54eb5f151"
+    },
+    {
+      "name": "p3",
+      "commit": "94397ea34281ccbe3dd51c4053af32ddac903880",
+      "tree": "fbca0c6b89ac4a4cbc326c50714bd2b8b6d3aaef"
+    },
+    {
+      "name": "archive",
+      "commit": "d6243923dcdca9a52927a4a9e10317efe40a0233",
+      "tree": "18bc8e65c048376d22ce068c609546975fb7e343"
+    }
+  ],
+  "exact_blob_count": 68,
+  "exact_blobs": [
+    {
+      "path": "cognitum/proto/kan_approval_pb2.py",
+      "sha": "f905848ec18bc2d6d37c41ccce21666867adef5a",
+      "source_commit": "94397ea34281ccbe3dd51c4053af32ddac903880",
+      "previous_blob": null
+    },
+    {
+      "path": "cognitum/research/durable_integrity.py",
+      "sha": "07beb56996665a0ee8adabd352a9fed097e7ef0f",
+      "source_commit": "94397ea34281ccbe3dd51c4053af32ddac903880",
+      "previous_blob": null
+    },
+    {
+      "path": "cognitum/research/hdc_admission.py",
+      "sha": "e31c642525cce5c26504a632a6bf7020d612e186",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "cognitum/research/hdc_canonical.py",
+      "sha": "ffe6d62ea16ec19e5475bba74cc30f7f490054c7",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "cognitum/research/hdc_index_lifecycle.py",
+      "sha": "22079ed7334b1226bad7ffe05c0e806fb2ca0c16",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/__init__.py",
+      "sha": "b49255d66ea1c69494ab8de05adc202cfa5c2788",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/core.py",
+      "sha": "cd44a322e50fbfc061dc7af4662b8458e02ba097",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/dataio.py",
+      "sha": "faf394f9215dcd94fc7850d301a7d8579bf9d66d",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/lowdisc.py",
+      "sha": "de0d9025b4ef62fe9361af724648cb32f7ccc61f",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/memory.py",
+      "sha": "bdb2b1f13ff67174157c4de55992e6bda46f13f7",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/metrics.py",
+      "sha": "640d5d0514bec01146fd879573d6bbd7bd9062fb",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/models.py",
+      "sha": "5040859584d3d6b2a36909f6669794ee89436f66",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/neuralhd.py",
+      "sha": "624e21eacc568666b960ccb08a88ec52ef001e1d",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/parallel.py",
+      "sha": "84036fc4520a0743ed6085e3e78c1dc1577f57e8",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/quantum.py",
+      "sha": "e5291f5d2745f846151264189a91feadb824c7fc",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/resonator.py",
+      "sha": "366dba3f29dbc639b9c8fec44427b470645a019d",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/runner.py",
+      "sha": "db1b799e2e7b842e012d792bec1037d62a84acf3",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/sdm.py",
+      "sha": "b68644315fde9f00f14055ee9fff1929196fd66b",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/selftest.py",
+      "sha": "2b649b0c6e1c0c8a5d30ab7f8ab4d21dec028aea",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/stochastic.py",
+      "sha": "78e1631b27352eb5c077294f267ba84986514718",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "cognitum/research/hdc_recovered/text.py",
+      "sha": "8937036c31e1fd1d73dbc4e9134d5db9d4eadbab",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "cognitum/research/kan_approval.py",
+      "sha": "ee3471db63570a9016b685298ac81edf071a84c1",
+      "source_commit": "94397ea34281ccbe3dd51c4053af32ddac903880",
+      "previous_blob": null
+    },
+    {
+      "path": "cognitum/research/kan_portable.py",
+      "sha": "f56b9b937a166531ca8130f89e50964ea02e66d8",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": "ffc6eb4a882bf6bb62068c06653e3613083c4dde"
+    },
+    {
+      "path": "cognitum/specialists/__init__.py",
+      "sha": "c208217bbbe04b079dc09b360dbf84a421458bf9",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "cognitum/specialists/ssm.py",
+      "sha": "ae9329b6b0873906b3f4fd781823b6ae48407e15",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/architecture/COGNITUM_UNIFIED_HDC_KAN_SSM_2026-11-01.md",
+      "sha": "9419848638fc6ba3a4d2ce613bb9c234684d0a8a",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/components/hdc-kan/C08-C09-P2-index-revocation-signed-checkpoints.md",
+      "sha": "ea19fc29e0e1024a1c1f0e27398e2fd4784a49ea",
+      "source_commit": "94397ea34281ccbe3dd51c4053af32ddac903880",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/components/hdc-kan/C08-C09-P3-durable-reference-integrity.md",
+      "sha": "318d55a6bc6a4eb9cbcf53db57e5766df6141ab5",
+      "source_commit": "94397ea34281ccbe3dd51c4053af32ddac903880",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/components/hdc-kan/C08-canonical-ANSF-verification-20261104.md",
+      "sha": "c0e5dfba2e58b4bbf2390bf905a92f00dedcbdb1",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/quality/P17_Linux_HDC_KAN_SSM_C14_20261101.md",
+      "sha": "8e5b6306b73ff381b33803d652abed504022b9b1",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/quality/P19_HDC_KAN_SSM_Training_Artifacts_20261101.md",
+      "sha": "fe7c379397ed63bad68c88152eaea552c3c68b1c",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/quality/P19_Training_Artifacts_Reproduction_20261101.md",
+      "sha": "489bf5ff67fb42ea70fffc890a0419501f378e1c",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/quality/P20_Grounded_World_And_Believable_Character_Training_20261101.md",
+      "sha": "225a8bc8b058499c91857d9ddf25b103b48acbef",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/quality/P21_HDC_Grounded_Evidence_Training_20261101.md",
+      "sha": "24c7a0b9feb2801db93566595cbd6e9aac8d7ef0",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/quality/P21_HDC_Training_Reproduction_20261101.md",
+      "sha": "5fbca76c28b44518ab7c80a6e0db4ae3f68c35e4",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/quality/P21b_HDC_Unfamiliar_Structure_Adversarial_20261101.md",
+      "sha": "ff5b012ffc90fa2197591c2a383fc75f3c183f44",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/quality/P21c_Compositional_HDC_Order_Invariant_20261101.md",
+      "sha": "f209ef9ea882fec5df5f69fd613380625a35ba8f",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/quality/P21d_Visible_Geometry_Hidden_Structure_Benchmark_20261101.md",
+      "sha": "69b6848713902091f949c084a71242eed1595f64",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+      "sha": "6739b9f6c18fa945d8a96ea448d1c028d4b7da91",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md",
+      "sha": "2162d068d66a50712e1729157cdf492e213cbcf9",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/quality/P22b_Training_Reproduction_20261101.md",
+      "sha": "0ad4b6acda88026850a05e3ebbb389b1eb91825e",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/quality/P23_SSM_Temporal_World_State_Training_20261101.md",
+      "sha": "d6a605ccae63d5bbf96972ba428507088f7ec3f1",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/quality/P23_SSM_Training_Reproduction_20261101.md",
+      "sha": "ca43792d7f8b0d58ba05cff0079367debca2a4c7",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/quality/P23b_Selective_SSM_Temporal_Memory_Training_20261102.md",
+      "sha": "c35b32fd252bc4a61d9c299f797aa125ceb84d16",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/quality/P23c_HDC_Verified_Association_SSM_Memory_Sidecar_20261102.md",
+      "sha": "c6e9236b2ba3c0c246312a03d63bf31964467f20",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/quality/P23d_SQLite_HDC_SSM_Memory_Router_20261102.md",
+      "sha": "c4a461ec0952013ec0d80df4c75833e1a191346d",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/quality/P24_HDC_Noisy_Signal_Recognition_Pilot_20261102.md",
+      "sha": "845226975f52b697f9904a76e2ccc6f4caceb566",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/quality/P25_HDC_Real_Optical_Noise_Robustness_20261102.md",
+      "sha": "b6768beea660d2fec34190d5a0fa233e865377a3",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/research/COGNITUM_UNIFIED_HDC_KAN_SSM_GATES_2026-11-01.json",
+      "sha": "8af669db8e57a0a7e828762ee0fa9c9fe09ab34c",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/research/HDC_KAN_SSM_BREADTH_FIRST_RECOVERY_AND_COMPARISON_20261104.md",
+      "sha": "bc91b254731e20b01a48d80f458f8d61877ece40",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/research/HDC_KAN_SSM_CONSOLIDATED_CLOSEOUT_20261104.md",
+      "sha": "b5954057db5045110078f4dad4daada4db342164",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/research/HDC_KAN_SSM_LIBRARY_GITHUB_GAP_AUDIT_20261104.md",
+      "sha": "346bfeea5b16cb0cab349bb26860cda069a9982e",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/research/hdc-kan-training-guide-library-20261101.md",
+      "sha": "f963d4a17d9eb0ee615a7bb8d93427e86c584c81",
+      "source_commit": "d6243923dcdca9a52927a4a9e10317efe40a0233",
+      "previous_blob": null
+    },
+    {
+      "path": "docs/research/SSM_TRAINING_ENGINEERING_GUIDE_LIBRARY_RECOVERY_20261104.md",
+      "sha": "a2139dcfc5b121be66d40186e85b7c54481c4a17",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "proto/cognitum/research/v1/kan_approval.proto",
+      "sha": "ca58933c917a6dde7c905ebe2ab7a8ae3f2877f9",
+      "source_commit": "94397ea34281ccbe3dd51c4053af32ddac903880",
+      "previous_blob": null
+    },
+    {
+      "path": "tests/test_c08_admission.py",
+      "sha": "2b4125b8adf9a338c9b242ad73faae2701eaf667",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "tests/test_c08_canonical.py",
+      "sha": "dbec3b5a409318e291087018e8ce520631020add",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "tests/test_c08_index_lifecycle.py",
+      "sha": "de4dbea003dcef61cc0e0b348ce9ea15ddee3a90",
+      "source_commit": "94397ea34281ccbe3dd51c4053af32ddac903880",
+      "previous_blob": null
+    },
+    {
+      "path": "tests/test_c08_lifecycle_recovery.py",
+      "sha": "335a3fe23cde763fc5cee5aacf751bff6c13b828",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "tests/test_c09_signed_approval.py",
+      "sha": "f903ae567a5d2ff1ecd979f7493b2c0913f143ba",
+      "source_commit": "94397ea34281ccbe3dd51c4053af32ddac903880",
+      "previous_blob": null
+    },
+    {
+      "path": "tests/test_hdc_kan_ssm_recovery.py",
+      "sha": "28a66e57d9c72706a3b47601da6c00e3a4f87aa1",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "tests/test_hdc_recovered_extended.py",
+      "sha": "33eb0306cd89b180ae47ad27a5d6d79ca363b052",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "tests/test_kan_spline_endpoint_p1.py",
+      "sha": "a898867ff67b240007ff9c586602535d7c41e3c5",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "tests/test_research_durable.py",
+      "sha": "92d65286f02971e0d2ffc420d909e32a49ec6135",
+      "source_commit": "94397ea34281ccbe3dd51c4053af32ddac903880",
+      "previous_blob": null
+    },
+    {
+      "path": "tests/test_ssm_state_resume_p1.py",
+      "sha": "16f397755c146d4ceb002777281112a39a37eb70",
+      "source_commit": "f51a08a653db913fb228b2c2dbbe19473aef7709",
+      "previous_blob": null
+    },
+    {
+      "path": "tools/run_c08_candidate_benchmark.py",
+      "sha": "655aa560ff4a6d7d739506933e022349f40ff36e",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "tools/run_c08_conventional_baselines.py",
+      "sha": "95988f228930708dc2c9b2c0b0c830e442df0221",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    },
+    {
+      "path": "tools/run_hdc_kan_ssm_recovery_benchmark.py",
+      "sha": "1df4a71eddb2a4d7dc2c990d31b2f9c8cf1458ae",
+      "source_commit": "0b173cf538c4ce4fb74e084ee20dc38d2335f84c",
+      "previous_blob": null
+    }
+  ],
+  "new_local_source": [
+    "cognitum/research/ssm_recovered.py",
+    "tests/test_cog00_ssm_alias.py"
+  ],
+  "not_recovered": [
+    "original Zog Zoo trainable KAN K4 source and depth overlay",
+    "P21-P25 experiment training overlays and trained checkpoints",
+    "original historical training archive bytes",
+    "upstream TorchHD and pykan library snapshots"
+  ],
+  "status": "SOURCE_RECOVERY_CANDIDATE_NOT_TESTED",
+  "production_enabled": false
+}

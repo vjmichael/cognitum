@@ -18,6 +18,12 @@ def _basis(x,grid,degree,kind):
     if kind=='rbf':
         scale=np.maximum((grid[:,-1]-grid[:,0])/ (grid.shape[1]-1),1e-4)
         return np.exp(-((xx-grid[None,:,:])/scale[None,:,None])**2)
+    # The public checkpoint validator admits x == the last knot. The
+    # half-open spline basis would otherwise return all zero there, producing
+    # an artificial boundary discontinuity. Use the interior one-sided limit.
+    upper = grid[:, -1]
+    inside = np.nextafter(upper, np.full_like(upper, -np.inf))
+    xx = np.where(x == upper[None, :], inside[None, :], x)[:, :, None]
     b=((xx>=grid[None,:,:-1])&(xx<grid[None,:,1:])).astype(x.dtype)
     for k in range(1,degree+1):
         dl=grid[:,k:-1]-grid[:,:-(k+1)]
