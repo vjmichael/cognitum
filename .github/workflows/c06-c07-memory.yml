@@ -1,6 +1,8 @@
 name: C06 C07 Lu-owned ANSF retrieval and belief proposal acceptance
 on:
   push:
+    # The COG-06 branch runs the consolidated acceptance including these tests.
+    branches-ignore: [development/cog-06-cooperative-reasoning-20261116]
     paths:
       - 'cognitum/memory_derived.py'
       - 'cognitum/belief_proposals.py'

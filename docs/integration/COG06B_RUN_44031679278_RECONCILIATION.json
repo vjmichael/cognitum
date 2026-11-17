@@ -1,0 +1,115 @@
+{
+  "schema": "cognitum.cog06b.terminal-reconciliation.v1",
+  "run_id": 44031679278,
+  "source_sha": "cf70392c624dd543b6ea8606e2dae251478be096",
+  "conclusion": "failure",
+  "jobs": [
+    {
+      "id": 133864877423,
+      "os": "windows",
+      "python": "3.11",
+      "conclusion": "failure",
+      "focused": {
+        "passed": 688,
+        "skipped": 2,
+        "subtests": 950,
+        "failed": 0
+      },
+      "combined": {
+        "passed": 1176,
+        "skipped": 72,
+        "subtests": 1533,
+        "failed": 0
+      },
+      "native_preflight": "passed",
+      "component_benchmarks": {
+        "passed": 6,
+        "failed": 0
+      },
+      "descriptor_parity": "failed duplicate cognitum.memory.v1.StateEvent"
+    },
+    {
+      "id": 133864877046,
+      "os": "windows",
+      "python": "3.13",
+      "conclusion": "failure",
+      "focused": {
+        "passed": 688,
+        "skipped": 2,
+        "subtests": 950,
+        "failed": 0
+      },
+      "combined": {
+        "passed": 1176,
+        "skipped": 72,
+        "subtests": 1533,
+        "failed": 0
+      },
+      "native_preflight": "passed",
+      "component_benchmarks": {
+        "passed": 6,
+        "failed": 0
+      },
+      "descriptor_parity": "failed duplicate cognitum.memory.v1.StateEvent"
+    },
+    {
+      "id": 133864877478,
+      "os": "linux",
+      "python": "3.11",
+      "conclusion": "failure",
+      "focused": {
+        "passed": 688,
+        "skipped": 2,
+        "subtests": 950,
+        "failed": 0
+      },
+      "combined": {
+        "passed": 1286,
+        "skipped": 12,
+        "subtests": 1547,
+        "failed": 0
+      },
+      "native_preflight": "passed",
+      "component_benchmarks": {
+        "passed": 6,
+        "failed": 0
+      },
+      "descriptor_parity": "failed duplicate cognitum.memory.v1.StateEvent"
+    },
+    {
+      "id": 133864877595,
+      "os": "linux",
+      "python": "3.13",
+      "conclusion": "failure",
+      "focused": {
+        "passed": 688,
+        "skipped": 2,
+        "subtests": 950,
+        "failed": 0
+      },
+      "combined": {
+        "passed": 1286,
+        "skipped": 12,
+        "subtests": 1547,
+        "failed": 0
+      },
+      "native_preflight": "passed",
+      "component_benchmarks": {
+        "passed": 6,
+        "failed": 0
+      },
+      "descriptor_parity": "failed duplicate cognitum.memory.v1.StateEvent"
+    }
+  ],
+  "repair": {
+    "scope": "rename host_owned nested message only, preserve all field tags/types and typed StateEvent URL; Python compatibility alias only",
+    "old_schema_blob": "fb67bd0dc6bf1930e15fb3e634b218f0a198823e",
+    "old_binding_blob": "f44a6a0fde859bbb71b688f008ddbd4a17ac765a",
+    "local_check": "libprotoc 3.13.0: structurally reproduced duplicate schema compile failure; renamed pair compiles in one set; pre/post host-owned descriptor equality after reverse name change, identical deterministic proposal bytes, shared descriptor pool; 16 recovered C10–C13 schemas independently compiled/compared with local historical bindings; full current tree remains a CI gate"
+  },
+  "optional_skips": [
+    "pgmpy native worker unavailable",
+    "PyMC and ArviZ native worker unvalidated"
+  ],
+  "remaining": "new exact SHA acceptance; COG-06C blocked"
+}

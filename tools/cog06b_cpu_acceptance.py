@@ -50,10 +50,23 @@ def source_check():
         for item in manifest.get("records",[]):
             if item["disposition"]=="exact" and git("rev-parse","HEAD:"+item["destination"])!=item["source_blob"]:
                 raise RuntimeError("historical blob drift: "+item["destination"])
-    # No replacement of accepted mature runtime or existing schemas.
+    # Permit only the demonstrated C06/C07 duplicate-message repair, not
+    # arbitrary replacement of accepted runtime/schema/test files.
+    identity_repair={"proto/cognitum/memory/v1/host_owned.proto",
+                     "cognitum/proto/host_owned_memory_pb2.py"}
+    for rel in sorted(identity_repair):
+        previous=git("show",baseline+":"+rel)
+        expected=previous.replace('StateEvent','HostOwnedStateEvent')
+        if rel.endswith('_pb2.py'):
+            expected+='\n\n# Source compatibility only; the old ambiguous Protobuf type name is not a wire alias.\nStateEvent=HostOwnedStateEvent'
+        actual=git("show","HEAD:"+rel)
+        # git() strips surrounding whitespace, so compare normalized text edges only.
+        if actual!=expected.strip():
+            raise RuntimeError("unexpected change within identity repair: "+rel)
+    # No other replacement of accepted mature runtime or existing schemas.
     changed=git("diff","--name-only",baseline,head).splitlines()
     for rel in changed:
-        if rel.startswith(("cognitum/","proto/","tests/test_")):
+        if rel not in identity_repair and rel.startswith(("cognitum/","proto/","tests/test_")):
             if subprocess.run(["git","cat-file","-e",baseline+":"+rel],cwd=ROOT,
                               stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0:
                 raise RuntimeError("accepted existing runtime/schema/test replaced: "+rel)

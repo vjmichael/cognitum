@@ -52,7 +52,7 @@ message QueryResult {
  string request_sha256 = 4;
  repeated string limitations = 5;
 }
-message StateEvent {
+message HostOwnedStateEvent {
  string event_id = 1;
  string scope_id = 2;
  string entity = 3;
@@ -74,7 +74,7 @@ message EventSnapshot {
  string snapshot_id = 3;
  uint64 owner_revision = 4;
  string scope_id = 5;
- repeated StateEvent events = 6;
+ repeated HostOwnedStateEvent events = 6;
 }
 message Belief {
  string entity = 1;
@@ -91,7 +91,7 @@ message Belief {
 message ProposalRequest {
  uint32 schema_version = 1;
  EventSnapshot snapshot = 2;
- StateEvent event = 3;
+ HostOwnedStateEvent event = 3;
  string host_authorized_scope = 4;
 }
 message ProposalResult {

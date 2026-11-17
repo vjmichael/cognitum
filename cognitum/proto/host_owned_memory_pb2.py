@@ -31,7 +31,7 @@ msg("Hit",[fld("source_id","string"),fld("source_revision","uint64"),
 msg("QueryResult",[fld("schema_version","uint32"),fld("status","string"),
  fld("hits","message",True,"Hit"),fld("request_sha256","string"),
  fld("limitations","string",True)])
-msg("StateEvent",[
+msg("HostOwnedStateEvent",[
  fld("event_id","string"),fld("scope_id","string"),fld("entity","string"),
  fld("predicate","string"),fld("value_type","string"),fld("value","string"),
  fld("origin_source_id","string"),fld("actor_authority","string"),
@@ -40,7 +40,7 @@ msg("StateEvent",[
  fld("replaces_event_id","string"),fld("reason","string")])
 msg("EventSnapshot",[fld("schema_version","uint32"),fld("owner","string"),
  fld("snapshot_id","string"),fld("owner_revision","uint64"),
- fld("scope_id","string"),fld("events","message",True,"StateEvent")])
+ fld("scope_id","string"),fld("events","message",True,"HostOwnedStateEvent")])
 msg("Belief",[fld("entity","string"),fld("predicate","string"),
  fld("value_type","string"),fld("value","string"),fld("status","string"),
  fld("source_event_id","string"),fld("source_revision","uint64"),
@@ -48,7 +48,7 @@ msg("Belief",[fld("entity","string"),fld("predicate","string"),
  fld("conflict_event_ids","string",True)])
 msg("ProposalRequest",[fld("schema_version","uint32"),
  fld("snapshot","message",False,"EventSnapshot"),
- fld("event","message",False,"StateEvent"),
+ fld("event","message",False,"HostOwnedStateEvent"),
  fld("host_authorized_scope","string")])
 msg("ProposalResult",[fld("schema_version","uint32"),fld("status","string"),
  fld("scope_id","string"),fld("based_on_snapshot_id","string"),
@@ -58,7 +58,10 @@ msg("ProposalResult",[fld("schema_version","uint32"),fld("status","string"),
  fld("event_sha256","string"),fld("request_sha256","string"),
  fld("limitations","string",True)])
 pool=descriptor_pool.DescriptorPool();DESCRIPTOR=pool.Add(f)
-for name in ("Evidence","Snapshot","Query","Hit","QueryResult","StateEvent",
+for name in ("Evidence","Snapshot","Query","Hit","QueryResult","HostOwnedStateEvent",
              "EventSnapshot","Belief","ProposalRequest","ProposalResult"):
     globals()[name]=message_factory.GetMessageClass(
         pool.FindMessageTypeByName(f.package+"."+name))
+
+# Source compatibility only; the old ambiguous Protobuf type name is not a wire alias.
+StateEvent=HostOwnedStateEvent
