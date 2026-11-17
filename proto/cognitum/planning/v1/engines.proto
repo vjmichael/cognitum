@@ -1,0 +1,70 @@
+syntax = "proto3";
+package cognitum.planning.engines.v1;
+
+// Host-fenced optional external planning engines. No arbitrary commands, PDDL
+// source or executable path may be supplied by the model request.
+message EngineRequest {
+  uint32 schema_version = 1;
+  bytes classical_request = 2; // canonical cognitum.planning.v1.PlanningRequest
+  string backend_id = 3;      // host-registered ID, not a command
+  uint32 deadline_ms = 4;
+}
+enum EngineStatus {
+  ENGINE_STATUS_UNSPECIFIED = 0;
+  VERIFIED_PLAN = 1;
+  VERIFIED_OPTIMAL = 2;
+  VERIFIED_UNREACHABLE = 3;
+  UNKNOWN = 4;
+  REJECTED = 5;
+}
+message EngineResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  bytes classical_request_sha256 = 3;
+  string backend_id = 4;
+  EngineStatus status = 5;
+  repeated uint32 action_indices = 6;
+  uint64 total_cost = 7;
+  bool witness_verified = 8;
+  bool optimality_verified = 9;
+  string reason_code = 10;
+  bytes worker_sha256 = 11;
+  uint64 wall_ns = 12;
+  string interface_version = 13;
+  bytes export_sha256 = 14;
+}
+message EngineReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool evidence_valid = 3;
+  bool optimality_verified = 4;
+  string reason_code = 5;
+  uint32 reachable_states_checked = 6;
+}
+message EngineAudit {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  bytes result_sha256 = 3;
+  string backend_id = 4;
+  EngineStatus status = 5;
+  bool evidence_valid = 6;
+  bool optimality_verified = 7;
+  string reason_code = 8;
+  uint64 wall_ns = 9;
+  bytes worker_sha256 = 10;
+  bytes export_sha256 = 11;
+}
+message EngineCapability {
+  string backend_id = 1;
+  string engine = 2;
+  string license_note = 3;
+  string supported_fragment = 4;
+  bool available = 5;
+  bool runtime_tested = 6;
+  bool experimental = 7;
+}
+message EngineManifest {
+  uint32 schema_version = 1;
+  repeated EngineCapability backends = 2;
+  bytes manifest_sha256 = 3;
+}

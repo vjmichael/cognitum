@@ -1,0 +1,70 @@
+syntax = "proto3";
+package cognitum.probability.v1;
+import "cognitum/probability/v1/inference.proto";
+
+// P2: separate established-backend query interface. No executable or source paths.
+enum GraphBackend {
+  GRAPH_BACKEND_UNSPECIFIED = 0;
+  REFERENCE_EXACT = 1;
+  PGMPY_VARIABLE_ELIMINATION = 2;
+  PGMPY_BELIEF_PROPAGATION = 3;
+}
+enum GraphQuery {
+  GRAPH_QUERY_UNSPECIFIED = 0;
+  GRAPH_JOINT_POSTERIOR = 1;
+  GRAPH_MAP = 2;
+}
+enum GraphStatus {
+  GRAPH_STATUS_UNSPECIFIED = 0;
+  GRAPH_SUCCESS = 1;
+  GRAPH_IMPOSSIBLE_EVIDENCE = 2;
+  GRAPH_UNKNOWN = 3;
+  GRAPH_REJECTED = 4;
+}
+message GraphRequest {
+  uint32 schema_version = 1;
+  InferenceRequest inference = 2;
+  GraphBackend backend = 3;
+  GraphQuery query = 4;
+  uint32 tolerance_ppm = 5; // numerical cross-check ceiling, at most 100 ppm
+}
+message GraphResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string trace_id = 3;
+  GraphBackend backend = 4;
+  GraphQuery query = 5;
+  GraphStatus status = 6;
+  repeated PosteriorCell posterior = 7;
+  repeated uint32 map_states = 8;
+  string map_probability = 9;
+  bool independent_numeric_check = 10;
+  bool exact_reference_certified = 11;
+  string backend_id = 12;
+  string backend_version = 13;
+  string reason_code = 14;
+  uint64 wall_ns = 15;
+}
+message GraphReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool evidence_valid = 3;
+  bool numeric_cross_checked = 4;
+  bool exact_reference_certified = 5;
+  uint32 enumerated_assignments = 6;
+  string reason_code = 7;
+}
+message GraphAudit {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  bytes result_sha256 = 3;
+  string trace_id = 4;
+  GraphBackend backend = 5;
+  GraphStatus status = 6;
+  string backend_id = 7;
+  string backend_version = 8;
+  bool numeric_cross_checked = 9;
+  bool exact_reference_certified = 10;
+  uint64 wall_ns = 11;
+  string reason_code = 12;
+}

@@ -1,0 +1,100 @@
+syntax = "proto3";
+package cognitum.optimization.v1;
+
+// C11 P1: strict, bounded integer linear optimization only. No solver code,
+// filesystem paths, or host credentials may be supplied in this request.
+enum ObjectiveSense {
+  OBJECTIVE_SENSE_UNSPECIFIED = 0;
+  MINIMIZE = 1;
+  MAXIMIZE = 2;
+}
+enum Relation {
+  RELATION_UNSPECIFIED = 0;
+  LESS_EQUAL = 1;
+  GREATER_EQUAL = 2;
+  EQUAL = 3;
+}
+enum OptimizeStatus {
+  OPTIMIZE_STATUS_UNSPECIFIED = 0;
+  VERIFIED_OPTIMAL = 1;
+  VERIFIED_FEASIBLE = 2;
+  VERIFIED_INFEASIBLE = 3;
+  UNKNOWN = 4;
+  REJECTED = 5;
+}
+message IntVariable {
+  string name = 1;
+  sint64 lower = 2;
+  sint64 upper = 3;
+  bool binary = 4;
+}
+message LinearTerm {
+  string variable = 1;
+  sint64 coefficient = 2;
+}
+message LinearConstraint {
+  repeated LinearTerm terms = 1;
+  Relation relation = 2;
+  sint64 rhs = 3;
+  string label = 4;
+}
+message LinearObjective {
+  repeated LinearTerm terms = 1;
+  ObjectiveSense sense = 2;
+}
+message OptimizeRequest {
+  uint32 schema_version = 1;
+  repeated IntVariable variables = 2;
+  repeated LinearConstraint constraints = 3;
+  LinearObjective objective = 4;
+  string backend_id = 5; // scipy-highs | ortools-cpsat (host registry allowlist)
+  uint32 timeout_ms = 6;
+  string trace_id = 7;
+  uint32 max_exact_states = 8; // independent bounded enumerator; zero => 4096
+}
+message IntAssignment {
+  string name = 1;
+  sint64 value = 2;
+}
+message OptimizeResult {
+  uint32 schema_version = 1;
+  OptimizeStatus status = 2;
+  string reason_code = 3;
+  bytes request_sha256 = 4;
+  string backend_id = 5;
+  string backend_version = 6;
+  repeated IntAssignment assignment = 7;
+  sint64 objective_value = 8;
+  bool witness_verified = 9;
+  bool optimality_verified = 10; // exhaustive small-domain validation only
+  string backend_claim = 11; // informational; NEVER a proof
+  uint64 wall_ns = 12;
+  uint32 exact_states_checked = 13;
+  bool host_approved = 14; // always false; result cannot grant authority
+  string trace_id = 15;
+}
+message OptimizeReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool evidence_valid = 3;
+  bool optimality_verified = 4;
+  string reason_code = 5;
+  uint32 states_checked = 6;
+}
+
+// Audit envelope has no raw model, problem contents or sensitive assignments.
+// It is an auditable observation, NOT a signed Lu-host provenance claim.
+message OptimizationAudit {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  bytes result_sha256 = 3;
+  string trace_id = 4;
+  string backend_id = 5;
+  string backend_version = 6;
+  OptimizeStatus status = 7;
+  string reason_code = 8;
+  uint64 wall_ns = 9;
+  bool witness_verified = 10;
+  bool optimality_verified = 11;
+  bool host_approved = 12;
+}

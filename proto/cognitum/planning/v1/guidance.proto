@@ -1,0 +1,72 @@
+syntax = "proto3";
+package cognitum.planning.v1;
+import "cognitum/planning/v1/classical.proto";
+
+// C12 P4: precomputed untrusted research guidance. No executable code or model weights.
+enum GuidanceLabel {
+  GUIDANCE_UNSPECIFIED = 0;
+  PREFERRED_TRANSITION = 1;
+  DISFAVORED_TRANSITION = 2;
+  PREDICTED_DEAD_END = 3; // Advisory ONLY; never permits pruning.
+}
+message TransitionHint {
+  uint32 state_bits = 1;
+  uint32 action_index = 2;
+  GuidanceLabel label = 3;
+}
+message GuidanceArtifact {
+  uint32 schema_version = 1;
+  string backend_id = 2;
+  string source_reference = 3;
+  bytes model_sha256 = 4; // informative origin; NOT verified model-file integrity
+  repeated TransitionHint hints = 5;
+  bytes content_sha256 = 6; // canonical sha256 of artifact with this field cleared
+}
+message GuidedRequest {
+  uint32 schema_version = 1;
+  PlanningRequest planning = 2;
+  GuidanceArtifact guidance = 3;
+}
+message GuidedResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  bytes guidance_sha256 = 3;
+  PlanStatus status = 4;
+  repeated uint32 actions = 5;
+  uint64 total_cost = 6;
+  uint32 expanded = 7;
+  uint32 discovered = 8;
+  uint32 applied_hints = 9;
+  bool plan_verified = 10;
+  bool optimality_verified = 11;
+  string reason_code = 12;
+  uint64 wall_ns = 13;
+  string backend_id = 14;
+  string backend_version = 15;
+  bool host_approved = 16; // always false; not authority
+}
+message GuidedReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bytes guidance_sha256 = 3;
+  bool evidence_valid = 4;
+  bool optimality_verified = 5;
+  uint32 reachable_states_checked = 6;
+  string reason_code = 7;
+}
+message GuidedAudit {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  bytes result_sha256 = 3;
+  bytes guidance_sha256 = 4;
+  string trace_id = 5;
+  string backend_id = 6;
+  string backend_version = 7;
+  PlanStatus status = 8;
+  uint64 wall_ns = 9;
+  uint32 expanded = 10;
+  uint32 applied_hints = 11;
+  bool evidence_valid = 12;
+  bool optimality_verified = 13;
+  string reason_code = 14;
+}

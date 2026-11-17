@@ -1,0 +1,104 @@
+syntax = "proto3";
+package cognitum.optimization.workflow.v1;
+
+// C11 P2: domain-specific, bounded requests, no arbitrary solver programs.
+message AssignmentEdge { uint32 worker = 1; uint32 job = 2; sint64 cost = 3; }
+message AssignmentProblem {
+  uint32 workers = 1;
+  uint32 jobs = 2;
+  repeated AssignmentEdge edges = 3; // allowed worker/job pairs only
+}
+message PackItem { string id = 1; uint32 weight = 2; sint64 value = 3; }
+message PackingProblem { repeated PackItem items = 1; uint32 capacity = 2; }
+message FlowNode { string id = 1; sint64 supply = 2; }
+message FlowArc { uint32 from_node = 1; uint32 to_node = 2; uint32 capacity = 3; sint64 cost = 4; }
+message FlowProblem { repeated FlowNode nodes = 1; repeated FlowArc arcs = 2; }
+message Resource { string id = 1; uint32 capacity = 2; }
+message ScheduleTask {
+  string id = 1;
+  uint32 duration = 2;
+  string resource_id = 3;
+  uint32 demand = 4;
+  uint32 earliest_start = 5;
+  uint32 latest_start = 6;
+}
+message Precedence { uint32 before = 1; uint32 after = 2; }
+message SchedulingProblem {
+  repeated Resource resources = 1;
+  repeated ScheduleTask tasks = 2;
+  repeated Precedence precedences = 3;
+  uint32 horizon = 4;
+}
+message RoutingProblem {
+  uint32 nodes = 1;
+  repeated sint64 costs = 2; // row-major symmetric, nonnegative, complete; depot=0
+}
+message WorkflowRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  uint32 timeout_ms = 3;
+  string backend_id = 4; // optional; empty selects mature default, fixed allowlist only
+  oneof problem {
+    AssignmentProblem assignment = 10;
+    PackingProblem packing = 11;
+    FlowProblem flow = 12;
+    SchedulingProblem scheduling = 13;
+    RoutingProblem routing = 14;
+  }
+}
+message IntPair { uint32 first = 1; uint32 second = 2; }
+message IndexValue { uint32 index = 1; sint64 value = 2; }
+message WorkflowSolution {
+  repeated IntPair assignment = 1; // (worker,job)
+  repeated uint32 packed_indices = 2;
+  repeated IndexValue flows = 3; // arc index and flow
+  repeated IndexValue starts = 4; // task index and start
+  repeated uint32 tour = 5; // starts and ends at 0
+}
+enum WorkflowStatus {
+  WORKFLOW_STATUS_UNSPECIFIED = 0;
+  VERIFIED_FEASIBLE = 1;
+  VERIFIED_OPTIMAL = 2;
+  VERIFIED_INFEASIBLE = 3;
+  UNKNOWN = 4;
+  REJECTED = 5;
+}
+message WorkflowResult {
+  uint32 schema_version = 1;
+  WorkflowStatus status = 2;
+  string reason_code = 3;
+  bytes request_sha256 = 4;
+  string backend_id = 5;
+  string backend_version = 6;
+  string backend_claim = 7; // never evidence of optimality
+  WorkflowSolution solution = 8;
+  sint64 objective_value = 9;
+  bool witness_verified = 10;
+  bool optimality_verified = 11;
+  uint64 wall_ns = 12;
+  string trace_id = 13;
+  bool host_approved = 14; // always false; cannot authorize itself
+  uint32 exact_states_checked = 15;
+}
+message WorkflowReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool evidence_valid = 3;
+  bool optimality_verified = 4;
+  string reason_code = 5;
+  uint32 states_checked = 6;
+}
+message WorkflowAudit {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  bytes result_sha256 = 3;
+  string trace_id = 4;
+  string backend_id = 5;
+  string backend_version = 6;
+  WorkflowStatus status = 7;
+  string reason_code = 8;
+  uint64 wall_ns = 9;
+  bool witness_verified = 10;
+  bool optimality_verified = 11;
+  bool host_approved = 12;
+}

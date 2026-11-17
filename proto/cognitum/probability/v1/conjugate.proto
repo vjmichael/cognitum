@@ -1,0 +1,90 @@
+syntax = "proto3";
+package cognitum.probability.v1;
+// C13 P4: trusted, typed likelihood templates; no executable probability programs.
+enum ConjugateStatus {
+  CONJUGATE_STATUS_UNSPECIFIED = 0;
+  CONJUGATE_SUCCESS = 1;
+  CONJUGATE_UNKNOWN = 2;
+  CONJUGATE_REJECTED = 3;
+}
+message BetaBinomialModel {
+  double prior_alpha = 1;
+  double prior_beta = 2;
+  uint32 successes = 3;
+  uint32 failures = 4;
+  uint32 future_trials = 5;
+}
+message CountExposure {
+  uint32 count = 1;
+  double exposure = 2;
+}
+message GammaPoissonModel {
+  double prior_shape = 1;
+  double prior_rate = 2;
+  repeated CountExposure observations = 3;
+  double future_exposure = 4;
+}
+message NormalInverseGammaModel {
+  double prior_mu = 1;
+  double prior_kappa = 2;
+  double prior_alpha = 3;
+  double prior_beta = 4;
+  repeated double observations = 5;
+}
+message ConjugateRequest {
+  uint32 schema_version = 1;
+  string trace_id = 2;
+  uint32 timeout_ms = 3;
+  oneof model {
+    BetaBinomialModel beta_binomial = 4;
+    GammaPoissonModel gamma_poisson = 5;
+    NormalInverseGammaModel normal_inverse_gamma = 6;
+  }
+}
+message ConjugateResult {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  string trace_id = 3;
+  string model_family = 4;
+  ConjugateStatus status = 5;
+  string reason_code = 6;
+  string backend_version = 7;
+  uint64 wall_ns = 8;
+  // Updated sufficient statistics (meaning depends on model family, as documented).
+  double shape_a = 9;
+  double shape_b = 10;
+  double location = 11;
+  double strength = 12;
+  bool posterior_mean_defined = 13;
+  double posterior_mean = 14;
+  bool posterior_variance_defined = 15;
+  double posterior_variance = 16;
+  double credible_lower_95 = 17;
+  double credible_upper_95 = 18;
+  bool predictive_mean_defined = 19;
+  double predictive_mean = 20;
+  bool predictive_variance_defined = 21;
+  double predictive_variance = 22;
+  double predictive_lower_95 = 23;
+  double predictive_upper_95 = 24;
+  bool independently_recomputed = 25;
+}
+message ConjugateReceipt {
+  bytes request_sha256 = 1;
+  bytes result_sha256 = 2;
+  bool evidence_valid = 3;
+  string assurance = 4;
+  string reason_code = 5;
+}
+message ConjugateAudit {
+  uint32 schema_version = 1;
+  bytes request_sha256 = 2;
+  bytes result_sha256 = 3;
+  string trace_id = 4;
+  string model_family = 5;
+  ConjugateStatus status = 6;
+  string backend_version = 7;
+  bool independently_recomputed = 8;
+  uint64 wall_ns = 9;
+  string reason_code = 10;
+}
