@@ -1,7 +1,7 @@
 
 **Revision:** 2026-11-17 (Arizona local)  
 **Governing decision:** owner reprioritization, November 16, 2026.  
-**Active engineering task:** COG-03 — comprehensive HDC literature-first redevelopment. A register established; B paired-input algebra fidelity next.
+**Active engineering task:** COG-03B — local algebra candidate staged; complete genuine TorchHD fidelity and integration.
 **Accepted COG-07/07A baseline:** `23ac5b87503d3e1c76f4614039f85c2ee9a67b0e`, [44157055079](https://github.com/vjmichael/cognitum/actions/runs/44157055079), 14/14 successful; all 14 downloaded archives independently rehashed and checked. Subsequent documentation-only commit is not a newly tested source SHA.
 **Accepted cooperative extension:** COG-06G at `ce28a7ad6a584e6cce5a77c9be5d63bc5dabeaa0`, [run 44138431170](https://github.com/vjmichael/cognitum/actions/runs/44138431170), eight successful jobs.
 **Accepted consolidated cooperative baseline:** COG-06A–F, frozen `10dd3be219dd59a7e9a2f27fb6f958404e33ddb7`, [44130686328](https://github.com/vjmichael/cognitum/actions/runs/44130686328); all six jobs and independent archive reconciliation passed.
@@ -32,7 +32,7 @@ Status vocabulary: **ACCEPTED** = exact evidence passed a stated gate only; **AC
 | 0 | COG-00 | Historical source recovery and consolidated acceptance | ACCEPTED (surviving source only) | Frozen SHA and four-platform acceptance above; missing original K4/learned artifacts tracked below, not misrepresented as recovered. |
 | 1 | COG-06 | Cooperative reasoning: proven components first | ACCEPTED (A–G scoped) | Six-job frozen baseline and eight-job optional ByteTrack extension; native C15 remains preferred, model efficacy and production admission separately gated. |
 | 2 | COG-07 / COG-07A | Practical C14 maintained-library review and C11 cancellation preservation | ACCEPTED (scoped reference gate) | 14/14 at frozen `23ac5b87`; new C11 race controls and all six causal executions passed. EconML interval calibration not established; no production promotion or CH40 gap pursuit. |
-| 3 | COG-03 | HDC literature review and comprehensive research redevelopment | ACTIVE — A register established; B next | All major viable methods individually tracked, maintained/custom/oracle/conventional comparison; CPU-first, default-off, no universal verdict. |
+| 3 | COG-03 | HDC literature review and comprehensive research redevelopment | ACTIVE — B local candidate; native fidelity pending | All major viable methods individually tracked, maintained/custom/oracle/conventional comparison; CPU-first, default-off, no universal verdict. |
 | 4 | COG-04 | KAN literature review and research redevelopment | DEFERRED | PyKAN and CPU alternatives; trainable spline/RBF variants, maintained-library parity, unknown-function/surrogate tasks, held-out accuracy, OOD and signed checkpoint gates. Missing K4 materials remain open. |
 | 5 | COG-05 | SSM literature review and research redevelopment | DEFERRED | Classical filters/control and structured/selective learned SSM; CPU reference, trained trials, numerical/state/resume checks and future holdouts. |
 | 6 | COG-08 | ARM / Raspberry Pi / resource-constrained evaluation | DEFERRED | Representative hardware, actual RAM/time/energy measurements and correctness parity; no extrapolated energy claims. |
@@ -130,4 +130,6 @@ Orders are owner-adjustable; COG-03/04/05 remain research-only and do not gate t
 
 - 2026-11-17 owner reopens COG-03 with broad incorporation of HDC research mechanisms. COG-03A: older conversations, Claude handoff, repair and integration reviews, November evidence reconciled; 15 recovered modules plus init exact blobs, 45 register entries. Historical BSC/HRR contamination, pair-search vs resonator, nearest-address vs SDM, QMC antipodes, full memory accounting and graph/noise limitations recorded. Initial P0 charter and register established, no new runtime/benchmark claim. [Charter](research/COG03_HDC_RESEARCH_CHARTER.md) and [register](research/COG03_HDC_RESEARCH_REGISTER.json).
 
-**Next actionable engineering task:** COG-03B — recover corrected adapter provenance and implement typed paired-input algebra fidelity for custom BSC/MAP/HRR/FHRR and TorchHD, then remaining registered algebra families. COG-04/05 and later resource/architecture/integration gates deferred. No production, CH40 or redundant CI.
+- 2026-11-17 COG-03B restoration: both original Zog Zoo archives CRC pass; 15/15 recovered non-init modules match, corrected adapter and historical test harness recovered, original survey PDFs/text found. Archived 20 selftests +70 regression passes; new local bounded coverage of all 13 families, 113 tests including 60 paired historical cells. Actual TorchHD missing; 8 new native and 17 historical native tests not run. Staged local candidate, no runtime publication or CI. [Local evidence](research/COG03B_LOCAL_ALGEBRA_RECOVERY.md).
+
+**Next actionable engineering task:** COG-03B — complete native TorchHD 5.8.4 fidelity and remaining operation semantics, then integrate the tested candidate and advance to COG-03C. COG-04/05 and later resource/architecture/integration gates deferred. No production, CH40 or redundant CI.

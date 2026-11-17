@@ -76,7 +76,8 @@
       "status": "recovered",
       "reference": "models.py / TorchHD",
       "gate": "Boolean XOR, majority, ties, exact inverse, packed parity",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
     },
     {
       "id": "V02",
@@ -84,7 +85,8 @@
       "status": "recovered",
       "reference": "models.py / TorchHD",
       "gate": "Bipolar multiplication, sum vs sign, packed and counter widths",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
     },
     {
       "id": "V03",
@@ -92,7 +94,8 @@
       "status": "recovered",
       "reference": "models.py / TorchHD",
       "gate": "Circular convolution, approximate inverse, FFT vs direct oracle",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
     },
     {
       "id": "V04",
@@ -100,7 +103,8 @@
       "status": "recovered",
       "reference": "models.py / TorchHD",
       "gate": "Complex product/conjugate, phase8, capacity",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
     },
     {
       "id": "V05",
@@ -108,7 +112,8 @@
       "status": "planned",
       "reference": "TorchHD BSBC",
       "gate": "Block integrity, modular shift, sparse storage",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
     },
     {
       "id": "V06",
@@ -116,7 +121,8 @@
       "status": "planned",
       "reference": "TorchHD CGR",
       "gate": "Cyclic algebra, distance, block constraints",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
     },
     {
       "id": "V07",
@@ -124,7 +130,8 @@
       "status": "planned",
       "reference": "TorchHD MCR",
       "gate": "Modular binding, scalar oracle",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
     },
     {
       "id": "V08",
@@ -132,7 +139,8 @@
       "status": "planned",
       "reference": "TorchHD VTB",
       "gate": "Noncommutativity, inverse and shape",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
     },
     {
       "id": "V09",
@@ -140,7 +148,8 @@
       "status": "planned",
       "reference": "Survey / NumPy reference",
       "gate": "Contraction and tensor growth",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
     },
     {
       "id": "V10",
@@ -148,7 +157,8 @@
       "status": "planned",
       "reference": "Survey / NumPy reference",
       "gate": "Role direction, recovery, cost",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
     },
     {
       "id": "V11",
@@ -156,7 +166,8 @@
       "status": "planned",
       "reference": "Survey",
       "gate": "Sparsity and recovery",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
     },
     {
       "id": "V12",
@@ -164,7 +175,8 @@
       "status": "planned",
       "reference": "Survey",
       "gate": "Thinning, capacity, reproducibility",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
     },
     {
       "id": "V13",
@@ -172,7 +184,8 @@
       "status": "planned",
       "reference": "Survey",
       "gate": "Restricted-size geometric product oracle",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "bounded mathematical primitive tests passed; native or broader task acceptance pending"
     },
     {
       "id": "E01",
@@ -437,5 +450,19 @@
     "production_enabled": false,
     "canonical_owner": "Lu ANSF/SQLite",
     "preserve_history": true
+  },
+  "cog03b_local_candidate": {
+    "artifact_file_id": "file_00000000ff6481fd8e25be2e784e0a5e",
+    "archive_sha256": "13d60300e1ba01bfd1c032da8cc6be2c131a3fe3f8ddcd669cfe383014e6e7de",
+    "state": "locally tested staged candidate, not integrated or accepted",
+    "source_archive_sha256": "ecd73752a2bc856a4491d3510aef3d3d6834da5067701d7d673b8738930ced35",
+    "local_tests": 113,
+    "historical_selftests": 20,
+    "historical_regressions": 70,
+    "paired_historical_cells": 60,
+    "native_tests_not_run": 8,
+    "historical_native_tests_not_run": 17,
+    "required_wheel": "torch_hd-5.8.4-py3-none-any.whl",
+    "wheel_sha256": "734a2d4673af4418dd75908402c81d0221335bc96a9b8c07cfba4d86db6dd175"
   }
 }
