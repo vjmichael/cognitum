@@ -1,7 +1,7 @@
 
 **Revision:** 2026-11-17 (Arizona local)  
 **Governing decision:** owner reprioritization, November 16, 2026.  
-**Active engineering task:** COG-03B — local algebra candidate staged; complete genuine TorchHD fidelity and integration.
+**Active engineering task:** COG-03B1 — finish native original algebra fidelity; B2 GHRR and flattened-matrix algebra next. Frontier register expanded to 85 entries.
 **Accepted COG-07/07A baseline:** `23ac5b87503d3e1c76f4614039f85c2ee9a67b0e`, [44157055079](https://github.com/vjmichael/cognitum/actions/runs/44157055079), 14/14 successful; all 14 downloaded archives independently rehashed and checked. Subsequent documentation-only commit is not a newly tested source SHA.
 **Accepted cooperative extension:** COG-06G at `ce28a7ad6a584e6cce5a77c9be5d63bc5dabeaa0`, [run 44138431170](https://github.com/vjmichael/cognitum/actions/runs/44138431170), eight successful jobs.
 **Accepted consolidated cooperative baseline:** COG-06A–F, frozen `10dd3be219dd59a7e9a2f27fb6f958404e33ddb7`, [44130686328](https://github.com/vjmichael/cognitum/actions/runs/44130686328); all six jobs and independent archive reconciliation passed.
@@ -132,4 +132,6 @@ Orders are owner-adjustable; COG-03/04/05 remain research-only and do not gate t
 
 - 2026-11-17 COG-03B restoration: both original Zog Zoo archives CRC pass; 15/15 recovered non-init modules match, corrected adapter and historical test harness recovered, original survey PDFs/text found. Archived 20 selftests +70 regression passes; new local bounded coverage of all 13 families, 113 tests including 60 paired historical cells. Actual TorchHD missing; 8 new native and 17 historical native tests not run. Staged local candidate, no runtime publication or CI. [Local evidence](research/COG03B_LOCAL_ALGEBRA_RECOVERY.md).
 
-**Next actionable engineering task:** COG-03B — complete native TorchHD 5.8.4 fidelity and remaining operation semantics, then integrate the tested candidate and advance to COG-03C. COG-04/05 and later resource/architecture/integration gates deferred. No production, CH40 or redundant CI.
+- 2026-11-17 owner requested frontier HDC research inclusion. Targeted 2024–2026 primary and bibliographic literature review adds 40 entries to prior 45 (total 85), including Nov 12 GHRR flattened vector-space work, ARC-VSA, PathHD, nonlinear resonators, formal capacity, adaptive/deterministic/kernel encoders, new learning, regression/clustering, open-world/uncertainty, SupHDC, compiler and device/quantum research. Explicit journal/preprint/review status, source URL, subgroup and independent acceptance test per row. B1 original native closeout unchanged; B2 GHRR math; C–G expanded. hdlib 2.1.0 candidate verified MIT/Python metadata only. No new implementation or acceptance. [Frontier extension](research/COG03_HDC_FRONTIER_2026-11-17.md).
+
+**Next actionable engineering task:** COG-03B1 — complete native TorchHD 5.8.4 fidelity and remaining original operation semantics, then integrate and perform B2 GHRR + verified flattened similarity before COG-03C. COG-04/05, COG-08/09 and later architecture/model integration deferred. No production, CH40 or redundant CI.
