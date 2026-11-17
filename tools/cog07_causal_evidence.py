@@ -24,7 +24,7 @@ OPS={"statsmodels":"ate_statsmodels","dowhy":"ate_dowhy",
 def effect_data(seed=731,n=1200,heterogeneous=False):
     rng=np.random.default_rng(seed)
     w=rng.uniform(-1,1,n);x=rng.uniform(-1,1,n)
-    propensity=1/(1+np.exp(-2*w))
+    propensity=1/(1+np.exp(-2*w-.6*x))
     t=(rng.random(n)<propensity).astype(float)
     y=(2.+1.2*x if heterogeneous else 2.5)*t+3*w+.45*x+rng.normal(0,.65,n)
     return np.column_stack((t,y,w,x))
@@ -34,11 +34,9 @@ def effect_request(op,data,profile=0.):
                        declared_assumptions=EFFECT,alpha=.05,treatment="T",outcome="Y")
     q.adjustment.extend(["W","X"] if op!="conditional_effect_econml" else ["W"])
     if op=="ate_dowhy":
-        # X is a prognostic variable and not a confounder. Require exactly the
-        # identified declared W backdoor set; use an adjusted fixture with
-        # X also causing T only if that is part of the data mechanism.
-        q.adjustment[:]=["W"]
-        for a,b in (("W","T"),("W","Y"),("X","Y"),("T","Y")):
+        # Both covariates cause treatment and outcome in the fixed mechanism.
+        # Require exactly the identified W,X adjustment set.
+        for a,b in (("W","T"),("W","Y"),("X","T"),("X","Y"),("T","Y")):
             q.graph_edges.add(source=a,target=b)
     if op=="conditional_effect_econml":
         q.effect_modifiers.append("X");q.modifier_profile.append(profile)
@@ -120,13 +118,12 @@ def numeric_statsmodels():
 
 def numeric_dowhy():
     data=effect_data()
-    # Include every declared variable in the DAG. X is an independent
-    # outcome predictor, not a treatment cause; use exactly W as backdoor.
+    # Include every measured confounder in the explicit graph.
     q=effect_request("ate_dowhy",data)
     reply,ev=causal_call(q)
-    baseline=effect_request("ate_statsmodels",data);baseline.adjustment[:]=["W"]
+    baseline=effect_request("ate_statsmodels",data)
     sm,smev=causal_call(baseline)
-    oracle=oracle_hc3(data,[2])
+    oracle=oracle_hc3(data,[2,3])
     assert np.allclose([reply.effect,reply.interval_lower,reply.interval_upper],oracle,atol=1e-9,rtol=1e-9)
     assert abs(reply.effect-sm.effect)<1e-9 and abs(reply.effect-2.5)<.2
     bad=pb.CausalRequest();bad.CopyFrom(q);del bad.adjustment[:]

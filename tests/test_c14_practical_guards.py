@@ -22,12 +22,14 @@ class PracticalCausalGuards(unittest.TestCase):
 
     def test_refuses_collider_adjustment_opening_backdoor(self):
         q=request("ate_dowhy");del q.graph_edges[:];q.adjustment[:]=["X"]
-        # T <- W -> X <- Y; adjusting for the collider X opens a path.
-        for a,b in (("W","T"),("W","X"),("Y","X"),("T","Y")):
+        q.columns.append("V")
+        for i,row in enumerate(q.rows):row.values.append(float(i%7))
+        # T <- W -> X <- V -> Y; X also causes T. Conditioning on X
+        # opens the collider path, despite X being a pre-treatment variable.
+        for a,b in (("W","T"),("W","X"),("V","X"),("V","Y"),("X","T"),("T","Y")):
             q.graph_edges.add(source=a,target=b)
-        # X is also a descendant of T; refusal is mandatory on either ground.
         a=invoke(q)
-        self.assertEqual(a.status,"invalid_input")
+        self.assertEqual((a.status,a.code),("invalid_input","unblocked_backdoor_path")
         self.assertFalse(a.has_effect or a.has_interval)
 
     def test_refuses_extrapolated_or_rank_deficient_econml(self):
