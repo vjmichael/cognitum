@@ -1,4 +1,4 @@
-"""COG-06C source-bound cooperative graph and preserved CPU component acceptance.
+"""COG-06D source-bound cross-component reasoning and preserved CPU component acceptance.
 No Lu registration, production approval, CH40 continuation or new learned training.
 """
 from __future__ import annotations
@@ -23,7 +23,7 @@ EXTRAS=("security,scientific,research-hdc-kan,formal-z3,formal-cvc5,"
         "probability-stats,causal-stats,spatial-core,spatial-vision,physics-ode,"
         "temporal-statespace,temporal-learned,adaptation-classical,topology-rips,topology-verify")
 LEGACY_BINDINGS={
-    "formal_solver_pb2", "formal_backend_pb2", "formal_advanced_pb2",
+    "composition_pb2", "formal_solver_pb2", "formal_backend_pb2", "formal_advanced_pb2",
     "optimization_legacy_pb2", "optimization_runtime_pb2", "workflows_pb2",
     "planning_classical_pb2", "planning_engines_pb2", "planning_guidance_pb2",
     "planning_stochastic_pb2", "planning_structured_pb2",
@@ -108,7 +108,7 @@ def descriptors():
 
 def main():
     OUT.mkdir(exist_ok=True)
-    report={"schema":"cognitum.cog06c.cooperative-architecture.v1","platform":sys.platform,
+    report={"schema":"cognitum.cog06d.cross-component-acceptance.v1","platform":sys.platform,
             "python":sys.version,"production_enabled":False,"lu_roundtrip":False,
             "optional_unvalidated":["pgmpy native worker","PyMC native worker","Fast Downward native planner","Carcara actual proof acceptance","official MOT17 TrackEval"],
             "steps":[]}
@@ -161,6 +161,7 @@ def main():
                                 "reason":"unexpected skip" if unexpected else ""});save()
     else:
         report["steps"].append({"name":"focused_skip_policy","exit":1,"reason":"missing junit"});save()
+    run("cross_component_evidence",[PY,"-m","tools.cog06d_composition_evidence"],300)
     for module in ("c06_c07_benchmark","c11_component_benchmark","c12_component_benchmark",
                    "c13_component_benchmark","c16_physics_benchmark","c17_temporal_benchmark"):
         run(module,[PY,"-m","tools."+module])

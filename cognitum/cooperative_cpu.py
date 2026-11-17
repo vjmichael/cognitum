@@ -20,7 +20,7 @@ from .proto import (specialists_pb2 as math, formal_pb2 as formal,
                     formal_backend_pb2 as backend, formal_advanced_pb2 as advanced,
                     optimization_pb2 as opt, planning_pb2 as plan,
                     probability_pb2 as prob, physics_ode_pb2 as physics,
-                    temporal_practical_pb2 as temporal)
+                    temporal_practical_pb2 as temporal, composition_pb2 as composition)
 
 MAX_FRAME=8192
 MAX_B64=4*((MAX_FRAME+2)//3)
@@ -86,6 +86,8 @@ def _route(name,ic,oc,*assurances):
 ROUTES=MappingProxyType({r.operation:r for r in (
     _route("math.linear",math.LinearRequest,math.LinearResult,"exact_linear_checked"),
     _route("formal.integer",formal.VerifyRequest,formal.VerifyResult,"witness_rechecked","independent_exhaustion"),
+    _route("formal.solution_set",formal.VerifyRequest,composition.SolutionSet,"complete_integer_enumeration"),
+    _route("physics.mixture",composition.MixtureRequest,composition.MixtureResult,"conditional_mixture_analytic_checked"),
     _route("formal.finite",backend.BackendRun,advanced.FiniteCertificate,"finite_unsat_exhaustion"),
     _route("optimization.schedule",opt.ScheduleRequest,opt.ScheduleResult,"feasibility_checked"),
     _route("optimization.allocation",opt.AllocationRequest,opt.AllocationResult,"feasibility_checked"),
@@ -161,6 +163,12 @@ def compute(name,raw):
     elif name=="formal.integer":
         from .formal_wire import execute
         result=execute(raw)
+    elif name=="formal.solution_set":
+        from .cooperative_compositions import solution_set
+        result=solution_set(raw)
+    elif name=="physics.mixture":
+        from .cooperative_compositions import mixture
+        result=mixture(raw)
     elif name=="formal.finite":
         from .formal_finite import prove_finite_frame
         result=prove_finite_frame(raw)
@@ -202,6 +210,12 @@ def verify(name,raw,result):
         checked=decode_result(result,raw)
         if checked.status=="SAT":return "witness_rechecked"
         if checked.status=="UNSAT_EXHAUSTIVE":return "independent_exhaustion"
+    elif name=="formal.solution_set":
+        from .cooperative_compositions import check_solution_set
+        return check_solution_set(raw,result)
+    elif name=="physics.mixture":
+        from .cooperative_compositions import check_mixture
+        return check_mixture(raw,result)
     elif name=="formal.finite":
         from .formal_finite import verify_finite_frame
         if verify_finite_frame(raw,result):return "finite_unsat_exhaustion"

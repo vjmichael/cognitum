@@ -1,0 +1,36 @@
+syntax = "proto3";
+package cognitum.cooperative.v1;
+
+// Bounded COG-06D reference results. No execution authority or arbitrary code.
+message IntRow {
+  repeated sint64 values = 1;
+}
+message SolutionSet {
+  uint32 schema_version = 1;
+  string request_sha256 = 2;
+  uint32 cases_checked = 3;
+  repeated IntRow solutions = 4;
+  string status = 5;
+}
+message Scenario {
+  string name = 1;
+  bytes physical_request = 2;
+}
+message MixtureRequest {
+  uint32 schema_version = 1;
+  repeated Scenario scenarios = 2;
+  repeated double weights = 3;
+}
+message ScenarioResult {
+  string name = 1;
+  double weight = 2;
+  bytes physical_result = 3;
+}
+message MixtureResult {
+  uint32 schema_version = 1;
+  string request_sha256 = 2;
+  repeated ScenarioResult scenarios = 3;
+  double mean_position_m = 4;
+  double variance_position_m2 = 5;
+  string status = 6;
+}

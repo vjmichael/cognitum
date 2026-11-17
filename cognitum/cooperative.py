@@ -8,7 +8,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from fractions import Fraction
+from math import lcm,isfinite,fsum
 from time import monotonic
+from types import MappingProxyType
 import re
 
 from .contracts import HostContext,Request,digest
@@ -25,10 +27,12 @@ MAX_STEP_MS=10000
 _ID=re.compile(r"[A-Za-z0-9_.:-]{1,48}\Z",re.ASCII)
 _HASH=re.compile(r"[0-9a-f]{64}\Z",re.ASCII)
 _BUILD=re.compile(r"[0-9a-f]{40}\Z",re.ASCII)
-BRIDGES={
+BRIDGES=MappingProxyType({
     "linear_integer_candidate":("math.linear","formal.integer"),
     "plan_schedule_precedence":("planning.graph","optimization.schedule"),
-}
+    "linear_equivalent_equalities":("math.linear","formal.solution_set"),
+    "bayes_scenario_weights":("probability.bayes","physics.mixture"),
+})
 
 def _id(value):
     if type(value) is not str or not _ID.fullmatch(value):raise ValueError("invalid identity")
@@ -195,6 +199,50 @@ def _transform(bridge,parent_request,parent,child_frame):
                 raise ValueError("nonintegral or oversized candidate")
             atom=req.constraints.add(relation="eq",rhs=value.numerator)
             atom.terms.add(name=var.name,coefficient=1)
+    elif bridge=="linear_equivalent_equalities":
+        # Exact invertible row transformation of the *original* equalities.
+        # All inequality constraints and original integer domains survive.
+        from .cooperative_cpu import _matrix,_det
+        from .formal_wire import to_problem
+        to_problem(req)
+        if original.action!="multiply" or out.scalar:raise ValueError("expected augmented row product")
+        a,b,c=_matrix(original.a),_matrix(original.b),_matrix(out.rows)
+        names=[v.name for v in req.variables]
+        equalities=[x for x in req.constraints if x.relation=="eq"]
+        if len(a)!=len(b) or len(b)!=len(c) or len(b)!=len(equalities) or not _det(a):
+            raise ValueError("noninvertible or unmatched equality transform")
+        expected=[]
+        for atom in equalities:
+            terms={t.name:t.coefficient for t in atom.terms}
+            expected.append([Fraction(terms.get(n,0)) for n in names]+[Fraction(atom.rhs)])
+        if b!=expected or any(len(row)!=len(names)+1 for row in c):
+            raise ValueError("source equations or dimensions changed")
+        remaining=[atom.SerializeToString(deterministic=True) for atom in req.constraints if atom.relation!="eq"]
+        del req.constraints[:]
+        for raw in remaining:req.constraints.add().ParseFromString(raw)
+        for row in c:
+            scale=lcm(*(x.denominator for x in row))
+            values=[int(x*scale) for x in row]
+            if any(abs(x)>10000 for x in values[:-1]) or abs(values[-1])>100000000:
+                raise ValueError("transformed equation exceeds bounds")
+            atom=req.constraints.add(relation="eq",rhs=values[-1])
+            for name,value in zip(names,values[:-1]):
+                if value:atom.terms.add(name=name,coefficient=value)
+        to_problem(req)
+    elif bridge=="bayes_scenario_weights":
+        # Hypothesis IDs explicitly bind every scenario. No inferred units,
+        # positional guess, omitted hypothesis, or user-weight override.
+        if req.weights or out.status!="OK":
+            raise ValueError("mixture requires fresh verified weights")
+        labels=list(original.hypotheses)
+        if (len(labels)!=len(set(labels)) or len(labels)!=len(out.posterior)
+                or set(labels)!={s.name for s in req.scenarios}
+                or len(labels)!=len(req.scenarios)
+                or any(not isfinite(x) or not 0<=x<=1 for x in out.posterior)
+                or abs(fsum(out.posterior)-1)>1e-12):
+            raise ValueError("unmatched uncertainty scenarios")
+        weights=dict(zip(labels,out.posterior))
+        req.weights.extend(weights[s.name] for s in req.scenarios)
     elif bridge=="plan_schedule_precedence":
         # Plan actions become explicit precedence, never durations or units.
         names=tuple(out.actions)
