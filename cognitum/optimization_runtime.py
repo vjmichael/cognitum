@@ -83,7 +83,7 @@ def fixed_worker_policy(*, enabled=False) -> WorkerPolicy:
     return WorkerPolicy(worker, hashlib.sha256(worker.read_bytes()).hexdigest(), enabled=enabled)
 
 
-def _terminate_group(proc):
+def _signal_group(proc):
     if proc.poll() is not None:
         return
     try:
@@ -96,6 +96,11 @@ def _terminate_group(proc):
             proc.kill()
         except OSError:
             pass
+
+
+def _terminate_group(proc):
+    # Only the execute thread owns pipes and reaping.
+    _signal_group(proc)
     try:
         proc.communicate(timeout=1)
     except (subprocess.TimeoutExpired, OSError):
@@ -110,11 +115,13 @@ class OptimizationWorkerRuntime:
         self._active: set[subprocess.Popen] = set()
 
     def disable(self):
-        self._stopped.set()
         with self._lock:
+            self._stopped.set()
             procs = tuple(self._active)
         for proc in procs:
-            _terminate_group(proc)
+            # communicate() mutates subprocess pipe state and is not thread-safe.
+            # Signal only; each execute thread drains and reaps its own child.
+            _signal_group(proc)
 
     def execute(self, request_frame: bytes, *, host_authorized=False, cancel_event=None) -> bytes:
         start = time.monotonic_ns()
@@ -150,11 +157,13 @@ class OptimizationWorkerRuntime:
             record.worker_sha256 = bytes.fromhex(actual_digest)
             # No shell, no network access needed, no caller-provided commands.
             due = time.monotonic() + max_time / 1000.0
-            proc = subprocess.Popen([self._policy.python_executable, '-I', str(path)],
-                                    stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                                    stderr=subprocess.DEVNULL, start_new_session=(os.name == 'posix'),
-                                    cwd=str(path.parent), close_fds=True)
             with self._lock:
+                if self._stopped.is_set():
+                    raise ValueError('WORKER_DISABLED')
+                proc = subprocess.Popen([self._policy.python_executable, '-I', str(path)],
+                                        stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                        stderr=subprocess.DEVNULL, start_new_session=(os.name == 'posix'),
+                                        cwd=str(path.parent), close_fds=True)
                 self._active.add(proc)
             try:
                 # Explicit monotonic deadline; testable cancellation and kill switch.
@@ -173,10 +182,14 @@ class OptimizationWorkerRuntime:
                         break
                     try:
                         output, _ = proc.communicate(input=stdin_bytes, timeout=min(.05, remaining))
+                        if self._stopped.is_set() or (cancel_event is not None and cancel_event.is_set()):
+                            record.outcome = rt.CANCELLED
+                            record.reason_code = 'HOST_CANCELLED'
+                            record.exit_code = proc.returncode
+                            break
                         if proc.returncode != 0:
-                            cancelled = self._stopped.is_set() or (cancel_event is not None and cancel_event.is_set())
-                            record.outcome = rt.CANCELLED if cancelled else rt.PROCESS_FAILED
-                            record.reason_code = 'HOST_CANCELLED' if cancelled else 'WORKER_NONZERO_EXIT'
+                            record.outcome = rt.PROCESS_FAILED
+                            record.reason_code = 'WORKER_NONZERO_EXIT'
                             record.exit_code = proc.returncode
                             break
                         if len(output) > MAX_RESPONSE:
@@ -190,22 +203,29 @@ class OptimizationWorkerRuntime:
                         if res.status in (wf.UNKNOWN, wf.REJECTED) and (res.witness_verified or res.optimality_verified
                             or res.HasField('solution') or receipt.evidence_valid):
                             raise ValueError('FALSE_WORKER_ASSURANCE')
-                        result_frame, receipt_frame = output, check
-                        record.result_sha256 = hashlib.sha256(output).digest()
-                        record.receipt_sha256 = hashlib.sha256(check).digest()
-                        record.backend_version = res.backend_version
-                        record.witness_verified = receipt.evidence_valid and res.witness_verified
-                        record.optimality_verified = receipt.optimality_verified
-                        record.exit_code = proc.returncode
-                        record.outcome = rt.COMPLETED
-                        record.reason_code = res.reason_code
+                        with self._lock:
+                            if self._stopped.is_set() or (cancel_event is not None and cancel_event.is_set()):
+                                record.outcome = rt.CANCELLED
+                                record.reason_code = 'HOST_CANCELLED'
+                                record.exit_code = proc.returncode
+                                break
+                            result_frame, receipt_frame = output, check
+                            record.result_sha256 = hashlib.sha256(output).digest()
+                            record.receipt_sha256 = hashlib.sha256(check).digest()
+                            record.backend_version = res.backend_version
+                            record.witness_verified = receipt.evidence_valid and res.witness_verified
+                            record.optimality_verified = receipt.optimality_verified
+                            record.exit_code = proc.returncode
+                            record.outcome = rt.COMPLETED
+                            record.reason_code = res.reason_code
                         break
                     except subprocess.TimeoutExpired:
                         stdin_bytes = None  # input sent at most once by communicate
                         continue
             except (ValueError, TypeError, OSError):
-                record.outcome = rt.RESULT_REJECTED
-                record.reason_code = 'WORKER_RESULT_REJECTED'
+                cancelled = self._stopped.is_set() or (cancel_event is not None and cancel_event.is_set())
+                record.outcome = rt.CANCELLED if cancelled else rt.RESULT_REJECTED
+                record.reason_code = 'HOST_CANCELLED' if cancelled else 'WORKER_RESULT_REJECTED'
                 _terminate_group(proc)
             finally:
                 with self._lock:

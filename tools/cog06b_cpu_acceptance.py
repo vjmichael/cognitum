@@ -68,20 +68,27 @@ def source_check():
     for rel,expected in proof_repair.items():
         if git('rev-parse','HEAD:'+rel)!=expected:
             raise RuntimeError('unreviewed proof repair mutation: '+rel)
-    # COG-07: only the exact reviewed practical C14 validation repair is new.
+    # COG-07: preserve the exact reviewed practical C14 validation repair.
     causal_repair={"cognitum/causal_specialists.py":"2fcecac96bfa1028a242d6a541eb64c1752e7b51"}
     for rel,expected in causal_repair.items():
         if git("rev-parse","HEAD:"+rel)!=expected:
             raise RuntimeError("unreviewed causal guard mutation: "+rel)
-    # Preserve COG-06G and all earlier accepted runtime/schema/test paths.
+    # COG-07A: narrowly reviewed C11 cancellation race repair, pinned to
+    # the locally tested runtime and adversarial regression blobs.
+    cancellation_repair={"cognitum/optimization_runtime.py":"364e0426c54fee21757f6e334d82930e280ec9b2"}
+    cancellation_regression={"tests/test_c11_cancellation_race.py":"79f8b619eb2a0f1f14de205940e8f15850bbe8d7"}
+    for rel,expected in {**cancellation_repair,**cancellation_regression}.items():
+        if git("rev-parse","HEAD:"+rel)!=expected:
+            raise RuntimeError("unreviewed C11 cancellation mutation: "+rel)
+    # Preserve COG-06G and all other earlier accepted runtime/schema/test paths.
     frozen="ce28a7ad6a584e6cce5a77c9be5d63bc5dabeaa0"
     prior_changes=git("diff","--name-only","--diff-filter=MDTRC",frozen,head,"--","cognitum","proto","tests").splitlines()
-    if set(prior_changes)!=set(causal_repair):
+    if set(prior_changes)!=set(causal_repair) | set(cancellation_repair):
         raise RuntimeError("unexpected COG-06G accepted runtime/schema/test modification: "+repr(prior_changes))
     # No other replacement of accepted mature runtime or existing schemas.
     changed=git("diff","--name-only",baseline,head).splitlines()
     for rel in changed:
-        if rel not in identity_repair and rel not in proof_repair and rel not in causal_repair and rel.startswith(("cognitum/","proto/","tests/test_")):
+        if rel not in identity_repair and rel not in proof_repair and rel not in causal_repair and rel not in cancellation_repair and rel.startswith(("cognitum/","proto/","tests/test_")):
             if subprocess.run(["git","cat-file","-e",baseline+":"+rel],cwd=ROOT,
                               stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0:
                 raise RuntimeError("accepted existing runtime/schema/test replaced: "+rel)
