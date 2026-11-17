@@ -83,7 +83,12 @@ def _reviewed_rules(rare_file):
 
 def _producer_args(binary, source_path, paired):
     flags=["--dump-proofs","--proof-format-mode=alethe"]
-    if not paired:
+    if paired:
+        # The cvc5 1.4.2 default is MACRO, which emitted TRUST_THEORY_REWRITE
+        # holes in both native COG-06E fixtures. Request proof reconstruction
+        # with DSL preference. Remaining unsupported steps stay unverified.
+        flags+=["--proof-granularity=dsl-rewrite-strict"]
+    else:
         flags+=["--simplification=none","--dag-thresh=0","--proof-granularity=theory-rewrite"]
     return [binary,*flags,str(source_path)]
 

@@ -38,3 +38,4 @@ class PairedProofTests(unittest.TestCase):
                     self.assertFalse(result.proof_sha256)
                     self.assertIn("--rare-file",run.call_args.args[0])
                     self.assertNotIn("--proof-granularity=theory-rewrite",run.call_args_list[0].args[0])
+                    self.assertIn("--proof-granularity=dsl-rewrite-strict",run.call_args_list[0].args[0])
