@@ -1,4 +1,4 @@
-name: COG-06B consolidated CPU component acceptance
+name: COG-06C cooperative architecture and CPU regression
 on:
   push:
     branches: [development/cog-06-cooperative-reasoning-20261116]
@@ -13,7 +13,7 @@ permissions:
   contents: read
 jobs:
   cpu-components:
-    name: COG-06B / ${{ matrix.os }} / Python ${{ matrix.python-version }}
+    name: COG-06C / ${{ matrix.os }} / Python ${{ matrix.python-version }}
     strategy:
       fail-fast: false
       matrix:
@@ -37,13 +37,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Execute current and recovered CPU component acceptance
+      - name: Execute cooperative architecture and preserved CPU component acceptance
         run: python -m tools.cog06b_cpu_acceptance
       - name: Preserve exact source-bound result and logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cog06b-${{ matrix.os }}-py${{ matrix.python-version }}
+          name: cog06c-${{ matrix.os }}-py${{ matrix.python-version }}
           path: cog06b-artifacts/
           if-no-files-found: error
           retention-days: 30

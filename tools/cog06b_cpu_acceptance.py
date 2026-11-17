@@ -1,4 +1,4 @@
-"""COG-06B source-bound CPU reference and current-component acceptance.
+"""COG-06C source-bound cooperative graph and preserved CPU component acceptance.
 No Lu registration, production approval, CH40 continuation or new learned training.
 """
 from __future__ import annotations
@@ -108,7 +108,7 @@ def descriptors():
 
 def main():
     OUT.mkdir(exist_ok=True)
-    report={"schema":"cognitum.cog06b.cpu-acceptance.v1","platform":sys.platform,
+    report={"schema":"cognitum.cog06c.cooperative-architecture.v1","platform":sys.platform,
             "python":sys.version,"production_enabled":False,"lu_roundtrip":False,
             "optional_unvalidated":["pgmpy native worker","PyMC native worker","Fast Downward native planner","Carcara actual proof acceptance","official MOT17 TrackEval"],
             "steps":[]}
@@ -139,7 +139,8 @@ def main():
     run("native_preflight",[PY,"-m","tools.cog06b_cpu_acceptance","--native"])
     run("descriptor_parity",[PY,"-m","tools.cog06b_cpu_acceptance","--descriptors"])
     prefixes=("test_c05","test_c06","test_c07","test_c10","test_c11","test_c12",
-              "test_c13","test_c16","test_c17")
+              "test_c13","test_c16","test_c17","test_cooperative",
+              "test_cognitum_capability_route_proposal")
     focused=sorted(str(p.relative_to(ROOT)) for p in (ROOT/"tests").glob("test_*.py")
                    if p.name.startswith(prefixes))
     report["focused_modules"]=focused;save()

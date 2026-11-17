@@ -104,7 +104,8 @@ def test_invalid_graphs_never_dispatch():
              graph(a,replace(b,route_sha256="0"*64)),
              graph(a,replace(b,dependencies=(Dependency("linear","plan_schedule_precedence"),))),
              graph(replace(a,source=replace(a.source,frame_sha256="0"*64))),
-             graph(replace(a,frame=a.frame+b"\\x98\\x06\\x01")),
+             graph(replace(a,frame=a.frame+bytes.fromhex("980601"),
+                           source=replace(a.source,frame_sha256=sha(a.frame+bytes.fromhex("980601"))))),
              graph(replace(a,operation="research.hdc")),
              graph(*[replace(a,step_id="x"+str(i)) for i in range(MAX_NODES+1)])]
     for p in invalid:
@@ -188,3 +189,56 @@ def test_existing_runtime_adapter_for_other_cpu_domains():
         out=run(runtime(),graph(n))
         assert out.status=="completed",(name,out)
         assert out.receipts[0].assurance in r.assurances
+
+def test_finite_unsat_exhaustion_and_no_uncertified_sat_publication():
+    from cognitum.proto import formal_backend_pb2 as fb, formal_advanced_pb2 as fa
+    from tests.test_c10_p3_advanced import variable,neg
+    q=fb.BackendRun(schema_version=1)
+    q.variables.add(name="x",sort=fb.BOOL)
+    q.assertions.extend([variable("x"),neg(variable("x"))])
+    out=run(runtime(),graph(node("finite","formal.finite",q)))
+    assert out.status=="completed",out
+    cert=fa.FiniteCertificate.FromString(out.receipts[0].frame)
+    assert cert.unsat_verified and cert.cases_checked==2
+    assert out.receipts[0].assurance=="finite_unsat_exhaustion"
+    del q.assertions[-1]
+    out=run(runtime(),graph(node("finite","formal.finite",q)))
+    assert out.status=="verification_failed" and out.receipts==()
+
+def test_registry_revocation_and_forged_worker_result_block_downstream():
+    from unittest.mock import patch
+    from cognitum.cooperative_cpu import PLUGIN_NAME,encode,decode
+    rt=runtime()
+    def revoke(claim,ctx):
+        if claim.step_id=="linear" and claim.phase=="verify":
+            rt.registry.enable(PLUGIN_NAME,False)
+        return True
+    p=graph(linear(),integer())
+    out=run(rt,p,admit=revoke)
+    assert out.status=="unavailable" and out.failed_step=="linear" and not out.receipts
+    rt=runtime()
+    actual=rt.call
+    def corrupt(request,context):
+        reply=actual(request,context)
+        if request.operation==ROUTES["math.linear"].worker_operation("compute") and reply.execution_status=="completed":
+            value=math.LinearResult.FromString(decode(reply.result["frame"]))
+            value.rows[0].entries[0]="4"
+            reply.result["frame"]=encode(wire(value))
+        return reply
+    with patch.object(rt,"call",side_effect=corrupt):
+        out=run(rt,p)
+    assert out.status=="verification_failed" and out.failed_step=="linear" and not out.receipts
+    assert len(rt.trace.events)==2
+
+def test_historical_advisory_catalog_cannot_authorize_or_omit_reviewed_entry():
+    from unittest.mock import patch
+    from cognitum.capability_route_proposal import propose_route,trusted_catalog
+    from cognitum.math_catalog import catalog as original
+    advice=propose_route("Compute determinant of [[2]]")
+    assert advice.status=="discovery_only_no_execution_permission"
+    # Even relevant metadata cannot enable anything.
+    assert run(runtime(enabled=False),graph(linear())).status=="unavailable"
+    catalog=original()
+    del catalog.specialists[3]
+    with patch("cognitum.capability_route_proposal.math_catalog",return_value=catalog):
+        with pytest.raises(ValueError):trusted_catalog()
