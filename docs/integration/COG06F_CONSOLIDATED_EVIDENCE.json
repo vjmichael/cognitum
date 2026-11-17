@@ -1,0 +1,153 @@
+{
+  "schema": "cognitum.cog06f.consolidated-evidence.v1",
+  "date": "2026-11-17",
+  "status": "ACCEPTED_SCOPED_BASELINE",
+  "source_sha": "10dd3be219dd59a7e9a2f27fb6f958404e33ddb7",
+  "workflow_run": 44130686328,
+  "workflow_url": "https://github.com/vjmichael/cognitum/actions/runs/44130686328",
+  "source_provenance": {
+    "required_exact_historical_blobs": 46,
+    "verified_exact": 46,
+    "source_changed_paths_before_after_count": 125,
+    "post_run_head": "51dd3096d8f963a375e005dd2883e24a97347b2f",
+    "post_run_changes": "documentation only"
+  },
+  "archives": [
+    {
+      "id": 14350491091,
+      "sha256": "31d2f886d6a65f8d761a755ce1b14c9e32011bc0a0e7b6029ca3ee341344c546",
+      "size_bytes": 85034,
+      "job_id": 134206585714,
+      "job": "Windows Python 3.11",
+      "locally_rehashed": true,
+      "zip_crc_pass": true,
+      "job_conclusion": "success"
+    },
+    {
+      "id": 14348344903,
+      "sha256": "7113febc96af6509abe6ae078a60ef0fdc443b1e58719f8cd2802e833b644d9b",
+      "size_bytes": 84613,
+      "job_id": 134206585694,
+      "job": "Windows Python 3.13",
+      "locally_rehashed": true,
+      "zip_crc_pass": true,
+      "job_conclusion": "success"
+    },
+    {
+      "id": 14348384518,
+      "sha256": "1340b0c65f0672d4ad659c8a4a50eb99f5421239c1bc5dd5ce4e9a82cd9ca98e",
+      "size_bytes": 85290,
+      "job_id": 134206585825,
+      "job": "Linux Python 3.11",
+      "locally_rehashed": true,
+      "zip_crc_pass": true,
+      "job_conclusion": "success"
+    },
+    {
+      "id": 14349168454,
+      "sha256": "28386d7bbb5e14063a5d094cfb007f26bd736df193318b2c95552eb93c6786f6",
+      "size_bytes": 84809,
+      "job_id": 134206585188,
+      "job": "Linux Python 3.13",
+      "locally_rehashed": true,
+      "zip_crc_pass": true,
+      "job_conclusion": "success"
+    },
+    {
+      "id": 14349153370,
+      "sha256": "77d278be2a50f5e2e42629e4894b0256e32a5e62c080650ca7c4efd5221a41fa",
+      "size_bytes": 107273,
+      "job_id": 134206585870,
+      "job": "C15 TrackEval",
+      "locally_rehashed": true,
+      "zip_crc_pass": true,
+      "job_conclusion": "success"
+    },
+    {
+      "id": 14348544289,
+      "sha256": "ad00ab1fe77865e19c1bca952e5ea9b2dc8fe4bf6fd4f751f72a3998dc0139cb",
+      "size_bytes": 9142,
+      "job_id": 134206586130,
+      "job": "C10 Carcara",
+      "locally_rehashed": true,
+      "zip_crc_pass": true,
+      "job_conclusion": "success"
+    }
+  ],
+  "cpu": {
+    "jobs": 4,
+    "focused_pass_each": 746,
+    "focused_subtests_each": 950,
+    "focused_skips_each": 2,
+    "windows_combined_pass_each": 1231,
+    "windows_combined_subtests_each": 1533,
+    "windows_combined_skip_each": 72,
+    "linux_combined_pass_each": 1341,
+    "linux_combined_subtests_each": 1547,
+    "linux_combined_skip_each": 12,
+    "failures": 0,
+    "verified_step_log_hashes": 60,
+    "compiled_schemas": 37,
+    "identical_descriptor_sha256": "030ef8fe3e9763d511d82d3b9ead344c8225d771c2b4a55142c5dc99dafc7cf7"
+  },
+  "cooperative": {
+    "arms": 40,
+    "receipts_reconciled": 52,
+    "worker_trace_entries": 104,
+    "source_parent_request_and_admission_binding_checked": true,
+    "expected_composition_results_reconciled": true,
+    "scope": "C05+C10; C11+C12; C13+C16"
+  },
+  "native": {
+    "previous_closeout": "integration/COG06E_RUN_44130686328_ACCEPTANCE.json",
+    "carcara": "strict positive certificates and negative controls passed",
+    "trackeval": {
+      "frames": 299,
+      "input_detections": 4009,
+      "c15": {
+        "hota": 30.435,
+        "mota": 25.111,
+        "idf1": 32.961
+      },
+      "bytetrack": {
+        "hota": 34.666,
+        "mota": 25.283,
+        "idf1": 37.123
+      },
+      "official_summary_parity": true
+    }
+  },
+  "remaining": {
+    "focused_optional": [
+      "pgmpy absent",
+      "PyMC + ArviZ incompatible"
+    ],
+    "combined_optional": [
+      "causal-learn absent",
+      "DoWhy absent",
+      "EconML absent",
+      "Tigramite absent; GPL review pending"
+    ],
+    "windows_platform_specific_skips": 66,
+    "windows_kernel_suites_not_run": [
+      "test_host_recovery",
+      "test_lu_linux_readiness",
+      "test_p46r5_handoff_integration",
+      "test_p46r8_recovery_cli_hardening",
+      "test_recovery_service"
+    ],
+    "linux_environment_skips": [
+      "read-only cgroup denial/control (4 cases)",
+      "dedicated writable delegated cgroup test (1 case)",
+      "supervisord/supervisorctl restart unavailable (1 case)"
+    ],
+    "other_optional": [
+      "Fast Downward native runtime not validated"
+    ],
+    "model_comparison": "NOT_RUN: no runnable llama-cli/llama-server/ollama or llama_cpp and no GGUF in current session; COG-10",
+    "production": "not authorized or accepted; COG-11"
+  },
+  "no_new_ci": true,
+  "no_runtime_changes": true,
+  "next_task": "COG-06G"
+}
