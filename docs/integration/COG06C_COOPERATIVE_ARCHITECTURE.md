@@ -1,6 +1,6 @@
 # COG-06C — Bounded cooperative CPU execution architecture
 
-Status: implementation candidate, not yet accepted. Builds on [COG-06B exact-SHA acceptance](https://github.com/vjmichael/cognitum/actions/runs/44033095744) at `9558beadb449706dd19d5d541e92a6c385b25b06`. No Lu source or main change, no new agent, scheduler, host authority or canonical memory store.
+Status: accepted scoped reference architecture at `ba0cd8101a935fb16f9ee61e06b195840ecefa6a` (historical implementation narrative retained below). Builds on [COG-06B exact-SHA acceptance](https://github.com/vjmichael/cognitum/actions/runs/44033095744) at `9558beadb449706dd19d5d541e92a6c385b25b06`. No Lu source or main change, no new agent, scheduler, host authority or canonical memory store.
 
 ## Execution and identity
 
@@ -38,3 +38,7 @@ Non-finite result fields are rejected recursively. Numeric recomputation is a se
 ## Acceptance scope
 
 Restored 17 historical advisory tests plus graph suite: actual C05->C10 and C12->C11 worker compositions, direct remaining CPU domain calls, finite certificate, dependency cycle/missing/wrong type, stale source, scope/build, research refusal, disabled registry, forged route/worker output, unverified result, nonintegral handoff, certified contradiction, revocation, shared budget, cancellation and publication denial. Original COG-06B source guard, focused tests, compiler parity, benchmarks and full regression are reused in one grouped four-way matrix. The existing workflow is renamed for COG-06C to avoid redundant triggers; historical run remains immutable. Actual native execution and terminal logs are required before marking accepted. COG-06D still owns independent composition completeness and comparative task fixtures (including probability/physical uncertainty); no model-level efficacy or production claims.
+
+## Final consolidated acceptance
+
+[Run 44036383589](https://github.com/vjmichael/cognitum/actions/runs/44036383589) completed successfully in all four Windows/Linux Python 3.11/3.13 jobs at `ba0cd8101a935fb16f9ee61e06b195840ecefa6a`. Each passed 719 focused tests and 950 subtests, 36 compiled schemas and six benchmarks. The 29 new cases passed, including actual worker graph data transfer, narrow verification and fail-closed negatives. Windows each had 1207 combined passes, 1533 subtests, 72 skips; Linux each 1317 combined passes, 1547 subtests, 12 skips. Two focused optional skips remain; diagnostic warnings did not fail gates. All job logs and artifact metadata reviewed, archive bytes not rehashed. COG-06D is active; proof of independent complete solution-set reasoning, quantitative cross-component uncertainty, model efficacy, durable execution and production host security remains outside this acceptance. [Evidence manifest](COG06C_RUN_44036383589_ACCEPTANCE.json).

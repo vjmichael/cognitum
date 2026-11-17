@@ -1,0 +1,139 @@
+{
+  "schema": "cognitum.cog06c.acceptance.closeout.v1",
+  "date_utc": "2026-11-17",
+  "run_id": 44036383589,
+  "run_attempt": 1,
+  "run_url": "https://github.com/vjmichael/cognitum/actions/runs/44036383589",
+  "source_sha": "ba0cd8101a935fb16f9ee61e06b195840ecefa6a",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "os": "windows",
+      "python": "3.11",
+      "id": 133880142516,
+      "status": "completed",
+      "conclusion": "success",
+      "focused": {
+        "passed": 719,
+        "skipped": 2,
+        "failed": 0,
+        "subtests": 950
+      },
+      "combined": {
+        "passed": 1207,
+        "skipped": 72,
+        "failed": 0,
+        "subtests": 1533
+      },
+      "descriptor_parity": 36,
+      "component_benchmarks_passed": 6,
+      "native_preflight": "success",
+      "artifact": {
+        "id": 14307766130,
+        "sha256": "2af16237640b29cc240020ef7daa26bae81fbf44b6cfdb29b29c055ac42743ae",
+        "size_bytes": 74227,
+        "expired": false
+      }
+    },
+    {
+      "os": "windows",
+      "python": "3.13",
+      "id": 133880142226,
+      "status": "completed",
+      "conclusion": "success",
+      "focused": {
+        "passed": 719,
+        "skipped": 2,
+        "failed": 0,
+        "subtests": 950
+      },
+      "combined": {
+        "passed": 1207,
+        "skipped": 72,
+        "failed": 0,
+        "subtests": 1533
+      },
+      "descriptor_parity": 36,
+      "component_benchmarks_passed": 6,
+      "native_preflight": "success",
+      "artifact": {
+        "id": 14307148979,
+        "sha256": "830c93297a57d1a793d986b938e8236b9ffbbcc19755200bf2867a9261fe4c2a",
+        "size_bytes": 73943,
+        "expired": false
+      }
+    },
+    {
+      "os": "linux",
+      "python": "3.11",
+      "id": 133880142538,
+      "status": "completed",
+      "conclusion": "success",
+      "focused": {
+        "passed": 719,
+        "skipped": 2,
+        "failed": 0,
+        "subtests": 950
+      },
+      "combined": {
+        "passed": 1317,
+        "skipped": 12,
+        "failed": 0,
+        "subtests": 1547
+      },
+      "descriptor_parity": 36,
+      "component_benchmarks_passed": 6,
+      "native_preflight": "success",
+      "artifact": {
+        "id": 14307631020,
+        "sha256": "5dd24af3e06ac8be9d0aaebfc1b671d8f5c822ccfd1b6aee39de29f800ba737f",
+        "size_bytes": 74309,
+        "expired": false
+      }
+    },
+    {
+      "os": "linux",
+      "python": "3.13",
+      "id": 133880142591,
+      "status": "completed",
+      "conclusion": "success",
+      "focused": {
+        "passed": 719,
+        "skipped": 2,
+        "failed": 0,
+        "subtests": 950
+      },
+      "combined": {
+        "passed": 1317,
+        "skipped": 12,
+        "failed": 0,
+        "subtests": 1547
+      },
+      "descriptor_parity": 36,
+      "component_benchmarks_passed": 6,
+      "native_preflight": "success",
+      "artifact": {
+        "id": 14307885412,
+        "sha256": "8f8d1701d6ef4819a3a219cb001e3a109100805dd778201647064ff8d3fc152c",
+        "size_bytes": 74416,
+        "expired": false
+      }
+    }
+  ],
+  "additional_focused_tests": 29,
+  "reviewed_cpu_operations": 11,
+  "verified_reference_data_bridges": [
+    "linear_integer_candidate",
+    "plan_schedule_precedence"
+  ],
+  "evidence_method": "all four terminal job logs and GitHub-reported artifact metadata reviewed; archive bytes not separately downloaded or rehashed",
+  "limitations": [
+    "two focused optional skips: pgmpy, PyMC/ArviZ",
+    "combined platform-dependent skips retained",
+    "ArviZ diagnostic and GitHub Actions Node20 deprecation warnings",
+    "scope is reference architecture and tested graph execution, not hard OS custody or in-flight cancellation, durable execution, Lu integration, LLM efficacy, global solution completeness or generalized cross-domain correctness",
+    "Fast Downward, Carcara, official TrackEval remain unvalidated"
+  ],
+  "next": "COG-06D",
+  "production_enabled": false
+}
