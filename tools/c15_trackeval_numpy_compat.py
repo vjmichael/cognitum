@@ -61,10 +61,15 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--audit", type=Path, required=True)
+    parser.add_argument("--pinned", action="store_true", help="strict reviewed three-file source transformation")
     args = parser.parse_args()
-    result = patch(args.root)
     if args.audit.exists():
         raise ValueError("refusing to overwrite prior compatibility audit")
+    if args.pinned:
+        from tools.c15_trackeval_pinned_compat import patch_pinned
+        result = patch_pinned(args.root)
+    else:
+        result = patch(args.root)
     args.audit.write_text(json.dumps(result, sort_keys=True, indent=2)+"\n", encoding="utf-8")
     print(json.dumps(result, sort_keys=True))
 
