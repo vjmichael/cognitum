@@ -1,0 +1,66 @@
+name: COG-06G reviewed ByteTrack backend
+on:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  reviewed-backend:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 40
+    env:
+      COG06B_EXPECTED_SHA: ${{ github.sha }}
+      C15_REQUIRE_BYTETRACK: '1'
+      PYTHONUTF8: '1'
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install optional tracker in separate non-headless environment
+        run: |
+          python -m pip install -e ".[spatial-core]" "pytest>=9,<10" tabulate==0.9.0
+          python -m tools.c15_install_bytetrack
+          python -m pip freeze
+      - name: Actual ByteTrack CPU lifecycle and adversarial tests
+        run: python -m pytest -q -ra tests/test_c15_bytetrack.py --junitxml=c15-bytetrack-tests.xml
+      - name: Retrieve public detections and annotations for original and distinct validation sequences
+        if: runner.os == 'Linux'
+        run: trackers download mot17 --split val --asset annotations,detections --output mot_data
+      - name: Check out exact independent official evaluator
+        if: runner.os == 'Linux'
+        uses: actions/checkout@v4
+        with:
+          repository: JonathonLuiten/TrackEval
+          ref: 12c8791b303e0a0b50f753af204249e622d0281a
+          path: official-trackeval
+          persist-credentials: false
+      - name: Matched three-arm evaluation without tuning on two sequences
+        if: runner.os == 'Linux'
+        run: |
+          python -m tools.c15_bytetrack_benchmark --data mot_data/mot17/val --evidence c15-bytetrack-evidence --evaluator official-trackeval
+      - name: Verify frozen source
+        if: always()
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "$COG06B_EXPECTED_SHA"
+          test -z "$(git status --porcelain --untracked-files=no)"
+      - name: Preserve test and aggregate benchmark evidence only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cog06g-bytetrack-${{ matrix.os }}
+          path: |
+            c15-bytetrack-tests.xml
+            c15-bytetrack-evidence/
+          if-no-files-found: warn
+          retention-days: 30
