@@ -11,6 +11,8 @@ from dataclasses import dataclass
 from fractions import Fraction
 from hashlib import sha256
 from itertools import permutations
+from math import isfinite
+from google.protobuf.descriptor import FieldDescriptor
 from types import MappingProxyType
 from google.protobuf.message import DecodeError
 from .contracts import Manifest, Operation, Shape, digest
@@ -181,8 +183,18 @@ def compute(name,raw):
     parse(result,route.output_class)
     return result
 
+def _finite_fields(obj):
+    # Reject NaN/Inf even in ancillary result fields not used by a verifier.
+    for field,value in obj.ListFields():
+        items=value if field.is_repeated else (value,)
+        if field.type in (FieldDescriptor.TYPE_DOUBLE,FieldDescriptor.TYPE_FLOAT):
+            if not all(isfinite(x) for x in items):raise ValueError("nonfinite result")
+        elif field.type==FieldDescriptor.TYPE_MESSAGE:
+            for x in items:_finite_fields(x)
+
 def verify(name,raw,result):
     route=ROUTES[name];req=parse(raw,route.input_class);out=parse(result,route.output_class)
+    _finite_fields(out)
     if name=="math.linear":
         return _verify_linear(req,out)
     if name=="formal.integer":

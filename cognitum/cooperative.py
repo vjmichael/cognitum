@@ -82,6 +82,7 @@ class Admission:
     operation: str=""
     request_sha256: str=""
     predecessor_receipts: tuple[str,...]=()
+    result_sha256: str=""
 
 @dataclass(frozen=True)
 class StepReceipt:
@@ -127,7 +128,8 @@ def _validate(plan):
         if type(step.operation) is not str or step.operation not in ROUTES:
             raise ValueError("unreviewed operation")
         route=ROUTES[step.operation]
-        if step.input_type_url!=type_url(route.input_class) or step.route_sha256!=route.identity:
+        if (type(step.input_type_url) is not str or type(step.route_sha256) is not str
+                or step.input_type_url!=type_url(route.input_class) or step.route_sha256!=route.identity):
             raise ValueError("route or type mismatch")
         parse(step.frame,route.input_class)
         if type(step.source) is not SourceStamp:raise ValueError("source stamp required")
@@ -135,7 +137,7 @@ def _validate(plan):
         if _hash(step.source.frame_sha256)!=sha(step.frame):raise ValueError("input source digest mismatch")
         if type(step.timeout_ms) is not int or not 1<=step.timeout_ms<=MAX_STEP_MS:
             raise ValueError("step budget")
-        if type(step.dependencies) is not tuple:raise ValueError("typed dependency tuple required")
+        if type(step.dependencies) is not tuple or len(step.dependencies)>MAX_EDGES:raise ValueError("typed dependency tuple required")
         parents=set();data_edges=0
         for dep in step.dependencies:
             if type(dep) is not Dependency:raise ValueError("typed dependency required")
@@ -225,7 +227,7 @@ def execute(runtime,plan,context,*,expected_build_sha,admit,source_current,cance
     except (ValueError,TypeError,AttributeError,OverflowError):return Outcome("invalid_plan",key)
 
     deadline=monotonic()+plan.timeout_ms/1000
-    results={};requests={};total_output=0
+    results={};requests={};total_output=0;total_input=0
     expected_manifest=digest(CooperativeCpu().manifest().describe())
     def check(limit):
         if cancelled() is not False:raise _Stop("cancelled")
@@ -234,14 +236,15 @@ def execute(runtime,plan,context,*,expected_build_sha,admit,source_current,cance
             if source_current(n.source,context) is not True:raise _Stop("stale_source")
         if monotonic()>=limit:raise _Stop("timed_out")
         if cancelled() is not False:raise _Stop("cancelled")
-    def admission(phase,node=None,raw=None,parents=()):
+    def admission(phase,node=None,raw=None,parents=(),response=None):
         claim=Admission(key,plan.plan_id,plan.workspace_id,plan.subject_id,plan.build_sha,
                         phase,node.step_id if node else "",node.operation if node else "",
-                        sha(raw) if raw is not None else "",parents)
+                        sha(raw) if raw is not None else "",parents,
+                        sha(response) if response is not None else "")
         if admit(claim,context) is not True:raise _Stop("denied")
     def invoke(step,phase,raw,limit,parents,response=None):
         route=ROUTES[step.operation];op=route.worker_operation(phase)
-        check(limit);admission(phase,step,raw,parents);check(limit)
+        check(limit);admission(phase,step,raw,parents,response);check(limit)
         # One existing registry lock pins the installed factory and manifest
         # through dispatch. Revocation applies to the next admission.
         with runtime.registry.lock:
@@ -291,6 +294,8 @@ def execute(runtime,plan,context,*,expected_build_sha,admit,source_current,cance
             check(limit)
             route=ROUTES[step.operation]
             parse(raw,route.input_class)
+            total_input+=len(raw)
+            if total_input>MAX_INPUT_BYTES:raise _Stop("resource_limit")
             try:
                 response=decode(invoke(step,"compute",raw,limit,parent_hashes)["frame"])
                 parse(response,route.output_class)
