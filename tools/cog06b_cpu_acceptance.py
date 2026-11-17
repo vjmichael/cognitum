@@ -1,4 +1,4 @@
-"""COG-06D source-bound cross-component reasoning and preserved CPU component acceptance.
+"""COG-06E source-bound cross-component reasoning and native compatibility safeguards and preserved CPU component acceptance.
 No Lu registration, production approval, CH40 continuation or new learned training.
 """
 from __future__ import annotations
@@ -63,10 +63,15 @@ def source_check():
         # git() strips surrounding whitespace, so compare normalized text edges only.
         if actual!=expected.strip():
             raise RuntimeError("unexpected change within identity repair: "+rel)
+    # The exact reviewed COG-06E proof repair is the only additional exception.
+    proof_repair={'cognitum/formal_proofs.py':'c6832412e8c1f1f10492594cf275404528206672'}
+    for rel,expected in proof_repair.items():
+        if git('rev-parse','HEAD:'+rel)!=expected:
+            raise RuntimeError('unreviewed proof repair mutation: '+rel)
     # No other replacement of accepted mature runtime or existing schemas.
     changed=git("diff","--name-only",baseline,head).splitlines()
     for rel in changed:
-        if rel not in identity_repair and rel.startswith(("cognitum/","proto/","tests/test_")):
+        if rel not in identity_repair and rel not in proof_repair and rel.startswith(("cognitum/","proto/","tests/test_")):
             if subprocess.run(["git","cat-file","-e",baseline+":"+rel],cwd=ROOT,
                               stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0:
                 raise RuntimeError("accepted existing runtime/schema/test replaced: "+rel)
@@ -108,7 +113,7 @@ def descriptors():
 
 def main():
     OUT.mkdir(exist_ok=True)
-    report={"schema":"cognitum.cog06d.cross-component-acceptance.v1","platform":sys.platform,
+    report={"schema":"cognitum.cog06e.cpu-regression.v1","platform":sys.platform,
             "python":sys.version,"production_enabled":False,"lu_roundtrip":False,
             "optional_unvalidated":["pgmpy native worker","PyMC native worker","Fast Downward native planner","Carcara actual proof acceptance","official MOT17 TrackEval"],
             "steps":[]}
@@ -140,7 +145,7 @@ def main():
     run("descriptor_parity",[PY,"-m","tools.cog06b_cpu_acceptance","--descriptors"])
     prefixes=("test_c05","test_c06","test_c07","test_c10","test_c11","test_c12",
               "test_c13","test_c16","test_c17","test_cooperative",
-              "test_cognitum_capability_route_proposal")
+              "test_cognitum_capability_route_proposal","test_c15_trackeval_")
     focused=sorted(str(p.relative_to(ROOT)) for p in (ROOT/"tests").glob("test_*.py")
                    if p.name.startswith(prefixes))
     report["focused_modules"]=focused;save()

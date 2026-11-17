@@ -1,9 +1,11 @@
 name: C10 native independent proof certificate acceptance
 on:
   push:
+    branches-ignore: [development/cog-06-cooperative-reasoning-20261116]
     paths:
       - 'cognitum/formal_proofs.py'
       - 'tests/test_c10_proofs.py'
+      - 'tests/test_c10_paired_proofs.py'
       - 'tools/c10_real_proof_smoke.py'
       - '.github/workflows/c10-alethe-proof.yml'
   pull_request:
@@ -13,13 +15,24 @@ on:
       - 'tools/c10_real_proof_smoke.py'
       - '.github/workflows/c10-alethe-proof.yml'
   workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
 
 jobs:
   real-alethe-checker:
     runs-on: ubuntu-24.04
     timeout-minutes: 35
+    env:
+      COG06B_EXPECTED_SHA: ${{ github.sha }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Verify frozen Cognitum source
+        run: test "$(git rev-parse HEAD)" = "$COG06B_EXPECTED_SHA"
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -35,7 +48,7 @@ jobs:
           EXPECTED=$(gh api repos/cvc5/cvc5/releases/tags/cvc5-1.4.2 \
             --jq '.assets[] | select(.name == "cvc5-Linux-x86_64-static.zip") | .digest')
           test -n "$EXPECTED"
-          test "${EXPECTED#sha256:}" != "$EXPECTED"
+          test "$EXPECTED" = "sha256:7eb18f8c814c36a46c5a7d003983e9cfbc4b0a9828d6dd596239291bd4cc61d8"
           printf '%s  %s\n' "${EXPECTED#sha256:}" "$RUNNER_TEMP/cvc5/cvc5-Linux-x86_64-static.zip" | sha256sum -c -
           unzip -q "$RUNNER_TEMP/cvc5/cvc5-Linux-x86_64-static.zip" -d "$RUNNER_TEMP/cvc5/unpacked"
           CVC5_BIN=$(find "$RUNNER_TEMP/cvc5/unpacked" -type f -name cvc5 -print -quit)
@@ -43,11 +56,39 @@ jobs:
           chmod +x "$CVC5_BIN"
           "$CVC5_BIN" --version
           echo "C10_CVC5_BINARY=$CVC5_BIN" >> "$GITHUB_ENV"
-      - name: Build established Carcara Alethe checker
+      - name: Check out the cvc5 1.4.2 paired Carcara source
+        uses: actions/checkout@v4
+        with:
+          repository: ufmg-smite/carcara
+          ref: 394edbb15ba95c47893f1d821fddde7e016af178
+          path: paired-carcara
+          persist-credentials: false
+      - name: Build exact reviewed paired checker and verify rewrite database
         run: |
-          cargo install --git https://github.com/ufmg-smite/carcara.git --locked
-          "${HOME}/.cargo/bin/carcara" --help
-      - name: Genuine UNSAT proof validation and SAT negative control
+          test "$(git -C paired-carcara rev-parse HEAD)" = 394edbb15ba95c47893f1d821fddde7e016af178
+          test "$(git -C paired-carcara hash-object rewrites.eo)" = 752a737f289c62c665f850fe2ab05328295ce8bb
+          rustup toolchain install 1.87.0 --profile minimal
+          cargo +1.87.0 build --manifest-path paired-carcara/Cargo.toml --locked --release -p carcara-cli --bin carcara
+          "$PWD/paired-carcara/target/release/carcara" --version
+          "$PWD/paired-carcara/target/release/carcara" check --help
+          echo "C10_CARCARA_BINARY=$PWD/paired-carcara/target/release/carcara" >> "$GITHUB_ENV"
+          echo "C10_RARE_RULES=$PWD/paired-carcara/rewrites.eo" >> "$GITHUB_ENV"
+      - name: Preserve original adapter and paired-profile negative tests
+        run: python -m unittest tests.test_c10_proofs tests.test_c10_paired_proofs -v
+      - name: Genuine strict UNSAT proof validation and native negative controls
         env:
-          C10_CARCARA_BINARY: /home/runner/.cargo/bin/carcara
-        run: python tools/c10_real_proof_smoke.py
+          C10_CERT_EVIDENCE: ${{ github.workspace }}/c10-proof-evidence
+        run: python -m tools.c10_real_proof_smoke
+      - name: Check frozen source again
+        if: always()
+        run: |
+          test "$(git rev-parse HEAD)" = "$COG06B_EXPECTED_SHA"
+          test -z "$(git status --porcelain --untracked-files=no)"
+      - name: Publish bounded proof evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: c10-native-proof-evidence
+          path: c10-proof-evidence/
+          if-no-files-found: warn
+          retention-days: 30

@@ -1,6 +1,7 @@
 name: C15 real MOT17 public-detection acceptance (research-only)
 on:
   push:
+    branches-ignore: [development/cog-06-cooperative-reasoning-20261116]
     paths:
       - 'tools/c15_real_mot_acceptance.py'
       - 'tools/c15_stage_trackeval.py'
@@ -8,6 +9,9 @@ on:
       - 'tests/test_c15_official_metrics_comparison.py'
       - 'tools/c15_compare_official_trackeval.py'
       - 'tools/c15_trackeval_numpy_compat.py'
+      - 'tools/c15_trackeval_pinned_compat.py'
+      - 'tools/c15_trackeval_parity.py'
+      - 'tests/test_c15_trackeval_pinned_compat.py'
       - 'tests/test_c15_trackeval_numpy_compat.py'
       - 'docs/components/spatial/C15-CROSSPLATFORM-REALDATA-ACCEPTANCE-2026-11-04.md'
       - '.github/workflows/c15-real-mot17.yml'
@@ -19,6 +23,7 @@ on:
       - 'docs/components/spatial/C15-CROSSPLATFORM-REALDATA-ACCEPTANCE-2026-11-04.md'
       - '.github/workflows/c15-real-mot17.yml'
   workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: read
@@ -33,14 +38,21 @@ jobs:
   real-public-mot17:
     runs-on: ubuntu-24.04
     timeout-minutes: 45
+    env:
+      COG06B_EXPECTED_SHA: ${{ github.sha }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Verify frozen Cognitum source
+        run: test "$(git rev-parse HEAD)" = "$COG06B_EXPECTED_SHA"
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
       - name: Install actual tracking, SciPy and evaluation engines
         run: |
-          python -m pip install -e ".[spatial-core]" trackers
+          python -m pip install -e ".[spatial-core]" trackers==2.6.1 tabulate==0.9.0
           python -m pip check
       - name: Retrieve public benchmark detections and annotations ONLY
         run: |
@@ -86,13 +98,12 @@ jobs:
           ref: 12c8791b303e0a0b50f753af204249e622d0281a
           path: official-trackeval
           persist-credentials: false
-      - name: Verify compatibility guard on synthetic source fixture
-        run: python -m unittest tests.test_c15_trackeval_numpy_compat -v
-      - name: Audit pinned official TrackEval compatibility with current NumPy
+      - name: Verify old and strict pinned compatibility guards
+        run: python -m unittest tests.test_c15_trackeval_numpy_compat tests.test_c15_trackeval_pinned_compat -v
+      - name: Verify complete clean pinned upstream source
         run: |
-          python tools/c15_trackeval_numpy_compat.py \
-            --root "$PWD/official-trackeval" \
-            --audit "$PWD/evidence/trackeval-numpy-compat.json"
+          test "$(git -C official-trackeval rev-parse HEAD)" = 12c8791b303e0a0b50f753af204249e622d0281a
+          test -z "$(git -C official-trackeval status --porcelain)"
       - name: Stage the two frozen tracker outputs for independent official evaluator
         run: |
           python -m pip install tabulate
@@ -102,19 +113,13 @@ jobs:
             --c15 "$PWD/evidence/c15-MOT17-02-FRCNN.txt" \
             --bytetrack "$PWD/evidence/bytetrack-MOT17-02-FRCNN.txt" \
             | tee evidence/trackeval-staging-audit.txt
-      - name: Independently check C15 and ByteTrack with pinned official TrackEval
+      - name: Compare unmodified legacy dtype semantics to exact repaired pinned evaluator
         run: |
-          python official-trackeval/scripts/run_mot_challenge.py \
-            --GT_FOLDER "$PWD/official-stage/gt" \
-            --TRACKERS_FOLDER "$PWD/official-stage/trackers" \
-            --BENCHMARK MOT17 --SPLIT_TO_EVAL train \
-            --TRACKERS_TO_EVAL C15 ByteTrack \
-            --CLASSES_TO_EVAL pedestrian \
-            --METRICS HOTA CLEAR Identity \
-            --DO_PREPROC False --PLOT_CURVES False \
-            --USE_PARALLEL False --PRINT_CONFIG False
-          cp official-stage/trackers/MOT17-train/C15/pedestrian_summary.txt evidence/trackeval-C15-summary.txt
-          cp official-stage/trackers/MOT17-train/ByteTrack/pedestrian_summary.txt evidence/trackeval-ByteTrack-summary.txt
+          python -m tools.c15_trackeval_parity \
+            --root "$PWD/official-trackeval" \
+            --stage "$PWD/official-stage" \
+            --evidence "$PWD/evidence"
+          test -s evidence/trackeval-parity.json
           test -s evidence/trackeval-C15-summary.txt
           test -s evidence/trackeval-ByteTrack-summary.txt
       - name: Validate official summary extractor against known synthetic fixtures
@@ -126,6 +131,11 @@ jobs:
             --bytetrack evidence/trackeval-ByteTrack-summary.txt \
             --output evidence/trackeval-c15-vs-bytetrack.json
           test -s evidence/trackeval-c15-vs-bytetrack.json
+      - name: Verify frozen Cognitum source again
+        if: always()
+        run: |
+          test "$(git rev-parse HEAD)" = "$COG06B_EXPECTED_SHA"
+          test -z "$(git status --porcelain --untracked-files=no)"
       - name: Upload bounded evaluation evidence, not licensed image/dataset files
         if: always()
         uses: actions/upload-artifact@v4

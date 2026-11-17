@@ -1,0 +1,29 @@
+{
+  "schema": "cognitum.cog06e.local-trackeval-compatibility.v1",
+  "upstream_pin": "12c8791b303e0a0b50f753af204249e622d0281a",
+  "source_archive_sha256": "5a089bf3638d1f3a7ae8383ccebf774146f7b1ceca1de989a97b55c76248eb5c",
+  "data_archive_sha256": "148a4bdf56f8cb32f9bde4b3d70717242cbb2e61900ef0101abc4652e268f2a5",
+  "zip_crc_valid": true,
+  "scope": "600-frame MOT17-02-FRCNN train annotation/prediction fixture, frozen external MPNTrack predictions, DO_PREPROC=False, not C15 detector tracking",
+  "python": "3.13",
+  "numpy": "2.3.5",
+  "scipy": "1.17.0",
+  "gt_sha256": "2e3ecb488da8886d3200d402b2b08890c6d2879923839444e9b74fa43a551440",
+  "prediction_sha256": "c4c3939d9513442eea9d28f6bc8ae3955900f73686920ce1e676c4005711c118",
+  "seqinfo_sha256": "669c5135aa1b7f1726ee50ab6cec86780fc448dadaf93ea9c4fb6e2a0d4256aa",
+  "original_failure": "AttributeError: numpy.float removed",
+  "scores": {
+    "HOTA": 48.721,
+    "MOTA": 47.296,
+    "IDF1": 54.888
+  },
+  "comparison": "byte-identical full summary after exact dtype patch versus unmodified source with legacy builtin dtype alias restoration in separate test process",
+  "summary_sha256": "0544af1870a1b61df02317836f8ce1eccfd6ea4fa3ab336d9c52cde033aa1f5c",
+  "changed_files": 3,
+  "replacements": 12,
+  "limitations": [
+    "affected evaluator blobs matched upstream commit; full archive tree not independently compared",
+    "frozen external predictions; no new C15/ByteTrack tracking or official leaderboard result",
+    "dataset files not committed or redistributed"
+  ]
+}

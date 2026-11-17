@@ -1,4 +1,4 @@
-name: COG-06D independent cooperative reasoning and CPU regression
+name: COG-06E grouped native proof, TrackEval and CPU regression
 on:
   push:
     branches: [development/cog-06-cooperative-reasoning-20261116]
@@ -8,13 +8,20 @@ on:
       - tests/**
       - tools/cog06b_cpu_acceptance.py
       - tools/cog06d_composition_evidence.py
+      - tools/c10_real_proof_smoke.py
+      - tools/c15_trackeval*.py
+      - tools/c15_compare_official_trackeval.py
+      - tools/c15_real_mot_acceptance.py
+      - tools/c15_stage_trackeval.py
+      - .github/workflows/c10-alethe-proof.yml
+      - .github/workflows/c15-real-mot17.yml
       - .github/workflows/cog06b-cpu-acceptance.yml
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
   cpu-components:
-    name: COG-06D / ${{ matrix.os }} / Python ${{ matrix.python-version }}
+    name: COG-06E / ${{ matrix.os }} / Python ${{ matrix.python-version }}
     strategy:
       fail-fast: false
       matrix:
@@ -44,7 +51,13 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cog06d-${{ matrix.os }}-py${{ matrix.python-version }}
+          name: cog06e-${{ matrix.os }}-py${{ matrix.python-version }}
           path: cog06b-artifacts/
           if-no-files-found: error
           retention-days: 30
+  native-proof:
+    name: COG-06E strict native Alethe certificate gate
+    uses: ./.github/workflows/c10-alethe-proof.yml
+  native-trackeval:
+    name: COG-06E official matched TrackEval gate
+    uses: ./.github/workflows/c15-real-mot17.yml
