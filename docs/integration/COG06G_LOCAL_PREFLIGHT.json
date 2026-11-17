@@ -1,0 +1,37 @@
+{
+  "schema": "cognitum.cog06g.local-preflight.v1",
+  "frozen_baseline": "10dd3be219dd59a7e9a2f27fb6f958404e33ddb7",
+  "staged_candidate": "41068700cef417c7425c19584c140d77d0301449",
+  "source_files": [
+    {
+      "path": "cognitum/contracts.py",
+      "git_blob": "11d129fb057641ac5da67fccd2f541da0860992f"
+    },
+    {
+      "path": "cognitum/spatial_tracking.py",
+      "git_blob": "3aee93fdbbc9a096fa8902392d1bfcc907d770a3"
+    },
+    {
+      "path": "cognitum/spatial_bytetrack.py",
+      "git_blob": "96c0ababa9fd50bc4fa3548553fec9ab90530e2d"
+    },
+    {
+      "path": "tests/test_c15_bytetrack.py",
+      "git_blob": "88297a84890f53992b27d33de16b116eb51a4de2"
+    }
+  ],
+  "verified_exact_git_blobs": 4,
+  "python": "3.13",
+  "compileall": "passed for local four exact source files",
+  "pytest": {
+    "passed": 3,
+    "skipped": 5,
+    "failed": 0
+  },
+  "skips": "reviewed optional trackers/supervision packages unavailable; native package not installed; download of reviewed wheel failed in local environment",
+  "tested": "invalid inputs/scope and stale source before dispatch, missing backend/timeout without results, immutable configuration",
+  "frozen_runtime_schema_test_modifications": [],
+  "native_execution": "NOT_RUN",
+  "matched_mot17_benchmark": "NOT_RUN",
+  "release_or_default_promoted": false
+}

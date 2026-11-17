@@ -23,3 +23,7 @@ Use ByteTrack for temporal 2D association, particularly lower-confidence candida
 - Same accepted six-job workflow retained and two separate optional tracker jobs called within it. Only duplicate C15 spatial workflow push on this development branch suppressed; PR/manual/other branch paths preserved. Native trackers/supervision absent from local container, published wheel download unavailable locally; actual package execution pending grouped CI.
 
 Library-first preference applies across components: maintained library implementations are the default when matched evidence supports them, while reference/custom paths remain when demonstrably useful for correctness, efficiency, verification, or coverage. Reuse the earlier benchmark evidence without blanket superiority claims. Broader review still COG-02.
+
+## Local preflight and preservation
+
+Four locally reconstructed Python files matched the exact candidate/preserved Git blob identities (adapter, tests, original contracts and original C15 tracking). Compileall succeeded; pytest: 3 passed, 5 skipped because the reviewed actual library is not installed. No claim of native or matched data execution in local tests. Exact frozen COG-06F runtime, schema and tests are unchanged; new CPU source guard enforces additive-only extension. Runtime additionally checks the installed class/import origin and source freshness before importing the optional package. The dedicated job records actual installation and dependency metadata. [Local preflight](COG06G_LOCAL_PREFLIGHT.json).
