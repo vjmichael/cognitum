@@ -1,0 +1,256 @@
+{
+  "schema": "cognitum.cog07a.acceptance.v1",
+  "accepted_source_sha": "23ac5b87503d3e1c76f4614039f85c2ee9a67b0e",
+  "run_id": 44157055079,
+  "run_url": "https://github.com/vjmichael/cognitum/actions/runs/44157055079",
+  "jobs": {
+    "required": 14,
+    "passed": 14,
+    "failed": 0
+  },
+  "artifact_audit": {
+    "archives": [
+      {
+        "id": 14362550303,
+        "name": "cog06g-bytetrack-ubuntu-latest",
+        "sha256": "a9243078f91da66d11ccc8b33611dd282bccbf9fbfb2edc1b5cfa5ab8c47ddab",
+        "size": 34490,
+        "local_zip_sha256_matched": true,
+        "zip_crc_passed": true
+      },
+      {
+        "id": 14362530670,
+        "name": "cog07-econml-windows-latest",
+        "sha256": "6f2969345f451d79209f3f5ea495f681dbfbb7a667210e20b6b74e48145a6e17",
+        "size": 20735,
+        "local_zip_sha256_matched": true,
+        "zip_crc_passed": true
+      },
+      {
+        "id": 14362470591,
+        "name": "cog07-dowhy-windows-latest",
+        "sha256": "9920f5c7ae6c38c42a0f2c8da6a9a6da580531685d860b533493cb3daaa2aac3",
+        "size": 21727,
+        "local_zip_sha256_matched": true,
+        "zip_crc_passed": true
+      },
+      {
+        "id": 14362385850,
+        "name": "c10-native-proof-evidence",
+        "sha256": "8ed5348becbf8f4edc70e3dfb1586f1945d14028763730cf904dc5d997297a50",
+        "size": 9144,
+        "local_zip_sha256_matched": true,
+        "zip_crc_passed": true
+      },
+      {
+        "id": 14361961780,
+        "name": "cog07-windows-latest-py3.13",
+        "sha256": "90a172475ee3cb258c61580b1986c4954892f5199e04043b76b6b0eb68b762ac",
+        "size": 126311,
+        "local_zip_sha256_matched": true,
+        "zip_crc_passed": true
+      },
+      {
+        "id": 14361217410,
+        "name": "c15-real-mot17-research-evidence",
+        "sha256": "da1f166009c9033b1169bbc26e83758af323477a7d1b22a4de96105b175ecbf6",
+        "size": 107274,
+        "local_zip_sha256_matched": true,
+        "zip_crc_passed": true
+      },
+      {
+        "id": 14361117891,
+        "name": "cog07-causal-learn-windows-latest",
+        "sha256": "f9515b4d017343e505ada25e2c5afc15c2fe038cc8a097d6ee040dd3e1dc5fc1",
+        "size": 20427,
+        "local_zip_sha256_matched": true,
+        "zip_crc_passed": true
+      },
+      {
+        "id": 14361088349,
+        "name": "cog07-ubuntu-latest-py3.11",
+        "sha256": "cbfdc9ff7ec4c92fac431da590d5d56c637e53eae377e02396dbd2c4fb69f0ec",
+        "size": 127889,
+        "local_zip_sha256_matched": true,
+        "zip_crc_passed": true
+      },
+      {
+        "id": 14360833924,
+        "name": "cog06g-bytetrack-windows-latest",
+        "sha256": "f1b7ee1be4be78420a3a3417c747b7f892805219328a653b755b55db41393e01",
+        "size": 19699,
+        "local_zip_sha256_matched": true,
+        "zip_crc_passed": true
+      },
+      {
+        "id": 14360813680,
+        "name": "cog07-dowhy-ubuntu-latest",
+        "sha256": "dcbe55da3ffe21a23a594293f904c61a02481392672fde669d7898f1316c425d",
+        "size": 22069,
+        "local_zip_sha256_matched": true,
+        "zip_crc_passed": true
+      },
+      {
+        "id": 14360784584,
+        "name": "cog07-windows-latest-py3.11",
+        "sha256": "36d5be755459f68a9ab66dfc543ad213c66938cfb11a4db7479b706423dbdef7",
+        "size": 126728,
+        "local_zip_sha256_matched": true,
+        "zip_crc_passed": true
+      },
+      {
+        "id": 14360723568,
+        "name": "cog07-econml-ubuntu-latest",
+        "sha256": "7e16bb7b3e616273e01a377413c490de1ffd69fa716121977cc27aff9f209414",
+        "size": 21031,
+        "local_zip_sha256_matched": true,
+        "zip_crc_passed": true
+      },
+      {
+        "id": 14360638931,
+        "name": "cog07-causal-learn-ubuntu-latest",
+        "sha256": "d8c4ffd63373a197b0a462a893345e1cc0421108504a3ea70e75b9d3ae6acc0d",
+        "size": 20741,
+        "local_zip_sha256_matched": true,
+        "zip_crc_passed": true
+      },
+      {
+        "id": 14360619519,
+        "name": "cog07-ubuntu-latest-py3.13",
+        "sha256": "8d6ff59153789fdbf9ecc051601413e8e839ed67d0b2a2c1260fe6cc8bbd5b46",
+        "size": 127455,
+        "local_zip_sha256_matched": true,
+        "zip_crc_passed": true
+      }
+    ],
+    "log_sha256_matches": 64,
+    "descriptor_sha256": "030ef8fe3e9763d511d82d3b9ead344c8225d771c2b4a55142c5dc99dafc7cf7",
+    "descriptor_count": 37
+  },
+  "cpu_matrix": {
+    "focused_each": {
+      "passed": 787,
+      "skipped": 2,
+      "subtests_passed": 952
+    },
+    "linux_each": {
+      "passed": 1354,
+      "skipped": 17,
+      "subtests_passed": 1549
+    },
+    "windows_each": {
+      "passed": 1244,
+      "skipped": 77,
+      "subtests_passed": 1535
+    },
+    "all_steps_zero": true,
+    "source_before_after_equal": true,
+    "new_cancellation_test_cases": [
+      "test_cancellation_during_verification_discards_valid_result",
+      "test_disable_during_communicate_has_one_pipe_owner",
+      "test_disable_during_validation_prevents_spawn"
+    ],
+    "new_cases_passed_in_all_four_focused_and_combined_suites": true
+  },
+  "causal": {
+    "native_tests_each": 39,
+    "native_test_skips": 0,
+    "native_jobs": 6,
+    "versions": {
+      "dowhy": "0.14",
+      "econml": "0.17.0",
+      "causal-learn": "0.1.4.8",
+      "statsmodels": "0.15.0"
+    },
+    "doWhy_HC3": {
+      "truth": 2.5,
+      "estimated": 2.50154562237318,
+      "interval": [
+        2.4125334659517055,
+        2.590557778794656
+      ],
+      "unadjusted": 4.343689,
+      "missing_adjustment_refused": true
+    },
+    "coverage": {
+      "covered": 18,
+      "trials": 20,
+      "mean_absolute_error": 0.05267753650155982,
+      "identical_seeded_trials_not_independent_across_platforms": true
+    },
+    "econml_profiles": [
+      {
+        "profile": -0.75,
+        "truth": 1.1,
+        "effect": 0.7235171315840214,
+        "interval": [
+          0.59550277297937,
+          0.8515314901886728
+        ],
+        "covered": false
+      },
+      {
+        "profile": 0.75,
+        "truth": 2.9,
+        "effect": 2.788800509842418,
+        "interval": [
+          2.664810944214735,
+          2.9127900754701006
+        ],
+        "covered": true
+      }
+    ],
+    "pc": {
+      "collider": [
+        [
+          "A",
+          "C",
+          "directed"
+        ],
+        [
+          "B",
+          "C",
+          "directed"
+        ]
+      ],
+      "chain": [
+        [
+          "A",
+          "B",
+          "undirected"
+        ],
+        [
+          "B",
+          "C",
+          "undirected"
+        ]
+      ]
+    },
+    "uncertainty_calibration": "not established; lower profile misses truth; no production promotion"
+  },
+  "preserved_native": {
+    "alethe": {
+      "strict_valid_certificates": 2,
+      "negative_controls": "passed"
+    },
+    "trackeval": {
+      "original_and_patched_byte_identical": true,
+      "frames": 299
+    },
+    "bytetrack": {
+      "tests_each": 8,
+      "matched_sequences": [
+        "MOT17-02-FRCNN",
+        "MOT17-05-FRCNN"
+      ],
+      "default_promoted": false
+    }
+  },
+  "limitations": [
+    "archive hashes, CRC, CPU step hashes, JUnit and reported numeric results inspected; no new local native proof or tracking run",
+    "optional and platform-specific skips retained",
+    "Tigramite license-gated NOT_RUN",
+    "no production host or model-level efficacy acceptance",
+    "HDC/KAN/SSM research deferred; CH40 suspended"
+  ]
+}
