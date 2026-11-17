@@ -123,7 +123,11 @@ def score_sequence(data,sequence,evidence,evaluator):
             dest=tmp/(name+".txt")
             p=subprocess.run([sys.executable,"-m","tools.c15_bytetrack_benchmark",
               "--arm",name,"--det",str(det),"--output",str(dest),"--sequence",sequence],
-              capture_output=True,check=True,timeout=100,text=True)
+              capture_output=True,check=False,timeout=100,text=True)
+            (evidence/(sequence+"-"+name+".stderr.log")).write_text(p.stderr,encoding="utf-8")
+            if p.returncode!=0:
+                (evidence/(sequence+"-"+name+".stdout.log")).write_text(p.stdout,encoding="utf-8")
+                raise RuntimeError(name+" prediction failed: "+p.stderr[-3000:])
             (evidence/(sequence+"-"+name+".json")).write_text(p.stdout,encoding="utf-8")
             info=json.loads(p.stdout)
             if info["source_sha"]!=BUILD or info["det_sha256"]!=sha(det) or info["prediction_sha256"]!=sha(dest):

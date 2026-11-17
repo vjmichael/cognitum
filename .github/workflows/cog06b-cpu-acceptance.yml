@@ -1,4 +1,4 @@
-name: COG-06E grouped native proof, TrackEval and CPU regression
+name: COG-06G reviewed ByteTrack and preserved cooperative acceptance
 on:
   push:
     branches: [development/cog-06-cooperative-reasoning-20261116]
@@ -15,13 +15,16 @@ on:
       - tools/c15_stage_trackeval.py
       - .github/workflows/c10-alethe-proof.yml
       - .github/workflows/c15-real-mot17.yml
+      - tools/c15_bytetrack_benchmark.py
+      - tools/c15_install_bytetrack.py
+      - .github/workflows/cog06g-bytetrack.yml
       - .github/workflows/cog06b-cpu-acceptance.yml
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
   cpu-components:
-    name: COG-06E / ${{ matrix.os }} / Python ${{ matrix.python-version }}
+    name: COG-06G / ${{ matrix.os }} / Python ${{ matrix.python-version }}
     strategy:
       fail-fast: false
       matrix:
@@ -51,7 +54,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cog06e-${{ matrix.os }}-py${{ matrix.python-version }}
+          name: cog06g-${{ matrix.os }}-py${{ matrix.python-version }}
           path: cog06b-artifacts/
           if-no-files-found: error
           retention-days: 30
@@ -61,3 +64,7 @@ jobs:
   native-trackeval:
     name: COG-06E official matched TrackEval gate
     uses: ./.github/workflows/c15-real-mot17.yml
+
+  reviewed-bytetrack:
+    name: COG-06G reviewed actual library and matched comparison
+    uses: ./.github/workflows/cog06g-bytetrack.yml

@@ -1,6 +1,7 @@
 name: C15 complete practical spatial design native acceptance
 on:
   push:
+    branches-ignore: [development/cog-06-cooperative-reasoning-20261116]
     paths:
       - 'cognitum/spatial_*.py'
       - 'cognitum/spatial_tracking.py'

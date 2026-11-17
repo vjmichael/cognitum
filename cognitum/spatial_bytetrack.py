@@ -154,7 +154,7 @@ def _engine():
         raise _Stop("UNSUPPORTED")
 
 def _id(namespace,number):
-    return "bt_"+namespace[:16]+"_"+str(number)
+    return "bt_"+namespace[:32]+"_"+str(number)
 
 def _adapt(np,sv,engine,frame,namespace,previous,max_seen):
     ds=frame.detections
