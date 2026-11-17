@@ -2,7 +2,7 @@
 from google.protobuf import descriptor_pb2 as d, descriptor_pool, message_factory
 f=d.FileDescriptorProto(name="cognitum/cooperative/v1/composition.proto",package="cognitum.cooperative.v1",syntax="proto3")
 T=d.FieldDescriptorProto
-FIELDS={"IntRow":[["values","sint64",1]],"SolutionSet":[["schema_version","uint32"],["request_sha256","string"],["cases_checked","uint32"],["solutions","IntRow",1],["status","string"]],"Scenario":[["name","string"],["physical_request","bytes"]],"MixtureRequest":[["schema_version","uint32"],["scenarios","Scenario",1],["weights","double",1]],"ScenarioResult":[["name","string"],["weight","double"],["physical_result","bytes"]],"MixtureResult":[["schema_version","uint32"],["request_sha256","string"],["scenarios","ScenarioResult",1],["mean_position_m","double"],["variance_position_m2","double"],["status","string"]]}
+FIELDS={"IntRow":[["values","sint64",1]],"SolutionSet":[["schema_version","uint32"],["request_sha256","string"],["cases_checked","uint32"],["solutions","IntRow",1],["status","string"],["limitations","string",1]],"Scenario":[["name","string"],["physical_request","bytes"]],"MixtureRequest":[["schema_version","uint32"],["scenarios","Scenario",1],["weights","double",1],["scenario_assumption","string"]],"ScenarioResult":[["name","string"],["weight","double"],["physical_result","bytes"]],"MixtureResult":[["schema_version","uint32"],["request_sha256","string"],["scenarios","ScenarioResult",1],["mean_position_m","double"],["variance_position_m2","double"],["status","string"],["limitations","string",1]]}
 for name,fields in FIELDS.items():
     msg=f.message_type.add(name=name)
     for index,spec in enumerate(fields,1):

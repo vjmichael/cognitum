@@ -11,6 +11,7 @@ message SolutionSet {
   uint32 cases_checked = 3;
   repeated IntRow solutions = 4;
   string status = 5;
+  repeated string limitations = 6;
 }
 message Scenario {
   string name = 1;
@@ -20,6 +21,7 @@ message MixtureRequest {
   uint32 schema_version = 1;
   repeated Scenario scenarios = 2;
   repeated double weights = 3;
+  string scenario_assumption = 4;
 }
 message ScenarioResult {
   string name = 1;
@@ -33,4 +35,5 @@ message MixtureResult {
   double mean_position_m = 4;
   double variance_position_m2 = 5;
   string status = 6;
+  repeated string limitations = 7;
 }

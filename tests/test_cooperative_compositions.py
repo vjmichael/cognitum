@@ -104,6 +104,13 @@ def test_physics_mixture_forged_moments_weights_and_trajectory():
         else:del bad.scenarios[-1]
         with pytest.raises(ValueError):verify("physics.mixture",raw,wire(bad))
 
+def test_undeclared_scenario_assumption_does_not_publish():
+    q,mix=physical_case()
+    mix.scenario_assumption=""
+    out=run(runtime(),graph(node("bayes","probability.bayes",q),
+        node("mix","physics.mixture",mix,(Dependency("bayes","bayes_scenario_weights"),))))
+    assert out.status=="compute_failed" and not out.receipts
+
 def test_unsupported_physical_scenario_does_not_publish():
     q,mix=physical_case()
     p=physics.PhysicalRequest.FromString(mix.scenarios[0].physical_request)

@@ -77,6 +77,7 @@ def integer_experiment(total=12,weighted=29):
     # Independently calculate all triples directly in original problem.
     oracle=[(x,y,z) for x,y,z in product(range(1,10),repeat=3)
             if x<y<z and x+y+z==total and x+2*y+3*z==weighted]
+    standalone_math,em=run_arm("math_only",step("linear","math.linear",linear))
     one,e1=run_arm("formal_single",step("witness","formal.integer",req))
     one= formal.VerifyResult.FromString(one[0].frame)
     assert (one.status=="SAT" and tuple(one.witness) in oracle) if oracle else one.status=="UNSAT_EXHAUSTIVE"
@@ -90,6 +91,8 @@ def integer_experiment(total=12,weighted=29):
     expected=[["1","0","-1",str(2*total-weighted)],
               ["0","1","2",str(weighted-total)]]
     assert [list(row.entries) for row in matrix.rows]==expected
+    standalone_matrix=math.LinearResult.FromString(standalone_math[0].frame)
+    assert standalone_matrix==matrix
     output=comp.SolutionSet.FromString(combined[1].frame)
     assert [tuple(r.values) for r in output.solutions]==oracle
     assert output.cases_checked==729 and output.status=="COMPLETE"
@@ -99,7 +102,7 @@ def integer_experiment(total=12,weighted=29):
     return {"oracle_solutions":oracle,"single_witness":list(one.witness),
             "standalone_complete":len(raw.solutions),"cooperative_complete":len(output.solutions),
             "enumerated_cases":729,"transformed_equalities":expected,
-            "arms":{"single_formal":e1,"standalone_formal_set":e2,"cooperative":e3}}
+            "arms":{"standalone_math":em,"single_formal":e1,"standalone_formal_set":e2,"cooperative":e3}}
 
 def planning_case():
     q=planning.PlanRequest(schema_version=1,facts=["raw","processed","done"],
@@ -157,7 +160,7 @@ def physical_case(likelihood=(.8,.2)):
         prior_source="fixture_prior",likelihood_source="fixture_likelihood",
         assumptions=["conditionally_independent_observations"])
     q.observations.add(name="signal",likelihood_by_hypothesis=likelihood,observed=True)
-    mix=comp.MixtureRequest(schema_version=1)
+    mix=comp.MixtureRequest(schema_version=1,scenario_assumption="mutually_exclusive_exhaustive_scenarios")
     # Reverse order deliberately: hypothesis-to-scenario mapping must use IDs.
     for name,position in (("high",3.),("low",1.)):
         p=physics.PhysicalRequest(schema_version=1,kind="harmonic",unit_system="SI:m,s,kg,N",
