@@ -1,0 +1,85 @@
+syntax = "proto3";
+package cognitum.formal.v1;
+
+// C10 P1: bounded *integer difference logic* SMT with propositional CNF.
+// Deliberately NOT arbitrary SMT-LIB or proof of natural-language formalization.
+// Input is a data structure, never executable code or an authorization grant.
+enum SolveStatus {
+  SOLVE_STATUS_UNSPECIFIED = 0;
+  SAT = 1;
+  UNSAT = 2;
+  UNKNOWN = 3;
+}
+message Difference {
+  string left = 1;        // integer variable or reserved "$ZERO" constant
+  string right = 2;
+  sint64 bound = 3;       // left - right <= bound
+}
+message Atom {
+  oneof predicate {
+    string boolean_name = 1;
+    Difference difference = 2;
+  }
+}
+message Clause {
+  repeated sint32 literals = 1; // signed 1-based indices into atoms
+}
+message SolveRequest {
+  uint32 schema_version = 1;
+  repeated string integer_variables = 2;
+  repeated string boolean_variables = 3;
+  repeated Atom atoms = 4;
+  repeated Clause clauses = 5; // conjunction, empty clause is false
+  uint32 max_assignments = 6;  // 0 uses bounded default; never unlimited
+}
+message IntegerValue {
+  string name = 1;
+  sint64 value = 2;
+}
+message UnsatLeaf {
+  uint32 false_clause = 1;                 // 1-based index, or zero
+  repeated uint32 negative_cycle_atoms = 2; // 1-based atom indices; directed cycle
+}
+message SolveResult {
+  uint32 schema_version = 1;
+  SolveStatus status = 2;
+  string reason_code = 3;
+  bytes request_sha256 = 4;
+  repeated bool atom_values = 5;
+  repeated IntegerValue integer_values = 6;
+  repeated UnsatLeaf exhaustive_leaves = 7; // branch # = position (binary atom truth assignment)
+  uint32 assignments_checked = 8;
+  bool formalization_verified = 9; // always false; host owns semantic verification
+  bool host_approved = 10;         // always false; a result is not a capability
+}
+message CheckRequest {
+  bytes solve_request = 1;
+  bytes solve_result = 2;
+}
+message CheckResult {
+  bool evidence_valid = 1; // only true for checked SAT/UNSAT witness/certificate
+  string reason_code = 2;
+}
+
+// Formal property check: A entails literal L iff A AND NOT L is UNSAT.
+// A contradictory assumption set receives VACUOUS, not an ordinary proof.
+enum PropertyVerdict {
+  PROPERTY_VERDICT_UNSPECIFIED = 0;
+  PROVEN = 1;
+  COUNTEREXAMPLE = 2;
+  INCONSISTENT_ASSUMPTIONS = 3;
+  INCONCLUSIVE = 4;
+}
+message PropertyRequest {
+  SolveRequest assumptions = 1;
+  sint32 required_literal = 2;
+}
+message PropertyResult {
+  uint32 schema_version = 1;
+  PropertyVerdict verdict = 2;
+  bytes property_sha256 = 3;
+  SolveResult assumptions_check = 4;
+  SolveResult negated_property_check = 5;
+  bool formalization_verified = 6; // must be false; syntax != semantics
+  bool host_approved = 7;          // must be false
+}

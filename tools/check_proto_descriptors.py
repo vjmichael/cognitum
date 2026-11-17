@@ -16,7 +16,12 @@ from cognitum.proto import capability_pb2, ce_handoff_pb2, worker_pb2, superviso
 
 from cognitum.proto import host_owned_memory_pb2, formal_pb2, optimization_pb2, probability_pb2, spatial_core_pb2, physics_ode_pb2, temporal_practical_pb2, adaptation_pb2, topology_pb2, memory_state_pb2
 
+from cognitum.proto import formal_solver_pb2, formal_backend_pb2, formal_advanced_pb2
+
 EXPECTED = {
+    "cognitum/formal/v1/solve.proto": formal_solver_pb2.DESCRIPTOR,
+    "cognitum/formal/v1/backend.proto": formal_backend_pb2.DESCRIPTOR,
+    "cognitum/formal/v1/advanced.proto": formal_advanced_pb2.DESCRIPTOR,
     "cognitum/memory/v1/host_owned.proto": host_owned_memory_pb2.DESCRIPTOR,
     "cognitum/formal/v1/formal.proto": formal_pb2.DESCRIPTOR,
     "cognitum/optimization/v1/optimization.proto": optimization_pb2.DESCRIPTOR,
