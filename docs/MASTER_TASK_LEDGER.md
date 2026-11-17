@@ -1,0 +1,81 @@
+# Cognitum — Master Task Ledger
+
+**Revision:** 2026-11-16 (Arizona local)  
+**Governing decision:** owner reprioritization, November 16, 2026.  
+**Active engineering task:** COG-06A — cooperative reasoning source and evidence reconciliation.  
+**Frozen working baseline:** COG-00 accepted commit `0486f0687ddae96ea829229d5f76db78ac2cc8f8`, [run 44025230949](https://github.com/vjmichael/cognitum/actions/runs/44025230949), four Windows/Linux Python 3.11/3.13 jobs successful. This is a tested recovery tree, not main or a release.
+
+This is the single current execution ledger. Earlier [roadmap](roadmap.md), [portfolio](design/technology-portfolio-C01-C19.md), [research protocols](design/research-validation-and-delivery.md) and [integration closeout](integration/COGNITUM_C01_C19_REPOSITORY_CLOSEOUT_20261104.md) remain historical and technical references. This ledger supersedes their **scheduling**, not their assurance claims. COG identifiers are stable work-package IDs; C01–C19 are distinct scientific/engineering capability IDs. A later task may have a lower COG number.
+
+## 1. Product intent and non-negotiable constraints
+
+- Cognitum is a heterogeneous cooperative reasoning engine augmenting a transformer, delivered eventually as a **separate Lu add-on**. It is not an independent LLM, agent loop, canonical memory store or host authorization service. No Lu source changes authorized by this ledger.
+- CPU-first numerical and symbolic execution; GPU resources reserved for the transformer. Evaluate ARM/low-power hardware and optional FPGA kernels when evidence warrants; do not require an FPGA or GPU for baseline functionality.
+- Prefer maintained, appropriately licensed standard libraries with tested CPU execution, bounded native/portable adapters and independently checked semantics. Reuse mature components; do not rewrite conventional solvers for novelty. Per-component library review occurs when that component is developed; repository-wide final library consolidation is deferred to COG-02.
+- Research-only HDC (C08), KAN (C09) and learned SSM (C17) remain disabled by default. Each deserves a literature-first redevelopment with strong baselines, negative results preserved, and low-resource evaluation; conventional superiority is not grounds to erase a research component. No unsupported claims or automatic promotion.
+- Practical C14 uses established causal libraries with explicit assumptions, calibrated uncertainty where validated and abstention. **CH40 pursuit of the global 0.05 gap is suspended indefinitely; no CH40 continuation, certificate search or bespoke solver research under COG-07.** Preserve existing frozen evidence.
+- Host-owned ANSF/SQLite remains canonical. Proposals do not grant authority; routing does not execute; preserve scope, source versions, revocation, recovery, cancellation and bounded CPU/RAM/elapsed time. Use the existing typed contracts rather than a parallel registry, journal, worker or host.
+- Develop mature reasoning first. Defer repository-wide convergence and final cross-component dependency/architecture reconciliation until the component shape is known. Batch source fixes and acceptance; avoid redundant CI and premature merging.
+
+## 2. Master execution queue
+
+Status vocabulary: **ACCEPTED** = exact evidence passed a stated gate only; **ACTIVE** = next work underway; **QUEUED** = scheduled but not yet executed; **DEFERRED** = intentionally out of current scope; **BLOCKED** = missing prerequisite or failed evidence; **RESEARCH ONLY** = separate from production eligibility.
+
+| Execution order | ID | Work package | Status | Required closeout / dependency |
+|---:|---|---|---|---|
+| 0 | COG-00 | Historical source recovery and consolidated acceptance | ACCEPTED (surviving source only) | Frozen SHA and four-platform acceptance above; missing original K4/learned artifacts tracked below, not misrepresented as recovered. |
+| 1 | COG-06 | Cooperative reasoning: proven components first | ACTIVE | COG-06A–F below; native computation, typed compositions, independent verification, failure semantics and paired model evidence separated. |
+| 2 | COG-07 | Practical C14 maintained-library review | QUEUED | Audit existing statsmodels/DoWhy/EconML/causal-learn and gated Tigramite; verify assumptions, real runtime, uncertainty and useful compositions. No CH40 gap pursuit. |
+| 3 | COG-03 | HDC literature review and research redevelopment | DEFERRED | Literature/algorithm register; TorchHD and recovered VSA kernels; CPU/ARM semantics, associative and noisy-signal tasks; strong baselines, energy and provenance. |
+| 4 | COG-04 | KAN literature review and research redevelopment | DEFERRED | PyKAN and CPU alternatives; trainable spline/RBF variants, maintained-library parity, unknown-function/surrogate tasks, held-out accuracy, OOD and signed checkpoint gates. Missing K4 materials remain open. |
+| 5 | COG-05 | SSM literature review and research redevelopment | DEFERRED | Classical filters/control and structured/selective learned SSM; CPU reference, trained trials, numerical/state/resume checks and future holdouts. |
+| 6 | COG-08 | ARM / Raspberry Pi / resource-constrained evaluation | DEFERRED | Representative hardware, actual RAM/time/energy measurements and correctness parity; no extrapolated energy claims. |
+| 7 | COG-09 | FPGA research | DEFERRED / RESEARCH ONLY | Literature and synthesis suitability by kernel, bit-accurate numerical equivalence, bounded precision error, on-board validation when hardware exists. |
+| 8 | COG-02 | Final C01–C19 standard-library and architecture reconciliation | DEFERRED | Full call graph, package licenses and dependency matrix; eliminate redundant routing and scaffolding; review CPU-first execution, host security and actual capability coverage. |
+| 9 | COG-01 | Consolidation into one main | DEFERRED | Reconcile open PRs and prior source histories by behavior, preserve tests, exact-SHA acceptance, owner-approved merge. No automatic closure or silent loss of work. |
+| 10 | COG-10 | Comparative end-to-end reasoning efficacy | DEFERRED | Same-model matched arms (unassisted, conventional, single specialist, cooperative); model-size tiers, task holdouts, tool validity, calibration, overhead and resource use; no invented efficacy. |
+| 11 | COG-11 | Separate Lu add-on integration and release acceptance | DEFERRED | Explicit owner approval, native host authorizations, real installed Windows/Linux tests, revocation/custody/restart, package verification; no claim of production readiness before these gates. |
+
+Orders are owner-adjustable; COG-03/04/05 remain research-only and do not gate the initial established-component cooperative baseline. COG-01/02 are late deliberately. Per-component necessary fixes are allowed before them without a global merge.
+
+## 3. COG-06 — current task breakdown
+
+| Subtask | Status | Work and acceptance |
+|---|---|---|
+| COG-06A | ACTIVE | Recover exact historical cooperative reasoning, reviewed route and evidence sources; inspect current baseline and divergent branches; distinguish direct specialist tests, injected context and actual composed execution. Record source dispositions and compatibility before importing. |
+| COG-06B | QUEUED | Inventory C05 exact/scientific math, C10 formal, C11 optimization, C12 planning, C13 probability, C16 physics, mature C17 classical state and other verified modules. Check argument/result contracts, maintained CPU libraries, independent numerical/semantic oracles and ready/unsupported states. Keep research gates closed. |
+| COG-06C | QUEUED | Recover/reconcile the reviewed route catalog against current typed Protobuf contracts and registry; establish a bounded typed task DAG using existing interfaces, with explicit inputs, results, dependencies, source identity and independent checks. No autonomous host authority, arbitrary payload execution or second agent loop. |
+| COG-06D | QUEUED | Exercise genuine cross-component reasoning in small deterministic tasks: C05+C10 completeness, C11+C12 feasible plan, C13+C16 uncertain physical state, optional C14 only after its practical validation. Compare standalone components and independently computed ground truth; test wrong type, cyclic graph, unavailable dependency, timeout, contradiction, stale input and failed verification. |
+| COG-06E | QUEUED | Reconcile actual outstanding native evidence: C10 Carcara/Alethe UNSAT checker compatibility (no unsupported inference accepted); C15 pinned official TrackEval compatibility; include these only in cooperative routes once their required assurance is valid. Preserve existing component security boundaries. |
+| COG-06F | QUEUED | Grouped unchanged-SHA acceptance: restored tests, real CPU backend composition tests, original negative assertions, combined regression, source-bound receipts and local-model comparison if actual model runtime exists. Record any unexecuted tests explicitly. The later COG-10 efficacy campaign and COG-11 host acceptance remain separate. |
+
+### Initial historical audit (COG-06A, not complete)
+
+- [P25 reviewed route branch](https://github.com/vjmichael/cognitum/tree/aaa9580672028c0034e6138afa06e787b6249440) preserves `cognitum/capability_route_proposal.py`, its tests, benchmark/auditor source and the [October 31 report](https://github.com/vjmichael/cognitum/blob/aaa9580672028c0034e6138afa06e787b6249440/docs/research/P25-Multicapability-Reviewed-Routes-C14-G16-2026-10-31.md). These routes are **discovery only**. They cover C05 linear, symbolic, precision and C10 finite Boolean. They are not present on the accepted COG-00 baseline; do not copy the old formal/schema imports blindly. Reconcile those dependencies against the current formal contracts first.
+- The recorded P25 live Qwen2.5 0.5B experiment had 64 completed calls (16 unique tasks, two repetitions per matched arm): 8/32 semantically correct unaided, 18/32 with verified backend context, 10 improvements and zero losses. C10 was 4/8 in both arms. This is promising isolated augmentation evidence, not authorized autonomous multi-component inference, not 32 independent tasks, and not current-model generalization evidence.
+- Earlier reported C05+C10 integer-constraint experiment used SAT/SAT/UNSAT and independently checked the complete two-solution set. Treat it as a reproduction target until the original executable source/receipts are located and verified. Preserve the independently checked completeness property.
+- Accepted baseline `cognitum/runtime.py` dispatches one operation through its registry and worker. `cognitum/ce_manifest.py` is an inert future-host manifest; no native Lu execution claim. Existing [R01–R08 composition protocols](design/research-validation-and-delivery.md) define typed host-owned DAG research. They are designs, not passing multi-component experiments.
+- Do not restore the earlier environment-digest-only KAN dispatcher or weaken recovered revocable approval, HDC provenance, model separation or host-owned authorization.
+- Existing source-only gate and generic combined tests do not replace a genuine solver-to-solver execution trace. The initial audit is sufficient to start COG-06A, not to mark COG-06 accepted.
+
+## 4. Standing blockers and preservation register
+
+| ID | Item | Status / disposition |
+|---|---|---|
+| B-01 | Original Zog Zoo trainable K4 KAN, K4 optimization overlay, trained P21–P25 HDC/KAN/SSM checkpoints, original training datasets/splits | BLOCKED — original bytes unlocated. HDC recovered code and historical reports survive. Reconstruct only under relevant literature-first task with new provenance; do not label a reconstruction as original. |
+| B-02 | C10 independent Alethe global proof verifier | OPEN — historical [41945719325](https://github.com/vjmichael/cognitum/actions/runs/41945719325) failure at unified PR #81; reject unverified proof, retain SAT negative control. |
+| B-03 | C15 official TrackEval real-data independent comparison | OPEN — historical [41945719233](https://github.com/vjmichael/cognitum/actions/runs/41945719233) failure in legacy NumPy alias context. Generic regression passing does not prove official scores. |
+| B-04 | C14 CH40 unrestricted global 0.05 gap | SUSPENDED BY OWNER — preserve research and exact limits. Not an active bug, delivery gate or COG-07 goal. |
+| B-05 | Actual installed Lu protected host and end-to-end native invocation | DEFERRED — COG-11; Cognitum-side isolated work only. |
+| B-06 | Historical PR source convergence | DEFERRED — COG-01. Base PR [#81](https://github.com/vjmichael/cognitum/pull/81), source archive [#82](https://github.com/vjmichael/cognitum/pull/82) and component branches remain preserved; review functionality, not simply PR counts. |
+| B-07 | Current actual Raspberry Pi, FPGA hardware and energy acceptance | DEFERRED — COG-08/09; do not call CPU emulation physical hardware evidence. |
+
+## 5. Evidence ledger and maintenance policy
+
+- COG-00 source recovery: [04d12fdd](https://github.com/vjmichael/cognitum/commit/04d12fdd118f1788d3054167cf942e05b939d621), 68/68 exact historical blobs, 71 added files, no removals. [Provenance](integration/COG00_SOURCE_PROVENANCE.json), [recovery report](integration/COG00_RECOVERY_20261116.md).
+- COG-00 initial acceptance: [44024774793](https://github.com/vjmichael/cognitum/actions/runs/44024774793), 20/20 HDC original selftests and 116 focused tests per platform, broader pytest exposed Linux test import and Windows raw ZIP path validation failures. Corrected as one group.
+- COG-00 final acceptance: [0486f068](https://github.com/vjmichael/cognitum/commit/0486f0687ddae96ea829229d5f76db78ac2cc8f8), [44025230949](https://github.com/vjmichael/cognitum/actions/runs/44025230949), **4/4 matrix jobs passed**; surviving-source gate accepted. No learned-checkpoint recovery or release approval implied.
+- 2026-11-16: owner moved COG-06 to the front, COG-07 practical only, postponed COG-03/04/05 for literature review and COG-01/02 toward the end. Initial COG-06A audit opened. This is a planning and evidence record, not new runtime code.
+- At each engineering closeout, update this ledger with date, exact commit SHA, run URL, passed/failed/skipped counts, artifact/provenance references, limitations, and next actionable task. Record what failed, the next task and remaining tasks. No green badge from an active run, no resetting failure history, no claiming skipped/untested behavior as a pass. Preserve accepted SHAs; avoid doc-only CI dispatch.
+
+**Next actionable engineering task:** COG-06A — finish historical cooperative reasoning source and evidence reconciliation, prioritize C05/C10 and other established components, and identify actual gaps before writing grouped repairs.  
