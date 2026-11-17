@@ -990,7 +990,18 @@
     "native_tests_not_run": 8,
     "historical_native_tests_not_run": 17,
     "required_wheel": "torch_hd-5.8.4-py3-none-any.whl",
-    "wheel_sha256": "734a2d4673af4418dd75908402c81d0221335bc96a9b8c07cfba4d86db6dd175"
+    "wheel_sha256": "734a2d4673af4418dd75908402c81d0221335bc96a9b8c07cfba4d86db6dd175",
+    "native_followup": {
+      "status": "native local tests passed; integration and remaining semantics pending",
+      "torchhd_version": "5.8.4",
+      "wheel_hash_matched": true,
+      "all_direct_dependencies_satisfied": true,
+      "total_candidate_tests_passed": 121,
+      "native_cases_included": 8,
+      "historical_native_tests_passed": 17,
+      "full_checkout": false,
+      "cross_platform": false
+    }
   },
   "frontier_extension": {
     "date": "2026-11-17",
@@ -1022,5 +1033,27 @@
         "state": "metadata verified; actual wheel, dependencies and execution not verified"
       }
     ]
+  },
+  "engine_direction": {
+    "date": "2026-11-17",
+    "charter": "COG03_UNIFIED_FRONTIER_ENGINE.md",
+    "architecture": "unified typed hardware-aware HDC execution engine; compatible mechanisms integrated into actual pipelines, not unrelated adapters",
+    "fhrr": "preferred initial general-purpose composition hypothesis, task evidence decides",
+    "ghrr": "optional specialist/fallback; same-task order, accuracy and total cost comparison",
+    "hardware": "CPU reference/optimized baseline; accelerator-ready protocol COG-03F; physical FPGA COG-09",
+    "canonical": "host ANSF/SQLite unchanged",
+    "production_enabled": false
+  },
+  "hdlib_local_audit": {
+    "wheel_sha256": "f71b49443e5324a67d33138845767cabe39618a29c95b49ac3aa21b8ca91c421",
+    "crc_passed": true,
+    "dependency_complete": false,
+    "missing": [
+      "mthree>=3.0.0",
+      "qiskit>=2.2.1",
+      "qiskit-aer>=0.17.2",
+      "qiskit-ibm-runtime>=0.42.0"
+    ],
+    "runtime_verified": false
   }
 }

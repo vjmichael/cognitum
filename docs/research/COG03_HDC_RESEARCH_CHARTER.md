@@ -85,3 +85,7 @@ Do not arbitrarily discard a family due to one narrow negative result, and do no
 ## 2026-11-17 frontier expansion
 
 See [frontier research extension](COG03_HDC_FRONTIER_2026-11-17.md) for 40 additional individually tracked research directions (total 85). B1 retains the original staged algebra closeout; B2 adds GHRR and its recent flattened matrix inference method. C–G incorporate the additional encoding, capacity, reasoning, learning, uncertainty and computational research; no runtime or benchmark claims. Check new literature at each subgroup and final freeze, preserving explicit evidence limits and separate hardware/model efficacy gates.
+
+## Owner-directed unified architecture
+
+See [unified frontier engine direction](COG03_UNIFIED_FRONTIER_ENGINE.md): 85 literature entries feed a single typed hardware-aware HDC execution architecture and coherent task pipelines. FHRR preferred initial composition hypothesis; GHRR optional specialist, evidence decides. COG-03F defines hardware-ready operations and transfer-aware performance, physical FPGA COG-09. Native B1 local gate passed, remaining semantic/integration acceptance open.
