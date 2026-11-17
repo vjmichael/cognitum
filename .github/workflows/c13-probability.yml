@@ -1,6 +1,8 @@
 name: C13 real SciPy Bayesian inference and calibration acceptance
 on:
   push:
+    # This exact development branch runs the consolidated COG-06B matrix.
+    branches-ignore: [development/cog-06-cooperative-reasoning-20261116]
     paths:
       - 'cognitum/probability_*.py'
       - 'cognitum/proto/probability_pb2.py'

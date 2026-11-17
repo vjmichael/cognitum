@@ -80,4 +80,6 @@ Orders are owner-adjustable; COG-03/04/05 remain research-only and do not gate t
 
 - 2026-11-16 COG-06A closeout: verified 689/689 transfer-packet blob hashes, 28/28 staged source paths matched historical C15 Git tree; isolated historical C05/C10 91 passed + 75 subtests, no skips. Initial 1 import failure corrected by restoring original staging dependencies (no source changes). Six P25 paths missing; historic C10 binding collides with current binding, 13 historical C10 paths missing. P25 CPU-contention UNKNOWN and original missing receipts explicitly carried forward. No new runtime/host acceptance.
 
+- 2026-11-16 COG-06B candidate prepared: restored legacy C10 bounded solver, SMT, finite proofs and incremental session alongside current wire; restored 67 historical C11–C13 source/test/benchmark paths under distinct binding names; default-off host gates retained, aggregate C10 deadline repaired. C11–C13 isolated reference tests 369 passed + 11 subtests, 2 optional native skips. Grouped Windows/Linux acceptance pending; no current combined pass or production claim.
+
 **Next actionable engineering task:** COG-06B — establish component-by-component CPU execution, typed contracts and independent correctness; reconcile historical C10 breadth without replacing current formal contracts. Preserve COG-06C–F and deferred research decisions.  

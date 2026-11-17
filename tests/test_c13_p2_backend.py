@@ -9,7 +9,7 @@ from unittest.mock import patch
 
 from cognitum import probability_backend as b
 from cognitum.proto import probability_backend_pb2 as q
-from tests.test_c13_probability import example
+from tests.test_c13_legacy_probability import example
 
 
 def request(backend=q.REFERENCE_EXACT, query=q.GRAPH_JOINT_POSTERIOR):

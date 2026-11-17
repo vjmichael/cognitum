@@ -1,6 +1,8 @@
 name: C12 real NetworkX planning acceptance
 on:
   push:
+    # This exact development branch runs the consolidated COG-06B matrix.
+    branches-ignore: [development/cog-06-cooperative-reasoning-20261116]
     paths:
       - 'cognitum/planning_*.py'
       - 'cognitum/proto/planning_pb2.py'

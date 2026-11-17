@@ -1,0 +1,484 @@
+{
+  "schema": "cognitum.cog06b.legacy-reconciliation.v1",
+  "historical_commit": "1cca0f48960855a0ca121620e8644682563bc175",
+  "staged_pre_import_repair": "11afcb8e2a0e3acd663078db40eebdcd40ee7179",
+  "records": [
+    {
+      "source_path": "cognitum/optimization.py",
+      "source_blob": "281c1ad15a410a1080d796016c90c4391711875b",
+      "destination": "cognitum/optimization.py",
+      "pre_import_repair_blob": "7d1bee564cdb3a209e9976bb43e9ae6f45626c24",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "cognitum/optimization_runtime.py",
+      "source_blob": "9211f8019194cced331633e509e4c968dc9d86ae",
+      "destination": "cognitum/optimization_runtime.py",
+      "pre_import_repair_blob": "e0e96115f19c82ec6c790cc7fd84c8b07477593c",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "cognitum/optimization_workflows.py",
+      "source_blob": "fe3e94228674517d127e7f5f4ed0b987efeff7f2",
+      "destination": "cognitum/optimization_workflows.py",
+      "pre_import_repair_blob": "f9ebf3cfa082dbf864522b54992e4b3e8e935435",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "cognitum/planning.py",
+      "source_blob": "b93b5ae395f8b9be0f2dc2df716762403d3de765",
+      "destination": "cognitum/planning.py",
+      "pre_import_repair_blob": "57ea0c848332cf1b0d59a1aefe29ede35ed59de4",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "cognitum/planning_engines.py",
+      "source_blob": "d93b13a47c7a7e7184042864f778eb5abef223e8",
+      "destination": "cognitum/planning_engines.py",
+      "pre_import_repair_blob": "85b49af44b15a272f9e4d0d5c76d7f3cf5167071",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "cognitum/planning_guidance.py",
+      "source_blob": "fa648cb9ea44580cf1ca3d43e515e8e4d34e1d10",
+      "destination": "cognitum/planning_guidance.py",
+      "pre_import_repair_blob": "d9963fd7f386bdc74b26e4b2f9c52b8aa7efc1ab",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "cognitum/planning_stochastic.py",
+      "source_blob": "e5649b81a6f94065b0496c29f86afae3fbcacb2e",
+      "destination": "cognitum/planning_stochastic.py",
+      "pre_import_repair_blob": "502491e372223dc73698b5b7626d4240ededb0c7",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "cognitum/planning_structured.py",
+      "source_blob": "38d2c586230e6ab298f2567102bd58cf5e846249",
+      "destination": "cognitum/planning_structured.py",
+      "pre_import_repair_blob": "224a59bcbe20966844bb4dac8ce6ff7bc5e7b38f",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "cognitum/probability.py",
+      "source_blob": "3518546e84521250865db0557aeb5c7add09b1f4",
+      "destination": "cognitum/probability.py",
+      "pre_import_repair_blob": "efe04f1d2cab95d2e5a1c6953cb7812303fbc8dd",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "cognitum/probability_backend.py",
+      "source_blob": "efabc20e812025ed4601ec88e309b47ea8c2e182",
+      "destination": "cognitum/probability_backend.py",
+      "pre_import_repair_blob": "84f2a9bd9f16122fe780926467eedae494fd8530",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "cognitum/probability_conjugate.py",
+      "source_blob": "958ade37c6daf9aba49fe724b507a8a15fbbda6b",
+      "destination": "cognitum/probability_conjugate.py",
+      "pre_import_repair_blob": "71ad1fc13ddb9d8a399d137ef7391864c5eee9d5",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "cognitum/probability_continuous.py",
+      "source_blob": "63d85da7c5c3f0419d0a1bcec49fdfd38389d6a8",
+      "destination": "cognitum/probability_continuous.py",
+      "pre_import_repair_blob": "aa2b6327a4504bb14beee75f3954e18305e6fe72",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "cognitum/probability_diagnostics.py",
+      "source_blob": "35190beb1000b6d33039a84cbbc92fc9b844f3cc",
+      "destination": "cognitum/probability_diagnostics.py",
+      "pre_import_repair_blob": "c94e0f7bb3d2b3e9ce69a47d8dea4d645380004a",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "cognitum/probability_pgmpy_worker.py",
+      "source_blob": "d74c53435c252b378a6875bb9feded0a2f327dd9",
+      "destination": "cognitum/probability_pgmpy_worker.py",
+      "pre_import_repair_blob": "d74c53435c252b378a6875bb9feded0a2f327dd9",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "cognitum/probability_pymc_worker.py",
+      "source_blob": "ed781f73fa0b229115811446ed7cac5cffb581fa",
+      "destination": "cognitum/probability_pymc_worker.py",
+      "pre_import_repair_blob": "ed781f73fa0b229115811446ed7cac5cffb581fa",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "cognitum/proto/optimization_pb2.py",
+      "source_blob": "075a21879db154a6fe9d5b3f4c16aa553e320e51",
+      "destination": "cognitum/proto/optimization_legacy_pb2.py",
+      "pre_import_repair_blob": "3839668a48012ed010afe3bbc86dcaf827e9d1e1",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "cognitum/proto/optimization_runtime_pb2.py",
+      "source_blob": "7081048dfcf20890005b52ac02e9729320d9cbfd",
+      "destination": "cognitum/proto/optimization_runtime_pb2.py",
+      "pre_import_repair_blob": "7081048dfcf20890005b52ac02e9729320d9cbfd",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "cognitum/proto/planning_engines_pb2.py",
+      "source_blob": "3787a8d932eb689619c6f15f3354c708430f09cd",
+      "destination": "cognitum/proto/planning_engines_pb2.py",
+      "pre_import_repair_blob": "3787a8d932eb689619c6f15f3354c708430f09cd",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "cognitum/proto/planning_guidance_pb2.py",
+      "source_blob": "c3f9f034debdb1c56349067b9d2c57b103761257",
+      "destination": "cognitum/proto/planning_guidance_pb2.py",
+      "pre_import_repair_blob": "10a06ca1391098b5ea6cb76813edd9161b9550fb",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "cognitum/proto/planning_pb2.py",
+      "source_blob": "60b7240c680fe3271dbc14b0046e351fcd227100",
+      "destination": "cognitum/proto/planning_classical_pb2.py",
+      "pre_import_repair_blob": "8451d8d6223c7203ad94083c2142d00403c625b1",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "cognitum/proto/planning_stochastic_pb2.py",
+      "source_blob": "19d9d13fa5a12b3e1ad90cbc7df6e4110a6ecac2",
+      "destination": "cognitum/proto/planning_stochastic_pb2.py",
+      "pre_import_repair_blob": "19d9d13fa5a12b3e1ad90cbc7df6e4110a6ecac2",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "cognitum/proto/planning_structured_pb2.py",
+      "source_blob": "08403f20de05ee9bbca1d86dbfb1322f3a23e0cc",
+      "destination": "cognitum/proto/planning_structured_pb2.py",
+      "pre_import_repair_blob": "08403f20de05ee9bbca1d86dbfb1322f3a23e0cc",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "cognitum/proto/probability_backend_pb2.py",
+      "source_blob": "5310a13aab59791dcf069b0741137f0170e86131",
+      "destination": "cognitum/proto/probability_backend_pb2.py",
+      "pre_import_repair_blob": "8eba62f0448b163505421080ee79c9bcc454990c",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "cognitum/proto/probability_conjugate_pb2.py",
+      "source_blob": "c24f64803ed8a4271a31c9b77a0a5e50b0a8c6c3",
+      "destination": "cognitum/proto/probability_conjugate_pb2.py",
+      "pre_import_repair_blob": "c24f64803ed8a4271a31c9b77a0a5e50b0a8c6c3",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "cognitum/proto/probability_continuous_pb2.py",
+      "source_blob": "dc1ed104adda4a8a4378fd0fb0c2c4b4e111358d",
+      "destination": "cognitum/proto/probability_continuous_pb2.py",
+      "pre_import_repair_blob": "dc1ed104adda4a8a4378fd0fb0c2c4b4e111358d",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "cognitum/proto/probability_diagnostics_pb2.py",
+      "source_blob": "bc34d9707282a423d1422f601085f840cf48404e",
+      "destination": "cognitum/proto/probability_diagnostics_pb2.py",
+      "pre_import_repair_blob": "bc34d9707282a423d1422f601085f840cf48404e",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "cognitum/proto/probability_pb2.py",
+      "source_blob": "7a3ba911acacca2502525ca4eb724bd5e2da272b",
+      "destination": "cognitum/proto/probability_inference_pb2.py",
+      "pre_import_repair_blob": "002d17cc0e37b734b26d308e4880f17c78617350",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "cognitum/proto/workflows_pb2.py",
+      "source_blob": "bd38b62af847c5031670fc7e4da49b19f232a5fb",
+      "destination": "cognitum/proto/workflows_pb2.py",
+      "pre_import_repair_blob": "bd38b62af847c5031670fc7e4da49b19f232a5fb",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "proto/cognitum/optimization/v1/optimize.proto",
+      "source_blob": "f5539bed97f9ca2fb3b572715d841d3e3bb784f7",
+      "destination": "proto/cognitum/optimization/v1/optimize.proto",
+      "pre_import_repair_blob": "f5539bed97f9ca2fb3b572715d841d3e3bb784f7",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "proto/cognitum/optimization/v1/runtime.proto",
+      "source_blob": "d7e2ab57785dacfbbfc174ec6bdd1a89de1cbc5b",
+      "destination": "proto/cognitum/optimization/v1/runtime.proto",
+      "pre_import_repair_blob": "d7e2ab57785dacfbbfc174ec6bdd1a89de1cbc5b",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "proto/cognitum/optimization/v1/workflows.proto",
+      "source_blob": "62ae78a10e5c018340a1e214dc500f036ff23f03",
+      "destination": "proto/cognitum/optimization/v1/workflows.proto",
+      "pre_import_repair_blob": "62ae78a10e5c018340a1e214dc500f036ff23f03",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "proto/cognitum/planning/v1/classical.proto",
+      "source_blob": "9cb00ece78be99853778f1d147e3462b0d2c55aa",
+      "destination": "proto/cognitum/planning/v1/classical.proto",
+      "pre_import_repair_blob": "9cb00ece78be99853778f1d147e3462b0d2c55aa",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "proto/cognitum/planning/v1/engines.proto",
+      "source_blob": "e23c15956c84116d6420e1f1f2afeec3d27e327b",
+      "destination": "proto/cognitum/planning/v1/engines.proto",
+      "pre_import_repair_blob": "e23c15956c84116d6420e1f1f2afeec3d27e327b",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "proto/cognitum/planning/v1/guidance.proto",
+      "source_blob": "d29c70ef54a8a4f2a65537e8b5e1a533df4b8a9a",
+      "destination": "proto/cognitum/planning/v1/guidance.proto",
+      "pre_import_repair_blob": "d29c70ef54a8a4f2a65537e8b5e1a533df4b8a9a",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "proto/cognitum/planning/v1/stochastic.proto",
+      "source_blob": "7c5c6ebe073855439700c4689fdce6023391d587",
+      "destination": "proto/cognitum/planning/v1/stochastic.proto",
+      "pre_import_repair_blob": "7c5c6ebe073855439700c4689fdce6023391d587",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "proto/cognitum/planning/v1/structured.proto",
+      "source_blob": "30fcff4822f4e1f3e8557f8151e080f4a0a9a1fe",
+      "destination": "proto/cognitum/planning/v1/structured.proto",
+      "pre_import_repair_blob": "30fcff4822f4e1f3e8557f8151e080f4a0a9a1fe",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "proto/cognitum/probability/v1/backend.proto",
+      "source_blob": "d4dd84141df0f42256e3c6291ae09f7c42f3fc80",
+      "destination": "proto/cognitum/probability/v1/backend.proto",
+      "pre_import_repair_blob": "d4dd84141df0f42256e3c6291ae09f7c42f3fc80",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "proto/cognitum/probability/v1/conjugate.proto",
+      "source_blob": "684cade89e80a4dd02dbbead5670c20a41759f00",
+      "destination": "proto/cognitum/probability/v1/conjugate.proto",
+      "pre_import_repair_blob": "684cade89e80a4dd02dbbead5670c20a41759f00",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "proto/cognitum/probability/v1/continuous.proto",
+      "source_blob": "67d3ccf81916b853a725e9bdf6be4267599e6b31",
+      "destination": "proto/cognitum/probability/v1/continuous.proto",
+      "pre_import_repair_blob": "67d3ccf81916b853a725e9bdf6be4267599e6b31",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "proto/cognitum/probability/v1/diagnostics.proto",
+      "source_blob": "d8b8f44a7dc6a638ad928d983b3381775ad3b99a",
+      "destination": "proto/cognitum/probability/v1/diagnostics.proto",
+      "pre_import_repair_blob": "d8b8f44a7dc6a638ad928d983b3381775ad3b99a",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "proto/cognitum/probability/v1/inference.proto",
+      "source_blob": "fd484fe0082a08cd7433498cef8e32adcf524d4c",
+      "destination": "proto/cognitum/probability/v1/inference.proto",
+      "pre_import_repair_blob": "fd484fe0082a08cd7433498cef8e32adcf524d4c",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "tests/test_c11_optimization.py",
+      "source_blob": "34f3cfeb5aa131c7d0b6309bb2e357a4a55b470c",
+      "destination": "tests/test_c11_optimization.py",
+      "pre_import_repair_blob": "f7f487b258366665f2c001c9c75614e4f448da6b",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "tests/test_c11_p3_runtime.py",
+      "source_blob": "0c1f889a9db1ec8813881aa33b7e589e7d5845dc",
+      "destination": "tests/test_c11_p3_runtime.py",
+      "pre_import_repair_blob": "0c1f889a9db1ec8813881aa33b7e589e7d5845dc",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "tests/test_c11_workflows.py",
+      "source_blob": "a2b7bc3f9a88d4ad384fe0d5bd7c187ff978b64a",
+      "destination": "tests/test_c11_workflows.py",
+      "pre_import_repair_blob": "a2b7bc3f9a88d4ad384fe0d5bd7c187ff978b64a",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "tests/test_c12_p2_engines.py",
+      "source_blob": "b037dd4ccb0778483e38eeb2c8860d982b67cfd7",
+      "destination": "tests/test_c12_p2_engines.py",
+      "pre_import_repair_blob": "b037dd4ccb0778483e38eeb2c8860d982b67cfd7",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "tests/test_c12_p3_stochastic.py",
+      "source_blob": "2b14022650b083d280a29fd5bbf632c3c373ce95",
+      "destination": "tests/test_c12_p3_stochastic.py",
+      "pre_import_repair_blob": "2b14022650b083d280a29fd5bbf632c3c373ce95",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "tests/test_c12_p3_structured.py",
+      "source_blob": "f15f51072ed2b20797086a1179b0f4cddc92393d",
+      "destination": "tests/test_c12_p3_structured.py",
+      "pre_import_repair_blob": "f15f51072ed2b20797086a1179b0f4cddc92393d",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "tests/test_c12_p4_guidance.py",
+      "source_blob": "9691923a7572b018d48ecde2d2d6ee0ea8e48349",
+      "destination": "tests/test_c12_p4_guidance.py",
+      "pre_import_repair_blob": "fe9a7a09661d34870991cbc35751b4c4674825f5",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "tests/test_c12_planning.py",
+      "source_blob": "e3107bbd2222bccb4e2a4582bac9e6a17cd7a06c",
+      "destination": "tests/test_c12_planning.py",
+      "pre_import_repair_blob": "a8fab729e438e939421127c721261cf57bf11c53",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "tests/test_c13_p2_backend.py",
+      "source_blob": "1cc5c96bda9e0023af9e854ee1c46550329daaa5",
+      "destination": "tests/test_c13_p2_backend.py",
+      "pre_import_repair_blob": "1cc5c96bda9e0023af9e854ee1c46550329daaa5",
+      "disposition": "renamed_test_fixture_import"
+    },
+    {
+      "source_path": "tests/test_c13_p3_continuous.py",
+      "source_blob": "13057469437c27cc6cbfc8ff2f834decd715a79a",
+      "destination": "tests/test_c13_p3_continuous.py",
+      "pre_import_repair_blob": "13057469437c27cc6cbfc8ff2f834decd715a79a",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "tests/test_c13_p4_conjugate.py",
+      "source_blob": "ccf4b5e3a88793677ad1cebd21cb08d26eacaba3",
+      "destination": "tests/test_c13_p4_conjugate.py",
+      "pre_import_repair_blob": "ccf4b5e3a88793677ad1cebd21cb08d26eacaba3",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "tests/test_c13_p4_diagnostics.py",
+      "source_blob": "96cd34d042d3396d956ffa21924b3b37fcf92c25",
+      "destination": "tests/test_c13_p4_diagnostics.py",
+      "pre_import_repair_blob": "96cd34d042d3396d956ffa21924b3b37fcf92c25",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "tests/test_c13_probability.py",
+      "source_blob": "d208e445d95697e4c63014c644a21f8bbf0c9d48",
+      "destination": "tests/test_c13_legacy_probability.py",
+      "pre_import_repair_blob": "50a5ee0f82a0f1f865cba5e009854e172b8f295f",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "tools/c11_worker.py",
+      "source_blob": "dff565e331c1ed338039e4698b51774e16585ac9",
+      "destination": "tools/c11_worker.py",
+      "pre_import_repair_blob": "dff565e331c1ed338039e4698b51774e16585ac9",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "tools/c12_unified_worker.py",
+      "source_blob": "2c6918769e816ae443e78500360c3cb660781442",
+      "destination": "tools/c12_unified_worker.py",
+      "pre_import_repair_blob": "2c6918769e816ae443e78500360c3cb660781442",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "tools/run_c11_p2_smoke.py",
+      "source_blob": "1b46755e0872725389adf0ec14ad779c9c25aedb",
+      "destination": "tools/run_c11_p2_smoke.py",
+      "pre_import_repair_blob": "1b46755e0872725389adf0ec14ad779c9c25aedb",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "tools/run_c11_p3_smoke.py",
+      "source_blob": "9da7ec7c16e3bab70d6428ab13a55d27e5820322",
+      "destination": "tools/run_c11_p3_smoke.py",
+      "pre_import_repair_blob": "9da7ec7c16e3bab70d6428ab13a55d27e5820322",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "tools/run_c11_smoke.py",
+      "source_blob": "31f3d0274d059ef7a8e04f25b3c06fe3641ad0c9",
+      "destination": "tools/run_c11_smoke.py",
+      "pre_import_repair_blob": "890e1faf9eeff039e06e560bf7575e0580b3f340",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "tools/run_c12_p2_smoke.py",
+      "source_blob": "0bd3c3b6fb983eddb15d12a0005ab1b52edf0c8b",
+      "destination": "tools/run_c12_p2_smoke.py",
+      "pre_import_repair_blob": "0bd3c3b6fb983eddb15d12a0005ab1b52edf0c8b",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "tools/run_c12_p3_smoke.py",
+      "source_blob": "40f5d2fbfcf404e7e47267d5ca3b9c1ee4abd866",
+      "destination": "tools/run_c12_p3_smoke.py",
+      "pre_import_repair_blob": "40f5d2fbfcf404e7e47267d5ca3b9c1ee4abd866",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "tools/run_c12_p4_smoke.py",
+      "source_blob": "f8aba39989522a108767540c91194e72256e767c",
+      "destination": "tools/run_c12_p4_smoke.py",
+      "pre_import_repair_blob": "1f15ebaa70c310190631268292a9fe9e323aae85",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "tools/run_c12_smoke.py",
+      "source_blob": "3ec56525664d9fff3ba801ea0833dee92f72c142",
+      "destination": "tools/run_c12_smoke.py",
+      "pre_import_repair_blob": "3558082bec0a81779312a6f0d4c7277aba6358da",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    },
+    {
+      "source_path": "tools/run_c13_p2_smoke.py",
+      "source_blob": "350ae7a11245df551c7bd59d46706ebf066fc865",
+      "destination": "tools/run_c13_p2_smoke.py",
+      "pre_import_repair_blob": "350ae7a11245df551c7bd59d46706ebf066fc865",
+      "disposition": "renamed_test_fixture_import"
+    },
+    {
+      "source_path": "tools/run_c13_p3_smoke.py",
+      "source_blob": "fe676eed14aa50678c86f381af79ddef7176a00a",
+      "destination": "tools/run_c13_p3_smoke.py",
+      "pre_import_repair_blob": "fe676eed14aa50678c86f381af79ddef7176a00a",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "tools/run_c13_p4_smoke.py",
+      "source_blob": "d21e6ccdb0a38787865eac719616781169c7b6e5",
+      "destination": "tools/run_c13_p4_smoke.py",
+      "pre_import_repair_blob": "d21e6ccdb0a38787865eac719616781169c7b6e5",
+      "disposition": "exact"
+    },
+    {
+      "source_path": "tools/run_c13_smoke.py",
+      "source_blob": "e918df2e8e694bb7b0a07ab59d55741f32f5628e",
+      "destination": "tools/run_c13_smoke.py",
+      "pre_import_repair_blob": "b42ea36fadd4884ea72328cca62502d0d6e9a360",
+      "disposition": "binding_module_rename_or_strict_host_authorization"
+    }
+  ],
+  "local_reconciled_reference_tests": {
+    "passed": 369,
+    "skipped": 2,
+    "subtests": 11,
+    "seconds": 27.43,
+    "log_sha256": "bed196c334ce1e1ad0b7378fa8ab3b5c30a1789511b44bbe4ed42b5908575963",
+    "limitations": "isolated historical reference subset; no full modern coexistence or Windows verification; optional pgmpy and PyMC runtime not validated"
+  }
+}

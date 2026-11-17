@@ -1,6 +1,8 @@
 name: C11 real OR-Tools and HiGHS optimization acceptance
 on:
   push:
+    # This exact development branch runs the consolidated COG-06B matrix.
+    branches-ignore: [development/cog-06-cooperative-reasoning-20261116]
     paths:
       - 'cognitum/optimization_*.py'
       - 'cognitum/proto/optimization_pb2.py'

@@ -4,7 +4,7 @@ import importlib.util
 from cognitum.proto import probability_backend_pb2 as q
 from cognitum.probability_backend import (run_graph_frame, verify_graph_receipt,
                                            make_graph_audit, WorkerPolicy, sha256_file, worker_source)
-from tests.test_c13_probability import example
+from tests.test_c13_legacy_probability import example
 
 def check(cond, name):
     if not cond: raise AssertionError(name)

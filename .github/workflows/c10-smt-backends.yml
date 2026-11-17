@@ -1,6 +1,8 @@
 name: C10 maintained SMT backend acceptance
 on:
   push:
+    # This exact development branch runs the consolidated COG-06B matrix.
+    branches-ignore: [development/cog-06-cooperative-reasoning-20261116]
     paths:
       - 'cognitum/formal_*.py'
       - 'tests/test_c10_*.py'
