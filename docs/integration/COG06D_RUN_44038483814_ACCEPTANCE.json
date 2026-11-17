@@ -1,0 +1,272 @@
+{
+  "schema": "cognitum.cog06d.acceptance.closeout.v1",
+  "date_utc": "2026-11-17",
+  "run_id": 44038483814,
+  "run_attempt": 1,
+  "run_url": "https://github.com/vjmichael/cognitum/actions/runs/44038483814",
+  "source_sha": "a728f677731f1984ccdffc3a9dadff0e757e5283",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "os": "windows",
+      "python": "3.11",
+      "id": 133887027087,
+      "conclusion": "success",
+      "focused": {
+        "passed": 739,
+        "skipped": 2,
+        "subtests": 950,
+        "failed": 0
+      },
+      "combined": {
+        "passed": 1227,
+        "skipped": 72,
+        "subtests": 1533,
+        "failed": 0
+      },
+      "descriptor_parity": 37,
+      "component_benchmarks_passed": 6,
+      "new_composition_tests_passed": 20,
+      "native_preflight": "success",
+      "artifact": {
+        "id": 14309120532,
+        "sha256": "f9e55ea0a840b100662fee249612ad0439c35c38b522e45842c9310736fd208a",
+        "size_bytes": 84548,
+        "locally_rehashed": true,
+        "zip_crc_valid": true,
+        "evidence_sha256": "f6d982abb6c611f6f7019c534180c6720dbac16e3811fbbe098521fe2666d540"
+      },
+      "evidence": {
+        "arms": 10,
+        "receipts": 13,
+        "worker_trace_entries": 26,
+        "data_bridge_requests_reconstructed": 3,
+        "all_recorded_log_hashes_match": true,
+        "focused_and_combined_junit_new_composition_cases": 20,
+        "timings_seconds": {
+          "integer_math_only": 0.2828,
+          "integer_single_witness": 0.2757,
+          "integer_complete_standalone": 0.2813,
+          "integer_cooperative": 0.5545,
+          "planner_only": 0.449,
+          "schedule_only": 0.642,
+          "planning_cooperative": 1.0778,
+          "bayes_only": 0.7829,
+          "physics_prior": 1.3225,
+          "physics_cooperative": 2.1859
+        }
+      }
+    },
+    {
+      "os": "windows",
+      "python": "3.13",
+      "id": 133887026937,
+      "conclusion": "success",
+      "focused": {
+        "passed": 739,
+        "skipped": 2,
+        "subtests": 950,
+        "failed": 0
+      },
+      "combined": {
+        "passed": 1227,
+        "skipped": 72,
+        "subtests": 1533,
+        "failed": 0
+      },
+      "descriptor_parity": 37,
+      "component_benchmarks_passed": 6,
+      "new_composition_tests_passed": 20,
+      "native_preflight": "success",
+      "artifact": {
+        "id": 14308372771,
+        "sha256": "4319aa13311a2c8b21c1d68daffe51f45cf47c8cf0b724d495a18a9be7cc9268",
+        "size_bytes": 84233,
+        "locally_rehashed": true,
+        "zip_crc_valid": true,
+        "evidence_sha256": "ab5d938a8072b299d540a1265a7a750e096cddc1edcdaad9ab309e5ede90026b"
+      },
+      "evidence": {
+        "arms": 10,
+        "receipts": 13,
+        "worker_trace_entries": 26,
+        "data_bridge_requests_reconstructed": 3,
+        "all_recorded_log_hashes_match": true,
+        "focused_and_combined_junit_new_composition_cases": 20,
+        "timings_seconds": {
+          "integer_math_only": 0.296,
+          "integer_single_witness": 0.2899,
+          "integer_complete_standalone": 0.301,
+          "integer_cooperative": 0.5788,
+          "planner_only": 0.4638,
+          "schedule_only": 0.6896,
+          "planning_cooperative": 1.1312,
+          "bayes_only": 0.9279,
+          "physics_prior": 1.3132,
+          "physics_cooperative": 2.2339
+        }
+      }
+    },
+    {
+      "os": "linux",
+      "python": "3.11",
+      "id": 133887027108,
+      "conclusion": "success",
+      "focused": {
+        "passed": 739,
+        "skipped": 2,
+        "subtests": 950,
+        "failed": 0
+      },
+      "combined": {
+        "passed": 1337,
+        "skipped": 12,
+        "subtests": 1547,
+        "failed": 0
+      },
+      "descriptor_parity": 37,
+      "component_benchmarks_passed": 6,
+      "new_composition_tests_passed": 20,
+      "native_preflight": "success",
+      "artifact": {
+        "id": 14307882988,
+        "sha256": "5e0c032db277831d078d5aff51957fddf2d880752ecd911f4bfbd2a43a09f256",
+        "size_bytes": 84501,
+        "locally_rehashed": true,
+        "zip_crc_valid": true,
+        "evidence_sha256": "8ad824def3ca14a0eb4cc968e7ec40f3f45dbf49922c048a2827b6d595cd8a39"
+      },
+      "evidence": {
+        "arms": 10,
+        "receipts": 13,
+        "worker_trace_entries": 26,
+        "data_bridge_requests_reconstructed": 3,
+        "all_recorded_log_hashes_match": true,
+        "focused_and_combined_junit_new_composition_cases": 20,
+        "timings_seconds": {
+          "integer_math_only": 0.1224,
+          "integer_single_witness": 0.1247,
+          "integer_complete_standalone": 0.1262,
+          "integer_cooperative": 0.2494,
+          "planner_only": 0.1798,
+          "schedule_only": 0.3115,
+          "planning_cooperative": 0.4877,
+          "bayes_only": 0.3529,
+          "physics_prior": 0.596,
+          "physics_cooperative": 0.9458
+        }
+      }
+    },
+    {
+      "os": "linux",
+      "python": "3.13",
+      "id": 133887027150,
+      "conclusion": "success",
+      "focused": {
+        "passed": 739,
+        "skipped": 2,
+        "subtests": 950,
+        "failed": 0
+      },
+      "combined": {
+        "passed": 1337,
+        "skipped": 12,
+        "subtests": 1547,
+        "failed": 0
+      },
+      "descriptor_parity": 37,
+      "component_benchmarks_passed": 6,
+      "new_composition_tests_passed": 20,
+      "native_preflight": "success",
+      "artifact": {
+        "id": 14308377240,
+        "sha256": "f6a74ce61dd5fa01d2ba302c726afe76422f8eabaf7ea05713ec78c069a96132",
+        "size_bytes": 84250,
+        "locally_rehashed": true,
+        "zip_crc_valid": true,
+        "evidence_sha256": "5765592d55b856df628e1ab85ce33400be73d3f0c9aaf887e78229ce623a3042"
+      },
+      "evidence": {
+        "arms": 10,
+        "receipts": 13,
+        "worker_trace_entries": 26,
+        "data_bridge_requests_reconstructed": 3,
+        "all_recorded_log_hashes_match": true,
+        "focused_and_combined_junit_new_composition_cases": 20,
+        "timings_seconds": {
+          "integer_math_only": 0.1369,
+          "integer_single_witness": 0.14,
+          "integer_complete_standalone": 0.1424,
+          "integer_cooperative": 0.2914,
+          "planner_only": 0.1965,
+          "schedule_only": 0.293,
+          "planning_cooperative": 0.4721,
+          "bayes_only": 0.3878,
+          "physics_prior": 0.5753,
+          "physics_cooperative": 0.9607
+        }
+      }
+    }
+  ],
+  "independent_artifact_audit": {
+    "archives_rehashed": 4,
+    "arms": 40,
+    "result_receipts_checked": 52,
+    "compute_verify_trace_entries_checked": 104,
+    "reconstructed_data_bridge_requests": 12,
+    "method": "Downloaded original CI archives; verified GitHub SHA256, ZIP CRC, recorded log hashes, exact source-before/source-after, compiled descriptors loaded in a common pool, canonical typed frames, source and output hashes, materialized bridge request hashes, verification and step receipt digests, plan digests, per-phase admission and trace associations, final publication chain, all 20 new JUnit cases per job; independently checked solution rows, scheduling witness and analytic harmonic positions, velocities and moments. No rerun of repository workers in local audit.",
+    "limitation": "Correlation hashes and artifact receipts are not authenticated production custody. Timings are single measured fixture arms per environment, not repeated performance benchmarks."
+  },
+  "results": {
+    "integer": {
+      "cases": 729,
+      "solutions": [
+        [
+          1,
+          5,
+          6
+        ],
+        [
+          2,
+          3,
+          7
+        ]
+      ],
+      "standalone_single_witness": [
+        1,
+        5,
+        6
+      ],
+      "standalone_complete": 2,
+      "cooperative_complete": 2,
+      "conclusion": "complete-set correctness parity; no speed advantage"
+    },
+    "planning": {
+      "standalone_makespan": 2,
+      "standalone_plan_consistent": false,
+      "cooperative_makespan": 4,
+      "cooperative_plan_consistent": true,
+      "conclusion": "logical precedence delivered to schedule; narrower matched fixture, not superiority over correctly constrained standalone scheduler"
+    },
+    "physics": {
+      "prior_mean_m": 1,
+      "prior_variance_m2": 0.25,
+      "posterior": [
+        0.8,
+        0.2
+      ],
+      "posterior_mean_m": 0.7,
+      "posterior_variance_m2": 0.16,
+      "conclusion": "conditional moments agree with analytic oracle; no empirical calibration claim"
+    }
+  },
+  "limitations": [
+    "optional pgmpy and PyMC/ArviZ focused skips; other combined platform/deferred skips",
+    "ArviZ diagnostic warning and Node20 action deprecation warning",
+    "no Lu, model efficacy, hard OS custody or general speed claim",
+    "Fast Downward, Carcara and official TrackEval remain unvalidated"
+  ],
+  "engineering_policy": "Owner clarifies early bespoke implementations were exploratory, not intentional duplication. Prefer maintained appropriately licensed CPU-compatible libraries for established algorithms; retain custom verified kernels, adapters and independent reference oracles when evidence supports a useful role or measured advantage under matched workloads. Preserve benchmark conditions and distinguish performance, correctness, coverage and resource tradeoffs; do not discard code solely because a library exists or promote it solely because it is custom. Full portfolio reconciliation remains COG-02.",
+  "next": "COG-06E",
+  "production_enabled": false
+}
