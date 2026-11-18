@@ -4,21 +4,24 @@
     "hardware/hdc/score64_balanced.sv": "dc88ba425edf130c936b8e47f1f4a9c57ec06229",
     "hardware/hdc/f2_vivado_ooc.tcl": "a474216d18c7e5c27042096d900324c8f2e1da48",
     "hardware/hdc/.gitattributes": "1d5d4d9ce93b1b58a4426b9b1cf48af6fd49b763",
-    "tools/cog03f2_synthesis.py": "f5271a14914d7d03b03406a997778bdd323cec2f",
-    "tools/cog03f2_acceptance.py": "8b394396e8916c840f5b7b1312042626d5a5d44a",
-    "tools/.gitattributes": "39c2e59eadcf9bc767621b6825afb172c0d9df87",
+    "tools/cog03f2_synthesis.py": "8e4a29200d974f352bc9ad6fd2192d0c374a6a0a",
+    "tools/cog03f2_acceptance.py": "14020d3edd627b399ffb5289c2812b925d2aaa20",
+    "tools/.gitattributes": "755742b31ee916ac2fa1f0d201b2ee10c94f2d34",
     "research_tests/hdc_f2/test_synthesis_contract.py": "8ea0c24da7d9b6a41ef4673af8e228921c8bb26c",
-    "research_tests/hdc_f2/.gitattributes": "c09a6b060ff67c2b5629b796b31e89d7405d6c36",
-    "docs/research/.gitattributes": "817f474c93ac2d42cc359d7f9af1c325fd998d3a",
+    "research_tests/hdc_f2/.gitattributes": "050c989e8a0ae85439535eeb39ecbdcea17bd198",
+    "docs/research/.gitattributes": "c169d7886c4060f3e7d59e3c6ac5a4b55cb44889",
     "docs/research/COG03F2_SYNTHESIS_PILOT.md": "4acbeb83798917aef8706095d1882e7637e7134a",
     "tools/cog03f2_core50.py": "761c4a2f59af883b5c2b9385d689be0ea117135b",
     "research_tests/hdc_f2/test_core50.py": "94d850cb6208b4aadc22c9f0e952e32e4faba655",
     "docs/research/COG03F2_CORE50_SAMPLE_RESULTS.json": "5cc9d982a4d276edc27aa4cc5e47c13e3d19d3ff",
     "hardware/hdc/score64_compact.sv": "5a1d1a8def213deca98cad13f559443d12a74239",
     "research_tests/hdc_f2/test_compact.py": "a753cf4183adf9be091124d758344aea4c321b0e",
-    "docs/research/COG03F2B_RESULTS.json": "72a97318dae39170b0cedb6cc5b978bb098ccf65"
+    "docs/research/COG03F2B_RESULTS.json": "72a97318dae39170b0cedb6cc5b978bb098ccf65",
+    "tools/cog03f2_mapped_cycle.py": "799d3d673678f6fecd53d41d7d9244a94a5dae0f",
+    "research_tests/hdc_f2/test_mapped_cycle.py": "65bb09c1bfe0dd0da324da217589b1d81ab22d8d",
+    "docs/research/COG03F2BC_MAPPED_REPLAY.json": "ee3ed8095f6f799bb326ede7ec33f42da86c6c33"
   },
   "production_enabled": false,
-  "revision_base": "eafe459c5777bbdc1be22ba9124f57f20510f82a",
-  "prior_manifest_sha256": "87006b885d7446fd248d4da161d90b73ea0f919a3453067eec96c96380f929b4"
+  "revision_base": "61fbeb8d0a11e31a60ed93d353572d77ec87d80b",
+  "prior_manifest_sha256": "c294be182887ea6595c3b4323dd938405ea3717b15fb82b4b22cb7f5e7ca635e"
 }

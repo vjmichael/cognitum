@@ -27,15 +27,15 @@ def main():
     OUT.mkdir(exist_ok=True);xml=OUT/'f2-tests.xml';log=OUT/'f2-tests.log'
     with log.open('wb') as f:subprocess.run([sys.executable,'-m','pytest','-q','research_tests/hdc_f2','--junitxml='+str(xml)],cwd=ROOT,stdout=f,stderr=subprocess.STDOUT,check=True,timeout=120)
     tests=list(ET.parse(xml).iter('testcase'))
-    if len(tests)!=29 or any(c.find(t) is not None for c in tests for t in ('failure','error','skipped')):raise RuntimeError('F2 test failure')
+    if len(tests)!=37 or any(c.find(t) is not None for c in tests for t in ('failure','error','skipped')):raise RuntimeError('F2 test failure')
     required=not scoped and os.getenv('COG03F2_SYNTH_REQUIRED')=='1'; native=False; artifacts=[xml,log]
     if required:
         from tools.cog03f2_synthesis import run
         result=run(OUT)
-        assert len(result['rows'])==3 and all(r['simulated'] and r['mapped_simulated'] and r['cycles']==5325 for r in result['rows']);native=True
-        artifacts.extend([OUT/'f2-synthesis.json',OUT/'f2-vectors.txt',OUT/'f2-mapping-partial.json'])
+        assert len(result['rows'])==3 and all(r['simulated'] and r['mapped_simulated'] and r['cycles']==5325 and r['compiled_mapped_cycles']==5325 and r['icarus_mapped_cycles']==(256 if r['top']=='score64' else 5325) for r in result['rows']);native=True
+        artifacts.extend([OUT/'f2-synthesis.json',OUT/'f2-vectors.txt',OUT/'f2-mapping-partial.json',OUT/'f2-icarus-prefix.txt'])
         for top in ('score64','score64_balanced','score64_compact'):
-            artifacts.extend(OUT/f'{top}-{name}' for name in ('compile.log','sim.log','yosys.log','mapped.json','mapped.v','mapped-compile.log','mapped-sim.log'))
+            artifacts.extend(OUT/f'{top}-{name}' for name in ('compile.log','sim.log','yosys.log','mapped.json','mapped.v','mapped-compile.log','mapped-sim.log','mapped-cycle.log'))
     assert before==source_check(scoped)
     if commit:assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()==commit and not subprocess.check_output(['git','status','--porcelain','--untracked-files=no'],cwd=ROOT,text=True).strip()
     (OUT/'f2-result.json').write_text(json.dumps(dict(source_sha=commit,source_blobs=before,scoped_only=scoped,passed=True,new_tests=len(tests),expected_hosted_tests=728+len(tests),synthesis_required=required,mapped_native=native,timing_qualified=False,physical_verified=False,production_enabled=False,artifact_hashes={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in artifacts}),indent=2)+'\n',encoding='utf8')

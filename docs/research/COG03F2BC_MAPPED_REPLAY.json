@@ -1,0 +1,125 @@
+{
+  "source_sha": "61fbeb8d0a11e31a60ed93d353572d77ec87d80b",
+  "run": 44390466402,
+  "archive_id": 14467614012,
+  "archive_sha256": "5127927a1dca096de39b7840503a5b08f37c69d716efa14ac5dff42921f03b7b",
+  "original_icarus_progress": 768,
+  "original_icarus_timeout_seconds": 900,
+  "rows": [
+    {
+      "top": "score64",
+      "netlist_sha256": "6cc6531b02a184c0bde7ddcd7b957df43a95038a68656ada1c258b36f3025e54",
+      "compiled_cycles": 5325,
+      "elapsed_seconds": 1.4235388569999827,
+      "compiled_log_sha256": "f864d201479198075f5b18db2ca4272314d8510f55045cf84b7d8a8a16903941",
+      "lut": 5271,
+      "ff": 65,
+      "carry4": 512,
+      "prior_icarus_full_pass": false
+    },
+    {
+      "top": "score64_balanced",
+      "netlist_sha256": "f6dd6a10ca2da27424ff86c9d8e38a5abe9b58d47ae955752d59d67a66b07b52",
+      "compiled_cycles": 5325,
+      "elapsed_seconds": 0.4669909019999636,
+      "compiled_log_sha256": "78abd733d83b9cdf51bbc6de8871b33e01587f1ec803bbd8b9c18644ce56f126",
+      "lut": 333,
+      "ff": 65,
+      "carry4": 13,
+      "prior_icarus_full_pass": true
+    },
+    {
+      "top": "score64_compact",
+      "netlist_sha256": "627a1b0d28a9880bf3aa934e79f525fbf6e39ef109e40efe4be911c60c74f589",
+      "compiled_cycles": 5325,
+      "elapsed_seconds": 0.507992374999958,
+      "compiled_log_sha256": "625d1b3df848d6ad22ac034092c64bb9c4936f353881e6a139961d6942202e92",
+      "lut": 820,
+      "ff": 65,
+      "carry4": 8,
+      "prior_icarus_full_pass": true
+    }
+  ],
+  "negative_control": {
+    "cycle": 3,
+    "rejected": true
+  },
+  "engine": "zero-delay compiled settled Boolean evaluation of actual archived XC7 mapped JSON; directly synchronous reset verified; no timing signoff",
+  "planned_hosted_gate": "all three full RTL Icarus and full compiled mapped cycle replay; balanced/compact full Icarus mapped, original 256-cycle mapped Icarus cross-check; no dropped vector comparisons",
+  "timing_qualified": false,
+  "physical_verified": false,
+  "verified_archives": [
+    {
+      "id": 14469936595,
+      "sha256": "8bf82d265581808bf253fdb70fc9e41e5758e61067664bc7f28123011357e002"
+    },
+    {
+      "id": 14469325276,
+      "sha256": "1de6accc5c1e26a11b15d338878e766e69fa5859d5a2feb70de676845f871d33"
+    },
+    {
+      "id": 14469196160,
+      "sha256": "cc3f32288dbacb14d03eaa456988c325c5d6ad5777502948c0b91ec209adacba"
+    },
+    {
+      "id": 14469135414,
+      "sha256": "e73ceb45398cb437816417c93ad9459672556d909e38f6cd570b67fc7c4bde42"
+    },
+    {
+      "id": 14468975513,
+      "sha256": "8ed8d8bf3c5e72d90f69b71b2d31f8ec3464729d124fc52cc30c09055d73d619"
+    },
+    {
+      "id": 14468790784,
+      "sha256": "f2697edfb05228eac9d30b07a7e3398fc005518375d1cde0f94284efadc3c78c"
+    },
+    {
+      "id": 14468735722,
+      "sha256": "6cf3b54c5356bceab3c6537787820f20874e0a8cb7859dfab2e5510997ddaf4e"
+    },
+    {
+      "id": 14468670753,
+      "sha256": "15b70a302eda1b19de02765618212bfbf2e9ad487f5d150cda5cb5e23719195a"
+    },
+    {
+      "id": 14468670727,
+      "sha256": "7e4f1fc0c16acf3a879d7d51b663ecbcc9edcaf831b5b2962b059e37e8adde19"
+    },
+    {
+      "id": 14468431102,
+      "sha256": "45209016d3d8d38e742f390e762fdd8d466a62cd643fe0e9e14daed03085f9e3"
+    },
+    {
+      "id": 14468181578,
+      "sha256": "287943d3627d9d3f815ca3588aacf7fc9927308a2b6c964f2fd80d644f3dafda"
+    },
+    {
+      "id": 14468171154,
+      "sha256": "b743c4821f6dad8b0fbdafa992f424f2a56a8a129efffbb1b33922102334403a"
+    },
+    {
+      "id": 14467726078,
+      "sha256": "17017005279c263a3229decd12569c7f3eb3c64eee64cba61e9c53cc9afbd5a6"
+    },
+    {
+      "id": 14467614012,
+      "sha256": "5127927a1dca096de39b7840503a5b08f37c69d716efa14ac5dff42921f03b7b"
+    },
+    {
+      "id": 14467477048,
+      "sha256": "156f061e48b98d97660b889071edb0566ed484ff828858dcfc0c047d238627ce"
+    },
+    {
+      "id": 14467384955,
+      "sha256": "051d79a9538996f90e1e2373a5624998fc9a28f428fa42dc91cb0dfed2d3b924"
+    },
+    {
+      "id": 14467224747,
+      "sha256": "8900793016289be827465c275a7bfffbbe70bfa5b82d521df7a7a8bd8e805c40"
+    },
+    {
+      "id": 14466989869,
+      "sha256": "1a2954617695d44683105d8d43288c121084cdc77199e79a64a1cfb4753cff42"
+    }
+  ]
+}

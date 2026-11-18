@@ -3183,5 +3183,23 @@
     "native_compact_synthesis_pending": true,
     "vivado_timing_pending": true,
     "production_enabled": false
+  },
+  "cog03f2bc_candidate": {
+    "source_parent": "61fbeb8d0a11e31a60ed93d353572d77ec87d80b",
+    "prior_run": 44390466402,
+    "prior_counts": {
+      "success": 17,
+      "failure": 1
+    },
+    "verified_archives": 18,
+    "local_scoped_tests": 37,
+    "full_compiled_mapped_replays": 3,
+    "cycles_per_replay": 5325,
+    "original_native_mapped_timeout_seconds": 900,
+    "original_native_mapped_progress": 768,
+    "optimized_native_mapped_full": true,
+    "hosted_native_pending": true,
+    "vivado_timing_pending": true,
+    "physical_verified": false
   }
 }

@@ -5,6 +5,7 @@ import argparse, hashlib, json, re, shutil, subprocess, tempfile
 from collections import Counter
 from pathlib import Path
 from tools.cog03f_rtl import vectors
+from tools.cog03f2_mapped_cycle import run as mapped_cycle
 ROOT=Path(__file__).resolve().parents[1]
 TOPS=('score64','score64_balanced','score64_compact')
 
@@ -72,24 +73,42 @@ def run(out):
             rows.append(row)
             # Preserve measured resource counts before expensive simulation; never mark a partial receipt accepted.
             (out/'f2-mapping-partial.json').write_text(json.dumps(dict(complete=False,rows=rows,timing_qualified=False),indent=2)+'\n',encoding='utf8')
-        # Map all variants before simulation; a slow baseline must not hide other mapped counts.
+        # Verify every full mapped netlist with the compiled settled-cycle engine.
+        # Independently retain full Icarus checks for both optimized lanes. For the
+        # original 5271-LUT cascade, check the first 256 cycles in Icarus as well:
+        # the prior 900 s timeout reached only 768 cycles, not a mismatch.
+        prefix=out/'f2-icarus-prefix.txt'
+        lines=oracle.read_text().splitlines()
+        if len(lines)!=meta['cycles']:raise ValueError('vector count drift')
+        prefix.write_text('\n'.join(lines[:256])+'\n',encoding='utf8')
         failures=[]
         for row in rows:
             top=row['top'];tb=Path(td)/f'{top}_tb.sv';verilog=out/f'{top}-mapped.v'
             gate_binary=Path(td)/f'{top}-mapped.vvp';gate_compile=out/f'{top}-mapped-compile.log';gate_sim=out/f'{top}-mapped-sim.log'
-            gate_sim.unlink(missing_ok=True)
+            cycle_log=out/f'{top}-mapped-cycle.log';gate_sim.unlink(missing_ok=True)
+            row.update(mapped_engine='compiled settled XC7 primitive evaluation',icarus_mapped_cycles=0,compiled_mapped_cycles=0)
             try:
+                cycle_text=mapped_cycle(out/f'{top}-mapped.json',top,oracle,cycle_log)
+                if f"PASS mapped cycle {meta['cycles']} cycles" not in cycle_text:raise ValueError('missing compiled mapped simulation pass')
+                row.update(compiled_mapped_cycles=meta['cycles'],mapped_cycle_sha256=digest(cycle_log))
+                gate_vectors=oracle;gate_cycles=meta['cycles']
+                if top=='score64':
+                    gate_vectors=prefix;gate_cycles=256
+                    tb_prefix=Path(td)/'score64_prefix_tb.sv'
+                    source=tb.read_text();needle='if(cycle<2000)'
+                    if source.count(needle)!=1:raise ValueError('prefix TB contract drift')
+                    tb_prefix.write_text(source.replace(needle,'if(cycle!=256)'),encoding='utf8');tb=tb_prefix
                 checked([iv,'-g2012','-s','score64_tb','-o',str(gate_binary),str(cells),str(verilog),str(tb)],gate_compile,120)
                 gate_sim.touch()
-                checked([vvp,str(gate_binary),f'+vectors={oracle}'],gate_sim,900)
-                if f"PASS score64 {meta['cycles']} cycles" not in gate_sim.read_text():raise ValueError('missing mapped simulation pass')
-                row.update(mapped_simulated=True,mapped_sim_sha256=digest(gate_sim))
-            except (subprocess.TimeoutExpired, subprocess.CalledProcessError, ValueError) as e:
+                checked([vvp,str(gate_binary),f'+vectors={gate_vectors}'],gate_sim,900)
+                if f"PASS score64 {gate_cycles} cycles" not in gate_sim.read_text():raise ValueError('missing Icarus mapped simulation pass')
+                row.update(mapped_simulated=True,icarus_mapped_cycles=gate_cycles,mapped_sim_sha256=digest(gate_sim))
+            except (subprocess.TimeoutExpired, subprocess.CalledProcessError, ValueError, RuntimeError) as e:
                 row.update(mapped_simulated=False,mapped_sim_error=str(e),mapped_sim_sha256=digest(gate_sim) if gate_sim.exists() else None)
                 failures.append(top)
             (out/'f2-mapping-partial.json').write_text(json.dumps(dict(complete=False,rows=rows,timing_qualified=False),indent=2)+'\n',encoding='utf8')
         if failures:raise RuntimeError('mapped simulation failed: '+','.join(failures))
-    receipt=dict(scope='XC7 generic mapped netlist only, no part-specific placement/routing/timing/board measurements',yosys=subprocess.check_output([yosys,'-V'],text=True).strip(),iverilog=subprocess.check_output([iv,'-V'],text=True,stderr=subprocess.STDOUT).splitlines()[0],primitive_model_sha256=digest(cells),vectors=meta,rows=rows,timing_qualified=False,physical_verified=False)
+    receipt=dict(scope='XC7 generic mapped netlist only, no part-specific placement/routing/timing/board measurements',yosys=subprocess.check_output([yosys,'-V'],text=True).strip(),iverilog=subprocess.check_output([iv,'-V'],text=True,stderr=subprocess.STDOUT).splitlines()[0],primitive_model_sha256=digest(cells),compiled_engine_sha256=digest(ROOT/'tools/cog03f2_mapped_cycle.py'),icarus_prefix_sha256=digest(prefix),vectors=meta,rows=rows,timing_qualified=False,physical_verified=False)
     (out/'f2-synthesis.json').write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf8');return receipt
 
 if __name__=='__main__':
