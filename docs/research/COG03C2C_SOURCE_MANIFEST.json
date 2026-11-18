@@ -1,0 +1,11 @@
+{
+  "accepted_base": "1db605ac864e36070a7692c86e8b3788d653d33d",
+  "git_blobs": {
+    "cognitum/research/hdc_structured_encoders.py": "bb8848cc52018bb3c5962bd5982677cb59f4a71f",
+    "research_tests/hdc/test_cog03c2c_structured.py": "08567b9af2d988ccff355350509802c997d3f43a",
+    "tools/cog03c2c_pilot.py": "99b738ea4958d9ca5e8c1d2d74a5e1c543c13bb0",
+    "tools/cog03c2c_acceptance.py": "9b368192e7d80e6b1fe36315ac249bc309d06e27"
+  },
+  "tests": 288,
+  "scope": "research-only bounded references and real dataset smoke"
+}

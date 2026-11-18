@@ -1,0 +1,150 @@
+{
+  "source_sha": "1db605ac864e36070a7692c86e8b3788d653d33d",
+  "run_id": 44211368129,
+  "attempt": 1,
+  "passed_jobs": 18,
+  "failed_jobs": 0,
+  "artifacts": [
+    {
+      "id": 14387095136,
+      "name": "cog03bc-windows-latest-py3.13",
+      "sha256": "e61532d055668605af428bf7bd63e1d3a0f1a7e2312a058b87f3ce06b07280f2",
+      "crc_passed": true
+    },
+    {
+      "id": 14386990315,
+      "name": "cog07-econml-windows-latest",
+      "sha256": "74a45034982fe737a3482fbf9b58b95834a72f1d0bdcc9fcf23a4c78fb0ace99",
+      "crc_passed": true
+    },
+    {
+      "id": 14386745948,
+      "name": "cog07-dowhy-windows-latest",
+      "sha256": "58ac8e2126859cddd1680be2299bb9ceb4af5785caa42aea8789eab26ea6a6fc",
+      "crc_passed": true
+    },
+    {
+      "id": 14386655895,
+      "name": "cog07-causal-learn-ubuntu-latest",
+      "sha256": "50bd85b60bdc5c8c732b2bc35ceaae841f0f47ccc10c2b678da5ac1a72f3303e",
+      "crc_passed": true
+    },
+    {
+      "id": 14386591252,
+      "name": "c10-native-proof-evidence",
+      "sha256": "6d62a2a1f50534297a2b58670cdeeed1971bdb538f41132094048c43f9d65952",
+      "crc_passed": true
+    },
+    {
+      "id": 14386586602,
+      "name": "cog07-windows-latest-py3.11",
+      "sha256": "55fd30d250022dc86f33e506c56ece7353c4e56775b0e44f33feac003f8507d2",
+      "crc_passed": true
+    },
+    {
+      "id": 14386571077,
+      "name": "cog07-ubuntu-latest-py3.13",
+      "sha256": "786f7d3dfda3dbd45e7b0f35791f5941f1fdffb0018848a28ec789eb1953cce0",
+      "crc_passed": true
+    },
+    {
+      "id": 14386441860,
+      "name": "cog07-econml-ubuntu-latest",
+      "sha256": "5e8d8f109e708c2547c6294bbac518a745130b26846903c9ed6e8181156a0b09",
+      "crc_passed": true
+    },
+    {
+      "id": 14386431443,
+      "name": "cog07-dowhy-ubuntu-latest",
+      "sha256": "479a7ca6bc08d8350f3dd118b986586d2b7204f2794393efd337bfdd289eb39a",
+      "crc_passed": true
+    },
+    {
+      "id": 14386317233,
+      "name": "cog06g-bytetrack-windows-latest",
+      "sha256": "0489395b3ea731574693098e379e1da1931fff4c2f6cb3c09934071b64f759ba",
+      "crc_passed": true
+    },
+    {
+      "id": 14385982391,
+      "name": "cog07-causal-learn-windows-latest",
+      "sha256": "b777a85fb380915a8eaf3f3657d36c81c7eac1c4c846a1d96735fc26b33d0014",
+      "crc_passed": true
+    },
+    {
+      "id": 14385867470,
+      "name": "cog03bc-ubuntu-latest-py3.13",
+      "sha256": "450658dfb056df8037722ff7848d45fe04b992140e55d7f1358e0db3ed95f5f2",
+      "crc_passed": true
+    },
+    {
+      "id": 14385722880,
+      "name": "cog07-ubuntu-latest-py3.11",
+      "sha256": "08fc5031dcd089d4bec3b9bc6aaed8ca59f7e6cbd47869c16e3a3b710c83b301",
+      "crc_passed": true
+    },
+    {
+      "id": 14385662858,
+      "name": "cog03bc-ubuntu-latest-py3.11",
+      "sha256": "265939e8434f20e03bcf62d9bd91945fffe3d7006274337db2b67d7616d7c426",
+      "crc_passed": true
+    },
+    {
+      "id": 14385638630,
+      "name": "c15-real-mot17-research-evidence",
+      "sha256": "94c3d3a34bf57f5120c97642717189e57114724fbf8f1a8d2ea0626a3d914ea9",
+      "crc_passed": true
+    },
+    {
+      "id": 14385583018,
+      "name": "cog03bc-windows-latest-py3.11",
+      "sha256": "85bd6fa441061d8dbeb3381991110eb9df5478536be7f1032ace247296f24733",
+      "crc_passed": true
+    },
+    {
+      "id": 14385568481,
+      "name": "cog07-windows-latest-py3.13",
+      "sha256": "692199962756c6ee34f93a733d406abbfceade5064cc9f7be51eacd8c03000d1",
+      "crc_passed": true
+    },
+    {
+      "id": 14384844731,
+      "name": "cog06g-bytetrack-ubuntu-latest",
+      "sha256": "48c7d15f8a691ba7686bec303e267f78a7bce625ae9fcf54bb2e5f28eb04381c",
+      "crc_passed": true
+    }
+  ],
+  "local_step_log_hashes_verified": 72,
+  "hdc": {
+    "tests_each": 262,
+    "failures_each": 0,
+    "skips_each": 0,
+    "groups": {
+      "inherited": 226,
+      "c2a": 11,
+      "c2b": 25
+    },
+    "platforms": [
+      "linux/3.11",
+      "linux/3.13",
+      "windows/3.11",
+      "windows/3.13"
+    ]
+  },
+  "preserved": {
+    "cpu_linux_passed": 1354,
+    "cpu_windows_passed": 1244,
+    "focused_passed": 787,
+    "linux_skips": 17,
+    "windows_skips": 77,
+    "focused_skips": 2,
+    "descriptor_sha256": "030ef8fe3e9763d511d82d3b9ead344c8225d771c2b4a55142c5dc99dafc7cf7",
+    "causal_jobs": 6,
+    "causal_tests_each": 39,
+    "bytetrack_tests_each": 8,
+    "native_proof_and_tracking_jobs": "successful; original archive digest and CRC verified"
+  },
+  "scope": "scoped reference acceptance only; no new local native proof/tracking rerun or full Linux budget reproduction",
+  "audit_sha256": "0e40933db79d63ccfb342a14e8008ff6c3658bcf8e4545f4fd40601448f34249",
+  "production_enabled": false
+}

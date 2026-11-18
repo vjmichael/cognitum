@@ -202,7 +202,8 @@
       "status": "planned",
       "reference": "TorchHD embeddings",
       "gate": "Distance and ordinal preservation",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "C2C reference ordered Hamming levels, thermometer, circular and density encoding; actual native TorchHD thermometer parity, seeded level/circular replay, density binding parity. Native conventions distinguished from custom geometry."
     },
     {
       "id": "E03",
@@ -235,7 +236,8 @@
       "status": "partial",
       "reference": "C08 / P21c / TorchHD structures",
       "gate": "Shared graph, unseen topology, direction, order",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "C2C typed directed role/filler encoding plus real graph propagation and gappy string kernel references; deeper graph reasoning remains D."
     },
     {
       "id": "M01",
@@ -487,7 +489,7 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
-      "local_candidate_status": "C2A/B bounded reference: MAP-I reversible sum, odd-cardinality one-shot MAP-B exact IID binomial errors, Bloom/Counting Bloom (with-replacement) occupancy and intersection oracle. 20 paired set cells under shared caps; nested MAP-B/sparse theorem coverage and larger tests open."
+      "local_candidate_status": "C2C nested odd-majority tree leaf gap and exact finite error, distinct-position sparse occupancy recurrence, independent exhaustive small cases; other paper theorems deferred workload-specific verification."
     },
     {
       "id": "E07",
@@ -529,7 +531,7 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
-      "local_candidate_status": "C2A actual angular rounding + streamed projection and digits pilot preserved; original NysHD graph/string datasets and broader kernel comparisons open."
+      "local_candidate_status": "C2C independent NysHD real MUTAG and Promoter bounded protocols (38 pilot/smoke rows); duplicate-grouped MUTAG holdout, same dimension replay, serialized cap and common process AS ceiling. Exact author's full kernels/training/panel deferred E/G; no full replication claim."
     },
     {
       "id": "E10",
@@ -543,7 +545,7 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
-      "local_candidate_status": "C2B VDC toggle and QND explicit software interpretations and screened indexed/no-shift dynamic symbols; raw interpretations flag antipodes or near-antipodes. Original RTL/reset and full ID-VSA Gaussian Polygon/multiscale/TRNG replication open."
+      "local_candidate_status": "C2C Gaussian Polygon four-way stochastic interpolation reference, shared intensity Gaussian CDF, independent selectors and blocked replay tested. Original RTL reset convention, complete Polygon hardware and TRNG remain blocked; implementation/device beyond scope."
     },
     {
       "id": "E11",
@@ -584,7 +586,7 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
-      "local_candidate_status": "C2B independent HyperSPACE-inspired sparse AND and train-only median threshold arm versus matched XOR; real digits pilot and counts oracle. Exact paper projection/quantizer/accelerator implementation and actual energy open."
+      "local_candidate_status": "C2B scoped sparse AND and train-only median threshold reference accepted; original HyperSPACE hardware and exact learned quantizer unavailable, tracked F/COG-09."
     },
     {
       "id": "M06",
@@ -1375,7 +1377,7 @@
     "limitations": "Independent CPU references, selected paper methods only; no original NysHD graph/string dataset reproduction, full capacity theorem coverage, complete memory budget, or hardware claims. Equal-payload cap is not equal process memory. Real digit data with 2 overlapping random held-out splits. Broader orchestration timed out; final per-arm subprocesses completed. No local full repository checkout."
   },
   "cog03c2ab_integration_candidate": {
-    "state": "C2A/B integrated scoped references; local source-bound pass; hosted acceptance pending",
+    "state": "accepted scoped exact-SHA native matrix at 1db605ac",
     "base": "d5b134b5899953b7f59f44147be6b07c70aca8a1",
     "accepted_baseline": "df2d7275ef16ab6e3b76d67cf2b783f83a8d7a98",
     "archive": "COG-03C2AB_Dynamic_Spatial_Capacity_Research.zip",
@@ -1459,6 +1461,211 @@
         "and_density": 0.006327447133676689,
         "xor_density": 0.31249293134047884,
         "hdc_payload": 24736
+      }
+    },
+    "production_enabled": false,
+    "hosted_acceptance": {
+      "source_sha": "1db605ac864e36070a7692c86e8b3788d653d33d",
+      "run_id": 44211368129,
+      "attempt": 1,
+      "passed_jobs": 18,
+      "failed_jobs": 0,
+      "artifacts": [
+        {
+          "id": 14387095136,
+          "name": "cog03bc-windows-latest-py3.13",
+          "sha256": "e61532d055668605af428bf7bd63e1d3a0f1a7e2312a058b87f3ce06b07280f2",
+          "crc_passed": true
+        },
+        {
+          "id": 14386990315,
+          "name": "cog07-econml-windows-latest",
+          "sha256": "74a45034982fe737a3482fbf9b58b95834a72f1d0bdcc9fcf23a4c78fb0ace99",
+          "crc_passed": true
+        },
+        {
+          "id": 14386745948,
+          "name": "cog07-dowhy-windows-latest",
+          "sha256": "58ac8e2126859cddd1680be2299bb9ceb4af5785caa42aea8789eab26ea6a6fc",
+          "crc_passed": true
+        },
+        {
+          "id": 14386655895,
+          "name": "cog07-causal-learn-ubuntu-latest",
+          "sha256": "50bd85b60bdc5c8c732b2bc35ceaae841f0f47ccc10c2b678da5ac1a72f3303e",
+          "crc_passed": true
+        },
+        {
+          "id": 14386591252,
+          "name": "c10-native-proof-evidence",
+          "sha256": "6d62a2a1f50534297a2b58670cdeeed1971bdb538f41132094048c43f9d65952",
+          "crc_passed": true
+        },
+        {
+          "id": 14386586602,
+          "name": "cog07-windows-latest-py3.11",
+          "sha256": "55fd30d250022dc86f33e506c56ece7353c4e56775b0e44f33feac003f8507d2",
+          "crc_passed": true
+        },
+        {
+          "id": 14386571077,
+          "name": "cog07-ubuntu-latest-py3.13",
+          "sha256": "786f7d3dfda3dbd45e7b0f35791f5941f1fdffb0018848a28ec789eb1953cce0",
+          "crc_passed": true
+        },
+        {
+          "id": 14386441860,
+          "name": "cog07-econml-ubuntu-latest",
+          "sha256": "5e8d8f109e708c2547c6294bbac518a745130b26846903c9ed6e8181156a0b09",
+          "crc_passed": true
+        },
+        {
+          "id": 14386431443,
+          "name": "cog07-dowhy-ubuntu-latest",
+          "sha256": "479a7ca6bc08d8350f3dd118b986586d2b7204f2794393efd337bfdd289eb39a",
+          "crc_passed": true
+        },
+        {
+          "id": 14386317233,
+          "name": "cog06g-bytetrack-windows-latest",
+          "sha256": "0489395b3ea731574693098e379e1da1931fff4c2f6cb3c09934071b64f759ba",
+          "crc_passed": true
+        },
+        {
+          "id": 14385982391,
+          "name": "cog07-causal-learn-windows-latest",
+          "sha256": "b777a85fb380915a8eaf3f3657d36c81c7eac1c4c846a1d96735fc26b33d0014",
+          "crc_passed": true
+        },
+        {
+          "id": 14385867470,
+          "name": "cog03bc-ubuntu-latest-py3.13",
+          "sha256": "450658dfb056df8037722ff7848d45fe04b992140e55d7f1358e0db3ed95f5f2",
+          "crc_passed": true
+        },
+        {
+          "id": 14385722880,
+          "name": "cog07-ubuntu-latest-py3.11",
+          "sha256": "08fc5031dcd089d4bec3b9bc6aaed8ca59f7e6cbd47869c16e3a3b710c83b301",
+          "crc_passed": true
+        },
+        {
+          "id": 14385662858,
+          "name": "cog03bc-ubuntu-latest-py3.11",
+          "sha256": "265939e8434f20e03bcf62d9bd91945fffe3d7006274337db2b67d7616d7c426",
+          "crc_passed": true
+        },
+        {
+          "id": 14385638630,
+          "name": "c15-real-mot17-research-evidence",
+          "sha256": "94c3d3a34bf57f5120c97642717189e57114724fbf8f1a8d2ea0626a3d914ea9",
+          "crc_passed": true
+        },
+        {
+          "id": 14385583018,
+          "name": "cog03bc-windows-latest-py3.11",
+          "sha256": "85bd6fa441061d8dbeb3381991110eb9df5478536be7f1032ace247296f24733",
+          "crc_passed": true
+        },
+        {
+          "id": 14385568481,
+          "name": "cog07-windows-latest-py3.13",
+          "sha256": "692199962756c6ee34f93a733d406abbfceade5064cc9f7be51eacd8c03000d1",
+          "crc_passed": true
+        },
+        {
+          "id": 14384844731,
+          "name": "cog06g-bytetrack-ubuntu-latest",
+          "sha256": "48c7d15f8a691ba7686bec303e267f78a7bce625ae9fcf54bb2e5f28eb04381c",
+          "crc_passed": true
+        }
+      ],
+      "local_step_log_hashes_verified": 72,
+      "hdc": {
+        "tests_each": 262,
+        "failures_each": 0,
+        "skips_each": 0,
+        "groups": {
+          "inherited": 226,
+          "c2a": 11,
+          "c2b": 25
+        },
+        "platforms": [
+          "linux/3.11",
+          "linux/3.13",
+          "windows/3.11",
+          "windows/3.13"
+        ]
+      },
+      "preserved": {
+        "cpu_linux_passed": 1354,
+        "cpu_windows_passed": 1244,
+        "focused_passed": 787,
+        "linux_skips": 17,
+        "windows_skips": 77,
+        "focused_skips": 2,
+        "descriptor_sha256": "030ef8fe3e9763d511d82d3b9ead344c8225d771c2b4a55142c5dc99dafc7cf7",
+        "causal_jobs": 6,
+        "causal_tests_each": 39,
+        "bytetrack_tests_each": 8,
+        "native_proof_and_tracking_jobs": "successful; original archive digest and CRC verified"
+      },
+      "scope": "scoped reference acceptance only; no new local native proof/tracking rerun or full Linux budget reproduction",
+      "audit_sha256": "0e40933db79d63ccfb342a14e8008ff6c3658bcf8e4545f4fd40601448f34249",
+      "production_enabled": false
+    }
+  },
+  "cog03c2c_integration_candidate": {
+    "state": "integrated local scoped C2C reference candidate; consolidated hosted acceptance pending",
+    "base": "1db605ac864e36070a7692c86e8b3788d653d33d",
+    "archive": "COG-03C2C_Research_Candidate.zip",
+    "archive_sha256": "16a154a267e1cf0d63294745f91b3bde05599418ac4d9f55d7eec1a507e40461",
+    "file_id": "file_0000000084ec81fd83ba7a39a7f69a5f",
+    "report_sha256": "ef926801b97c504c83af82b2f76b2907b25d2afeb9e0300783436387bd7cc0dd",
+    "local_scratch_sha": "776cb431784f9faf365604285379f2e52d9de4b1",
+    "source_blobs": {
+      "cognitum/research/hdc_structured_encoders.py": "bb8848cc52018bb3c5962bd5982677cb59f4a71f",
+      "research_tests/hdc/test_cog03c2c_structured.py": "08567b9af2d988ccff355350509802c997d3f43a",
+      "tools/cog03c2c_pilot.py": "99b738ea4958d9ca5e8c1d2d74a5e1c543c13bb0",
+      "tools/cog03c2c_acceptance.py": "9b368192e7d80e6b1fe36315ac249bc309d06e27",
+      "docs/research/COG03C2C_SOURCE_MANIFEST.json": "5423315518c0b49370eee9ab702cd5e0d4b8233b"
+    },
+    "tests_passed": 288,
+    "c2c_tests": 26,
+    "failures": 0,
+    "skips": 0,
+    "rows": 38,
+    "payload_cap_bytes": 524288,
+    "address_space_cap_mib": 384,
+    "grouped_mutag": {
+      "n_test_paired": 76,
+      "identical_normalized_features": 0,
+      "resident": 63,
+      "streamed": 66,
+      "nystrom": 62,
+      "ridge": 63,
+      "prototype": 43
+    },
+    "promoter": {
+      "n_test_paired": 44,
+      "resident": 38,
+      "streamed": 39,
+      "nystrom": 38,
+      "ridge": 40,
+      "prototype": 38
+    },
+    "equal_dimension_1024": {
+      "promoter": {
+        "correct": 18,
+        "n": 22,
+        "resident_snapshot": 707987,
+        "streamed_snapshot": 183447
+      },
+      "mutag": {
+        "correct": 29,
+        "n": 38,
+        "resident_snapshot": 628474,
+        "streamed_snapshot": 103934
       }
     },
     "production_enabled": false

@@ -7,6 +7,9 @@ on:
       - research_tests/hdc/**
       - tools/cog03bc_research_acceptance.py
       - tools/cog03c2_acceptance.py
+      - tools/cog03c2c_acceptance.py
+      - tools/cog03c2c_pilot.py
+      - docs/research/COG03C2C_SOURCE_MANIFEST.json
       - tools/cog03c2b_pilot.py
       - tools/cog03c2_frontier_pilot.py
       - tools/cog03c2_geometry_pilot.py
@@ -98,6 +101,7 @@ jobs:
     env:
       PYTHONUTF8: '1'
       COG03BC_EXPECTED_SHA: ${{ github.sha }}
+      COG03C2C_DATASETS: ${{ matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13' && '1' || '0' }}
       OMP_NUM_THREADS: '1'
       MKL_NUM_THREADS: '1'
       OPENBLAS_NUM_THREADS: '1'
@@ -110,7 +114,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Dedicated no-skip native HDC algebra and encoder research acceptance
-        run: python -m tools.cog03c2_acceptance
+        run: python -m tools.cog03c2c_acceptance
       - name: Archive exact-source HDC evidence and diagnostics
         if: always()
         uses: actions/upload-artifact@v4
