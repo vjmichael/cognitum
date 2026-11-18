@@ -11,6 +11,11 @@ on:
       - tools/cog03d2_acceptance.py
       - tools/cog03d2b_acceptance.py
       - tools/cog03e1_acceptance.py
+      - tools/cog03e2d_acceptance.py
+      - tools/cog03e2d_pilot.py
+      - tools/cog03e2d_closeout.py
+      - research_tests/hdc_e2d/**
+      - docs/research/COG03E2D_SOURCE_MANIFEST.json
       - tools/cog03e2c_acceptance.py
       - tools/cog03e2c_pilot.py
       - tools/cog03e2c_selection.py
@@ -154,7 +159,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Dedicated no-skip native HDC algebra and encoder research acceptance
-        run: python -m tools.cog03e2c_acceptance
+        run: python -m tools.cog03e2d_acceptance
       - name: Archive exact-source HDC evidence and diagnostics
         if: always()
         uses: actions/upload-artifact@v4

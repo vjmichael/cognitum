@@ -805,7 +805,8 @@
       "gate": "Reproduce bootstrap kNN graph/Louvain to binary majority community prototypes and streaming assignment; compare conventional Louvain, online k-means and matched kNN. ARI/NMI, drift, new clusters, cluster order, resource scaling.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "E2D independent packed frozen community prototypes and disjoint quantile calibration (48 rows, two orderings); Wine ARI improved; original proteomics and larger resource scaling open."
     },
     {
       "id": "L20",
@@ -818,7 +819,8 @@
       "gate": "Model normals, novel recurring clusters and unknown class count without label leakage or past raw history; reproduce chronological held-out WM-811K if accessible; compare open-world anomaly/clustering baselines and bounded memory with measured forgetting.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "E2D synthetic wafer morphology and four-phase already-encoded streams, bounded packed normal bank, effective uint16 count aging, protected/idle/refuse eviction; explicit stable identity retention and assignment coverage under 6/10 KiB caps. Original WM-811K and normal-distribution drift, full author fidelity and conventional open-world comparator remain open."
     },
     {
       "id": "L21",
@@ -831,7 +833,8 @@
       "gate": "Same density-distance scores in raw and encoded spaces ablated, compare Isolation Forest/OCSVM and native HDC detectors on identical held-out anomalies; ROC/PR AUC and false alarm rate, measure actual latency.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "E2D independent inductive density-distance with exact packed equal-bank parity, raw score ablation and 108 matched/unmatched rows including kNN, LOF, covariance, isolation forest and OCSVM. 32/64 KiB retained numeric budget for bank methods, not peak RAM. Original transductive fidelity and full latency incl encoding open."
     },
     {
       "id": "L22",
@@ -2770,7 +2773,7 @@
     }
   },
   "cog03e2c_integration_candidate": {
-    "state": "Research-only consolidated candidate; hosted inherited acceptance pending",
+    "state": "Research-only consolidated candidate; terminal exact-SHA native acceptance passed",
     "base": "0884cf6f837b626cdbaa295ac0286c8f6051c2e3",
     "local_scratch_sha": "ebce9add525e2f6c96c6536bd8e65798e903db78",
     "archive": "COG-03E2C_Consolidated_Closeout_Candidate.zip",
@@ -2823,6 +2826,70 @@
       },
       "packed_head_bytes_D256": 232,
       "dense_head_bytes_D256": 12288
+    },
+    "production_enabled": false,
+    "hosted_acceptance": {
+      "run_id": 44254509481,
+      "source_sha": "ffe6eb3678a3317e511c19dfc47a3d37c8444811",
+      "jobs_passed": 18,
+      "jobs_total": 18,
+      "hdc_tests_each": 554,
+      "verified_archives": 18,
+      "verified_internal_hashes": 296,
+      "receipt": "docs/research/COG03E2C_RUN_44254509481_ACCEPTANCE.json"
+    }
+  },
+  "cog03e2d_integration_candidate": {
+    "state": "Consolidated research-only candidate; hosted inherited acceptance pending",
+    "base": "ffe6eb3678a3317e511c19dfc47a3d37c8444811",
+    "local_scratch_sha": "7224c56f9b7dafa44b26e81eef05281bcc8ca46d",
+    "archive": "COG-03E2D_Consolidated_Closeout_Candidate.zip",
+    "file_id": "file_00000000148081fd85a40aa079a5974f",
+    "archive_sha256": "a8216516b52a05d54aea6bb3dbea940f0aac335b22f776a229ccc7008879fab2",
+    "source_blobs": {
+      "cognitum/research/hdc_stream_discovery.py": "689180a387aa5ec153a6584563c73fefd0a956d7",
+      "research_tests/hdc_e2d/test_discovery.py": "2abe14c72b11c7aa998a4e537f4db9587ab46dff",
+      "tools/cog03e2d_pilot.py": "0c56d29ad35d9a8ef4615ee0a6efe0df75fc0a2a",
+      "tools/cog03e2d_acceptance.py": "69e54ffa97108b0f880c45fec3ea0599ee29ae7c",
+      "docs/research/COG03E2D_STREAM_DISCOVERY.md": "93f4b80f745a7b78708be20bf4753e4f6c74a381",
+      "cognitum/research/hdc_discovery_closeout.py": "1c33cbd46c45767c5195fd78aca37a6515fc8414",
+      "research_tests/hdc_e2d/test_discovery_closeout.py": "d5f0b3881d684422c8635e21c1c90e8fcc7cb1ba",
+      "tools/cog03e2d_closeout.py": "c00e4ed7d9e4493d86df6200fe9f6aaba70813b8",
+      "docs/research/COG03E2D_SOURCE_MANIFEST.json": "a269992f3a7b2e34aedda6ca3ecc4e5037e58bc2",
+      "docs/research/COG03E2C_RUN_44254509481_ACCEPTANCE.json": "5f697fda8cd69f6815557745dad424656760eb68"
+    },
+    "tests": 167,
+    "new_tests": 31,
+    "expected_hosted_tests": 585,
+    "failures": 0,
+    "skips": 0,
+    "local_gate": "Scoped source-bound gate passed; full inherited checkout not available locally",
+    "pilot": {
+      "initial_rows": 54,
+      "clustering_rows": 48,
+      "drift_trajectories": 18,
+      "anomaly_rows": 108,
+      "seeds": [
+        701,
+        709,
+        719
+      ],
+      "drift_numeric_budgets_bytes": [
+        6144,
+        10240
+      ],
+      "anomaly_numeric_budgets_bytes": [
+        32768,
+        65536
+      ],
+      "wine_ari_fixed": 0.350127,
+      "wine_ari_q95": 0.777373,
+      "wine_mean_clusters_fixed": 23.5,
+      "wine_mean_clusters_q95": 5,
+      "packed_dense_equal_reference_parity": true,
+      "drift_lru_6k_old_identity_retention": 0,
+      "drift_temporary_10k_old_identity_retention": 1,
+      "drift_temporary_10k_late_novel_coverage": 1
     },
     "production_enabled": false
   }
