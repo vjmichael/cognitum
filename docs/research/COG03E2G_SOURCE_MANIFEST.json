@@ -1,0 +1,14 @@
+{
+  "base": "3c3a95e98dd6017d68b1f7c266714b5f4b4fbcf5",
+  "git_blobs": {
+    "cognitum/research/hdc_cooperative_learning.py": "1046a24f5570ff422d78f9ff8bb407de3fd00f70",
+    "research_tests/hdc_e2g/test_cooperative_learning.py": "8c7acd9b07efdd484a8731569817160a70238c8d",
+    "tools/cog03e2g_pilot.py": "449ff6a7a92fc32d172d3ffe1d80c97c37d8d3b6",
+    "tools/cog03e2g_acceptance.py": "6cc98ef1864d0d1f3b6993c9fb6cfeab22619e60",
+    "docs/research/COG03E2G_COOPERATIVE_LEARNING.md": "2faacb815ef0fbf72b78df90fffe85abc63447d9",
+    "cognitum/research/hdc_cooperative_closeout.py": "e5bac8316b7d2eb8ff91e4e17c94f80fc581d2f5",
+    "research_tests/hdc_e2g/test_cooperative_closeout.py": "da100085fbc3ef34ff047adfed0d0275cc030697",
+    "tools/cog03e2g_closeout.py": "1550e60fa42c7d3b79cd29757271c5478adedb27"
+  },
+  "production_enabled": false
+}

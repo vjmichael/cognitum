@@ -1,0 +1,147 @@
+{
+  "source_sha": "3c3a95e98dd6017d68b1f7c266714b5f4b4fbcf5",
+  "run_id": 44276242540,
+  "jobs_passed": 18,
+  "hdc": [
+    {
+      "id": 14415277107,
+      "sha256": "92e827db6a4e6112660de58eb3e0785fe414d2428b76640e8f4bf51c9f8ecd80",
+      "crc_passed": true,
+      "tests": 642,
+      "verified_hashes": 77,
+      "real_har": false
+    },
+    {
+      "id": 14415002297,
+      "sha256": "ac27260e09ee34e7f7b394d8cb7e1ce665141765f373a9010748fce8a057c5a6",
+      "crc_passed": true,
+      "tests": 642,
+      "verified_hashes": 77,
+      "real_har": false
+    },
+    {
+      "id": 14414652979,
+      "sha256": "2e60b9e279a1cee218784e52db45055ada7dfad9feb24c174e6a3d650f87ad1a",
+      "crc_passed": true,
+      "tests": 642,
+      "verified_hashes": 77,
+      "real_har": false
+    },
+    {
+      "id": 14414009101,
+      "sha256": "1613cef278385a82c9cd2e9b21494662e5f3f301fdd908d2c8470f37d7be7117",
+      "crc_passed": true,
+      "tests": 642,
+      "verified_hashes": 77,
+      "real_har": true
+    }
+  ],
+  "verified_hashes": 308,
+  "production_enabled": false,
+  "har_sha256": "c00b803081a5c797cd5e4b83700a9810b38d53d9d84e01917e090e1fdbc81031",
+  "other_archives": [
+    {
+      "id": 14415650247,
+      "sha256": "d7a06fc7187530ad59d9f0656d9ec0be9dc0eff9947b1251613ee8916ddf429d",
+      "crc_passed": true,
+      "entries": 22
+    },
+    {
+      "id": 14415460282,
+      "sha256": "2279801a47dbe000b8ec799454918b586e259b609b005bb1e6bc79976c26d2c0",
+      "crc_passed": true,
+      "entries": 4
+    },
+    {
+      "id": 14415355912,
+      "sha256": "e3df462e2c08608dae91305025d43be0790c1114e8fd4c7546c8bc736266e1f9",
+      "crc_passed": true,
+      "entries": 3
+    },
+    {
+      "id": 14415246609,
+      "sha256": "fbca9f5c7044c92ec5ffbb11262d518f154869bbba6addf2c204f8cbb3d291ec",
+      "crc_passed": true,
+      "entries": 22
+    },
+    {
+      "id": 14415221596,
+      "sha256": "9643cbb208a64c9f8a24dfbc7be1b565c1332948010e0844d0f765bb46d536c5",
+      "crc_passed": true,
+      "entries": 22
+    },
+    {
+      "id": 14415082006,
+      "sha256": "f8db9f1024d8dc638baa7eba7e8ee725500bd061b52daf101bf27b0e88d51f33",
+      "crc_passed": true,
+      "entries": 25
+    },
+    {
+      "id": 14414611963,
+      "sha256": "00de4c53fe8628a1239a370f2a11f9ee21ded4bad279ca1f364a89c43a2e4561",
+      "crc_passed": true,
+      "entries": 4
+    },
+    {
+      "id": 14414552021,
+      "sha256": "a2833dd82cb8e3124250281c6d2c0dedc6527aeaf9cef2cc4d765ea788de5ca1",
+      "crc_passed": true,
+      "entries": 4
+    },
+    {
+      "id": 14414528580,
+      "sha256": "88d51010d6f10500ab0eb5314ac9a8dcc340d46863f453b45a1779303f92ee49",
+      "crc_passed": true,
+      "entries": 22
+    },
+    {
+      "id": 14414153105,
+      "sha256": "7f887b587708fa4a949a6d5e43bdb022eed9306153b32ce8fb2c7fa327c8f197",
+      "crc_passed": true,
+      "entries": 4
+    },
+    {
+      "id": 14414069135,
+      "sha256": "ceb0fa9a914272cfaf0550c851bafc5ac59fd9e4009820c086d763ee75137479",
+      "crc_passed": true,
+      "entries": 4
+    },
+    {
+      "id": 14413894809,
+      "sha256": "6ce6c8cd913ee6304b902b9a5f479cf9b70b2ca73f7c7c54630ba604550f1c6d",
+      "crc_passed": true,
+      "entries": 26
+    },
+    {
+      "id": 14413804426,
+      "sha256": "85c247205235901b3c35fdeecd5b1963f0d9bc4eb198495bd7d6b5f88fa6055f",
+      "crc_passed": true,
+      "entries": 13
+    },
+    {
+      "id": 14413744238,
+      "sha256": "82fac78d037ea5db01883203eb268e19c5810982a92d211332d6b7593e7f79ad",
+      "crc_passed": true,
+      "entries": 4
+    }
+  ],
+  "full_audit_sha256": "f9c3545b3b1a94e4cc8e7ba1143458536c439fd9ed116e2f60d3d4e3f92ddcc6",
+  "scope": "Full archive digests and CRC; 308 internal HDC artifact hashes; other archives not fully audited internally.",
+  "summary_har": {
+    "test_n": 2947,
+    "seeds": 3,
+    "subjects": [
+      11,
+      10,
+      9
+    ],
+    "4KiB": {
+      "ldn_packed": 0.7804547,
+      "raw_logistic": 0.77140595
+    },
+    "16KiB": {
+      "ldn_logistic": 0.88722995,
+      "ldn_packed": 0.79470648
+    }
+  }
+}

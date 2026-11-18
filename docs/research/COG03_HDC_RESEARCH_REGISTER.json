@@ -862,7 +862,7 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
-      "local_candidate_status": "E2E actual ImageNet MobileNetV2 FP32+QNNPACK PTQ accepted at 83429ca; negative 40-row comparison used 1797 8x8 grayscale Digits resized to RGB, 64/1280 features selected first two classes, not natural images. Original QAT check failed. Keep CIFAR-10 and official cropped CORe50 RGB/session qualification with broader/no feature selection on same splits; separate CNN costs; no hardware claims."
+      "local_candidate_status": "E2E actual ImageNet MobileNetV2 FP32+QNNPACK PTQ accepted at 83429ca; negative 40-row comparison used 1797 8x8 grayscale Digits resized to RGB, 64/1280 features selected first two classes, not natural images. Original QAT check failed. Keep CIFAR-10 and official cropped CORe50 RGB/session qualification with broader/no feature selection on same splits; separate CNN costs; no hardware claims. User explicitly passed on CORe50; defer, not required. CIFAR-10 upload underway; verify original archive and official split before visual follow-up. Prior Digits 8x8/QAT limitations retained."
     },
     {
       "id": "L24",
@@ -903,7 +903,8 @@
       "gate": "Small offline simulated decision tasks, HDC Q-learning/hybrid/SAC research references, fixed environment and return distribution, state/action key interference; no policy authority, real-world controller or network deployment.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": " E2G hard maze 24k fixed replay, 15x15 and 20% slip, 4/16 KiB retained memory; conventional Fourier/tabular stronger, oracle 100%; no SAC or real-world policy."
     },
     {
       "id": "L27",
@@ -917,7 +918,8 @@
       "gate": "Simulate clients locally, same non-IID partitions, aggregation and poisoning/communication-noise tests, bytes and update time; no network egress, privacy claims require mechanism and accountant.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": " E2G simulated client training statistics, true frame payloads both directions, conventional float32 FedAvg softmax, non-IID matched partitions and 8/32 KiB estimated client workspace. Robust median and packed payload evidence; no real network/DP/Byzantine guarantee."
     },
     {
       "id": "L28",
@@ -930,7 +932,8 @@
       "gate": "Track each cited original algorithm separately at method audit: semi-supervised pseudo-labeling, multi-prototype search, task-projected multitask, hierarchical multi-encoder and HDCluster; no attribution of new 2026 invention. Baselines and ablations per method.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": " E2G actual packed SearcHD random class examples + distance-dependent true-class substitution, independent oracle; streaming record/adjacent-pair lazy routing, held-out calibration; prior SemiHD/TP-HDC/HDCluster controls preserved. Full paper fidelity and wider calibration open."
     },
     {
       "id": "H06",
@@ -3027,6 +3030,44 @@
       ],
       "real_har_executed": false,
       "real_har_archive_sha256": "c00b803081a5c797cd5e4b83700a9810b38d53d9d84e01917e090e1fdbc81031"
+    },
+    "production_enabled": false
+  },
+  "cog03e2g_integration_candidate": {
+    "state": "Scoped local gate passed; hosted inherited acceptance pending",
+    "base": "3c3a95e98dd6017d68b1f7c266714b5f4b4fbcf5",
+    "archive": "COG-03E2G_Consolidated_Closeout_Candidate.zip",
+    "file_id": "file_0000000027a881fdb5f7dd068edec5c6",
+    "archive_sha256": "faa5522230c53e981e95fa08e0a336fdd946463e0c70f0d67f660b2d86f9c22f",
+    "source_blobs": {
+      "cognitum/research/hdc_cooperative_learning.py": "1046a24f5570ff422d78f9ff8bb407de3fd00f70",
+      "research_tests/hdc_e2g/test_cooperative_learning.py": "8c7acd9b07efdd484a8731569817160a70238c8d",
+      "tools/cog03e2g_pilot.py": "449ff6a7a92fc32d172d3ffe1d80c97c37d8d3b6",
+      "tools/cog03e2g_acceptance.py": "6cc98ef1864d0d1f3b6993c9fb6cfeab22619e60",
+      "docs/research/COG03E2G_COOPERATIVE_LEARNING.md": "2faacb815ef0fbf72b78df90fffe85abc63447d9",
+      "cognitum/research/hdc_cooperative_closeout.py": "e5bac8316b7d2eb8ff91e4e17c94f80fc581d2f5",
+      "research_tests/hdc_e2g/test_cooperative_closeout.py": "da100085fbc3ef34ff047adfed0d0275cc030697",
+      "tools/cog03e2g_closeout.py": "1550e60fa42c7d3b79cd29757271c5478adedb27",
+      "docs/research/COG03E2G_SOURCE_MANIFEST.json": "e4902cd11c48736cb457e8b64671c45b1e1604b2",
+      "docs/research/COG03E2F_RUN_44276242540_ACCEPTANCE.json": "183792e1403b07e195b5800d1aaf25fd432dcab2"
+    },
+    "tests": 265,
+    "new_tests": 41,
+    "expected_hosted_tests": 683,
+    "failures": 0,
+    "skips": 0,
+    "pilot": {
+      "initial_rows": 225,
+      "expanded_rows": 459,
+      "exploratory_rows": 459,
+      "seeds": [
+        1723,
+        1733,
+        1741
+      ],
+      "rl_rows": 60,
+      "federated_rows": 339,
+      "binary_rows": 60
     },
     "production_enabled": false
   }
