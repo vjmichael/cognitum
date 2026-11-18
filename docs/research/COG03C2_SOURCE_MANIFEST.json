@@ -1,0 +1,17 @@
+{
+  "schema": "cognitum.cog03c2.candidate.v1",
+  "accepted_base": "df2d7275ef16ab6e3b76d67cf2b783f83a8d7a98",
+  "git_blobs": {
+    "cognitum/research/hdc_frontier_encoders.py": "b74ac593c689c925675b3bfc580c730e8dd06cb3",
+    "research_tests/hdc/test_cog03c2_frontier.py": "28ebbc5d955fab2c7ec01b96d91ea8438f1fcf7b",
+    "tools/cog03c2_frontier_pilot.py": "2735b780cbd8d22d3e514b967b9840f11a9ba750",
+    "tools/cog03c2_geometry_pilot.py": "82304b82c8075928b96da524f6833170ecd409e1",
+    "cognitum/research/hdc_dynamic_spatial.py": "2010a93856e06fffd74237dec7c89b424f142e8b",
+    "cognitum/research/hdc_capacity.py": "b8820b863a23800f549a52781875607ba1d4feac",
+    "research_tests/hdc/test_cog03c2b_dynamic.py": "acbc0db7c1f8afd47cebd1bf4f1e236d6366d2ad",
+    "tools/cog03c2b_pilot.py": "4d4883fbedbc37595ec5c074cef5923c984dbb8c",
+    "tools/cog03c2_acceptance.py": "bd84d429388673c661459bb37a9f6e3717834ab3"
+  },
+  "test_count": 262,
+  "production_enabled": false
+}

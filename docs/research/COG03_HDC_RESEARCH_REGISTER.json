@@ -412,7 +412,7 @@
       "reference": "parallel.py / reported K4",
       "gate": "Reproduce exact score parity; no unbounded thread changes",
       "accepted": false,
-      "local_candidate_status": "initial indexed/orthogonal/packed reference and bounded pilot implemented; further research fidelity and whole-system benchmarks open"
+      "local_candidate_status": "C2A/B exact packed BSC, streamed projection, half-spectrum compressed phase geometry; full hardware kernels and actual FPGA performance remain F/COG-09."
     },
     {
       "id": "H02",
@@ -487,7 +487,7 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
-      "local_candidate_status": "local C2A indexed MAP-I exact accumulator, elementary independent membership and intersection bounds, 60-cell pilot; MAP-B/sparse/Bloom/full theorem verification open"
+      "local_candidate_status": "C2A/B bounded reference: MAP-I reversible sum, odd-cardinality one-shot MAP-B exact IID binomial errors, Bloom/Counting Bloom (with-replacement) occupancy and intersection oracle. 20 paired set cells under shared caps; nested MAP-B/sparse theorem coverage and larger tests open."
     },
     {
       "id": "E07",
@@ -501,7 +501,7 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
-      "local_candidate_status": "local C2A anisotropic Gaussian FPE, composition/kernel tests and 5x5 geometry pilot; natural-data task/learning qualification open"
+      "local_candidate_status": "C2A anisotropic Gaussian FPE plus C2B spatial composition and paired spectrum; more real task/learning qualification open."
     },
     {
       "id": "E08",
@@ -529,7 +529,7 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
-      "local_candidate_status": "local C2A generic PSD Nyström + actual angular hyperplane rounding, resident and replayed packed output, real digits pilot; graph/string benchmarks and full paper replication open"
+      "local_candidate_status": "C2A actual angular rounding + streamed projection and digits pilot preserved; original NysHD graph/string datasets and broader kernel comparisons open."
     },
     {
       "id": "E10",
@@ -543,7 +543,7 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
-      "local_candidate_status": "local C2A indexed IID exact update/rematerialization and streamed hyperplane projection; not exact ID-VSA paper reproduction"
+      "local_candidate_status": "C2B VDC toggle and QND explicit software interpretations and screened indexed/no-shift dynamic symbols; raw interpretations flag antipodes or near-antipodes. Original RTL/reset and full ID-VSA Gaussian Polygon/multiscale/TRNG replication open."
     },
     {
       "id": "E11",
@@ -556,7 +556,8 @@
       "gate": "Evaluate continuous spatial phase encoding, similarity/cleanup and regression using HRR/FHRR on fixed inputs; check shift/composition and resolution limits. Profile entire pipeline, not only binding complexity.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "C2B HyperSpace-style shared-phase HRR/FHRR/half-FHRR continuous spatial superposition, inverse, one-step cleanup, codebook-weighted regression. Matching predictions/half-spectrum exact compression; larger real spatial and full independent paper replication open."
     },
     {
       "id": "E12",
@@ -582,7 +583,8 @@
       "gate": "Reproduce sparse projection, AND-binding and adaptive binary threshold in software; test density, collisions and information loss. AND is not invertible XOR; separate algorithm benefits from CIM energy estimates.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "C2B independent HyperSPACE-inspired sparse AND and train-only median threshold arm versus matched XOR; real digits pilot and counts oracle. Exact paper projection/quantizer/accelerator implementation and actual energy open."
     },
     {
       "id": "M06",
@@ -1371,5 +1373,94 @@
       "pixel_n_each": 50000
     },
     "limitations": "Independent CPU references, selected paper methods only; no original NysHD graph/string dataset reproduction, full capacity theorem coverage, complete memory budget, or hardware claims. Equal-payload cap is not equal process memory. Real digit data with 2 overlapping random held-out splits. Broader orchestration timed out; final per-arm subprocesses completed. No local full repository checkout."
+  },
+  "cog03c2ab_integration_candidate": {
+    "state": "C2A/B integrated scoped references; local source-bound pass; hosted acceptance pending",
+    "base": "d5b134b5899953b7f59f44147be6b07c70aca8a1",
+    "accepted_baseline": "df2d7275ef16ab6e3b76d67cf2b783f83a8d7a98",
+    "archive": "COG-03C2AB_Dynamic_Spatial_Capacity_Research.zip",
+    "file_id": "file_000000003fc081fdaa0087166c3eef8a",
+    "archive_sha256": "82b569f72f3c04f59a6aa730784be5e535297f847850f125bb7c66ea6fa5de26",
+    "pilot_sha256": "51f43bdf2c5524d1d25cd06dcae5a8d63256d3846b2f117dd039ea07a83cb4a4",
+    "source_manifest_blob": "3e9dcbda6913a211d771b5da78e0ad78023ba266",
+    "local_scratch_sha": "70989b565565664cc7d3934b9d490d7e6cb5ec48",
+    "tests_passed": 262,
+    "test_groups": {
+      "inherited": 226,
+      "c2a": 11,
+      "c2b": 25
+    },
+    "failures": 0,
+    "skips": 0,
+    "prior_source_blobs_verified": 33,
+    "c2a_source_blobs_unchanged": 4,
+    "source_blobs": {
+      "cognitum/research/hdc_frontier_encoders.py": "b74ac593c689c925675b3bfc580c730e8dd06cb3",
+      "research_tests/hdc/test_cog03c2_frontier.py": "28ebbc5d955fab2c7ec01b96d91ea8438f1fcf7b",
+      "tools/cog03c2_frontier_pilot.py": "2735b780cbd8d22d3e514b967b9840f11a9ba750",
+      "tools/cog03c2_geometry_pilot.py": "82304b82c8075928b96da524f6833170ecd409e1",
+      "cognitum/research/hdc_dynamic_spatial.py": "2010a93856e06fffd74237dec7c89b424f142e8b",
+      "cognitum/research/hdc_capacity.py": "b8820b863a23800f549a52781875607ba1d4feac",
+      "research_tests/hdc/test_cog03c2b_dynamic.py": "acbc0db7c1f8afd47cebd1bf4f1e236d6366d2ad",
+      "tools/cog03c2b_pilot.py": "4d4883fbedbc37595ec5c074cef5923c984dbb8c",
+      "tools/cog03c2_acceptance.py": "bd84d429388673c661459bb37a9f6e3717834ab3"
+    },
+    "pilot": {
+      "set_cells_per_arm": 20,
+      "paired_query_cases_per_arm": 5120,
+      "arms": 5,
+      "matched_payload_caps_bytes": [
+        4096,
+        16384
+      ],
+      "process_address_space_cap_bytes": 536870912,
+      "selected_4096_511": {
+        "exact": {
+          "bytes": 2060,
+          "fp": 0,
+          "fn": 0
+        },
+        "map_b": {
+          "bytes": 4096,
+          "fp": 0,
+          "fn": 0
+        },
+        "map_i": {
+          "bytes": 4096,
+          "fp": 166,
+          "fn": 156
+        },
+        "bloom": {
+          "bytes": 4096,
+          "fp": 0,
+          "fn": 0
+        },
+        "counting": {
+          "bytes": 4096,
+          "fp": 88,
+          "fn": 0
+        }
+      },
+      "spatial": {
+        "distinct_positions": 16,
+        "seeds": 5,
+        "shared_mse": 0.0189700356575369,
+        "full_fhrr_bytes": 14640,
+        "half_fhrr_bytes": 10560,
+        "hrr_bytes": 10544,
+        "rbf_bytes": 608,
+        "rbf_mse": 0.019215570727829895
+      },
+      "sparse": {
+        "heldout": 450,
+        "and_correct": 384,
+        "xor_correct": 182,
+        "svc_correct": 441,
+        "and_density": 0.006327447133676689,
+        "xor_density": 0.31249293134047884,
+        "hdc_payload": 24736
+      }
+    },
+    "production_enabled": false
   }
 }
