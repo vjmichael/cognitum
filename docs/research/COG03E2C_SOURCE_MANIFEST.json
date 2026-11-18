@@ -1,0 +1,36 @@
+{
+  "base": "0884cf6f837b626cdbaa295ac0286c8f6051c2e3",
+  "git_blobs": {
+    "cognitum/research/hdc_regression.py": "4ca2f65357e438ef0dce64426efd162416594f39",
+    "cognitum/research/hdc_regression_closeout.py": "374d51de62fd6ddf06713e2b00a2d244aa1f084d",
+    "cognitum/research/hdlib_classical.py": "698332112ff7f70bb2a7f93dccc811ed9ca72f12",
+    "research_tests/hdc_e2c/test_regression.py": "c0766d1aeaac20036669d3f981515caf9aa50b07",
+    "research_tests/hdc_e2c/test_regression_closeout.py": "9303d75b1bda929ec75c86305a4a7577d34ed8d8",
+    "tools/cog03e2c_pilot.py": "fedc36d4ab6efd6cbc3a15457068fe320609829a",
+    "tools/cog03e2c_selection.py": "aa4926cb499fa9e5417b1eb2f324bd2c1848813a",
+    "tools/cog03e2c_acceptance.py": "e2f1b9af4a7e54505ae540064aaefbb8bc9e5b9f",
+    "tools/cog03e2c_classification.py": "ce769e63d32317cc0a41030bdbe7c7425ad85439",
+    "tools/cog03e2c_closeout.py": "e0df7e2a79c6240190d36ab9f82fa30482cde6b4",
+    "docs/research/COG03E2C_REGRESSION_HDLIB.md": "4ff1b7a8da37ad9bb99b574b9414c24b67ee9eae"
+  },
+  "sha256": {
+    "cognitum/research/hdc_regression.py": "895cd64e3c537d75daeae47b81b453112c141746be8227b0ba4bfb5fb2eb89af",
+    "cognitum/research/hdc_regression_closeout.py": "20f0f795416aa33233cf639da4a08a4d55ff5fd34cee85ac47c35e1c8818b271",
+    "cognitum/research/hdlib_classical.py": "03c271e20086e8a2f2c4e100340e1ebd980ad6e2491814eda649a88cbf37d055",
+    "research_tests/hdc_e2c/test_regression.py": "c75e3dc967a14a6d9ea54cd39c8d28e81ba411acb790c0ded82567019d9fde9a",
+    "research_tests/hdc_e2c/test_regression_closeout.py": "05ba885331c81c3e9e35a17ac9e970bbc6a7a606322af3c4330801e6445cd06b",
+    "tools/cog03e2c_pilot.py": "e8de0a25df2b7a4611db55d7de978c7f4af2d9aa5daba9c47da742fb36da3492",
+    "tools/cog03e2c_selection.py": "ecb820094dd2271ab09255f36bf534f2d1ce75cb1645f901649d312376f07c4b",
+    "tools/cog03e2c_acceptance.py": "9d01ddb06ed58a5d3f95173d40f1027ca0800a5114775b8bc17b1dc2ff58a2db",
+    "tools/cog03e2c_classification.py": "59d98e69ba673149bc55ee778468a73f21332dd5a3eb24d737994d8da0f6210e",
+    "tools/cog03e2c_closeout.py": "a02ee3c91a0306b882bc2acb198a80c2f74f74e52041806d2a4be483f54b692f",
+    "docs/research/COG03E2C_REGRESSION_HDLIB.md": "9b9276d8d76341bd2cb86f2dd56f13b0c1335267eb184cb24acbd88a2aff802b"
+  },
+  "new_tests": 27,
+  "expected_hosted_tests": 554,
+  "recovered_learning_tests": 136,
+  "production_enabled": false,
+  "isolated_native_classical_classification_and_stepwise": true,
+  "normal_package_import_verified": false,
+  "wheel_sha256": "f71b49443e5324a67d33138845767cabe39618a29c95b49ac3aa21b8ca91c421"
+}

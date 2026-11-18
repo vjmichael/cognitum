@@ -776,7 +776,8 @@
       "gate": "Implement representative associative, iterative and closed-form encoded regression including hdlib; exact direct ridge/RFF/kernel/linear references, KAN untouched. RMSE/MAE/calibration, OOD and compute/bytes; attribute solver contribution explicitly.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "E2C independent associative/LMS/ridge and scaled centered RegHD encoder, same-encoded solver and RFF/raw/kernel controls, train-only tuning, bounded streaming sufficient statistics, 8/32 KiB explicit numeric workspace estimates. Actual native hdlib float and binary RegHD parity; 716 native/packed predictions exact; raw quantization scale failure retained; train-only gain calibration separate. Whole-process budget, larger diverse real datasets and complete author fidelity open."
     },
     {
       "id": "L18",
@@ -790,7 +791,8 @@
       "gate": "Audit MIT hdlib 2.1.0 universal wheel metadata and dependencies; isolate optional quantum dependencies. Test classification/feature selection without leakage, regression, unsupervised clustering and graph learning against independent oracles. Not a replacement for TorchHD.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "E2C pinned exact hdlib 2.1.0 classical modules executed without quantum stubs: regression, clustering, graph, isolated original classifier class and spawned native backward stepwise. Outer test excluded, 396 classifier/oracle decisions match; internal selection shared fitted bounds and unseeded RNG noted. Full package normal import needs actual quantum dependency closure, not complete installation; quantum methods and physical hardware deferred."
     },
     {
       "id": "L19",
@@ -2705,7 +2707,7 @@
     }
   },
   "cog03e2b_integration_candidate": {
-    "state": "Consolidated research-only candidate; hosted inherited verification pending",
+    "state": "E2B exact same-SHA hosted acceptance passed",
     "base": "fd93d74aedae39bdca010dbf50a3f708cdd664e5",
     "local_scratch_sha": "0fece80589b069a6ea154eb3f7904b47c833bdf4",
     "archive": "COG-03E2B_Consolidated_Closeout_Candidate.zip",
@@ -2755,6 +2757,73 @@
       "scope": "numeric state plus gradients and decoded phase parameters, not activation/allocator cap; isolated observed RSS only"
     },
     "paper_replication_complete": false,
+    "production_enabled": false,
+    "hosted_acceptance": {
+      "run_id": 44250670557,
+      "source_sha": "0884cf6f837b626cdbaa295ac0286c8f6051c2e3",
+      "jobs_passed": 18,
+      "jobs_total": 18,
+      "hdc_tests_each": 527,
+      "verified_archives": 18,
+      "verified_internal_hashes": 256,
+      "receipt": "docs/research/COG03E2B_RUN_44250670557_ACCEPTANCE.json"
+    }
+  },
+  "cog03e2c_integration_candidate": {
+    "state": "Research-only consolidated candidate; hosted inherited acceptance pending",
+    "base": "0884cf6f837b626cdbaa295ac0286c8f6051c2e3",
+    "local_scratch_sha": "ebce9add525e2f6c96c6536bd8e65798e903db78",
+    "archive": "COG-03E2C_Consolidated_Closeout_Candidate.zip",
+    "file_id": "file_000000002880821296d3d6d5db663f4d",
+    "archive_sha256": "da9e5efd13d9b5d7572c29f1bc3f7fa04962ff141df8a4cffef1abefb5f24c5c",
+    "source_blobs": {
+      "cognitum/research/hdc_regression.py": "4ca2f65357e438ef0dce64426efd162416594f39",
+      "cognitum/research/hdc_regression_closeout.py": "374d51de62fd6ddf06713e2b00a2d244aa1f084d",
+      "cognitum/research/hdlib_classical.py": "698332112ff7f70bb2a7f93dccc811ed9ca72f12",
+      "research_tests/hdc_e2c/test_regression.py": "c0766d1aeaac20036669d3f981515caf9aa50b07",
+      "research_tests/hdc_e2c/test_regression_closeout.py": "9303d75b1bda929ec75c86305a4a7577d34ed8d8",
+      "tools/cog03e2c_pilot.py": "fedc36d4ab6efd6cbc3a15457068fe320609829a",
+      "tools/cog03e2c_selection.py": "aa4926cb499fa9e5417b1eb2f324bd2c1848813a",
+      "tools/cog03e2c_acceptance.py": "e2f1b9af4a7e54505ae540064aaefbb8bc9e5b9f",
+      "tools/cog03e2c_classification.py": "ce769e63d32317cc0a41030bdbe7c7425ad85439",
+      "tools/cog03e2c_closeout.py": "e0df7e2a79c6240190d36ab9f82fa30482cde6b4",
+      "docs/research/COG03E2C_REGRESSION_HDLIB.md": "4ff1b7a8da37ad9bb99b574b9414c24b67ee9eae",
+      "docs/research/COG03E2C_SOURCE_MANIFEST.json": "084252196287a74d8a655ddb4684bf3b5ddfa8ac",
+      "docs/research/COG03E2B_RUN_44250670557_ACCEPTANCE.json": "2e29a43d613bef3645a32184033dcea5aac166e8"
+    },
+    "tests": 136,
+    "new_tests": 27,
+    "expected_hosted_tests": 554,
+    "failures": 0,
+    "skips": 0,
+    "local_gate": "Scoped recovered source only; full inherited local regression not available",
+    "hdlib": {
+      "version": "2.1.0",
+      "wheel_sha256": "f71b49443e5324a67d33138845767cabe39618a29c95b49ac3aa21b8ca91c421",
+      "classical_regression_clustering_graph": true,
+      "isolated_classification_and_spawn_stepwise": true,
+      "full_package_import": false,
+      "quantum_executed": false
+    },
+    "pilot": {
+      "initial_regression_rows": 64,
+      "closeout_regression_rows": 64,
+      "classification_rows": 8,
+      "classification_oracle_queries": 396,
+      "classification_disagreements": 0,
+      "quantized_queries": 716,
+      "quantized_max_error": 0,
+      "numeric_workspace_estimate_caps_bytes": [
+        8192,
+        32768
+      ],
+      "tuned_rmse_D256": {
+        "diabetes": 55.52,
+        "synthetic": 0.233
+      },
+      "packed_head_bytes_D256": 232,
+      "dense_head_bytes_D256": 12288
+    },
     "production_enabled": false
   }
 }

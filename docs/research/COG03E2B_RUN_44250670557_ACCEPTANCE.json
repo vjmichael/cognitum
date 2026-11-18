@@ -1,0 +1,248 @@
+{
+  "source_sha": "0884cf6f837b626cdbaa295ac0286c8f6051c2e3",
+  "run_id": 44250670557,
+  "attempt": 1,
+  "artifacts": [
+    {
+      "id": 14404861219,
+      "sha256": "ea3434da048368581627ffbddaf6795c3396866a821502ea1d071f95ae2363b8",
+      "crc_passed": true,
+      "entries": 58
+    },
+    {
+      "id": 14404836508,
+      "sha256": "70aa77a526458f036417087690f3cb4e0ed27fdc241e8741872a20cf92e21332",
+      "crc_passed": true,
+      "entries": 22
+    },
+    {
+      "id": 14404775860,
+      "sha256": "4fa12eba9978ba9bf39a024c3a593024d445686751a42e3f53a6d9818a858e2a",
+      "crc_passed": true,
+      "entries": 26
+    },
+    {
+      "id": 14404690340,
+      "sha256": "df2d930996e3d606a0ba0c13cee0ceca82f688d1a0e1f6e9dbe0dd46a82c2998",
+      "crc_passed": true,
+      "entries": 4
+    },
+    {
+      "id": 14404288067,
+      "sha256": "28717642561dccce4ddc3f0333ee64bb27bdabf737a685fae53920082cac6dcf",
+      "crc_passed": true,
+      "entries": 4
+    },
+    {
+      "id": 14404282905,
+      "sha256": "a49f573280052025485b21bdc651be59cad989f08dd3d8df6aa5d28bfeae6696",
+      "crc_passed": true,
+      "entries": 4
+    },
+    {
+      "id": 14404278924,
+      "sha256": "fa2c103e91ce7e41f1643ea437c3a79294b5a362edc7a65fff3841146f40b499",
+      "crc_passed": true,
+      "entries": 22
+    },
+    {
+      "id": 14404276279,
+      "sha256": "390989fe8994cf71ad1df47cf44abce4fecf3b28edc54a05d0a8ff190380c62c",
+      "crc_passed": true,
+      "entries": 4
+    },
+    {
+      "id": 14404166113,
+      "sha256": "e9e393fa6223258d454f777066d820214903702d50a81d09ed1cc0e64a2ac7bf",
+      "crc_passed": true,
+      "entries": 4
+    },
+    {
+      "id": 14403886622,
+      "sha256": "dd5e40d2c969d706c4bd665b6cc0f6af291b154bb7844244370c90f9b378ad0e",
+      "crc_passed": true,
+      "entries": 66
+    },
+    {
+      "id": 14403852839,
+      "sha256": "7c5d26c86c5f56945a5e1d15b62bdecb8b1e11a93633dfc3d0169dae76d22c41",
+      "crc_passed": true,
+      "entries": 25
+    },
+    {
+      "id": 14403838545,
+      "sha256": "fceda428f7e92eb33bdd2839f80495346fa6512d1ef8cc888a767c643a3440af",
+      "crc_passed": true,
+      "entries": 22
+    },
+    {
+      "id": 14403793406,
+      "sha256": "618d3a3d90405ca912193d7c40315fdd05cd96509e834444738672875caed513",
+      "crc_passed": true,
+      "entries": 58
+    },
+    {
+      "id": 14403614783,
+      "sha256": "c52f7232c5bf16779a946149e240997f89cc41c269ce04b271f19324277862ca",
+      "crc_passed": true,
+      "entries": 58
+    },
+    {
+      "id": 14403404530,
+      "sha256": "ffa8bff03bf6eb73158a1738aa9a8321f783d03fd044b1ae01e4cc735950efe1",
+      "crc_passed": true,
+      "entries": 4
+    },
+    {
+      "id": 14403399139,
+      "sha256": "7a3afc8ce17b650838159ccecff6bb98cc877a10fb36ecbd6fa2cb202ba58b1d",
+      "crc_passed": true,
+      "entries": 3
+    },
+    {
+      "id": 14403284270,
+      "sha256": "793034801fdca6f5295aa48e9cdba4c87e744f9f76559ea799495f39d7296545",
+      "crc_passed": true,
+      "entries": 13
+    },
+    {
+      "id": 14403259214,
+      "sha256": "73b368e4845f9d1baaa0a2e33028e6ac2c55a2d90d57a8d6e967d84ad8d704ad",
+      "crc_passed": true,
+      "entries": 22
+    }
+  ],
+  "hdc": [
+    {
+      "id": 14404861219,
+      "platform": "Windows-10-10.0.26100-SP0",
+      "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+      "versions": {
+        "torch": "2.10.0+cpu",
+        "torch-hd": "5.8.4",
+        "numpy": "2.3.5",
+        "scipy": "1.17.0",
+        "pytest": "9.0.2"
+      },
+      "tests": 527
+    },
+    {
+      "id": 14403886622,
+      "platform": "Linux-7.0.0-1019-azure-x86_64-with-glibc2.43",
+      "python": "3.13.18 (main, Oct 26 2026, 14:19:33) [GCC 15.2.0]",
+      "versions": {
+        "torch": "2.10.0+cpu",
+        "torch-hd": "5.8.4",
+        "numpy": "2.3.5",
+        "scipy": "1.17.0",
+        "pytest": "9.0.2"
+      },
+      "tests": 527
+    },
+    {
+      "id": 14403793406,
+      "platform": "Linux-7.0.0-1019-azure-x86_64-with-glibc2.43",
+      "python": "3.11.18 (main, Oct 26 2026, 02:48:29) [GCC 15.2.0]",
+      "versions": {
+        "torch": "2.10.0+cpu",
+        "torch-hd": "5.8.4",
+        "numpy": "2.3.5",
+        "scipy": "1.17.0",
+        "pytest": "9.0.2"
+      },
+      "tests": 527
+    },
+    {
+      "id": 14403614783,
+      "platform": "Windows-2025Server-10.0.26100-SP0",
+      "python": "3.13.17 (tags/v3.13.17:64e080d, Oct 21 2026, 14:08:53) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "torch": "2.10.0+cpu",
+        "torch-hd": "5.8.4",
+        "numpy": "2.3.5",
+        "scipy": "1.17.0",
+        "pytest": "9.0.2"
+      },
+      "tests": 527
+    }
+  ],
+  "cpu": [
+    {
+      "id": 14404836508,
+      "platform": "win32",
+      "python": "3.13.17 (tags/v3.13.17:64e080d, Oct 21 2026, 14:08:53) [MSC v.1944 64 bit (AMD64)]",
+      "descriptor_sha256": "030ef8fe3e9763d511d82d3b9ead344c8225d771c2b4a55142c5dc99dafc7cf7",
+      "combined_summary": "1244 passed, 77 skipped, 1 warning, 1535 subtests passed in 69.40s (0:01:09)",
+      "focused_summary": "787 passed, 2 skipped, 1 warning, 952 subtests passed in 59.44s"
+    },
+    {
+      "id": 14404278924,
+      "platform": "win32",
+      "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+      "descriptor_sha256": "030ef8fe3e9763d511d82d3b9ead344c8225d771c2b4a55142c5dc99dafc7cf7",
+      "combined_summary": "1244 passed, 77 skipped, 1 warning, 1535 subtests passed in 64.95s (0:01:04)",
+      "focused_summary": "787 passed, 2 skipped, 1 warning, 952 subtests passed in 56.45s"
+    },
+    {
+      "id": 14403838545,
+      "platform": "linux",
+      "python": "3.11.18 (main, Oct 26 2026, 02:48:29) [GCC 15.2.0]",
+      "descriptor_sha256": "030ef8fe3e9763d511d82d3b9ead344c8225d771c2b4a55142c5dc99dafc7cf7",
+      "combined_summary": "1354 passed, 17 skipped, 1 warning, 1549 subtests passed in 48.72s",
+      "focused_summary": "787 passed, 2 skipped, 1 warning, 952 subtests passed in 37.86s"
+    },
+    {
+      "id": 14403259214,
+      "platform": "linux",
+      "python": "3.13.18 (main, Oct 26 2026, 14:19:33) [GCC 15.2.0]",
+      "descriptor_sha256": "030ef8fe3e9763d511d82d3b9ead344c8225d771c2b4a55142c5dc99dafc7cf7",
+      "combined_summary": "1354 passed, 17 skipped, 1 warning, 1549 subtests passed in 42.98s",
+      "focused_summary": "787 passed, 2 skipped, 1 warning, 952 subtests passed in 32.69s"
+    }
+  ],
+  "native": [
+    {
+      "id": 14404775860,
+      "scope": "ByteTrack 8 tests"
+    },
+    {
+      "id": 14404690340,
+      "scope": "actual causal engine 39 tests"
+    },
+    {
+      "id": 14404288067,
+      "scope": "actual causal engine 39 tests"
+    },
+    {
+      "id": 14404282905,
+      "scope": "actual causal engine 39 tests"
+    },
+    {
+      "id": 14404276279,
+      "scope": "actual causal engine 39 tests"
+    },
+    {
+      "id": 14404166113,
+      "scope": "actual causal engine 39 tests"
+    },
+    {
+      "id": 14403852839,
+      "scope": "strict native proof"
+    },
+    {
+      "id": 14403404530,
+      "scope": "actual causal engine 39 tests"
+    },
+    {
+      "id": 14403399139,
+      "scope": "ByteTrack 8 tests"
+    },
+    {
+      "id": 14403284270,
+      "scope": "TrackEval archive verified; no local native replay"
+    }
+  ],
+  "verified_hashes": 256,
+  "production_enabled": false,
+  "full_receipt_sha256": "8b056854c43e0b49285487588e8c22c9fac960afc74908a373afd9693ec82984"
+}
