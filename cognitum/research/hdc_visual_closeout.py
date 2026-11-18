@@ -58,31 +58,63 @@ class FeatureQuantizer:
         return np.rint(np.clip((a[...,self.indices]-self.lo)/self.span,0,1)*15).astype(np.uint8)
 
 
+class CheckpointIntegrityError(ValueError):
+    pass
+
+
+def checkpoint_digest(path, prefix):
+    p=Path(path); digest=hashlib.sha256(p.read_bytes()).hexdigest()
+    if not digest.startswith(prefix):
+        raise CheckpointIntegrityError(f'checkpoint SHA256 mismatch: expected {prefix}, got {digest}, bytes={p.stat().st_size}')
+    return digest
+
+
 class FrozenMobileNet:
-    """Native torch quantized QNNPACK convolution path. Random smoke is explicit.
-    Official weights are hash-checked before torch.load; no silent random fallback.
+    """Native CPU QNNPACK features from verified QAT or official FP32+PTQ.
+    Explicit random smoke is never pretrained. PTQ uses fit-prefix images only.
     """
     PREFIX='37f702c5'
-    def __init__(self,path=None,*,random_smoke=False):
+    PTQ_PREFIX='7ebf99e0'
+    def __init__(self,path=None,*,random_smoke=False,variant='qat',calibration=None):
         if (path is None)==(not random_smoke):raise ValueError('choose verified checkpoint or explicit random smoke')
-        self.digest=None;self.file_bytes=None;self.pretrained=not random_smoke
+        if variant not in ('qat','ptq'):raise ValueError('unknown quantization variant')
+        if variant=='ptq' and calibration is None:raise ValueError('PTQ requires calibration images')
+        self.digest=None;self.file_bytes=None;self.pretrained=not random_smoke;self.variant=variant
         if path is not None:
-            p=Path(path);self.digest=hashlib.sha256(p.read_bytes()).hexdigest();self.file_bytes=p.stat().st_size
-            if not self.digest.startswith(self.PREFIX):raise ValueError('unexpected official checkpoint hash prefix')
+            p=Path(path);self.digest=checkpoint_digest(p,self.PREFIX if variant=='qat' else self.PTQ_PREFIX);self.file_bytes=p.stat().st_size
         import torch
+        from torchvision.models import MobileNet_V2_Weights
         from torchvision.models.quantization import mobilenet_v2,MobileNet_V2_QuantizedWeights
         if 'qnnpack' not in torch.backends.quantized.supported_engines:raise RuntimeError('qnnpack unavailable')
-        torch.manual_seed(313);self.model=mobilenet_v2(weights=None,quantize=True,backend='qnnpack').eval()
-        if path is not None:self.model.load_state_dict(torch.load(path,map_location='cpu',weights_only=True),strict=True)
+        torch.backends.quantized.engine='qnnpack'
+        torch.manual_seed(313)
+        if variant=='qat':
+            self.model=mobilenet_v2(weights=None,quantize=True,backend='qnnpack').eval()
+            if path is not None:self.model.load_state_dict(torch.load(path,map_location='cpu',weights_only=True),strict=True)
+            self.transform=MobileNet_V2_QuantizedWeights.IMAGENET1K_QNNPACK_V1.transforms()
+        else:
+            self.model=mobilenet_v2(weights=None,quantize=False).eval()
+            if path is not None:self.model.load_state_dict(torch.load(path,map_location='cpu',weights_only=True),strict=True)
+            self.transform=MobileNet_V2_Weights.IMAGENET1K_V2.transforms()
+            self.model.fuse_model(is_qat=False)
+            self.model.qconfig=torch.ao.quantization.get_default_qconfig('qnnpack')
+            torch.ao.quantization.prepare(self.model,inplace=True)
+            a=np.asarray(calibration)
+            if a.ndim!=3 or a.dtype!=np.uint8 or len(a)<2:raise ValueError('PTQ requires >=2 uint8 fit-prefix images')
+            with torch.inference_mode():
+                for i in range(0,len(a),16):self.model(self._input(a[i:i+16]))
+            torch.ao.quantization.convert(self.model,inplace=True)
         for p in self.model.parameters():p.requires_grad_(False)
-        self.transform=MobileNet_V2_QuantizedWeights.IMAGENET1K_QNNPACK_V1.transforms()
+    def _input(self,a):
+        import torch
+        return self.transform(torch.from_numpy(a.copy())[:,None].expand(-1,3,-1,-1))
     def features(self,images):
         import torch
         import torch.nn.functional as F
         a=np.asarray(images)
         if a.ndim!=3 or a.dtype!=np.uint8 or not len(a):raise ValueError('N x H x W uint8 grayscale')
         with torch.inference_mode():
-            x=self.transform(torch.from_numpy(a.copy())[:,None].expand(-1,3,-1,-1));q=self.model.features(self.model.quant(x))
+            q=self.model.features(self.model.quant(self._input(a)))
             if not q.is_quantized:raise RuntimeError('nonquantized feature path')
             q=F.adaptive_avg_pool2d(q,(1,1)).flatten(1)
             if q.shape[1]!=1280 or not q.is_quantized:raise RuntimeError('unexpected feature tensor')

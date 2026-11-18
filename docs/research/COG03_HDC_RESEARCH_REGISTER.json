@@ -848,7 +848,7 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
-      "local_candidate_status": "E2E group-max and perturbation-envelope conformal reference, subject-disjoint synthetic IMU tests; coverage improvement trades off set size; mandatory official subject-disjoint HAR raw nine-channel benchmark pending on hosted dataset cell. No guarantee under shift."
+      "local_candidate_status": "E2E group-max and perturbation-envelope conformal reference, subject-disjoint synthetic IMU tests; coverage improvement trades off set size; mandatory official subject-disjoint HAR raw nine-channel benchmark pending on hosted dataset cell. No guarantee under shift. Failed hosted run stopped at checkpoint before HAR result persistence. Repair preserves independent real HAR evidence before visual acquisition; no real qualification yet."
     },
     {
       "id": "L23",
@@ -862,7 +862,7 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
-      "local_candidate_status": "E2E packed bounded visual learner and calibrated head controls; local actual QNNPACK random architecture smoke only. Mandatory official pretrained quantized MobileNetV2 Digits feature comparison against identical-feature conventional centroids/exemplars plus pixel ablation in existing dataset cell, full serialized checkpoint costs reported separately from numeric head budget. Negative pixel results preserved. CORe50/FPGA unverified."
+      "local_candidate_status": "E2E packed bounded visual learner and calibrated head controls; local actual QNNPACK random architecture smoke only. Mandatory official pretrained quantized MobileNetV2 Digits feature comparison against identical-feature conventional centroids/exemplars plus pixel ablation in existing dataset cell, full serialized checkpoint costs reported separately from numeric head budget. Negative pixel results preserved. CORe50/FPGA unverified. QAT hash mismatch in run 44264818914; repair retries with full digest diagnostics and separately verified official ImageNet V2 FP32+QNNPACK PTQ fallback, per-seed fit-prefix calibration. Original QAT fidelity remains open if alternate selected."
     },
     {
       "id": "L24",
@@ -2955,6 +2955,39 @@
       "checkpoint_sha256_prefix": "37f702c5",
       "har_url": "https://archive.ics.uci.edu/static/public/240/human+activity+recognition+using+smartphones.zip"
     },
+    "production_enabled": false
+  },
+  "cog03e2e_checkpoint_repair": {
+    "base": "80db59d868e5bbfa172ced398d35831b0c163963",
+    "failed_run": 44264818914,
+    "failed_job": 134666605118,
+    "passed_jobs": 17,
+    "failed_jobs": 1,
+    "failed_artifact": {
+      "id": 14410071211,
+      "sha256": "dbbfdb29ff46cb00b0365c4bfc70aa6d89e1bb23dbdf5a38c4b552ae76444a01",
+      "crc_verified": true,
+      "actual_checkpoint_digest": "not archived"
+    },
+    "failure": "Official QAT checkpoint SHA-256 prefix mismatch; refused before model load.",
+    "source_blobs": {
+      "cognitum/research/hdc_visual_closeout.py": "212f6c9f0eee91ebebaecd91a073a4aa2927bca0",
+      "tools/cog03e2e_closeout.py": "7d556a9ef49c16e4751357d614d87b4e79e348ca",
+      "tools/cog03e2e_acceptance.py": "adacaf115f7eecfadcc77bdbf36901d9b4293733",
+      "research_tests/hdc_e2e/test_visual_closeout.py": "1a1a7adc32b72a6750648673348afd953c9e7e0f",
+      "docs/research/COG03E2E_UNCERTAIN_VISUAL.md": "c0998c04c7de5db1ece8eebe664aed69b7e29b4c",
+      "docs/research/COG03E2E_SOURCE_MANIFEST.json": "dc3dbd04db6f5d8cbee4c8bc4b22a44756cf2e0c"
+    },
+    "archive": "COG-03E2E_Checkpoint_Repair.zip",
+    "file_id": "file_000000006b1081fda83f3f969822ef42",
+    "archive_sha256": "01dc1bcc3707cbf4d4cc57b3d77914aff84e0d1ff33fc42cc12f008347c59ab8",
+    "local_tests": 198,
+    "new_e2e_tests": 31,
+    "expected_hosted_tests": 616,
+    "local_scoped_gate": true,
+    "local_pretrained": false,
+    "local_real_har": false,
+    "checkpoint_policy": "Retry official QAT with digest evidence; separate official ImageNet V2 FP32 SHA prefix 7ebf99e0 and per-seed fit-prefix QNNPACK PTQ only if QAT refused; no random fallback. Real HAR separate artifact, both real gates mandatory.",
     "production_enabled": false
   }
 }

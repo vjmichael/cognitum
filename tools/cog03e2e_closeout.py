@@ -13,13 +13,14 @@ from tools.cog03e2e_pilot import EuclideanBank
 
 HAR_URL='https://archive.ics.uci.edu/static/public/240/human+activity+recognition+using+smartphones.zip'
 WEIGHT_URL='https://download.pytorch.org/models/quantized/mobilenet_v2_qnnpack_37f702c5.pth'
+PTQ_URL='https://download.pytorch.org/models/mobilenet_v2-7ebf99e0.pth'
 SIGNALS=['body_acc','body_gyro','total_acc']
 
 def acquire(url,path,cap):
     if not path.exists():
         tmp=path.with_suffix('.partial')
         try:
-            with urllib.request.urlopen(url,timeout=45) as r,tmp.open('wb') as f:
+            with urllib.request.urlopen(urllib.request.Request(url,headers={'Cache-Control':'no-cache','Accept-Encoding':'identity'}),timeout=45) as r,tmp.open('wb') as f:
                 n=0
                 while True:
                     b=r.read(1<<20)
@@ -31,6 +32,26 @@ def acquire(url,path,cap):
         finally:tmp.unlink(missing_ok=True)
     if not 0<path.stat().st_size<=cap:raise ValueError('asset size limit')
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+def choose_checkpoint(root,download,attempts):
+    # The filename is not proof of integrity. Reject bytes and retain digest
+    # in the audit; only a separately pinned official checkpoint may substitute.
+    for variant,url,prefix in [('qat',WEIGHT_URL,FrozenMobileNet.PREFIX),('ptq',PTQ_URL,FrozenMobileNet.PTQ_PREFIX)]:
+        path=root/url.rsplit('/',1)[-1]
+        for retry in range(2 if download else 1):
+            record=dict(variant=variant,url=url,expected_prefix=prefix,attempt=retry+1)
+            try:
+                if download:acquire(url,path,30<<20)
+                record.update(sha256=hashlib.sha256(path.read_bytes()).hexdigest(),bytes=path.stat().st_size)
+                checkpoint_digest(path,prefix)
+            except (OSError,ValueError) as e:
+                record.update(verified=False,error=str(e));attempts.append(record);print(json.dumps(record),flush=True)
+                if download:path.unlink(missing_ok=True)
+                continue
+            record['verified']=True;attempts.append(record);print(json.dumps(record),flush=True)
+            return path,variant
+    raise RuntimeError('No hash-verified official MobileNetV2 checkpoint; see download audit')
+
 
 def har_arrays(path):
     with zipfile.ZipFile(path) as outer:
@@ -83,9 +104,13 @@ class ExemplarBank:
         if self.n<self.cap and (j<0 or np.mean((self.a[j].astype(np.int32)-q)**2)>5):self.a[self.n]=q;self.count[self.n]=1;self.n+=1
         elif j>=0:self.count[j]+=1
 
-def visual(seed,features,y,budget,kind,d=256):
+def visual_partition(y,seed):
     rng=np.random.default_rng(seed);ix,tx=train_test_split(np.arange(len(y)),test_size=.3,stratify=y,random_state=seed);phases=np.array_split(rng.permutation(10),5)
     first=ix[np.isin(y[ix],phases[0])];prefix=rng.permutation(first)[:max(20,len(first)//3)];ix=ix[~np.isin(ix,prefix)]
+    return ix,tx,phases,prefix
+
+def visual(seed,features,y,budget,kind,d=256):
+    ix,tx,phases,prefix=visual_partition(y,seed)
     quant=FeatureQuantizer().fit(features[prefix],min(64,features.shape[1]));z=quant.transform(features);enc=LevelEncoder(z.shape[1],d,16,seed);qp=np.array([enc.encode(i) for i in z[prefix]]);ds=hamming(qp[:,None,:],qp[None,:,:],d).astype(float);np.fill_diagonal(ds,np.inf);floor=float(np.clip(1-np.quantile(ds.min(1)/d,.9),.5,.98))
     rows=[]
     for arm in ['merge','fixed','replace','euclidean','exemplar']:
@@ -117,32 +142,43 @@ def main():
         torch.set_num_threads(1)
     start=time.perf_counter();meta={};data=fixture(41) if a.fixture else None
     if not a.fixture:
-        h=root/'uci-har.zip';w=root/'mobilenet_v2_qnnpack_37f702c5.pth'
-        if a.acquire:meta['har_sha256']=acquire(HAR_URL,h,100<<20);meta['weights_sha256']=acquire(WEIGHT_URL,w,30<<20)
-        else:meta['har_sha256']=hashlib.sha256(h.read_bytes()).hexdigest();meta['weights_sha256']=hashlib.sha256(w.read_bytes()).hexdigest()
-        data=har_arrays(h);m=FrozenMobileNet(w)
-    elif not a.pixels_only:m=FrozenMobileNet(random_smoke=True)
+        h=root/'uci-har.zip'
+        meta['har_sha256']=acquire(HAR_URL,h,100<<20) if a.acquire else hashlib.sha256(h.read_bytes()).hexdigest()
+        data=har_arrays(h)
     u=[uncertainty(data,s) for s in ([1201] if a.fixture else [1201,1207,1213])]
+    # Preserve actual HAR evidence even if the independent visual asset fails.
+    Path(a.out).with_suffix('.har.json').write_text(json.dumps(dict(fixture=a.fixture,metadata=meta,uncertainty=u),indent=2)+'\n')
+    if not a.fixture:
+        attempts=[];w,variant=choose_checkpoint(root,a.acquire,attempts)
+        meta.update(checkpoint_attempts=attempts,weights_sha256=checkpoint_digest(w,FrozenMobileNet.PREFIX if variant=='qat' else FrozenMobileNet.PTQ_PREFIX),quantization_variant=variant)
+    else:variant='qat';w=None
     X,y=load_digits(return_X_y=True);X=np.rint(X*255/16).astype(np.uint8)
     if a.fixture:
         keep=np.concatenate([np.flatnonzero(y==j)[:24] for j in range(10)]);X=X[keep];y=y[keep]
-    # Frozen feature extraction only; cached features for controlled head replay are
-    # dataset storage, not online learner state. Time extractor separately.
-    inputs=[('pixels',X)]
-    if not a.pixels_only:
-        s=time.perf_counter();f=[];qparams=None
-        for i in range(0,len(X),16):
-            q,scale,zero=m.features(X[i:i+16].reshape(-1,8,8));f.append(q)
-            if qparams is None:qparams=(scale,zero)
-            assert qparams==(scale,zero)
-        f=np.concatenate(f)
-        if not a.fixture:assert np.any(f.var(axis=0)>0),'degenerate pretrained representations'
-        meta.update(pretrained=m.pretrained,checkpoint_sha256=m.digest,checkpoint_bytes=m.file_bytes,feature_shape=list(f.shape),feature_dtype=str(f.dtype),extract_seconds=time.perf_counter()-s,feature_scale=scale,feature_zero_point=zero,feature_sha256=hashlib.sha256(f.tobytes()).hexdigest(),torch=torch.__version__,torchvision=torchvision.__version__)
-        inputs.append(('mobilenet_int8',f))
-    v=[]
+    v=[];feature_records=[];shared=None
     for seed in ([1201] if a.fixture else [1201,1207]):
+        inputs=[('pixels',X)]
+        if not a.pixels_only:
+            _,tx,_,prefix=visual_partition(y,seed)
+            assert not np.intersect1d(tx,prefix).size
+            if variant=='ptq' or shared is None:
+                s=time.perf_counter()
+                m=FrozenMobileNet(w,random_smoke=a.fixture,variant=variant,calibration=X[prefix].reshape(-1,8,8) if variant=='ptq' else None)
+                prep=time.perf_counter()-s;s=time.perf_counter();f=[];qparams=None
+                for i in range(0,len(X),16):
+                    q,scale,zero=m.features(X[i:i+16].reshape(-1,8,8));f.append(q)
+                    if qparams is None:qparams=(scale,zero)
+                    assert qparams==(scale,zero)
+                f=np.concatenate(f)
+                if not a.fixture:assert np.any(f.var(axis=0)>0),'degenerate pretrained representations'
+                record=dict(pretrained=m.pretrained,checkpoint_sha256=m.digest,checkpoint_bytes=m.file_bytes,feature_shape=list(f.shape),feature_dtype=str(f.dtype),extract_seconds=time.perf_counter()-s,prepare_seconds=prep,feature_scale=scale,feature_zero_point=zero,feature_sha256=hashlib.sha256(f.tobytes()).hexdigest(),torch=torch.__version__,torchvision=torchvision.__version__,quantization_variant=variant,calibration_indices=prefix.tolist() if variant=='ptq' else [])
+                if variant=='qat':shared=(f,record)
+            else:f,record=shared
+            feature_records.append(dict(record,seed=seed));meta.update(record)
+            inputs.append(('mobilenet_int8',f))
         for budget in ([8192] if a.fixture else [8192,16384]):
             for name,fe in inputs:v.extend(visual(seed,fe,y,budget,name))
+    meta['feature_records']=feature_records
     assert all(x['numeric_bytes']<=x['budget'] for x in v)
-    Path(a.out).write_text(json.dumps(dict(fixture=a.fixture,metadata=meta,uncertainty=u,visual=v,seconds=time.perf_counter()-start,scope='Subject-disjoint UCI raw IMU when not fixture; corruptions artificial. Frozen ImageNet QAT features vs pixels; same selected features per HDC/conventional head; retained online numeric cap excludes shared CNN checkpoint, feature cache, workspace and interpreter. Cluster metrics not classification accuracy. No author reproduction.'),indent=2)+'\n')
+    Path(a.out).write_text(json.dumps(dict(fixture=a.fixture,metadata=meta,uncertainty=u,visual=v,seconds=time.perf_counter()-start,scope='Subject-disjoint UCI raw IMU when not fixture; corruptions artificial. Frozen ImageNet QAT or separately verified FP32+PTQ features vs pixels; same selected features per HDC/conventional head; retained online numeric cap excludes shared CNN checkpoint, feature cache, workspace and interpreter. Cluster metrics not classification accuracy. No author reproduction.'),indent=2)+'\n')
 if __name__=='__main__':main()
