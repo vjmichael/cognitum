@@ -1,0 +1,27 @@
+{
+  "base": "fd93d74aedae39bdca010dbf50a3f708cdd664e5",
+  "git_blobs": {
+    "cognitum/research/hdc_frontier_learning.py": "1b0748e5b0b8588da22e89390d61e190a7bb91cb",
+    "research_tests/hdc_e2b/test_frontier.py": "6f445a6f764d5d9dacd9d67fd478e913b1040675",
+    "tools/cog03e2b_pilot.py": "3b776c51cdef61d4ffc88cc828df12f4460f1383",
+    "tools/cog03e2b_acceptance.py": "a4c59e78b34b56e3e05817168a1a65656cce61d2",
+    "docs/research/COG03E2B_FRONTIER_LEARNING.md": "f91b421b82a8e8d9160ee548bacb9510ed8a0121",
+    "cognitum/research/hdc_frontier_closeout.py": "7a43c42ad4ba29d4034b5596640de31423ac85fd",
+    "research_tests/hdc_e2b/test_frontier_closeout.py": "d16c72ea57317849a666a99abd8f1a47d8943098",
+    "tools/cog03e2b_closeout.py": "3bc22bc2a5ba94a7b720fae9092857b2a791a0be"
+  },
+  "sha256": {
+    "cognitum/research/hdc_frontier_learning.py": "92c5c73c83f8e928a12398c4f9a0fa066bc944ce9f3b5745b0f1521f9bf8fecf",
+    "research_tests/hdc_e2b/test_frontier.py": "2a2f3edc55a1b78aa339428cea94f33e74250137832bf5eb8b13847daee2fb8c",
+    "tools/cog03e2b_pilot.py": "0c08bb315e302d8433f079503d88d67e99578232784edb652acf5fa83ecdcf8a",
+    "tools/cog03e2b_acceptance.py": "1202f9bc1ffc10de85d93b6d1047ac3f7cf35fbe0db1dd9e6a550f2a6e9d8aa8",
+    "docs/research/COG03E2B_FRONTIER_LEARNING.md": "4613ca390df9545b0420a4ad56fac18bd0ee02569410b87893dd567217a00641",
+    "cognitum/research/hdc_frontier_closeout.py": "bbdc25c62bd5553d15d2758500ea5444ab760b3e784f7a5a89270285d885b27b",
+    "research_tests/hdc_e2b/test_frontier_closeout.py": "2022c6aec85eb18ee6dd0276bdd2304857c51a13f11e49758f1aade3e66fe3db",
+    "tools/cog03e2b_closeout.py": "b721deefa8db0f914bc1f348611321a7cf7d8b192cdebbf407967c19d0bc5d47"
+  },
+  "new_tests": 30,
+  "expected_hosted_tests": 527,
+  "production_enabled": false,
+  "paper_replication_complete": false
+}

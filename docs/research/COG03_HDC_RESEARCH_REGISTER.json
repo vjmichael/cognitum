@@ -719,7 +719,8 @@
       "gate": "Pin method and code if available; compare learned encoder/prototypes against LeHDC, static and integer-only training and matched MLP. Log gradient and optimizer memory, wall time, inference quantization separately.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "E2B independent learned embedding + STE binary head, matched dimensions and numeric training budgets with conventional MLP and native LeHDC; full paper replication and optimized tuning open."
     },
     {
       "id": "L14",
@@ -733,7 +734,8 @@
       "gate": "Reproduce from full primary paper after retrieval; controlled comparison with quantized Adam and SGD, exact update/phase grid semantics, optimizer bytes, rare-input behavior; no claim until independently checked.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "E2B actual six-bit packed grid and first/second moments with scales; exact packed/dense same-quantizer prediction digests 12/12; threshold/Adam/SGD controls, rare-value test. Independent quantizer and no FPGA or energy result."
     },
     {
       "id": "L15",
@@ -746,7 +748,8 @@
       "gate": "Train binary margin-regularized prototypes, verify hinge loss/gradient and zero-bias linear SVM equivalence on same encoded features; compare held-out accuracy and costs, do not claim novel benefit from SVM solver alone.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "E2B regularized zero-intercept hinge objective and numerical gradient, matched LinearSVC objective within .004 in screening; no exact original-paper advantage claim."
     },
     {
       "id": "L16",
@@ -759,7 +762,8 @@
       "gate": "Train-only informative-coordinate ranking, channel encoding, retraining and bit expansion; prove score parity against full-precision dot products and compare matched random pruning and recovered NeuralHD slicing.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "E2B independent positive class relevance union and matched-size random pruning with shared retraining orders, exact packed thermometer integer score parity and RGB synthetic channel check. Real RGB paper dataset, calibrated threshold and full hardware gates open."
     },
     {
       "id": "L17",
@@ -2647,7 +2651,7 @@
     }
   },
   "cog03e2a_integration_candidate": {
-    "state": "Consolidated research-only candidate; hosted inherited verification pending",
+    "state": "E2A scoped candidate; terminal same-SHA hosted acceptance passed",
     "base": "3596856f7a54851c8951b82455a4efd8b16a308a",
     "local_scratch_sha": "8c98401f5802dcb00b200f56c9a6c3456953d4f5",
     "archive": "COG-03E2A_Consolidated_Closeout_Candidate.zip",
@@ -2688,6 +2692,69 @@
       }
     },
     "paper_fidelity_complete": false,
+    "production_enabled": false,
+    "hosted_acceptance": {
+      "run_id": 44246480705,
+      "source_sha": "fd93d74aedae39bdca010dbf50a3f708cdd664e5",
+      "jobs_passed": 18,
+      "jobs_total": 18,
+      "hdc_tests_each": 497,
+      "verified_archives": 18,
+      "verified_internal_hashes": 232,
+      "receipt": "docs/research/COG03E2A_RUN_44246480705_ACCEPTANCE.json"
+    }
+  },
+  "cog03e2b_integration_candidate": {
+    "state": "Consolidated research-only candidate; hosted inherited verification pending",
+    "base": "fd93d74aedae39bdca010dbf50a3f708cdd664e5",
+    "local_scratch_sha": "0fece80589b069a6ea154eb3f7904b47c833bdf4",
+    "archive": "COG-03E2B_Consolidated_Closeout_Candidate.zip",
+    "file_id": "file_0000000091e081f880b6ba9d381c3cf5",
+    "archive_sha256": "feae20bd2e18ce606ae8ac4b0bd4471d8e76e3de985f0cd84b3bebf5b76caaee",
+    "source_blobs": {
+      "cognitum/research/hdc_frontier_learning.py": "1b0748e5b0b8588da22e89390d61e190a7bb91cb",
+      "research_tests/hdc_e2b/test_frontier.py": "6f445a6f764d5d9dacd9d67fd478e913b1040675",
+      "tools/cog03e2b_pilot.py": "3b776c51cdef61d4ffc88cc828df12f4460f1383",
+      "tools/cog03e2b_acceptance.py": "a4c59e78b34b56e3e05817168a1a65656cce61d2",
+      "docs/research/COG03E2B_FRONTIER_LEARNING.md": "f91b421b82a8e8d9160ee548bacb9510ed8a0121",
+      "cognitum/research/hdc_frontier_closeout.py": "7a43c42ad4ba29d4034b5596640de31423ac85fd",
+      "research_tests/hdc_e2b/test_frontier_closeout.py": "d16c72ea57317849a666a99abd8f1a47d8943098",
+      "tools/cog03e2b_closeout.py": "3bc22bc2a5ba94a7b720fae9092857b2a791a0be",
+      "docs/research/COG03E2B_SOURCE_MANIFEST.json": "bf15e1fd08e58cecf4c51eeefa58f616559de0b7",
+      "docs/research/COG03E2A_RUN_44246480705_ACCEPTANCE.json": "6f834de3211709b339a1a117e3e6009cbbb1bbe9"
+    },
+    "local_tests": 109,
+    "new_tests": 30,
+    "expected_hosted_hdc_tests": 527,
+    "local_gate": "scoped source-bound test and synthetic pilot passed; complete local source unavailable due DNS",
+    "pilot": {
+      "initial_rows": 64,
+      "training_rows": 140,
+      "structure_rows": 72,
+      "isolated_process_rows": 7,
+      "dimensions": [
+        32,
+        64,
+        128
+      ],
+      "budgets_bytes": [
+        16384,
+        32768
+      ],
+      "packed_dense_equal_dimension_prediction_matches": 12,
+      "packed_dense_equal_dimension_comparisons": 12,
+      "native_lehdc_reference_parity": true,
+      "union_score": {
+        "correct": 4383,
+        "total": 8910
+      },
+      "random_score": {
+        "correct": 3944,
+        "total": 8910
+      },
+      "scope": "numeric state plus gradients and decoded phase parameters, not activation/allocator cap; isolated observed RSS only"
+    },
+    "paper_replication_complete": false,
     "production_enabled": false
   }
 }
