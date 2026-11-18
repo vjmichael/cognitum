@@ -2,18 +2,23 @@
   "base": "06630484478a43a013544deb8ae74c5764364b8d",
   "git_blobs": {
     "hardware/hdc/score64_balanced.sv": "dc88ba425edf130c936b8e47f1f4a9c57ec06229",
-    "hardware/hdc/f2_vivado_ooc.tcl": "be990ec5be0a81b0b9f0626583a19672bd0e201d",
-    "hardware/hdc/.gitattributes": "3639b6195fa0acad4fbda10342d05a8c1c95295f",
-    "tools/cog03f2_synthesis.py": "fa5da760166e7d9081bdc057fbf3e8db0e5d7ec4",
-    "tools/cog03f2_acceptance.py": "4f602270e7934420574af4798b6fac9ab1507e0e",
+    "hardware/hdc/f2_vivado_ooc.tcl": "a474216d18c7e5c27042096d900324c8f2e1da48",
+    "hardware/hdc/.gitattributes": "1d5d4d9ce93b1b58a4426b9b1cf48af6fd49b763",
+    "tools/cog03f2_synthesis.py": "f5271a14914d7d03b03406a997778bdd323cec2f",
+    "tools/cog03f2_acceptance.py": "8b394396e8916c840f5b7b1312042626d5a5d44a",
     "tools/.gitattributes": "39c2e59eadcf9bc767621b6825afb172c0d9df87",
     "research_tests/hdc_f2/test_synthesis_contract.py": "8ea0c24da7d9b6a41ef4673af8e228921c8bb26c",
-    "research_tests/hdc_f2/.gitattributes": "0261937919758f6fa99b8be76f772085d87e0283",
-    "docs/research/.gitattributes": "3c70481d84e436b594b7ce23773f6b83e9e4581a",
+    "research_tests/hdc_f2/.gitattributes": "c09a6b060ff67c2b5629b796b31e89d7405d6c36",
+    "docs/research/.gitattributes": "817f474c93ac2d42cc359d7f9af1c325fd998d3a",
     "docs/research/COG03F2_SYNTHESIS_PILOT.md": "4acbeb83798917aef8706095d1882e7637e7134a",
     "tools/cog03f2_core50.py": "761c4a2f59af883b5c2b9385d689be0ea117135b",
     "research_tests/hdc_f2/test_core50.py": "94d850cb6208b4aadc22c9f0e952e32e4faba655",
-    "docs/research/COG03F2_CORE50_SAMPLE_RESULTS.json": "5cc9d982a4d276edc27aa4cc5e47c13e3d19d3ff"
+    "docs/research/COG03F2_CORE50_SAMPLE_RESULTS.json": "5cc9d982a4d276edc27aa4cc5e47c13e3d19d3ff",
+    "hardware/hdc/score64_compact.sv": "5a1d1a8def213deca98cad13f559443d12a74239",
+    "research_tests/hdc_f2/test_compact.py": "a753cf4183adf9be091124d758344aea4c321b0e",
+    "docs/research/COG03F2B_RESULTS.json": "72a97318dae39170b0cedb6cc5b978bb098ccf65"
   },
-  "production_enabled": false
+  "production_enabled": false,
+  "revision_base": "eafe459c5777bbdc1be22ba9124f57f20510f82a",
+  "prior_manifest_sha256": "87006b885d7446fd248d4da161d90b73ea0f919a3453067eec96c96380f929b4"
 }

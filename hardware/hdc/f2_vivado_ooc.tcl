@@ -2,7 +2,7 @@
 # vivado -mode batch -source hardware/hdc/f2_vivado_ooc.tcl -tclargs score64 xc7k325tffg900-2 10.0 ./f2-vivado synth
 if {$argc != 5} {error "args: top part period_ns output_directory synth|route"}
 lassign $argv top part period out stage
-if {$top ni {score64 score64_balanced} || $stage ni {synth route}} {error "invalid top/stage"}
+if {$top ni {score64 score64_balanced score64_compact} || $stage ni {synth route}} {error "invalid top/stage"}
 if {![regexp {^xc7k325t[a-z0-9]+-[123]$} $part]} {error "explicit provisional Kintex-7 XC7K325T part required"}
 if {![string is double -strict $period] || $period < 2.0 || $period > 100.0} {error "period outside pilot range"}
 set src [file join [file dirname [info script]] ${top}.sv]

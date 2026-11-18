@@ -1,3 +1,4 @@
 /.gitattributes text eol=lf
 /test_synthesis_contract.py text eol=lf
 /test_core50.py text eol=lf
+/test_compact.py text eol=lf

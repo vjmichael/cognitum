@@ -1,3 +1,4 @@
 /.gitattributes text eol=lf
 /score64_balanced.sv text eol=lf
 /f2_vivado_ooc.tcl text eol=lf
+/score64_compact.sv text eol=lf

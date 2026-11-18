@@ -27,14 +27,14 @@ def main():
     OUT.mkdir(exist_ok=True);xml=OUT/'f2-tests.xml';log=OUT/'f2-tests.log'
     with log.open('wb') as f:subprocess.run([sys.executable,'-m','pytest','-q','research_tests/hdc_f2','--junitxml='+str(xml)],cwd=ROOT,stdout=f,stderr=subprocess.STDOUT,check=True,timeout=120)
     tests=list(ET.parse(xml).iter('testcase'))
-    if len(tests)!=22 or any(c.find(t) is not None for c in tests for t in ('failure','error','skipped')):raise RuntimeError('F2 test failure')
+    if len(tests)!=29 or any(c.find(t) is not None for c in tests for t in ('failure','error','skipped')):raise RuntimeError('F2 test failure')
     required=not scoped and os.getenv('COG03F2_SYNTH_REQUIRED')=='1'; native=False; artifacts=[xml,log]
     if required:
         from tools.cog03f2_synthesis import run
         result=run(OUT)
-        assert len(result['rows'])==2 and all(r['simulated'] and r['mapped_simulated'] and r['cycles']==5325 for r in result['rows']);native=True
-        artifacts.extend([OUT/'f2-synthesis.json',OUT/'f2-vectors.txt'])
-        for top in ('score64','score64_balanced'):
+        assert len(result['rows'])==3 and all(r['simulated'] and r['mapped_simulated'] and r['cycles']==5325 for r in result['rows']);native=True
+        artifacts.extend([OUT/'f2-synthesis.json',OUT/'f2-vectors.txt',OUT/'f2-mapping-partial.json'])
+        for top in ('score64','score64_balanced','score64_compact'):
             artifacts.extend(OUT/f'{top}-{name}' for name in ('compile.log','sim.log','yosys.log','mapped.json','mapped.v','mapped-compile.log','mapped-sim.log'))
     assert before==source_check(scoped)
     if commit:assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()==commit and not subprocess.check_output(['git','status','--porcelain','--untracked-files=no'],cwd=ROOT,text=True).strip()

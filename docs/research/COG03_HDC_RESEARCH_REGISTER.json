@@ -436,7 +436,8 @@
       "gate": "Reproduce exact score parity; no unbounded thread changes",
       "accepted": false,
       "local_candidate_status": "F1 portable/native x86 runtime score dispatch and exact packed arithmetic; 180 measured matched CPU rows, local 37 hardware tests; hosted acceptance pending. ARM/NEON/physical tests open.",
-      "f2_candidate_status": "F1 accepted; baseline and balanced score64 native XC7 synthesis and post-map functional simulation mandatory in F2, constrained device-specific timing remains open."
+      "f2_candidate_status": "F1 accepted; baseline and balanced score64 native XC7 synthesis and post-map functional simulation mandatory in F2, constrained device-specific timing remains open.",
+      "f2b_candidate_status": "Original XC7 resource counts recovered; compact width-bounded signed reduction and three-lane mandatory mapped simulation candidate; native acceptance and routed timing pending."
     },
     {
       "id": "H02",
@@ -454,7 +455,8 @@
       "gate": "Bit-exact readiness; hardware energy and synthesis later",
       "accepted": false,
       "local_candidate_status": "F1 host packet, independent oracle and 5325 cycle RTL vectors; actual Icarus execution required on hosted Linux/3.11. No local simulator, synthesis, timing, board link or physical measurement.",
-      "f2_candidate_status": "F1 accepted; baseline and balanced score64 native XC7 synthesis and post-map functional simulation mandatory in F2, constrained device-specific timing remains open."
+      "f2_candidate_status": "F1 accepted; baseline and balanced score64 native XC7 synthesis and post-map functional simulation mandatory in F2, constrained device-specific timing remains open.",
+      "f2b_candidate_status": "Original XC7 resource counts recovered; compact width-bounded signed reduction and three-lane mandatory mapped simulation candidate; native acceptance and routed timing pending."
     },
     {
       "id": "H04",
@@ -866,7 +868,8 @@
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
       "local_candidate_status": "E2G RGB 44326114911 real cell timeout; verified canonical CIFAR-10 archive and 40 raw RGB arms locally. Mandatory 120 real FP32/PTQ visual arms after exact replay optimization; no pretrained result yet. CORe50 deferred; QAT fidelity open.",
-      "sample_pilot": "Full CORe50 deferred; authorized uploaded sample only, real pixel pilot 312 rows, separate session holdout and bbox checks; pretrained and fusion not claimed."
+      "sample_pilot": "Full CORe50 deferred; authorized uploaded sample only, real pixel pilot 312 rows, separate session holdout and bbox checks; pretrained and fusion not claimed.",
+      "f2b_candidate_status": "Verified pretrained FP32 and QNNPACK PTQ executed on local CORe50 sample; 728 session-level evaluations, no full CORe50 or paired depth claim; supervised prototypes, no production promotion."
     },
     {
       "id": "L24",
@@ -1033,7 +1036,8 @@
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
       "local_candidate_status": "F1 native packed/dense matched scoring, fixed-point primitives and 180 dispatch sweep rows. Resident input speedup excludes packing; full pipeline, fault-tolerant devices and physical evaluation open.",
-      "f2_candidate_status": "F1 accepted; baseline and balanced score64 native XC7 synthesis and post-map functional simulation mandatory in F2, constrained device-specific timing remains open."
+      "f2_candidate_status": "F1 accepted; baseline and balanced score64 native XC7 synthesis and post-map functional simulation mandatory in F2, constrained device-specific timing remains open.",
+      "f2b_candidate_status": "Original XC7 resource counts recovered; compact width-bounded signed reduction and three-lane mandatory mapped simulation candidate; native acceptance and routed timing pending."
     }
   ],
   "scope": "All listed representative viable mechanisms individually dispositioned; not every publication, not production enabled.",
@@ -3158,5 +3162,26 @@
     "native_synthesis_pending": true,
     "vivado_timing_pending": true,
     "core50_sample_pretrained_pending": true
+  },
+  "cog03f2b_candidate": {
+    "source_base": "eafe459c5777bbdc1be22ba9124f57f20510f82a",
+    "previous_run": 44374382072,
+    "previous_acceptance": {
+      "passed": 17,
+      "failed": 1
+    },
+    "baseline_mapping": {
+      "lut": 5271,
+      "carry4": 512,
+      "ff": 65,
+      "mapped_simulated": false
+    },
+    "sample_evaluations": 728,
+    "core50_pretrained_sample_completed": true,
+    "local_scoped_tests": 29,
+    "expected_hosted_tests": 757,
+    "native_compact_synthesis_pending": true,
+    "vivado_timing_pending": true,
+    "production_enabled": false
   }
 }

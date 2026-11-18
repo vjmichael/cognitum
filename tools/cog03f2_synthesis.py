@@ -6,7 +6,7 @@ from collections import Counter
 from pathlib import Path
 from tools.cog03f_rtl import vectors
 ROOT=Path(__file__).resolve().parents[1]
-TOPS=('score64','score64_balanced')
+TOPS=('score64','score64_balanced','score64_compact')
 
 def digest(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def balanced_count(value):
@@ -55,7 +55,7 @@ def run(out):
         for top in TOPS:
             src=ROOT/f'hardware/hdc/{top}.sv'
             tb=Path(td)/f'{top}_tb.sv';text=source_tb.read_text(encoding='utf8');assert text.count('score64 dut(.*);')==1
-            tb.write_text(text.replace('score64 dut(.*);',f'{top} dut(.*);'),encoding='utf8')
+            tb.write_text(text.replace('score64 dut(.*);',f'{top} dut(.*);').replace('cycle=cycle+1;', 'cycle=cycle+1; if(cycle%256==0) begin $display("progress %0d",cycle); $fflush(); end'),encoding='utf8')
             binary=Path(td)/f'{top}.vvp'
             checked([iv,'-g2012','-s','score64_tb','-o',str(binary),str(src),str(tb)],out/f'{top}-compile.log',60)
             sim=out/f'{top}-sim.log';checked([vvp,str(binary),f'+vectors={oracle}'],sim,120)
@@ -68,11 +68,27 @@ def run(out):
             mapped=work/'mapped.json';net=json.loads(mapped.read_text());row=cell_counts(net,top)
             dst=out/f'{top}-mapped.json';shutil.copyfile(mapped,dst)
             verilog=out/f'{top}-mapped.v';shutil.copyfile(work/'mapped.v',verilog)
+            row.update(top=top,source_sha256=digest(src),simulated=True,cycles=meta['cycles'],netlist_sha256=digest(dst),sim_sha256=digest(sim),synthesis_log_sha256=digest(synlog),mapped_verilog_sha256=digest(verilog),mapped_simulated=False)
+            rows.append(row)
+            # Preserve measured resource counts before expensive simulation; never mark a partial receipt accepted.
+            (out/'f2-mapping-partial.json').write_text(json.dumps(dict(complete=False,rows=rows,timing_qualified=False),indent=2)+'\n',encoding='utf8')
+        # Map all variants before simulation; a slow baseline must not hide other mapped counts.
+        failures=[]
+        for row in rows:
+            top=row['top'];tb=Path(td)/f'{top}_tb.sv';verilog=out/f'{top}-mapped.v'
             gate_binary=Path(td)/f'{top}-mapped.vvp';gate_compile=out/f'{top}-mapped-compile.log';gate_sim=out/f'{top}-mapped-sim.log'
-            checked([iv,'-g2012','-s','score64_tb','-o',str(gate_binary),str(cells),str(verilog),str(tb)],gate_compile,120)
-            checked([vvp,str(gate_binary),f'+vectors={oracle}'],gate_sim,120)
-            if f"PASS score64 {meta['cycles']} cycles" not in gate_sim.read_text():raise ValueError('missing mapped simulation pass')
-            row.update(mapped_simulated=True,mapped_verilog_sha256=digest(verilog),mapped_sim_sha256=digest(gate_sim),top=top,source_sha256=digest(src),simulated=True,cycles=meta['cycles'],netlist_sha256=digest(dst),sim_sha256=digest(sim),synthesis_log_sha256=digest(synlog));rows.append(row)
+            gate_sim.unlink(missing_ok=True)
+            try:
+                checked([iv,'-g2012','-s','score64_tb','-o',str(gate_binary),str(cells),str(verilog),str(tb)],gate_compile,120)
+                gate_sim.touch()
+                checked([vvp,str(gate_binary),f'+vectors={oracle}'],gate_sim,900)
+                if f"PASS score64 {meta['cycles']} cycles" not in gate_sim.read_text():raise ValueError('missing mapped simulation pass')
+                row.update(mapped_simulated=True,mapped_sim_sha256=digest(gate_sim))
+            except (subprocess.TimeoutExpired, subprocess.CalledProcessError, ValueError) as e:
+                row.update(mapped_simulated=False,mapped_sim_error=str(e),mapped_sim_sha256=digest(gate_sim) if gate_sim.exists() else None)
+                failures.append(top)
+            (out/'f2-mapping-partial.json').write_text(json.dumps(dict(complete=False,rows=rows,timing_qualified=False),indent=2)+'\n',encoding='utf8')
+        if failures:raise RuntimeError('mapped simulation failed: '+','.join(failures))
     receipt=dict(scope='XC7 generic mapped netlist only, no part-specific placement/routing/timing/board measurements',yosys=subprocess.check_output([yosys,'-V'],text=True).strip(),iverilog=subprocess.check_output([iv,'-V'],text=True,stderr=subprocess.STDOUT).splitlines()[0],primitive_model_sha256=digest(cells),vectors=meta,rows=rows,timing_qualified=False,physical_verified=False)
     (out/'f2-synthesis.json').write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf8');return receipt
 
