@@ -1,0 +1,12 @@
+{
+  "accepted_base": "9e0fee84927414040eb163a8c66e3c938744b9d8",
+  "git_blobs": {
+    "cognitum/research/hdc_learning.py": "93d17118e75d07fba9ae32e11496471aeec696e8",
+    "research_tests/hdc_e1/test_learning.py": "279dcade78dbbf7be9f4bc6c69a3d8cb615c68b0",
+    "tools/cog03e1_pilot.py": "f9ddd02643eaf6ceff2ad0f4de4c88df8151abe1",
+    "tools/cog03e1_acceptance.py": "05a69aad1f67b0348f9f4327e19d9054718f78dc"
+  },
+  "prior_source_blobs_verified": 69,
+  "tests": 447,
+  "scope": "E1A bounded learning references and pinned native fidelity; no production"
+}
