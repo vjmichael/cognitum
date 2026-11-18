@@ -3143,5 +3143,20 @@
     "timing_qualified": false,
     "physical_verified": false,
     "production_enabled": false
+  },
+  "cog03f2_dependency_reconciliation": {
+    "source_sha": "c619546933096f427865fe7532b607c07a80731e",
+    "run_id": 44366440636,
+    "counts": {
+      "failure": 3,
+      "in_progress": 1,
+      "success": 14
+    },
+    "hosted_collection_failures": 3,
+    "local_scoped_tests": 22,
+    "scope": "dependency repair and authenticated checkpoint export; no acceptance promotion",
+    "native_synthesis_pending": true,
+    "vivado_timing_pending": true,
+    "core50_sample_pretrained_pending": true
   }
 }

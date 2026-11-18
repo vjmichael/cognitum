@@ -1,0 +1,118 @@
+{
+  "run": 44366440636,
+  "source_sha": "c619546933096f427865fe7532b607c07a80731e",
+  "snapshot_only": true,
+  "counts": {
+    "failure": 3,
+    "in_progress": 1,
+    "success": 14
+  },
+  "failed": [
+    {
+      "job": 135021300194,
+      "artifact": 14457301085
+    },
+    {
+      "job": 135021300697,
+      "artifact": 14457420955
+    },
+    {
+      "job": 135021300965,
+      "artifact": 14458985438
+    }
+  ],
+  "failure": "Pillow missing during F2 pytest collection in three cells; inherited 728 XML cases passed in each; no mapped result",
+  "verified_archive_ids": [
+    {
+      "id": 14458985438,
+      "digest": "sha256:e127a0217b364a0384117620f4f8492a6823e2c28639d6c7cdbf16a7a3788ae8",
+      "name": "cog03bc-windows-latest-py3.11"
+    },
+    {
+      "id": 14458440182,
+      "digest": "sha256:310b746893358291b695c1fe95999228d0ea7639001f077489ec38d1eb218ef3",
+      "name": "cog07-windows-latest-py3.11"
+    },
+    {
+      "id": 14458360095,
+      "digest": "sha256:0e972645a2beec6ed33cc3c695cb6cc0f4ffc2f26e0a4ba22da6720f22f60ab1",
+      "name": "c10-native-proof-evidence"
+    },
+    {
+      "id": 14458285052,
+      "digest": "sha256:1415eaf661477527b85216383093168fda905d8b09a82c201d0def44d7b5ddda",
+      "name": "cog07-dowhy-windows-latest"
+    },
+    {
+      "id": 14457790621,
+      "digest": "sha256:06bb9bb7b7eaf93435bc4c0822a3fb3a296db0544aa088716e0cd9cdd0628716",
+      "name": "cog07-windows-latest-py3.13"
+    },
+    {
+      "id": 14457465674,
+      "digest": "sha256:cb0f028a514f7c93ff15030ad859b707883d85a7bf02afa6ad31c74e63de087f",
+      "name": "cog07-ubuntu-latest-py3.11"
+    },
+    {
+      "id": 14457420955,
+      "digest": "sha256:d3d4f7bed9684f44ce2bf681b1868bbf40348a75df23364d84a147993f971a23",
+      "name": "cog03bc-windows-latest-py3.13"
+    },
+    {
+      "id": 14457301085,
+      "digest": "sha256:ddc43319c8d2e23b51e2ef1e77f27e87dd6fd6629de6c104d2bc791025f41a0e",
+      "name": "cog03bc-ubuntu-latest-py3.11"
+    },
+    {
+      "id": 14456791448,
+      "digest": "sha256:23af50530ce60428a6557d0e07fcee40e7d4331f9dff3ec52c761c336d239741",
+      "name": "cog06g-bytetrack-ubuntu-latest"
+    },
+    {
+      "id": 14456676739,
+      "digest": "sha256:5121ce3c8602959f4d5217bd994ba5013227d1b15b43bd4316f2cdf2acd9e3ff",
+      "name": "cog07-econml-windows-latest"
+    },
+    {
+      "id": 14456649708,
+      "digest": "sha256:20325822c1588f5d5dc6986cb3fd4ad29545f8b3952951e7c58b53d3ab41836a",
+      "name": "cog07-causal-learn-windows-latest"
+    },
+    {
+      "id": 14456594970,
+      "digest": "sha256:12aceffb7c5e5442efb9fc875a6e5f551b01009aa81548610023acb21a268351",
+      "name": "cog07-ubuntu-latest-py3.13"
+    },
+    {
+      "id": 14456519740,
+      "digest": "sha256:714d6c574745af78f41d086a1e29f0e05e55586bff0870b353a471a62ea6c6a9",
+      "name": "cog06g-bytetrack-windows-latest"
+    },
+    {
+      "id": 14456329765,
+      "digest": "sha256:25536c22f41311b8cf3cb588bedea2e4655401dc38d277ade7d7f1a6ea75a33f",
+      "name": "cog07-dowhy-ubuntu-latest"
+    },
+    {
+      "id": 14456299772,
+      "digest": "sha256:1d0a3a1fb94abe42ef1d6baedf63d91e149793923e19a68d56af4daebf603492",
+      "name": "cog07-causal-learn-ubuntu-latest"
+    },
+    {
+      "id": 14455824836,
+      "digest": "sha256:23287a581d7951dfd19d83beb552f8ad89928dcd39245762ab579d939d7b3565",
+      "name": "cog07-econml-ubuntu-latest"
+    },
+    {
+      "id": 14455589876,
+      "digest": "sha256:7ef705b6d65fee85561e47fc6fabe86e4087ade8b176e6cb264d7a6c7240014c",
+      "name": "c15-real-mot17-research-evidence"
+    }
+  ],
+  "local_scoped_tests": 22,
+  "local_pillow": "12.3.0",
+  "repair": "Pinned Pillow preinstall in all HDC cells; preserve prior F2 source and mandatory XC7 gate; export hash-verified public MobileNetV2 checkpoint from real-data cell; user sample stays local.",
+  "native_synthesis_verified": false,
+  "device_timing_verified": false,
+  "core50_pretrained_verified": false
+}
