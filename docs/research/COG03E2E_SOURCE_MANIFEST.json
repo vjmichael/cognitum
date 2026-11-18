@@ -1,0 +1,14 @@
+{
+  "base": "226500bbe6556993f69c8aede111950ac9319adb",
+  "git_blobs": {
+    "cognitum/research/hdc_uncertain_visual.py": "56b794c00250d45e24fba2dbbd840b03bcfbdb46",
+    "cognitum/research/hdc_visual_closeout.py": "4d995d5203978507ba3d09a8477043017bc39aa8",
+    "docs/research/COG03E2E_UNCERTAIN_VISUAL.md": "0ff5157ee1321bc709ca15bd5a6823129640ab05",
+    "research_tests/hdc_e2e/test_uncertain_visual.py": "9ad492e5dcecbd1b2615c5c7fe73b61194c13cb1",
+    "research_tests/hdc_e2e/test_visual_closeout.py": "ab068addcfb9c5442ed67c90c10381db9bc53e2c",
+    "tools/cog03e2e_acceptance.py": "fff47170328d2f52be88ece0a94e4d78157e27ee",
+    "tools/cog03e2e_closeout.py": "25ae351a8ae16c3791e4481698d32b61f6342d8c",
+    "tools/cog03e2e_pilot.py": "41f5d9e4616e29b804635e7131221d6d6839fb04"
+  },
+  "research_only": true
+}

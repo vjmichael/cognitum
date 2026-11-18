@@ -11,6 +11,11 @@ on:
       - tools/cog03d2_acceptance.py
       - tools/cog03d2b_acceptance.py
       - tools/cog03e1_acceptance.py
+      - tools/cog03e2e_acceptance.py
+      - tools/cog03e2e_pilot.py
+      - tools/cog03e2e_closeout.py
+      - research_tests/hdc_e2e/**
+      - docs/research/COG03E2E_SOURCE_MANIFEST.json
       - tools/cog03e2d_acceptance.py
       - tools/cog03e2d_pilot.py
       - tools/cog03e2d_closeout.py
@@ -142,7 +147,7 @@ jobs:
         os: [ubuntu-latest, windows-latest]
         python-version: ['3.11', '3.13']
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 45
+    timeout-minutes: 60
     env:
       PYTHONUTF8: '1'
       COG03BC_EXPECTED_SHA: ${{ github.sha }}
@@ -159,7 +164,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Dedicated no-skip native HDC algebra and encoder research acceptance
-        run: python -m tools.cog03e2d_acceptance
+        run: python -m tools.cog03e2e_acceptance
       - name: Archive exact-source HDC evidence and diagnostics
         if: always()
         uses: actions/upload-artifact@v4

@@ -847,7 +847,8 @@
       "gate": "Prototype distance, runner-up gap and n-gram vote dispersion; subject-disjoint proper calibration/testing with conformal prediction sets, empirical coverage/set size, selective risk/OOD; exchangeability limitation and shift coverage separate.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "E2E group-max and perturbation-envelope conformal reference, subject-disjoint synthetic IMU tests; coverage improvement trades off set size; mandatory official subject-disjoint HAR raw nine-channel benchmark pending on hosted dataset cell. No guarantee under shift."
     },
     {
       "id": "L23",
@@ -860,7 +861,8 @@
       "gate": "Compare unified bounded exemplar/cluster merging using fixed quantized visual front end; CPU replay, new-class accuracy/forgetting and model+exemplar memory, matched online learners; CORe50 later when justified. Hardware acceptance COG-09.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "E2E packed bounded visual learner and calibrated head controls; local actual QNNPACK random architecture smoke only. Mandatory official pretrained quantized MobileNetV2 Digits feature comparison against identical-feature conventional centroids/exemplars plus pixel ablation in existing dataset cell, full serialized checkpoint costs reported separately from numeric head budget. Negative pixel results preserved. CORe50/FPGA unverified."
     },
     {
       "id": "L24",
@@ -2840,7 +2842,7 @@
     }
   },
   "cog03e2d_integration_candidate": {
-    "state": "Consolidated research-only candidate; hosted inherited acceptance pending",
+    "state": "Terminal same-SHA native acceptance passed; bounded research-only",
     "base": "ffe6eb3678a3317e511c19dfc47a3d37c8444811",
     "local_scratch_sha": "7224c56f9b7dafa44b26e81eef05281bcc8ca46d",
     "archive": "COG-03E2D_Consolidated_Closeout_Candidate.zip",
@@ -2890,6 +2892,68 @@
       "drift_lru_6k_old_identity_retention": 0,
       "drift_temporary_10k_old_identity_retention": 1,
       "drift_temporary_10k_late_novel_coverage": 1
+    },
+    "production_enabled": false,
+    "hosted_acceptance": {
+      "run_id": 44257243947,
+      "source_sha": "226500bbe6556993f69c8aede111950ac9319adb",
+      "jobs_passed": 18,
+      "jobs_total": 18,
+      "hdc_tests_each": 585,
+      "verified_archives": 18,
+      "verified_hdc_internal_hashes": 240,
+      "receipt": "docs/research/COG03E2D_RUN_44257243947_ACCEPTANCE.json",
+      "scope": "All archive digests and CRCs, HDC contents checked; non-HDC contents not fully audited."
+    }
+  },
+  "cog03e2e_integration_candidate": {
+    "state": "Consolidated candidate; mandatory pretrained model and real HAR hosted gate pending",
+    "base": "226500bbe6556993f69c8aede111950ac9319adb",
+    "archive": "COG-03E2E_Consolidated_Closeout_Candidate.zip",
+    "file_id": "file_000000000b888212a2715589959b9f80",
+    "archive_sha256": "2299cf42996b4c67b25fd795e29608d6d17fe658a19218d384e79677d6a95c20",
+    "source_blobs": {
+      "cognitum/research/hdc_uncertain_visual.py": "56b794c00250d45e24fba2dbbd840b03bcfbdb46",
+      "cognitum/research/hdc_visual_closeout.py": "4d995d5203978507ba3d09a8477043017bc39aa8",
+      "docs/research/COG03E2E_UNCERTAIN_VISUAL.md": "0ff5157ee1321bc709ca15bd5a6823129640ab05",
+      "research_tests/hdc_e2e/test_uncertain_visual.py": "9ad492e5dcecbd1b2615c5c7fe73b61194c13cb1",
+      "research_tests/hdc_e2e/test_visual_closeout.py": "ab068addcfb9c5442ed67c90c10381db9bc53e2c",
+      "tools/cog03e2e_acceptance.py": "fff47170328d2f52be88ece0a94e4d78157e27ee",
+      "tools/cog03e2e_closeout.py": "25ae351a8ae16c3791e4481698d32b61f6342d8c",
+      "tools/cog03e2e_pilot.py": "41f5d9e4616e29b804635e7131221d6d6839fb04",
+      "docs/research/COG03E2E_SOURCE_MANIFEST.json": "8f40e4bbd48de3310f5a689f1097498525fcae89",
+      "docs/research/COG03E2D_RUN_44257243947_ACCEPTANCE.json": "e503e5adb66f3332c62451537d37e5df2e5bc66c"
+    },
+    "tests": 193,
+    "new_tests": 26,
+    "expected_hosted_tests": 611,
+    "failures": 0,
+    "skips": 0,
+    "local_gate": "Scoped blob bound recovered regression and actual random-weight quantized architecture smoke, not full source or pretrained/native HAR gate.",
+    "pilot": {
+      "initial_uncertainty_rows": 48,
+      "initial_visual_rows": 84,
+      "closeout_fixture_uncertainty_rows": 24,
+      "closeout_fixture_visual_rows": 10,
+      "full_digits_pixel_rows": 20,
+      "retained_head_budgets_bytes": [
+        8192,
+        16384
+      ],
+      "local_native_quantized_feature_shape": [
+        240,
+        1280
+      ],
+      "local_pretrained": false,
+      "local_har_real": false,
+      "local_pixel_merge_8k_ari": 0.22717420266744534,
+      "local_pixel_centroid_8k_ari": 0.47912030006913575,
+      "planned_real_visual_rows": 40,
+      "planned_real_uncertainty_rows": 72,
+      "mandatory_existing_dataset_cell": "ubuntu-latest / Python 3.13",
+      "checkpoint_url": "https://download.pytorch.org/models/quantized/mobilenet_v2_qnnpack_37f702c5.pth",
+      "checkpoint_sha256_prefix": "37f702c5",
+      "har_url": "https://archive.ics.uci.edu/static/public/240/human+activity+recognition+using+smartphones.zip"
     },
     "production_enabled": false
   }
