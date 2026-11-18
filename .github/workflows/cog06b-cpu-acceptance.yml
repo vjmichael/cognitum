@@ -17,6 +17,9 @@ on:
       - tools/cog03f_*.py
       - tools/cog03f2_*.py
       - research_tests/hdc_f2/**
+      - tools/h12/**
+      - research_tests/hdc_h12/**
+      - docs/research/h12/manifest.json
       - docs/research/COG03F2_SOURCE_MANIFEST.json
       - docs/research/COG03F_SOURCE_MANIFEST.json
       - tools/cog03e2g_cifar.py
@@ -212,6 +215,8 @@ jobs:
           yosys -V
       - name: Dedicated no-skip native HDC algebra, RGB and hardware research acceptance
         run: python -m tools.cog03f2_acceptance
+      - name: Dedicated H12 matched CPU pipeline contracts and quick profile
+        run: python -m tools.h12.acceptance
       - name: Preserve verified public MobileNetV2 checkpoint for offline CORe50
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
         timeout-minutes: 5

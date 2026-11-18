@@ -1,0 +1,19 @@
+{
+  "base": "b598a71d432ce7702e17642736ce2e05669d97c4",
+  "git_blobs": {
+    "tools/h12/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "tools/h12/pipeline.py": "db9e33641b56e45c17d2a4c4de56be93aae4c9e7",
+    "tools/h12/acceptance.py": "b4a72fea62fa52aa66d564fd3cea32ce2b89be4f",
+    "research_tests/hdc_h12/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "research_tests/hdc_h12/test_pipeline.py": "64da2f6d46a0cd74a7a563979f74322ebb9edac8",
+    "docs/research/h12/.gitattributes": "fa8f528c3f97ab9c87080cb81cf0f913e4855dab",
+    "cognitum/research/hdc_hardware.py": "ff4e764d7af09a2cf1335d5e6c53ddcd1c7dcfe3",
+    "hardware/hdc/packed.c": "b38da216ee70a411f8db2a6dc1415e990981f1d4",
+    "tools/cog03f_dispatch_pilot.py": "a932f207b45b1e9891ceb23475b5e6b89e68c003",
+    "docs/research/h12/REPORT.md": "b3a3ddf63ec1b269c38e64d88ad35d8f15ded575",
+    "docs/research/h12/f2bc-acceptance.json": "1c891379a114f205fb9a82e227542909b25e803e",
+    "docs/research/h12/pipeline-results.json": "397e6346b541e2d5d165b023fb144c25bff2021d",
+    "docs/research/h12/pipeline-raw.json.gz": "d97ee267c24372bcf033a7bb2a02dfc2831c4440"
+  },
+  "production_enabled": false
+}

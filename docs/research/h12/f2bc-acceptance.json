@@ -1,0 +1,267 @@
+{
+  "run": 44407335984,
+  "source_sha": "b598a71d432ce7702e17642736ce2e05669d97c4",
+  "jobs_passed": 18,
+  "archives": [
+    {
+      "id": 14478580422,
+      "sha256": "123d5a898e2fd5d78dcdee1bbcd0890f6d8560df80228e8a393b70f7d26a0901",
+      "crc_verified": true
+    },
+    {
+      "id": 14478426326,
+      "sha256": "06230e9ffe6999c366380c296a314bc294845c9ae3567e75806e025b52c6cbe3",
+      "crc_verified": true
+    },
+    {
+      "id": 14478366946,
+      "sha256": "7bca3d18a5e60d62049e2cce64776cef9a73e6d16c4d3ec9fa7effca672c5455",
+      "crc_verified": true
+    },
+    {
+      "id": 14477317342,
+      "sha256": "8c6df24f1397ed6003fdfc53ff237450b2c11251ae257d41b03260dad03a4216",
+      "crc_verified": true
+    },
+    {
+      "id": 14477262858,
+      "sha256": "ca6a3ed8788ca7a49b9cb79587de812810dedbb5aab5ab25f01c5b5328171271",
+      "crc_verified": true
+    },
+    {
+      "id": 14477238366,
+      "sha256": "39827b82f3c0673a03d2422efdaff4931a603563be669590b0deaffb0423f6d1",
+      "crc_verified": true
+    },
+    {
+      "id": 14477182464,
+      "sha256": "d077c094bbff2d07ddface1b07e3b1d9630c140802b2b0e4b0b7bf6aac740789",
+      "crc_verified": true
+    },
+    {
+      "id": 14477067164,
+      "sha256": "594bbd252b85c0c2ad3b42d68b3d4ce00ed9252dfcb075ed9e9e713cb6fa4b9c",
+      "crc_verified": true
+    },
+    {
+      "id": 14476968887,
+      "sha256": "7883875d01878cbaa5a41da3b658f8dfe834d20d32b6a7eaeaeaeb3bfac1721a",
+      "crc_verified": true
+    },
+    {
+      "id": 14476923279,
+      "sha256": "83f667692c6db2ae2909fa14afbcfb7979808056d33ed5a20510e19c7878852c",
+      "crc_verified": true
+    },
+    {
+      "id": 14476849906,
+      "sha256": "a85d9ca969ca4380c2fe0749df5aee0d0747b751cf46980a88b4b14ed1483b2b",
+      "crc_verified": true
+    },
+    {
+      "id": 14476577245,
+      "sha256": "e9da86526f68dea9d041ae2a39dbd1e7fc126df2854c5eb4b27ef37406f9718c",
+      "crc_verified": true
+    },
+    {
+      "id": 14476572899,
+      "sha256": "dc8b76d8de1b4a7099b05f60588bb7c933e645eda48dfdb9266720fa7a1284b9",
+      "crc_verified": true
+    },
+    {
+      "id": 14476323194,
+      "sha256": "51e2eea8600bdb8572a5eceb396bd45e02b099eb08f32d4922a064750dab177b",
+      "crc_verified": true
+    },
+    {
+      "id": 14476298421,
+      "sha256": "1149e6e89aa7ae7116829d9df52c94ed2eeab99cd88e2ace6f28c09e4d4fdb7c",
+      "crc_verified": true
+    },
+    {
+      "id": 14476088659,
+      "sha256": "4f941d7e1de4f59c2fb52809dac8a61c11beea8f550ff090d7acc54ce05571e7",
+      "crc_verified": true
+    },
+    {
+      "id": 14475059892,
+      "sha256": "44e3208ae57103b6c52b77f0ff251cab369c57b1cc01dbea8c1436663da78ab7",
+      "crc_verified": true
+    },
+    {
+      "id": 14474919966,
+      "sha256": "b181037e4701fe5d50ebda64154bf03fd80383242d1e99ecc2bbcff5820290da",
+      "crc_verified": true
+    }
+  ],
+  "inner_hashes": 410,
+  "hdc_cells": [
+    {
+      "id": 14478580422,
+      "test_counts": {
+        "tests": 765,
+        "failure": 0,
+        "error": 0,
+        "skipped": 0
+      },
+      "artifact_hashes_verified": 95
+    },
+    {
+      "id": 14478426326,
+      "test_counts": {
+        "tests": 765,
+        "failure": 0,
+        "error": 0,
+        "skipped": 0
+      },
+      "artifact_hashes_verified": 95
+    },
+    {
+      "id": 14478366946,
+      "test_counts": {
+        "tests": 765,
+        "failure": 0,
+        "error": 0,
+        "skipped": 0
+      },
+      "artifact_hashes_verified": 125
+    },
+    {
+      "id": 14476849906,
+      "test_counts": {
+        "tests": 765,
+        "failure": 0,
+        "error": 0,
+        "skipped": 0
+      },
+      "artifact_hashes_verified": 95
+    }
+  ],
+  "manifest_blobs_verified": 19,
+  "mapped": {
+    "scope": "XC7 generic mapped netlist only, no part-specific placement/routing/timing/board measurements",
+    "yosys": "Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90)",
+    "iverilog": "Icarus Verilog version 12.0 (stable) ()",
+    "primitive_model_sha256": "10f8afc61bf708949ebf238294327dce95eaa68919bb0ab5938d40f24e39d15e",
+    "compiled_engine_sha256": "d5efa153b3fcbb66995e90d1f384018faa47ab4f8e46643bb404b8b795d7276a",
+    "icarus_prefix_sha256": "178e87a639e981fd27c23456c669f6c69faaa985d8618300716381e41a58541e",
+    "vectors": {
+      "cycles": 5325,
+      "accepted_input_beats": 5103,
+      "retired_results": 58,
+      "blocked_input_cycles": 132,
+      "resets": 2,
+      "vector_sha256": "0e112cfac2ac4aea4a432524c5a0c5ada33c85db50b338f2d04e104c4b405c9d"
+    },
+    "rows": [
+      {
+        "cells": {
+          "BUFG": 1,
+          "CARRY4": 512,
+          "FDRE": 65,
+          "INV": 29,
+          "LUT1": 1152,
+          "LUT2": 2007,
+          "LUT3": 945,
+          "LUT4": 753,
+          "LUT5": 352,
+          "LUT6": 62,
+          "MUXF7": 1152,
+          "MUXF8": 576
+        },
+        "lut": 5271,
+        "ff": 65,
+        "carry4": 512,
+        "dsp": 0,
+        "bram36": 0,
+        "bram18": 0,
+        "top": "score64",
+        "source_sha256": "ce95fbc7842b2063302b9afbddbf3573ef6085c7e74aab635d12ebaeb2748011",
+        "simulated": true,
+        "cycles": 5325,
+        "netlist_sha256": "6cc6531b02a184c0bde7ddcd7b957df43a95038a68656ada1c258b36f3025e54",
+        "sim_sha256": "5beb2e5c5b73657790d924c392ba454eec488e1a8e68eef862ae2634f56406a5",
+        "synthesis_log_sha256": "2e2a8f7eca076e7cbac92413be8654af47e92c4cea641a7675a13c3f37ce4584",
+        "mapped_verilog_sha256": "c8371f7a800f1ea27ca9e1636ace7bedc0967bf4c1ff995720ee402d184c4c56",
+        "mapped_simulated": true,
+        "mapped_engine": "compiled settled XC7 primitive evaluation",
+        "icarus_mapped_cycles": 256,
+        "compiled_mapped_cycles": 5325,
+        "mapped_cycle_sha256": "d423a07482419103b9b4e3ae5b783add3163672925b61b587338b1a26d3d2b44",
+        "mapped_sim_sha256": "7d9711482eaf7e4901898982c1c62fedb1368795463c5d76b06418fdcd612fbc"
+      },
+      {
+        "cells": {
+          "BUFG": 1,
+          "CARRY4": 13,
+          "FDRE": 65,
+          "LUT2": 27,
+          "LUT3": 130,
+          "LUT4": 19,
+          "LUT5": 34,
+          "LUT6": 123,
+          "MUXF7": 26,
+          "MUXF8": 4
+        },
+        "lut": 333,
+        "ff": 65,
+        "carry4": 13,
+        "dsp": 0,
+        "bram36": 0,
+        "bram18": 0,
+        "top": "score64_balanced",
+        "source_sha256": "046bf763a9982bd5be193287990e02ede2950b6921fe46f742296d869cb6fca3",
+        "simulated": true,
+        "cycles": 5325,
+        "netlist_sha256": "f6dd6a10ca2da27424ff86c9d8e38a5abe9b58d47ae955752d59d67a66b07b52",
+        "sim_sha256": "1b36b47f4198aee382a21fe75ee27658025a72fcd83aa5a2d45657bb93ac11cc",
+        "synthesis_log_sha256": "2b09f0e60e2c68bfa20dd6aece8371a448faa81ccb290e66e36f7fbb6e670f0c",
+        "mapped_verilog_sha256": "f2f487443d4580ea468f24c451ce95d5f8e786375e12f42d75838ddd9bd9c32e",
+        "mapped_simulated": true,
+        "mapped_engine": "compiled settled XC7 primitive evaluation",
+        "icarus_mapped_cycles": 5325,
+        "compiled_mapped_cycles": 5325,
+        "mapped_cycle_sha256": "9e72a78460b6f84ebe4b7751838562c04e148b16bf67d9ede321d0c8896a41a0",
+        "mapped_sim_sha256": "1b36b47f4198aee382a21fe75ee27658025a72fcd83aa5a2d45657bb93ac11cc"
+      },
+      {
+        "cells": {
+          "BUFG": 1,
+          "CARRY4": 8,
+          "FDRE": 65,
+          "LUT2": 96,
+          "LUT3": 153,
+          "LUT4": 99,
+          "LUT5": 41,
+          "LUT6": 431,
+          "MUXF7": 159,
+          "MUXF8": 60
+        },
+        "lut": 820,
+        "ff": 65,
+        "carry4": 8,
+        "dsp": 0,
+        "bram36": 0,
+        "bram18": 0,
+        "top": "score64_compact",
+        "source_sha256": "2f082beb5b24e86c77b1fa425f3a8892b78f30f8dc79676fa60e3a335843009d",
+        "simulated": true,
+        "cycles": 5325,
+        "netlist_sha256": "627a1b0d28a9880bf3aa934e79f525fbf6e39ef109e40efe4be911c60c74f589",
+        "sim_sha256": "16d0c3f7e04f0cc2670790e5d8f9f7f5c8e34493928f423f5746feae41e00429",
+        "synthesis_log_sha256": "1c4be4daafdda1705a81f3b031598126b2d8a4912d1871f4985ce08063625548",
+        "mapped_verilog_sha256": "738dba778a4caf3c06b9cb9b1a931e9b44212e14fd0ed974175d00dc85da720e",
+        "mapped_simulated": true,
+        "mapped_engine": "compiled settled XC7 primitive evaluation",
+        "icarus_mapped_cycles": 5325,
+        "compiled_mapped_cycles": 5325,
+        "mapped_cycle_sha256": "1a9113a2421a40fc423f9b69d7e51634bf5737379d647d1a28ba8e0a67a4cae8",
+        "mapped_sim_sha256": "16d0c3f7e04f0cc2670790e5d8f9f7f5c8e34493928f423f5746feae41e00429"
+      }
+    ],
+    "timing_qualified": false,
+    "physical_verified": false
+  },
+  "timing_qualified": false,
+  "checkpoint_sha256": "7ebf99e03e254b273379b23edca7ec0da9f48273b23a332b93c1c99d49e86e8f"
+}

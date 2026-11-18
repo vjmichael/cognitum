@@ -437,7 +437,14 @@
       "accepted": false,
       "local_candidate_status": "F1 portable/native x86 runtime score dispatch and exact packed arithmetic; 180 measured matched CPU rows, local 37 hardware tests; hosted acceptance pending. ARM/NEON/physical tests open.",
       "f2_candidate_status": "F1 accepted; baseline and balanced score64 native XC7 synthesis and post-map functional simulation mandatory in F2, constrained device-specific timing remains open.",
-      "f2b_candidate_status": "Original XC7 resource counts recovered; compact width-bounded signed reduction and three-lane mandatory mapped simulation candidate; native acceptance and routed timing pending."
+      "f2b_candidate_status": "Original XC7 resource counts recovered; compact width-bounded signed reduction and three-lane mandatory mapped simulation candidate; native acceptance and routed timing pending.",
+      "f2bc_native_acceptance": {
+        "source_sha": "b598a71d432ce7702e17642736ce2e05669d97c4",
+        "run": 44407335984,
+        "scoped_native_passed": true,
+        "timing_qualified": false,
+        "physical_verified": false
+      }
     },
     {
       "id": "H02",
@@ -456,7 +463,14 @@
       "accepted": false,
       "local_candidate_status": "F1 host packet, independent oracle and 5325 cycle RTL vectors; actual Icarus execution required on hosted Linux/3.11. No local simulator, synthesis, timing, board link or physical measurement.",
       "f2_candidate_status": "F1 accepted; baseline and balanced score64 native XC7 synthesis and post-map functional simulation mandatory in F2, constrained device-specific timing remains open.",
-      "f2b_candidate_status": "Original XC7 resource counts recovered; compact width-bounded signed reduction and three-lane mandatory mapped simulation candidate; native acceptance and routed timing pending."
+      "f2b_candidate_status": "Original XC7 resource counts recovered; compact width-bounded signed reduction and three-lane mandatory mapped simulation candidate; native acceptance and routed timing pending.",
+      "f2bc_native_acceptance": {
+        "source_sha": "b598a71d432ce7702e17642736ce2e05669d97c4",
+        "run": 44407335984,
+        "scoped_native_passed": true,
+        "timing_qualified": false,
+        "physical_verified": false
+      }
     },
     {
       "id": "H04",
@@ -1025,7 +1039,7 @@
     {
       "id": "H12",
       "method": "Primitive-driven HDC acceleration and fault-tolerant devices",
-      "status": "frontier-research-planned",
+      "status": "partial",
       "reference": "https://arxiv.org/abs/2601.20061",
       "publication_date": "2026-01-27",
       "publication_kind": "preprint",
@@ -1035,9 +1049,24 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
-      "local_candidate_status": "F1 native packed/dense matched scoring, fixed-point primitives and 180 dispatch sweep rows. Resident input speedup excludes packing; full pipeline, fault-tolerant devices and physical evaluation open.",
+      "local_candidate_status": "H12 222 actual timed arm rows, 74 matched cases, 1854 timed invocations, 24 training rows; direct generated Boolean packing yields ~3x full feature-to-class speedup at large bank, exact parity; visual extraction/projection dominate; 19 scoped tests passed, hosted gate pending; no fault-tolerant device or physical claims.",
       "f2_candidate_status": "F1 accepted; baseline and balanced score64 native XC7 synthesis and post-map functional simulation mandatory in F2, constrained device-specific timing remains open.",
-      "f2b_candidate_status": "Original XC7 resource counts recovered; compact width-bounded signed reduction and three-lane mandatory mapped simulation candidate; native acceptance and routed timing pending."
+      "f2b_candidate_status": "Original XC7 resource counts recovered; compact width-bounded signed reduction and three-lane mandatory mapped simulation candidate; native acceptance and routed timing pending.",
+      "f2bc_native_acceptance": {
+        "source_sha": "b598a71d432ce7702e17642736ce2e05669d97c4",
+        "run": 44407335984,
+        "scoped_native_passed": true,
+        "timing_qualified": false,
+        "physical_verified": false
+      },
+      "h12_candidate": {
+        "report": "docs/research/h12/REPORT.md",
+        "results": "docs/research/h12/pipeline-results.json",
+        "raw": "docs/research/h12/pipeline-raw.json.gz",
+        "local_tests": 19,
+        "hosted_pending": true,
+        "production_enabled": false
+      }
     }
   ],
   "scope": "All listed representative viable mechanisms individually dispositioned; not every publication, not production enabled.",
@@ -3201,5 +3230,14 @@
     "hosted_native_pending": true,
     "vivado_timing_pending": true,
     "physical_verified": false
+  },
+  "cog03h12_integration": {
+    "base_sha": "b598a71d432ce7702e17642736ce2e05669d97c4",
+    "local_tests": 19,
+    "matched_cases": 74,
+    "timing_rows": 222,
+    "hosted_expected_tests": 784,
+    "f2_timing_pending": true,
+    "production_enabled": false
   }
 }
