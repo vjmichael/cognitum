@@ -1,0 +1,20 @@
+{
+  "base": "c52b97fa697abe91a1bd41ff270d4408ae2009e6",
+  "git_blobs": {
+    "cognitum/research/hdc_hardware.py": "ff4e764d7af09a2cf1335d5e6c53ddcd1c7dcfe3",
+    "cognitum/research/hdc_shared.py": "fd7446178654858a6421113bda1a3265722185ba",
+    "hardware/hdc/packed.c": "b38da216ee70a411f8db2a6dc1415e990981f1d4",
+    "hardware/hdc/score64.sv": "17fabf3b87d990dcbd1e760831a43dd0ef083884",
+    "hardware/hdc/score64_tb.sv": "9276ff38b1f6cd8df256a1638264c41ef2956bdf",
+    "hardware/hdc/README.md": "7a662e505d795ba8adfcaaf4cd034690674a63d2",
+    "research_tests/hdc_f/test_hardware.py": "f25b41c148b7456a37390a2e184901f1d3c1cb0d",
+    "tools/cog03f_pilot.py": "90ba4cb481046a6d2597a4f354ea6e737747b3f6",
+    "tools/cog03f_acceptance.py": "c51d20492c141b450c3aa5171d17f0d3bb831162",
+    "docs/research/COG03F_HARDWARE_PRIMITIVES.md": "ebca0944bacfe463ad0be349619eeaf39246f5cd",
+    "cognitum/research/hdc_cifar_fast.py": "c87776b59bb3196e0fed80cd3055520f23c836bc",
+    "research_tests/hdc_f/test_dispatch_closeout.py": "4937ef9162ef4515b7860f75764444892ac1d7ee",
+    "tools/cog03f_dispatch_pilot.py": "a932f207b45b1e9891ceb23475b5e6b89e68c003",
+    "tools/cog03f_rtl.py": "dbd888a3a7fffeaf6108bc1b71474bb727cca8c3"
+  },
+  "production_enabled": false
+}

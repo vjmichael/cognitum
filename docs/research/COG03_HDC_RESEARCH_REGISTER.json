@@ -435,7 +435,7 @@
       "reference": "parallel.py / reported K4",
       "gate": "Reproduce exact score parity; no unbounded thread changes",
       "accepted": false,
-      "local_candidate_status": "C2A/B exact packed BSC, streamed projection, half-spectrum compressed phase geometry; full hardware kernels and actual FPGA performance remain F/COG-09."
+      "local_candidate_status": "F1 portable/native x86 runtime score dispatch and exact packed arithmetic; 180 measured matched CPU rows, local 37 hardware tests; hosted acceptance pending. ARM/NEON/physical tests open."
     },
     {
       "id": "H02",
@@ -451,7 +451,8 @@
       "status": "hardware-deferred",
       "reference": "COG-08/09",
       "gate": "Bit-exact readiness; hardware energy and synthesis later",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "F1 host packet, independent oracle and 5325 cycle RTL vectors; actual Icarus execution required on hosted Linux/3.11. No local simulator, synthesis, timing, board link or physical measurement."
     },
     {
       "id": "H04",
@@ -862,7 +863,7 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
-      "local_candidate_status": "E2E actual ImageNet MobileNetV2 FP32+QNNPACK PTQ accepted at 83429ca; negative 40-row comparison used 1797 8x8 grayscale Digits resized to RGB, 64/1280 features selected first two classes, not natural images. Original QAT check failed. Keep CIFAR-10 and official cropped CORe50 RGB/session qualification with broader/no feature selection on same splits; separate CNN costs; no hardware claims. User explicitly passed on CORe50; defer, not required. CIFAR-10 upload underway; verify original archive and official split before visual follow-up. Prior Digits 8x8/QAT limitations retained.\nCIFAR-10 true RGB FP32/PTQ follow-up implemented; verified asset pins and mandatory hosted dataset cell; actual results pending. CORe50 deferred by user; no QAT replication claim."
+      "local_candidate_status": "E2G RGB 44326114911 real cell timeout; verified canonical CIFAR-10 archive and 40 raw RGB arms locally. Mandatory 120 real FP32/PTQ visual arms after exact replay optimization; no pretrained result yet. CORe50 deferred; QAT fidelity open."
     },
     {
       "id": "L24",
@@ -946,7 +947,8 @@
       "gate": "Slot-keyed superposed queries with per-slot classifier recovery, check mapping and isolation, throughput/latency/error vs exact sequential and ordinary vectorized batching under equal threads, same encoding; Pi hardware COG-08. Never use for cross-user data or authoritative facts.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "F1 independent slot-keyed shared inference with matched sequential and vectorized controls; approximation loses accuracy and ordinary batching remains strong; exact author fidelity and physical tests open."
     },
     {
       "id": "H07",
@@ -959,7 +961,8 @@
       "gate": "Review HPVM-HDC/ApproxHDC license and toolchain; bounded CPU approximation policy, held-out error ceilings and exact fallback, log tuning cost. Hardware models not physical measurements.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "F1 independent certified prefix bound and empirically calibrated shortcut; exact fallback reads suffix; no HPVM-HDC compiler fidelity or physical results."
     },
     {
       "id": "H08",
@@ -1025,7 +1028,8 @@
       "gate": "Profile elementary primitives and full pipeline on CPU, exact vs packed implementations and measured overhead; consult 2025 hardware survey for additional accelerator implementations; no physical benchmark extrapolation.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "F1 native packed/dense matched scoring, fixed-point primitives and 180 dispatch sweep rows. Resident input speedup excludes packing; full pipeline, fault-tolerant devices and physical evaluation open."
     }
   ],
   "scope": "All listed representative viable mechanisms individually dispositioned; not every publication, not production enabled.",
@@ -3102,5 +3106,24 @@
     },
     "production_enabled": false,
     "physical_fpga_verified": false
+  },
+  "cog03f1_integration_candidate": {
+    "base": "c52b97fa697abe91a1bd41ff270d4408ae2009e6",
+    "previous_run": 44326114911,
+    "previous_terminal": {
+      "passed": 17,
+      "failed": 1
+    },
+    "local_recovered_tests": 310,
+    "new_hardware_tests": 37,
+    "expected_hosted_tests": 728,
+    "dispatch_rows": 180,
+    "cifar_raw_rgb_rows": 40,
+    "rtl_oracle_cycles": 5325,
+    "required_real_cifar_cell": "ubuntu-latest / Python 3.13",
+    "required_rtl_cell": "ubuntu-latest / Python 3.11",
+    "hosted_acceptance": "pending",
+    "production_enabled": false,
+    "manifest": "docs/research/COG03F_SOURCE_MANIFEST.json"
   }
 }

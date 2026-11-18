@@ -1,0 +1,120 @@
+{
+  "run_id": 44326114911,
+  "source_sha": "c52b97fa697abe91a1bd41ff270d4408ae2009e6",
+  "terminal": {
+    "passed": 17,
+    "failed": 1
+  },
+  "failure": {
+    "cell": "ubuntu-latest / Python 3.13",
+    "job_id": 134877710569,
+    "cause": "CIFAR subprocess TimeoutExpired 1500 seconds",
+    "no_completed_rgb_results": true,
+    "not_an_accuracy_failure": true
+  },
+  "archives": [
+    {
+      "id": "14438230430",
+      "sha256": "f97adec342b00573b06430cba1364657faa841065b3ce20cf15e96c6ed1f2eb3",
+      "crc_verified": true
+    },
+    {
+      "id": "14438130407",
+      "sha256": "2767e120f1d03acdc4123dab7c7bb8b92faec41e0bb1bcd2c4a96df7bce7ecbd",
+      "crc_verified": true
+    },
+    {
+      "id": "14437721167",
+      "sha256": "e5b825cf4ac356d7134a9162b7df968dc918374ba4f1aaa69be2eae79642ef4a",
+      "crc_verified": true,
+      "hdc_tests": 691,
+      "hdc_test_failures": 0,
+      "terminal_rgb_receipt": true
+    },
+    {
+      "id": "14437526171",
+      "sha256": "11b9f228ee24c0c416669dd3ed2df27547dd88eb788ac90794c5bc38a2ec665f",
+      "crc_verified": true
+    },
+    {
+      "id": "14437391676",
+      "sha256": "a9b017afbd7f3e566713de6b186982f3618b4889bc03842d342630b4aa856097",
+      "crc_verified": true
+    },
+    {
+      "id": "14437341339",
+      "sha256": "702ca0ba4fe182fbc7e8cc97c0e9e70d8a8462c8f0581e3d40309e61e6c53a45",
+      "crc_verified": true
+    },
+    {
+      "id": "14437186802",
+      "sha256": "5850273ab9b7eb6c5c249f6a4adcf09b40294a7699f492bcb4f824b5d0c9b432",
+      "crc_verified": true
+    },
+    {
+      "id": "14437161666",
+      "sha256": "8ae26ef7bdf98686c05280d587b88d18e0763fb528a9f41949861a73b2cfaf12",
+      "crc_verified": true
+    },
+    {
+      "id": "14437047609",
+      "sha256": "3040bac143ae0073e24958dd02c8ae7f2bb52d398e85f472b8c886a0ccc8cad0",
+      "crc_verified": true
+    },
+    {
+      "id": "14437002490",
+      "sha256": "134d5b47fd5f9b21f46d97306feafcfaac4c8848442484d1337c392ae44417a4",
+      "crc_verified": true
+    },
+    {
+      "id": "14436627942",
+      "sha256": "a638a6ad2a05571f2d740c58e7e4e91a5326feeefe3b00eaf4a8aaf08eafd77a",
+      "crc_verified": true
+    },
+    {
+      "id": "14436608282",
+      "sha256": "ca619c5a49be0fa361761199dfbebecdc062db770e4f9e7521edd61baf5a0971",
+      "crc_verified": true
+    },
+    {
+      "id": "14436558901",
+      "sha256": "f1e227c3e68a11724b4084d51527396df1b747573789919b70754dbb544f2252",
+      "crc_verified": true,
+      "hdc_tests": 691,
+      "hdc_test_failures": 0,
+      "terminal_rgb_receipt": true
+    },
+    {
+      "id": "14436498278",
+      "sha256": "0cc5648c2b74521229bd574770578b8d212d543ed48dfa8895391e484ad296ff",
+      "crc_verified": true,
+      "hdc_tests": 691,
+      "hdc_test_failures": 0,
+      "terminal_rgb_receipt": true
+    },
+    {
+      "id": "14436333846",
+      "sha256": "248f1b0010d195fb901c14cfd303ddd9f591a52926e3d822ba5bf3d7672704fb",
+      "crc_verified": true
+    },
+    {
+      "id": "14435944490",
+      "sha256": "6e6aef1bd6d9311bff931b0f891830605d8829e3f15448b47217e716b83efac0",
+      "crc_verified": true
+    },
+    {
+      "id": "14435939828",
+      "sha256": "dcf5b18f90975e17be757f57c548e7af4fe846a089c4b9b74083efe5d996ca29",
+      "crc_verified": true
+    },
+    {
+      "id": "14440296513",
+      "sha256": "733d17b47e1b7393695a0cb6bf5d3f1a44b73351b3d5aac57cdbba681ea22610",
+      "crc_verified": true,
+      "hdc_tests": 691,
+      "hdc_test_failures": 0,
+      "terminal_rgb_receipt": false
+    }
+  ],
+  "scope": "All 18 archive SHA256 and ZIP CRC verified; HDC JUnit test counts independently parsed; no claim all jobs passed."
+}

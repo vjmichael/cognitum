@@ -27,8 +27,8 @@ def main():
     assert len(tests)==8 and not any(c.find(t) is not None for c in tests for t in ('error','failure','skipped'))
     real=not scoped and os.environ.get('COG03C2C_DATASETS')=='1'
     with tempfile.TemporaryDirectory(prefix='cog-e2g-cifar-') as td:
-        with log.open('wb') as f:subprocess.run([sys.executable,'-m','tools.cog03e2g_cifar','--data',td,'--out',str(result),*(['--acquire'] if real else ['--fixture'])],cwd=ROOT,stdout=f,stderr=subprocess.STDOUT,check=True,timeout=1500 if real else 180)
-    data=json.loads(result.read_text(encoding='utf8'));rows=data['rows'];assert data['fixture']!=real and len(rows)==(120 if real else 5)
+        with log.open('wb') as f:subprocess.run([sys.executable,'-m','tools.cog03e2g_cifar','--data',td,'--out',str(result),*(['--acquire'] if real else ['--fixture'])],cwd=ROOT,stdout=f,stderr=subprocess.STDOUT,check=True,timeout=2700 if real else 180)
+    data=json.loads(result.read_text(encoding='utf8'));rows=data['rows'];assert data['complete'] is True and data['fixture']!=real and len(rows)==(120 if real else 5)
     assert all(r['numeric_bytes']<=r['budget'] and len(r['phases'])==5 and all(-1<=p['ari']<=1 for p in r['phases']) for r in rows)
     if real:
         from tools.cog03e2g_cifar import CIFAR_SHA,WEIGHT_SHA

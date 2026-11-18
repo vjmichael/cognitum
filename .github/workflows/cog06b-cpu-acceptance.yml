@@ -12,6 +12,10 @@ on:
       - tools/cog03d2b_acceptance.py
       - tools/cog03e1_acceptance.py
       - .gitattributes
+      - hardware/hdc/**
+      - research_tests/hdc_f/**
+      - tools/cog03f_*.py
+      - docs/research/COG03F_SOURCE_MANIFEST.json
       - tools/cog03e2g_cifar.py
       - tools/cog03e2g_rgb_acceptance.py
       - research_tests/hdc_e2g_rgb/**
@@ -162,11 +166,12 @@ jobs:
         os: [ubuntu-latest, windows-latest]
         python-version: ['3.11', '3.13']
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 60
+    timeout-minutes: 100
     env:
       PYTHONUTF8: '1'
       COG03BC_EXPECTED_SHA: ${{ github.sha }}
       COG03C2C_DATASETS: ${{ matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13' && '1' || '0' }}
+      COG03F_RTL_REQUIRED: ${{ matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11' && '1' || '0' }}
       OMP_NUM_THREADS: '1'
       MKL_NUM_THREADS: '1'
       OPENBLAS_NUM_THREADS: '1'
@@ -178,8 +183,26 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Dedicated no-skip native HDC algebra and encoder research acceptance
-        run: python -m tools.cog03e2g_rgb_acceptance
+      - name: Locate native compiler on Windows
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: |
+          if (-not (Get-Command gcc -ErrorAction SilentlyContinue)) {
+            foreach ($dir in @('C:\msys64\mingw64\bin', 'C:\msys64\ucrt64\bin')) {
+              if (Test-Path (Join-Path $dir 'gcc.exe')) {
+                Add-Content -Path $env:GITHUB_PATH -Value $dir
+                break
+              }
+            }
+          }
+      - name: Install required RTL simulator
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog
+          iverilog -V
+      - name: Dedicated no-skip native HDC algebra, RGB and hardware research acceptance
+        run: python -m tools.cog03f_acceptance
       - name: Archive exact-source HDC evidence and diagnostics
         if: always()
         uses: actions/upload-artifact@v4

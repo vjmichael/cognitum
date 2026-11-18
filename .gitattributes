@@ -14,3 +14,20 @@
 /research_tests/hdc_e2g_rgb/test_rgb_gate.py text eol=lf
 /docs/research/COG03E2G_RGB_QUALIFICATION.md text eol=lf
 /docs/research/COG03E2G_RGB_SOURCE_MANIFEST.json text eol=lf
+
+/cognitum/research/hdc_hardware.py text eol=lf
+/cognitum/research/hdc_shared.py text eol=lf
+/hardware/hdc/packed.c text eol=lf
+/hardware/hdc/score64.sv text eol=lf
+/hardware/hdc/score64_tb.sv text eol=lf
+/hardware/hdc/README.md text eol=lf
+/research_tests/hdc_f/test_hardware.py text eol=lf
+/tools/cog03f_pilot.py text eol=lf
+/tools/cog03f_acceptance.py text eol=lf
+/docs/research/COG03F_HARDWARE_PRIMITIVES.md text eol=lf
+/cognitum/research/hdc_cifar_fast.py text eol=lf
+/research_tests/hdc_f/test_dispatch_closeout.py text eol=lf
+/tools/cog03f_dispatch_pilot.py text eol=lf
+/tools/cog03f_rtl.py text eol=lf
+/docs/research/COG03F_SOURCE_MANIFEST.json text eol=lf
+/docs/research/COG03E2G_RGB_RUN_44326114911_RECONCILIATION.json text eol=lf

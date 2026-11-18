@@ -1,11 +1,11 @@
 {
   "base": "ac44e86ad15db6ad946f5b0dc40b80f8873d3566",
   "git_blobs": {
-    ".gitattributes": "9f89c5f82e2b6b5a846567dfee7b3c3d68a102a7",
-    "tools/cog03e2g_cifar.py": "d2e251ee9827776d59584d876495de421c93c163",
-    "tools/cog03e2g_rgb_acceptance.py": "cea77a1e4f0c6e94e2f6e765e29bdd94681ed5e5",
+    ".gitattributes": "d6a25543f6a05ad7b81269cb2c6acbb8578871b7",
+    "tools/cog03e2g_cifar.py": "dd635359f3dd70edad1d3b4c0683a908542ea930",
+    "tools/cog03e2g_rgb_acceptance.py": "607bb6bcb6a4832f57f8b453a27f37bd57cb318e",
     "research_tests/hdc_e2g_rgb/test_rgb_gate.py": "e6d6ae5d1bd9053568798d82c19191b3954cd317",
-    "docs/research/COG03E2G_RGB_QUALIFICATION.md": "e2073dd9ebcf065f797528430ca7e416db91378b"
+    "docs/research/COG03E2G_RGB_QUALIFICATION.md": "e138718341fb9ba5baa9ee21c5201384687f6809"
   },
   "production_enabled": false
 }

@@ -1,0 +1,26 @@
+# COG-03F1 local candidate — hardware-aware HDC primitives
+
+Base: c52b97fa697abe91a1bd41ff270d4408ae2009e6. E2G RGB acceptance 44326114911 not terminal at initial audit; never publish over outstanding CI. Three completed HDC cells each 691 passed, independently checked archive SHA256/CRC and 87 internal recorded hashes. Real CIFAR-10 result pending. No production/KAN/CH40 changes.
+
+## Scope
+- H01/H12: C11 uint64 XOR binding and Hamming-derived bipolar scores; actual native POPCNT via explicit CPU-specific compilation (`-mpopcnt`), portable generic compilation independent; exact packed majority ties choose 1. Test 1..65536 bits including partial words and padded garbage. Earlier MSB-first byte-oriented encoders translated explicitly; no implicit reinterpretation. INT8 dot with bounded length; signed INT32 accum fits at 65536 elements; widened integer round/saturate ties-away-from-zero. C vs independent dense NumPy oracle. Native host little-endian only, no ARM validation yet.
+- H06: independent real cosine-RFF SupHDC-inspired slot-keyed signed permutation, one nonlinear projection for mixed query, class-local readout adaptation, margin-ranked clean keyed fallback. No claim of exact author complex implementation. Matched slot-specific sequential and vectorized clean controls; no cross-context batching. Training/standardization only fit partition, no test tuning. Two seeds, Digits/Wine, D256/1024/4096, slots2/4, six methods: 144 rows. Model storage includes both clean and adapted arrays plus projection and keys; timings are warm CPU wall time with bounded 32-group slabs, no FPGA results.
+- H07: independent dimension-prefix approximation, not HPVM-HDC integration. Exact margin bound for omitted +/-1 terms; ties always exact; fallback reads only suffix, retaining partial sums. Empirical threshold chosen using calibration predictions (<=1% disagreement constraint on calibration only); holdout independent, no guarantee on test or shift. 36 rows. Prior recompute-full exploratory measurements retained. Operation count differs from measured wall time and excludes encoder entirely. No claim of compiler approximation reproduction.
+- H03/H08: canonical binary host protocol and exact software endpoint, six generated golden request/response pairs, native C score parity including corruption/tail and identity checks; draft SystemVerilog standalone 64-bit lane and directed testbench, not run under RTL sim (no toolchain). Hardware qualification needs simulator/synthesis/timing, actual PCIe carrier details, secure host custody, DDR and DMA controller; no physical link/power data. Resource arithmetic assumes 64-bit x512 RAMB36 layout and explicitly excludes controllers and projection memory. C memory counts include packed tail words; compare warm resident operands to float32 numerical-equivalent dense BLAS with a single thread. No measured end-to-end advantage, no actual FPGA throughput extrapolation. 
+
+## References
+- SupHDC: https://arxiv.org/html/2609.32320v1
+- ApproxHDC: https://arxiv.org/html/2606.26547v1
+- ALINX AC7K325B manual: https://www.alinx.com/public/upload/file/AC7K325B_User_Manual.pdf
+- AMD DS180: https://docs.amd.com/api/khub/documents/2LByHkO~nSZXcei2D55fTg/content
+- AMD UG473: https://docs.amd.com/api/khub/documents/9gZGbqBxtlKXxBfkBt~lAg/content
+
+## Next
+Finish native runtime dispatch, throughput/peak RSS vs CPU vectorized controls with isolated processes, SIMD/NEON if available, alternative stochastic/quantized operations and actual RTL simulation/synthesis; preserve H02/H04/H05/H09-H11 research gates. E2G CIFAR-10 real results must be obtained before consolidated publication. CORe50 deferred. Physical hardware acceptance COG-09 remains separate.
+
+## F1 consolidated candidate
+Runtime dispatch now uses a baseline portable SWAR implementation and feature-gated x86 POPCNT and AVX512F+VPOPCNTDQ target functions, with a conservative D>=2048 auto threshold for AVX512. No global ISA requirement. Native and dense scores exact on every measured row (including arbitrary tail bits); 180 local dimension/batch/ISA sweep rows. Resident operand scoring gains do not survive repeated packing; no general end-to-end claim. `research_tests/hdc_f` contains 37 tests (26 initial, 11 additional). Full recovered local research collection: 310 passed, seven known TorchHD warnings.
+
+CIFAR: uploaded canonical archive verified. 40 actual RGB pixel baseline arms completed, 15.25s total including archive load; means for 64 features/32 KiB ARI: merge .0456, fixed .0345, replace .0363, centroid .0381, exemplar .0447. Low absolute ARI; no pretrained MobileNetV2 benchmark locally. New exact replay optimization retains original RNG and predictions; caches are offline and counted separately. The previous mandatory real cell timed out; 17/18 on 44326114911. A fresh consolidated hosted cohort will require all 120 RGB arms, with progress/partial evidence.
+
+RTL: independent oracle generates 5325 cycles, 5103 accepted beats, 58 retired results, 132 blocked-input cycles and two resets. Local toolchain absence precludes actual simulation. Existing consolidated workflow will require Icarus simulation on Ubuntu/Python 3.11; no synthesis or timing closure or board claim. Both the actual RGB and RTL acceptance remain open.
