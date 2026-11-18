@@ -1,0 +1,798 @@
+{
+  "source_sha": "6f21bb0e5957f567e2f86f181bcc2ac3feda0b82",
+  "run_id": 44225450045,
+  "attempt": 1,
+  "artifacts": [
+    {
+      "id": 14393360332,
+      "sha256": "c251f46fb7c10027ba18cb1a3af722c8192f323ee8e53d6723114ff789c4f28a",
+      "crc_passed": true,
+      "entries": 29
+    },
+    {
+      "id": 14393245583,
+      "sha256": "e00036713d13e9ab824fb4a8e468e1ebc7bdef19843d040589e41a337d7f32ac",
+      "crc_passed": true,
+      "entries": 4
+    },
+    {
+      "id": 14393051267,
+      "sha256": "59d0b947ea137a357b26718dab2744ea85a316af00aa3d561dc8ac55de454777",
+      "crc_passed": true,
+      "entries": 3
+    },
+    {
+      "id": 14393011603,
+      "sha256": "de1c302348498fa7c72d0ccb7da548cabd2f80cec1db2ca331506c00ecb00c22",
+      "crc_passed": true,
+      "entries": 29
+    },
+    {
+      "id": 14392616877,
+      "sha256": "5cd157ac20ee46aead68b207f9035e2884fbdaf5bd300fa2558fd505ff656497",
+      "crc_passed": true,
+      "entries": 4
+    },
+    {
+      "id": 14392517263,
+      "sha256": "a633dcee9e227fbfbf8c626993bf9d991e3aeced9ea473dc8a1d4988bcb35276",
+      "crc_passed": true,
+      "entries": 37
+    },
+    {
+      "id": 14392512134,
+      "sha256": "ad6a89589184800348d599316cd69d53f93780c28b8d5e84e306d13e1397e91b",
+      "crc_passed": true,
+      "entries": 13
+    },
+    {
+      "id": 14392458172,
+      "sha256": "02cbb0a2446dabad197731d91cac2500f2b995767619407b1fc2301e4e28df6a",
+      "crc_passed": true,
+      "entries": 25
+    },
+    {
+      "id": 14392397344,
+      "sha256": "41c90e98859bdc7e91bfbba2f072414e7da6110f3533a41a9658e1b54b314429",
+      "crc_passed": true,
+      "entries": 4
+    },
+    {
+      "id": 14392332761,
+      "sha256": "d50f8bacd2b973d4fca08fc87b65166285a89ce223d9e18e88b690de960c260d",
+      "crc_passed": true,
+      "entries": 22
+    },
+    {
+      "id": 14392267904,
+      "sha256": "7c970dc0eafb9f50ad762ef42f17ea4afd6f7cb9eb89f54beee23ebfc626fe0a",
+      "crc_passed": true,
+      "entries": 22
+    },
+    {
+      "id": 14392168723,
+      "sha256": "ccdbaa3488942c4417f62b06e040f7f3cf0435f75f4d352150b18b6cd8869697",
+      "crc_passed": true,
+      "entries": 29
+    },
+    {
+      "id": 14392163215,
+      "sha256": "2a228199e055be3099ca82095ae4ba020769e68845f6f5f67ad52e0c5395dd70",
+      "crc_passed": true,
+      "entries": 22
+    },
+    {
+      "id": 14392148703,
+      "sha256": "4659d051507d4318187cd6d03d329c52b6f6c36d96c69916cb69b507716b8110",
+      "crc_passed": true,
+      "entries": 4
+    },
+    {
+      "id": 14392117959,
+      "sha256": "4ac8d8629bb91aa1748ac029bb5c5ec0e775521c91c0e71484d8dda02c354859",
+      "crc_passed": true,
+      "entries": 26
+    },
+    {
+      "id": 14392028530,
+      "sha256": "e97e747e277f4bc73b02db3564e79a807bafb22bd859df18186aea95e8f0d9b8",
+      "crc_passed": true,
+      "entries": 22
+    },
+    {
+      "id": 14391649967,
+      "sha256": "c09727826a93444cfd6a9a47fbaa68756823a833e7c709998f0f9ddab771267e",
+      "crc_passed": true,
+      "entries": 4
+    },
+    {
+      "id": 14391409664,
+      "sha256": "ea526f1889711dbc185fb62ddf87f6c398534bf5b00594cf197b8eeaa122aaa5",
+      "crc_passed": true,
+      "entries": 4
+    }
+  ],
+  "hdc": [
+    {
+      "id": 14393360332,
+      "platform": "Windows-2025Server-10.0.26100-SP0",
+      "python": "3.13.17 (tags/v3.13.17:64e080d, Oct 21 2026, 14:08:53) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "torch": "2.10.0+cpu",
+        "torch-hd": "5.8.4",
+        "numpy": "2.3.5",
+        "scipy": "1.17.0",
+        "pytest": "9.0.2"
+      },
+      "tests": 391,
+      "churn": {
+        "steps": 1000,
+        "mutations": {
+          "insert": 255,
+          "replace": 250,
+          "delete": 231,
+          "rescope": 264
+        },
+        "oracle_checks": 100,
+        "restarts": 10,
+        "verified": 38,
+        "abstained": 47,
+        "rejected": 15,
+        "verified_false_positives": 0,
+        "elapsed_s": 0.3047803999999701,
+        "sdm_update_median_us": 88.89999998018538,
+        "sdm_update_p95_us": 184.90500002030785,
+        "dict_update_median_us": 0.19999998812636477,
+        "sdm_arrays": 24704,
+        "active_metadata_json_bytes": 1950,
+        "checkpoint_bytes": 438,
+        "checkpoint_sha256": "95935e506514e8509f2854e5eac66017e350c53f12355232da2a5fcdb417db11",
+        "active_rows": 15,
+        "scope": "32 IDs, 32 hard locations, D256; shared host dict necessary for verification; serialized metadata not actual Python object footprint; same-process fresh-object restarts, not host crash durability"
+      },
+      "dataset_gate": {
+        "status": "not requested for this platform"
+      },
+      "d1c_smoke": {
+        "sdm": {
+          "abstain": [
+            4,
+            16,
+            13,
+            23
+          ],
+          "arm": "sdm",
+          "budget_bytes": 131072,
+          "build_s": 0.003338799999994535,
+          "correct": [
+            60,
+            38,
+            13,
+            5
+          ],
+          "payload_bytes": 103456,
+          "peak_rss_kib": null,
+          "queries_per_noise": 64,
+          "query_s": 0.022545999999977084,
+          "seed": 301
+        },
+        "packed_sdm": {
+          "abstain": [
+            4,
+            16,
+            13,
+            23
+          ],
+          "arm": "packed_sdm",
+          "budget_bytes": 131072,
+          "build_s": 0.003183599999999842,
+          "correct": [
+            60,
+            38,
+            13,
+            5
+          ],
+          "payload_bytes": 74784,
+          "peak_rss_kib": null,
+          "queries_per_noise": 64,
+          "query_s": 0.0184598999999821,
+          "seed": 301
+        },
+        "signed": {
+          "arm": "signed",
+          "budget_bytes": 16384,
+          "build_s": 0.015396399999985988,
+          "dimension": 64,
+          "fn": 0,
+          "fp": 2,
+          "intersection": 62.201171875,
+          "payload_bytes": 16192,
+          "peak_rss_kib": null,
+          "queries": 256,
+          "query_s": 0.027967799999998988,
+          "seed": 301,
+          "truth": 63
+        },
+        "hrr": {
+          "arm": "hrr",
+          "budget_bytes": 262144,
+          "build_s": 0.07038549999998622,
+          "candidate_s": 0.029998499999976502,
+          "dimension": 469,
+          "fn": 0,
+          "fp": 0,
+          "payload_bytes": 261674,
+          "peak_rss_kib": null,
+          "projection_correct": 128,
+          "projection_n": 128,
+          "queries": 120,
+          "seed": 301,
+          "shared_sqlite_bytes": 12288,
+          "sql_s": 0.003051500000026408,
+          "tp": 1779,
+          "verified": 1779,
+          "verified_wrong": 0,
+          "verify_s": 0.018710500000054253
+        },
+        "sqlite": {
+          "arm": "sqlite",
+          "budget_bytes": 262144,
+          "build_s": 0.0018914000000336273,
+          "candidate_s": 0.0,
+          "dimension": null,
+          "fn": 0,
+          "fp": 0,
+          "payload_bytes": 13939,
+          "peak_rss_kib": null,
+          "projection_correct": 0,
+          "projection_n": 0,
+          "queries": 120,
+          "seed": 301,
+          "shared_sqlite_bytes": 12288,
+          "sql_s": 0.0021469999996384104,
+          "tp": 1779,
+          "verified": 1779,
+          "verified_wrong": 0,
+          "verify_s": 0.0
+        }
+      }
+    },
+    {
+      "id": 14393011603,
+      "platform": "Windows-10-10.0.26100-SP0",
+      "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+      "versions": {
+        "torch": "2.10.0+cpu",
+        "torch-hd": "5.8.4",
+        "numpy": "2.3.5",
+        "scipy": "1.17.0",
+        "pytest": "9.0.2"
+      },
+      "tests": 391,
+      "churn": {
+        "steps": 1000,
+        "mutations": {
+          "insert": 255,
+          "replace": 250,
+          "delete": 231,
+          "rescope": 264
+        },
+        "oracle_checks": 100,
+        "restarts": 10,
+        "verified": 38,
+        "abstained": 47,
+        "rejected": 15,
+        "verified_false_positives": 0,
+        "elapsed_s": 0.25068610000005265,
+        "sdm_update_median_us": 74.40000001679437,
+        "sdm_update_p95_us": 155.8150000136038,
+        "dict_update_median_us": 0.19999998812636477,
+        "sdm_arrays": 24704,
+        "active_metadata_json_bytes": 1950,
+        "checkpoint_bytes": 438,
+        "checkpoint_sha256": "95935e506514e8509f2854e5eac66017e350c53f12355232da2a5fcdb417db11",
+        "active_rows": 15,
+        "scope": "32 IDs, 32 hard locations, D256; shared host dict necessary for verification; serialized metadata not actual Python object footprint; same-process fresh-object restarts, not host crash durability"
+      },
+      "dataset_gate": {
+        "status": "not requested for this platform"
+      },
+      "d1c_smoke": {
+        "sdm": {
+          "abstain": [
+            4,
+            16,
+            13,
+            23
+          ],
+          "arm": "sdm",
+          "budget_bytes": 131072,
+          "build_s": 0.0028340000000071086,
+          "correct": [
+            60,
+            38,
+            13,
+            5
+          ],
+          "payload_bytes": 103456,
+          "peak_rss_kib": null,
+          "queries_per_noise": 64,
+          "query_s": 0.016907899999978326,
+          "seed": 301
+        },
+        "packed_sdm": {
+          "abstain": [
+            4,
+            16,
+            13,
+            23
+          ],
+          "arm": "packed_sdm",
+          "budget_bytes": 131072,
+          "build_s": 0.0025982000000226435,
+          "correct": [
+            60,
+            38,
+            13,
+            5
+          ],
+          "payload_bytes": 74784,
+          "peak_rss_kib": null,
+          "queries_per_noise": 64,
+          "query_s": 0.014245899999991707,
+          "seed": 301
+        },
+        "signed": {
+          "arm": "signed",
+          "budget_bytes": 16384,
+          "build_s": 0.01403099999998858,
+          "dimension": 64,
+          "fn": 0,
+          "fp": 2,
+          "intersection": 62.201171875,
+          "payload_bytes": 16192,
+          "peak_rss_kib": null,
+          "queries": 256,
+          "query_s": 0.022398100000032173,
+          "seed": 301,
+          "truth": 63
+        },
+        "hrr": {
+          "arm": "hrr",
+          "budget_bytes": 262144,
+          "build_s": 0.061910199999999804,
+          "candidate_s": 0.026910099999724935,
+          "dimension": 469,
+          "fn": 0,
+          "fp": 0,
+          "payload_bytes": 261674,
+          "peak_rss_kib": null,
+          "projection_correct": 128,
+          "projection_n": 128,
+          "queries": 120,
+          "seed": 301,
+          "shared_sqlite_bytes": 12288,
+          "sql_s": 0.0023238999995669474,
+          "tp": 1779,
+          "verified": 1779,
+          "verified_wrong": 0,
+          "verify_s": 0.016914799999710795
+        },
+        "sqlite": {
+          "arm": "sqlite",
+          "budget_bytes": 262144,
+          "build_s": 0.0013738000000103057,
+          "candidate_s": 0.0,
+          "dimension": null,
+          "fn": 0,
+          "fp": 0,
+          "payload_bytes": 13939,
+          "peak_rss_kib": null,
+          "projection_correct": 0,
+          "projection_n": 0,
+          "queries": 120,
+          "seed": 301,
+          "shared_sqlite_bytes": 12288,
+          "sql_s": 0.001545800000201325,
+          "tp": 1779,
+          "verified": 1779,
+          "verified_wrong": 0,
+          "verify_s": 0.0
+        }
+      }
+    },
+    {
+      "id": 14392517263,
+      "platform": "Linux-7.0.0-1019-azure-x86_64-with-glibc2.43",
+      "python": "3.13.18 (main, Oct 26 2026, 14:19:33) [GCC 15.2.0]",
+      "versions": {
+        "torch": "2.10.0+cpu",
+        "torch-hd": "5.8.4",
+        "numpy": "2.3.5",
+        "scipy": "1.17.0",
+        "pytest": "9.0.2"
+      },
+      "tests": 391,
+      "churn": {
+        "steps": 1000,
+        "mutations": {
+          "insert": 255,
+          "replace": 250,
+          "delete": 231,
+          "rescope": 264
+        },
+        "oracle_checks": 100,
+        "restarts": 10,
+        "verified": 38,
+        "abstained": 47,
+        "rejected": 15,
+        "verified_false_positives": 0,
+        "elapsed_s": 0.1567280490000016,
+        "sdm_update_median_us": 42.05799999823512,
+        "sdm_update_p95_us": 82.67400000221411,
+        "dict_update_median_us": 0.1199999957179898,
+        "sdm_arrays": 24704,
+        "active_metadata_json_bytes": 1950,
+        "checkpoint_bytes": 438,
+        "checkpoint_sha256": "95935e506514e8509f2854e5eac66017e350c53f12355232da2a5fcdb417db11",
+        "active_rows": 15,
+        "scope": "32 IDs, 32 hard locations, D256; shared host dict necessary for verification; serialized metadata not actual Python object footprint; same-process fresh-object restarts, not host crash durability"
+      },
+      "dataset_gate": {
+        "status": "passed",
+        "entries": [
+          {
+            "dataset": "promoter",
+            "arm": "resident",
+            "result_sha256": "b8a47c7d44f6184ad41271d45c3cc971536b35c249aaae9cb1f49e6dafef3611",
+            "log_sha256": "a9bd1db7779185a4ab0afcce9640ea84a7f3861dfeb707906ae69c01f7a4e466"
+          },
+          {
+            "dataset": "promoter",
+            "arm": "streamed",
+            "result_sha256": "a5baa9c55ac86641f445a3a9e91c47215c06c0c9219ab6ec448b36c0bc4a77e1",
+            "log_sha256": "05657e1be1e23f1b4f6be2ade6caa14ba9a4a7e8c10fec4464f168a1632bf99d"
+          },
+          {
+            "dataset": "mutag",
+            "arm": "resident",
+            "result_sha256": "d1acacbe7c33b8ad5b392d4ee406a9a1f327e88b383e627917ab61a54a429b51",
+            "log_sha256": "05741d1282d67faf9a2f29e06771d03ae8b8f0776d309414425ea2f000ea1511"
+          },
+          {
+            "dataset": "mutag",
+            "arm": "streamed",
+            "result_sha256": "e0fdc341489278a366ba25567aa75a0210676d0f2b80dc87cb452b4e85389ed0",
+            "log_sha256": "1468b60dc025297bfb9fec991329aa212d2e7993a12d3ae9e71738857cda23a6"
+          }
+        ],
+        "scope": "one pinned split per dataset; equal dimension and serialized budget; no performance threshold"
+      },
+      "d1c_smoke": {
+        "sdm": {
+          "abstain": [
+            4,
+            16,
+            13,
+            23
+          ],
+          "arm": "sdm",
+          "budget_bytes": 131072,
+          "build_s": 0.001514112999998929,
+          "correct": [
+            60,
+            38,
+            13,
+            5
+          ],
+          "payload_bytes": 103456,
+          "peak_rss_kib": 403912,
+          "queries_per_noise": 64,
+          "query_s": 0.008759922999999503,
+          "seed": 301
+        },
+        "packed_sdm": {
+          "abstain": [
+            4,
+            16,
+            13,
+            23
+          ],
+          "arm": "packed_sdm",
+          "budget_bytes": 131072,
+          "build_s": 0.001529355999998927,
+          "correct": [
+            60,
+            38,
+            13,
+            5
+          ],
+          "payload_bytes": 74784,
+          "peak_rss_kib": 403912,
+          "queries_per_noise": 64,
+          "query_s": 0.008579283000003102,
+          "seed": 301
+        },
+        "signed": {
+          "arm": "signed",
+          "budget_bytes": 16384,
+          "build_s": 0.007629602999998042,
+          "dimension": 64,
+          "fn": 0,
+          "fp": 2,
+          "intersection": 62.201171875,
+          "payload_bytes": 16192,
+          "peak_rss_kib": 403912,
+          "queries": 256,
+          "query_s": 0.011294220999999993,
+          "seed": 301,
+          "truth": 63
+        },
+        "hrr": {
+          "arm": "hrr",
+          "budget_bytes": 262144,
+          "build_s": 0.028419803999994997,
+          "candidate_s": 0.01244976699996414,
+          "dimension": 469,
+          "fn": 0,
+          "fp": 0,
+          "payload_bytes": 261674,
+          "peak_rss_kib": 403912,
+          "projection_correct": 128,
+          "projection_n": 128,
+          "queries": 120,
+          "seed": 301,
+          "shared_sqlite_bytes": 12288,
+          "sql_s": 0.0012899350000807885,
+          "tp": 1779,
+          "verified": 1779,
+          "verified_wrong": 0,
+          "verify_s": 0.010221333000039579
+        },
+        "sqlite": {
+          "arm": "sqlite",
+          "budget_bytes": 262144,
+          "build_s": 0.0010846710000009807,
+          "candidate_s": 0.0,
+          "dimension": null,
+          "fn": 0,
+          "fp": 0,
+          "payload_bytes": 13939,
+          "peak_rss_kib": 403912,
+          "projection_correct": 0,
+          "projection_n": 0,
+          "queries": 120,
+          "seed": 301,
+          "shared_sqlite_bytes": 12288,
+          "sql_s": 0.0009901950000710258,
+          "tp": 1779,
+          "verified": 1779,
+          "verified_wrong": 0,
+          "verify_s": 0.0
+        }
+      }
+    },
+    {
+      "id": 14392168723,
+      "platform": "Linux-7.0.0-1019-azure-x86_64-with-glibc2.43",
+      "python": "3.11.18 (main, Oct 26 2026, 02:48:29) [GCC 15.2.0]",
+      "versions": {
+        "torch": "2.10.0+cpu",
+        "torch-hd": "5.8.4",
+        "numpy": "2.3.5",
+        "scipy": "1.17.0",
+        "pytest": "9.0.2"
+      },
+      "tests": 391,
+      "churn": {
+        "steps": 1000,
+        "mutations": {
+          "insert": 255,
+          "replace": 250,
+          "delete": 231,
+          "rescope": 264
+        },
+        "oracle_checks": 100,
+        "restarts": 10,
+        "verified": 38,
+        "abstained": 47,
+        "rejected": 15,
+        "verified_false_positives": 0,
+        "elapsed_s": 0.13735232100000871,
+        "sdm_update_median_us": 37.63699999126402,
+        "sdm_update_p95_us": 74.59949999457649,
+        "dict_update_median_us": 0.09000001455206075,
+        "sdm_arrays": 24704,
+        "active_metadata_json_bytes": 1950,
+        "checkpoint_bytes": 438,
+        "checkpoint_sha256": "95935e506514e8509f2854e5eac66017e350c53f12355232da2a5fcdb417db11",
+        "active_rows": 15,
+        "scope": "32 IDs, 32 hard locations, D256; shared host dict necessary for verification; serialized metadata not actual Python object footprint; same-process fresh-object restarts, not host crash durability"
+      },
+      "dataset_gate": {
+        "status": "not requested for this platform"
+      },
+      "d1c_smoke": {
+        "sdm": {
+          "abstain": [
+            4,
+            16,
+            13,
+            23
+          ],
+          "arm": "sdm",
+          "budget_bytes": 131072,
+          "build_s": 0.0014770710000107101,
+          "correct": [
+            60,
+            38,
+            13,
+            5
+          ],
+          "payload_bytes": 103456,
+          "peak_rss_kib": 407132,
+          "queries_per_noise": 64,
+          "query_s": 0.008012644000018554,
+          "seed": 301
+        },
+        "packed_sdm": {
+          "abstain": [
+            4,
+            16,
+            13,
+            23
+          ],
+          "arm": "packed_sdm",
+          "budget_bytes": 131072,
+          "build_s": 0.0014182329999812282,
+          "correct": [
+            60,
+            38,
+            13,
+            5
+          ],
+          "payload_bytes": 74784,
+          "peak_rss_kib": 407132,
+          "queries_per_noise": 64,
+          "query_s": 0.007549384000014925,
+          "seed": 301
+        },
+        "signed": {
+          "arm": "signed",
+          "budget_bytes": 16384,
+          "build_s": 0.006573459999998477,
+          "dimension": 64,
+          "fn": 0,
+          "fp": 2,
+          "intersection": 62.201171875,
+          "payload_bytes": 16192,
+          "peak_rss_kib": 407132,
+          "queries": 256,
+          "query_s": 0.009964072000002488,
+          "seed": 301,
+          "truth": 63
+        },
+        "hrr": {
+          "arm": "hrr",
+          "budget_bytes": 262144,
+          "build_s": 0.026166335999988632,
+          "candidate_s": 0.011368586999907393,
+          "dimension": 469,
+          "fn": 0,
+          "fp": 0,
+          "payload_bytes": 261674,
+          "peak_rss_kib": 407132,
+          "projection_correct": 128,
+          "projection_n": 128,
+          "queries": 120,
+          "seed": 301,
+          "shared_sqlite_bytes": 12288,
+          "sql_s": 0.0012046219999035657,
+          "tp": 1779,
+          "verified": 1779,
+          "verified_wrong": 0,
+          "verify_s": 0.009075473000024203
+        },
+        "sqlite": {
+          "arm": "sqlite",
+          "budget_bytes": 262144,
+          "build_s": 0.0008830040000020745,
+          "candidate_s": 0.0,
+          "dimension": null,
+          "fn": 0,
+          "fp": 0,
+          "payload_bytes": 13939,
+          "peak_rss_kib": 407132,
+          "projection_correct": 0,
+          "projection_n": 0,
+          "queries": 120,
+          "seed": 301,
+          "shared_sqlite_bytes": 12288,
+          "sql_s": 0.00099153899986959,
+          "tp": 1779,
+          "verified": 1779,
+          "verified_wrong": 0,
+          "verify_s": 0.0
+        }
+      }
+    }
+  ],
+  "cpu": [
+    {
+      "id": 14392332761,
+      "platform": "win32",
+      "python": "3.13.17 (tags/v3.13.17:64e080d, Oct 21 2026, 14:08:53) [MSC v.1944 64 bit (AMD64)]",
+      "descriptor_sha256": "030ef8fe3e9763d511d82d3b9ead344c8225d771c2b4a55142c5dc99dafc7cf7",
+      "combined_summary": "1244 passed, 77 skipped, 1 warning, 1535 subtests passed in 47.46s",
+      "focused_summary": "787 passed, 2 skipped, 1 warning, 952 subtests passed in 43.16s"
+    },
+    {
+      "id": 14392267904,
+      "platform": "linux",
+      "python": "3.13.18 (main, Oct 26 2026, 14:19:33) [GCC 15.2.0]",
+      "descriptor_sha256": "030ef8fe3e9763d511d82d3b9ead344c8225d771c2b4a55142c5dc99dafc7cf7",
+      "combined_summary": "1354 passed, 17 skipped, 1 warning, 1549 subtests passed in 41.74s",
+      "focused_summary": "787 passed, 2 skipped, 1 warning, 952 subtests passed in 32.22s"
+    },
+    {
+      "id": 14392163215,
+      "platform": "linux",
+      "python": "3.11.18 (main, Oct 26 2026, 02:48:29) [GCC 15.2.0]",
+      "descriptor_sha256": "030ef8fe3e9763d511d82d3b9ead344c8225d771c2b4a55142c5dc99dafc7cf7",
+      "combined_summary": "1354 passed, 17 skipped, 1 warning, 1549 subtests passed in 43.27s",
+      "focused_summary": "787 passed, 2 skipped, 1 warning, 952 subtests passed in 32.97s"
+    },
+    {
+      "id": 14392028530,
+      "platform": "win32",
+      "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+      "descriptor_sha256": "030ef8fe3e9763d511d82d3b9ead344c8225d771c2b4a55142c5dc99dafc7cf7",
+      "combined_summary": "1244 passed, 77 skipped, 1 warning, 1535 subtests passed in 62.28s (0:01:02)",
+      "focused_summary": "787 passed, 2 skipped, 1 warning, 952 subtests passed in 43.50s"
+    }
+  ],
+  "native": [
+    {
+      "id": 14393245583,
+      "scope": "actual causal engine 39 tests"
+    },
+    {
+      "id": 14393051267,
+      "scope": "ByteTrack 8 tests"
+    },
+    {
+      "id": 14392616877,
+      "scope": "actual causal engine 39 tests"
+    },
+    {
+      "id": 14392512134,
+      "scope": "TrackEval archive verified; no local native replay"
+    },
+    {
+      "id": 14392458172,
+      "scope": "strict native proof"
+    },
+    {
+      "id": 14392397344,
+      "scope": "actual causal engine 39 tests"
+    },
+    {
+      "id": 14392148703,
+      "scope": "actual causal engine 39 tests"
+    },
+    {
+      "id": 14392117959,
+      "scope": "ByteTrack 8 tests"
+    },
+    {
+      "id": 14391649967,
+      "scope": "actual causal engine 39 tests"
+    },
+    {
+      "id": 14391409664,
+      "scope": "actual causal engine 39 tests"
+    }
+  ],
+  "verified_hashes": 160,
+  "production_enabled": false
+}

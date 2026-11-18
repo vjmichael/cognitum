@@ -291,7 +291,7 @@
       "reference": "resonator.py",
       "gate": "Bounded exact oracle; not iterative resonator",
       "accepted": false,
-      "local_candidate_status": "D2A bounded streamed Cartesian exhaustive oracle (not iterative); 360/360 per family on small search spaces, original historical pair search unchanged."
+      "local_candidate_status": "D2B bounded exhaustive single and equal-weight joint pairs; explicit pair resource cap and tie refusal."
     },
     {
       "id": "R02",
@@ -300,7 +300,7 @@
       "reference": "resonator.py / TorchHD",
       "gate": "Three-plus factors, superposition, unknown factors, convergence",
       "accepted": false,
-      "local_candidate_status": "D2A actual nonlinear coupled MAP/FHRR factorization with bounded sweeps and restarts, synchronous native TorchHD MAP parity with explicit zero convention, exact role-specific reconstruction and separate fixed/ambiguous/cycle/budget diagnostic; unknown and bundled ambiguity checks. Larger/correlated and multi-object factorization still open."
+      "local_candidate_status": "D2B correlated FHRR and multi-start coordinate beam, weighted two-object matching pursuit plus exact joint pair oracle, shared GSBC blockwise correlation and threshold/conditional sampler; five-seed pilot. Strong correlated ReLU and larger BCF limits retained. Larger search / unknown true factor and full paper fidelity open."
     },
     {
       "id": "R03",
@@ -309,7 +309,7 @@
       "reference": "P21c / C08 canonical verification",
       "gate": "Multi-hop paths and independent witnesses",
       "accepted": false,
-      "local_candidate_status": "D2A explicit ordered FHRR and GHRR path retrieval with directed snapshot-bound independent witness match in preauthorized fixture; synthetic full enumeration and exact graph control, not deployed host authority."
+      "local_candidate_status": "D2B disjoint-entity train-supported rule proposal plus independently checked exact directed antecedent and consequent witnesses; 120 held-out query pilot. No universal inference or canonical promotion."
     },
     {
       "id": "R04",
@@ -317,7 +317,8 @@
       "status": "planned",
       "reference": "2024 review",
       "gate": "Graph classification vs dynamic hashing separately",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "D2B GraphHD-inspired tie-aware rank MAP binding, PageRank/degree conventional controls, dynamic feature fingerprints with exact collision resolution; synthetic held-out sizes only, not original graph datasets or published HD hash implementation."
     },
     {
       "id": "L01",
@@ -636,7 +637,8 @@
       "gate": "Pin ijoffe/ARC-VSA-2025 commit/license; replicate Sort-of-ARC and 1D-ARC before untouched ARC-AGI-1 splits. Compare symbolic DSL search and identical search budget/objects without VSA; independently execute proposed programs. Report full ARC scores, not just simplified tasks.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "D2B pinned author MIT repository c031a9c6b4885ab03b28fbfdcd97b6b3693df564, independent finite 1D DSL with FHRR scene ranking and grid-executor held-out check. Full published Sort-of-ARC / 1D-ARC / ARC-AGI and neural search integration deferred E/G."
     },
     {
       "id": "R06",
@@ -650,7 +652,7 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "reference now; hardware/model acceptance later",
-      "local_candidate_status": "D2A PathHD-inspired ordered GHRR path ranking and FHRR control, no actual LLM, no calibrated pruning or original PathHD reproduction; D2B exact graph/beam and calibrated ranking, COG-10 frozen model required."
+      "local_candidate_status": "D2A ordered FHRR/GHRR paths plus D2B exact rule witness controls; original PathHD single-call frozen-model comparison remains COG-10."
     },
     {
       "id": "R07",
@@ -664,7 +666,7 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
-      "local_candidate_status": "D2A sign/complex projection, softmax/ReLU/polynomial and separate projection flag, five-seed equal numeric codebook-byte pilot and actual terminal diagnostics; signed decoding and exact full-state stopping differ from paper; broader sensitivity, internal noise and correlated/visual-scene tests open."
+      "local_candidate_status": "D2A checked nonlinear loop, D2B correlated codebooks (85% shared coordinates yields many false ReLU proposals), beam alternative and GSBC factorization; larger matched capacity/hardware experiments open."
     },
     {
       "id": "R08",
@@ -677,7 +679,8 @@
       "gate": "Inventory cited actual methods; evaluate relation composition, analogies and rule transfer with unseen entity/topology splits and exact witnesses; compare symbolic KG and embeddings. No isolated retrieval task treated as general reasoning.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "D2B observed two-hop training support over disjoint held-out entities, exact consequent witness required. Synthetic narrow rule family; actual KG transfer, embeddings and unknown topology held-outs remain G."
     },
     {
       "id": "R09",
@@ -1066,7 +1069,7 @@
     "architecture": "unified typed hardware-aware HDC execution engine; compatible mechanisms integrated into actual pipelines, not unrelated adapters",
     "fhrr": "preferred initial general-purpose composition hypothesis, task evidence decides",
     "ghrr": "optional specialist/fallback; same-task order, accuracy and total cost comparison",
-    "hardware": "CPU reference/optimized baseline; accelerator-ready protocol COG-03F; physical FPGA COG-09",
+    "hardware": "CPU reference/optimized baseline; accelerator-ready protocol COG-03F targeting ordered ALINX AC7K325B Kintex-7 board, subject to actual carrier pinout/PCIe lane and host connectivity verification; physical FPGA COG-09. No verified endpoint, DMA or hardware performance yet.",
     "canonical": "host ANSF/SQLite unchanged",
     "production_enabled": false
   },
@@ -2112,7 +2115,7 @@
     }
   },
   "cog03d2a_integration_candidate": {
-    "state": "D2A integrated scoped references; local 391 tests and source-bound new gate passed; inherited chained hosted acceptance pending",
+    "state": "accepted scoped D2A at 6f21bb0e; 18 jobs and all archived receipts reconciled",
     "base": "4ec503cc44e95f45b2ca008d3035fce9d93422f1",
     "local_scratch_sha": "69b882aede951ba1dd49d6e1c1a56e55eddb4fa6",
     "archive": "COG-03D2A_Resonator_Hopfield_Composition_Candidate.zip",
@@ -2173,6 +2176,100 @@
         "wrong_each": 0,
         "miss_each": 0,
         "relation_atom_bytes_each": 5120
+      }
+    },
+    "production_enabled": false,
+    "hosted_acceptance": {
+      "run_id": 44225450045,
+      "source_sha": "6f21bb0e5957f567e2f86f181bcc2ac3feda0b82",
+      "passed_jobs": 18,
+      "artifacts_verified": 18,
+      "hashes_verified": 160,
+      "tests_each": 391,
+      "receipt": "docs/research/COG03D2A_RUN_44225450045_ACCEPTANCE.json"
+    }
+  },
+  "cog03d2b_integration_candidate": {
+    "state": "D2B integrated scoped candidate; native matrix pending",
+    "base": "6f21bb0e5957f567e2f86f181bcc2ac3feda0b82",
+    "archive": "COG-03D2B_Advanced_Reasoning_Candidate.zip",
+    "file_id": "file_00000000b53881fd8f71fcc32f6fbfa9",
+    "archive_sha256": "4ab475f698a5db2d7f7d4c4cb9a63c5a3411a96b51c3ef35c473690ffa7d6c93",
+    "pilot_sha256": "2aaca515079dcab64826db1138cb0866f46f685c482aeac65397d5c42a338154",
+    "local_scratch_sha": "165971f5b16ddb852ca7006aa700f7ba7cbb1649",
+    "tests": 418,
+    "new_tests": 27,
+    "prior_source_blobs_verified": 65,
+    "source_blobs": {
+      "cognitum/research/hdc_reasoning_advanced.py": "73b2649d5675f61627eecab39fde90a63cd91206",
+      "research_tests/hdc_d2b/test_advanced_reasoning.py": "dff9e23003fcdd541e5346f2bb350ff619282d6b",
+      "tools/cog03d2b_pilot.py": "597107e1af237948917131d420a0c44a05dbde0f",
+      "tools/cog03d2b_acceptance.py": "3de611c861a09d62c837e857ada9d3c9aa5cd134",
+      "docs/research/COG03D2B_SOURCE_MANIFEST.json": "9264556aaa2a37f7aa4cc3af352ae3e1eab880ea",
+      "docs/research/COG03D2A_RUN_44225450045_ACCEPTANCE.json": "033e680caa406420542befe52d1dfb0a85e02f3a"
+    },
+    "local_gate": "all dedicated HDC tests + independently run D2B source-bound wrapper passed; full sequential hosted acceptance not rerun locally",
+    "pilot": {
+      "seeds": [
+        601,
+        602,
+        603,
+        604,
+        605
+      ],
+      "address_space_cap_bytes": 536870912,
+      "peak_rss_kib": [
+        109320,
+        108056,
+        108172,
+        108308,
+        108296
+      ],
+      "factor": {
+        "paired_queries_per_arm": 240,
+        "relu_correct": 158,
+        "beam_correct": 190,
+        "exact_correct": 240,
+        "high_correlation_relu_wrong": 79,
+        "high_correlation_cases": 80
+      },
+      "multi": {
+        "paired_queries_per_arm": 60,
+        "iterative_full": 60,
+        "exhaustive_full": 60,
+        "equal_weight_joint": 5
+      },
+      "sparse": {
+        "paired_queries_per_arm": 240,
+        "linf_correct": 117,
+        "dot_correct": 11,
+        "exhaustive_correct": 240,
+        "linf_wrong": 0,
+        "dot_wrong": 0
+      },
+      "graph": {
+        "paired_tests_per_arm": 90,
+        "pagerank_exact": 90,
+        "pagerank_hdc": 90,
+        "degree_exact": 65,
+        "degree_hdc": 66,
+        "structure_exact": 90,
+        "feature_fingerprint_lookups": 210
+      },
+      "arc": {
+        "paired_tasks_per_budget": 80,
+        "full_budget_both_correct": 80,
+        "narrow_budget_symbolic": 0,
+        "narrow_budget_hdc": 80,
+        "ranker_programs_per_budget": 1600,
+        "ranker_uses_full_universe": true
+      },
+      "rules": {
+        "heldout_queries": 120,
+        "exact_witnesses": 80,
+        "verified": 80,
+        "wrong": 0,
+        "miss": 0
       }
     },
     "production_enabled": false

@@ -1,0 +1,12 @@
+{
+  "accepted_base": "6f21bb0e5957f567e2f86f181bcc2ac3feda0b82",
+  "git_blobs": {
+    "cognitum/research/hdc_reasoning_advanced.py": "73b2649d5675f61627eecab39fde90a63cd91206",
+    "research_tests/hdc_d2b/test_advanced_reasoning.py": "dff9e23003fcdd541e5346f2bb350ff619282d6b",
+    "tools/cog03d2b_pilot.py": "597107e1af237948917131d420a0c44a05dbde0f",
+    "tools/cog03d2b_acceptance.py": "3de611c861a09d62c837e857ada9d3c9aa5cd134"
+  },
+  "prior_source_blobs_verified": 65,
+  "tests": 418,
+  "scope": "bounded D2B research; no production enablement"
+}
