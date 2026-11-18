@@ -1,0 +1,21 @@
+# COG-03D1A local associative references and C2C closeout — 2026-11-17 Arizona
+
+C2C accepted at 81cae4916cc935fe0484cff46718a26c23aff635; [receipt](COG03C2C_RUN_44216109038_ACCEPTANCE.json). C2C/B/C research methods remain default-off. The 85-entry register is coverage of research targets, not all implemented or qualified. Existing C08 BSC canonical verifier checks host-authorized snapshots, exact current role/entity/source revision/tombstone/citation and independently recomputes ranking. It is unchanged. D1A does not route new outputs through that protocol; no authority from vector scores.
+
+Local archive COG-03D1A_Associative_Research_Candidate.zip, SHA256 b32c5fa8e961a6390066a0ddf88a4dfe20fb008a36b3415bb7ccda2fce74677c, file file_0000000058d081fdb953434d7c5f45cd; manifest exact prior 46 source blob checks and new three source hashes. Local reconstructed Linux research tree, not full repository checkout; actual TorchHD 5.8.4 CPU; 288 inherited plus 17 new = 305 tests, no skips/failures. ZIP includes full audit, source, tests, 60-row pilot and test log.
+
+- New shared-Spec immutable typed cleanup bank: candidate index, score and runner-up margin; ties, zero-vector and threshold misses abstain. Not probability calibration or independent canonical evidence.
+- True Kanerva-style fixed random bipolar hard addresses, all within Hamming radius activate, each carries signed additive int16 content counters plus occupation counts; raw read summed int64. All-coordinate ties abstain in sign read. Overflow refused atomically rather than irreversible clipping. Compare actual TorchHD SparseDistributed with exact same hard addresses, thresholds, writes and read queries across three seeds; counter arrays and raw reads exactly match. Exact inverse arithmetic with original writes; not deletion authorization, ID custody, crash-safe persistence or proof arbitrary subtraction is safe. Old nearest-address SDM precursor retained unchanged as separate mechanism.
+- Hopfield classical field factored as P^T(Pq)-nq, avoids dense D² weight storage; native TorchHD parity. Distinct exponential dense associative coordinate energies (TorchHD calls modern_hopfield) using stable logsumexp, native parity three seeds. Continuous Ramsauer softmax update independently tested against scalar weighted sums and actual PyTorch; not a convergence guarantee. References: https://doi.org/10.3389/fnins.2022.867568 and https://arxiv.org/abs/2008.02217.
+- FHRR phase working memory uses existing typed bind/unbind; explicit aligned phase and bipolar codebooks select SDM address, then cleanup raw value signal with MAP. Small two-tier fixture shows retrieval and abstention on missing working/long-term state. Not independent canonical verified fact, not a second durable memory system.
+
+Pilot: 5 seeds × 3 loads (8/32/128) × 4 fixed bit-flip levels (0/16/32/48 of D128), 64 paired queries each, 3840 total shared cases per arm. 512 hard locations, radius52, fixed IID random key/value pairs. At load32 (320 cases per corruption):
+| Flips | Exact key | Nearest-key | SDM |
+|---:|---:|---:|---:|
+| 0 | 320 | 320 | 320 |
+| 16 | 0 | 320 | 274 |
+| 32 | 0 | 320 | 142 |
+| 48 | 0 | 290 | 39 |
+Exact clean lookups abstain on damaged keys. Nearest-key retains explicit keys and mapping, SDM retains distributed counters plus value bank for cleanup; differing storage information contracts. Per-arm logical retained arrays at load32: exact 4224B, nearest (int32 scoring copy) 16512B, SDM 215168B. Excludes interpreter, temporary/shared benchmark fixtures and canonical verification. No favorable SDM accuracy or memory claim; no matched whole-process budgets, hardware speed or power estimates. Rank ties abstain. No tuning from test scores.
+
+D1B: integrate compatible independent exact witnesses with existing C08 authorization/snapshot/verification boundary, not simulated authorization checks; reversible update/delete/rebuild with managed original-write provenance and stale/retired evidence refusals, crash/restart/revision tests and 1k/10k/100k bounded churn where feasible. Compare full-memory and cleanup costs, native memory and conventional nearest-key/ANN, further Hopfield/capacity methods. Other M06/M07 and D2 research remains open. Do not silently promote candidate methods. Integrate grouped D1 after local preflight; no new CI dispatch now.

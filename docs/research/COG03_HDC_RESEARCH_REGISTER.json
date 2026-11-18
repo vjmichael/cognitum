@@ -245,7 +245,8 @@
       "status": "recovered",
       "reference": "memory.py / TorchHD Memory",
       "gate": "Recall, abstention, exact keys",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "D1A typed immutable cleanup candidate, score/margin and tie/zero abstention local staged; actual C08 exact host witness integration pending"
     },
     {
       "id": "M02",
@@ -253,7 +254,8 @@
       "status": "partial",
       "reference": "sdm.py precursor / TorchHD SparseDistributed",
       "gate": "Multi-location activation, counters, address allocation and capacity",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "D1A true fixed multi-location Kanerva radius SDM, additive checked int16 counters, actual matched TorchHD counter/read parity on 3 seeds; nearest-key better on initial noise pilot; address/capacity optimization pending"
     },
     {
       "id": "M03",
@@ -261,7 +263,8 @@
       "status": "partial",
       "reference": "sdm.py / Teeters et al.",
       "gate": "Short-term superposition, long-term memory and full cost",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "D1A explicit shared Spec FHRR working memory -> phase-address cleanup -> typed bipolar address mapping -> SDM -> value cleanup, local small fixture only; full budget and durable canonical lifecycle pending"
     },
     {
       "id": "M04",
@@ -269,7 +272,8 @@
       "status": "planned",
       "reference": "TorchHD memory",
       "gate": "Matched capacity and key retrieval",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "D1A native TorchHD classical and exponential dense associative field parity, independent Ramsauer continuous softmax update compared with scalar and PyTorch; iterative convergence/capacity benchmarks pending"
     },
     {
       "id": "M05",
@@ -277,7 +281,8 @@
       "status": "partial",
       "reference": "hdc_index_lifecycle.py / historical C6",
       "gate": "Insert/update/delete/revision, restart, 100k churn",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "D1A checked inverse arithmetic on exact original writes only, no delete-by-ID, provenance or durable recovery; D1B lifecycle required"
     },
     {
       "id": "R01",
@@ -1616,7 +1621,7 @@
     }
   },
   "cog03c2c_integration_candidate": {
-    "state": "integrated local scoped C2C reference candidate; consolidated hosted acceptance pending",
+    "state": "accepted scoped exact-SHA native C2C and pinned dataset gate",
     "base": "1db605ac864e36070a7692c86e8b3788d653d33d",
     "archive": "COG-03C2C_Research_Candidate.zip",
     "archive_sha256": "16a154a267e1cf0d63294745f91b3bde05599418ac4d9f55d7eec1a507e40461",
@@ -1666,6 +1671,232 @@
         "n": 38,
         "resident_snapshot": 628474,
         "streamed_snapshot": 103934
+      }
+    },
+    "production_enabled": false,
+    "hosted_acceptance": {
+      "run_id": 44216109038,
+      "source_sha": "81cae4916cc935fe0484cff46718a26c23aff635",
+      "attempt": 1,
+      "passed_jobs": 18,
+      "failed_jobs": 0,
+      "artifacts": [
+        {
+          "id": 14389010910,
+          "name": "cog03bc-windows-latest-py3.13",
+          "sha256": "c2cb4fcec4a0d15c11b7cd0b95545ce84c57f9eb138c9148c7aaf60cf5fa55da",
+          "crc_passed": true
+        },
+        {
+          "id": 14388936043,
+          "name": "cog07-causal-learn-ubuntu-latest",
+          "sha256": "67478254a80c7a9e249c6978fd9e08ef7eeb76a41a6e553f4cad35aa52f5adb3",
+          "crc_passed": true
+        },
+        {
+          "id": 14388587166,
+          "name": "cog07-dowhy-windows-latest",
+          "sha256": "01f811118c61ee0a3d52f29055721c9dae7f9da1e194082284cd1ed5db80eecc",
+          "crc_passed": true
+        },
+        {
+          "id": 14388472557,
+          "name": "c10-native-proof-evidence",
+          "sha256": "0daad83a70509d4b703c96598c777a347f01236c7903c82a9e9174c95dda8c7b",
+          "crc_passed": true
+        },
+        {
+          "id": 14388387771,
+          "name": "cog07-ubuntu-latest-py3.11",
+          "sha256": "a65b45957ae0bc51017690f92c45c49ab2b330176225dc92499a106b5800c39a",
+          "crc_passed": true
+        },
+        {
+          "id": 14388351801,
+          "name": "cog03bc-ubuntu-latest-py3.11",
+          "sha256": "bdb0671bc45dcf3280a80694771c2237196e211cb033ac3c380962cf334e926f",
+          "crc_passed": true
+        },
+        {
+          "id": 14388282689,
+          "name": "cog03bc-ubuntu-latest-py3.13",
+          "sha256": "dafd479f9591fe0f7d1f38965bf9a625c5d516caab37edb777187e107a3b244b",
+          "crc_passed": true
+        },
+        {
+          "id": 14388202572,
+          "name": "cog07-windows-latest-py3.11",
+          "sha256": "7537b0f9b17433a29db4097cb9b8bef2be70c4a571b263b16ed26b34086f07e6",
+          "crc_passed": true
+        },
+        {
+          "id": 14388143439,
+          "name": "cog03bc-windows-latest-py3.11",
+          "sha256": "0b4d7d07dcdf314b083430c55bf0fb3bb5fe8b16fd0de52441f6933d422ab1ee",
+          "crc_passed": true
+        },
+        {
+          "id": 14387957716,
+          "name": "cog07-ubuntu-latest-py3.13",
+          "sha256": "9e8df3f3329a2ea8f2836b72d8e6a3a5fa24b8542f7f398cb6d70b32d1c94ae9",
+          "crc_passed": true
+        },
+        {
+          "id": 14387953793,
+          "name": "cog07-dowhy-ubuntu-latest",
+          "sha256": "5b6325700444e94e68c1cf4f64cf7c08e13f7e722c9caf0cfc8bf24a3c721b39",
+          "crc_passed": true
+        },
+        {
+          "id": 14387898161,
+          "name": "cog07-windows-latest-py3.13",
+          "sha256": "69e456d3f0b3168b1caade96aecbd168e8945217e1e913b0f66d0bf6d78434de",
+          "crc_passed": true
+        },
+        {
+          "id": 14387887560,
+          "name": "c15-real-mot17-research-evidence",
+          "sha256": "ebf7948781c4e4f42d6d997f8b60536ac55a915f9b68a44b8a4f5187b23a9c52",
+          "crc_passed": true
+        },
+        {
+          "id": 14387548511,
+          "name": "cog06g-bytetrack-windows-latest",
+          "sha256": "59d8386dfcd0375a332dbccaef9119eba829481603b4fc21a6a2e405115e34b0",
+          "crc_passed": true
+        },
+        {
+          "id": 14387389038,
+          "name": "cog07-econml-windows-latest",
+          "sha256": "956a090323a5e8c9fab3d896e30cb479d7afcee757dbe620f0763dec4d021407",
+          "crc_passed": true
+        },
+        {
+          "id": 14387274303,
+          "name": "cog07-causal-learn-windows-latest",
+          "sha256": "c0da62cb41fc14dc0c4732753cdbdb469b2ba9f095dad7990ebb5d5996c39f22",
+          "crc_passed": true
+        },
+        {
+          "id": 14387239162,
+          "name": "cog07-econml-ubuntu-latest",
+          "sha256": "6180d082ae7847cf8176b0ef722e54b425aa03477084a03246dfa8ffdbd6cad9",
+          "crc_passed": true
+        },
+        {
+          "id": 14387224250,
+          "name": "cog06g-bytetrack-ubuntu-latest",
+          "sha256": "09bd53f0a1f530080e186ed59a58d07600ec903d711c08ce33ed180d73013a99",
+          "crc_passed": true
+        }
+      ],
+      "step_log_hashes_verified": 72,
+      "dataset_result_and_log_hashes_verified": 8,
+      "hdc": {
+        "tests_each": 288,
+        "failures_each": 0,
+        "skips_each": 0,
+        "cohort": {
+          "c2a": 11,
+          "c2b": 25,
+          "c2c": 26
+        },
+        "platforms": [
+          "linux/3.11",
+          "linux/3.13",
+          "windows/3.11",
+          "windows/3.13"
+        ],
+        "native_torchhd": "5.8.4"
+      },
+      "real_dataset_gate": {
+        "platform": "linux/3.13",
+        "artifact_id": 14388282689,
+        "dimension": 512,
+        "serialized_cap_bytes": 524288,
+        "address_space_cap_mib": 512,
+        "promoter": {
+          "correct_each": 18,
+          "test_cases": 22,
+          "resident_snapshot_bytes": 437650,
+          "streamed_snapshot_bytes": 175254,
+          "split_sha256": "358cc9a62de1b35f9e1f9e53e66f91871d84d73b6c2f054854e209c495812b43"
+        },
+        "mutag_grouped": {
+          "correct_each": 33,
+          "test_cases": 38,
+          "resident_snapshot_bytes": 360238,
+          "streamed_snapshot_bytes": 97842,
+          "identical_normalized_features_across_partitions": 0,
+          "split_sha256": "d2e21b47b84e0aa28f540f60062d0981f37df4d0c83abb8edb71953eba0194d4"
+        },
+        "paired_predictions_identical": true,
+        "landmarks_train_only": true
+      },
+      "preserved": {
+        "cpu_linux_passed": 1354,
+        "cpu_windows_passed": 1244,
+        "linux_skips": 17,
+        "windows_skips": 77,
+        "causal_tests_each": 39,
+        "bytetrack_tests_each": 8,
+        "alethe_certificates": 2,
+        "trackeval_original_patched_byte_identical": true
+      },
+      "scope": "C2C scoped native reference tests and pinned real-data smoke, not full paper replication or hardware acceptance",
+      "local_audit_sha256": "898fd2cb20c68e36474ed44364b745e41202f0a8f1f36996128a479cf9ba5fd0"
+    }
+  },
+  "cog03d1a_local_candidate": {
+    "status": "D1A local staged research only, NOT integrated, canonical verified cleanup pending D1B",
+    "archive": "COG-03D1A_Associative_Research_Candidate.zip",
+    "file_id": "file_0000000058d081fdb953434d7c5f45cd",
+    "sha256": "b32c5fa8e961a6390066a0ddf88a4dfe20fb008a36b3415bb7ccda2fce74677c",
+    "base": "81cae4916cc935fe0484cff46718a26c23aff635",
+    "local_tests": 305,
+    "prior_tests": 288,
+    "new_tests": 17,
+    "failures": 0,
+    "skips": 0,
+    "prior_source_blobs_verified": 46,
+    "blobs": {
+      "cognitum/research/hdc_associative.py": "42121bc738737ce3dbe3b3921d41404ceec47d73",
+      "research_tests/hdc_memory/test_cog03d1_associative.py": "00741b4747d2b3c06708562a817d366788942a99",
+      "tools/cog03d1_pilot.py": "b689efd37a12ab355b537b2b18ef6c5ccd94e67f"
+    },
+    "pilot": {
+      "sha256": "39fcb0198711cc67a7f1dba335d190d0cb8c60c7ec3672d755e9c77f2a26c05d",
+      "rows": 60,
+      "paired_queries": 3840,
+      "load32": {
+        "n_each": 320,
+        "flips": [
+          0,
+          16,
+          32,
+          48
+        ],
+        "nearest_correct": [
+          320,
+          320,
+          320,
+          290
+        ],
+        "sdm_correct": [
+          320,
+          274,
+          142,
+          39
+        ],
+        "exact_correct": [
+          320,
+          0,
+          0,
+          0
+        ],
+        "nearest_array_bytes": 16512,
+        "sdm_array_bytes": 215168,
+        "exact_array_bytes": 4224
       }
     },
     "production_enabled": false
