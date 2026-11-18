@@ -1,0 +1,19 @@
+{
+  "base": "06630484478a43a013544deb8ae74c5764364b8d",
+  "git_blobs": {
+    "hardware/hdc/score64_balanced.sv": "dc88ba425edf130c936b8e47f1f4a9c57ec06229",
+    "hardware/hdc/f2_vivado_ooc.tcl": "be990ec5be0a81b0b9f0626583a19672bd0e201d",
+    "hardware/hdc/.gitattributes": "3639b6195fa0acad4fbda10342d05a8c1c95295f",
+    "tools/cog03f2_synthesis.py": "fa5da760166e7d9081bdc057fbf3e8db0e5d7ec4",
+    "tools/cog03f2_acceptance.py": "4f602270e7934420574af4798b6fac9ab1507e0e",
+    "tools/.gitattributes": "39c2e59eadcf9bc767621b6825afb172c0d9df87",
+    "research_tests/hdc_f2/test_synthesis_contract.py": "8ea0c24da7d9b6a41ef4673af8e228921c8bb26c",
+    "research_tests/hdc_f2/.gitattributes": "0261937919758f6fa99b8be76f772085d87e0283",
+    "docs/research/.gitattributes": "3c70481d84e436b594b7ce23773f6b83e9e4581a",
+    "docs/research/COG03F2_SYNTHESIS_PILOT.md": "4acbeb83798917aef8706095d1882e7637e7134a",
+    "tools/cog03f2_core50.py": "761c4a2f59af883b5c2b9385d689be0ea117135b",
+    "research_tests/hdc_f2/test_core50.py": "94d850cb6208b4aadc22c9f0e952e32e4faba655",
+    "docs/research/COG03F2_CORE50_SAMPLE_RESULTS.json": "5cc9d982a4d276edc27aa4cc5e47c13e3d19d3ff"
+  },
+  "production_enabled": false
+}

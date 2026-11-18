@@ -15,6 +15,9 @@ on:
       - hardware/hdc/**
       - research_tests/hdc_f/**
       - tools/cog03f_*.py
+      - tools/cog03f2_*.py
+      - research_tests/hdc_f2/**
+      - docs/research/COG03F2_SOURCE_MANIFEST.json
       - docs/research/COG03F_SOURCE_MANIFEST.json
       - tools/cog03e2g_cifar.py
       - tools/cog03e2g_rgb_acceptance.py
@@ -171,6 +174,7 @@ jobs:
       PYTHONUTF8: '1'
       COG03BC_EXPECTED_SHA: ${{ github.sha }}
       COG03C2C_DATASETS: ${{ matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13' && '1' || '0' }}
+      COG03F2_SYNTH_REQUIRED: ${{ matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11' && '1' || '0' }}
       COG03F_RTL_REQUIRED: ${{ matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11' && '1' || '0' }}
       OMP_NUM_THREADS: '1'
       MKL_NUM_THREADS: '1'
@@ -195,14 +199,15 @@ jobs:
               }
             }
           }
-      - name: Install required RTL simulator
+      - name: Install mandatory native RTL simulator and XC7 synthesizer
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
         run: |
           sudo apt-get update
-          sudo apt-get install -y iverilog
+          sudo apt-get install -y iverilog yosys
           iverilog -V
+          yosys -V
       - name: Dedicated no-skip native HDC algebra, RGB and hardware research acceptance
-        run: python -m tools.cog03f_acceptance
+        run: python -m tools.cog03f2_acceptance
       - name: Archive exact-source HDC evidence and diagnostics
         if: always()
         uses: actions/upload-artifact@v4

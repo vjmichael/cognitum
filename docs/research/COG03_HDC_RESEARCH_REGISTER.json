@@ -435,7 +435,8 @@
       "reference": "parallel.py / reported K4",
       "gate": "Reproduce exact score parity; no unbounded thread changes",
       "accepted": false,
-      "local_candidate_status": "F1 portable/native x86 runtime score dispatch and exact packed arithmetic; 180 measured matched CPU rows, local 37 hardware tests; hosted acceptance pending. ARM/NEON/physical tests open."
+      "local_candidate_status": "F1 portable/native x86 runtime score dispatch and exact packed arithmetic; 180 measured matched CPU rows, local 37 hardware tests; hosted acceptance pending. ARM/NEON/physical tests open.",
+      "f2_candidate_status": "F1 accepted; baseline and balanced score64 native XC7 synthesis and post-map functional simulation mandatory in F2, constrained device-specific timing remains open."
     },
     {
       "id": "H02",
@@ -452,7 +453,8 @@
       "reference": "COG-08/09",
       "gate": "Bit-exact readiness; hardware energy and synthesis later",
       "accepted": false,
-      "local_candidate_status": "F1 host packet, independent oracle and 5325 cycle RTL vectors; actual Icarus execution required on hosted Linux/3.11. No local simulator, synthesis, timing, board link or physical measurement."
+      "local_candidate_status": "F1 host packet, independent oracle and 5325 cycle RTL vectors; actual Icarus execution required on hosted Linux/3.11. No local simulator, synthesis, timing, board link or physical measurement.",
+      "f2_candidate_status": "F1 accepted; baseline and balanced score64 native XC7 synthesis and post-map functional simulation mandatory in F2, constrained device-specific timing remains open."
     },
     {
       "id": "H04",
@@ -863,7 +865,8 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
-      "local_candidate_status": "E2G RGB 44326114911 real cell timeout; verified canonical CIFAR-10 archive and 40 raw RGB arms locally. Mandatory 120 real FP32/PTQ visual arms after exact replay optimization; no pretrained result yet. CORe50 deferred; QAT fidelity open."
+      "local_candidate_status": "E2G RGB 44326114911 real cell timeout; verified canonical CIFAR-10 archive and 40 raw RGB arms locally. Mandatory 120 real FP32/PTQ visual arms after exact replay optimization; no pretrained result yet. CORe50 deferred; QAT fidelity open.",
+      "sample_pilot": "Full CORe50 deferred; authorized uploaded sample only, real pixel pilot 312 rows, separate session holdout and bbox checks; pretrained and fusion not claimed."
     },
     {
       "id": "L24",
@@ -1029,7 +1032,8 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
-      "local_candidate_status": "F1 native packed/dense matched scoring, fixed-point primitives and 180 dispatch sweep rows. Resident input speedup excludes packing; full pipeline, fault-tolerant devices and physical evaluation open."
+      "local_candidate_status": "F1 native packed/dense matched scoring, fixed-point primitives and 180 dispatch sweep rows. Resident input speedup excludes packing; full pipeline, fault-tolerant devices and physical evaluation open.",
+      "f2_candidate_status": "F1 accepted; baseline and balanced score64 native XC7 synthesis and post-map functional simulation mandatory in F2, constrained device-specific timing remains open."
     }
   ],
   "scope": "All listed representative viable mechanisms individually dispositioned; not every publication, not production enabled.",
@@ -3125,5 +3129,19 @@
     "hosted_acceptance": "pending",
     "production_enabled": false,
     "manifest": "docs/research/COG03F_SOURCE_MANIFEST.json"
+  },
+  "cog03f2_integration_candidate": {
+    "base": "06630484478a43a013544deb8ae74c5764364b8d",
+    "prior_acceptance_run": 44349703005,
+    "local_contract_tests": 22,
+    "expected_hosted_tests": 750,
+    "core50_pixel_rows": 312,
+    "full_core50_deferred": true,
+    "pretrained_core50_pending": true,
+    "required_native_mapping": true,
+    "required_postmap_simulation": true,
+    "timing_qualified": false,
+    "physical_verified": false,
+    "production_enabled": false
   }
 }

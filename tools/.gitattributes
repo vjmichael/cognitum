@@ -1,0 +1,4 @@
+/.gitattributes text eol=lf
+/cog03f2_synthesis.py text eol=lf
+/cog03f2_acceptance.py text eol=lf
+/cog03f2_core50.py text eol=lf
