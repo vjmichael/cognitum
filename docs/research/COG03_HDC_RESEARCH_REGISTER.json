@@ -848,7 +848,7 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
-      "local_candidate_status": "E2E group-max and perturbation-envelope conformal reference, subject-disjoint synthetic IMU tests; coverage improvement trades off set size; mandatory official subject-disjoint HAR raw nine-channel benchmark pending on hosted dataset cell. No guarantee under shift. Failed hosted run stopped at checkpoint before HAR result persistence. Repair preserves independent real HAR evidence before visual acquisition; no real qualification yet."
+      "local_candidate_status": "E2E real official UCI HAR 72 comparisons accepted at 83429ca, 2947 windows/9 held-out subjects; near-all-class sets despite high coverage. Encoder specificity and arbitrary shift remain open."
     },
     {
       "id": "L23",
@@ -862,7 +862,7 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
-      "local_candidate_status": "E2E packed bounded visual learner and calibrated head controls; local actual QNNPACK random architecture smoke only. Mandatory official pretrained quantized MobileNetV2 Digits feature comparison against identical-feature conventional centroids/exemplars plus pixel ablation in existing dataset cell, full serialized checkpoint costs reported separately from numeric head budget. Negative pixel results preserved. CORe50/FPGA unverified. QAT hash mismatch in run 44264818914; repair retries with full digest diagnostics and separately verified official ImageNet V2 FP32+QNNPACK PTQ fallback, per-seed fit-prefix calibration. Original QAT fidelity remains open if alternate selected."
+      "local_candidate_status": "E2E actual ImageNet MobileNetV2 FP32+QNNPACK PTQ accepted at 83429ca; negative 40-row comparison used 1797 8x8 grayscale Digits resized to RGB, 64/1280 features selected first two classes, not natural images. Original QAT check failed. Keep CIFAR-10 and official cropped CORe50 RGB/session qualification with broader/no feature selection on same splits; separate CNN costs; no hardware claims."
     },
     {
       "id": "L24",
@@ -875,7 +875,8 @@
       "gate": "Reproduce sequence classifier with documented probability/transition semantics, compare exact HMM, ordinary n-grams and recurrent baselines on same sequences; unseen length and temporal perturbation.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "E2F independent categorical HMM, stochastic population binary forward and duration-expanded HMM, XOR n-grams/packed heads; synthetic comparisons and source-bound local gate pass. Public figure captions confirm OR/AND mask and donor/match cloning differ from our resampling; full method inaccessible. Hierarchical HMM future lead only. Real subject-disjoint HAR token sequence gate staged, hosted pending."
     },
     {
       "id": "L25",
@@ -888,7 +889,8 @@
       "gate": "Standalone HDC temporal research using bounded classical LDN feature extraction, check recurrence/chunk/reset and classification against same LDN conventional head and n-grams. Do not modify deferred Cognitum C17 SSM.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "E2F independent exact-ZOH LDN/LIF plus fixed/known-window duration summaries, bounded batch recurrence, packed HDC and same-feature conventional controls. Synthetic duration normalization helps both heads; no superiority claim. Matched 4/16 KiB retained numeric comparisons, isolated RSS, fixture HAR; real original archive mandatory hosted pending. C17 SSM unchanged."
     },
     {
       "id": "L26",
@@ -2988,6 +2990,44 @@
     "local_pretrained": false,
     "local_real_har": false,
     "checkpoint_policy": "Retry official QAT with digest evidence; separate official ImageNet V2 FP32 SHA prefix 7ebf99e0 and per-seed fit-prefix QNNPACK PTQ only if QAT refused; no random fallback. Real HAR separate artifact, both real gates mandatory.",
+    "production_enabled": false
+  },
+  "cog03e2f_integration_candidate": {
+    "state": "Consolidated research-only candidate; hosted acceptance pending",
+    "base": "83429ca7749e6ea11327a7057de3d391d0cdeb88",
+    "archive": "COG-03E2F_Consolidated_Closeout_Candidate.zip",
+    "file_id": "file_000000006c6881fdb2fe4026c7831a22",
+    "archive_sha256": "952fc34feb912e3e52599554107ee67f7c04b06188123186f221e1cdca7e8784",
+    "source_blobs": {
+      "cognitum/research/hdc_temporal.py": "7522d2d40d87ec305f1a3a829fd14d7567f87c4c",
+      "research_tests/hdc_e2f/test_temporal.py": "49c8f137e2d86e550c062a1ceedfd31b62241a34",
+      "tools/cog03e2f_pilot.py": "dffcd9e29d0217df9ff05c82e8ab5228152958f8",
+      "tools/cog03e2f_acceptance.py": "f68007b4c50b4946ea6ae4f40dc1248143641b31",
+      "docs/research/COG03E2F_TEMPORAL.md": "4ffb41e4b530d141ca14d1894c6e6735fd4bbc1d",
+      "cognitum/research/hdc_temporal_closeout.py": "052091619c703aacf2c21c918a9e283bdacef83e",
+      "research_tests/hdc_e2f/test_temporal_closeout.py": "4d7294e44d1453db9d23de6fa1e7c5e58cda082b",
+      "tools/cog03e2f_closeout.py": "418f95e1bde124bc3aab8e2d4ee9574e00980804",
+      "docs/research/COG03E2F_SOURCE_MANIFEST.json": "d83675e6002cff5afc7f10c1e43b36bf47023365",
+      "docs/research/COG03E2E_RUN_44266937775_ACCEPTANCE.json": "346b37dba6d8f888117fd628e97d180fb5af5da7"
+    },
+    "tests": 224,
+    "new_tests": 26,
+    "expected_hosted_tests": 642,
+    "failures": 0,
+    "skips": 0,
+    "local_gate": "Scoped source-bound gate passed; full inherited checkout unavailable locally",
+    "pilot": {
+      "initial_rows": 198,
+      "closeout_synthetic_rows": 180,
+      "fixture_har_rows": 96,
+      "isolated_workers": 4,
+      "budgets_bytes": [
+        4096,
+        16384
+      ],
+      "real_har_executed": false,
+      "real_har_archive_sha256": "c00b803081a5c797cd5e4b83700a9810b38d53d9d84e01917e090e1fdbc81031"
+    },
     "production_enabled": false
   }
 }
