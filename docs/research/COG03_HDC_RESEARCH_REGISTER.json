@@ -77,7 +77,7 @@
       "reference": "models.py / TorchHD",
       "gate": "Boolean XOR, majority, ties, exact inverse, packed parity",
       "accepted": false,
-      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
+      "local_candidate_status": "bounded reference algebra accepted at df2d7275 four-platform HDC suite; broader method/task gates remain open"
     },
     {
       "id": "V02",
@@ -86,7 +86,7 @@
       "reference": "models.py / TorchHD",
       "gate": "Bipolar multiplication, sum vs sign, packed and counter widths",
       "accepted": false,
-      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
+      "local_candidate_status": "bounded reference algebra accepted at df2d7275 four-platform HDC suite; broader method/task gates remain open"
     },
     {
       "id": "V03",
@@ -95,7 +95,7 @@
       "reference": "models.py / TorchHD",
       "gate": "Circular convolution, approximate inverse, FFT vs direct oracle",
       "accepted": false,
-      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
+      "local_candidate_status": "bounded reference algebra accepted at df2d7275 four-platform HDC suite; broader method/task gates remain open"
     },
     {
       "id": "V04",
@@ -104,7 +104,7 @@
       "reference": "models.py / TorchHD",
       "gate": "Complex product/conjugate, phase8, capacity",
       "accepted": false,
-      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
+      "local_candidate_status": "bounded reference algebra accepted at df2d7275 four-platform HDC suite; broader method/task gates remain open"
     },
     {
       "id": "V05",
@@ -113,7 +113,7 @@
       "reference": "TorchHD BSBC",
       "gate": "Block integrity, modular shift, sparse storage",
       "accepted": false,
-      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
+      "local_candidate_status": "bounded reference algebra accepted at df2d7275 four-platform HDC suite; broader method/task gates remain open"
     },
     {
       "id": "V06",
@@ -122,7 +122,7 @@
       "reference": "TorchHD CGR",
       "gate": "Cyclic algebra, distance, block constraints",
       "accepted": false,
-      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
+      "local_candidate_status": "bounded reference algebra accepted at df2d7275 four-platform HDC suite; broader method/task gates remain open"
     },
     {
       "id": "V07",
@@ -131,7 +131,7 @@
       "reference": "TorchHD MCR",
       "gate": "Modular binding, scalar oracle",
       "accepted": false,
-      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
+      "local_candidate_status": "bounded reference algebra accepted at df2d7275 four-platform HDC suite; broader method/task gates remain open"
     },
     {
       "id": "V08",
@@ -140,7 +140,7 @@
       "reference": "TorchHD VTB",
       "gate": "Noncommutativity, inverse and shape",
       "accepted": false,
-      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
+      "local_candidate_status": "bounded reference algebra accepted at df2d7275 four-platform HDC suite; broader method/task gates remain open"
     },
     {
       "id": "V09",
@@ -149,7 +149,7 @@
       "reference": "Survey / NumPy reference",
       "gate": "Contraction and tensor growth",
       "accepted": false,
-      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
+      "local_candidate_status": "bounded reference algebra accepted at df2d7275 four-platform HDC suite; broader method/task gates remain open"
     },
     {
       "id": "V10",
@@ -158,7 +158,7 @@
       "reference": "Survey / NumPy reference",
       "gate": "Role direction, recovery, cost",
       "accepted": false,
-      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
+      "local_candidate_status": "bounded reference algebra accepted at df2d7275 four-platform HDC suite; broader method/task gates remain open"
     },
     {
       "id": "V11",
@@ -167,7 +167,7 @@
       "reference": "Survey",
       "gate": "Sparsity and recovery",
       "accepted": false,
-      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
+      "local_candidate_status": "bounded reference algebra accepted at df2d7275 four-platform HDC suite; broader method/task gates remain open"
     },
     {
       "id": "V12",
@@ -176,7 +176,7 @@
       "reference": "Survey",
       "gate": "Thinning, capacity, reproducibility",
       "accepted": false,
-      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
+      "local_candidate_status": "bounded reference algebra accepted at df2d7275 four-platform HDC suite; broader method/task gates remain open"
     },
     {
       "id": "V13",
@@ -185,7 +185,7 @@
       "reference": "Survey",
       "gate": "Restricted-size geometric product oracle",
       "accepted": false,
-      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
+      "local_candidate_status": "bounded reference algebra accepted at df2d7275 four-platform HDC suite; broader method/task gates remain open"
     },
     {
       "id": "E01",
@@ -458,7 +458,7 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "first algebra extension",
-      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
+      "local_candidate_status": "bounded reference algebra accepted at df2d7275 four-platform HDC suite; broader method/task gates remain open"
     },
     {
       "id": "V15",
@@ -473,7 +473,7 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "first algebra extension",
-      "local_candidate_status": "bounded research algebra integrated in candidate; local pass, consolidated hosted acceptance pending"
+      "local_candidate_status": "bounded reference algebra accepted at df2d7275 four-platform HDC suite; broader method/task gates remain open"
     },
     {
       "id": "V16",
@@ -486,7 +486,8 @@
       "gate": "Reproduce theoretical task-specific dimension bounds and probability estimates for set membership and intersection; separate integer accumulators from final binary codes. Compare Bloom/Counting Bloom and exact sets at matched failure rates and full bytes.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "local C2A indexed MAP-I exact accumulator, elementary independent membership and intersection bounds, 60-cell pilot; MAP-B/sparse/Bloom/full theorem verification open"
     },
     {
       "id": "E07",
@@ -499,7 +500,8 @@
       "gate": "Implement adjustable correlation/separation profile and kernel checks; evaluate same train/test data for pattern classification and exact decoding, report tradeoff rather than one universal optimal vector.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "local C2A anisotropic Gaussian FPE, composition/kernel tests and 5x5 geometry pilot; natural-data task/learning qualification open"
     },
     {
       "id": "E08",
@@ -527,7 +529,7 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
-      "local_candidate_status": "conventional RBF Nyström reference only, not NysHD replication"
+      "local_candidate_status": "local C2A generic PSD Nyström + actual angular hyperplane rounding, resident and replayed packed output, real digits pilot; graph/string benchmarks and full paper replication open"
     },
     {
       "id": "E10",
@@ -540,7 +542,8 @@
       "gate": "Reproduce dynamic generation/rematerialization, extension without corrupting previous identifiers, pair coherence and complete memory; compare indexed PCG, Hadamard and QMC. Hardware synthesis not measured CPU energy.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "local C2A indexed IID exact update/rematerialization and streamed hyperplane projection; not exact ID-VSA paper reproduction"
     },
     {
       "id": "E11",
@@ -1093,7 +1096,7 @@
     }
   },
   "cog03bc_integration_candidate": {
-    "status": "integrated candidate ready for grouped hosted acceptance; local isolated pass only",
+    "status": "accepted scoped native matrix at exact df2d7275; C1 smoke only",
     "source_base": "e65456f55ae881a9d5fa546642064a4d85e99421",
     "artifact_file_id": "file_00000000bf1881fd873207e015b9b33e",
     "archive_sha256": "f8cfff73fd5ca915124d6268c310fc24cfb638298c77222b75eebde585e54383",
@@ -1122,6 +1125,251 @@
       "raw_sha256": "3f8b82ddd92428d017f175ae9ea976c1b24eebf2c862f2a02a199d1e74e3618e"
     },
     "hosted_required": 18,
-    "production_enabled": false
+    "production_enabled": false,
+    "hosted_acceptance": {
+      "source_sha": "df2d7275ef16ab6e3b76d67cf2b783f83a8d7a98",
+      "run_id": 44202085389,
+      "attempt": 1,
+      "passed_jobs": 18,
+      "failed_jobs": 0,
+      "artifacts": [
+        {
+          "id": 14382785591,
+          "name": "cog03bc-windows-latest-py3.11",
+          "sha256": "8940cca31b86ed45cca5446696f891eda3c366748346a62c9ba05f640caf314c",
+          "crc_passed": true
+        },
+        {
+          "id": 14382770278,
+          "name": "c10-native-proof-evidence",
+          "sha256": "8f99006e3b03d6c3089e68aa90364929a7bd5e4f3b1e416065eebb38aad8667d",
+          "crc_passed": true
+        },
+        {
+          "id": 14382566319,
+          "name": "cog07-ubuntu-latest-py3.11",
+          "sha256": "b7f7ef08ea64ba5a1f9f44a288a9dadffacc9e929230a67654a8ee59fe9d1abe",
+          "crc_passed": true
+        },
+        {
+          "id": 14382416458,
+          "name": "cog07-causal-learn-windows-latest",
+          "sha256": "40c60cd09c609b501ad9c979177d7d5dbbe2350201a4346e4537c56a47731eef",
+          "crc_passed": true
+        },
+        {
+          "id": 14382411273,
+          "name": "cog06g-bytetrack-windows-latest",
+          "sha256": "12a380d07a70a571c57076825078759beaa3cd63bfa77c09b5baca353432c893",
+          "crc_passed": true
+        },
+        {
+          "id": 14382336738,
+          "name": "cog07-windows-latest-py3.13",
+          "sha256": "be0e23c405ad992c070e906c42761fbf3c7541224f893440d9d8009bb8cf7357",
+          "crc_passed": true
+        },
+        {
+          "id": 14382281819,
+          "name": "cog07-windows-latest-py3.11",
+          "sha256": "b14609060719b39f2b12d6157f1ecd79649284d7df4e9dc6f443450845d6fdaf",
+          "crc_passed": true
+        },
+        {
+          "id": 14382136455,
+          "name": "cog06g-bytetrack-ubuntu-latest",
+          "sha256": "56f8495a156d26ffe5307bcc463dc8a1eea0d87d47065451e62f3e168a8eff8a",
+          "crc_passed": true
+        },
+        {
+          "id": 14381967670,
+          "name": "cog07-dowhy-windows-latest",
+          "sha256": "f1e7ef84ad917e97b9da136a1c2add1690dd1c09f7d33549eb39c7c0d528b6e8",
+          "crc_passed": true
+        },
+        {
+          "id": 14381642561,
+          "name": "cog07-ubuntu-latest-py3.13",
+          "sha256": "5a509bc95dc2957ff927b17cf4af012c5093f1ef722cb27c32fb2c291afea7f3",
+          "crc_passed": true
+        },
+        {
+          "id": 14381567606,
+          "name": "cog07-causal-learn-ubuntu-latest",
+          "sha256": "4ca33df742989d045075d068ed46cf3391c5058f4135ad212f65df642e7f5040",
+          "crc_passed": true
+        },
+        {
+          "id": 14381437854,
+          "name": "c15-real-mot17-research-evidence",
+          "sha256": "1670223d9d7ac875514e7e043c2f8f525e9a43657f1ee34a06d0632a370b87f9",
+          "crc_passed": true
+        },
+        {
+          "id": 14381358061,
+          "name": "cog03bc-ubuntu-latest-py3.13",
+          "sha256": "77782d342015b27af11c67a60f38fda19dcfd0151c4bd43f0ff71f385ab25daa",
+          "crc_passed": true
+        },
+        {
+          "id": 14381348243,
+          "name": "cog03bc-windows-latest-py3.13",
+          "sha256": "49b74b4c28e55c0f1d699c04df5d14519f89ea304c341e678d9725b74eb60c48",
+          "crc_passed": true
+        },
+        {
+          "id": 14381243479,
+          "name": "cog07-econml-ubuntu-latest",
+          "sha256": "2ee62c32dff6324fea91663e0b02d2340e15aaff786103b3d6aa8337e1853eeb",
+          "crc_passed": true
+        },
+        {
+          "id": 14381243392,
+          "name": "cog07-econml-windows-latest",
+          "sha256": "6bdbfb6dfe8dae837d6fd71a92d47f39a8bc7eeb978aaab74b51dbb1269111de",
+          "crc_passed": true
+        },
+        {
+          "id": 14381059514,
+          "name": "cog03bc-ubuntu-latest-py3.11",
+          "sha256": "2cbb403d2ce6218544be8b29faf72ae649b4b4f7b241e37975cbeb6c94734365",
+          "crc_passed": true
+        },
+        {
+          "id": 14380963712,
+          "name": "cog07-dowhy-ubuntu-latest",
+          "sha256": "ed53d0979ebb875d3043c358656ef35e4c66f9d638e1d4caca87fb7134f111d2",
+          "crc_passed": true
+        }
+      ],
+      "local_step_log_hashes_verified": 72,
+      "hdc": {
+        "matrix": [
+          "linux/3.11",
+          "linux/3.13",
+          "windows/3.11",
+          "windows/3.13"
+        ],
+        "tests_each": 226,
+        "failures_each": 0,
+        "skips_each": 0,
+        "versions": {
+          "torch": "2.10.0+cpu",
+          "torch-hd": "5.8.4",
+          "numpy": "2.3.5",
+          "scipy": "1.17.0",
+          "pytest": "9.0.2"
+        },
+        "capacity_smoke": {
+          "distinct_queries": 120,
+          "identical_seed_per_platform": true,
+          "dense_packed_rank_changes": 0,
+          "phase8_rank_changes": 1,
+          "sobol_antipodes": 32,
+          "hadamard_max_abs": 0
+        }
+      },
+      "preserved": {
+        "cpu_linux_passed": 1354,
+        "cpu_windows_passed": 1244,
+        "focused_passed": 787,
+        "linux_skips": 17,
+        "windows_skips": 77,
+        "focused_skips": 2,
+        "descriptor_sha256": "030ef8fe3e9763d511d82d3b9ead344c8225d771c2b4a55142c5dc99dafc7cf7",
+        "causal_jobs": 6,
+        "causal_tests_each": 39,
+        "bytetrack_tests_each": 8,
+        "proof": "two strict certificates and rejection controls",
+        "trackeval": "byte-identical original/patched summaries"
+      },
+      "scope": "B1/B2 and C1 bounded reference implementation and platform smoke; research-only. Identical seeds across platforms are not independent replications.",
+      "audit_file_sha256": "2740a63267e038c04a09cf54e0dc22f29534b72771427e53c9234a208fc19204",
+      "production_enabled": false
+    }
+  },
+  "cog03c2a_local_candidate": {
+    "state": "local staged COG-03C2A; NOT integrated or hosted accepted",
+    "base": "df2d7275ef16ab6e3b76d67cf2b783f83a8d7a98",
+    "archive": "COG-03C2A_Frontier_Encoders_Research_Candidate.zip",
+    "file_id": "file_00000000c15881fd9c17db5bc861101b",
+    "archive_sha256": "3d13e7890cc82d4c8860d92de4e15da2c9ec6ec0ce8494613bee1c62a16e5b6f",
+    "tested": 237,
+    "failures": 0,
+    "skips": 0,
+    "source_blobs": {
+      "cognitum/research/hdc_frontier_encoders.py": "b74ac593c689c925675b3bfc580c730e8dd06cb3",
+      "research_tests/hdc/test_cog03c2_frontier.py": "28ebbc5d955fab2c7ec01b96d91ea8438f1fcf7b",
+      "tools/cog03c2_frontier_pilot.py": "2735b780cbd8d22d3e514b967b9840f11a9ba750",
+      "tools/cog03c2_geometry_pilot.py": "82304b82c8075928b96da524f6833170ecd409e1"
+    },
+    "report_sha256": "227de53e60392373291bb9f2892a4313e49aeebf63b58627a5dc51e5dfbc5efa",
+    "geometry_sha256": "9e3f8907c8661daccd2448febf3eaa524c028cfaa1c01b215d843fd61e0b91d8",
+    "capacity": {
+      "cells": 60,
+      "queries": 15360,
+      "dimensions": [
+        256,
+        1024,
+        4096,
+        8192
+      ],
+      "loads": [
+        8,
+        32,
+        128
+      ],
+      "seeds": 5,
+      "at_load_128_errors_by_dimension": [
+        309,
+        110,
+        3,
+        0
+      ]
+    },
+    "digits": {
+      "num_splits": 2,
+      "cases_per_split": 450,
+      "resident_correct": 796,
+      "stream_correct": 796,
+      "nystrom_correct": 800,
+      "svc_correct": 889,
+      "resident_payload_bytes": 630920,
+      "stream_payload_bytes": 106648,
+      "nystrom_payload_bytes": 70792,
+      "cap_bytes": 131072,
+      "cap_resident_dimension": 118,
+      "cap_stream_dimension": 1634,
+      "cap_resident_correct": 768,
+      "cap_stream_correct": 799,
+      "cap_resident_payload": 130808,
+      "cap_stream_payload": 131048
+    },
+    "geometry": {
+      "widths": [
+        0.125,
+        0.5,
+        1,
+        2,
+        4
+      ],
+      "class_correct": [
+        1997,
+        1982,
+        1538,
+        1277,
+        1088
+      ],
+      "class_n_each": 2000,
+      "pixel_correct": [
+        50000,
+        49807,
+        34848,
+        28829,
+        27633
+      ],
+      "pixel_n_each": 50000
+    },
+    "limitations": "Independent CPU references, selected paper methods only; no original NysHD graph/string dataset reproduction, full capacity theorem coverage, complete memory budget, or hardware claims. Equal-payload cap is not equal process memory. Real digit data with 2 overlapping random held-out splits. Broader orchestration timed out; final per-arm subprocesses completed. No local full repository checkout."
   }
 }
