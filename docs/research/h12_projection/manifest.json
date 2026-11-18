@@ -1,0 +1,20 @@
+{
+  "base": "2242b7ec9abf3cb529909e0319e03ac85b224a69",
+  "git_blobs": {
+    "tools/h12_projection/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "tools/h12_projection/acceptance.py": "ff339bc18dd1456c678517a532ea4ddf2a2e5a38",
+    "tools/h12_projection/benchmark.py": "eba0e07fb1dec93c35fbd6d56212a1a2bac36775",
+    "tools/h12_projection/projection.py": "7560a74040cbcc5863529834642d52fae8e1df8f",
+    "tools/h12_projection/symbolic.py": "6c0f2f6d10f73a0ee2bdc7dadc757c0e06ad3e49",
+    "research_tests/hdc_h12_projection/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "research_tests/hdc_h12_projection/test_projection.py": "d6a35e0d5d4b5ec91e78e223e5f81a006c0a0de0",
+    "docs/research/h12_projection/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "docs/research/h12_projection/MATHEMATICAL_QUALIFICATION.md": "2165fe8d002c3a552ce7c5f6f95c31ec83685365",
+    "docs/research/h12_projection/h12-acceptance.json": "da0048f3ed4f51b7df01b3389fd6c793bd4f3ff4",
+    "docs/research/h12_projection/results.json": "c37b215db491f8492b9e696b8bbd3c8577d67361",
+    "cognitum/research/hdc_hardware.py": "ff4e764d7af09a2cf1335d5e6c53ddcd1c7dcfe3",
+    "hardware/hdc/packed.c": "b38da216ee70a411f8db2a6dc1415e990981f1d4",
+    "tools/cog03f_dispatch_pilot.py": "a932f207b45b1e9891ceb23475b5e6b89e68c003"
+  },
+  "production_enabled": false
+}

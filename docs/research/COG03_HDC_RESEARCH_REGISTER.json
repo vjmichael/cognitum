@@ -309,7 +309,8 @@
       "reference": "P21c / C08 canonical verification",
       "gate": "Multi-hop paths and independent witnesses",
       "accepted": false,
-      "local_candidate_status": "D2B disjoint-entity train-supported rule proposal plus independently checked exact directed antecedent and consequent witnesses; 120 held-out query pilot. No universal inference or canonical promotion."
+      "local_candidate_status": "D2B disjoint-entity train-supported rule proposal plus independently checked exact directed antecedent and consequent witnesses; 120 held-out query pilot. No universal inference or canonical promotion.",
+      "mathematical_qualification_candidate": "Qualification plan for ordered/nested associations, relation direction, exact witness and abstention; no new accepted inference claims."
     },
     {
       "id": "R04",
@@ -529,7 +530,8 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
-      "local_candidate_status": "C2C nested odd-majority tree leaf gap and exact finite error, distinct-position sparse occupancy recurrence, independent exhaustive small cases; other paper theorems deferred workload-specific verification."
+      "local_candidate_status": "C2C nested odd-majority tree leaf gap and exact finite error, distinct-position sparse occupancy recurrence, independent exhaustive small cases; other paper theorems deferred workload-specific verification.",
+      "mathematical_qualification_candidate": "Independent IID odd-majority role/filler 1500 trial pilot and theoretical mean/unknown-query union bound; correlated codebooks and confidence limits remain open."
     },
     {
       "id": "E07",
@@ -557,7 +559,8 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
-      "local_candidate_status": "initial indexed/orthogonal/packed reference and bounded pilot implemented; further research fidelity and whole-system benchmarks open"
+      "local_candidate_status": "initial indexed/orthogonal/packed reference and bounded pilot implemented; further research fidelity and whole-system benchmarks open",
+      "mathematical_qualification_candidate": "Signed/permuted FWHT vs matched new dense, packed-storage, seed and sparse projections; local classification and geometry deltas only; no original method reproduction."
     },
     {
       "id": "E09",
@@ -585,7 +588,8 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
-      "local_candidate_status": "C2C Gaussian Polygon four-way stochastic interpolation reference, shared intensity Gaussian CDF, independent selectors and blocked replay tested. Original RTL reset convention, complete Polygon hardware and TRNG remain blocked; implementation/device beyond scope."
+      "local_candidate_status": "C2C Gaussian Polygon four-way stochastic interpolation reference, shared intensity Gaussian CDF, independent selectors and blocked replay tested. Original RTL reset convention, complete Polygon hardware and TRNG remain blocked; implementation/device beyond scope.",
+      "mathematical_qualification_candidate": "Block-indexed PCG/SeedSequence reproducibility and exact stored-vs-regenerated bits; code identity versioned, no claim of author ID-VSA reproduction."
     },
     {
       "id": "E11",
@@ -1064,8 +1068,25 @@
         "results": "docs/research/h12/pipeline-results.json",
         "raw": "docs/research/h12/pipeline-raw.json.gz",
         "local_tests": 19,
-        "hosted_pending": true,
+        "hosted_pending": false,
         "production_enabled": false
+      },
+      "h12_native_acceptance": {
+        "source_sha": "2242b7ec9abf3cb529909e0319e03ac85b224a69",
+        "run": 44420141502,
+        "scoped_native_passed": true,
+        "tests_per_hdc_cell": 784,
+        "artifact_hashes_verified": 426,
+        "timing_qualified": false,
+        "physical_verified": false
+      },
+      "projection_candidate": {
+        "local_tests": 17,
+        "local_comparisons": 25,
+        "timing_batches": 75,
+        "hosted_pending": true,
+        "production_enabled": false,
+        "report": "docs/research/h12_projection/MATHEMATICAL_QUALIFICATION.md"
       }
     }
   ],
@@ -3239,5 +3260,11 @@
     "hosted_expected_tests": 784,
     "f2_timing_pending": true,
     "production_enabled": false
+  },
+  "mathematical_qualification": {
+    "scope": "Existing 85 targets; no new method or production promotion",
+    "report": "docs/research/h12_projection/MATHEMATICAL_QUALIFICATION.md",
+    "basis": "owner prioritizes symbolic association mathematical robustness",
+    "accepted": false
   }
 }
