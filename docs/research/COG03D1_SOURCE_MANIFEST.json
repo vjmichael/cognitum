@@ -1,0 +1,21 @@
+{
+  "accepted_base": "81cae4916cc935fe0484cff46718a26c23aff635",
+  "integration_parent": "9ca94753ee0032ada2196250fc7e1593300408bf",
+  "git_blobs": {
+    "cognitum/research/hdc_associative.py": "42121bc738737ce3dbe3b3921d41404ceec47d73",
+    "research_tests/hdc_memory/test_cog03d1_associative.py": "00741b4747d2b3c06708562a817d366788942a99",
+    "tools/cog03d1_pilot.py": "b689efd37a12ab355b537b2b18ef6c5ccd94e67f",
+    "cognitum/research/hdc_associative_lifecycle.py": "74a0032a08157f3efded820d40ed1401fcef982e",
+    "research_tests/hdc_memory/test_cog03d1b_lifecycle.py": "a895b49ec278876732f2b943ebc425d649ac8980",
+    "tools/cog03d1b_churn.py": "fa2e179ea7abd920e61cfcc603cb3953b4601020",
+    "tools/cog03d1_acceptance.py": "dc20ca2da578b25c4eed80d310cae68809b9c625"
+  },
+  "preserved_c08_blobs": {
+    "cognitum/proto/__init__.py": "47b261df54f20f35dcf697e433ebc9462cc3c9b8",
+    "cognitum/proto/research_optional_pb2.py": "ce2af1aecc01deeefd7bd46ee35751e09dbca470",
+    "cognitum/research/hdc_optional.py": "d8eb7698185d3ac83c3aedaef21a7af18c572f74",
+    "cognitum/research/hdc_canonical.py": "ffe6d62ea16ec19e5475bba74cc30f7f490054c7"
+  },
+  "tests": 333,
+  "scope": "D1 research-only; C08 exact verification of selected proposals; host authority unchanged"
+}

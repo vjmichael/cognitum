@@ -246,7 +246,7 @@
       "reference": "memory.py / TorchHD Memory",
       "gate": "Recall, abstention, exact keys",
       "accepted": false,
-      "local_candidate_status": "D1A typed immutable cleanup candidate, score/margin and tie/zero abstention local staged; actual C08 exact host witness integration pending"
+      "local_candidate_status": "D1A/B typed cleanup with margin/abstention, actual C08 exact canonical check for selected SDM proposal, generation and independent recomputation; local integrated candidate, full quality and latency comparison remains D1C."
     },
     {
       "id": "M02",
@@ -255,7 +255,7 @@
       "reference": "sdm.py precursor / TorchHD SparseDistributed",
       "gate": "Multi-location activation, counters, address allocation and capacity",
       "accepted": false,
-      "local_candidate_status": "D1A true fixed multi-location Kanerva radius SDM, additive checked int16 counters, actual matched TorchHD counter/read parity on 3 seeds; nearest-key better on initial noise pilot; address/capacity optimization pending"
+      "local_candidate_status": "D1A/B multi-location Kanerva SDM with native TorchHD counter/read parity; revision-bound exact subtract original write, atomic updates, locally verified 111k sequential churn ops across 3 trials. Initial nearest-key baseline superior; broader matched budget and address allocation D1C."
     },
     {
       "id": "M03",
@@ -264,7 +264,7 @@
       "reference": "sdm.py / Teeters et al.",
       "gate": "Short-term superposition, long-term memory and full cost",
       "accepted": false,
-      "local_candidate_status": "D1A explicit shared Spec FHRR working memory -> phase-address cleanup -> typed bipolar address mapping -> SDM -> value cleanup, local small fixture only; full budget and durable canonical lifecycle pending"
+      "local_candidate_status": "D1A two-tier FHRR working-to-long-term SDM recall fixture integrated; D1B selected SDM candidate exact witness gate; two-tier complete budget and end-to-end host integration still open."
     },
     {
       "id": "M04",
@@ -273,7 +273,7 @@
       "reference": "TorchHD memory",
       "gate": "Matched capacity and key retrieval",
       "accepted": false,
-      "local_candidate_status": "D1A native TorchHD classical and exponential dense associative field parity, independent Ramsauer continuous softmax update compared with scalar and PyTorch; iterative convergence/capacity benchmarks pending"
+      "local_candidate_status": "D1A classical, dense associative native TorchHD parity and independent continuous Hopfield reference integrated; iterative convergence/capacity performance D1C."
     },
     {
       "id": "M05",
@@ -282,7 +282,7 @@
       "reference": "hdc_index_lifecycle.py / historical C6",
       "gate": "Insert/update/delete/revision, restart, 100k churn",
       "accepted": false,
-      "local_candidate_status": "D1A checked inverse arithmetic on exact original writes only, no delete-by-ID, provenance or durable recovery; D1B lifecycle required"
+      "local_candidate_status": "D1B active original-write custody, scoped revision CAS, local rollback on overflow, tombstone/rescope and checkpoint rebuild from independent host snapshot, fresh-interpreter and interruption negative test, 111000 bounded sequential mutations. No host durability or 100k active sources claim. Final host custody gate COG-11."
     },
     {
       "id": "R01",
@@ -1899,6 +1899,76 @@
         "exact_array_bytes": 4224
       }
     },
+    "production_enabled": false
+  },
+  "cog03d1ab_integration_candidate": {
+    "state": "D1A/B integrated research candidate; local scoped tests and churn passed; hosted matrix pending; D1C full memory study remains",
+    "base": "9ca94753ee0032ada2196250fc7e1593300408bf",
+    "archive": "COG-03D1AB_Associative_Lifecycle_Candidate.zip",
+    "file_id": "file_0000000062d88212b1debee7e2fa6663",
+    "archive_sha256": "cb46fa0b2338bfc90d543215f80ef246b02aec827f0f9d887220c52c61171a16",
+    "manifest_blob": "ab3596fd4ebbc685462dabe6d450b229a5cf2b8f",
+    "local_scratch_sha": "dfef0c7acb2a3f5a4a631d48f8e6ed6f40031121",
+    "source_blobs": {
+      "cognitum/research/hdc_associative.py": "42121bc738737ce3dbe3b3921d41404ceec47d73",
+      "research_tests/hdc_memory/test_cog03d1_associative.py": "00741b4747d2b3c06708562a817d366788942a99",
+      "tools/cog03d1_pilot.py": "b689efd37a12ab355b537b2b18ef6c5ccd94e67f",
+      "cognitum/research/hdc_associative_lifecycle.py": "74a0032a08157f3efded820d40ed1401fcef982e",
+      "research_tests/hdc_memory/test_cog03d1b_lifecycle.py": "a895b49ec278876732f2b943ebc425d649ac8980",
+      "tools/cog03d1b_churn.py": "fa2e179ea7abd920e61cfcc603cb3953b4601020",
+      "tools/cog03d1_acceptance.py": "dc20ca2da578b25c4eed80d310cae68809b9c625"
+    },
+    "preserved_c08_blobs": {
+      "cognitum/proto/__init__.py": "47b261df54f20f35dcf697e433ebc9462cc3c9b8",
+      "cognitum/proto/research_optional_pb2.py": "ce2af1aecc01deeefd7bd46ee35751e09dbca470",
+      "cognitum/research/hdc_optional.py": "d8eb7698185d3ac83c3aedaef21a7af18c572f74",
+      "cognitum/research/hdc_canonical.py": "ffe6d62ea16ec19e5475bba74cc30f7f490054c7"
+    },
+    "prior_blobs_verified": 50,
+    "tests": {
+      "total": 333,
+      "prior": 288,
+      "d1a": 17,
+      "d1b": 28,
+      "failures": 0,
+      "skips": 0
+    },
+    "churn": [
+      {
+        "steps": 1000,
+        "checks": 100,
+        "restores": 10,
+        "verified": 38,
+        "abstained": 47,
+        "rejected": 15,
+        "median_sdm_us": 84.28049932263093,
+        "median_dict_us": 0.2439992385916412,
+        "elapsed_s": 0.32504793199950655
+      },
+      {
+        "steps": 10000,
+        "checks": 100,
+        "restores": 10,
+        "verified": 45,
+        "abstained": 43,
+        "rejected": 12,
+        "median_sdm_us": 83.4694992590812,
+        "median_dict_us": 0.23000029614195228,
+        "elapsed_s": 1.6609702319983626
+      },
+      {
+        "steps": 100000,
+        "checks": 100,
+        "restores": 10,
+        "verified": 49,
+        "abstained": 40,
+        "rejected": 11,
+        "median_sdm_us": 80.94549957604613,
+        "median_dict_us": 0.23999928089324385,
+        "elapsed_s": 14.178076727001098
+      }
+    ],
+    "fixture": "32 IDs, 32 hard locations, 256 dimensions, 16 exact fixture addresses plus 16 seeded random locations, radius116; zero verified false positives in 300 sampled queries; 100k mutation operations, NOT 100k simultaneous records",
     "production_enabled": false
   }
 }
