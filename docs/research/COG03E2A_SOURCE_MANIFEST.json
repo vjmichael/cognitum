@@ -1,0 +1,27 @@
+{
+  "base": "3596856f7a54851c8951b82455a4efd8b16a308a",
+  "sha256": {
+    "cognitum/research/hdc_advanced_learning.py": "6c322d5a953127236faa857e09369797739fd8c3c09ede5e95abb63b62c5e50b",
+    "research_tests/hdc_e2a/test_advanced.py": "0d6f8d11e4e2771bfa4851e7dec19a68d14971b221e6dde4c0746feae6227db7",
+    "tools/cog03e2a_pilot.py": "da6051fe524bd1884e5ccde4e80b30afc8a236564afa557cdced1dafbb6e3c54",
+    "tools/cog03e2a_acceptance.py": "ccb9a67303e44608a10ca9d22a27692fb53872a683c1436a7f7d8e18eff4e6a6",
+    "docs/research/COG03E2A_ADVANCED_LEARNING.md": "146fcabe5ec330f7945bb7914103a38df89a90c68d6f00b7518a3a55d030255f",
+    "cognitum/research/hdc_learning_closeout.py": "c14f457d02767360a2561d7cd0e414dd6dff21d61df5ff5d90bccf2694e6bfe0",
+    "research_tests/hdc_e2a/test_closeout.py": "610f0233a2c936056260ba49d713f40f0a77a619d4464b53829151511afd5b32",
+    "tools/cog03e2a_closeout.py": "c7395e5133fa085b75f47f6d6064d617d64c65466d98e838b31d6aff0e8b6b6a"
+  },
+  "git_blobs": {
+    "cognitum/research/hdc_advanced_learning.py": "3ff9bb64c8624c2d7e6c5737b22fcba2ef260c48",
+    "research_tests/hdc_e2a/test_advanced.py": "db2daa87082f7ccb3f70e4aff34b473f66e3ff91",
+    "tools/cog03e2a_pilot.py": "d30feacd68b0db79968bd5dc8e0af1296bbbc951",
+    "tools/cog03e2a_acceptance.py": "51163ac1dc35b96e655d10cee0fb0feba8824526",
+    "docs/research/COG03E2A_ADVANCED_LEARNING.md": "44e3e10e5112ceca55bfa8cb85a40362c9157121",
+    "cognitum/research/hdc_learning_closeout.py": "f8e0cd14e5b187857506452556acc5393674134b",
+    "research_tests/hdc_e2a/test_closeout.py": "c2e8faf347b4af7976eda3336efbac99e3f3bc63",
+    "tools/cog03e2a_closeout.py": "9ebdc1cce90d71f5002bbbe85c67afade64d3ff0"
+  },
+  "scope": "research-only; exact source-bound local scoped gate and hosted inherited chain; no production; paper fidelity unresolved",
+  "new_tests": 22,
+  "recovered_learning_tests": 79,
+  "production_enabled": false
+}

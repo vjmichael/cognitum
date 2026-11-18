@@ -354,7 +354,7 @@
       "reference": "Historical guide; verify original algorithm",
       "gate": "No invented API; mistake-driven comparison",
       "accepted": false,
-      "local_candidate_status": "E1A independent cosine-margin correction in real/complex prototype banks; not an exact RefineHD reconstruction, source/method-specific gate open."
+      "local_candidate_status": "E2A literal/additive comparisons and independent float-window encoder; literal float/digits overflow preserved across four fits. Author dissertation repeats ambiguity; stabilized variants explicitly independent, negative result; full author fidelity open."
     },
     {
       "id": "L05",
@@ -408,7 +408,7 @@
       "reference": "TorchHD",
       "gate": "Learned representations and binary inference",
       "accepted": false,
-      "local_candidate_status": "E1B actual LeHDC fit with dropout disabled and independent preencoded shadow-weight Adam, matched native weights/predictions, packed ternary inference; standard dropout, longer schedules and broader held-out training qualification open."
+      "local_candidate_status": "E2A pinned native dropout 0/.3/.6 reference weight/prediction parity in tests and 0/.3 held-out pilot; longer schedules and full original benchmark qualification open."
     },
     {
       "id": "L11",
@@ -426,7 +426,7 @@
       "reference": "2025 classification review / 2026 survey",
       "gate": "Equal data, tuning and continual learning baseline",
       "accepted": false,
-      "local_candidate_status": "E1A independent same-dimension sinusoid and FHRR phase margin-prototype controls; learned encoder/projection, multi-prototype and continual/few-shot evaluation pending."
+      "local_candidate_status": "E2A trainable sinusoid and native TorchHD projection, multi-prototype and few-shot, three-phase prequential drift, old-concept retention, and isolated training peak RSS under common numeric and observed process ceilings. Synthetic/native acceptance pending; broader real-world continual, calibrated rejection and complete working-set attribution remain open."
     },
     {
       "id": "H01",
@@ -2569,7 +2569,7 @@
     }
   },
   "cog03e1b_integration_candidate": {
-    "state": "E1B integrated scoped candidate; consolidated native acceptance pending",
+    "state": "E1B integrated scoped candidate; terminal same-SHA native acceptance passed",
     "base": "3dae19942aebe21d3c9b128a195675771808f12a",
     "archive": "COG-03E1B_Compressed_Learning_Candidate.zip",
     "file_id": "file_00000000eae081fd990e3c2d43345a64",
@@ -2634,6 +2634,60 @@
       }
     },
     "production_enabled": false,
-    "local_gate": "475 tests and independently executed source-bound E1B wrapper pass; full sequential hosted wrapper not rerun locally"
+    "local_gate": "475 tests and independently executed source-bound E1B wrapper pass; full sequential hosted wrapper not rerun locally",
+    "hosted_acceptance": {
+      "run_id": 44240878837,
+      "source_sha": "3596856f7a54851c8951b82455a4efd8b16a308a",
+      "jobs_passed": 18,
+      "jobs_total": 18,
+      "hdc_tests_each": 475,
+      "verified_archives": 18,
+      "verified_internal_hashes": 208,
+      "receipt": "docs/research/COG03E1B_RUN_44240878837_ACCEPTANCE.json"
+    }
+  },
+  "cog03e2a_integration_candidate": {
+    "state": "Consolidated research-only candidate; hosted inherited verification pending",
+    "base": "3596856f7a54851c8951b82455a4efd8b16a308a",
+    "local_scratch_sha": "8c98401f5802dcb00b200f56c9a6c3456953d4f5",
+    "archive": "COG-03E2A_Consolidated_Closeout_Candidate.zip",
+    "file_id": "file_0000000061ac81fd864bf992628e6246",
+    "archive_sha256": "2a9b67cd79e0b6ab2cf1bec1a66f0c12544ad12cab1cf11f9e7dfcdb8b6509e6",
+    "source_blobs": {
+      "cognitum/research/hdc_advanced_learning.py": "3ff9bb64c8624c2d7e6c5737b22fcba2ef260c48",
+      "research_tests/hdc_e2a/test_advanced.py": "db2daa87082f7ccb3f70e4aff34b473f66e3ff91",
+      "tools/cog03e2a_pilot.py": "d30feacd68b0db79968bd5dc8e0af1296bbbc951",
+      "tools/cog03e2a_acceptance.py": "51163ac1dc35b96e655d10cee0fb0feba8824526",
+      "docs/research/COG03E2A_ADVANCED_LEARNING.md": "44e3e10e5112ceca55bfa8cb85a40362c9157121",
+      "cognitum/research/hdc_learning_closeout.py": "f8e0cd14e5b187857506452556acc5393674134b",
+      "research_tests/hdc_e2a/test_closeout.py": "c2e8faf347b4af7976eda3336efbac99e3f3bc63",
+      "tools/cog03e2a_closeout.py": "9ebdc1cce90d71f5002bbbe85c67afade64d3ff0",
+      "docs/research/COG03E2A_SOURCE_MANIFEST.json": "91eac391dc893da2683f393c43049022af8209be",
+      "docs/research/COG03E1B_RUN_44240878837_ACCEPTANCE.json": "4398ef3618e1316645304ef89aacc63279f037f6"
+    },
+    "local_tests": 79,
+    "new_tests": 22,
+    "expected_hosted_hdc_tests": 497,
+    "local_gate": "scoped-only source-bound gate passed; full repository checkout blocked by DNS; prior E1B same-SHA accepted",
+    "pilot": {
+      "learned_and_fewshot_rows": 168,
+      "refine_rows": 96,
+      "refine_failed_literal_fits": 4,
+      "drift_trajectories": 24,
+      "isolated_training_memory_rows": 24,
+      "retained_budget_bytes": [
+        8192,
+        32768
+      ],
+      "observed_process_cap_bytes": 1073741824,
+      "raw_sha256": {
+        "refine": "bc81a27ad486e1d2e6dcd9baf5e8580b6a556f3001632d06bc28e4754edcb889",
+        "drift": "676ed342d4292859315f05d7bb057681a9546461134d1287f0665fb146fb7cd5",
+        "memory": "ca0c4b6e22d3d860762897c73853ce6574caecb9746376c0abb48e379c4191a7",
+        "initial": "6ad6046bbfbf4e451ca2d6d1c7b24eff27b1fa3336aa3adb8821d3868df0a0ed"
+      }
+    },
+    "paper_fidelity_complete": false,
+    "production_enabled": false
   }
 }
