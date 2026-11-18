@@ -1,0 +1,106 @@
+{
+  "run_id": 44281111197,
+  "source_sha": "ac44e86ad15db6ad946f5b0dc40b80f8873d3566",
+  "passed_jobs": 16,
+  "failed_jobs": 2,
+  "failed_job_ids": [
+    134721754296,
+    134721754317
+  ],
+  "failure": "source drift cognitum/research/hdc_cooperative_learning.py; no archive in failing jobs. Local reproduction core.autocrlf=true produced CRLF and identical exception. Exact-path eol=lf fixes all eight original blobs.",
+  "archives": [
+    {
+      "id": 14418675201,
+      "sha256": "78fa926f37fe9a1be72fef2d3d05b96a5a1b03ab61875a4ade7caa52d50c4fff",
+      "crc_pass": true
+    },
+    {
+      "id": 14418615223,
+      "sha256": "cd02ae2ee45e6add4432a6e15e805a499aae5112b4c10098a683e857e5f0ec95",
+      "crc_pass": true
+    },
+    {
+      "id": 14418220950,
+      "sha256": "226161b56b8f09bc36d31204ecd5f8080f7de001cc6ac03fb66c62fbe4f95c50",
+      "crc_pass": true
+    },
+    {
+      "id": 14418102684,
+      "sha256": "9a74994eb77695f9afcd21151d9a20bd45de12627af12387c67aaf46428e788a",
+      "crc_pass": true
+    },
+    {
+      "id": 14418067963,
+      "sha256": "58a2128075937e4cd17a6532c587e694206c835442d2cea0666c746a194e3533",
+      "crc_pass": true
+    },
+    {
+      "id": 14418010658,
+      "sha256": "c0afbdcba1e45deae8467e7d927543bd583febf4f030404dcf62ffdf31a54593",
+      "crc_pass": true
+    },
+    {
+      "id": 14417563079,
+      "sha256": "c70c50c16d517eb2fa69173de343c3a1de68dc74117d28ee00a7f6ae2a7fd52d",
+      "crc_pass": true
+    },
+    {
+      "id": 14417493921,
+      "sha256": "7248e53a8d221c2e6a8f77cf5369c5e7de9f3fcd0557fbd974d829cdd24e727d",
+      "crc_pass": true
+    },
+    {
+      "id": 14417470748,
+      "sha256": "dd8a5ebd768895dfbaf01e4e53582e26ded692c137337317e072b850d1f1e759",
+      "crc_pass": true
+    },
+    {
+      "id": 14417358462,
+      "sha256": "4ff52a0d8d88c841c49d2653e5d446ac6b50e3cc3233b9def5a09bce121af3e0",
+      "crc_pass": true
+    },
+    {
+      "id": 14417336487,
+      "sha256": "39f846d83c37885802e568c86c7157d03ec49c3f7844b2e2946ff74cb437ad93",
+      "crc_pass": true
+    },
+    {
+      "id": 14417023278,
+      "sha256": "192f2f00cde68b8e7573edf1a37e8d4589e13f8ddbd1fec01a84be434ad2a6b2",
+      "crc_pass": true
+    },
+    {
+      "id": 14416942539,
+      "sha256": "7ee8ec569b7fa66566e613474b458fa2487f66142ed2cd19e30d11b5a3ea718f",
+      "crc_pass": true
+    },
+    {
+      "id": 14416832647,
+      "sha256": "08fc836c112f29e8876efd032529a47051a1494cef98c2be9d0fa4a03c02965e",
+      "crc_pass": true
+    },
+    {
+      "id": 14416604528,
+      "sha256": "c8480fb1c862d7e07e9dfe3ae1e33c38bf522bb582246290a95c408b6e3c8243",
+      "crc_pass": true
+    },
+    {
+      "id": 14415984906,
+      "sha256": "22bb4ac348aad59fd62fd34eca21423ee20bb5eb5637a56296e06ceadaf92858",
+      "crc_pass": true
+    }
+  ],
+  "linux_hdc": [
+    {
+      "id": 14418220950,
+      "tests": 683,
+      "verified_result_hashes": 83
+    },
+    {
+      "id": 14417358462,
+      "tests": 683,
+      "verified_result_hashes": 83
+    }
+  ],
+  "production_enabled": false
+}

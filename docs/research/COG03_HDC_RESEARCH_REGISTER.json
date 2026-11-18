@@ -862,7 +862,7 @@
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
       "priority": "scheduled research subgroup",
-      "local_candidate_status": "E2E actual ImageNet MobileNetV2 FP32+QNNPACK PTQ accepted at 83429ca; negative 40-row comparison used 1797 8x8 grayscale Digits resized to RGB, 64/1280 features selected first two classes, not natural images. Original QAT check failed. Keep CIFAR-10 and official cropped CORe50 RGB/session qualification with broader/no feature selection on same splits; separate CNN costs; no hardware claims. User explicitly passed on CORe50; defer, not required. CIFAR-10 upload underway; verify original archive and official split before visual follow-up. Prior Digits 8x8/QAT limitations retained."
+      "local_candidate_status": "E2E actual ImageNet MobileNetV2 FP32+QNNPACK PTQ accepted at 83429ca; negative 40-row comparison used 1797 8x8 grayscale Digits resized to RGB, 64/1280 features selected first two classes, not natural images. Original QAT check failed. Keep CIFAR-10 and official cropped CORe50 RGB/session qualification with broader/no feature selection on same splits; separate CNN costs; no hardware claims. User explicitly passed on CORe50; defer, not required. CIFAR-10 upload underway; verify original archive and official split before visual follow-up. Prior Digits 8x8/QAT limitations retained.\nCIFAR-10 true RGB FP32/PTQ follow-up implemented; verified asset pins and mandatory hosted dataset cell; actual results pending. CORe50 deferred by user; no QAT replication claim."
     },
     {
       "id": "L24",
@@ -3070,5 +3070,37 @@
       "binary_rows": 60
     },
     "production_enabled": false
+  },
+  "cog03e2g_rgb_followup": {
+    "state": "Local scoped repair and pipeline fixture passed; mandatory hosted real CIFAR-10 and Windows acceptance pending",
+    "base": "ac44e86ad15db6ad946f5b0dc40b80f8873d3566",
+    "failed_run": 44281111197,
+    "passed_jobs": 16,
+    "failed_windows_jobs": [
+      134721754296,
+      134721754317
+    ],
+    "linux_hdc_tests_per_cell": 683,
+    "verified_available_archives": 16,
+    "verified_internal_hashes": 166,
+    "local_recovered_tests": 273,
+    "new_rgb_tests": 8,
+    "expected_hosted_hdc_tests": 691,
+    "repair": "Exact-path LF checkout attributes; preserve all previous E2G source blob hashes",
+    "cifar10": {
+      "sha256": "6d958be074577803d12ecdefd02955f39262c83c16fe9348329d7fe0b5c001ce",
+      "checkpoint_sha256": "7ebf99e03e254b273379b23edca7ec0da9f48273b23a332b93c1c99d49e86e8f",
+      "local_fixture_only": true,
+      "real_gate_required": true,
+      "planned_rows": 120,
+      "feature_variants": [
+        "pixels",
+        "fp32",
+        "ptq"
+      ],
+      "core50": "deferred at user request"
+    },
+    "production_enabled": false,
+    "physical_fpga_verified": false
   }
 }
