@@ -380,7 +380,8 @@
       "status": "planned",
       "reference": "TorchHD",
       "gate": "Compression and total bytes",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "E1B actual CompHD fit and exact chunk-binding sum, packed feature/level and position keys, int16 counts only when checked representable; native predictions match across 1952 paired held-out events. Full original paper and hardware benchmarking open."
     },
     {
       "id": "L08",
@@ -388,7 +389,8 @@
       "status": "planned",
       "reference": "TorchHD",
       "gate": "Sparsity, hardware readiness",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "E1B pinned native SparseHD defects (complement dimension pruning, non-in-place class scatter); corrected epoch pruning, exact sparse cosine reference, both 75% model arms, held-out and logical inference payload measured; broader training/tuning and hardware open."
     },
     {
       "id": "L09",
@@ -396,7 +398,8 @@
       "status": "planned",
       "reference": "TorchHD",
       "gate": "Quantization, accuracy and bytes",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "E1B matched epoch-frozen QuantHD ternary updates, native weight and prediction parity, two-plane packed ternary dot preserving zero ties and padding; original paper optimization and physical gate open."
     },
     {
       "id": "L10",
@@ -404,7 +407,8 @@
       "status": "planned",
       "reference": "TorchHD",
       "gate": "Learned representations and binary inference",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "E1B actual LeHDC fit with dropout disabled and independent preencoded shadow-weight Adam, matched native weights/predictions, packed ternary inference; standard dropout, longer schedules and broader held-out training qualification open."
     },
     {
       "id": "L11",
@@ -2298,7 +2302,7 @@
     }
   },
   "cog03e1a_integration_candidate": {
-    "state": "E1A scoped learning reference and maintained-library fidelity candidate; hosted acceptance pending",
+    "state": "accepted scoped native matrix at 3dae1994",
     "base": "9e0fee84927414040eb163a8c66e3c938744b9d8",
     "archive": "COG-03E1A_Learning_Classifier_Fidelity_Candidate.zip",
     "file_id": "file_00000000333882309efe8cd039e044fb",
@@ -2411,6 +2415,225 @@
         "rbf_svm": 85
       }
     },
-    "production_enabled": false
+    "production_enabled": false,
+    "hosted_acceptance": {
+      "source_sha": "3dae19942aebe21d3c9b128a195675771808f12a",
+      "run_id": 44238957112,
+      "attempt": 1,
+      "passed_jobs": 18,
+      "failed_jobs": 0,
+      "artifacts": [
+        {
+          "id": 14399250188,
+          "name": "cog06g-bytetrack-windows-latest",
+          "sha256": "ea3aab3f5f69a29adf861f4aea68e1c330c9b9801c33f68455ca1fe1ba05dae9",
+          "crc_passed": true
+        },
+        {
+          "id": 14399170706,
+          "name": "cog07-dowhy-ubuntu-latest",
+          "sha256": "4ca57b9ec7a173348b84b1a3804e61a787e49ea1eed96d3c245d194f03faa643",
+          "crc_passed": true
+        },
+        {
+          "id": 14399135487,
+          "name": "cog07-dowhy-windows-latest",
+          "sha256": "a117bf82cfd83085f47c7098708859488ba1885da5aea0bb5f65effe5d928418",
+          "crc_passed": true
+        },
+        {
+          "id": 14399120994,
+          "name": "cog06g-bytetrack-ubuntu-latest",
+          "sha256": "5bb744a155283c85264b1a41e6cf904641b59ca03a436bdce52182be8f4167e6",
+          "crc_passed": true
+        },
+        {
+          "id": 14399116412,
+          "name": "cog03bc-windows-latest-py3.13",
+          "sha256": "e08e45f3552b98ca8774ef80c7e57700d2684ac5540b7e6c4b54fe29bc53bae5",
+          "crc_passed": true
+        },
+        {
+          "id": 14398977163,
+          "name": "cog07-windows-latest-py3.11",
+          "sha256": "7e384437b28e581c7511ee3fdfbfbc76ce833cee3a329e23c50270f1b4ae5865",
+          "crc_passed": true
+        },
+        {
+          "id": 14398856999,
+          "name": "c15-real-mot17-research-evidence",
+          "sha256": "3a68760ddb2842e6bb5e3bc7585e9121989e129b1009baf10ba5429095964a56",
+          "crc_passed": true
+        },
+        {
+          "id": 14398837608,
+          "name": "cog07-ubuntu-latest-py3.13",
+          "sha256": "f8a78faea6b2c7e2253269ad3f63b031532209e55d98683f2f92c55ff1aef09d",
+          "crc_passed": true
+        },
+        {
+          "id": 14398782865,
+          "name": "cog07-windows-latest-py3.13",
+          "sha256": "94bbc34b40917cd7f42fcbbceae60965214d4771ef1237f5003fc48fedefe83c",
+          "crc_passed": true
+        },
+        {
+          "id": 14398772193,
+          "name": "cog07-ubuntu-latest-py3.11",
+          "sha256": "fc9dbf797203f08731fc4ed2f3e1ed0e1aa0db47a5bc34882e4184f2851d264c",
+          "crc_passed": true
+        },
+        {
+          "id": 14398727861,
+          "name": "c10-native-proof-evidence",
+          "sha256": "e3865dd401675f74b29e823b911fc25c1af7611a09fa29817a1db6236b07f0cf",
+          "crc_passed": true
+        },
+        {
+          "id": 14398578566,
+          "name": "cog03bc-windows-latest-py3.11",
+          "sha256": "6edfa877cab4596c6dfd45095d6ee65950ec5182c489af12285e5128678a627d",
+          "crc_passed": true
+        },
+        {
+          "id": 14398503429,
+          "name": "cog07-causal-learn-windows-latest",
+          "sha256": "57983f5bbf90eb72c08aa0c05e33e8a5680b7b310368df127d7a9059bca98647",
+          "crc_passed": true
+        },
+        {
+          "id": 14398418499,
+          "name": "cog03bc-ubuntu-latest-py3.11",
+          "sha256": "c9e5ae660251aa74fd54cd3d172cf0e31e01cee4cc278ec3a3bf77a43a217eb6",
+          "crc_passed": true
+        },
+        {
+          "id": 14398229218,
+          "name": "cog07-econml-windows-latest",
+          "sha256": "ff641e802a874d1cf8de9e4523970f33912e3af7de99252c55b78a089ad08cde",
+          "crc_passed": true
+        },
+        {
+          "id": 14398133901,
+          "name": "cog07-econml-ubuntu-latest",
+          "sha256": "59efad482c1f3331890bffb98d3483465f50b84a514a6aa1e3fcd6d1ca4ed431",
+          "crc_passed": true
+        },
+        {
+          "id": 14397989867,
+          "name": "cog03bc-ubuntu-latest-py3.13",
+          "sha256": "f436edd2eeddb0b05165e4c2d988048cd2b93823a732763418aa236b373706f1",
+          "crc_passed": true
+        },
+        {
+          "id": 14397828548,
+          "name": "cog07-causal-learn-ubuntu-latest",
+          "sha256": "cb1c87aa309cd3f7efe08361c441efb4acb8352e287810d738b3f994a9253fd5",
+          "crc_passed": true
+        }
+      ],
+      "verified_evidence_hashes": 192,
+      "hdc": {
+        "tests_each": 447,
+        "new_e1a_tests_each": 29,
+        "skips_each": 0,
+        "failures_each": 0,
+        "actual_torchhd": "5.8.4",
+        "matrix": [
+          "linux/3.11",
+          "linux/3.13",
+          "windows/3.11",
+          "windows/3.13"
+        ],
+        "native_regeneration_defect_reproduced": true,
+        "prototype_native_prediction_parity": true
+      },
+      "preserved": {
+        "cpu_linux_passed": 1354,
+        "cpu_windows_passed": 1244,
+        "cpu_linux_skips": 17,
+        "cpu_windows_skips": 77,
+        "focused_passed": 787,
+        "focused_skips": 2,
+        "descriptor_sha256": "030ef8fe3e9763d511d82d3b9ead344c8225d771c2b4a55142c5dc99dafc7cf7",
+        "causal_jobs": 6,
+        "causal_tests_each": 39,
+        "bytetrack_tests_each": 8,
+        "proof_and_trackeval_archives_verified": true
+      },
+      "full_local_audit": {
+        "sha256": "1c0dd24febbcc9ab4c32330df92893cd32e70ad9a98f0a0f6597bb584a239673",
+        "archive_entry": "evidence/COG03E1A_RUN_44238957112_ACCEPTANCE.json"
+      },
+      "scope": "accepted pinned native bounded reference; no original full paper, production or model efficacy acceptance"
+    }
+  },
+  "cog03e1b_integration_candidate": {
+    "state": "E1B integrated scoped candidate; consolidated native acceptance pending",
+    "base": "3dae19942aebe21d3c9b128a195675771808f12a",
+    "archive": "COG-03E1B_Compressed_Learning_Candidate.zip",
+    "file_id": "file_00000000eae081fd990e3c2d43345a64",
+    "archive_sha256": "11d94203d8503fd01c8e80208b39e97c9de8ddd66d55f4b6712dbf6be4bad237",
+    "pilot_sha256": "9b8e536088f04e3829b73c1dbf5a5ff801ef2840628a027c997eb01a8ff67863",
+    "local_scratch_sha": "731a74b92e834b6df56220556cf8d012390378b5",
+    "source_blobs": {
+      "cognitum/research/hdc_compressed_learning.py": "65c0d31d59d4eef31b655fb6d882f321e3e7bc31",
+      "research_tests/hdc_e1b/test_compressed.py": "12eb9676484577d297d5add6cec1f02d8edf7502",
+      "tools/cog03e1b_pilot.py": "f41a7f7c175f07774ebd5df73a8c5fd8e4255593",
+      "tools/cog03e1b_acceptance.py": "83225dd231fe1ae1e498521a7298a9b0c94d9ea1",
+      "docs/research/COG03E1B_SOURCE_MANIFEST.json": "1947334f7af800be78aa5f380c559588ecadedda"
+    },
+    "prior_manifest_blobs_verified": 69,
+    "tests": 475,
+    "new_tests": 28,
+    "failures": 0,
+    "skips": 0,
+    "pilot": {
+      "rows": 112,
+      "configs": 8,
+      "seeds": [
+        811,
+        823
+      ],
+      "epochs": 4,
+      "datasets": [
+        "digits",
+        "wine"
+      ],
+      "dimensions": [
+        128,
+        512
+      ],
+      "paired_cases_per_matching_arm": 1952,
+      "packed_vanilla_comp_quant_lehdc_disagreements": 0,
+      "native_quant_lehdc_weight_disagreements": 0,
+      "corrected_sparse_fraction": 0.75,
+      "process_address_space_cap_bytes": 4294967296,
+      "peak_rss_kib_range": [
+        386160,
+        682592
+      ],
+      "digits_D512": {
+        "n": 890,
+        "native_comp": 760,
+        "packed_comp": 760,
+        "packed_comp_bytes": 8768,
+        "native_comp_inference_bytes": 174080,
+        "native_comp_full_state_bytes": 194560,
+        "packed_quant": 752,
+        "packed_lehdc": 589,
+        "packed_quant_lehdc_bytes": 7424,
+        "native_quant_lehdc_inference_bytes": 185344,
+        "native_quant_lehdc_full_state_bytes": 205824,
+        "custom_sparse_class": 821,
+        "custom_sparse_dim": 818,
+        "custom_sparse_bytes": 13948,
+        "logistic": 853,
+        "logistic_bytes": 6308,
+        "rbf_svm": 878
+      }
+    },
+    "production_enabled": false,
+    "local_gate": "475 tests and independently executed source-bound E1B wrapper pass; full sequential hosted wrapper not rerun locally"
   }
 }

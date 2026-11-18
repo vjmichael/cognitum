@@ -1,0 +1,12 @@
+{
+  "accepted_base": "3dae19942aebe21d3c9b128a195675771808f12a",
+  "git_blobs": {
+    "cognitum/research/hdc_compressed_learning.py": "65c0d31d59d4eef31b655fb6d882f321e3e7bc31",
+    "research_tests/hdc_e1b/test_compressed.py": "12eb9676484577d297d5add6cec1f02d8edf7502",
+    "tools/cog03e1b_pilot.py": "f41a7f7c175f07774ebd5df73a8c5fd8e4255593",
+    "tools/cog03e1b_acceptance.py": "83225dd231fe1ae1e498521a7298a9b0c94d9ea1"
+  },
+  "prior_source_blobs_verified": 69,
+  "tests": 475,
+  "scope": "E1B pinned native compressed learning, independent sparse correction and packed inference; research only"
+}

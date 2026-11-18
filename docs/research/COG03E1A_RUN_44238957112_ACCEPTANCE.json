@@ -1,0 +1,151 @@
+{
+  "source_sha": "3dae19942aebe21d3c9b128a195675771808f12a",
+  "run_id": 44238957112,
+  "attempt": 1,
+  "passed_jobs": 18,
+  "failed_jobs": 0,
+  "artifacts": [
+    {
+      "id": 14399250188,
+      "name": "cog06g-bytetrack-windows-latest",
+      "sha256": "ea3aab3f5f69a29adf861f4aea68e1c330c9b9801c33f68455ca1fe1ba05dae9",
+      "crc_passed": true
+    },
+    {
+      "id": 14399170706,
+      "name": "cog07-dowhy-ubuntu-latest",
+      "sha256": "4ca57b9ec7a173348b84b1a3804e61a787e49ea1eed96d3c245d194f03faa643",
+      "crc_passed": true
+    },
+    {
+      "id": 14399135487,
+      "name": "cog07-dowhy-windows-latest",
+      "sha256": "a117bf82cfd83085f47c7098708859488ba1885da5aea0bb5f65effe5d928418",
+      "crc_passed": true
+    },
+    {
+      "id": 14399120994,
+      "name": "cog06g-bytetrack-ubuntu-latest",
+      "sha256": "5bb744a155283c85264b1a41e6cf904641b59ca03a436bdce52182be8f4167e6",
+      "crc_passed": true
+    },
+    {
+      "id": 14399116412,
+      "name": "cog03bc-windows-latest-py3.13",
+      "sha256": "e08e45f3552b98ca8774ef80c7e57700d2684ac5540b7e6c4b54fe29bc53bae5",
+      "crc_passed": true
+    },
+    {
+      "id": 14398977163,
+      "name": "cog07-windows-latest-py3.11",
+      "sha256": "7e384437b28e581c7511ee3fdfbfbc76ce833cee3a329e23c50270f1b4ae5865",
+      "crc_passed": true
+    },
+    {
+      "id": 14398856999,
+      "name": "c15-real-mot17-research-evidence",
+      "sha256": "3a68760ddb2842e6bb5e3bc7585e9121989e129b1009baf10ba5429095964a56",
+      "crc_passed": true
+    },
+    {
+      "id": 14398837608,
+      "name": "cog07-ubuntu-latest-py3.13",
+      "sha256": "f8a78faea6b2c7e2253269ad3f63b031532209e55d98683f2f92c55ff1aef09d",
+      "crc_passed": true
+    },
+    {
+      "id": 14398782865,
+      "name": "cog07-windows-latest-py3.13",
+      "sha256": "94bbc34b40917cd7f42fcbbceae60965214d4771ef1237f5003fc48fedefe83c",
+      "crc_passed": true
+    },
+    {
+      "id": 14398772193,
+      "name": "cog07-ubuntu-latest-py3.11",
+      "sha256": "fc9dbf797203f08731fc4ed2f3e1ed0e1aa0db47a5bc34882e4184f2851d264c",
+      "crc_passed": true
+    },
+    {
+      "id": 14398727861,
+      "name": "c10-native-proof-evidence",
+      "sha256": "e3865dd401675f74b29e823b911fc25c1af7611a09fa29817a1db6236b07f0cf",
+      "crc_passed": true
+    },
+    {
+      "id": 14398578566,
+      "name": "cog03bc-windows-latest-py3.11",
+      "sha256": "6edfa877cab4596c6dfd45095d6ee65950ec5182c489af12285e5128678a627d",
+      "crc_passed": true
+    },
+    {
+      "id": 14398503429,
+      "name": "cog07-causal-learn-windows-latest",
+      "sha256": "57983f5bbf90eb72c08aa0c05e33e8a5680b7b310368df127d7a9059bca98647",
+      "crc_passed": true
+    },
+    {
+      "id": 14398418499,
+      "name": "cog03bc-ubuntu-latest-py3.11",
+      "sha256": "c9e5ae660251aa74fd54cd3d172cf0e31e01cee4cc278ec3a3bf77a43a217eb6",
+      "crc_passed": true
+    },
+    {
+      "id": 14398229218,
+      "name": "cog07-econml-windows-latest",
+      "sha256": "ff641e802a874d1cf8de9e4523970f33912e3af7de99252c55b78a089ad08cde",
+      "crc_passed": true
+    },
+    {
+      "id": 14398133901,
+      "name": "cog07-econml-ubuntu-latest",
+      "sha256": "59efad482c1f3331890bffb98d3483465f50b84a514a6aa1e3fcd6d1ca4ed431",
+      "crc_passed": true
+    },
+    {
+      "id": 14397989867,
+      "name": "cog03bc-ubuntu-latest-py3.13",
+      "sha256": "f436edd2eeddb0b05165e4c2d988048cd2b93823a732763418aa236b373706f1",
+      "crc_passed": true
+    },
+    {
+      "id": 14397828548,
+      "name": "cog07-causal-learn-ubuntu-latest",
+      "sha256": "cb1c87aa309cd3f7efe08361c441efb4acb8352e287810d738b3f994a9253fd5",
+      "crc_passed": true
+    }
+  ],
+  "verified_evidence_hashes": 192,
+  "hdc": {
+    "tests_each": 447,
+    "new_e1a_tests_each": 29,
+    "skips_each": 0,
+    "failures_each": 0,
+    "actual_torchhd": "5.8.4",
+    "matrix": [
+      "linux/3.11",
+      "linux/3.13",
+      "windows/3.11",
+      "windows/3.13"
+    ],
+    "native_regeneration_defect_reproduced": true,
+    "prototype_native_prediction_parity": true
+  },
+  "preserved": {
+    "cpu_linux_passed": 1354,
+    "cpu_windows_passed": 1244,
+    "cpu_linux_skips": 17,
+    "cpu_windows_skips": 77,
+    "focused_passed": 787,
+    "focused_skips": 2,
+    "descriptor_sha256": "030ef8fe3e9763d511d82d3b9ead344c8225d771c2b4a55142c5dc99dafc7cf7",
+    "causal_jobs": 6,
+    "causal_tests_each": 39,
+    "bytetrack_tests_each": 8,
+    "proof_and_trackeval_archives_verified": true
+  },
+  "full_local_audit": {
+    "sha256": "1c0dd24febbcc9ab4c32330df92893cd32e70ad9a98f0a0f6597bb584a239673",
+    "archive_entry": "evidence/COG03E1A_RUN_44238957112_ACCEPTANCE.json"
+  },
+  "scope": "accepted pinned native bounded reference; no original full paper, production or model efficacy acceptance"
+}
