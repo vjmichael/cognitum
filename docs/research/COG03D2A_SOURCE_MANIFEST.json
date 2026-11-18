@@ -1,0 +1,12 @@
+{
+  "accepted_base": "4ec503cc44e95f45b2ca008d3035fce9d93422f1",
+  "git_blobs": {
+    "cognitum/research/hdc_resonator_frontier.py": "57cdf173b09376d25abeff7646c6544791cdf718",
+    "research_tests/hdc_d2/test_frontier_resonator.py": "0afb0cf561fd7b6e14ee0f792e75ca5750c4d948",
+    "tools/cog03d2_pilot.py": "f910b9e079dbc042fb4d0cc35f8d51b4835d21fd",
+    "tools/cog03d2_acceptance.py": "1e742dbedf4da4d134ef9c47b16b171d33a6b4d0"
+  },
+  "prior_source_blobs_verified": 61,
+  "tests": 391,
+  "scope": "D2A coupled factorization, iterative Hopfield, ordered graph path proposals; research only"
+}

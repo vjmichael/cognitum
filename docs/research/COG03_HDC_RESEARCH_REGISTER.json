@@ -273,7 +273,7 @@
       "reference": "TorchHD memory",
       "gate": "Matched capacity and key retrieval",
       "accepted": false,
-      "local_candidate_status": "D1A native classical and dense-field parity, continuous reference accepted. D1C signed Hopfield outer-product set sketch tested; iterative Hopfield convergence/capacity remains D2, distinct from signed sketch theorem."
+      "local_candidate_status": "D2A classical asynchronous factored iteration, continuous fixed-point iteration, energy traces, direct dense oracle; 720 paired cases/arm, nearest and continuous 720 correct each, higher-load classical spurious fixed points and slower iteration. Full capacity curve and correlated states still open."
     },
     {
       "id": "M05",
@@ -290,7 +290,8 @@
       "status": "recovered",
       "reference": "resonator.py",
       "gate": "Bounded exact oracle; not iterative resonator",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "D2A bounded streamed Cartesian exhaustive oracle (not iterative); 360/360 per family on small search spaces, original historical pair search unchanged."
     },
     {
       "id": "R02",
@@ -298,7 +299,8 @@
       "status": "partial",
       "reference": "resonator.py / TorchHD",
       "gate": "Three-plus factors, superposition, unknown factors, convergence",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "D2A actual nonlinear coupled MAP/FHRR factorization with bounded sweeps and restarts, synchronous native TorchHD MAP parity with explicit zero convention, exact role-specific reconstruction and separate fixed/ambiguous/cycle/budget diagnostic; unknown and bundled ambiguity checks. Larger/correlated and multi-object factorization still open."
     },
     {
       "id": "R03",
@@ -306,7 +308,8 @@
       "status": "partial",
       "reference": "P21c / C08 canonical verification",
       "gate": "Multi-hop paths and independent witnesses",
-      "accepted": false
+      "accepted": false,
+      "local_candidate_status": "D2A explicit ordered FHRR and GHRR path retrieval with directed snapshot-bound independent witness match in preauthorized fixture; synthetic full enumeration and exact graph control, not deployed host authority."
     },
     {
       "id": "R04",
@@ -646,7 +649,8 @@
       "gate": "Block-diagonal GHRR relation path encoding, calibrated top-k and exact path witness; compare graph BFS/beam and neural ranker with same candidate graph and frozen model, count model calls/token/CPU/GPU. No authority from vector ranking; actual frozen model efficacy remains COG-10.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "reference now; hardware/model acceptance later"
+      "priority": "reference now; hardware/model acceptance later",
+      "local_candidate_status": "D2A PathHD-inspired ordered GHRR path ranking and FHRR control, no actual LLM, no calibrated pruning or original PathHD reproduction; D2B exact graph/beam and calibrated ranking, COG-10 frozen model required."
     },
     {
       "id": "R07",
@@ -659,7 +663,8 @@
       "gate": "Sign, ReLU, polynomial and softmax cleanup plus phase projection; matched factor dimensions/codebooks and restart budgets, correct vs spurious fixed points vs non-convergence. Exhaustive pair oracle; sweep superposed, unknown or correlated factors and noise.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "D2A sign/complex projection, softmax/ReLU/polynomial and separate projection flag, five-seed equal numeric codebook-byte pilot and actual terminal diagnostics; signed decoding and exact full-state stopping differ from paper; broader sensitivity, internal noise and correlated/visual-scene tests open."
     },
     {
       "id": "R08",
@@ -1995,7 +2000,7 @@
     }
   },
   "cog03d1c_integration_candidate": {
-    "state": "integrated scoped D1C candidate, consolidated hosted acceptance pending",
+    "state": "accepted scoped exact-SHA native D1C research matrix",
     "base": "472358266320132c294e9a63f0bb798a360eea97",
     "archive": "COG-03D1C_Memory_Capacity_Structured_Query_Candidate.zip",
     "file_id": "file_000000000f4881fd9eb8b2e1ba3a707b",
@@ -2086,6 +2091,88 @@
         ],
         "median_256k_hrr_seconds": 0.1340050394883292,
         "median_256k_sqlite_seconds": 0.004521072003626614
+      }
+    },
+    "production_enabled": false,
+    "hosted_acceptance": {
+      "source_sha": "4ec503cc44e95f45b2ca008d3035fce9d93422f1",
+      "run_id": 44222800379,
+      "attempt": 1,
+      "passed_jobs": 18,
+      "failed_jobs": 0,
+      "tests_each": 362,
+      "hdc_jobs": 4,
+      "failures_each": 0,
+      "skips_each": 0,
+      "archive_count": 18,
+      "verified_hashes": 144,
+      "audit_blob": "0fb798db2be247271af01a8670dbf97262a612d4",
+      "audit_sha256": "8e5d4880efaa8ee5ae694820f62b216117fb92ca8966d7e316ab19df3d1f4654",
+      "production_enabled": false
+    }
+  },
+  "cog03d2a_integration_candidate": {
+    "state": "D2A integrated scoped references; local 391 tests and source-bound new gate passed; inherited chained hosted acceptance pending",
+    "base": "4ec503cc44e95f45b2ca008d3035fce9d93422f1",
+    "local_scratch_sha": "69b882aede951ba1dd49d6e1c1a56e55eddb4fa6",
+    "archive": "COG-03D2A_Resonator_Hopfield_Composition_Candidate.zip",
+    "file_id": "file_00000000b8ec81fd810b0922d345cebb",
+    "archive_sha256": "3da94de81ac19aca5acf852adba3772fc870136ffc92be050a6a1965c3e32eab",
+    "manifest_blob": "cd5de0e4ec8d16026d42051c0941607feaa66e87",
+    "source_blobs": {
+      "cognitum/research/hdc_resonator_frontier.py": "57cdf173b09376d25abeff7646c6544791cdf718",
+      "research_tests/hdc_d2/test_frontier_resonator.py": "0afb0cf561fd7b6e14ee0f792e75ca5750c4d948",
+      "tools/cog03d2_pilot.py": "f910b9e079dbc042fb4d0cc35f8d51b4835d21fd",
+      "tools/cog03d2_acceptance.py": "1e742dbedf4da4d134ef9c47b16b171d33a6b4d0",
+      "docs/research/COG03D2A_SOURCE_MANIFEST.json": "cd5de0e4ec8d16026d42051c0941607feaa66e87",
+      "docs/research/COG03D1C_RUN_44222800379_ACCEPTANCE.json": "0fb798db2be247271af01a8670dbf97262a612d4"
+    },
+    "prior_source_blobs_verified": 61,
+    "tests_passed": 391,
+    "new_tests": 29,
+    "failures": 0,
+    "skips": 0,
+    "pilot_sha256": "abc88664dd72c43b2b2d69d40289c970f25b2f5aafb706b0850a11e4fd827183",
+    "pilot": {
+      "seeds": 5,
+      "factor_cases_per_family": 360,
+      "factor_method_trials": 3600,
+      "factor_rows": 300,
+      "hopfield_cases_per_arm": 720,
+      "hopfield_rows": 45,
+      "graph_cases_per_arm": 160,
+      "graph_rows": 15,
+      "shared_process_address_space_cap_mib": 512,
+      "map": {
+        "sign": 269,
+        "softmax": 254,
+        "relu": 332,
+        "polynomial": 297,
+        "exhaustive": 360
+      },
+      "fhrr": {
+        "sign": 0,
+        "sign_raw_tuple_correct": 269,
+        "softmax": 304,
+        "relu": 337,
+        "polynomial": 315,
+        "exhaustive": 360
+      },
+      "classical_hopfield_load64_noise25": {
+        "correct": 17,
+        "wrong": 51,
+        "abstain": 12,
+        "n": 80
+      },
+      "continuous_hopfield_load64_noise25": {
+        "correct": 80,
+        "n": 80
+      },
+      "graph": {
+        "correct_path_witnesses_each": 280,
+        "wrong_each": 0,
+        "miss_each": 0,
+        "relation_atom_bytes_each": 5120
       }
     },
     "production_enabled": false
