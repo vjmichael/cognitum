@@ -1,0 +1,12 @@
+{
+  "accepted_base": "472358266320132c294e9a63f0bb798a360eea97",
+  "git_blobs": {
+    "cognitum/research/hdc_memory_advanced.py": "34d54f18ba352b1f1fcb0f9c03dc548c5616f8c4",
+    "research_tests/hdc_d1c/test_cog03d1c_advanced.py": "10d624f10999a7d5a0c95681b1e89417297373ff",
+    "tools/cog03d1c_pilot.py": "d0e085f568ac65024e6afb96fd2507d5460e672f",
+    "tools/cog03d1c_acceptance.py": "4abcfb86dc3d0f3e6a49c21ec17fbbd5d28444df"
+  },
+  "prior_source_blobs_verified": 57,
+  "tests": 362,
+  "scope": "research-only packed-SDM activation; signed outer-product sketch; HRR partial selection and exact snapshot projection; no production registration"
+}

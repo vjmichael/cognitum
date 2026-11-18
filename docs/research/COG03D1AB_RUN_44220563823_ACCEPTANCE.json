@@ -1,0 +1,386 @@
+{
+  "source_sha": "472358266320132c294e9a63f0bb798a360eea97",
+  "run_id": 44220563823,
+  "attempt": 1,
+  "artifacts": [
+    {
+      "id": 14391220146,
+      "sha256": "1a6d842718ceea5ffcbc1963808d0d5dca8a73170ce2737efd9efd830aee5113",
+      "crc_passed": true,
+      "entries": 11
+    },
+    {
+      "id": 14391160215,
+      "sha256": "a8b4d0e7edd1fc62325000b94c20d8fde23d108fd684ab785f22001c35f3d1e9",
+      "crc_passed": true,
+      "entries": 19
+    },
+    {
+      "id": 14391030800,
+      "sha256": "7d86d93923efe21a88f39ba61f69d179e65d42525f6a6299e6db8837b0b77be6",
+      "crc_passed": true,
+      "entries": 4
+    },
+    {
+      "id": 14391015678,
+      "sha256": "899af03b11d5177e876d0eff9a349477b0bc42adf7e9367ec7f8ec3c7aee6f39",
+      "crc_passed": true,
+      "entries": 11
+    },
+    {
+      "id": 14391000834,
+      "sha256": "824ca4078174f023f10342eb3f86b6efe300919573e42081a0ecc411178a1409",
+      "crc_passed": true,
+      "entries": 4
+    },
+    {
+      "id": 14390976427,
+      "sha256": "7f44830e4f7f921cb9f2afc0a9aeef3bef55f02f4a5ca294ee6e27012806a7b0",
+      "crc_passed": true,
+      "entries": 22
+    },
+    {
+      "id": 14390886477,
+      "sha256": "751868e8ea74f383059a8e7eac3aacdbc0765f13a7c521f12dce3c841077515c",
+      "crc_passed": true,
+      "entries": 22
+    },
+    {
+      "id": 14390866345,
+      "sha256": "285487d65dc10740fdc6b8770621fec2468574ee827e64eb274da8e1ba4551d6",
+      "crc_passed": true,
+      "entries": 3
+    },
+    {
+      "id": 14390711999,
+      "sha256": "82844217c7099beace655f5da4d567e3d497ce233e5ef3bfb8d73ed5b3b612bc",
+      "crc_passed": true,
+      "entries": 25
+    },
+    {
+      "id": 14390676513,
+      "sha256": "c8be6887087545999772a27fcc660279ad66d41f8d4e1830161020a2aee50b77",
+      "crc_passed": true,
+      "entries": 22
+    },
+    {
+      "id": 14390676508,
+      "sha256": "178cac7639fb7cf8558cf7cfd03c650c21ba8779dc08abc9f5631366d96d76b6",
+      "crc_passed": true,
+      "entries": 4
+    },
+    {
+      "id": 14390602531,
+      "sha256": "c44f61a421e8c60f4acf4502d79c8b8cb3dfb2a854ade470086e910bdff18276",
+      "crc_passed": true,
+      "entries": 11
+    },
+    {
+      "id": 14390442560,
+      "sha256": "d5b0d1bc0ac8b68f753999606331b52737ac4c22364229a8018512b082af4170",
+      "crc_passed": true,
+      "entries": 26
+    },
+    {
+      "id": 14390327826,
+      "sha256": "35245324b377a329735845b3b887829290fef154bf9281e855c37ea6b0e55031",
+      "crc_passed": true,
+      "entries": 13
+    },
+    {
+      "id": 14390113088,
+      "sha256": "4c2b7b193ef5bbc0f59d5991b1879af299d26078d4ffb67d76e90990f747cdb7",
+      "crc_passed": true,
+      "entries": 4
+    },
+    {
+      "id": 14389953622,
+      "sha256": "eb4b81de8226993907f6cfa29dd43a561fa166597302d5d0fe65d161ded17acc",
+      "crc_passed": true,
+      "entries": 4
+    },
+    {
+      "id": 14389877891,
+      "sha256": "af230964d04aff6f8f6e736ae8d9258fca73bd466f04065a392916223001a9a9",
+      "crc_passed": true,
+      "entries": 4
+    },
+    {
+      "id": 14389788265,
+      "sha256": "82d638112bd010d499f23f14b477c53874d5e1dfe37a28b55f967b7fcee995e1",
+      "crc_passed": true,
+      "entries": 22
+    }
+  ],
+  "hdc": [
+    {
+      "id": 14391220146,
+      "platform": "Windows-10-10.0.26100-SP0",
+      "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+      "versions": {
+        "torch": "2.10.0+cpu",
+        "torch-hd": "5.8.4",
+        "numpy": "2.3.5",
+        "scipy": "1.17.0",
+        "pytest": "9.0.2"
+      },
+      "tests": 333,
+      "churn": {
+        "steps": 1000,
+        "mutations": {
+          "insert": 255,
+          "replace": 250,
+          "delete": 231,
+          "rescope": 264
+        },
+        "oracle_checks": 100,
+        "restarts": 10,
+        "verified": 38,
+        "abstained": 47,
+        "rejected": 15,
+        "verified_false_positives": 0,
+        "elapsed_s": 0.24991080000006605,
+        "sdm_update_median_us": 75.2999999349413,
+        "sdm_update_p95_us": 157.70500004350652,
+        "dict_update_median_us": 0.20000004496978363,
+        "sdm_arrays": 24704,
+        "active_metadata_json_bytes": 1950,
+        "checkpoint_bytes": 438,
+        "checkpoint_sha256": "95935e506514e8509f2854e5eac66017e350c53f12355232da2a5fcdb417db11",
+        "active_rows": 15,
+        "scope": "32 IDs, 32 hard locations, D256; shared host dict necessary for verification; serialized metadata not actual Python object footprint; same-process fresh-object restarts, not host crash durability"
+      },
+      "dataset_gate": {
+        "status": "not requested for this platform"
+      }
+    },
+    {
+      "id": 14391160215,
+      "platform": "Linux-7.0.0-1019-azure-x86_64-with-glibc2.43",
+      "python": "3.13.18 (main, Oct 26 2026, 14:19:33) [GCC 15.2.0]",
+      "versions": {
+        "torch": "2.10.0+cpu",
+        "torch-hd": "5.8.4",
+        "numpy": "2.3.5",
+        "scipy": "1.17.0",
+        "pytest": "9.0.2"
+      },
+      "tests": 333,
+      "churn": {
+        "steps": 1000,
+        "mutations": {
+          "insert": 255,
+          "replace": 250,
+          "delete": 231,
+          "rescope": 264
+        },
+        "oracle_checks": 100,
+        "restarts": 10,
+        "verified": 38,
+        "abstained": 47,
+        "rejected": 15,
+        "verified_false_positives": 0,
+        "elapsed_s": 0.1562309899999974,
+        "sdm_update_median_us": 42.35900000182369,
+        "sdm_update_p95_us": 82.78150000258222,
+        "dict_update_median_us": 0.12999999654539351,
+        "sdm_arrays": 24704,
+        "active_metadata_json_bytes": 1950,
+        "checkpoint_bytes": 438,
+        "checkpoint_sha256": "95935e506514e8509f2854e5eac66017e350c53f12355232da2a5fcdb417db11",
+        "active_rows": 15,
+        "scope": "32 IDs, 32 hard locations, D256; shared host dict necessary for verification; serialized metadata not actual Python object footprint; same-process fresh-object restarts, not host crash durability"
+      },
+      "dataset_gate": {
+        "status": "passed",
+        "entries": [
+          {
+            "dataset": "promoter",
+            "arm": "resident",
+            "result_sha256": "009c05aa27567193f72da5837270d8fd1d517e5fac1c239f7f3296652d055031",
+            "log_sha256": "a9bd1db7779185a4ab0afcce9640ea84a7f3861dfeb707906ae69c01f7a4e466"
+          },
+          {
+            "dataset": "promoter",
+            "arm": "streamed",
+            "result_sha256": "9b9e53f59727850ce5692ce94f58e0851f4458c0cecbf4dc981ae6d32a86af38",
+            "log_sha256": "05657e1be1e23f1b4f6be2ade6caa14ba9a4a7e8c10fec4464f168a1632bf99d"
+          },
+          {
+            "dataset": "mutag",
+            "arm": "resident",
+            "result_sha256": "ca9f21efeaa0baec523b415aa0a0a87e9f31c94f8ba8356b1ca778a2fe2a00a5",
+            "log_sha256": "05741d1282d67faf9a2f29e06771d03ae8b8f0776d309414425ea2f000ea1511"
+          },
+          {
+            "dataset": "mutag",
+            "arm": "streamed",
+            "result_sha256": "7b26395eb34ddfcd70394099194623c33c8ee829d4cbe4c3ee4868cb9544e0ea",
+            "log_sha256": "1468b60dc025297bfb9fec991329aa212d2e7993a12d3ae9e71738857cda23a6"
+          }
+        ],
+        "scope": "one pinned split per dataset; equal dimension and serialized budget; no performance threshold"
+      }
+    },
+    {
+      "id": 14391015678,
+      "platform": "Linux-7.0.0-1019-azure-x86_64-with-glibc2.43",
+      "python": "3.11.18 (main, Oct 26 2026, 02:48:29) [GCC 15.2.0]",
+      "versions": {
+        "torch": "2.10.0+cpu",
+        "torch-hd": "5.8.4",
+        "numpy": "2.3.5",
+        "scipy": "1.17.0",
+        "pytest": "9.0.2"
+      },
+      "tests": 333,
+      "churn": {
+        "steps": 1000,
+        "mutations": {
+          "insert": 255,
+          "replace": 250,
+          "delete": 231,
+          "rescope": 264
+        },
+        "oracle_checks": 100,
+        "restarts": 10,
+        "verified": 38,
+        "abstained": 47,
+        "rejected": 15,
+        "verified_false_positives": 0,
+        "elapsed_s": 0.3468150140000006,
+        "sdm_update_median_us": 110.53099999713822,
+        "sdm_update_p95_us": 220.61105000119596,
+        "dict_update_median_us": 0.20000000233721948,
+        "sdm_arrays": 24704,
+        "active_metadata_json_bytes": 1950,
+        "checkpoint_bytes": 438,
+        "checkpoint_sha256": "95935e506514e8509f2854e5eac66017e350c53f12355232da2a5fcdb417db11",
+        "active_rows": 15,
+        "scope": "32 IDs, 32 hard locations, D256; shared host dict necessary for verification; serialized metadata not actual Python object footprint; same-process fresh-object restarts, not host crash durability"
+      },
+      "dataset_gate": {
+        "status": "not requested for this platform"
+      }
+    },
+    {
+      "id": 14390602531,
+      "platform": "Windows-2025Server-10.0.26100-SP0",
+      "python": "3.13.17 (tags/v3.13.17:64e080d, Oct 21 2026, 14:08:53) [MSC v.1944 64 bit (AMD64)]",
+      "versions": {
+        "torch": "2.10.0+cpu",
+        "torch-hd": "5.8.4",
+        "numpy": "2.3.5",
+        "scipy": "1.17.0",
+        "pytest": "9.0.2"
+      },
+      "tests": 333,
+      "churn": {
+        "steps": 1000,
+        "mutations": {
+          "insert": 255,
+          "replace": 250,
+          "delete": 231,
+          "rescope": 264
+        },
+        "oracle_checks": 100,
+        "restarts": 10,
+        "verified": 38,
+        "abstained": 47,
+        "rejected": 15,
+        "verified_false_positives": 0,
+        "elapsed_s": 0.2811009000000695,
+        "sdm_update_median_us": 83.39999999407155,
+        "sdm_update_p95_us": 177.70999999129342,
+        "dict_update_median_us": 0.20000004496978363,
+        "sdm_arrays": 24704,
+        "active_metadata_json_bytes": 1950,
+        "checkpoint_bytes": 438,
+        "checkpoint_sha256": "95935e506514e8509f2854e5eac66017e350c53f12355232da2a5fcdb417db11",
+        "active_rows": 15,
+        "scope": "32 IDs, 32 hard locations, D256; shared host dict necessary for verification; serialized metadata not actual Python object footprint; same-process fresh-object restarts, not host crash durability"
+      },
+      "dataset_gate": {
+        "status": "not requested for this platform"
+      }
+    }
+  ],
+  "cpu": [
+    {
+      "id": 14390976427,
+      "platform": "win32",
+      "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+      "descriptor_sha256": "030ef8fe3e9763d511d82d3b9ead344c8225d771c2b4a55142c5dc99dafc7cf7",
+      "combined_summary": "1244 passed, 77 skipped, 1 warning, 1535 subtests passed in 47.47s",
+      "focused_summary": "787 passed, 2 skipped, 1 warning, 952 subtests passed in 42.89s"
+    },
+    {
+      "id": 14390886477,
+      "platform": "linux",
+      "python": "3.13.18 (main, Oct 26 2026, 14:19:33) [GCC 15.2.0]",
+      "descriptor_sha256": "030ef8fe3e9763d511d82d3b9ead344c8225d771c2b4a55142c5dc99dafc7cf7",
+      "combined_summary": "1354 passed, 17 skipped, 1 warning, 1549 subtests passed in 51.28s",
+      "focused_summary": "787 passed, 2 skipped, 1 warning, 952 subtests passed in 40.29s"
+    },
+    {
+      "id": 14390676513,
+      "platform": "linux",
+      "python": "3.11.18 (main, Oct 26 2026, 02:48:29) [GCC 15.2.0]",
+      "descriptor_sha256": "030ef8fe3e9763d511d82d3b9ead344c8225d771c2b4a55142c5dc99dafc7cf7",
+      "combined_summary": "1354 passed, 17 skipped, 1 warning, 1549 subtests passed in 48.72s",
+      "focused_summary": "787 passed, 2 skipped, 1 warning, 952 subtests passed in 37.73s"
+    },
+    {
+      "id": 14389788265,
+      "platform": "win32",
+      "python": "3.13.17 (tags/v3.13.17:64e080d, Oct 21 2026, 14:08:53) [MSC v.1944 64 bit (AMD64)]",
+      "descriptor_sha256": "030ef8fe3e9763d511d82d3b9ead344c8225d771c2b4a55142c5dc99dafc7cf7",
+      "combined_summary": "1244 passed, 77 skipped, 1 warning, 1535 subtests passed in 60.49s (0:01:00)",
+      "focused_summary": "787 passed, 2 skipped, 1 warning, 952 subtests passed in 55.33s"
+    }
+  ],
+  "native": [
+    {
+      "id": 14391030800,
+      "scope": "actual causal engine 39 tests"
+    },
+    {
+      "id": 14391000834,
+      "scope": "actual causal engine 39 tests"
+    },
+    {
+      "id": 14390866345,
+      "scope": "ByteTrack 8 tests"
+    },
+    {
+      "id": 14390711999,
+      "scope": "strict native proof"
+    },
+    {
+      "id": 14390676508,
+      "scope": "actual causal engine 39 tests"
+    },
+    {
+      "id": 14390442560,
+      "scope": "ByteTrack 8 tests"
+    },
+    {
+      "id": 14390327826,
+      "scope": "TrackEval archive verified; no local native replay"
+    },
+    {
+      "id": 14390113088,
+      "scope": "actual causal engine 39 tests"
+    },
+    {
+      "id": 14389953622,
+      "scope": "actual causal engine 39 tests"
+    },
+    {
+      "id": 14389877891,
+      "scope": "actual causal engine 39 tests"
+    }
+  ],
+  "verified_hashes": 96,
+  "production_enabled": false
+}

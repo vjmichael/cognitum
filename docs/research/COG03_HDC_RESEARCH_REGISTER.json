@@ -246,7 +246,7 @@
       "reference": "memory.py / TorchHD Memory",
       "gate": "Recall, abstention, exact keys",
       "accepted": false,
-      "local_candidate_status": "D1A/B typed cleanup with margin/abstention, actual C08 exact canonical check for selected SDM proposal, generation and independent recomputation; local integrated candidate, full quality and latency comparison remains D1C."
+      "local_candidate_status": "D1A/B typed cleanup and exact selected witness verification accepted; D1C structured table proposals independent current-snapshot filtering locally tested, no runtime routing."
     },
     {
       "id": "M02",
@@ -255,7 +255,7 @@
       "reference": "sdm.py precursor / TorchHD SparseDistributed",
       "gate": "Multi-location activation, counters, address allocation and capacity",
       "accepted": false,
-      "local_candidate_status": "D1A/B multi-location Kanerva SDM with native TorchHD counter/read parity; revision-bound exact subtract original write, atomic updates, locally verified 111k sequential churn ops across 3 trials. Initial nearest-key baseline superior; broader matched budget and address allocation D1C."
+      "local_candidate_status": "D1A/B scoped true multi-location SDM lifecycle accepted. D1C standalone lossless packed hard-address activation reproduces dense addresses/counters and bounded noisy scores; not yet substituted into managed lifecycle."
     },
     {
       "id": "M03",
@@ -264,7 +264,7 @@
       "reference": "sdm.py / Teeters et al.",
       "gate": "Short-term superposition, long-term memory and full cost",
       "accepted": false,
-      "local_candidate_status": "D1A two-tier FHRR working-to-long-term SDM recall fixture integrated; D1B selected SDM candidate exact witness gate; two-tier complete budget and end-to-end host integration still open."
+      "local_candidate_status": "D1A/B FHRR/SDM fixture accepted; no full practical memory superiority, larger associative workload/hardware evaluation open."
     },
     {
       "id": "M04",
@@ -273,7 +273,7 @@
       "reference": "TorchHD memory",
       "gate": "Matched capacity and key retrieval",
       "accepted": false,
-      "local_candidate_status": "D1A classical, dense associative native TorchHD parity and independent continuous Hopfield reference integrated; iterative convergence/capacity performance D1C."
+      "local_candidate_status": "D1A native classical and dense-field parity, continuous reference accepted. D1C signed Hopfield outer-product set sketch tested; iterative Hopfield convergence/capacity remains D2, distinct from signed sketch theorem."
     },
     {
       "id": "M05",
@@ -282,7 +282,7 @@
       "reference": "hdc_index_lifecycle.py / historical C6",
       "gate": "Insert/update/delete/revision, restart, 100k churn",
       "accepted": false,
-      "local_candidate_status": "D1B active original-write custody, scoped revision CAS, local rollback on overflow, tombstone/rescope and checkpoint rebuild from independent host snapshot, fresh-interpreter and interruption negative test, 111000 bounded sequential mutations. No host durability or 100k active sources claim. Final host custody gate COG-11."
+      "local_candidate_status": "D1A/B 1k hosted lifecycle fixture and 100k prior sequential local churn over 32 IDs; real host-owned durable persistence and large live-set tests still open. D1C packed memory optimization standalone."
     },
     {
       "id": "R01",
@@ -604,7 +604,8 @@
       "gate": "Reconstruct paper's Hopfield variant and compare set queries and approximate intersections at equal failure/bytes with explicit no false-positive guarantee only where proven.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "D1C signed outer-product set sketch independent algebra and expectation oracle, MAP-I/Counting Bloom/exact matched two-sketch logical budget pilot; wider accuracy/resource and paper theorem replication pending G."
     },
     {
       "id": "M07",
@@ -617,7 +618,8 @@
       "gate": "Exact SQL select-project oracle, duplicate/null semantics, multiple predicates and negative keys; HDC can propose candidates only, SQLite remains canonical; include index rebuild and verification time.",
       "accepted": false,
       "source_review": "bibliographic/abstract or selected methods review; primary implementation and license still require pinning",
-      "priority": "scheduled research subgroup"
+      "priority": "scheduled research subgroup",
+      "local_candidate_status": "D1C typed HRR normalized role/filler table candidate selection, per-predicate midpoint score and independent exact snapshot row verification/projection; SQLite controls for NULL, duplicate rows, negatives, mixed conjunctions. Not full paper replication or canonical SQL replacement; larger original data and full benchmark remain G."
     },
     {
       "id": "R05",
@@ -1902,7 +1904,7 @@
     "production_enabled": false
   },
   "cog03d1ab_integration_candidate": {
-    "state": "D1A/B integrated research candidate; local scoped tests and churn passed; hosted matrix pending; D1C full memory study remains",
+    "state": "accepted scoped native exact-SHA D1A/B lifecycle at 47235826",
     "base": "9ca94753ee0032ada2196250fc7e1593300408bf",
     "archive": "COG-03D1AB_Associative_Lifecycle_Candidate.zip",
     "file_id": "file_0000000062d88212b1debee7e2fa6663",
@@ -1969,6 +1971,123 @@
       }
     ],
     "fixture": "32 IDs, 32 hard locations, 256 dimensions, 16 exact fixture addresses plus 16 seeded random locations, radius116; zero verified false positives in 300 sampled queries; 100k mutation operations, NOT 100k simultaneous records",
+    "production_enabled": false,
+    "hosted_acceptance": {
+      "source_sha": "472358266320132c294e9a63f0bb798a360eea97",
+      "run_id": 44220563823,
+      "attempt": 1,
+      "jobs_passed": 18,
+      "archive_count": 18,
+      "verified_recorded_hashes": 96,
+      "tests_each_hdc": 333,
+      "zero_failed_or_skipped_hdc": true,
+      "receipt": "COG03D1AB_RUN_44220563823_ACCEPTANCE.json",
+      "churn": {
+        "mutations": 1000,
+        "oracle_checks": 100,
+        "restarts": 10,
+        "verified": 38,
+        "abstained": 47,
+        "rejected": 15,
+        "verified_false_positives": 0
+      },
+      "scope": "same seeded fixture on four platforms, not independent extra cases or native Lu persistence"
+    }
+  },
+  "cog03d1c_integration_candidate": {
+    "state": "integrated scoped D1C candidate, consolidated hosted acceptance pending",
+    "base": "472358266320132c294e9a63f0bb798a360eea97",
+    "archive": "COG-03D1C_Memory_Capacity_Structured_Query_Candidate.zip",
+    "file_id": "file_000000000f4881fd9eb8b2e1ba3a707b",
+    "archive_sha256": "6c3b29c19940b80c1e95d08d3f4a2cc5537407291cc785b31c0635e4352231a5",
+    "raw_budget_sha256": "c01d6daaec0adcd69d362caf286304e170194d23464eb7f2013a5014fd2ccce2",
+    "local_source_commit": "b7aac735d985d0527c86f0245ec22f0c9ec671ff",
+    "source_blobs": {
+      "cognitum/research/hdc_memory_advanced.py": "34d54f18ba352b1f1fcb0f9c03dc548c5616f8c4",
+      "research_tests/hdc_d1c/test_cog03d1c_advanced.py": "10d624f10999a7d5a0c95681b1e89417297373ff",
+      "tools/cog03d1c_pilot.py": "d0e085f568ac65024e6afb96fd2507d5460e672f",
+      "tools/cog03d1c_acceptance.py": "4abcfb86dc3d0f3e6a49c21ec17fbbd5d28444df",
+      "docs/research/COG03D1C_SOURCE_MANIFEST.json": "70cba69b61ce80e6899d056d3afa58e7594c1827",
+      "docs/research/COG03D1AB_RUN_44220563823_ACCEPTANCE.json": "af32f941fce07e1ae2788ebff85c76b76cba570e"
+    },
+    "prior_source_blobs_verified": 57,
+    "local_tests_passed": 362,
+    "added_tests": 29,
+    "failed": 0,
+    "skipped": 0,
+    "local_runner": "all source-bound test cohorts passed; sequential smoke wrapper stopped at local execution deadline; equivalent seed301 smoke arms completed independently under 512 MiB process address-space limit; no complete full-run receipt",
+    "pilot": {
+      "rows": 33,
+      "failures": 0,
+      "initial_sweep_timeout": true,
+      "process_address_space_cap_mib": 512,
+      "payload": "logical retained arrays/descriptors plus both set sketches, table SQLite snapshot and canonical fixture JSON, not exact Python heap",
+      "sdm": {
+        "seeds": 3,
+        "queries_per_arm": 768,
+        "noise_counts": [
+          185,
+          114,
+          53,
+          22
+        ],
+        "nearest_counts": [
+          192,
+          192,
+          192,
+          169
+        ],
+        "dense_bytes": 103456,
+        "packed_bytes": 74784,
+        "nearest_bytes": 4640
+      },
+      "sets": {
+        "seeds": 2,
+        "queries_per_arm_per_budget": 512,
+        "cap_16k": {
+          "signed_bytes": 16192,
+          "signed_fp": 7,
+          "signed_fn": 5,
+          "intersection_mae": {
+            "signed": 1.87744140625,
+            "mapi": 3.221078431372547,
+            "counting": 3.048050992890417,
+            "exact": 0
+          }
+        },
+        "cap_64k": {
+          "signed_bytes": 65088,
+          "membership_errors_each": 0,
+          "intersection_mae": {
+            "signed": 1.05810546875,
+            "mapi": 0.76392961876833,
+            "counting": 1.4378322233763008,
+            "exact": 0
+          }
+        }
+      },
+      "hrr": {
+        "seeds": 2,
+        "queries_per_cap": 240,
+        "exact_witness_hits_per_cap": 3477,
+        "fp_each": 0,
+        "fn_each": 0,
+        "projection_correct_per_cap": 256,
+        "projection_cases_per_cap": 256,
+        "dimension_256k": 469,
+        "dimension_512k": 966,
+        "retained_logical_bytes_256k": [
+          261674,
+          261679
+        ],
+        "sqlite_logical_bytes": [
+          13939,
+          13944
+        ],
+        "median_256k_hrr_seconds": 0.1340050394883292,
+        "median_256k_sqlite_seconds": 0.004521072003626614
+      }
+    },
     "production_enabled": false
   }
 }
