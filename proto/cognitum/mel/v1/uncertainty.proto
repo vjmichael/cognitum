@@ -1,0 +1,36 @@
+syntax = "proto3";
+package cognitum.mel.uncertainty.v1;
+// Exact rational endpoints, decimal integer strings, positive denominator.
+message Rational { string numerator = 1; string denominator = 2; }
+message Interval { Rational lower = 1; Rational upper = 2; }
+message Sample {
+  double observed = 1;
+  Interval local = 2;
+  Interval propagated = 3;
+  double absolute_tolerance = 4;
+  string unit = 5;
+}
+message Node {
+  string node_id = 1;
+  string operation = 2;
+  bytes request_sha256 = 3;
+  bytes result_sha256 = 4;
+  bytes object_sha256 = 5;
+  bytes transfer_sha256 = 6;
+  repeated Sample samples = 7;
+  bytes verified_packed_bits = 8;
+  uint32 bit_dimension = 9;
+  bool lossy_history = 10;
+  uint32 rows = 11;
+  uint32 columns = 12;
+  repeated uint32 hamming_distance = 13;
+  repeated uint32 best_index = 14;
+}
+// Replay against retained scope-owned plan and outcome. Not authority.
+message GraphWitness {
+  uint32 schema_version = 1;
+  bytes plan_sha256 = 2;
+  repeated Node nodes = 3;
+  string method = 4;
+  bool represented_inputs_only = 5;
+}

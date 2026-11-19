@@ -256,6 +256,11 @@ def _metadata(v,status,*,worker=None,transfer=None,output=None,loss=False):
 
 
 def execute(host,plan,grants,*,cancellation=None):
+    """Original unverified inert reference route; no mathematical bound claim."""
+    return _execute(host,plan,grants,cancellation=cancellation)[0]
+
+
+def _execute(host,plan,grants,*,cancellation=None,guard=None):
     """Execute a trusted immutable graph with independently issued grants.
 
     Fail fast; all node output payloads are suppressed on any graph failure.
@@ -264,6 +269,9 @@ def execute(host,plan,grants,*,cancellation=None):
     """
     need(type(host) is a.Admission and type(plan) is Plan,'trusted host and plan')
     start=monotonic_ns();ordered,material=_validate(plan);host._scope(plan.scope)
+    if guard is not None:
+        from .verified_graph import _Verifier
+        need(type(guard) is _Verifier and guard.plan is plan,'host-owned verifier')
     ids={v.id for v in ordered if type(v) in WORKERS}
     need(type(grants) is tuple and len(grants)==len(ids),'exact worker grants')
     tokens={}
@@ -272,12 +280,18 @@ def execute(host,plan,grants,*,cancellation=None):
         need(_id(i) and i in ids and i not in tokens and type(t) is bytes and len(t)==32 and t not in tokens.values(),'distinct per-node grants');tokens[i]=t
     ctrl=Cancellation() if cancellation is None else cancellation;need(type(ctrl) is Cancellation,'trusted cancellation handle');ctrl._begin()
     meter=_Meter(plan.budget,len(material));s=plan.scope;deadline=start+plan.budget.time_ms*1000000;node_deadline=deadline
-    records={};objects={};failure=None
+    records={};objects={};failure=None;wire=None
     def check():
         if ctrl._check():raise _Stop('cancelled')
         remaining=(min(deadline,node_deadline)-monotonic_ns())//1000000
         if remaining<1:raise _Stop('timed_out')
         return remaining
+    def verified(method,*args):
+        check()
+        try:result=method(*args)
+        except (ValueError,TypeError,ArithmeticError):raise _Stop('verification_refused') from None
+        check()
+        return result
     def pinned_offer(tok):
         # The existing discovery API uses the registry RLock. Bound waiting
         # for that same lock before calling it reentrantly; independently
@@ -299,6 +313,9 @@ def execute(host,plan,grants,*,cancellation=None):
             check();parents=tuple(objects[i] for i in _parents(v));loss=any(o.message().body.lossy_history for o in parents)
             # Charge logical link validation/derivation proxy before transforming.
             meter.charge(work=1+sum(len(o.wire) for o in parents))
+            if guard is not None:
+                verified(guard.reserve,v,parents,meter)
+                if type(v) is Threshold:verified(guard.pre_threshold,v,parents[0])
             if type(v) is Seed:
                 meter.charge(work=len(v.points.wire),bytes_=x.MAX_OBJECT);out=x.from_vfa_points(s,v.points)
             elif type(v) in (Threshold,Lift):
@@ -325,6 +342,7 @@ def execute(host,plan,grants,*,cancellation=None):
                     call=n.decode_request(raw,op) if type(v) is Vfa else e.Call(op,raw)
                 raw=call.wire() if type(call) is n.NativeCall else call.wire
                 work=_work(call);need(work is not None,'work accounting unavailable')
+                if guard is not None and type(v) in (Vfa,Kan):verified(guard.pre_domain,v,call)
                 # Charge validated logical engine work before attempting admission.
                 meter.charge(work=work+len(raw),calls=1)
                 remaining=check()
@@ -336,15 +354,22 @@ def execute(host,plan,grants,*,cancellation=None):
                 elif type(v) is Query:x._checked_receipt(s,call,worker) # exact independent Hamming witness
                 else:out=x.from_transfer_result(s,transfer,parents,worker,**mapping,**({'output_axes':v.output_axes} if type(v) is Kan else {}))
             check()
-            if out is not None:objects[v.id]=out;loss=out.message().body.lossy_history
-            records[v.id]=_metadata(v,'completed',worker=worker,transfer=transfer,output=out,loss=loss)
+            if out is not None:loss=out.message().body.lossy_history
+            record=_metadata(v,'completed',worker=worker,transfer=transfer,output=out,loss=loss)
+            if guard is not None:verified(guard.step,v,record,check)
+            if out is not None:objects[v.id]=out
+            records[v.id]=record
         except _Stop as exc:failure=str(exc);records[v.id]=_metadata(v,failure,worker=worker,transfer=transfer,loss=loss)
         except (ValueError,TypeError):failure='invalid_exchange';records[v.id]=_metadata(v,failure,worker=worker,transfer=transfer,loss=loss)
         except Exception:failure='error';records[v.id]=_metadata(v,failure,worker=worker,transfer=transfer,loss=loss)
+    if guard is not None and failure is None:
+        try:wire=verified(guard.finish)
+        except _Stop as exc:failure=str(exc)
+        except Exception:failure='error'
     if ctrl._finish():failure='cancelled'
     if failure is None and monotonic_ns()>=deadline:failure='timed_out'
     if failure is not None:
         # Retain audit hashes/status only; no partial result frame or object published.
         from dataclasses import replace
         records={i:replace(r,worker=None,transfer=None,output=None) for i,r in records.items()}
-    return Outcome(hashlib.sha256(material).hexdigest(),s,failure or 'completed',tuple(records[v.id] for v in ordered),meter.work,meter.bytes,meter.calls)
+    return Outcome(hashlib.sha256(material).hexdigest(),s,failure or 'completed',tuple(records[v.id] for v in ordered),meter.work,meter.bytes,meter.calls), (None if failure is not None else wire)

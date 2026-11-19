@@ -62,6 +62,12 @@ on:
       - docs/research/mel04b/**
       - tools/mel04b/**
       - research_tests/mel04b/**
+      - docs/research/mel05a/**
+      - tools/mel05a/**
+      - research_tests/mel05a/**
+      - docs/research/mel05b/**
+      - tools/mel05b/**
+      - research_tests/mel05b/**
       - docs/research/COG03F2_SOURCE_MANIFEST.json
       - docs/research/COG03F_SOURCE_MANIFEST.json
       - tools/cog03e2g_cifar.py
@@ -292,6 +298,10 @@ jobs:
         run: python -m tools.mel04a.acceptance
       - name: MEL-04B bounded cooperative mathematical graph execution
         run: python -m tools.mel04b.acceptance
+      - name: MEL-05A independent represented-input numerical and exact HDC witnesses
+        run: python -m tools.mel05a.acceptance
+      - name: MEL-05B-R1 inline numerical verification and guarded threshold dispatch
+        run: python -m tools.mel05b.acceptance
       - name: Preserve verified public MobileNetV2 checkpoint for offline CORe50
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
         timeout-minutes: 5

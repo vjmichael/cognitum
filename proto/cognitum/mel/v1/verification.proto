@@ -1,0 +1,39 @@
+syntax = "proto3";
+package cognitum.mel.verification.v1;
+
+// A replayable mathematical witness for represented inputs only. This message
+// is not an execution grant, authentication token or end-to-end error bound.
+enum Verdict {
+  VERDICT_UNSPECIFIED = 0;
+  WITHIN_TOLERANCE = 1;
+  OUTSIDE_TOLERANCE = 2;
+  INCONCLUSIVE = 3;
+  EXACT_SUBMITTED_BITS = 4;
+}
+message Scope { string session = 1; string workspace = 2; string subject = 3; string turn = 4; }
+message UnitRatio { string numerator = 1; string denominator = 2; }
+message Component {
+  oneof observation { double observed = 1; }
+  string lower = 2;
+  string upper = 3;
+  string absolute_error_lower = 4;
+  string absolute_error_upper = 5;
+}
+message Certificate {
+  uint32 schema_version = 1;
+  Scope scope = 2;
+  string operation = 3;
+  bytes descriptor_sha256 = 4;
+  bytes request_sha256 = 5;
+  bytes result_sha256 = 6;
+  bytes kernel_git_blob = 7;
+  string method = 8;
+  uint32 decimal_digits = 9;
+  Verdict verdict = 10;
+  repeated uint32 shape = 11 [packed = true];
+  repeated UnitRatio units = 12;
+  // One absolute tolerance per output component type (per gradient axis).
+  repeated double absolute_tolerance = 13 [packed = true];
+  repeated Component components = 14;
+  bool represented_inputs_only = 15;
+}

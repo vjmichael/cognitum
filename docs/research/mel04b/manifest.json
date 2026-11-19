@@ -78,13 +78,13 @@
     "tools/mel04a/acceptance.py": "30ddd21cabb7dd006328806bdffaeea0d1af4703",
     "docs/research/mel04a/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
     "docs/research/mel04a/manifest.json": "8f8a2033b7c14e4621c9281d518136d3c3233e6a",
-    "cognitum/mel/cooperation.py": "19451270e9f15a81a33d2fca22d6b35e03d07652",
+    "cognitum/mel/cooperation.py": "25d6743c6f78461197928067979131f0111072e2",
     "research_tests/mel04b/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
     "research_tests/mel04b/test_cooperation.py": "fcc861b498635f9a62986c3fde9843748894b70a",
     "tools/mel04b/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
     "tools/mel04b/acceptance.py": "945ee4cfae0aab77c82a22107ab848d259bf540b",
     "docs/research/mel04b/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
-    ".github/workflows/cog06b-cpu-acceptance.yml": "45324fd1fd8e6f2b2ebf45f783cc51dd3c9cedbe"
+    ".github/workflows/cog06b-cpu-acceptance.yml": "874d4fb6997f67732c53e14d5a8142b13713d53b"
   },
   "inherited_text": [
     "cognitum/__init__.py",
@@ -97,7 +97,8 @@
     "cognitum/research/vfa_multivariate.py",
     "cognitum/research/__init__.py",
     "cognitum/research/hdc_algebra.py",
-    "cognitum/research/kan_portable.py"
+    "cognitum/research/kan_portable.py",
+    ".github/workflows/cog06b-cpu-acceptance.yml"
   ],
   "descriptor_sha256": {
     "vfa.evaluate": "0d66e074b0286d7db691c4e0f49b771337bb86ad448a65046732f14f309c5ad4",
