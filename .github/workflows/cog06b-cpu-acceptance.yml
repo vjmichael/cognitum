@@ -258,7 +258,8 @@ jobs:
       - name: MEL-03A reviewed model JSON schemas and typed reference worker round trips
         run: python -m tools.mel03a.acceptance
       - name: Install existing Protobuf runtime and independent compiler for MEL-03B1
-        run: python -m pip install --only-binary=:all: "protobuf>=6.31,<8" "grpcio-tools>=1.70,<2"
+        run: |
+          python -m pip install --only-binary=:all: "protobuf>=6.31,<8" "grpcio-tools>=1.70,<2"
       - name: MEL-03B1 native mathematical Protobuf contracts and worker round trips
         run: python -m tools.mel03b1.acceptance
       - name: Preserve verified public MobileNetV2 checkpoint for offline CORe50
