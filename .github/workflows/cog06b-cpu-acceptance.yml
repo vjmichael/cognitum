@@ -47,6 +47,12 @@ on:
       - docs/research/mel03b2/**
       - tools/mel03b2/**
       - research_tests/mel03b2/**
+      - docs/research/mel03c/**
+      - tools/mel03c/**
+      - research_tests/mel03c/**
+      - docs/research/mel03c2/**
+      - tools/mel03c2/**
+      - research_tests/mel03c2/**
       - docs/research/COG03F2_SOURCE_MANIFEST.json
       - docs/research/COG03F_SOURCE_MANIFEST.json
       - tools/cog03e2g_cifar.py
@@ -267,6 +273,10 @@ jobs:
         run: python -m tools.mel03b1.acceptance
       - name: MEL-03B2 scoped compute-only host admission and adversarial acceptance
         run: python -m tools.mel03b2.acceptance
+      - name: MEL-03C initial native HDC and KAN reference contracts
+        run: python -m tools.mel03c.acceptance
+      - name: MEL-03C2 shared scoped HDC and KAN admission and resource accounting
+        run: python -m tools.mel03c2.acceptance
       - name: Preserve verified public MobileNetV2 checkpoint for offline CORe50
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
         timeout-minutes: 5

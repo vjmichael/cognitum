@@ -1,7 +1,7 @@
-"""MEL-03B2 trusted-host reference admission for compute-only VFA operations.
+"""MEL-03B2 trusted-host reference admission for compute-only mathematical operations.
 
 Not a Lu grant issuer, RPC server, or OS sandbox. Host callers must already be
-trusted; model data is only the closed VfaRequest frame. Use one instance per
+trusted; model data is only a closed reviewed Protobuf request frame. Use one instance per
 host session, retire it at session shutdown. Grants never enter model schemas.
 The existing Runtime/Registry/worker remain the sole computation path.
 """
@@ -80,9 +80,14 @@ class Route:
     operation_version: str
 
 
-def routes():
-    return tuple(Route(b['public_name'], b['operation'], h, Effect.COMPUTE_ONLY,
+def routes(*, include_engines=False):
+    _require(type(include_engines) is bool, 'explicit engine selection')
+    vfa = tuple(Route(b['public_name'], b['operation'], h, Effect.COMPUTE_ONLY,
                        *b['native_proto_type_urls'], b['operation_schema_version']) for h,b in n.catalog())
+    if not include_engines:return vfa
+    from . import engines as e
+    return vfa+tuple(Route('mel_'+b['operation'].replace('.','_'),b['operation'],h,Effect.COMPUTE_ONLY,
+                           *b['native_proto_type_urls'],b['operation_schema_version']) for h,b in e.catalog())
 
 
 @dataclass(frozen=True, slots=True)
@@ -101,7 +106,7 @@ class Receipt:
 class _Grant:
     scope: Scope
     route: Route
-    limits: Limits
+    limits: object
     expires: int
     entry: object
     calls_left: int
@@ -128,8 +133,10 @@ class Admission:
     dispatch returns; registry mutations can wait for bounded worker cleanup.
     No immediate worker interrupt or protected OS custody is implied.
     """
-    def __init__(self, runtime, session):
+    def __init__(self, runtime, session, *, enable_engines=False):
         _require(type(runtime) is Runtime and _ids(session), 'trusted runtime and session required')
+        _require(type(enable_engines) is bool, 'explicit engine enable flag')
+        self._enable_engines = enable_engines
         self._runtime = runtime
         self._session = session
         self._lock = RLock()
@@ -144,17 +151,30 @@ class Admission:
     def _entry(self, route):
         # Caller holds registry lock. Check live nomination AND full descriptor.
         registry = self._runtime.registry
-        n.discover(registry, ((route.public_name, route.descriptor_sha256),))
+        if route.operation in n.OP:
+            n.discover(registry, ((route.public_name, route.descriptor_sha256),))
+            factory = n.NativeVFAPlugin
+        else:
+            from . import engines as e
+            _require(self._enable_engines, 'engine admission disabled')
+            e.discover(registry, ((route.operation,route.descriptor_sha256),))
+            factory = e.EnginePlugin
         entry, op = registry.resolve(route.operation, allow_research=True)
-        _require(entry.factory is n.NativeVFAPlugin and not op.effects and op.deterministic
+        _require(entry.factory is factory and not op.effects and op.deterministic
                  and op.schema_version == route.operation_version, 'not reviewed compute-only route')
         return entry
 
     def issue(self, scope, route, limits=Limits(), *, ttl_ms=10000):
         """Trusted authorization decision only; never called from model JSON."""
         self._scope(scope)
-        _require(type(route) is Route and route in routes() and route.effect is Effect.COMPUTE_ONLY
-                 and type(limits) is Limits and _int(ttl_ms,1,MAX_TTL_MS), 'invalid compute grant')
+        _require(type(route) is Route and route in routes(include_engines=self._enable_engines) and route.effect is Effect.COMPUTE_ONLY
+                 and _int(ttl_ms,1,MAX_TTL_MS), 'invalid compute grant')
+        if route.operation in n.OP:
+            expected = Limits
+        else:
+            from .engine_limits import limits_type
+            expected = limits_type(route.operation)
+        _require(type(limits) is expected, 'wrong operation resource profile')
         with self._runtime.registry.lock:
             entry = self._entry(route)
             with self._lock:
@@ -181,6 +201,11 @@ class Admission:
                 g = self._grant(scope, token)
                 _require(self._live(g,scope) and g.calls_left>0 and g.work_left>0, 'grant unavailable')
                 _require(self._entry(g.route) is g.entry, 'installed entry changed')
+                if g.route.operation not in n.OP:
+                    # Inert typed host metadata only. C3 owns model schemas.
+                    from . import engines as e
+                    h,b=e.discover(self._runtime.registry, ((g.route.operation,g.route.descriptor_sha256),))[0]
+                    return {'descriptor_sha256':h,'descriptor':b,'model_advertised':False}
                 offer = n.discover(self._runtime.registry, ((g.route.public_name,g.route.descriptor_sha256),))[0]
                 return offer['tool_schema']
 
@@ -229,19 +254,29 @@ class Admission:
             # Non-owner cannot inspect the operation, grant, or its request history.
             if not self._live(g,scope):raise ValueError('grant unavailable')
             route=g.route;limits=g.limits
+        if route.operation in n.OP:
+            backend=n
+        else:
+            from . import engines as backend
         def receipt(status,frame=None):
             return Receipt(scope,request_id,route.operation,route.descriptor_sha256,
-                           hashlib.sha256(raw).hexdigest() if type(raw) is bytes and len(raw)<=n.MAX_REQUEST else '',
+                           hashlib.sha256(raw).hexdigest() if type(raw) is bytes and len(raw)<=backend.MAX_REQUEST else '',
                            status,frame,hashlib.sha256(frame).hexdigest() if frame is not None else None)
         if type(raw) is not bytes or not 1<=len(raw)<=limits.request_bytes or timeout_ms>limits.timeout_ms:
             return receipt('resource_denied')
         try:
-            c=n.decode_request(raw,route.operation)
-            _require(c.request_id==request_id and c.correlation_id==scope.turn and c.descriptor_sha256==route.descriptor_sha256,'request ownership')
-            f,p=n.pair(c.function,c.points);t,d=f.body.shape;count=p.body.shape[0]
+            if backend is n:
+                c=n.decode_request(raw,route.operation)
+                _require(c.request_id==request_id and c.correlation_id==scope.turn and c.descriptor_sha256==route.descriptor_sha256,'request ownership')
+                f,p=n.pair(c.function,c.points);t,d=f.body.shape;count=p.body.shape[0]
+                work=(t+1)*d*count if d<=limits.dimensions and t<=limits.terms and count<=limits.points else None
+            else:
+                from .engine_limits import account
+                c=backend.Call(route.operation,raw);m=c.message
+                _require(m.request_id==request_id and m.correlation_id==scope.turn and m.descriptor_sha256.hex()==route.descriptor_sha256,'request ownership')
+                work=account(c,limits)
         except (ValueError,TypeError):return receipt('invalid_input')
-        work=(t+1)*d*count
-        if d>limits.dimensions or t>limits.terms or count>limits.points:return receipt('resource_denied')
+        if work is None:return receipt('resource_denied')
         key=(scope,request_id)
         with self._lock:
             if not self._live(g,scope):return receipt('revoked' if g.revoked or self._closed else 'timed_out')
@@ -280,8 +315,8 @@ class Admission:
                         timeout_ms=int(min(remaining,limits.timeout_ms))), HostContext(scope.workspace,scope.subject,allow_research=True))
                     # Runtime trusts only its installed factory; output is checked again against exact inputs.
                     if response.execution_status=='completed':
-                        n.checked_result(c,response)
-                        frame=n.decode_carrier(response.result['frame'],n.MAX_RESULT)
+                        checked=backend.checked_result(c,response)
+                        frame=n.decode_carrier(response.result['frame'],n.MAX_RESULT) if backend is n else checked
                         status='completed' if len(frame)<=limits.result_bytes else 'resource_denied'
                     else:
                         status=response.execution_status if response.execution_status in ('timed_out','unavailable','denied','invalid_input','error') else 'error'

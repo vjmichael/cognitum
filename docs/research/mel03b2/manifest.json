@@ -36,13 +36,14 @@
     "tools/mel03b1/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
     "docs/research/mel03b1/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
     "docs/research/mel03a/manifest.json": "ebdc6b1aefd7f9d45707ce1375136d90e85538c9",
-    "cognitum/mel/admission.py": "92ff8c8ac261fa23f4e23957d116345791cc68c0",
+    "cognitum/mel/admission.py": "4377e383d84006137d3ba099713d4b0fb6e5b22a",
     "research_tests/mel03b2/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
     "research_tests/mel03b2/test_admission.py": "e58be4e630755d86d28e2d787ea91d277531d665",
     "tools/mel03b2/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
     "tools/mel03b2/acceptance.py": "8d6672114ffd81b6914d8b8807ffc6a737a6a632",
     "docs/research/mel03b2/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
-    "docs/research/mel03b1/manifest.json": "db9403b8669e0b1323ca5b3182f4316602a25b1e"
+    "docs/research/mel03b1/manifest.json": "db9403b8669e0b1323ca5b3182f4316602a25b1e",
+    "cognitum/mel/engine_limits.py": "565875ca5eafe61e980d0adf3d2be5d4c0a6541f"
   },
   "inherited_text": [
     "cognitum/__init__.py",

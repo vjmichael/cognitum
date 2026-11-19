@@ -1,0 +1,52 @@
+syntax = "proto3";
+package cognitum.mel.engines.v1;
+
+// Initial closed research profile, not a universal HDC or KAN representation.
+// Bits are little-endian within bytes; unused high bits must be zero.
+message BinaryVector { uint32 dimension = 1; bytes bits = 2; }
+message BindInput { BinaryVector left = 1; BinaryVector right = 2; }
+message QueryInput { BinaryVector probe = 1; repeated BinaryVector candidates = 2; }
+message QueryOutput {
+  repeated uint32 hamming_distance = 1 [packed = true];
+  repeated uint32 best_index = 2 [packed = true]; // All minimizers, zero based.
+}
+enum Basis { BASIS_UNSPECIFIED = 0; BSPLINE = 1; RBF = 2; }
+message KanLayer {
+  uint32 inputs = 1;
+  uint32 outputs = 2;
+  uint32 knots = 3;
+  Basis basis = 4;
+  uint32 degree = 5;
+  repeated float grid = 6 [packed = true]; // [input, knot]
+  repeated float coefficients = 7 [packed = true]; // [output, input, basis]
+  repeated float mask = 8 [packed = true]; // [output, input], binary
+  repeated float base = 9 [packed = true]; // Empty or [output, input]
+  repeated float bias = 10 [packed = true]; // Empty or [output]
+}
+message KanInput {
+  repeated KanLayer layers = 1;
+  uint32 rows = 2;
+  repeated float coordinates = 3 [packed = true]; // [row, input]
+}
+message KanOutput {
+  uint32 rows = 1;
+  uint32 columns = 2;
+  repeated float values = 3 [packed = true];
+}
+message EngineRequest {
+  uint32 schema_version = 1;
+  bytes descriptor_sha256 = 2;
+  string request_id = 3;
+  string correlation_id = 4;
+  oneof input { BindInput bind = 5; QueryInput query = 6; KanInput kan = 7; }
+}
+message EngineResult {
+  uint32 schema_version = 1;
+  bytes descriptor_sha256 = 2;
+  string request_id = 3;
+  string correlation_id = 4;
+  bytes request_sha256 = 5;
+  oneof output { BinaryVector bound = 6; QueryOutput query = 7; KanOutput kan = 8; }
+  string assurance = 9;
+  bytes kernel_git_blob = 10;
+}

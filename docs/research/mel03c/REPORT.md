@@ -1,0 +1,20 @@
+# MEL-03C1 — Initial typed HDC and KAN research adapters
+
+## Source and scope
+
+Development parent: staged GitHub MEL-03B2 commit `5d0f46d0639000a82b89efb3093988446443fc35`. Local reconstruction is not the complete upstream tree; source-bound scoped commit `7bfc4446ef5b9b6896938475b586d54cb0283d42`. Existing kernel Git blobs matched independently: `hdc_algebra.py` 1b64d122fd0a34e5de3e747c4076ffaa80216284, `kan_portable.py` f56b9b937a166531ca8130f89e50964ea02e66d8. No changes to those kernels, previous MEL contracts, authorization, Registry, Runtime or worker. No new dependencies.
+
+## Implemented
+
+- `hdc.bind`: packed BSC vectors of 1–4096 dimensions, little-endian bit order, canonical zero padding, equal dimensions, existing BSC binding; independent packed XOR witness verifies every result.
+- `hdc.query`: up to 16 same-dimension supplied candidates; exact Hamming distances, normalized similarity cross-check against existing algebra, all minimum-distance indices returned (no false unique winner). Independent integer popcount witness validates distances and complete ties. No claim of semantic correctness or calibrated probability.
+- `kan.evaluate`: explicit typed float32 B-spline or RBF coefficients evaluated by existing PortableKAN, one or two layers, width 1–8, 3–12 knots, degree 0–3 (spline; RBF degree zero), up to 16 coordinate rows; explicit binary mask, optional bias and SiLU base weights. Validate shapes, finite ranges, positive knot separation, and each layer's input domain. No NPZ/pickle/path, checkpoint approval, training, fit or target calibration. Output numerical, not certified; checked result validates shape, finite values and lineage, not independent per-request KAN numerical truth.
+- Separate versioned `EngineRequest` and `EngineResult` native Protobuf messages; closed oneof operations, exact descriptor and request/correlation identity, request SHA-256 binding, kernel hash and assurance. Reuse current bounded base64 carrier in existing trusted research Runtime. Maximum raw request 32768 bytes, result 6144 bytes. Catalog descriptor projection is inert, exact-nominated-factory only. Plugin default disabled and no production model discovery. No scoped host grant for these new routes until the existing MEL-03B2 Admission is extended; explicit test proves current Admission refuses them. No second authority system.
+
+## Verification
+
+Dedicated gate passed 43/43 tests, zero failures/errors/skips, genuine spawned workers, maximum bounds, malformed/noncanonical messages, incompatible fields/dimensions, KAN multilayer out-of-domain rejection, independent analytic basis controls, foreign/forged result refusal and default-off checks. Independent libprotoc 3.13.0 compiled source descriptor matches checked-in binding. 53 source blob entries matched in scoped checkout. Entire proposed workflow parsed locally; six existing job definitions and all prior steps preserved; new dedicated test step follows MEL-03B2 in existing HDC cells and requires same-head predecessor receipt in hosted CI. No hosted compiler or native Windows qualification claimed. Prior MEL-03B2 scope had 362 passes; the attempted 405-test fresh combined command timed out without full JUnit, so do not call the combined candidate fully qualified. Dedicated MEL-03C gate passed independently twice.
+
+## Publication and remaining
+
+MEL-03B2 exact source candidate now exists as GitHub commit 5d0f46d0. Prior run 44467934039 still had 17 passing and 1 active job on last check; branch advancement deferred to avoid overlapping CI. MEL-03C1 verified local candidate remains separate until combined preflight, same-head predecessor reconciliation and publication. Next MEL-03C2: extend the existing single scoped Admission with reviewed route-specific HDC/KAN resource accounting and typed argument/result codecs, qualify host-approved KAN checkpoint provenance (no arbitrary model-loaded files), revoke/cancel/replay and foreign-scope adversarial tests, complete combined regression and same-SHA native evidence. Retain full HDC/KAN 164-group roadmap; no language migration or dependency minimization now.
