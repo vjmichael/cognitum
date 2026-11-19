@@ -44,6 +44,9 @@ on:
       - docs/research/mel03b1/**
       - tools/mel03b1/**
       - research_tests/mel03b1/**
+      - docs/research/mel03b2/**
+      - tools/mel03b2/**
+      - research_tests/mel03b2/**
       - docs/research/COG03F2_SOURCE_MANIFEST.json
       - docs/research/COG03F_SOURCE_MANIFEST.json
       - tools/cog03e2g_cifar.py
@@ -262,6 +265,8 @@ jobs:
           python -m pip install --only-binary=:all: "protobuf>=6.31,<8" "grpcio-tools>=1.70,<2"
       - name: MEL-03B1 native mathematical Protobuf contracts and worker round trips
         run: python -m tools.mel03b1.acceptance
+      - name: MEL-03B2 scoped compute-only host admission and adversarial acceptance
+        run: python -m tools.mel03b2.acceptance
       - name: Preserve verified public MobileNetV2 checkpoint for offline CORe50
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
         timeout-minutes: 5
