@@ -53,6 +53,9 @@ on:
       - docs/research/mel03c2/**
       - tools/mel03c2/**
       - research_tests/mel03c2/**
+      - docs/research/mel03c3/**
+      - tools/mel03c3/**
+      - research_tests/mel03c3/**
       - docs/research/COG03F2_SOURCE_MANIFEST.json
       - docs/research/COG03F_SOURCE_MANIFEST.json
       - tools/cog03e2g_cifar.py
@@ -277,6 +280,8 @@ jobs:
         run: python -m tools.mel03c.acceptance
       - name: MEL-03C2 shared scoped HDC and KAN admission and resource accounting
         run: python -m tools.mel03c2.acceptance
+      - name: MEL-03C3 model codecs and scoped approved checkpoint custody
+        run: python -m tools.mel03c3.acceptance
       - name: Preserve verified public MobileNetV2 checkpoint for offline CORe50
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
         timeout-minutes: 5

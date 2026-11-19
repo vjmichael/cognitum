@@ -133,9 +133,14 @@ def test_revoke_before_admission(host):
     with pytest.raises(ValueError):host.discover(S,t)
 
 
-def test_expired_and_closed(host):
-    t=host.issue(S,route(),ttl_ms=1);sleep(.003)
+def test_expired_and_closed(host,monkeypatch):
+    # Windows monotonic clock resolution need not distinguish a 3 ms sleep.
+    now=[1_000_000_000];monkeypatch.setattr(a,'monotonic_ns',lambda:now[0])
+    t=host.issue(S,route(),ttl_ms=1)
+    now[0]+=999_999;assert host.discover(S,t)['function']['name']==E
+    now[0]+=1
     with pytest.raises(ValueError):submit(host,t)
+    with pytest.raises(ValueError):host.discover(S,t)
     t=host.issue(S,route());host.close()
     with pytest.raises(ValueError):submit(host,t)
     with pytest.raises(ValueError):host.issue(S,route())

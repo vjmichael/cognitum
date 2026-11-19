@@ -112,6 +112,8 @@ class _Grant:
     calls_left: int
     work_left: int
     revoked: bool = False
+    model_codec: bool = False
+    checkpoint: object = None
 
 
 @dataclass(slots=True)
@@ -133,9 +135,13 @@ class Admission:
     dispatch returns; registry mutations can wait for bounded worker cleanup.
     No immediate worker interrupt or protected OS custody is implied.
     """
-    def __init__(self, runtime, session, *, enable_engines=False):
+    def __init__(self, runtime, session, *, enable_engines=False, enable_model_codecs=False):
         _require(type(runtime) is Runtime and _ids(session), 'trusted runtime and session required')
         _require(type(enable_engines) is bool, 'explicit engine enable flag')
+        _require(type(enable_model_codecs) is bool and (not enable_model_codecs or enable_engines), 'explicit model codec enable flag')
+        self._enable_model_codecs = enable_model_codecs
+        self._checkpoints = {}
+        self._revoked_checkpoints = set()
         self._enable_engines = enable_engines
         self._runtime = runtime
         self._session = session
@@ -164,7 +170,7 @@ class Admission:
                  and op.schema_version == route.operation_version, 'not reviewed compute-only route')
         return entry
 
-    def issue(self, scope, route, limits=Limits(), *, ttl_ms=10000):
+    def issue(self, scope, route, limits=Limits(), *, ttl_ms=10000, model_codec=False, checkpoint_sha256=None):
         """Trusted authorization decision only; never called from model JSON."""
         self._scope(scope)
         _require(type(route) is Route and route in routes(include_engines=self._enable_engines) and route.effect is Effect.COMPUTE_ONLY
@@ -175,16 +181,72 @@ class Admission:
             from .engine_limits import limits_type
             expected = limits_type(route.operation)
         _require(type(limits) is expected, 'wrong operation resource profile')
+        _require(type(model_codec) is bool and (not model_codec or (self._enable_model_codecs and route.operation not in n.OP)), 'model codec unavailable')
+        _require((type(checkpoint_sha256) is str and model_codec and route.operation=='kan.evaluate') or (checkpoint_sha256 is None and not (model_codec and route.operation=='kan.evaluate')), 'checkpoint selection')
         with self._runtime.registry.lock:
             entry = self._entry(route)
             with self._lock:
                 _require(not self._closed and len(self._grants)<MAX_GRANTS, 'grant capacity or session closed')
+                approval=None
+                if checkpoint_sha256 is not None:
+                    from .model_engines import DIGEST
+                    _require(DIGEST.fullmatch(checkpoint_sha256),'checkpoint pin')
+                    key=(scope,checkpoint_sha256)
+                    _require(key in self._checkpoints and key not in self._revoked_checkpoints,'checkpoint not approved for scope')
+                    approval=self._checkpoints[key]
                 token = secrets.token_bytes(32)
                 while token in self._grants:
                     token = secrets.token_bytes(32)
                 self._grants[token] = _Grant(scope,route,limits,monotonic_ns()+ttl_ms*1000000,
-                                             entry,limits.calls,limits.work)
+                                             entry,limits.calls,limits.work,model_codec=model_codec,checkpoint=approval)
                 return token
+
+    def approve_checkpoint(self, scope, wire, *, expected_sha256, review_id):
+        """Trusted explicit approval of exact layer-only protobuf; no paths or pickle."""
+        from . import model_engines as m
+        self._scope(scope);_require(self._enable_model_codecs,'checkpoint custody disabled')
+        _require(type(expected_sha256) is str and m.DIGEST.fullmatch(expected_sha256),'checkpoint pin')
+        c=m.Checkpoint(wire);_require(c.identity==expected_sha256,'checkpoint pin mismatch')
+        approval=m.Approval(c,review_id);key=(scope,c.identity)
+        with self._lock:
+            _require(not self._closed and len(self._checkpoints)<m.MAX_CHECKPOINTS and key not in self._checkpoints,'checkpoint capacity or duplicate approval')
+            self._checkpoints[key]=approval
+        return c.identity
+
+    def revoke_checkpoint(self, scope, identity):
+        self._scope(scope);_require(type(identity) is str,'checkpoint identity')
+        key=(scope,identity)
+        with self._lock:
+            if key not in self._checkpoints or key in self._revoked_checkpoints:return False
+            self._revoked_checkpoints.add(key);approval=self._checkpoints[key]
+            for g in self._grants.values():
+                if g.checkpoint is approval:g.revoked=True
+            return True
+
+    def discover_model(self, scope, token):
+        """Scoped inert model descriptor; native Lu registration remains pending."""
+        from . import model_engines as m
+        self._scope(scope)
+        with self._runtime.registry.lock:
+            with self._lock:
+                g=self._grant(scope,token)
+                _require(self._live(g,scope) and g.model_codec and g.calls_left>0 and g.work_left>0,'model grant unavailable')
+                _require(self._entry(g.route) is g.entry,'installed entry changed')
+                return m.offer(g.route.operation,g.checkpoint)
+
+    def execute_model(self, scope, token, request_id, public_name, codec_sha256, raw_arguments, *, timeout_ms):
+        """Host supplies opaque grant, exact descriptor and IDs; model supplies only JSON args."""
+        from . import model_engines as m
+        self._scope(scope)
+        with self._lock:
+            g=self._grant(scope,token)
+            _require(self._live(g,scope) and g.model_codec,'model grant unavailable')
+            op=g.route.operation;approval=g.checkpoint
+            _require(public_name==g.route.public_name and codec_sha256==m.descriptor(op)[0],'model route or codec mismatch')
+        c=m.bind(op,approval,raw_arguments,request_id,scope.turn)
+        r=self.execute(scope,token,request_id,c.wire,timeout_ms=timeout_ms)
+        _require(r.scope==scope,'result scope mismatch')
+        return m.feedback(c,approval,r)
 
     def _grant(self, scope, token):
         return self._grants.get(token) if type(token) is bytes and len(token)==32 else None
@@ -274,6 +336,9 @@ class Admission:
                 from .engine_limits import account
                 c=backend.Call(route.operation,raw);m=c.message
                 _require(m.request_id==request_id and m.correlation_id==scope.turn and m.descriptor_sha256.hex()==route.descriptor_sha256,'request ownership')
+                if g.model_codec:
+                    from .model_engines import matches
+                    _require(matches(c,g.checkpoint),'model subset or checkpoint mismatch')
                 work=account(c,limits)
         except (ValueError,TypeError):return receipt('invalid_input')
         if work is None:return receipt('resource_denied')
