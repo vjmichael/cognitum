@@ -12,7 +12,7 @@ def literal(text):return json.dumps(text,ensure_ascii=True)
 
 
 def request_grammar(schemas):
-    if not isinstance(schemas,list) or not 1<=len(schemas)<=5:raise ValueError('bounded schema selection')
+    if not isinstance(schemas,list) or not 1<=len(schemas)<=6:raise ValueError('bounded schema selection')
     rules=[];names=[];next_id=0
     def create(schema,depth=0):
         nonlocal next_id
@@ -31,6 +31,9 @@ def request_grammar(schemas):
             seq=child+f' (ws "," ws {child})'+'{'+str(max(0,low-1))+','+str(high-1)+'}'
             body='"[" ws '+ ('('+seq+')?' if low==0 else seq)+' ws "]"'
         elif kind=='number':body='number'
+        elif kind=='integer':
+            if schema!={'type':'integer','minimum':0,'maximum':2}:raise ValueError('unsupported integer profile')
+            body='"0" | "1" | "2"'
         elif kind=='string':
             pattern=schema.get('pattern')
             if pattern=='^[01]+$':body='"\\\"" [01]{1,1024} "\\\""'

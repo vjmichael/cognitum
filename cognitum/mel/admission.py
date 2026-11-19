@@ -119,6 +119,7 @@ class _Grant:
     revoked: bool = False
     model_codec: bool = False
     checkpoint: object = None
+    model_tolerance: float | None = None
 
 
 @dataclass(slots=True)
@@ -140,11 +141,13 @@ class Admission:
     dispatch returns; registry mutations can wait for bounded worker cleanup.
     No immediate worker interrupt or protected OS custody is implied.
     """
-    def __init__(self, runtime, session, *, enable_engines=False, enable_model_codecs=False, enable_polynomial_kan=False):
+    def __init__(self, runtime, session, *, enable_engines=False, enable_model_codecs=False, enable_polynomial_kan=False, enable_polynomial_model_codecs=False):
         _require(type(runtime) is Runtime and _ids(session), 'trusted runtime and session required')
         _require(type(enable_engines) is bool, 'explicit engine enable flag')
         _require(type(enable_model_codecs) is bool and (not enable_model_codecs or enable_engines), 'explicit model codec enable flag')
         _require(type(enable_polynomial_kan) is bool and (not enable_polynomial_kan or enable_engines), 'explicit polynomial enable flag')
+        _require(type(enable_polynomial_model_codecs) is bool and (not enable_polynomial_model_codecs or (enable_polynomial_kan and enable_model_codecs)), 'explicit polynomial codec flag')
+        self._enable_polynomial_model_codecs = enable_polynomial_model_codecs
         self._enable_polynomial_kan = enable_polynomial_kan
         self._enable_model_codecs = enable_model_codecs
         self._checkpoints = {}
@@ -182,7 +185,7 @@ class Admission:
                  and op.schema_version == route.operation_version, 'not reviewed compute-only route')
         return entry
 
-    def issue(self, scope, route, limits=Limits(), *, ttl_ms=10000, model_codec=False, checkpoint_sha256=None):
+    def issue(self, scope, route, limits=Limits(), *, ttl_ms=10000, model_codec=False, checkpoint_sha256=None, model_tolerance=None):
         """Trusted authorization decision only; never called from model JSON."""
         self._scope(scope)
         _require(type(route) is Route and route in routes(include_engines=self._enable_engines, include_polynomial_kan=self._enable_polynomial_kan) and route.effect is Effect.COMPUTE_ONLY
@@ -197,7 +200,8 @@ class Admission:
         _require(type(limits) is expected, 'wrong operation resource profile')
         _require(type(model_codec) is bool and (not model_codec or (self._enable_model_codecs and route.operation not in n.OP)), 'model codec unavailable')
         poly = route.operation=='kan.polynomial.evaluate'
-        _require(not poly or not model_codec, 'polynomial model codec unavailable')
+        _require(not poly or not model_codec or self._enable_polynomial_model_codecs, 'polynomial model codec unavailable')
+        _require((type(model_tolerance) is float and 0<=model_tolerance<=1e-6) if poly and model_codec else model_tolerance is None,'host polynomial model tolerance')
         needs_checkpoint = poly or (model_codec and route.operation=='kan.evaluate')
         _require((type(checkpoint_sha256) is str if needs_checkpoint else checkpoint_sha256 is None), 'checkpoint selection')
         with self._runtime.registry.lock:
@@ -220,7 +224,7 @@ class Admission:
                 while token in self._grants:
                     token = secrets.token_bytes(32)
                 self._grants[token] = _Grant(scope,route,limits,monotonic_ns()+ttl_ms*1000000,
-                                             entry,limits.calls,limits.work,model_codec=model_codec,checkpoint=approval)
+                                             entry,limits.calls,limits.work,model_codec=model_codec,checkpoint=approval,model_tolerance=model_tolerance)
                 return token
 
     def approve_checkpoint(self, scope, wire, *, expected_sha256, review_id):
@@ -267,6 +271,9 @@ class Admission:
                 g=self._grant(scope,token)
                 _require(self._live(g,scope) and g.model_codec and g.calls_left>0 and g.work_left>0,'model grant unavailable')
                 _require(self._entry(g.route) is g.entry,'installed entry changed')
+                if g.route.operation=='kan.polynomial.evaluate':
+                    from . import polynomial_model as pm
+                    return pm.offer(g.checkpoint,g.model_tolerance)
                 return m.offer(g.route.operation,g.checkpoint)
 
     def execute_model(self, scope, token, request_id, public_name, codec_sha256, raw_arguments, *, timeout_ms):
@@ -277,10 +284,15 @@ class Admission:
             g=self._grant(scope,token)
             _require(self._live(g,scope) and g.model_codec,'model grant unavailable')
             op=g.route.operation;approval=g.checkpoint
-            _require(public_name==g.route.public_name and codec_sha256==m.descriptor(op)[0],'model route or codec mismatch')
-        c=m.bind(op,approval,raw_arguments,request_id,scope.turn)
+            if op=='kan.polynomial.evaluate':
+                from . import polynomial_model as pm
+                codec=pm.descriptor()[0];tol=g.model_tolerance
+            else:codec=m.descriptor(op)[0]
+            _require(public_name==g.route.public_name and codec_sha256==codec,'model route or codec mismatch')
+        c=pm.bind(approval,tol,raw_arguments,request_id,scope.turn) if op=='kan.polynomial.evaluate' else m.bind(op,approval,raw_arguments,request_id,scope.turn)
         r=self.execute(scope,token,request_id,c.wire,timeout_ms=timeout_ms)
         _require(r.scope==scope,'result scope mismatch')
+        if op=='kan.polynomial.evaluate':return pm.feedback(scope,c,r,approval,tol)[0]
         return m.feedback(c,approval,r)
 
     def _grant(self, scope, token):
@@ -383,8 +395,12 @@ class Admission:
                 if route.operation == 'kan.polynomial.evaluate':
                     _require(backend.matches(c,g.checkpoint),'polynomial checkpoint mismatch')
                 if g.model_codec:
-                    from .model_engines import matches
-                    _require(matches(c,g.checkpoint),'model subset or checkpoint mismatch')
+                    if route.operation=='kan.polynomial.evaluate':
+                        from .polynomial_model import matches
+                        _require(matches(c,g.checkpoint,g.model_tolerance),'polynomial model checkpoint or tolerance mismatch')
+                    else:
+                        from .model_engines import matches
+                        _require(matches(c,g.checkpoint),'model subset or checkpoint mismatch')
                 work=account(c,limits)
         except (ValueError,TypeError):return receipt('invalid_input')
         if work is None:return receipt('resource_denied')

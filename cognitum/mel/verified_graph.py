@@ -7,6 +7,7 @@ No grant issuance, OS isolation or model-facing route is introduced.
 from dataclasses import dataclass
 import hashlib
 from . import uncertainty as u, uncertainty_pb2 as pb
+from . import polynomial_kan as pk, polynomial_witness as pw
 
 METHOD = 'mel05b.real-composition.rational-interval.v1'
 MAX_WITNESS = 2 * 1024 * 1024
@@ -51,7 +52,7 @@ def _tolerances(plan, tolerances):
     ordered,_=c._validate(plan)
     u.require(type(tolerances) is tuple and len(tolerances)<=c.MAX_NODES and all(type(a) is tuple and len(a)==2 and type(a[0]) is str and type(a[1]) is tuple for a in tolerances),'explicit tolerance mapping')
     ts=dict(tolerances)
-    required={z.id:1 if type(z) is c.Vfa else z.approval.checkpoint.message().layers[-1].outputs for z in ordered if type(z) in (c.Vfa,c.Kan)}
+    required={z.id:1 if type(z) is c.Vfa else z.approval.checkpoint.message().layers[-1].outputs for z in ordered if type(z) in (c.Vfa,c.Kan,c.PolynomialKan)}
     u.require(len(ts)==len(tolerances) and set(ts)==set(required),'exact numerical node tolerance mapping')
     for key,cols in required.items():
         u.require(len(ts[key])==cols and all(type(t) is float and 0<=t<=1e12 for t in ts[key]),'explicit per-axis tolerance')
@@ -76,7 +77,7 @@ class _Verifier:
         from . import cooperation as c
         if type(node) is c.Seed:return tuple(node.points.message().body.shape)
         if type(node) is c.Lift:return node.rows,node.columns
-        if type(node) in (c.Vfa,c.Kan):
+        if type(node) in (c.Vfa,c.Kan,c.PolynomialKan):
             return parents[0].message().body.samples.rows, (1 if type(node) is c.Vfa else node.approval.checkpoint.message().layers[-1].outputs)
         return 0,0
 
@@ -100,7 +101,7 @@ class _Verifier:
             u.require(t<=u.MAX_TERMS and rows<=u.MAX_ROWS,'VFA verification size')
             work+=64*rows*(t+1)*(d+1) # two interval paths + independent Decimal certificate
             scratch=65536
-        elif type(node) is c.Kan:
+        elif type(node) in (c.Kan,c.PolynomialKan):
             for l in node.approval.checkpoint.message().layers:
                 # Bound all spline span recurrences and masked edge sums;
                 # covers local points and propagated interval path.
@@ -131,6 +132,9 @@ class _Verifier:
         if type(node) is c.Vfa:
             f=node.function.message().body
             domain=tuple((u.rational(d.lower),u.rational(d.upper)) for d in f.domain)
+        elif type(node) is c.PolynomialKan:
+            l=call.message.checkpoint.layers[0]
+            domain=tuple((u.rational(l.grid[i*l.knots]),u.rational(l.grid[(i+1)*l.knots-1])) for i in range(l.inputs))
         else:
             l=call.message.kan.layers[0]
             domain=tuple((u.f32(l.grid[i*l.knots]),u.f32(l.grid[(i+1)*l.knots-1])) for i in range(l.inputs))
@@ -160,16 +164,18 @@ class _Verifier:
                 mapping={'function':node.function}; tr=x.prepare_vfa(scope,parents[0],node.function,'mel_vfa_evaluate',rid)
             elif type(node) is c.Kan:
                 mapping={'approval':node.approval,'dimensionless_axes':node.input_axes};tr=x.prepare_kan(scope,parents[0],node.approval,node.input_axes,rid)
+            elif type(node) is c.PolynomialKan:
+                mapping={'approval':node.approval,'dimensionless_axes':node.input_axes,'absolute_tolerance':node.absolute_tolerance};tr=x.prepare_polynomial(scope,parents[0],node.approval,node.input_axes,rid,node.absolute_tolerance)
             else:tr=x.prepare_query(scope,parents[0],parents[1:],rid)
             u.require(type(r.transfer) is x.Transfer and tr.wire==r.transfer.wire,'transfer replay mismatch')
             raw=tr.message().request_frame
-            call=n.decode_request(raw,'vfa.evaluate') if type(node) is c.Vfa else e.Call(c._op(node),raw)
+            call=n.decode_request(raw,'vfa.evaluate') if type(node) is c.Vfa else pk.Call(pk.OP,raw) if type(node) is c.PolynomialKan else e.Call(c._op(node),raw)
             x.verify_transfer(scope,tr,parents,**mapping)
             if type(node) is c.Query:
                 v.certify_hdc(scope,call,r.worker)
                 query=ep.EngineResult.FromString(r.worker.result_frame).query
             else:
-                out=x.from_transfer_result(scope,tr,parents,r.worker,**mapping,**({'output_axes':node.output_axes} if type(node) is c.Kan else {}))
+                out=x.from_transfer_result(scope,tr,parents,r.worker,**mapping,**({'output_axes':node.output_axes} if type(node) in (c.Kan,c.PolynomialKan) else {}))
                 s=out.message().body.samples;tol=ts[node.id]
                 u.require(len(tol)==s.columns and all(type(t) is float and 0<=t<=1e12 for t in tol),'explicit per-axis tolerance')
                 self.pre_domain(node,call)
@@ -181,6 +187,19 @@ class _Verifier:
                     f=node.function.message().body; p=call.points.message().body
                     local=u.vfa_bounds(f,_points(p.points.coordinates,*p.shape),check=check)
                     ideal=u.vfa_bounds(f,propagated[node.parent],check=check)
+                elif type(node) is c.PolynomialKan:
+                    k=call.message; model=node.approval.checkpoint.model()
+                    def bounds(rows):
+                        out=[]
+                        for row in rows:
+                            check()
+                            # Existing polynomial oracle accepts represented doubles.
+                            # Convert propagated rational bounds OUTWARD, never nearest.
+                            box=[(pw.outward(b.lo,False),pw.outward(b.hi,True)) for b in row]
+                            out.append(tuple(u.Interval(lo,hi) for lo,hi in pw.enclose(model,box,0)[0]))
+                        return tuple(out)
+                    local=bounds(_points(k.coordinates,k.rows,k.checkpoint.layers[0].inputs))
+                    ideal=bounds(propagated[node.parent])
                 else:
                     k=call.message.kan
                     local=u.kan_bounds(k.layers,_points(k.coordinates,k.rows,k.layers[0].inputs),check=check)
@@ -199,7 +218,7 @@ class _Verifier:
         if type(node) in c.WORKERS:
             u.require(r.request_sha256==r.worker.request_sha256 and r.result_sha256==r.worker.result_sha256,'worker hashes')
         else:u.require(r.worker is None and r.request_sha256 is None and r.result_sha256 is None,'unexpected worker')
-        if type(node) in (c.Vfa,c.Kan,c.Query):u.require(r.transfer_sha256==r.transfer.identity,'transfer hash')
+        if type(node) in (c.Vfa,c.Kan,c.Query,c.PolynomialKan):u.require(r.transfer_sha256==r.transfer.identity,'transfer hash')
         else:u.require(r.transfer is None and r.transfer_sha256 is None,'unexpected transfer')
         wr=witness.nodes.add(node_id=node.id,operation=type(node).__name__,lossy_history=expected_loss)
         for key in ('request_sha256','result_sha256','object_sha256','transfer_sha256'):

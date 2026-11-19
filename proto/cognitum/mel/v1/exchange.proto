@@ -1,7 +1,7 @@
 syntax = "proto3";
 package cognitum.mel.exchange.v1;
 // Closed sample/bit exchange profile; not a universal function representation.
-enum Origin { ORIGIN_UNSPECIFIED = 0; VFA_POINTS = 1; VFA_VALUES = 2; KAN_VALUES = 3; HDC_BOUND = 4; THRESHOLD = 5; BIT_LIFT = 6; }
+enum Origin { ORIGIN_UNSPECIFIED = 0; VFA_POINTS = 1; VFA_VALUES = 2; KAN_VALUES = 3; HDC_BOUND = 4; THRESHOLD = 5; BIT_LIFT = 6; POLYNOMIAL_VALUES = 7; }
 enum Assurance { ASSURANCE_UNSPECIFIED = 0; SUBMITTED = 1; NUMERICAL_NOT_CERTIFIED = 2; EXACT_SUBMITTED_BITS = 3; }
 enum Precision { PRECISION_UNSPECIFIED = 0; BINARY64 = 1; BINARY32_WIDENED = 2; PACKED_BITS = 3; EXACT_ZERO_ONE_BINARY64 = 4; }
 message Scope { string session = 1; string workspace = 2; string subject = 3; string turn = 4; }

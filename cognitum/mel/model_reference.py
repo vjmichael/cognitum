@@ -13,11 +13,16 @@ import math
 from . import admission as a, discovery as d, native as n, engines as e, engines_pb2 as ep
 from . import model_engines as m, verification as v, verified_graph as vg, uncertainty as u, exchange as x
 from .engine_limits import HdcLimits, KanLimits
+from . import polynomial_kan as pk, polynomial_model as pm
 from cognitum.registry import Registry
 from cognitum.runtime import Runtime
 
 OPS = tuple(sorted((*n.OP,*e.OPERATIONS)))
 NAMES = {op:next((name for name, value in n.PUBLIC.items() if value==op), 'mel_'+op.replace('.','_')) for op in OPS}
+ALL_OPS=(*OPS,pk.OP)
+
+def name_for(op):return pm.PUBLIC if op==pk.OP else NAMES[op]
+
 MAX_REPLY = 8192
 MAX_FEEDBACK = 65536
 
@@ -48,6 +53,9 @@ def refusal(code):return {'ok':False,'error':code,'result':None}
 
 def verified_feedback(scope,call,receipt,tolerances,approval=None):
     """Trusted retained receipt only; caller never accepts receipt from model JSON."""
+    if call.operation==pk.OP:
+        n.need(type(tolerances) is tuple and len(tolerances)==1,'polynomial host tolerance')
+        return pm.feedback(scope,call,receipt,approval,tolerances[0])
     if receipt.status!='completed':return refusal(receipt.status),None
     checked,_,_=x._checked_receipt(scope,call,receipt)
     audit={'scope':{'session':scope.session,'workspace':scope.workspace,'subject':scope.subject,'turn':scope.turn},
@@ -94,10 +102,12 @@ class Allowed:
     operations: tuple
     approval: m.Approval | None = None
     tolerance: float = 1e-5
+    polynomial_approval: pk.Approval | None = None
     def __post_init__(self):
-        n.need(type(self.operations) is tuple and len(self.operations)<=len(OPS) and len(set(self.operations))==len(self.operations) and all(op in OPS for op in self.operations),'explicit allowlist')
+        n.need(type(self.operations) is tuple and len(self.operations)<=len(ALL_OPS) and len(set(self.operations))==len(self.operations) and all(op in ALL_OPS for op in self.operations),'explicit allowlist')
         n.need((type(self.approval) is m.Approval)==('kan.evaluate' in self.operations),'explicit approved KAN checkpoint')
-        n.need(type(self.tolerance) is float and math.isfinite(self.tolerance) and 0<=self.tolerance<=1e-3,'host tolerance')
+        n.need(type(self.polynomial_approval) is pk.Approval if pk.OP in self.operations else self.polynomial_approval is None,'explicit approved polynomial checkpoint')
+        n.need(type(self.tolerance) is float and math.isfinite(self.tolerance) and 0<=self.tolerance<=(1e-6 if pk.OP in self.operations else 1e-3),'host tolerance')
 
 
 class ReferenceTurn:
@@ -105,16 +115,22 @@ class ReferenceTurn:
         n.need(type(scope) is a.Scope and type(allowed) is Allowed,'trusted scope and policy')
         self.scope=scope;self.allowed=allowed;self.attempted=False;self.audit=None;self.last_call=None;self.last_receipt=None
         self.registry=Registry();self.registry.install(n.NativeVFAPlugin,enabled=True);self.registry.install(e.EnginePlugin,enabled=True)
-        for op in allowed.operations:self.registry.nominate(op,n.NAME if op in n.OP else e.NAME)
-        self.host=a.Admission(Runtime(self.registry),scope.session,enable_engines=True,enable_model_codecs=True)
+        poly=pk.OP in allowed.operations
+        if poly:self.registry.install(pk.PolynomialPlugin,enabled=True)
+        for op in allowed.operations:self.registry.nominate(op,n.NAME if op in n.OP else pk.NAME if op==pk.OP else e.NAME)
+        self.host=a.Admission(Runtime(self.registry),scope.session,enable_engines=True,enable_model_codecs=True,enable_polynomial_kan=poly,enable_polynomial_model_codecs=poly)
         self.grants={};self.offers={}
         try:
             if allowed.approval:
                 cp=allowed.approval.checkpoint;self.host.approve_checkpoint(scope,cp.wire,expected_sha256=cp.identity,review_id=allowed.approval.review_id)
+            if poly:
+                cp=allowed.polynomial_approval.checkpoint;self.host.approve_polynomial_checkpoint(scope,cp.wire,expected_sha256=cp.identity,review_id=allowed.polynomial_approval.review_id)
             for op in allowed.operations:
-                route=next(r for r in a.routes(include_engines=True) if r.operation==op)
+                route=next(r for r in a.routes(include_engines=True,include_polynomial_kan=poly) if r.operation==op)
                 limits=a.Limits(timeout_ms=10000) if op in n.OP else (KanLimits if op=='kan.evaluate' else HdcLimits)(timeout_ms=10000)
                 kw={} if op in n.OP else {'model_codec':True,'checkpoint_sha256':allowed.approval.checkpoint.identity if op=='kan.evaluate' else None}
+                if op==pk.OP:
+                    limits=pk.Limits(timeout_ms=10000);kw=dict(model_codec=True,checkpoint_sha256=allowed.polynomial_approval.checkpoint.identity,model_tolerance=allowed.tolerance)
                 token=self.host.issue(scope,route,limits,ttl_ms=60000,**kw);self.grants[route.public_name]=token
                 offer=self.host.discover(scope,token) if op in n.OP else self.host.discover_model(scope,token)['tool_schema']
                 self.offers[route.public_name]=offer
@@ -132,12 +148,15 @@ class ReferenceTurn:
         try:
             name,args=parse_request(raw)
             if name not in self.grants:return refusal('not_authorized')
-            token=self.grants[name];op=next(op for op,nm in NAMES.items() if nm==name)
-            rid='mel06-call';s=self.scope;approval=self.allowed.approval if op=='kan.evaluate' else None
+            token=self.grants[name];op=next(op for op in ALL_OPS if name_for(op)==name)
+            rid='mel06-call';s=self.scope;approval=self.allowed.approval if op=='kan.evaluate' else self.allowed.polynomial_approval if op==pk.OP else None
             if op in n.OP:
                 current=self.host.discover(s,token);n.need(current==self.offers[name],'descriptor changed')
                 call=n.bind_model(self.registry,((name,n.descriptor(name)[0]),),name,args,request_id=rid,correlation_id=s.turn)
                 wire=call.wire();cols=call.points.message().body.shape[1] if op=='vfa.gradient' else 1
+            elif op==pk.OP:
+                current=self.host.discover_model(s,token);n.need(current==pm.offer(approval,self.allowed.tolerance) and current['tool_schema']==self.offers[name],'polynomial descriptor changed')
+                call=pm.bind(approval,self.allowed.tolerance,args,rid,s.turn);wire=call.wire;cols=1
             else:
                 current=self.host.discover_model(s,token);n.need(current['tool_schema']==self.offers[name] and current['codec_sha256']==m.descriptor(op)[0],'descriptor changed')
                 call=m.bind(op,approval,args,rid,s.turn);wire=call.wire;cols=call.message.kan.layers[-1].outputs if op=='kan.evaluate' else 0
@@ -165,12 +184,12 @@ def intent_matches(raw,operation,arguments):
     """
     try:
         name,encoded=parse_request(raw)
-        return name==NAMES[operation] and json.loads(encoded)==arguments
+        return name==name_for(operation) and json.loads(encoded)==arguments
     except (KeyError,ValueError,TypeError):return False
 
 
 def expected_answer(feedback,operation,threshold=None):
-    n.need(type(feedback) is dict and feedback.get('ok') is True and feedback.get('tool')==NAMES[operation],'verified result required')
+    n.need(type(feedback) is dict and feedback.get('ok') is True and feedback.get('tool')==name_for(operation),'verified result required')
     result=feedback['result']
     if operation=='hdc.query':
         n.need(threshold is None and result['assurance']=='exact_submitted_bits','exact HDC query required')

@@ -81,6 +81,12 @@ on:
       - tools/cog04b/**
       - research_tests/cog04a/**
       - research_tests/cog04b/**
+      - docs/research/cog04c/**
+      - docs/research/cog04d/**
+      - tools/cog04c/**
+      - tools/cog04d/**
+      - research_tests/cog04c/**
+      - research_tests/cog04d/**
       - docs/research/COG03F2_SOURCE_MANIFEST.json
       - docs/research/COG03F_SOURCE_MANIFEST.json
       - tools/cog03e2g_cifar.py
@@ -323,6 +329,10 @@ jobs:
         run: python -m tools.cog04a.acceptance --out cog03bc-artifacts/cog04a
       - name: COG-04B typed certified polynomial KAN and three-engine exchange
         run: python -m tools.cog04b.acceptance --out cog03bc-artifacts/cog04b
+      - name: COG-04C certified polynomial KAN cooperative graph and model grounding
+        run: python -m tools.cog04c.acceptance --out cog03bc-artifacts/cog04c
+      - name: COG-04D adaptive KAN refinement and compositional learning
+        run: python -m tools.cog04d.acceptance --out cog03bc-artifacts/cog04d
       - name: Preserve verified public MobileNetV2 checkpoint for offline CORe50
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
         timeout-minutes: 5

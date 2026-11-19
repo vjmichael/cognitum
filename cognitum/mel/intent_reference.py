@@ -10,6 +10,7 @@ import json
 from fractions import Fraction
 from threading import RLock
 from . import model_reference as r, admission as a, native as n, model_engines as m, discovery as d
+from . import polynomial_kan as pk, polynomial_model as pm
 
 
 def _equal(a,b):
@@ -33,27 +34,31 @@ class Intent:
     threshold: float | None = None
     checkpoint: str | None = None
     component: int = 0
+    absolute_tolerance: float | None = None
     def __post_init__(self):
-        n.need(type(self.scope) is a.Scope and self.operation in r.OPS,'typed scope and operation')
+        n.need(type(self.scope) is a.Scope and self.operation in r.ALL_OPS,'typed scope and operation')
         n.need(type(self.arguments) is str and len(self.arguments)<=r.MAX_REPLY,'intent argument budget')
         args=d.strict_json(self.arguments)
         n.need(type(args) is dict and self.arguments==r.canonical(args),'canonical intent arguments')
-        numeric=self.operation in ('kan.evaluate',*n.OP)
-        n.need(type(self.component) is int and 0<=self.component<128,'component budget')
+        numeric=self.operation in ('kan.evaluate',pk.OP,*n.OP)
+        n.need(type(self.component) is int and 0<=self.component<(pk.MAX_COMPONENTS if self.operation==pk.OP else 128),'component budget')
         n.need((type(self.threshold) is float and math.isfinite(self.threshold)) if numeric else self.threshold is None and self.component==0,'threshold contract')
-        n.need((type(self.checkpoint) is str and len(self.checkpoint)==64 and all(c in '0123456789abcdef' for c in self.checkpoint)) if self.operation=='kan.evaluate' else self.checkpoint is None,'checkpoint identity')
+        n.need((type(self.checkpoint) is str and len(self.checkpoint)==64 and all(c in '0123456789abcdef' for c in self.checkpoint)) if self.operation in ('kan.evaluate',pk.OP) else self.checkpoint is None,'checkpoint identity')
+        n.need((type(self.absolute_tolerance) is float and 0<=self.absolute_tolerance<=1e-6) if self.operation==pk.OP else self.absolute_tolerance is None,'intent tolerance')
     @property
     def identity(self):
-        return digest({'scope':[self.scope.session,self.scope.workspace,self.scope.subject,self.scope.turn], 'op':self.operation,'arguments':self.arguments,'threshold':self.threshold,'checkpoint':self.checkpoint,'component':self.component})
+        body={'scope':[self.scope.session,self.scope.workspace,self.scope.subject,self.scope.turn], 'op':self.operation,'arguments':self.arguments,'threshold':self.threshold,'checkpoint':self.checkpoint,'component':self.component}
+        if self.operation==pk.OP:body['absolute_tolerance']=self.absolute_tolerance
+        return digest(body)
     def matches(self,raw):
         try:
             name,args=r.parse_request(raw)
-            return name==r.NAMES[self.operation] and _equal(d.strict_json(args),d.strict_json(self.arguments))
+            return name==r.name_for(self.operation) and _equal(d.strict_json(args),d.strict_json(self.arguments))
         except (ValueError,TypeError,OverflowError,KeyError):return False
 
 
 def _projection(intent,feedback):
-    n.need(feedback.get('ok') is True and feedback.get('tool')==r.NAMES[intent.operation],'verified feedback required')
+    n.need(feedback.get('ok') is True and feedback.get('tool')==r.name_for(intent.operation),'verified feedback required')
     result=feedback['result']
     if intent.operation in ('hdc.query','hdc.bind'):
         ans=r.expected_answer(feedback,intent.operation)
@@ -75,7 +80,9 @@ class BoundTurn:
     def __init__(self,intent,allowed):
         n.need(type(intent) is Intent and type(allowed) is r.Allowed,'trusted intent and allowlist')
         n.need(intent.operation in allowed.operations,'intent not allowed')
-        if intent.checkpoint is not None:n.need(allowed.approval.checkpoint.identity==intent.checkpoint,'intent checkpoint drift')
+        if intent.operation==pk.OP:
+            n.need(allowed.polynomial_approval.checkpoint.identity==intent.checkpoint and allowed.tolerance==intent.absolute_tolerance,'intent polynomial checkpoint or tolerance drift')
+        elif intent.checkpoint is not None:n.need(allowed.approval.checkpoint.identity==intent.checkpoint,'intent checkpoint drift')
         self.intent=intent;self.allowed=allowed;self.turn=r.ReferenceTurn(intent.scope,allowed)
         self._attempt=False;self._published=False;self._closed=False;self._evidence=None;self.audit=None
         self._state_lock=RLock()
@@ -85,6 +92,9 @@ class BoundTurn:
                 rows,cols=call.points.message().body.shape
                 count=rows*(cols if op=='vfa.gradient' else 1)
                 self._expected_wire=call.wire()
+            elif op==pk.OP:
+                self._expected_wire=call.wire;m0=call.message;i=m0.checkpoint.layers[0].inputs;o=m0.checkpoint.layers[-1].outputs
+                count=m0.rows*o*(1+(i if m0.order else 0)+(i*i if m0.order==2 else 0))
             else:
                 self._expected_wire=call.wire
                 count=call.message.kan.rows*call.message.kan.layers[-1].outputs if op=='kan.evaluate' else 1
@@ -92,9 +102,10 @@ class BoundTurn:
         except BaseException:
             self.close();raise
     def _bind(self,args):
-        op=self.intent.operation;name=r.NAMES[op];rid='mel06-call';scope=self.intent.scope
+        op=self.intent.operation;name=r.name_for(op);rid='mel06-call';scope=self.intent.scope
         if op in n.OP:
             return n.bind_model(self.turn.registry,((name,n.descriptor(name)[0]),),name,args,request_id=rid,correlation_id=scope.turn)
+        if op==pk.OP:return pm.bind(self.allowed.polynomial_approval,self.allowed.tolerance,args,rid,scope.turn)
         return m.bind(op,self.allowed.approval if op=='kan.evaluate' else None,args,rid,scope.turn)
     @staticmethod
     def _wire(call):return call.wire() if call.operation in n.OP else call.wire
@@ -134,6 +145,7 @@ class BoundTurn:
         op=call.operation
         wire=self._wire(call)
         n.need(wire==self._expected_wire,'typed request does not match approved intent')
+        if op==pk.OP:return r.verified_feedback(self.intent.scope,call,receipt,(self.allowed.tolerance,),self.allowed.polynomial_approval)
         cols=call.points.message().body.shape[1] if op=='vfa.gradient' else (call.message.kan.layers[-1].outputs if op=='kan.evaluate' else (1 if op in n.OP else 0))
         return r.verified_feedback(self.intent.scope,call,receipt,(self.allowed.tolerance,)*cols,self.allowed.approval if op=='kan.evaluate' else None)
     def publish(self,raw,*,host_fallback=False):
@@ -144,7 +156,7 @@ class BoundTurn:
             if self._evidence is None:return r.refusal('no_verified_result')
         try:
             # Prevent publication after revocation, expiry or session closure.
-            host=self.turn.host;token=self.turn.grants[r.NAMES[self.intent.operation]]
+            host=self.turn.host;token=self.turn.grants[r.name_for(self.intent.operation)]
             with host._lock:
                 n.need(host._live(host._grant(self.intent.scope,token),self.intent.scope),'grant no longer live')
             checked,audit=self._replay();ans,projection=_projection(self.intent,checked)

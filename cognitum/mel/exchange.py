@@ -12,6 +12,7 @@ from cognitum.contracts import Response
 from . import admission as a, native as n, engines as e, engines_pb2 as ep
 from . import model_engines as m, exchange_pb2 as p
 from .objects import token, number, need
+from . import polynomial_kan as pk
 
 MAX_OBJECT=8192
 MAX_TRANSFER=65536
@@ -20,9 +21,9 @@ MAX_COLS=8
 MAX_BITS=e.MAX_DIM
 DOMAIN=b'cognitum.mel.exchange.v1.Body\x00'
 TRANSFER_DOMAIN=b'cognitum.mel.exchange.v1.Transfer\x00'
-SOURCES={p.VFA_POINTS,p.VFA_VALUES,p.KAN_VALUES,p.HDC_BOUND}
-NUMERIC={p.VFA_POINTS,p.VFA_VALUES,p.KAN_VALUES,p.BIT_LIFT}
-PRECISION={p.VFA_POINTS:p.BINARY64,p.VFA_VALUES:p.BINARY64,p.KAN_VALUES:p.BINARY32_WIDENED,p.HDC_BOUND:p.PACKED_BITS,p.THRESHOLD:p.PACKED_BITS,p.BIT_LIFT:p.EXACT_ZERO_ONE_BINARY64}
+SOURCES={p.VFA_POINTS,p.VFA_VALUES,p.KAN_VALUES,p.HDC_BOUND,p.POLYNOMIAL_VALUES}
+NUMERIC={p.VFA_POINTS,p.VFA_VALUES,p.KAN_VALUES,p.BIT_LIFT,p.POLYNOMIAL_VALUES}
+PRECISION={p.VFA_POINTS:p.BINARY64,p.VFA_VALUES:p.BINARY64,p.KAN_VALUES:p.BINARY32_WIDENED,p.POLYNOMIAL_VALUES:p.BINARY64,p.HDC_BOUND:p.PACKED_BITS,p.THRESHOLD:p.PACKED_BITS,p.BIT_LIFT:p.EXACT_ZERO_ONE_BINARY64}
 
 
 def digest(raw):return hashlib.sha256(raw).digest()
@@ -58,15 +59,17 @@ def _validate(b):
     o=b.origin;kind=b.WhichOneof('representation')
     need(o in SOURCES|{p.THRESHOLD,p.BIT_LIFT} and kind==('samples' if o in NUMERIC else 'bits'),'exchange origin or representation')
     need(b.assurance in (p.SUBMITTED,p.NUMERICAL_NOT_CERTIFIED,p.EXACT_SUBMITTED_BITS) and b.precision==PRECISION[o],'exchange assurance or precision')
-    need((not b.transfer_sha256) or (o in (p.VFA_VALUES,p.KAN_VALUES) and len(b.transfer_sha256)==32),'transfer lineage')
-    need(len(b.parents_sha256)==(2 if o in (p.VFA_VALUES,p.KAN_VALUES,p.HDC_BOUND) else 1) and all(len(h)==32 for h in b.parents_sha256),'source lineage')
+    need((not b.transfer_sha256) or (o in (p.VFA_VALUES,p.KAN_VALUES,p.POLYNOMIAL_VALUES) and len(b.transfer_sha256)==32),'transfer lineage')
+    need(len(b.parents_sha256)==(2 if o in (p.VFA_VALUES,p.KAN_VALUES,p.HDC_BOUND,p.POLYNOMIAL_VALUES) else 1) and all(len(h)==32 for h in b.parents_sha256),'source lineage')
     if o in (p.VFA_VALUES,p.KAN_VALUES,p.HDC_BOUND):
         op={p.VFA_VALUES:'vfa.evaluate',p.KAN_VALUES:'kan.evaluate',p.HDC_BOUND:'hdc.bind'}[o]
         h=n.descriptor('mel_vfa_evaluate')[0] if o==p.VFA_VALUES else e.descriptor(op)[0]
         k=n.KERNEL if o==p.VFA_VALUES else e.kernel(op)
         need(b.descriptor_sha256==bytes.fromhex(h) and b.kernel_git_blob==bytes.fromhex(k),'source descriptor or kernel')
+    elif o==p.POLYNOMIAL_VALUES:
+        need(b.descriptor_sha256==bytes.fromhex(pk.descriptor()[0]) and b.kernel_git_blob==bytes.fromhex(pk.TRAINABLE_BLOB),'polynomial producer identity')
     else:need(not b.descriptor_sha256 and not b.kernel_git_blob,'unexpected producer')
-    need(len(b.checkpoint_sha256)==(32 if o==p.KAN_VALUES else 0),'checkpoint lineage')
+    need(len(b.checkpoint_sha256)==(32 if o in (p.KAN_VALUES,p.POLYNOMIAL_VALUES) else 0),'checkpoint lineage')
     if o in SOURCES:
         expected=p.SUBMITTED if o==p.VFA_POINTS else p.EXACT_SUBMITTED_BITS if o==p.HDC_BOUND else p.NUMERICAL_NOT_CERTIFIED
         need(b.assurance==expected and (not b.lossy_history or bool(b.transfer_sha256)),'source assurance')
@@ -82,6 +85,7 @@ def _validate(b):
         if o==p.VFA_VALUES:need(d==1 and s.axes[0].name=='value','VFA scalar shape')
         if o==p.KAN_VALUES:
             need(s.rows<=e.MAX_ROWS and all(x.unit=='1' for x in s.axes) and all(abs(x)<=1e6 and _f32_equal(x) for x in s.values),'KAN binary32 dimensionless declared samples')
+        if o==p.POLYNOMIAL_VALUES:need(s.rows<=pk.MAX_ROWS and d<=pk.MAX_WIDTH and all(x.unit=='1' for x in s.axes),'polynomial binary64 dimensionless samples')
         if o==p.BIT_LIFT:need(all(x in (0.,1.) for x in s.values) and _axes(s.axes)==[(f'bit{i}','1') for i in range(d)],'binary lift')
     need(b.HasField('threshold')==(o==p.THRESHOLD),'threshold metadata')
     if o==p.THRESHOLD:
@@ -126,6 +130,8 @@ def _checked_receipt(scope,call,receipt):
     need(type(receipt) is a.Receipt and receipt.scope==scope and receipt.status=='completed' and type(receipt.result_frame) is bytes,'completed trusted scoped receipt')
     if type(call) is n.NativeCall:
         backend=n;raw=call.wire();rid=call.request_id;turn=call.correlation_id;h=call.descriptor_sha256;assurance='numerical'
+    elif type(call) is pk.Call:
+        backend=pk;raw=call.wire;c=call.message;rid=c.request_id;turn=c.correlation_id;h=pk.descriptor()[0];assurance='numerical'
     else:
         need(type(call) is e.Call,'typed call');backend=e;raw=call.wire;c=call.message;rid=c.request_id;turn=c.correlation_id;h=e.descriptor(call.operation)[0];assurance=e.descriptor(call.operation)[1]['assurance']
     op=call.operation
@@ -146,6 +152,12 @@ def from_result(scope,call,receipt,*,approval=None,dimensionless_axes=None):
     if op=='hdc.bind':
         need(approval is None and dimensionless_axes is None,'unexpected mapping');b=ep.EngineResult.FromString(res).bound
         return _freeze(_body(scope,p.HDC_BOUND,p.EXACT_SUBMITTED_BITS,parents,descriptor_sha256=h,kernel_git_blob=bytes.fromhex(e.HDC_BLOB),bits=p.Bits(dimension=b.dimension,packed_bits=b.bits)))
+    if op==pk.OP:
+        need(type(approval) is pk.Approval and pk.matches(call,approval),'approved polynomial checkpoint required')
+        b=pk.pb.Result.FromString(res)
+        need(b.order==0 and type(dimensionless_axes) is tuple and len(dimensionless_axes)==b.outputs and all(token(v) for v in dimensionless_axes),'polynomial graph value mapping')
+        s=_matrix(b.rows,b.outputs,[v.observed for v in b.components],[(v,'1') for v in dimensionless_axes])
+        return _freeze(_body(scope,p.POLYNOMIAL_VALUES,p.NUMERICAL_NOT_CERTIFIED,parents,descriptor_sha256=h,kernel_git_blob=bytes.fromhex(pk.TRAINABLE_BLOB),checkpoint_sha256=bytes.fromhex(approval.checkpoint.identity),samples=s))
     need(op=='kan.evaluate' and type(approval) is m.Approval and m.matches(call,approval),'approved checkpoint mapping required')
     b=ep.EngineResult.FromString(res).kan
     need(type(dimensionless_axes) is tuple and len(dimensionless_axes)==b.columns and all(token(v) for v in dimensionless_axes),'explicit dimensionless KAN output labels')
@@ -196,10 +208,13 @@ class Transfer:
         need(t.schema_version==1 and 1<=len(t.source_sha256)<=1+e.MAX_CANDIDATES and all(len(h)==32 for h in t.source_sha256) and t.request_sha256==digest(t.request_frame),'transfer identity')
         if t.operation in n.OP:
             c=n.decode_request(t.request_frame,t.operation);h=c.descriptor_sha256;turn=c.correlation_id
+        elif t.operation==pk.OP:
+            c=pk.Call(t.operation,t.request_frame);h=pk.descriptor()[0];turn=c.message.correlation_id
         else:
             need(t.operation in ('kan.evaluate','hdc.query'),'transfer operation');c=e.Call(t.operation,t.request_frame);h=e.descriptor(t.operation)[0];turn=c.message.correlation_id
         need(t.descriptor_sha256==bytes.fromhex(h) and turn==scope.turn,'transfer route or scope')
         if t.operation=='kan.evaluate':need(t.target_checkpoint_sha256==digest(m.checkpoint_wire(c.message.kan.layers)),'target checkpoint pin')
+        elif t.operation==pk.OP:need(t.target_checkpoint_sha256==c.message.checkpoint_sha256,'target polynomial checkpoint pin')
         else:need(not t.target_checkpoint_sha256,'unexpected checkpoint')
         return t
 
@@ -207,7 +222,7 @@ class Transfer:
 def _transfer(scope,objects,call,pin=b''):
     body=[_read(o,scope) for o in objects]
     raw=call.wire() if type(call) is n.NativeCall else call.wire
-    h=call.descriptor_sha256 if type(call) is n.NativeCall else e.descriptor(call.operation)[0]
+    h=call.descriptor_sha256 if type(call) is n.NativeCall else pk.descriptor()[0] if type(call) is pk.Call else e.descriptor(call.operation)[0]
     return Transfer(n.serialize(p.Transfer(schema_version=1,scope=scope_message(scope),source_sha256=[o.content_sha256 for o in body],operation=call.operation,descriptor_sha256=bytes.fromhex(h),request_frame=raw,request_sha256=digest(raw),target_checkpoint_sha256=pin,lossy_history=any(o.body.lossy_history for o in body))))
 
 
@@ -228,6 +243,14 @@ def prepare_kan(scope,obj,approval,dimensionless_axes,request_id):
     return _transfer(scope,[obj],c,bytes.fromhex(approval.checkpoint.identity))
 
 
+def prepare_polynomial(scope,obj,approval,dimensionless_axes,request_id,absolute_tolerance):
+    b=_read(obj,scope).body;need(b.HasField('samples') and type(approval) is pk.Approval,'samples and approved polynomial checkpoint')
+    s=b.samples;ck=approval.checkpoint.message()
+    need(type(dimensionless_axes) is tuple and _axes(s.axes)==[(v,'1') for v in dimensionless_axes] and s.columns==ck.layers[0].inputs and s.rows<=pk.MAX_ROWS,'explicit polynomial dimensionless input mapping')
+    c=pk.make_call(approval.checkpoint,_rows(s),0,absolute_tolerance,request_id,scope.turn)
+    return _transfer(scope,[obj],c,bytes.fromhex(approval.checkpoint.identity))
+
+
 def prepare_query(scope,probe,candidates,request_id):
     need(type(candidates) is tuple and 1<=len(candidates)<=e.MAX_CANDIDATES,'query candidates')
     objects=(probe,)+candidates;bs=[_read(o,scope).body for o in objects]
@@ -239,11 +262,16 @@ def prepare_query(scope,probe,candidates,request_id):
     return _transfer(scope,objects,c)
 
 
-def verify_transfer(scope,transfer,objects,*,function=None,approval=None,dimensionless_axes=None):
+def verify_transfer(scope,transfer,objects,*,function=None,approval=None,dimensionless_axes=None,absolute_tolerance=None):
     """Rebuild from trusted sources; never trust a transfer's self-asserted lineage."""
     need(type(transfer) is Transfer and type(objects) is tuple and bool(objects),'typed transfer and sources')
     t=transfer.message();same_scope(t,scope)
-    if t.operation in n.OP:
+    need((absolute_tolerance is not None)==(t.operation==pk.OP),'explicit polynomial tolerance only')
+    if t.operation==pk.OP:
+        need(len(objects)==1 and function is None,'polynomial transfer mapping')
+        c=pk.Call(t.operation,t.request_frame)
+        expected=prepare_polynomial(scope,objects[0],approval,dimensionless_axes,c.message.request_id,absolute_tolerance)
+    elif t.operation in n.OP:
         need(len(objects)==1 and approval is None and dimensionless_axes is None,'VFA transfer mapping')
         c=n.decode_request(t.request_frame,t.operation)
         expected=prepare_vfa(scope,objects[0],function,c.public_name,c.request_id)
@@ -258,19 +286,19 @@ def verify_transfer(scope,transfer,objects,*,function=None,approval=None,dimensi
     need(expected.wire==transfer.wire,'transfer source or derivation mismatch');return True
 
 
-def from_transfer_result(scope,transfer,objects,receipt,*,function=None,approval=None,dimensionless_axes=None,output_axes=None):
+def from_transfer_result(scope,transfer,objects,receipt,*,function=None,approval=None,dimensionless_axes=None,output_axes=None,absolute_tolerance=None):
     """Import numerical results with the verified transfer edge and inherited loss.
 
     The host must supply the actual scope-owned receipt and original objects.
     Standalone imports are for standalone source calls, not graph history.
     """
-    verify_transfer(scope,transfer,objects,function=function,approval=approval,dimensionless_axes=dimensionless_axes)
+    verify_transfer(scope,transfer,objects,function=function,approval=approval,dimensionless_axes=dimensionless_axes,absolute_tolerance=absolute_tolerance)
     t=transfer.message()
-    need(t.operation in ('vfa.evaluate','kan.evaluate'),'supported numerical exchange result only')
+    need(t.operation in ('vfa.evaluate','kan.evaluate',pk.OP),'supported numerical exchange result only')
     if t.operation=='vfa.evaluate':
         need(output_axes is None,'unexpected output mapping');c=n.decode_request(t.request_frame,t.operation)
         result=from_result(scope,c,receipt)
     else:
-        c=e.Call(t.operation,t.request_frame);result=from_result(scope,c,receipt,approval=approval,dimensionless_axes=output_axes)
+        c=pk.Call(t.operation,t.request_frame) if t.operation==pk.OP else e.Call(t.operation,t.request_frame);result=from_result(scope,c,receipt,approval=approval,dimensionless_axes=output_axes)
     b=result.message().body;b.transfer_sha256=bytes.fromhex(transfer.identity);b.lossy_history=t.lossy_history
     return _freeze(b)

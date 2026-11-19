@@ -15,6 +15,7 @@ from . import admission as a, exchange as x, native as n, engines as e
 from . import model_engines as m, exchange_pb2 as p
 from .engine_limits import HdcLimits, KanLimits, account, MAX_HDC_WORK, MAX_KAN_WORK
 from .objects import number, token, need
+from . import polynomial_kan as pk
 
 MAX_NODES=8
 MAX_EDGES=16
@@ -80,14 +81,23 @@ class Kan:
     output_axes:tuple
 
 @dataclass(frozen=True,slots=True)
+class PolynomialKan:
+    id:str
+    parent:str
+    approval:pk.Approval
+    input_axes:tuple
+    output_axes:tuple
+    absolute_tolerance:float
+
+@dataclass(frozen=True,slots=True)
 class Query:
     id:str
     probe:str
     candidates:tuple
 
 
-NODES=(Seed,Bind,Threshold,Lift,Vfa,Kan,Query)
-WORKERS=(Bind,Vfa,Kan,Query)
+NODES=(Seed,Bind,Threshold,Lift,Vfa,Kan,Query,PolynomialKan)
+WORKERS=(Bind,Vfa,Kan,Query,PolynomialKan)
 
 
 def _parents(v):
@@ -100,7 +110,7 @@ def _kind(v):
     return 'bits' if type(v) in (Threshold,Bind) else 'terminal' if type(v) is Query else 'samples'
 
 
-def _op(v):return {Bind:'hdc.bind',Vfa:'vfa.evaluate',Kan:'kan.evaluate',Query:'hdc.query'}.get(type(v))
+def _op(v):return {Bind:'hdc.bind',Vfa:'vfa.evaluate',Kan:'kan.evaluate',PolynomialKan:pk.OP,Query:'hdc.query'}.get(type(v))
 
 
 def _request_id(plan,v):return plan.id+':'+v.id
@@ -115,19 +125,22 @@ def _part(v):
 
 
 def _material(plan):
-    parts=[b'cognitum.mel.cooperation.v1',hashlib.sha256(p.DESCRIPTOR.serialized_pb).digest(),plan.id,plan.scope.session,plan.scope.workspace,plan.scope.subject,plan.scope.turn,
+    poly=any(type(v) is PolynomialKan for v in plan.nodes)
+    schema=hashlib.sha256(p.DESCRIPTOR.serialized_pb).digest() if poly else bytes.fromhex('c0a9da5cb486e0c2999faec078d510f9a4d56a59a283ca956ede38a164b198f2')
+    parts=[b'cognitum.mel.cooperation.v2' if poly else b'cognitum.mel.cooperation.v1',schema,plan.id,plan.scope.session,plan.scope.workspace,plan.scope.subject,plan.scope.turn,
            plan.budget.work,plan.budget.bytes,plan.budget.calls,plan.budget.time_ms,plan.budget.step_ms,len(plan.nodes)]
     for v in plan.nodes:
         parents=_parents(v);parts.extend((type(v).__name__,v.id,len(parents),*parents))
         if type(v) in WORKERS:
-            op=_op(v);route=next(r for r in a.routes(include_engines=True) if r.operation==op)
+            op=_op(v);route=next(r for r in a.routes(include_engines=True,include_polynomial_kan=type(v) is PolynomialKan) if r.operation==op)
             parts.extend((op,route.descriptor_sha256,route.operation_version))
         if type(v) is Seed:parts.append(v.points.wire)
         elif type(v) is Bind:parts.append(v.call.wire)
         elif type(v) is Threshold:parts.extend((struct.pack('<d',number(v.at_least,1e12)),v.unit))
         elif type(v) is Lift:parts.extend((v.rows,v.columns))
         elif type(v) is Vfa:parts.append(v.function.wire)
-        elif type(v) is Kan:parts.extend((v.approval.checkpoint.wire,v.approval.review_id,len(v.input_axes),*v.input_axes,len(v.output_axes),*v.output_axes))
+        elif type(v) in (Kan,PolynomialKan):parts.extend((v.approval.checkpoint.wire,v.approval.review_id,len(v.input_axes),*v.input_axes,len(v.output_axes),*v.output_axes))
+        if type(v) is PolynomialKan:parts.append(struct.pack('<d',v.absolute_tolerance))
     return b''.join(_part(v) for v in parts)
 
 
@@ -145,8 +158,9 @@ def _validate(plan):
         elif type(v) is Threshold:number(v.at_least,1e12);need(token(v.unit),'threshold unit')
         elif type(v) is Lift:need(_int(v.rows,1,x.MAX_ROWS) and _int(v.columns,1,x.MAX_COLS),'lift shape')
         elif type(v) is Vfa:need(type(v.function) is n.NativeObject and v.function.message().body.WhichOneof('representation')=='function','VFA function')
-        elif type(v) is Kan:
-            need(type(v.approval) is m.Approval,'trusted checkpoint selection');ck=v.approval.checkpoint.message()
+        elif type(v) in (Kan,PolynomialKan):
+            need(type(v.approval) is (pk.Approval if type(v) is PolynomialKan else m.Approval),'trusted checkpoint selection');ck=v.approval.checkpoint.message()
+            if type(v) is PolynomialKan:need(type(v.absolute_tolerance) is float and 0<=v.absolute_tolerance<=1e-6,'polynomial tolerance')
             for axes,d in ((v.input_axes,ck.layers[0].inputs),(v.output_axes,ck.layers[-1].outputs)):
                 need(type(axes) is tuple and len(axes)==d and all(token(z) for z in axes) and len(set(axes))==d,'KAN axis mapping')
         else:need(type(v.candidates) is tuple and 1<=len(v.candidates)<=e.MAX_CANDIDATES,'query candidate budget')
@@ -247,6 +261,7 @@ class _Meter:
 def _work(call):
     if type(call) is n.NativeCall:
         f,q=n.pair(call.function,call.points);t,d=f.body.shape;return (t+1)*d*q.body.shape[0]
+    if type(call) is pk.Call:return pk.account(call,pk.Limits())
     return account(call,HdcLimits() if call.operation.startswith('hdc.') else KanLimits())
 
 
@@ -269,6 +284,7 @@ def _execute(host,plan,grants,*,cancellation=None,guard=None):
     """
     need(type(host) is a.Admission and type(plan) is Plan,'trusted host and plan')
     start=monotonic_ns();ordered,material=_validate(plan);host._scope(plan.scope)
+    need(guard is not None or not any(type(v) is PolynomialKan for v in ordered),'polynomial graph requires verified execution')
     if guard is not None:
         from .verified_graph import _Verifier
         need(type(guard) is _Verifier and guard.plan is plan,'host-owned verifier')
@@ -326,7 +342,7 @@ def _execute(host,plan,grants,*,cancellation=None,guard=None):
                 rid=_request_id(plan,v);mapping={};op=_op(v)
                 # Reserve bounded wire allocations before materializing a link.
                 # This is deliberately conservative, with no reuse/refund.
-                reserve=(n.MAX_REQUEST if type(v) is Vfa else e.MAX_REQUEST)+(n.MAX_RESULT if type(v) is Vfa else e.MAX_RESULT)+(0 if type(v) is Query else x.MAX_OBJECT)+(0 if type(v) is Bind else x.MAX_TRANSFER)
+                reserve=(n.MAX_REQUEST if type(v) is Vfa else pk.MAX_REQUEST if type(v) is PolynomialKan else e.MAX_REQUEST)+(n.MAX_RESULT if type(v) is Vfa else pk.MAX_RESULT if type(v) is PolynomialKan else e.MAX_RESULT)+(0 if type(v) is Query else x.MAX_OBJECT)+(0 if type(v) is Bind else x.MAX_TRANSFER)
                 meter.charge(bytes_=reserve)
                 if type(v) is Bind:call=v.call
                 else:
@@ -337,12 +353,21 @@ def _execute(host,plan,grants,*,cancellation=None,guard=None):
                         # Verify that the existing grant actually has the host-approved checkpoint pin.
                         offer=pinned_offer(tokens[v.id])
                         if offer['checkpoint_sha256']!=v.approval.checkpoint.identity or offer['descriptor_sha256']!=e.descriptor(op)[0]:raise _Stop('denied')
+                    elif type(v) is PolynomialKan:
+                        mapping={'approval':v.approval,'dimensionless_axes':v.input_axes,'absolute_tolerance':v.absolute_tolerance}
+                        transfer=x.prepare_polynomial(s,parents[0],v.approval,v.input_axes,rid,v.absolute_tolerance)
+                        # Review identity is part of the plan, not just its wire pin.
+                        # Read only under the existing host lock, then Admission
+                        # independently rechecks the same scoped grant at dispatch.
+                        with host._lock:
+                            grant=host._grant(s,tokens[v.id])
+                            if not host._live(grant,s) or grant.route.operation!=pk.OP or grant.checkpoint!=v.approval:raise _Stop('denied')
                     else:transfer=x.prepare_query(s,parents[0],parents[1:],rid)
                     x.verify_transfer(s,transfer,parents,**mapping);raw=transfer.message().request_frame
-                    call=n.decode_request(raw,op) if type(v) is Vfa else e.Call(op,raw)
+                    call=n.decode_request(raw,op) if type(v) is Vfa else pk.Call(op,raw) if type(v) is PolynomialKan else e.Call(op,raw)
                 raw=call.wire() if type(call) is n.NativeCall else call.wire
                 work=_work(call);need(work is not None,'work accounting unavailable')
-                if guard is not None and type(v) in (Vfa,Kan):verified(guard.pre_domain,v,call)
+                if guard is not None and type(v) in (Vfa,Kan,PolynomialKan):verified(guard.pre_domain,v,call)
                 # Charge validated logical engine work before attempting admission.
                 meter.charge(work=work+len(raw),calls=1)
                 remaining=check()
@@ -352,7 +377,7 @@ def _execute(host,plan,grants,*,cancellation=None,guard=None):
                 if worker.status!='completed':raise _Stop(worker.status)
                 if type(v) is Bind:out=x.from_result(s,call,worker)
                 elif type(v) is Query:x._checked_receipt(s,call,worker) # exact independent Hamming witness
-                else:out=x.from_transfer_result(s,transfer,parents,worker,**mapping,**({'output_axes':v.output_axes} if type(v) is Kan else {}))
+                else:out=x.from_transfer_result(s,transfer,parents,worker,**mapping,**({'output_axes':v.output_axes} if type(v) in (Kan,PolynomialKan) else {}))
             check()
             if out is not None:loss=out.message().body.lossy_history
             record=_metadata(v,'completed',worker=worker,transfer=transfer,output=out,loss=loss)
