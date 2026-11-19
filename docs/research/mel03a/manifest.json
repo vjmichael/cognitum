@@ -1,0 +1,46 @@
+{
+  "base": "169213f2b476d30616eb8ab899bb29275ed990c4",
+  "git_blobs": {
+    "cognitum/mel/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "cognitum/mel/__init__.py": "2027dbf74488bce19c1ab39f352e74f2cb3950f7",
+    "cognitum/mel/objects.py": "6428963d7e6b963aa75f3a2d93aebadba2ea6ac6",
+    "cognitum/mel/vfa.py": "1ea893e7aef6d4476aa18e9bfc41b9fd30bdbc09",
+    "research_tests/mel02/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "research_tests/mel02/test_objects.py": "4af941595df9debe5504de28884a2166ea8e9a47",
+    "tools/mel02/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "tools/mel02/acceptance.py": "493c0b10525da5820ff8dbe7f16496de5fa6b2b1",
+    "tools/mel02/benchmark.py": "8dd64e2d9dccf09e6a7687d71b84f8cef9509b06",
+    "docs/research/mel02/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "cognitum/__init__.py": "ed0d5ec0b7a5b659653b15519d16b0526b4adf6c",
+    "cognitum/contracts.py": "11d129fb057641ac5da67fccd2f541da0860992f",
+    "cognitum/registry.py": "288171a1113e1d7d259b353ae8703e6ca34fc7b1",
+    "cognitum/runtime.py": "885c4bf56114c7cab98252539e5900113ae3418b",
+    "cognitum/policy.py": "a86abb2231d9594f591e5958f44f006cbf7d3eb6",
+    "cognitum/worker.py": "8246e955525655414c2da95d7153a794f011a0ef",
+    "cognitum/tracing.py": "338e59dd8acd5f22d2e8becbd626595486698aba",
+    "cognitum/research/vfa_multivariate.py": "6e498ac907de910ac00a29a1befefa59fdc1cda4",
+    "cognitum/research/__init__.py": "0a8ae927125f9dd935faaad086e7e1a36ab33489",
+    "cognitum/mel/discovery.py": "80c6dd735a2d57ecee9718ec118b3e89fb718fbb",
+    "research_tests/mel03a/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "research_tests/mel03a/test_discovery.py": "24b8cb8df0fc3fb751216e83b31261773f7d0535",
+    "tools/mel03a/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "tools/mel03a/acceptance.py": "f580b775a4a7f3bcb85f8b6fb61c5a27c7be48ce",
+    "docs/research/mel03a/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f"
+  },
+  "inherited_text": [
+    "cognitum/__init__.py",
+    "cognitum/contracts.py",
+    "cognitum/registry.py",
+    "cognitum/runtime.py",
+    "cognitum/policy.py",
+    "cognitum/worker.py",
+    "cognitum/tracing.py",
+    "cognitum/research/vfa_multivariate.py",
+    "cognitum/research/__init__.py"
+  ],
+  "descriptor_sha256": {
+    "mel_vfa_evaluate": "46b04b342c5273e1cdbf21034b1d082f9579f7d328edc6ede431ef04e91ef734",
+    "mel_vfa_gradient": "95556e5ca032ab63f2bd82ce2fdaacef47ab740cea8265d53e2259fbe56ffb17"
+  },
+  "production_enabled": false
+}
