@@ -1,0 +1,40 @@
+syntax = "proto3";
+package cognitum.mel.exchange.v1;
+// Closed sample/bit exchange profile; not a universal function representation.
+enum Origin { ORIGIN_UNSPECIFIED = 0; VFA_POINTS = 1; VFA_VALUES = 2; KAN_VALUES = 3; HDC_BOUND = 4; THRESHOLD = 5; BIT_LIFT = 6; }
+enum Assurance { ASSURANCE_UNSPECIFIED = 0; SUBMITTED = 1; NUMERICAL_NOT_CERTIFIED = 2; EXACT_SUBMITTED_BITS = 3; }
+enum Precision { PRECISION_UNSPECIFIED = 0; BINARY64 = 1; BINARY32_WIDENED = 2; PACKED_BITS = 3; EXACT_ZERO_ONE_BINARY64 = 4; }
+message Scope { string session = 1; string workspace = 2; string subject = 3; string turn = 4; }
+message Axis { string name = 1; string unit = 2; }
+message Interval { oneof lower_bound { double lower = 1; } oneof upper_bound { double upper = 2; } }
+message Samples { uint32 rows = 1; uint32 columns = 2; repeated double values = 3 [packed = true]; repeated Axis axes = 4; repeated Interval domain = 5; }
+message Bits { uint32 dimension = 1; bytes packed_bits = 2; }
+message Threshold { oneof boundary { double at_least = 1; } string unit = 2; uint32 rows = 3; uint32 columns = 4; repeated Axis axes = 5; }
+message Body {
+  uint32 schema_version = 1;
+  Scope scope = 2;
+  Origin origin = 3;
+  Assurance assurance = 4;
+  bool lossy_history = 5;
+  repeated bytes parents_sha256 = 6;
+  bytes descriptor_sha256 = 7;
+  bytes kernel_git_blob = 8;
+  bytes checkpoint_sha256 = 9;
+  oneof representation { Samples samples = 10; Bits bits = 11; }
+  Threshold threshold = 12;
+  Precision precision = 13;
+  bytes transfer_sha256 = 14; // Present for a result imported through a reviewed handoff.
+}
+message Object { Body body = 1; bytes content_sha256 = 2; }
+// Inert handoff to a separately authorized existing operation. No grant.
+message Transfer {
+  uint32 schema_version = 1;
+  Scope scope = 2;
+  repeated bytes source_sha256 = 3;
+  string operation = 4;
+  bytes descriptor_sha256 = 5;
+  bytes request_frame = 6;
+  bytes request_sha256 = 7;
+  bytes target_checkpoint_sha256 = 8;
+  bool lossy_history = 9;
+}
