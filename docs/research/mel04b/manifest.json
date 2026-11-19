@@ -84,7 +84,7 @@
     "tools/mel04b/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
     "tools/mel04b/acceptance.py": "945ee4cfae0aab77c82a22107ab848d259bf540b",
     "docs/research/mel04b/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
-    ".github/workflows/cog06b-cpu-acceptance.yml": "b8907117c82bad0832e563eab8510c5887dcaaf5"
+    ".github/workflows/cog06b-cpu-acceptance.yml": "10882c9c0ba845855b15087d72187fec46ab804f"
   },
   "inherited_text": [
     "cognitum/__init__.py",

@@ -87,6 +87,12 @@ on:
       - tools/cog04d/**
       - research_tests/cog04c/**
       - research_tests/cog04d/**
+      - docs/research/cog04e/**
+      - docs/research/cog04f/**
+      - tools/cog04e/**
+      - tools/cog04f/**
+      - research_tests/cog04e/**
+      - research_tests/cog04f/**
       - docs/research/COG03F2_SOURCE_MANIFEST.json
       - docs/research/COG03F_SOURCE_MANIFEST.json
       - tools/cog03e2g_cifar.py
@@ -333,6 +339,10 @@ jobs:
         run: python -m tools.cog04c.acceptance --out cog03bc-artifacts/cog04c
       - name: COG-04D adaptive KAN refinement and compositional learning
         run: python -m tools.cog04d.acceptance --out cog03bc-artifacts/cog04d
+      - name: COG-04E exact scalar symbolic extraction and verified operators
+        run: python -m tools.cog04e.acceptance --out cog03bc-artifacts/cog04e
+      - name: COG-04F exact multivariate symbolic extraction and verified operators
+        run: python -m tools.cog04f.acceptance --out cog03bc-artifacts/cog04f
       - name: Preserve verified public MobileNetV2 checkpoint for offline CORe50
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
         timeout-minutes: 5
