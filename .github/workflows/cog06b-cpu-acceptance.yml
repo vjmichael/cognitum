@@ -93,6 +93,12 @@ on:
       - tools/cog04f/**
       - research_tests/cog04e/**
       - research_tests/cog04f/**
+      - docs/research/cog04g/**
+      - tools/cog04g/**
+      - research_tests/cog04g/**
+      - docs/research/cog04h/**
+      - tools/cog04h/**
+      - research_tests/cog04h/**
       - docs/research/COG03F2_SOURCE_MANIFEST.json
       - docs/research/COG03F_SOURCE_MANIFEST.json
       - tools/cog03e2g_cifar.py
@@ -343,6 +349,10 @@ jobs:
         run: python -m tools.cog04e.acceptance --out cog03bc-artifacts/cog04e
       - name: COG-04F exact multivariate symbolic extraction and verified operators
         run: python -m tools.cog04f.acceptance --out cog03bc-artifacts/cog04f
+      - name: COG-04G exact Cartesian scientific operators
+        run: python -m tools.cog04g.acceptance --out cog03bc-artifacts/cog04g
+      - name: COG-04H exact differential equations and residual certificates
+        run: python -m tools.cog04h.acceptance --out cog03bc-artifacts/cog04h
       - name: Preserve verified public MobileNetV2 checkpoint for offline CORe50
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
         timeout-minutes: 5
