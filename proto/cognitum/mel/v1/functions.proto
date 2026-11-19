@@ -1,0 +1,59 @@
+syntax = "proto3";
+package cognitum.mel.functions.v1;
+import "cognitum/mel/v1/uncertainty.proto";
+
+// Host-only certificate for continuous, represented function parameters.
+// Not a grant, trained-target error bound or worker-float certificate.
+message Axis {
+  string name = 1;
+  string unit = 2;
+}
+message FunctionRef {
+  string kind = 1;
+  bytes content_sha256 = 2;
+  string review_id = 3;
+}
+message Certificate {
+  uint32 schema_version = 1;
+  string method = 2;
+  string session = 3;
+  string workspace = 4;
+  string subject = 5;
+  string turn = 6;
+  FunctionRef source = 7;
+  FunctionRef target = 8;
+  repeated Axis axes = 9;
+  string output_unit = 10;
+  repeated double box = 11; // Lower/upper pairs in axis order.
+  repeated double absolute_tolerance = 12; // Value, then gradient axes.
+  uint32 max_cells = 13;
+  uint32 cells = 14;
+  // Range: value, gradient, full row-major Hessian. Comparison: absolute
+  // supremum error lower/upper, value then gradient; lower from test points.
+  repeated cognitum.mel.uncertainty.v1.Interval bounds = 15;
+  string verdict = 16; // enclosed, within, outside, inconclusive
+  bool represented_inputs_only = 17;
+}
+
+// Whole-period residual of represented real Fourier coefficient vectors.
+// Fixed dimensionless function values, radian argument. The operation is
+// truncation, product or quotient; no sampled-target guarantee.
+message SpectralCertificate {
+  uint32 schema_version = 1;
+  string method = 2;
+  string session = 3;
+  string workspace = 4;
+  string subject = 5;
+  string turn = 6;
+  string operation = 7;
+  bytes left_sha256 = 8;
+  bytes right_sha256 = 9;
+  bytes candidate_sha256 = 10;
+  repeated double absolute_tolerance = 11; // value, first derivative
+  double minimum_separation = 12;
+  cognitum.mel.uncertainty.v1.Rational denominator_lower = 13;
+  repeated cognitum.mel.uncertainty.v1.Rational residual_upper = 14;
+  repeated cognitum.mel.uncertainty.v1.Rational error_upper = 15;
+  string verdict = 16; // within or inconclusive (upper bound only)
+  bool represented_inputs_only = 17;
+}
