@@ -35,6 +35,9 @@ on:
       - docs/research/mel/**
       - tools/mel/**
       - research_tests/mel/**
+      - docs/research/mel02/**
+      - tools/mel02/**
+      - research_tests/mel02/**
       - docs/research/COG03F2_SOURCE_MANIFEST.json
       - docs/research/COG03F_SOURCE_MANIFEST.json
       - tools/cog03e2g_cifar.py
@@ -244,6 +247,8 @@ jobs:
         run: python -m unittest discover -s research_tests/mel -v
       - name: MEL-01 exact-checkout mathematical capability reconciliation
         run: python -m tools.mel.audit
+      - name: MEL-02 typed immutable VFA runtime and independent numeric oracles
+        run: python -m tools.mel02.acceptance
       - name: Preserve verified public MobileNetV2 checkpoint for offline CORe50
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
         timeout-minutes: 5
