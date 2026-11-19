@@ -99,6 +99,18 @@ on:
       - docs/research/cog04h/**
       - tools/cog04h/**
       - research_tests/cog04h/**
+      - docs/research/cog04i/**
+      - tools/cog04i/**
+      - research_tests/cog04i/**
+      - docs/research/cog04j/**
+      - tools/cog04j/**
+      - research_tests/cog04j/**
+      - docs/research/cog04k/**
+      - tools/cog04k/**
+      - research_tests/cog04k/**
+      - docs/research/cog04l/**
+      - tools/cog04l/**
+      - research_tests/cog04l/**
       - docs/research/COG03F2_SOURCE_MANIFEST.json
       - docs/research/COG03F_SOURCE_MANIFEST.json
       - tools/cog03e2g_cifar.py
@@ -353,6 +365,14 @@ jobs:
         run: python -m tools.cog04g.acceptance --out cog03bc-artifacts/cog04g
       - name: COG-04H exact differential equations and residual certificates
         run: python -m tools.cog04h.acceptance --out cog03bc-artifacts/cog04h
+      - name: COG-04I Adaptive KAN residual learning and certified solution error
+        run: python -m tools.cog04i.acceptance --out cog03bc-artifacts/cog04i
+      - name: COG-04J Multidimensional elliptic KAN residual certification
+        run: python -m tools.cog04j.acceptance --out cog03bc-artifacts/cog04j
+      - name: COG-04K Transient KAN spatiotemporal residual certification
+        run: python -m tools.cog04k.acceptance --out cog03bc-artifacts/cog04k
+      - name: COG-04L Three-axis transient tensor KAN residual certification
+        run: python -m tools.cog04l.acceptance --out cog03bc-artifacts/cog04l
       - name: Preserve verified public MobileNetV2 checkpoint for offline CORe50
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
         timeout-minutes: 5

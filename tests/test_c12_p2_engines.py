@@ -12,6 +12,7 @@ from cognitum.planning_engines import (ExternalPlannerRuntime, pinned_policy, _p
     verify_external_result, make_external_audit, capability_manifest, verify_manifest)
 from cognitum.proto import planning_engines_pb2 as e
 from tests.test_c12_planning import example, frame
+from cognitum.planning import MAX_TIME_MS
 
 
 DRIVER='''import sys,time,pathlib
@@ -81,8 +82,12 @@ class EngineTests(unittest.TestCase):
         self.assertTrue(self.receipt(req,result).evidence_valid)
 
     def test_anytime_selects_cheapest_checked_plan(self):
-        req=self.request();result=self.run_result(self.policy(mode='anytime'))
-        self.assertEqual(result.total_cost,7)
+        # This is a semantic plan-selection test, not a timing benchmark.
+        # Use the existing bounded maximum to tolerate loaded Windows runners.
+        req=self.request(timeout=MAX_TIME_MS)
+        result=self.run_result(self.policy(mode='anytime'),req)
+        self.assertIn(result.status,(e.VERIFIED_OPTIMAL,e.VERIFIED_PLAN),result.reason_code)
+        self.assertEqual(result.total_cost,7,result.reason_code)
         self.assertEqual(list(result.action_indices),[0,1,2])
         self.assertTrue(self.receipt(req,result).evidence_valid)
 
