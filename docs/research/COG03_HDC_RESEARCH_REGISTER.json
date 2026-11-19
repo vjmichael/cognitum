@@ -3309,6 +3309,26 @@
     "report": "docs/research/vfa2/REPORT.md",
     "manifest": "docs/research/vfa2/manifest.json",
     "hosted_pending": true,
+    "production_enabled": false,
+    "native_status": {
+      "source_sha": "a740043c949c47b95e85e0e6356ddeed80077741",
+      "run": 44440523780,
+      "jobs_passed": 16,
+      "jobs_failed": 2,
+      "windows_failure": "cognitum/research/.gitattributes source drift",
+      "accepted": false
+    }
+  },
+  "vfa03": {
+    "base": "a740043c949c47b95e85e0e6356ddeed80077741",
+    "prior_repair": "self-matching nested LF rule and exact manifest update; local CRLF checkout verified",
+    "new_local_tests": 48,
+    "combined_local_tests": 117,
+    "benchmark_rows": 93,
+    "expected_hosted_cases_per_hdc_cell": 918,
+    "report": "docs/research/vfa3/REPORT.md",
+    "manifest": "docs/research/vfa3/manifest.json",
+    "hosted_pending": true,
     "production_enabled": false
   }
 }

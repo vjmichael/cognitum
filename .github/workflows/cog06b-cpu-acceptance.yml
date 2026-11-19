@@ -29,6 +29,9 @@ on:
       - tools/vfa2/**
       - research_tests/hdc_vfa2/**
       - docs/research/vfa2/**
+      - tools/vfa3/**
+      - research_tests/hdc_vfa3/**
+      - docs/research/vfa3/**
       - docs/research/COG03F2_SOURCE_MANIFEST.json
       - docs/research/COG03F_SOURCE_MANIFEST.json
       - tools/cog03e2g_cifar.py
@@ -232,6 +235,8 @@ jobs:
         run: python -m tools.vfa.acceptance
       - name: Dedicated VFA-02 RKHS algebra and approximation limits
         run: python -m tools.vfa2.acceptance
+      - name: Dedicated VFA-03 multivariate tensor kernels, compositions and calculus
+        run: python -m tools.vfa3.acceptance
       - name: Preserve verified public MobileNetV2 checkpoint for offline CORe50
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
         timeout-minutes: 5
