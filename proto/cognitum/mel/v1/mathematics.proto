@@ -1,0 +1,62 @@
+syntax = "proto3";
+package cognitum.mel.v1;
+
+// Reviewed binary64 research profile. Semantic constraints are in the codec.
+// No grant, effect, path, or executable code is expressible in these messages.
+enum Operation { OPERATION_UNSPECIFIED = 0; VFA_EVALUATE = 1; VFA_GRADIENT = 2; }
+enum Precision { PRECISION_UNSPECIFIED = 0; IEEE754_BINARY64 = 1; }
+enum Assurance { ASSURANCE_UNSPECIFIED = 0; UNVERIFIED_INPUT = 1; NUMERICAL = 2; }
+enum Uncertainty { UNCERTAINTY_UNSPECIFIED = 0; UNKNOWN = 1; NOT_CERTIFIED = 2; }
+message Axis { string name = 1; string unit = 2; }
+message Interval {
+  oneof lower_bound { double lower = 1; }
+  oneof upper_bound { double upper = 2; }
+}
+message UnitRatio { string numerator = 1; string denominator = 2; }
+message GaussianMixture {
+  oneof bias { double constant = 1; }
+  repeated double centers = 2 [packed = true];
+  repeated double widths = 3 [packed = true];
+  repeated double weights = 4 [packed = true];
+}
+message CoordinateBatch { repeated double coordinates = 1 [packed = true]; }
+message ScalarBatch { repeated double values = 1 [packed = true]; }
+message GradientBatch { repeated double values = 1 [packed = true]; }
+message MathBody {
+  uint32 schema_version = 1;
+  Precision precision = 2;
+  repeated uint32 shape = 3 [packed = true];
+  repeated Axis axes = 4;
+  repeated Interval domain = 5;
+  repeated UnitRatio units = 6;
+  repeated bytes parent_sha256 = 7;
+  string producer = 8;
+  bytes kernel_git_blob = 9;
+  Assurance assurance = 10;
+  Uncertainty uncertainty = 11;
+  oneof representation {
+    GaussianMixture function = 12;
+    CoordinateBatch points = 13;
+    ScalarBatch values = 14;
+    GradientBatch gradient = 15;
+  }
+}
+message MathObject { MathBody body = 1; bytes content_sha256 = 2; }
+// Scope and execution authority belong to the host, not to this message.
+message VfaRequest {
+  uint32 schema_version = 1;
+  Operation operation = 2;
+  bytes descriptor_sha256 = 3;
+  string request_id = 4;
+  string correlation_id = 5;
+  MathObject function = 6;
+  MathObject points = 7;
+}
+message VfaResult {
+  uint32 schema_version = 1;
+  Operation operation = 2;
+  bytes descriptor_sha256 = 3;
+  string request_id = 4;
+  string correlation_id = 5;
+  MathObject result = 6;
+}

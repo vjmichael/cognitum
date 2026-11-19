@@ -109,7 +109,7 @@ def test_no_runtime_dispatch(reg,monkeypatch):
 @pytest.mark.parametrize('raw',[None, '', '[]','{} trailing','{}{}','{"x":1,"x":2}',
     '{"x":{"a":1,"a":2}}','{"x":NaN}','{"x":Infinity}','{"x":-Infinity}',
     '{"x":1234567890123456789}','{"x":0.'+'1'*65+'}', '{"x":'+'['*13+'0'+']'*13+'}',
-    '{"x":"\u00e9"}', ' '* (MAX_ARGS_BYTES+1), '{"x": [}', '{"x":"unterminated}'])
+    '{"x":"\u00e9"}', ' '* (MAX_ARGS_BYTES+1), '{"x": [}', '{"x":"unterminated}'], ids=["none", "empty", "nonobject", "trailing", "multiple", "duplicate", "nested_duplicate", "nan", "inf", "negative_inf", "integer_budget", "decimal_budget", "depth", "unicode", "oversized", "structure", "unterminated"])
 def test_strict_parser(raw):
     with pytest.raises((ValueError,TypeError)):strict_json(raw)
 

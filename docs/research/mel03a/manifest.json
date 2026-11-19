@@ -22,7 +22,7 @@
     "cognitum/research/__init__.py": "0a8ae927125f9dd935faaad086e7e1a36ab33489",
     "cognitum/mel/discovery.py": "80c6dd735a2d57ecee9718ec118b3e89fb718fbb",
     "research_tests/mel03a/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
-    "research_tests/mel03a/test_discovery.py": "24b8cb8df0fc3fb751216e83b31261773f7d0535",
+    "research_tests/mel03a/test_discovery.py": "585e0697860cd94c90bc3e11d8a4fd4954a6d708",
     "tools/mel03a/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
     "tools/mel03a/acceptance.py": "f580b775a4a7f3bcb85f8b6fb61c5a27c7be48ce",
     "docs/research/mel03a/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f"
