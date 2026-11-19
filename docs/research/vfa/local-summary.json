@@ -1,0 +1,28 @@
+{
+  "scope": "Local synthetic CPU, eight seeds, 96 cases, 2001 held-out coordinates per case; float64 estimates not interval certificates",
+  "max_product_abs_error": 1.3322676295501878e-15,
+  "quotient": [
+    {
+      "amplitude": 0.25,
+      "order": 12,
+      "max_abs_error": 4.388978069869154e-11,
+      "residual_bound_max": 5.670481469089254e-11
+    },
+    {
+      "amplitude": 0.65,
+      "order": 24,
+      "max_abs_error": 1.2327516785148873e-10,
+      "residual_bound_max": 2.6900504193934554e-10
+    },
+    {
+      "amplitude": 0.9,
+      "order": 48,
+      "max_abs_error": 2.0083206209164928e-9,
+      "residual_bound_max": 8.760441817349896e-9
+    }
+  ],
+  "local_tests": 42,
+  "failures": 0,
+  "skipped": 0,
+  "production_enabled": false
+}

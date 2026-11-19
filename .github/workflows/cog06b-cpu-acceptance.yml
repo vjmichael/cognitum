@@ -23,6 +23,9 @@ on:
       - tools/h12_projection/**
       - research_tests/hdc_h12_projection/**
       - docs/research/h12_projection/manifest.json
+      - tools/vfa/**
+      - research_tests/hdc_vfa/**
+      - docs/research/vfa/**
       - docs/research/COG03F2_SOURCE_MANIFEST.json
       - docs/research/COG03F_SOURCE_MANIFEST.json
       - tools/cog03e2g_cifar.py
@@ -222,6 +225,8 @@ jobs:
         run: python -m tools.h12.acceptance
       - name: Dedicated source-bound HDC projection and symbolic capacity pilot
         run: python -m tools.h12_projection.acceptance
+      - name: Dedicated source-bound VFA function algebra and independent numerical oracles
+        run: python -m tools.vfa.acceptance
       - name: Preserve verified public MobileNetV2 checkpoint for offline CORe50
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
         timeout-minutes: 5

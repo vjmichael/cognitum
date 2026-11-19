@@ -1084,9 +1084,11 @@
         "local_tests": 17,
         "local_comparisons": 25,
         "timing_batches": 75,
-        "hosted_pending": true,
+        "hosted_pending": false,
         "production_enabled": false,
-        "report": "docs/research/h12_projection/MATHEMATICAL_QUALIFICATION.md"
+        "report": "docs/research/h12_projection/MATHEMATICAL_QUALIFICATION.md",
+        "native_jobs_passed": true,
+        "archive_rehash_pending": true
       }
     }
   ],
@@ -3265,6 +3267,26 @@
     "scope": "Existing 85 targets; no new method or production promotion",
     "report": "docs/research/h12_projection/MATHEMATICAL_QUALIFICATION.md",
     "basis": "owner prioritizes symbolic association mathematical robustness",
-    "accepted": false
+    "accepted": false,
+    "projection_native_job_status": {
+      "source_sha": "d96ba9064afbb0e365d3264a952510d77620e4c5",
+      "run": 44423599975,
+      "jobs_passed": 18,
+      "archives_independently_rehashed": false
+    }
+  },
+  "vfa_expansion": {
+    "date": "2026-11-18",
+    "scope": "HDC full mathematical engine; KAN full mathematical engine is separate COG-04; preserve existing 85 targets",
+    "base": "d96ba9064afbb0e365d3264a952510d77620e4c5",
+    "previous_run": 44423599975,
+    "previous_jobs_passed": 18,
+    "local_tests": 42,
+    "benchmark_rows": 96,
+    "expected_hosted_cases_per_hdc_cell": 843,
+    "report": "docs/research/vfa/ROADMAP.md",
+    "manifest": "docs/research/vfa/manifest.json",
+    "hosted_pending": true,
+    "production_enabled": false
   }
 }
