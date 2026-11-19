@@ -31,6 +31,3 @@
 /tools/cog03f_rtl.py text eol=lf
 /docs/research/COG03F_SOURCE_MANIFEST.json text eol=lf
 /docs/research/COG03E2G_RGB_RUN_44326114911_RECONCILIATION.json text eol=lf
-
-/cognitum/research/vfa_random.py text eol=lf
-/cognitum/research/vfa_periodic.py text eol=lf

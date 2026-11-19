@@ -3287,6 +3287,28 @@
     "report": "docs/research/vfa/ROADMAP.md",
     "manifest": "docs/research/vfa/manifest.json",
     "hosted_pending": true,
+    "production_enabled": false,
+    "vfa01_native": {
+      "run": 44426833698,
+      "source_sha": "b194f433448dd3414a5062d42734b8608c13e68c",
+      "passed": 14,
+      "failed": 4,
+      "reason": "RGB source drift .gitattributes; VFA steps not reached",
+      "accepted": false
+    }
+  },
+  "vfa02": {
+    "base": "b194f433448dd3414a5062d42734b8608c13e68c",
+    "scope": "Gaussian RKHS, fixed/conditional FPE approximation, finite Gaussian mixture algebra; default off",
+    "prior_repair": "restore RGB-manifest root attributes; nested VFA-only LF treatment",
+    "new_local_tests": 27,
+    "combined_local_tests": 69,
+    "benchmark_rows": 38,
+    "intentional_refusals": 2,
+    "expected_hosted_cases_per_hdc_cell": 870,
+    "report": "docs/research/vfa2/REPORT.md",
+    "manifest": "docs/research/vfa2/manifest.json",
+    "hosted_pending": true,
     "production_enabled": false
   }
 }

@@ -26,6 +26,9 @@ on:
       - tools/vfa/**
       - research_tests/hdc_vfa/**
       - docs/research/vfa/**
+      - tools/vfa2/**
+      - research_tests/hdc_vfa2/**
+      - docs/research/vfa2/**
       - docs/research/COG03F2_SOURCE_MANIFEST.json
       - docs/research/COG03F_SOURCE_MANIFEST.json
       - tools/cog03e2g_cifar.py
@@ -227,6 +230,8 @@ jobs:
         run: python -m tools.h12_projection.acceptance
       - name: Dedicated source-bound VFA function algebra and independent numerical oracles
         run: python -m tools.vfa.acceptance
+      - name: Dedicated VFA-02 RKHS algebra and approximation limits
+        run: python -m tools.vfa2.acceptance
       - name: Preserve verified public MobileNetV2 checkpoint for offline CORe50
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
         timeout-minutes: 5

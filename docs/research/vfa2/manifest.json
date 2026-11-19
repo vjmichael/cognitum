@@ -1,0 +1,14 @@
+{
+  "base": "b194f433448dd3414a5062d42734b8608c13e68c",
+  "git_blobs": {
+    "cognitum/research/vfa_rkhs.py": "f19156d11ff73faa6a21e7a9036269f2784e9566",
+    "research_tests/hdc_vfa2/test_rkhs.py": "e2e9c4ad77e8f7a3f5158d6a8f75a822a41452a7",
+    "tools/vfa2/benchmark.py": "cbc094530baf588d3eb12a6bccf1bb6139dcef16",
+    "tools/vfa2/acceptance.py": "02de51e9d3ac8325442decc3ee6852c7c1bb443f",
+    "cognitum/research/.gitattributes": "5b7f2749ba15954eaa6f6add9bf3a2722376995b",
+    "research_tests/hdc_vfa2/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "tools/vfa2/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "docs/research/vfa2/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f"
+  },
+  "production_enabled": false
+}
