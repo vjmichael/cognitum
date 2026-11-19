@@ -80,12 +80,17 @@ class Route:
     operation_version: str
 
 
-def routes(*, include_engines=False):
+def routes(*, include_engines=False, include_polynomial_kan=False):
     _require(type(include_engines) is bool, 'explicit engine selection')
     vfa = tuple(Route(b['public_name'], b['operation'], h, Effect.COMPUTE_ONLY,
                        *b['native_proto_type_urls'], b['operation_schema_version']) for h,b in n.catalog())
+    _require(type(include_polynomial_kan) is bool and (not include_polynomial_kan or include_engines), 'explicit polynomial selection')
     if not include_engines:return vfa
     from . import engines as e
+    if include_polynomial_kan:
+        from . import polynomial_kan as p
+        h,b=p.descriptor()
+        vfa += (Route('mel_kan_polynomial_evaluate',p.OP,h,Effect.COMPUTE_ONLY,*b['native_proto_type_urls'],p.VERSION),)
     return vfa+tuple(Route('mel_'+b['operation'].replace('.','_'),b['operation'],h,Effect.COMPUTE_ONLY,
                            *b['native_proto_type_urls'],b['operation_schema_version']) for h,b in e.catalog())
 
@@ -135,10 +140,12 @@ class Admission:
     dispatch returns; registry mutations can wait for bounded worker cleanup.
     No immediate worker interrupt or protected OS custody is implied.
     """
-    def __init__(self, runtime, session, *, enable_engines=False, enable_model_codecs=False):
+    def __init__(self, runtime, session, *, enable_engines=False, enable_model_codecs=False, enable_polynomial_kan=False):
         _require(type(runtime) is Runtime and _ids(session), 'trusted runtime and session required')
         _require(type(enable_engines) is bool, 'explicit engine enable flag')
         _require(type(enable_model_codecs) is bool and (not enable_model_codecs or enable_engines), 'explicit model codec enable flag')
+        _require(type(enable_polynomial_kan) is bool and (not enable_polynomial_kan or enable_engines), 'explicit polynomial enable flag')
+        self._enable_polynomial_kan = enable_polynomial_kan
         self._enable_model_codecs = enable_model_codecs
         self._checkpoints = {}
         self._revoked_checkpoints = set()
@@ -160,6 +167,11 @@ class Admission:
         if route.operation in n.OP:
             n.discover(registry, ((route.public_name, route.descriptor_sha256),))
             factory = n.NativeVFAPlugin
+        elif route.operation == 'kan.polynomial.evaluate':
+            from . import polynomial_kan as p
+            _require(self._enable_polynomial_kan, 'polynomial admission disabled')
+            p.discover(registry, ((route.operation,route.descriptor_sha256),))
+            factory=p.PolynomialPlugin
         else:
             from . import engines as e
             _require(self._enable_engines, 'engine admission disabled')
@@ -173,27 +185,37 @@ class Admission:
     def issue(self, scope, route, limits=Limits(), *, ttl_ms=10000, model_codec=False, checkpoint_sha256=None):
         """Trusted authorization decision only; never called from model JSON."""
         self._scope(scope)
-        _require(type(route) is Route and route in routes(include_engines=self._enable_engines) and route.effect is Effect.COMPUTE_ONLY
+        _require(type(route) is Route and route in routes(include_engines=self._enable_engines, include_polynomial_kan=self._enable_polynomial_kan) and route.effect is Effect.COMPUTE_ONLY
                  and _int(ttl_ms,1,MAX_TTL_MS), 'invalid compute grant')
         if route.operation in n.OP:
             expected = Limits
+        elif route.operation == 'kan.polynomial.evaluate':
+            from .polynomial_kan import Limits as expected
         else:
             from .engine_limits import limits_type
             expected = limits_type(route.operation)
         _require(type(limits) is expected, 'wrong operation resource profile')
         _require(type(model_codec) is bool and (not model_codec or (self._enable_model_codecs and route.operation not in n.OP)), 'model codec unavailable')
-        _require((type(checkpoint_sha256) is str and model_codec and route.operation=='kan.evaluate') or (checkpoint_sha256 is None and not (model_codec and route.operation=='kan.evaluate')), 'checkpoint selection')
+        poly = route.operation=='kan.polynomial.evaluate'
+        _require(not poly or not model_codec, 'polynomial model codec unavailable')
+        needs_checkpoint = poly or (model_codec and route.operation=='kan.evaluate')
+        _require((type(checkpoint_sha256) is str if needs_checkpoint else checkpoint_sha256 is None), 'checkpoint selection')
         with self._runtime.registry.lock:
             entry = self._entry(route)
             with self._lock:
                 _require(not self._closed and len(self._grants)<MAX_GRANTS, 'grant capacity or session closed')
                 approval=None
                 if checkpoint_sha256 is not None:
-                    from .model_engines import DIGEST
+                    from .model_engines import DIGEST, Approval as LegacyApproval
                     _require(DIGEST.fullmatch(checkpoint_sha256),'checkpoint pin')
                     key=(scope,checkpoint_sha256)
                     _require(key in self._checkpoints and key not in self._revoked_checkpoints,'checkpoint not approved for scope')
                     approval=self._checkpoints[key]
+                    if poly:
+                        from .polynomial_kan import Approval
+                        _require(type(approval) is Approval, 'wrong checkpoint profile')
+                    else:
+                        _require(type(approval) is LegacyApproval, 'wrong checkpoint profile')
                 token = secrets.token_bytes(32)
                 while token in self._grants:
                     token = secrets.token_bytes(32)
@@ -210,6 +232,19 @@ class Admission:
         approval=m.Approval(c,review_id);key=(scope,c.identity)
         with self._lock:
             _require(not self._closed and len(self._checkpoints)<m.MAX_CHECKPOINTS and key not in self._checkpoints,'checkpoint capacity or duplicate approval')
+            self._checkpoints[key]=approval
+        return c.identity
+
+    def approve_polynomial_checkpoint(self, scope, wire, *, expected_sha256, review_id):
+        """Same scoped custody table; new typed profile, no implicit grants."""
+        from . import polynomial_kan as p
+        from .model_engines import DIGEST, MAX_CHECKPOINTS
+        self._scope(scope);_require(self._enable_polynomial_kan,'polynomial custody disabled')
+        _require(type(expected_sha256) is str and DIGEST.fullmatch(expected_sha256),'checkpoint pin')
+        c=p.Checkpoint(wire);_require(c.identity==expected_sha256,'checkpoint pin mismatch')
+        approval=p.Approval(c,review_id);key=(scope,c.identity)
+        with self._lock:
+            _require(not self._closed and len(self._checkpoints)<MAX_CHECKPOINTS and key not in self._checkpoints,'checkpoint capacity or duplicate approval')
             self._checkpoints[key]=approval
         return c.identity
 
@@ -263,6 +298,10 @@ class Admission:
                 g = self._grant(scope, token)
                 _require(self._live(g,scope) and g.calls_left>0 and g.work_left>0, 'grant unavailable')
                 _require(self._entry(g.route) is g.entry, 'installed entry changed')
+                if g.route.operation == 'kan.polynomial.evaluate':
+                    from . import polynomial_kan as p
+                    h,b=p.discover(self._runtime.registry, ((g.route.operation,g.route.descriptor_sha256),))[0]
+                    return {'descriptor_sha256':h,'descriptor':b,'model_advertised':False}
                 if g.route.operation not in n.OP:
                     # Inert typed host metadata only. C3 owns model schemas.
                     from . import engines as e
@@ -318,6 +357,8 @@ class Admission:
             route=g.route;limits=g.limits
         if route.operation in n.OP:
             backend=n
+        elif route.operation == 'kan.polynomial.evaluate':
+            from . import polynomial_kan as backend
         else:
             from . import engines as backend
         def receipt(status,frame=None):
@@ -333,9 +374,14 @@ class Admission:
                 f,p=n.pair(c.function,c.points);t,d=f.body.shape;count=p.body.shape[0]
                 work=(t+1)*d*count if d<=limits.dimensions and t<=limits.terms and count<=limits.points else None
             else:
-                from .engine_limits import account
+                if route.operation == 'kan.polynomial.evaluate':
+                    account=backend.account
+                else:
+                    from .engine_limits import account
                 c=backend.Call(route.operation,raw);m=c.message
                 _require(m.request_id==request_id and m.correlation_id==scope.turn and m.descriptor_sha256.hex()==route.descriptor_sha256,'request ownership')
+                if route.operation == 'kan.polynomial.evaluate':
+                    _require(backend.matches(c,g.checkpoint),'polynomial checkpoint mismatch')
                 if g.model_codec:
                     from .model_engines import matches
                     _require(matches(c,g.checkpoint),'model subset or checkpoint mismatch')

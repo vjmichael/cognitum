@@ -1,0 +1,49 @@
+syntax = "proto3";
+package cognitum.mel.polynomial_kan.v1;
+// New binary64, dimensionless research profile. Legacy binary32 wire unchanged.
+enum Basis { BASIS_UNSPECIFIED = 0; CLAMPED_SPLINE = 1; CHEBYSHEV = 2; }
+message Layer {
+  Basis basis = 1;
+  uint32 degree = 2;
+  uint32 inputs = 3;
+  uint32 outputs = 4;
+  uint32 knots = 5;
+  repeated double grid = 6 [packed = true];
+  repeated double coefficients = 7 [packed = true];
+  repeated bool mask = 8 [packed = true];
+  repeated double bias = 9 [packed = true];
+}
+message Checkpoint { uint32 schema_version = 1; repeated Layer layers = 2; }
+message Request {
+  uint32 schema_version = 1;
+  bytes descriptor_sha256 = 2;
+  string request_id = 3;
+  string correlation_id = 4;
+  Checkpoint checkpoint = 5;
+  bytes checkpoint_sha256 = 6;
+  uint32 rows = 7;
+  repeated double coordinates = 8 [packed = true];
+  uint32 order = 9;
+  // Absolute tolerance applies to every value and requested derivative.
+  oneof tolerance { double absolute_tolerance = 10; }
+}
+message Component {
+  double observed = 1;
+  double lower = 2;
+  double upper = 3;
+  double absolute_error_upper = 4;
+}
+message Result {
+  uint32 schema_version = 1;
+  bytes descriptor_sha256 = 2;
+  string request_id = 3;
+  string correlation_id = 4;
+  bytes request_sha256 = 5;
+  bytes checkpoint_sha256 = 6;
+  uint32 rows = 7;
+  uint32 inputs = 8;
+  uint32 outputs = 9;
+  uint32 order = 10;
+  // Row-major: all values, then all Jacobian, then all Hessian components.
+  repeated Component components = 11;
+}
