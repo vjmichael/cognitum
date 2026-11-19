@@ -164,7 +164,7 @@
     "research_tests/cog04i/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
     "research_tests/cog04i/test_learning.py": "6b2bd6cc298dbb1e5d7ce2e45ed2e9616c1685e5",
     "research_tests/cog04j/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
-    "research_tests/cog04j/test_elliptic.py": "8209ca5f935cba84284813132077a62a3bc08f06",
+    "research_tests/cog04j/test_elliptic.py": "262c73b748ec8c876d4565ce77aebd2cacc8a230",
     "research_tests/mel04a/test_exchange.py": "57b80ec8cac5702b0db3f037b2e7507f1707c6ed",
     "research_tests/mel04b/test_cooperation.py": "fcc861b498635f9a62986c3fde9843748894b70a",
     "research_tests/mel05b/test_graph_acceptance.py": "9d10f8b60fb62aa7137b67c1354ddc9b4b8847ea",

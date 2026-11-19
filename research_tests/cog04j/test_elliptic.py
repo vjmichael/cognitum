@@ -69,7 +69,7 @@ def test_problem_rejection(kwargs):
 def test_model_rejection(kwargs):
     with pytest.raises(ValueError):replace(Z,**kwargs)
 
-@pytest.mark.parametrize('bad',[b'{}',b' '+M.checkpoint(),M.checkpoint()+b'\n',b' '*32769,b'{"profile":"cog04j-tensor-cubic-v1","x":[],"y":[],"c":[NaN]}'])
+@pytest.mark.parametrize('bad',[b'{}',b' '+M.checkpoint(),M.checkpoint()+b'\n',b' '*32769,b'{"profile":"cog04j-tensor-cubic-v1","x":[],"y":[],"c":[NaN]}'],ids=['empty-object', 'leading-whitespace', 'trailing-newline', 'oversized-checkpoint', 'nonfinite-coefficient'])
 def test_checkpoint_rejection(bad):
     with pytest.raises(ValueError):v.restore(bad)
 

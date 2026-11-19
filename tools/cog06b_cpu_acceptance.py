@@ -41,6 +41,13 @@ def source_check():
     if git("status","--porcelain","--untracked-files=no"):
         raise RuntimeError("tracked source changed")
     baseline="5c31406f52919b9f52c29df5714bf14d8a8e5aa6"
+    # COG-04G–L: one reviewed C12 semantic-test fixture correction.
+    # Keep the original historical provenance record and verify both versions.
+    planning_test_path="tests/test_c12_p2_engines.py"
+    planning_test_original="b037dd4ccb0778483e38eeb2c8860d982b67cfd7"
+    planning_test_repair={planning_test_path:"6ca55aef63114b12fb7bdbf076c237936a3ca1bd"}
+    planning_test_origin="1cca0f48960855a0ca121620e8644682563bc175"
+    seen_planning_test=0
     for rel in ("docs/integration/COG06B_C10_SOURCE_PROVENANCE.json",
                 "docs/integration/COG06B_C11_C13_SOURCE_PROVENANCE.json"):
         manifest=json.loads((ROOT/rel).read_text(encoding="utf-8"))
@@ -48,8 +55,22 @@ def source_check():
             if git("rev-parse","HEAD:"+item["path"])!=item["sha"]:
                 raise RuntimeError("historical blob drift: "+item["path"])
         for item in manifest.get("records",[]):
-            if item["disposition"]=="exact" and git("rev-parse","HEAD:"+item["destination"])!=item["source_blob"]:
-                raise RuntimeError("historical blob drift: "+item["destination"])
+            if item["disposition"]=="exact":
+                destination=item["destination"]
+                expected=item["source_blob"]
+                if destination==planning_test_path:
+                    if (rel!="docs/integration/COG06B_C11_C13_SOURCE_PROVENANCE.json"
+                            or manifest["historical_commit"]!=planning_test_origin
+                            or item["source_path"]!=planning_test_path
+                            or expected!=planning_test_original
+                            or git("rev-parse",planning_test_origin+":"+planning_test_path)!=planning_test_original):
+                        raise RuntimeError("C12 historical provenance mismatch")
+                    seen_planning_test+=1
+                    expected=planning_test_repair[destination]
+                if git("rev-parse","HEAD:"+destination)!=expected:
+                    raise RuntimeError("historical blob drift: "+destination)
+    if seen_planning_test!=1:
+        raise RuntimeError("missing/duplicated original C12 provenance record")
     # Permit only the demonstrated C06/C07 duplicate-message repair, not
     # arbitrary replacement of accepted runtime/schema/test files.
     identity_repair={"proto/cognitum/memory/v1/host_owned.proto",
@@ -83,16 +104,20 @@ def source_check():
     # Preserve COG-06G and all other earlier accepted runtime/schema/test paths.
     frozen="ce28a7ad6a584e6cce5a77c9be5d63bc5dabeaa0"
     prior_changes=git("diff","--name-only","--diff-filter=MDTRC",frozen,head,"--","cognitum","proto","tests").splitlines()
-    if set(prior_changes)!=set(causal_repair) | set(cancellation_repair):
+    if git("rev-parse",frozen+":"+planning_test_path)!=planning_test_original:
+        raise RuntimeError("frozen C12 test provenance mismatch")
+    if set(prior_changes)!=set(causal_repair) | set(cancellation_repair) | set(planning_test_repair):
         raise RuntimeError("unexpected COG-06G accepted runtime/schema/test modification: "+repr(prior_changes))
     # No other replacement of accepted mature runtime or existing schemas.
     changed=git("diff","--name-only",baseline,head).splitlines()
     for rel in changed:
-        if rel not in identity_repair and rel not in proof_repair and rel not in causal_repair and rel not in cancellation_repair and rel.startswith(("cognitum/","proto/","tests/test_")):
+        if rel not in identity_repair and rel not in proof_repair and rel not in causal_repair and rel not in cancellation_repair and rel not in planning_test_repair and rel.startswith(("cognitum/","proto/","tests/test_")):
             if subprocess.run(["git","cat-file","-e",baseline+":"+rel],cwd=ROOT,
                               stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0:
                 raise RuntimeError("accepted existing runtime/schema/test replaced: "+rel)
-    return {"commit":head,"baseline":baseline,"changed_paths":changed}
+    return {"commit":head,"baseline":baseline,"changed_paths":changed,
+            "c12_test_repair":{"path":planning_test_path,"historical_commit":planning_test_origin,
+                               "historical_blob":planning_test_original,"accepted_candidate_blob":planning_test_repair[planning_test_path]}}
 
 def native_preflight():
     import numpy, scipy, networkx, z3, cvc5, arviz

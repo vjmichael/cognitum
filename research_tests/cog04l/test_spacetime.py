@@ -80,7 +80,7 @@ def test_budget_abstain():
     _,p,_=cases()[1];f=s.fit(p,1e-9,0);assert not f.converged
     with pytest.raises(ValueError):v.require_accuracy(p,f.model,f.certificate,1e-9)
 
-@pytest.mark.parametrize('raw',[b'{}',b'[]',b' '*65537,b'{"profile":"wrong","cuts":[],"c":[]}',b'{"profile":"cog04l-parabolic-tensor-cubic-v1","cuts":[],"c":[]}'])
+@pytest.mark.parametrize('raw',[b'{}',b'[]',b' '*65537,b'{"profile":"wrong","cuts":[],"c":[]}',b'{"profile":"cog04l-parabolic-tensor-cubic-v1","cuts":[],"c":[]}'],ids=['empty-object', 'empty-array', 'oversized-checkpoint', 'wrong-profile', 'invalid-shape'])
 def test_bad_checkpoint(raw):
     with pytest.raises(ValueError):v.restore(raw)
 

@@ -88,7 +88,7 @@ def test_certificate_tamper(field,value):
 def test_invalid_problem(kwargs):
     with pytest.raises(ValueError):replace(ZERO,**kwargs)
 
-@pytest.mark.parametrize('bad',[b'{}',b' '+M.checkpoint(),M.checkpoint()+b'\n',b' '*32769,Z.spline.checkpoint(),b'{"profile":"cog04k-parabolic-tensor-cubic-v1","x":[],"t":[],"c":[NaN]}'])
+@pytest.mark.parametrize('bad',[b'{}',b' '+M.checkpoint(),M.checkpoint()+b'\n',b' '*32769,Z.spline.checkpoint(),b'{"profile":"cog04k-parabolic-tensor-cubic-v1","x":[],"t":[],"c":[NaN]}'],ids=['empty-object', 'leading-whitespace', 'trailing-newline', 'oversized-checkpoint', 'wrong-profile', 'nonfinite-coefficient'])
 def test_checkpoint_rejection(bad):
     with pytest.raises(ValueError):v.restore(bad)
 
