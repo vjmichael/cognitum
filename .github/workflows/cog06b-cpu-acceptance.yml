@@ -71,6 +71,10 @@ on:
       - docs/research/mel05c/**
       - tools/mel05c/**
       - research_tests/mel05c/**
+      - docs/research/mel06a/**
+      - docs/research/mel06ar1/**
+      - tools/mel06a/**
+      - research_tests/mel06a/**
       - docs/research/COG03F2_SOURCE_MANIFEST.json
       - docs/research/COG03F_SOURCE_MANIFEST.json
       - tools/cog03e2g_cifar.py
@@ -307,6 +311,8 @@ jobs:
         run: python -m tools.mel05b.acceptance
       - name: MEL-05C VFA-04 continuous function enclosures and verified transformations
         run: python -m tools.mel05c.acceptance
+      - name: MEL-06A-R1 native scoped intent and recorded GGUF replay acceptance
+        run: python -m tools.mel06a.acceptance
       - name: Preserve verified public MobileNetV2 checkpoint for offline CORe50
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
         timeout-minutes: 5

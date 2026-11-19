@@ -84,7 +84,7 @@
     "tools/mel04b/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
     "tools/mel04b/acceptance.py": "945ee4cfae0aab77c82a22107ab848d259bf540b",
     "docs/research/mel04b/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
-    ".github/workflows/cog06b-cpu-acceptance.yml": "bd0a2b8f4a9ec55dd3a8200d0ea16d2d6f11f4df",
+    ".github/workflows/cog06b-cpu-acceptance.yml": "fdac6d18bd77d8c1386912daf3d31ac8fa9116cb",
     "cognitum/mel/verification.py": "00827e8c82d542179d045b8e50a2e887bb4c6700",
     "cognitum/mel/verification_pb2.py": "547460431028994c2af2498a7a4904c1c24144db",
     "proto/cognitum/mel/v1/verification.proto": "351f3148c6b9ee42e52305da6d97178f0fef3d98",
@@ -93,7 +93,7 @@
     "tools/mel05a/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
     "tools/mel05a/acceptance.py": "cc4bd2e7389dd20bbbfe39dc013df9c09d1370b4",
     "docs/research/mel05a/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
-    "docs/research/mel04b/manifest.json": "3ca3d55caa8effa7a4de7432e5c5ed310da58b2e",
+    "docs/research/mel04b/manifest.json": "290f1277ec5f7b4e839aa4964258792cc4e540e8",
     ".github/workflows/.gitattributes": "172321184acf5f16bc140e03410aa1c8a97ceb13"
   },
   "inherited_text": [
