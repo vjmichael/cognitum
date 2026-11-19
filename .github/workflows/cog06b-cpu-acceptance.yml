@@ -32,6 +32,9 @@ on:
       - tools/vfa3/**
       - research_tests/hdc_vfa3/**
       - docs/research/vfa3/**
+      - docs/research/mel/**
+      - tools/mel/**
+      - research_tests/mel/**
       - docs/research/COG03F2_SOURCE_MANIFEST.json
       - docs/research/COG03F_SOURCE_MANIFEST.json
       - tools/cog03e2g_cifar.py
@@ -237,6 +240,10 @@ jobs:
         run: python -m tools.vfa2.acceptance
       - name: Dedicated VFA-03 multivariate tensor kernels, compositions and calculus
         run: python -m tools.vfa3.acceptance
+      - name: MEL-01 inventory and negative controls (no admission)
+        run: python -m unittest discover -s research_tests/mel -v
+      - name: MEL-01 exact-checkout mathematical capability reconciliation
+        run: python -m tools.mel.audit
       - name: Preserve verified public MobileNetV2 checkpoint for offline CORe50
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
         timeout-minutes: 5
