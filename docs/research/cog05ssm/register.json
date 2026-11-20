@@ -8,8 +8,8 @@
   },
   "counts": {
     "total": 72,
-    "partial": 42,
-    "open": 30
+    "partial": 48,
+    "open": 24
   },
   "rows": [
     {
@@ -450,8 +450,8 @@
         "L44"
       ],
       "acceptance": "Known parameters, batch likelihood and EM monotonicity when applicable; parameter uncertainty.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Scalar normal MLE and conjugate normal-inverse-gamma posterior; Gaussian mixture EM with constrained variance and likelihood control; latent state EM/general MLE open; SSM-05 local pass; native pending"
     },
     {
       "id": "DS34",
@@ -465,8 +465,8 @@
         "L39"
       ],
       "acceptance": "Fit unknown LTI with held-out controls; rank deficiency prevents unique claim; similarity ambiguity.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Fully observed discrete LTI A/B identification with rank guard and independent supplied held-out controls; latent/noisy-regressor identification open; SSM-05 local pass; native pending"
     },
     {
       "id": "DS35",
@@ -478,8 +478,8 @@
         "L37"
       ],
       "acceptance": "Noise-free impulse recovery; noisy order selection and uncertainty; compare Ho–Kalman.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "SISO/MIMO ERA impulse realization and rank/gap guard; supplied order, similarity ambiguity; noisy order selection open; SSM-05 local pass; native pending"
     },
     {
       "id": "DS36",
@@ -491,8 +491,8 @@
         "L39"
       ],
       "acceptance": "Recover bounded polynomial equations; derivative noise, collinearity, wrong library controls; KAN cross-check.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Polynomial STLSQ SINDy with derivative data, wrong library/noise/held-out controls; derivative reconstruction and KAN cross-check open; SSM-05 local pass; native pending"
     },
     {
       "id": "DS37",
@@ -504,8 +504,8 @@
         "L39"
       ],
       "acceptance": "Known spectral modes, residual/error, non-invariant dictionary warning; no finite exact Koopman universal claim.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Full-rank DMD and polynomial EDMD with observable residual and noninvariant dictionary counterexample; general spectral guarantees open; SSM-05 local pass; native pending"
     },
     {
       "id": "DS38",
@@ -520,8 +520,8 @@
         "L33"
       ],
       "acceptance": "Learn linear/quadratic operators, independent known matrices, exact-recovery assumptions, unseen excitation/noise.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Polynomial operator inference with optional coefficient-level Euclidean quadratic conservation constraint; noisy and incompatible model tests; general structure constraints open; SSM-05 local pass; native pending"
     },
     {
       "id": "DS39",
