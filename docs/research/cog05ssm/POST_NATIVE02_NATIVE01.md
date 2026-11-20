@@ -1,5 +1,7 @@
 # COG-05-SSM-POST-NATIVE-02-NATIVE-01 — Native qualification and residual reconciliation
 
+**Final disposition: PASS / CLOSED for bounded native qualification.** [Authoritative four-target GitHub Actions run](https://github.com/vjmichael/cognitum/actions/runs/44832908788) at fixed SHA `bd2b332a06291f005adf5ab8183c56c8d36ba81f`; all four native jobs passed 44/44 dedicated and 63/63 combined cases, 81 cumulative source pins, zero failures/errors/skips. [Independently reconciled four-artifact SHA-256 manifest](POST_NATIVE02_NATIVE01_ARTIFACTS.json) records the GitHub artifact IDs, archived ZIP hashes, same-head predecessor links and identical per-platform JUnit case inventories. Historical failed and cancelled attempts below remain evidence, not the authoritative pass.
+
 ## Qualification scope
 Target branch: `cognitum/ssm-postnative02-native-r1-20261120`. First attempted source-locked GitHub Actions run [44828561298](https://github.com/vjmichael/cognitum/actions/runs/44828561298), SHA `4a33cbec2d1103eabd13d704c8f7d3eb9de68eef`, exercises the inherited 391-scope SSM-09B acceptance, 19-case post-native-01 and new 44-case post-native-02, including 63-case combined post-native check, on Ubuntu/Windows with Python 3.11 and 3.13.
 
