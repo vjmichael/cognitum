@@ -8,8 +8,8 @@
   },
   "counts": {
     "total": 72,
-    "partial": 48,
-    "open": 24
+    "partial": 54,
+    "open": 18
   },
   "rows": [
     {
@@ -560,8 +560,8 @@
         "L04"
       ],
       "acceptance": "Error-dynamics and observer pole placement; unknown-input identifiability refusal.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Discrete known-input Luenberger observer via dual pole placement with observable rank/error dynamics; unknown-input observers open; SSM-06 local pass, native pending"
     },
     {
       "id": "DS42",
@@ -573,8 +573,8 @@
         "L04"
       ],
       "acceptance": "Independently verify closed-loop pole placement, Riccati solution and cost against finite-horizon dynamic programming.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Discrete stable distinct real pole placement, stabilizing DARE LQR residual and finite-horizon Bellman dynamic programming; broader control domains open; SSM-06 local pass, native pending"
     },
     {
       "id": "DS43",
@@ -587,8 +587,8 @@
         "L05"
       ],
       "acceptance": "Joint filter/controller benchmark under exact assumptions; no separation claim for generic nonlinear systems.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Stationary discrete Gaussian predictor LQG, dual Riccati and augmented state/error separation checks, seeded simulation; constrained and nonlinear cases open; SSM-06 local pass, native pending"
     },
     {
       "id": "DS44",
@@ -601,8 +601,8 @@
         "L16"
       ],
       "acceptance": "Finite-horizon convex control, feasible constraints and KKT residual; C11/C12 adapter; infeasible refusal.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Strictly convex condensed finite-horizon linear-quadratic box-constrained plan, LP feasibility and numerical KKT residuals; receding horizon and planning adapter open; SSM-06 local pass, native pending"
     },
     {
       "id": "DS45",
@@ -614,8 +614,8 @@
         "L16"
       ],
       "acceptance": "Bounded uncertainty and explicit risk; independent reachability or independent sample coverage as distinct evidence.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Exact rational sufficient additive-disturbance invariant box check for supplied feedback; robust/chance-constrained synthesis open; SSM-06 local pass, native pending"
     },
     {
       "id": "DS46",
@@ -656,8 +656,8 @@
         "L35"
       ],
       "acceptance": "Certificate verification separate from synthesis, unsafe initial state and infeasible commands; simulation only.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Exact rational invariant-state and input-box witness for fixed linear feedback, refusal on negative margin; safety filter synthesis/general reach-avoid open; SSM-06 local pass, native pending"
     },
     {
       "id": "DS49",
