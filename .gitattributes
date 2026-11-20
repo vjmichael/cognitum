@@ -31,3 +31,7 @@
 /tools/cog03f_rtl.py text eol=lf
 /docs/research/COG03F_SOURCE_MANIFEST.json text eol=lf
 /docs/research/COG03E2G_RGB_RUN_44326114911_RECONCILIATION.json text eol=lf
+
+# Frozen NIST scientific reference source snapshot: no Windows CRLF translation.
+/research_tests/ssm_postnative02/data/misra1a.csv text eol=lf
+/research_tests/ssm_postnative02/data/norris.csv text eol=lf
