@@ -171,6 +171,19 @@ jobs:
           name: ssm04r1-${{ matrix.os }}-py${{ matrix.python-version }}
           path: ssm04r1-evidence/
           if-no-files-found: warn
+      - name: COG-05-SSM-05 statistical inference and model discovery
+        run: python -m tools.ssm05.acceptance --prior ssm04r1-evidence --out ssm05-evidence
+        env:
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+      - name: Preserve SSM-05 native evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ssm05-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: ssm05-evidence/
+          if-no-files-found: warn
       - name: Preserve SSM-02-R1 native evidence
         if: always()
         uses: actions/upload-artifact@v4
