@@ -14,7 +14,7 @@ from tools.ssm06.acceptance import NEW_PINS as CONTROL
 from tools.ssm06r1.acceptance import NEW_PINS as CONTROL_EXTENDED
 
 NEW_PINS={
-    'cognitum/research/ssm_learned.py':'6830e8324ca80108074a23b553529776d812b34e',
+    'cognitum/research/ssm_learned.py':'aa058aacff90730028c807a2d9c841dadeaac412',
     'research_tests/ssm07/test_learned.py':'d31c1420820ef4977cdb839b8645905295b5396c',
 }
 
