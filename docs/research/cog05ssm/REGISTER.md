@@ -71,14 +71,14 @@ Frozen research charter 2026-11-20. 72 capability groups; 33 partial scoped acce
 
 | ID | Mathematical capability | Present coverage | References | Minimum independent acceptance |
 |---|---|---|---|---|
-| DS41 | Luenberger and unknown-input observers | OPEN | L03, L04 | Error-dynamics and observer pole placement; unknown-input identifiability refusal. |
-| DS42 | State feedback, pole placement and LQR | OPEN | L03, L04 | Independently verify closed-loop pole placement, Riccati solution and cost against finite-horizon dynamic programming. |
-| DS43 | LQG, Kalman-controller separation and duality | OPEN | L01, L03, L05 | Joint filter/controller benchmark under exact assumptions; no separation claim for generic nonlinear systems. |
-| DS44 | Model predictive control and constrained planning | OPEN | L03, L04, L16 | Finite-horizon convex control, feasible constraints and KKT residual; C11/C12 adapter; infeasible refusal. |
-| DS45 | Robust, stochastic and chance-constrained control | OPEN | L04, L16 | Bounded uncertainty and explicit risk; independent reachability or independent sample coverage as distinct evidence. |
+| DS41 | Luenberger and unknown-input observers | PARTIAL: Discrete known-input Luenberger observer via dual pole placement with observable rank/error dynamics; unknown-input observers open; local pass, native pending | L03, L04 | Error-dynamics and observer pole placement; unknown-input identifiability refusal. |
+| DS42 | State feedback, pole placement and LQR | PARTIAL: Discrete stable distinct real pole placement, stabilizing DARE LQR residual and finite-horizon Bellman dynamic programming; broader control domains open; local pass, native pending | L03, L04 | Independently verify closed-loop pole placement, Riccati solution and cost against finite-horizon dynamic programming. |
+| DS43 | LQG, Kalman-controller separation and duality | PARTIAL: Stationary discrete Gaussian predictor LQG, dual Riccati and augmented state/error separation checks, seeded simulation; constrained and nonlinear cases open; local pass, native pending | L01, L03, L05 | Joint filter/controller benchmark under exact assumptions; no separation claim for generic nonlinear systems. |
+| DS44 | Model predictive control and constrained planning | PARTIAL: Strictly convex condensed finite-horizon linear-quadratic box-constrained plan, LP feasibility and numerical KKT residuals; receding horizon and planning adapter open; local pass, native pending | L03, L04, L16 | Finite-horizon convex control, feasible constraints and KKT residual; C11/C12 adapter; infeasible refusal. |
+| DS45 | Robust, stochastic and chance-constrained control | PARTIAL: Exact rational sufficient additive-disturbance invariant box check for supplied feedback; robust/chance-constrained synthesis open; local pass, native pending | L04, L16 | Bounded uncertainty and explicit risk; independent reachability or independent sample coverage as distinct evidence. |
 | DS46 | Adaptive, robust and data-enabled predictive control | OPEN | L16, L37, L39 | Persistently exciting vs deficient datasets; compare model-first MPC and closed-loop simulation; no guarantees beyond conditions. |
 | DS47 | Optimal experiment design and sensor placement | OPEN | L03, L05, L37 | Finite candidate enumeration and observability/Fisher information; distinguish local identifiability. |
-| DS48 | Safety filters, reach-avoid and certified controllers | OPEN | L04, L34, L35 | Certificate verification separate from synthesis, unsafe initial state and infeasible commands; simulation only. |
+| DS48 | Safety filters, reach-avoid and certified controllers | PARTIAL: Exact rational invariant-state and input-box witness for fixed linear feedback, refusal on negative margin; safety filter synthesis/general reach-avoid open; local pass, native pending | L04, L34, L35 | Certificate verification separate from synthesis, unsafe initial state and infeasible commands; simulation only. |
 
 ## COG-05-SSM-07 — Structured and selective learned state spaces
 
