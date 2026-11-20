@@ -89,6 +89,19 @@ jobs:
           OMP_NUM_THREADS: '1'
           OPENBLAS_NUM_THREADS: '1'
           MKL_NUM_THREADS: '1'
+      - name: COG-04U certified scalar continuum enclosures and exact assembly optimization
+        run: python -m tools.cog04u.acceptance --prior cog04t-evidence --out cog04u-evidence
+        env:
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+      - name: Preserve COG-04U native evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cog04u-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: cog04u-evidence/
+          if-no-files-found: warn
       - name: Preserve COG-04T native evidence
         if: always()
         uses: actions/upload-artifact@v4
