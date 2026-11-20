@@ -17,7 +17,7 @@ def test_uio_rank():
 def test_robust_corners():
     A=np.array([[.8,.2],[-.1,.7]]);B=np.eye(2);w=np.array([.1,.15]);z=e.uncertain_plan(A,B,np.eye(2),np.eye(2),np.eye(2),[.7,.8],3,[1,1],[1,1],disturbance=w)
     for signs in itertools.product([-1,1],repeat=6):
-        x=np.array([.7,.8])
+        x=np.array([.7,.8]);
         for j,u in enumerate(z['inputs']):
             x=A@x+B@u+w*np.array(signs[2*j:2*j+2]);assert np.all(abs(x)<=1+1e-8);assert np.all(abs(x-z['states'][j+1])<=z['tightening'][j]+1e-8)
 
