@@ -16,7 +16,7 @@ from tools.ssm_postnative01.acceptance import (
 
 NEW_PINS = {
     'cognitum/research/ssm_external_qualification.py':
-        'f79018fdade8c0194c743afb41c6bffdc389b562',
+        '5c15058ce70e9b6cd71c5bbb48cfa1839ce3dc72',
     'research_tests/ssm_postnative02/test_external_science.py':
         '008b9b81e0750c617f879d061468445211555a0e',
     'research_tests/ssm_postnative02/test_uncertainty.py':
