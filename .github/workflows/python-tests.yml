@@ -158,6 +158,19 @@ jobs:
           name: ssm04-${{ matrix.os }}-py${{ matrix.python-version }}
           path: ssm04-evidence/
           if-no-files-found: warn
+      - name: COG-05-SSM-04-R1 advanced stochastic inference
+        run: python -m tools.ssm04r1.acceptance --prior ssm04-evidence --out ssm04r1-evidence
+        env:
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+      - name: Preserve SSM-04-R1 native evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ssm04r1-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: ssm04r1-evidence/
+          if-no-files-found: warn
       - name: Preserve SSM-02-R1 native evidence
         if: always()
         uses: actions/upload-artifact@v4
