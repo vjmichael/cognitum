@@ -1,0 +1,78 @@
+{
+  "task": "COG-05-SSM-POST-NATIVE-03",
+  "date": "2026-11-20",
+  "status": "PASS_BOUNDED_NATIVE_REAL_SENSOR_PILOT",
+  "run_id": 44837589141,
+  "run_url": "https://github.com/vjmichael/cognitum/actions/runs/44837589141",
+  "qualified_source_sha": "9c02f020136744930e3708a2b00f5a1db6d34dd8",
+  "source_tree_sha": "9396d43819cee6317a6152e043c6a231de9deaea",
+  "cases_per_target": 29,
+  "source_git_pins": 6,
+  "original_source_acquisition_run": 44835810983,
+  "original_source_artifact_id": 14678471230,
+  "observations": {
+    "uci374": 6144,
+    "uci501": 6144
+  },
+  "original_archive_sha256": {
+    "uci374": "2fccf354445d886e7917620b0195db1f3e3e34d5a067a93b844694a4c561255a",
+    "uci501": "b04da438b2f331ac0ffd45aebdfec0d20d2367feb5f6948c4b1f7ce1191e33c4"
+  },
+  "source_rights": "UCI dataset-specific CC BY 4.0 (attribution required)",
+  "platforms": [
+    {
+      "name": "ubuntu311",
+      "artifact_id": 14679397198,
+      "zip_sha256": "e013575701a64e79b582525eca676ab5532ef281ecdbc6ebf46b2aab52584e6e",
+      "kan_snapshots": {
+        "uci374": "efff04d57d42466a4588cb4a8f5a786ab24e1e4961eda4b22c773e82079c570a",
+        "uci501": "f8e8f498309ad059aec1dc66e8f5afa4568909e89bd2fdc4e2c032e85d905d70"
+      }
+    },
+    {
+      "name": "ubuntu313",
+      "artifact_id": 14678677842,
+      "zip_sha256": "c724814296ede241727241563bf56e1129a2b6f6a716f6866fe70de95171e513",
+      "kan_snapshots": {
+        "uci374": "a96d81eec1a5c1bdc30cbc5248d44a8304d6a9168c98b64e2c80afd3f3118c4b",
+        "uci501": "d74c719895c5ed593a0ea7f205002d5167ba21624bee76a90dae4aa7e628ce1f"
+      }
+    },
+    {
+      "name": "windows311",
+      "artifact_id": 14678518302,
+      "zip_sha256": "52d209e3b9fe00d26d527427be1b5f735eebce18531c5514dd4a4baa40a613fb",
+      "kan_snapshots": {
+        "uci374": "ddebabd92f6f88aa3e5b1277090fcfc6854bce79d3e7d73d17a419794693b793",
+        "uci501": "bbf80ff7c94b990b4af84ebff382f511ef1209044d2a4ee6821124c4b315d90c"
+      }
+    },
+    {
+      "name": "windows313",
+      "artifact_id": 14679077771,
+      "zip_sha256": "a77457f8b06eab32d6eddea4b5bf8621f56db99f1913bc1b436d09fa3cc8b240",
+      "kan_snapshots": {
+        "uci374": "ddebabd92f6f88aa3e5b1277090fcfc6854bce79d3e7d73d17a419794693b793",
+        "uci501": "bbf80ff7c94b990b4af84ebff382f511ef1209044d2a4ee6821124c4b315d90c"
+      }
+    }
+  ],
+  "verification": {
+    "all_workflow_jobs_success": true,
+    "all_receipts_status_pass": true,
+    "all_29_test_inventories_identical": true,
+    "all_JUnit_zero_failed_error_skipped": true,
+    "all_embedded_log_and_JUnit_SHA256_valid": true,
+    "all_artifact_ZIP_SHA256_valid": true,
+    "all_six_source_pin_maps_identical": true,
+    "numerical_metrics_agree_within_absolute_1e_minus_10": true,
+    "trained_KAN_snapshot_bytes_bitwise_identical": false
+  },
+  "governance": {
+    "source_pins_do_not_authenticate_publishers": true,
+    "full_broad_72_capabilities_complete": false,
+    "independent_physical_law_discovered": false,
+    "real_world_calibration_proven": false,
+    "actuation_authorized": false
+  }
+}
