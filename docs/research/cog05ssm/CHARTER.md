@@ -64,3 +64,5 @@ Every stage can split into independently grouped tasks. DS17–24 before some fi
 **Current execution update (November 20):** SSM-01/R1 native scoped acceptance complete ([closeout](SSM01_CLOSEOUT.md)); SSM-02 linear systems analysis local candidate implemented ([report](SSM02.md)), 78 combined dedicated tests. Next SSM-02-R1 native acceptance and residual systems-analysis work; master ledger authoritative. Prior charter text remains the original scope, not a current status claim.
 
 **SSM-02-R1 update:** exact bounded nonlinear equilibrium and verification, quadratic dissipativity/passivity and induced gain bracket profiles added locally; [R1 report](SSM02_R1.md), 111 combined tests. Native pending. No general nonlinear or storage synthesis claim. Master ledger schedules sequential acceptance, followed by SSM-03 independent scientific dynamics.
+
+**SSM-02 native update:** [bounded linear analysis accepted](SSM02_CLOSEOUT.md), all 12 jobs and evidence reconciliation; R1 local candidate native remaining. No overlapping CI.

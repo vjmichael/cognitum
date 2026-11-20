@@ -22,3 +22,5 @@ Python 3.13.5, NumPy 2.3.5, SciPy 1.17.0, pytest 9.0.2; one-thread OMP/OpenBLAS.
 ## Register disposition
 
 DS13–16 expanded scoped candidates; DS09–12 preserved. DS01–08 scoped accepted historical; DS14 now partial. Residual general spectral/Jordan/alias theory, constrained reachable sets, storage synthesis, frequency maximization, formal nonlinear basin/barrier synthesis, general equilibrium enumeration and continuation, validated adaptive/high-order flow propagation remain explicitly open. Next: reconcile SSM-02 and R1 native evidence before declaring R1 accepted; proceed to SSM-03 scientific and physical dynamics when appropriate as independent development, no new overlapping CI. No claim of universal mathematical completeness.
+
+**Predecessor closeout update:** original SSM-02 accepted, all 12 jobs completed and all eight archive pairs reconciled ([closeout](SSM02_CLOSEOUT.md)). The earlier partial status is the historical staging snapshot. The next non-skip documentation commit launches the new consolidated R1 gate. R1 is not accepted until its own same-head evidence reconciles.

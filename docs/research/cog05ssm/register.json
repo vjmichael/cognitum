@@ -128,7 +128,7 @@
       ],
       "acceptance": "Defective and transient-growth examples; Schur residual and norm bounds, not eigenvalues alone.",
       "status": "PARTIAL",
-      "evidence": "Numerical complex Schur residual/orthogonality and sampled nonnormal/defective transient gains; global bounds/Jordan open; SSM-02 local 40 tests, native pending"
+      "evidence": "Numerical complex Schur residual/orthogonality and sampled nonnormal/defective transient gains; global bounds/Jordan open; SSM-02 scoped native accepted, 160 dedicated"
     },
     {
       "id": "DS10",
@@ -141,7 +141,7 @@
       ],
       "acceptance": "Exact small controllability rank, PBH and Gramian checks; unreachable unstable counterexample.",
       "status": "PARTIAL",
-      "evidence": "Exact rank, rational-complex PBH, invariant quotient stabilizability and finite discrete unconstrained target witnesses; constrained reach open; SSM-02 local 40 tests, native pending"
+      "evidence": "Exact rank, rational-complex PBH, invariant quotient stabilizability and finite discrete unconstrained target witnesses; constrained reach open; SSM-02 scoped native accepted, 160 dedicated"
     },
     {
       "id": "DS11",
@@ -155,7 +155,7 @@
       ],
       "acceptance": "Exact observability rank/PBH and indistinguishable-state pairs; reject nonidentifiable claims.",
       "status": "PARTIAL",
-      "evidence": "Exact rank, rational-complex PBH, dual quotient detectability and known-input state reconstruction; parameter identifiability open; SSM-02 local 40 tests, native pending"
+      "evidence": "Exact rank, rational-complex PBH, dual quotient detectability and known-input state reconstruction; parameter identifiability open; SSM-02 scoped native accepted, 160 dedicated"
     },
     {
       "id": "DS12",
@@ -169,7 +169,7 @@
       ],
       "acceptance": "Rational P positive definite and negative residual; unstable and marginal cases; continuous/discrete conventions.",
       "status": "PARTIAL",
-      "evidence": "Exact strict continuous/discrete Lyapunov solve, PD witnesses, replay and autonomous invariance; general marginal classification open; SSM-02 local 40 tests, native pending"
+      "evidence": "Exact strict continuous/discrete Lyapunov solve, PD witnesses, replay and autonomous invariance; general marginal classification open; SSM-02 scoped native accepted, 160 dedicated"
     },
     {
       "id": "DS13",
@@ -182,7 +182,7 @@
       ],
       "acceptance": "Check CARE/DARE and Lyapunov residuals, stabilizing root and H2/H-infinity scope.",
       "status": "PARTIAL",
-      "evidence": "Exact finite discrete/infinite stable Gramians and H2 squared; numerical CARE/DARE with exact feedback stability; exact supplied-storage H-infinity upper and rational-frequency lower witnesses; synthesis and global search open; R1 local 33 new tests, native pending"
+      "evidence": "Exact finite discrete/infinite stable Gramians and H2 squared; numerical CARE/DARE with exact feedback stability; exact supplied-storage H-infinity upper and rational-frequency lower witnesses; synthesis and global search open; R1 local 33 new tests, native pending; preceding bounded SSM-02 linear scope native accepted"
     },
     {
       "id": "DS14",
@@ -209,7 +209,7 @@
       ],
       "acceptance": "Storage inequality, contraction metric on stated region, counterexample outside region.",
       "status": "PARTIAL",
-      "evidence": "Exact linear quadratic contraction, general quadratic supply/passivity verification, polynomial invariant-box infinity-norm contraction; storage synthesis open; R1 local 33 new tests, native pending"
+      "evidence": "Exact linear quadratic contraction, general quadratic supply/passivity verification, polynomial invariant-box infinity-norm contraction; storage synthesis open; R1 local 33 new tests, native pending; preceding bounded SSM-02 linear scope native accepted"
     },
     {
       "id": "DS16",
@@ -223,7 +223,7 @@
       ],
       "acceptance": "Outward-rounded or exact certificate checker; reject sample-only proof; enclose small known trajectories.",
       "status": "PARTIAL",
-      "evidence": "Discrete box overapproximation, exact polynomial invariant faces/map inclusion and strict continuous tube/endpoint enclosure; general barriers/adaptive verified flow open; R1 local 33 new tests, native pending"
+      "evidence": "Discrete box overapproximation, exact polynomial invariant faces/map inclusion and strict continuous tube/endpoint enclosure; general barriers/adaptive verified flow open; R1 local 33 new tests, native pending; preceding bounded SSM-02 linear scope native accepted"
     },
     {
       "id": "DS17",
