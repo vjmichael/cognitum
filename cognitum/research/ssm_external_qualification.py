@@ -128,4 +128,4 @@ def kan_hypotheses(true_fields,wrong_fields,initial,observed_final,step_seconds,
     need(tuple(digest(c) for c in true_fields)==tuple(expected_true_hashes) and tuple(digest(c) for c in wrong_fields)==tuple(expected_wrong_hashes),'out-of-band checkpoint pin')
     good=kan_evolve(true_fields,x,step_seconds,steps);bad=kan_evolve(wrong_fields,x,step_seconds,steps)
     g=float(np.linalg.norm(good['states'][-1]-y));b=float(np.linalg.norm(bad['states'][-1]-y))
-    return receipt(true_error=g,alternative_error=b,true_rejected=g>tolerance,alternative_rejected=b>tolerance,declared_tolerance=tolerance,checkpoint_source_only=True,autonomous_discovery_claim=False,execution_authorized=False)
+    return receipt(true_error=g,alternative_error=b,true_rejected=g>tolerance,alternative_rejected=b>tolerance,declared_tolerance=tolerance,checkpoint_source_only=True,autonomous_discovery_claim=False)
