@@ -16,6 +16,13 @@ Available local post-native 01+02 tests passed 57/57 after repair. Entire availa
 NIST explicitly lists its Statistical Reference Datasets as **Standard Reference Database 140**. Under NIST's SRD distinction, do not claim unrestricted public-domain redistribution from public webpage access. Confirm individual dataset rights/terms and required attribution separately; retain `license_scope_verified=False`.
 NIST certified regression parameter/SSE comparisons are numerical-reference validation of the software, *not* physical dynamics confirmation. Nonlinear KAN fixtures are represented mathematical functions, not experimental discovery. The existing split-conformal empirical IID coverage is not guaranteed under shift, dependence, tiny calibration samples or unknown observation models.
 
+
+### First corrected run: mathematical gates pass, Windows 3.11 hosted-timeout limitation
+[Run 44831037543](https://github.com/vjmichael/cognitum/actions/runs/44831037543), corrected SHA `ba348f888bfc5b205696dfdc9fe8f2c5cf2be8b5`, passed **44/44 dedicated and 63/63 combined** with valid 81-pin receipts on Ubuntu 3.11, Ubuntu 3.13 and Windows 3.13. Windows 3.11 was **CANCELLED**, not passed, during a prior SSM-07-R1 step. The job's GitHub logs record `The operation was canceled`, not a POST-NATIVE-02 regression; workflow setting `timeout-minutes: 12` did not allow that longer hosted Windows path to finish. Earlier POST-NATIVE gates on that Windows job were skipped, therefore no fourth native acceptance receipt exists for this SHA.
+
+### Next fixed-SHA qualification with bounded time repair
+Changed only `.github/workflows/python-tests.yml` job `timeout-minutes` **12 → 30** in the research candidate, preserving all mathematical source/test bytes and acceptance contracts. A new single exact-tree qualification run [44832908788](https://github.com/vjmichael/cognitum/actions/runs/44832908788) at SHA `bd2b332a06291f005adf5ab8183c56c8d36ba81f` is in progress, on the same four hosted OS/Python targets. Do not promote the new run until each required receipt passes and artifact integrity is independently checked. No overlapping corrected runs were launched.
+
 ### Pending closeout requirements
 - Obtain the corrected 44 dedicated / 63 combined native receipts from a **single new fixed SHA** and verify 391-case inherited SSM scope, 19-case prior, 80+ cumulative blob pins, predecessor source SHA, JUnit inventories, artifact digests and job conclusions on all four OS/Python targets.
 - Reconcile additional verified scoped results against the DS36/40/45/60/63/67/68/69/70/72 register without promoting broad DS capabilities to full acceptance.
