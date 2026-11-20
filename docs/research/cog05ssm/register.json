@@ -8,8 +8,8 @@
   },
   "counts": {
     "total": 72,
-    "partial": 54,
-    "open": 18
+    "partial": 56,
+    "open": 16
   },
   "rows": [
     {
@@ -561,7 +561,7 @@
       ],
       "acceptance": "Error-dynamics and observer pole placement; unknown-input identifiability refusal.",
       "status": "PARTIAL",
-      "evidence": "Discrete known-input Luenberger observer via dual pole placement with observable rank/error dynamics; unknown-input observers open; SSM-06 local pass, native pending"
+      "evidence": "Known-input Luenberger plus discrete full-order unknown-input observer with full-rank CE and observable transformed dynamics; decoupling error checks; general detectability/noise open; SSM-06-R1 local pass, native pending"
     },
     {
       "id": "DS42",
@@ -602,7 +602,7 @@
       ],
       "acceptance": "Finite-horizon convex control, feasible constraints and KKT residual; C11/C12 adapter; infeasible refusal.",
       "status": "PARTIAL",
-      "evidence": "Strictly convex condensed finite-horizon linear-quadratic box-constrained plan, LP feasibility and numerical KKT residuals; receding horizon and planning adapter open; SSM-06 local pass, native pending"
+      "evidence": "Box-constrained finite-horizon QP with KKT checks and robust receding-horizon simulation; recursive feasibility/general planning adapter open; SSM-06-R1 local pass, native pending"
     },
     {
       "id": "DS45",
@@ -615,7 +615,7 @@
       ],
       "acceptance": "Bounded uncertainty and explicit risk; independent reachability or independent sample coverage as distinct evidence.",
       "status": "PARTIAL",
-      "evidence": "Exact rational sufficient additive-disturbance invariant box check for supplied feedback; robust/chance-constrained synthesis open; SSM-06 local pass, native pending"
+      "evidence": "Exact fixed-feedback invariant-box witness and finite-horizon bounded-disturbance envelope or Gaussian union-bound chance constraint tightening; corner and Monte Carlo checks; parameter uncertainty/tube feedback open; SSM-06-R1 local pass, native pending"
     },
     {
       "id": "DS46",
@@ -628,8 +628,8 @@
         "L39"
       ],
       "acceptance": "Persistently exciting vs deficient datasets; compare model-first MPC and closed-loop simulation; no guarantees beyond conditions.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Offline expanding least-squares certainty-equivalent adaptive planning and full-state noiseless trajectory-span predictive control, rank/consistency refusal and MPC parity; noisy/latent/robust theory open; SSM-06-R1 local pass, native pending"
     },
     {
       "id": "DS47",
@@ -642,8 +642,8 @@
         "L37"
       ],
       "acceptance": "Finite candidate enumeration and observability/Fisher information; distinguish local identifiability.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Finite D-optimal linear experiment and weighted observability Gramian sensor subset selection, rank refusal; general nonlinear design open; SSM-06-R1 local pass, native pending"
     },
     {
       "id": "DS48",
@@ -657,7 +657,7 @@
       ],
       "acceptance": "Certificate verification separate from synthesis, unsafe initial state and infeasible commands; simulation only.",
       "status": "PARTIAL",
-      "evidence": "Exact rational invariant-state and input-box witness for fixed linear feedback, refusal on negative margin; safety filter synthesis/general reach-avoid open; SSM-06 local pass, native pending"
+      "evidence": "Exact rational fixed-feedback invariant-box and scalar one-step robust nearest-safe-action filter, unsafe/infeasible refusal; multivariate and reach-avoid synthesis open; SSM-06-R1 local pass, native pending"
     },
     {
       "id": "DS49",
