@@ -8,8 +8,8 @@
   },
   "counts": {
     "total": 72,
-    "partial": 33,
-    "open": 39
+    "partial": 37,
+    "open": 35
   },
   "rows": [
     {
@@ -276,8 +276,8 @@
         "L39"
       ],
       "acceptance": "Guard/reset paths, mode-specific invariants; no Zeno or missed event claims without bounds.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Linear semi-explicit index-1 DAE and ordered affine-guard/reset hybrid simulation; local numeric candidate; general nonlinear/high-index, cyclic modes and invariant verification open; SSM-03-R1 native pending"
     },
     {
       "id": "DS21",
@@ -289,8 +289,8 @@
         "L04"
       ],
       "acceptance": "Known delay differential fixture and mesh convergence; explicitly account history and memory.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Constant-history single positive retarded linear delay method of steps with refinement; local numeric candidate; variable/distributed/neutral delays open; SSM-03-R1 native pending"
     },
     {
       "id": "DS22",
@@ -303,8 +303,8 @@
         "L32"
       ],
       "acceptance": "Use existing KAN exact weak forms; diffusion/wave modal closed forms and mass-matrix time evolution.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Mass/stiffness modal diffusion and wave locally tested; real COG-04P exact KAN assembly bridge staged, checkpoint tests not executed; continuum/general boundary guarantees open; SSM-03-R1 native pending"
     },
     {
       "id": "DS23",
@@ -317,8 +317,8 @@
         "L40"
       ],
       "acceptance": "Stable minimal LTI bound where valid; POD reconstruction and out-of-sample trajectory error.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "POD/Galerkin reconstruction and held-out error; stable minimal continuous balanced truncation with numerical residual and estimated HSV bound; local numeric candidate; SSM-03-R1 native pending"
     },
     {
       "id": "DS24",
@@ -331,7 +331,7 @@
       ],
       "acceptance": "Graph Laplacian diffusion and coupled oscillators; conservation and partition equivalence.",
       "status": "PARTIAL",
-      "evidence": "Exact supplied linear/quadratic/polynomial invariance, graph diffusion mass and coupled oscillator fixtures; partition and multiscale models open; SSM-03 local 29 tests, native pending"
+      "evidence": "Prior exact invariants plus weighted symmetric graph mass/partition comparison and modal coupled oscillators locally tested; directed/multiscale/distributed remaining; SSM-03-R1 native pending"
     },
     {
       "id": "DS25",
