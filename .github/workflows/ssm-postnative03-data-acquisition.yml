@@ -5,16 +5,29 @@ on:
       - 'research/ssm03-data-acquire-*'
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 jobs:
   acquire:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - name: Retrieve UCI license-labelled observed time series and freeze original bytes
+      - name: Download and verify two unchanged UCI original-source archives
         run: python3 tools/ssm_postnative03/acquire.py postnative03-acquired
-      - name: Preserve complete original source archives, deterministic excerpts and provenance receipt
+      - name: Commit only licensed, deterministic chronological excerpts to research branch
+        run: |
+          git fetch origin research/ssm-postnative03-20261120
+          git checkout -B research/ssm-postnative03-20261120 origin/research/ssm-postnative03-20261120
+          mkdir -p research_tests/ssm_postnative03/data
+          cp postnative03-acquired/fixtures/uci374.csv research_tests/ssm_postnative03/data/uci374.csv
+          cp postnative03-acquired/fixtures/uci501.csv research_tests/ssm_postnative03/data/uci501.csv
+          cp postnative03-acquired/manifest.json research_tests/ssm_postnative03/data/sources.json
+          git config user.name "cognitum-data-qualification"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research_tests/ssm_postnative03/data
+          git commit -m "Freeze two independently licensed UCI physical time series and source hashes [skip ci]"
+          git push origin HEAD:research/ssm-postnative03-20261120
+      - name: Preserve complete original UCI archives, excerpts and source manifest
         if: always()
         uses: actions/upload-artifact@v4
         with:
