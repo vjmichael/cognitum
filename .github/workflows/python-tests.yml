@@ -236,6 +236,19 @@ jobs:
           name: ssm07-${{ matrix.os }}-py${{ matrix.python-version }}
           path: ssm07-evidence/
           if-no-files-found: warn
+      - name: COG-05-SSM-07-R1 structured and selective sequence mathematics
+        run: python -m tools.ssm07r1.acceptance --prior ssm07-evidence --out ssm07r1-evidence
+        env:
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+      - name: Preserve SSM-07-R1 native evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ssm07r1-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: ssm07r1-evidence/
+          if-no-files-found: warn
       - name: Preserve SSM-02-R1 native evidence
         if: always()
         uses: actions/upload-artifact@v4
