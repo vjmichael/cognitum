@@ -110,7 +110,7 @@ def weak_evolution(M,K,x0,h,steps,velocity=None):
     else:
         v=arr(velocity,1);require(v.shape==(n,),'velocity shape');b=V.T@M@v;w=np.sqrt(lam);phase=t[:,None]*w;C=np.cos(phase);S=t[:,None]*np.sinc(phase/np.pi);X=(C*a+S*b)@V.T;U=(-np.sin(phase)*w*a+C*b)@V.T;energy=(np.einsum('ti,ij,tj->t',X,K,X)+np.einsum('ti,ij,tj->t',U,M,U))/2
         F=np.block([[np.zeros_like(M),np.eye(n)],[-np.linalg.solve(M,K),np.zeros_like(M)]]);ref=np.array([(expm(F*u)@np.r_[x,v])[:n] for u in t])
-    err=float(np.max(np.abs(X-ref)));require(np.isfinite(X).all() and err<=2e-7*max(1.,np.max(np.abs(X))),'modal/expm disagreement')
+    err=float(np.max(np.abs(X-ref)));require(np.isfinite(X).all() and np.isfinite(energy).all() and np.max(np.abs(X))<=1e8 and err<=2e-7*max(1.,np.max(np.abs(X))),'modal/expm disagreement')
     return result(times=t,states=X,energy=energy,eigenvalues=lam,reference_error=err)
 
 
@@ -119,7 +119,7 @@ def pod(A,snapshots,rank,x0,h,steps):
     A=square(A);S=arr(snapshots,2);x=arr(x0,1);t=grid(h,steps);n=len(A)
     require(S.shape[0]==n and x.shape==(n,) and type(rank) is int and 1<=rank<=min(S.shape),'POD shape/rank')
     U,s,_=np.linalg.svd(S,full_matrices=False);require(s[rank-1]>1e-12*s[0] and s[0]>0,'numerical rank');V=U[:,:rank];F=V.T@A@V
-    X=np.array([V@expm(F*u)@(V.T@x) for u in t]);Y=np.array([expm(A*u)@x for u in t]);require(np.isfinite(X).all() and np.isfinite(Y).all(),'POD trajectory budget')
+    X=np.array([V@expm(F*u)@(V.T@x) for u in t]);Y=np.array([expm(A*u)@x for u in t]);require(np.isfinite(X).all() and np.isfinite(Y).all() and max(np.max(np.abs(X)),np.max(np.abs(Y)))<=1e8,'POD trajectory budget')
     return result(times=t,states=X,basis=V,reduced=F,snapshot_error=float(np.linalg.norm(S-V@(V.T@S))),trajectory_error=float(np.max(np.linalg.norm(X-Y,axis=1))),discarded_energy=float(np.sum(s[rank:]**2)))
 
 
@@ -128,13 +128,15 @@ def network(W,x0,h,steps,partition):
     W=square(W);x=arr(x0,1);t=grid(h,steps);n=len(W)
     require(x.shape==(n,) and np.array_equal(W,W.T) and np.all(W>=0) and np.all(np.diag(W)==0) and np.all(x>=0),'graph shape/weights/state')
     require(type(partition) in (tuple,list) and len(partition)>0 and all(type(g) in (tuple,list) and len(g)>0 for g in partition),'partition shape');idx=[i for g in partition for i in g];require(all(type(i) is int for i in idx) and sorted(idx)==list(range(n)),'partition coverage')
-    L=np.diag(W.sum(axis=1))-W;X=np.array([expm(-L*u)@x for u in t]);
+    L=np.diag(W.sum(axis=1))-W;X=np.array([expm(-L*u)@x for u in t]);calls=0
     def rhs(_,y):
+        nonlocal calls
+        calls+=1;require(calls<=50000 and np.isfinite(y).all() and np.max(np.abs(y))<=1e8,'network solver budget')
         z=np.zeros(n)
         for g in partition:
             i=list(g);z[i]=W[i,:]@y-W[i,:].sum(axis=1)*y[i]
         return z
-    sol=solve_ivp(rhs,(0,t[-1]),x,t_eval=t,rtol=1e-10,atol=1e-12,max_step=h);require(sol.success,'partition solver failure');err=float(np.max(np.abs(X-sol.y.T)));require(err<=2e-7*max(1.,np.max(X)),'partition disagreement')
+    sol=solve_ivp(rhs,(0,t[-1]),x,t_eval=t,rtol=1e-10,atol=1e-12,max_step=h);require(sol.success,'partition solver failure');err=float(np.max(np.abs(X-sol.y.T)));require(np.isfinite(X).all() and err<=2e-7*max(1.,np.max(X)),'partition disagreement')
     return result(times=t,states=X,laplacian=L,mass_error=float(np.max(np.abs(X.sum(axis=1)-x.sum()))),partition_error=err)
 
 
