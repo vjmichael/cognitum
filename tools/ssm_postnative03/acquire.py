@@ -29,6 +29,9 @@ def acquire(out):
         url='https://archive.ics.uci.edu/static/public/'+str(num)+'/'+archive
         req=urllib.request.Request(url,headers={'User-Agent':'Cognitum-scientific-data-audit/1.0'})
         with urllib.request.urlopen(req,timeout=90) as r: raw=r.read(64000001)
+        expected_archive = {'uci374':'2fccf354445d886e7917620b0195db1f3e3e34d5a067a93b844694a4c561255a',
+                            'uci501':'b04da438b2f331ac0ffd45aebdfec0d20d2367feb5f6948c4b1f7ce1191e33c4'}
+        if digest(raw)!=expected_archive[slug]: raise ValueError('upstream archive changed since independently preserved first acquisition')
         if len(raw)>64000000 or not zipfile.is_zipfile(io.BytesIO(raw)):
             raise ValueError('unexpected source archive')
         content,path=member(raw,target)
