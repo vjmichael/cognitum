@@ -27,3 +27,30 @@ HDC exact; maximum scalar oracle difference VFA value 2.220446049250313e-16, gra
 - Matched VFA batching: four points in a single existing admitted request versus four individually admitted requests; three alternating-order paired trials. Each arm must complete actual workers, verify all outputs using existing certificate gate and match independent Gaussian values and each other within 1e-10. 15 total actual calls. Include preparation/grant/worker/verification within measured arm; no mandatory speedup threshold; this is an amortization experiment, not a custody bypass or new persistent worker.
 - Fresh J/K/L fits using accepted COG-04N benchmark: real tensor/symbolic residual and integral through existing admission/Runtime; independent exact certificate and separate numerical replay, 5+5+6 actual calls, native traces and original request/result artifacts. Measure total including fitting and evidence and existing per-case totals; retain individual Runtime latency. Initial fitting is not isolated from overall elapsed.
 - 49 additional actual calls per host (196 across matrix), 504 polynomial direct timings plus baseline rerun. Same four Python matrix jobs and existing full integrated regression. Whole R1 evidence SHA-256 map. No broad model or hardware promotion. Current implementation is pending native acceptance; local full source checkout not available. No Lu integration changes. Windows worker-specific resource measurement, broader complex workload and persistent process optimization remain open. Reproduce `python -m tools.mel07a_r1 --out mel07ar1-evidence` from a clean source checkout with existing scientific dependencies.
+
+## Accepted R1 native results
+
+Exact tested source `21fc878eb7cbe4b3c0163f4ad18bbecd1861e925`, [Python/CPU 44664652451](https://github.com/vjmichael/cognitum/actions/runs/44664652451) and [integrated regression 44664652419](https://github.com/vjmichael/cognitum/actions/runs/44664652419), all twelve jobs successful. Eight archive SHA-256 checks and CRC checks succeeded. All eight source SHA/status records match. Each expanded archive has 106 hashed internal files (424 total); no unlisted payload files. All polynomial and batching request/result hashes and tensor receipt pairs were independently checked against retained bytes. All 64 tensor/symbolic trace entries match scope-bound receipt operation and request identity and checkpoint hash. Mathematical replay was performed by the native gate; closeout did not re-execute each kernel locally.
+
+| Target | Artifact (R1) | SHA-256 |
+|---|---:|---|
+| Linux 3.11 | 14597571537 | 6c2b6d1479e61cb0f218a076934cdef50f1be545e20e42f552416c35e9edc02b |
+| Linux 3.13 | 14597411934 | 891d66d8e1f6b32f263baec9a486441226a4c86814fd85762e3b1d6b86ba763c |
+| Windows 3.11 | 14597886193 | 9addaced28b8c5c03f3fb81262d90e7d092dc8e53794158fbb25448e896d3580 |
+| Windows 3.13 | 14597836480 | 04bafc794dbc43fca0046ac1cb4cfdb9143fb8c6c436d69904fe604642bc8abb |
+
+| Target | Artifact (baseline rerun) | SHA-256 |
+|---|---:|---|
+| Linux 3.11 | 14597047736 | 2799ffc99ff3fb322488ea882cd4e78b18d7d20ea0222adc60aac113dd937674 |
+| Linux 3.13 | 14597576724 | b31a1e80f002dea62387c79403db4cfbbe1d83b5ddc3b3c1a1fdeabe794f112b |
+| Windows 3.11 | 14597456946 | 1bacc6e8528c58bdec48b8eaec156e2ef51f65d3990a0863c655fb35c90a9e60 |
+| Windows 3.13 | 14597891293 | 6249e9d2ccde01fe19d54e3800f810bd098e52b5a4c1d3b6b6205dcab8368f87 |
+
+| Target | Batch median ms | Serial median ms | Median paired ratio | Polynomial direct median ms | Polynomial admitted median ms | Tensor fit+execution+evidence total ms |
+|---|---:|---:|---:|---:|---:|---:|
+| Linux 3.11 | 528.808 | 2100.664 | 3.9328 | 1.500 | 513.794 | 18832.96 |
+| Linux 3.13 | 505.954 | 1983.678 | 3.9207 | 1.484 | 486.893 | 16498.00 |
+| Windows 3.11 | 571.732 | 2380.538 | 4.1637 | 1.112 | 569.979 | 19117.18 |
+| Windows 3.13 | 713.468 | 2786.743 | 3.9740 | 1.632 | 679.689 | 20240.48 |
+
+Batch and serial medians are separate; ratio is median of individual paired ratios, not necessarily their quotient. All 12 pairs matched numerically exactly; observed ratio range 2.5439–4.3422. All polynomial analytic x²/2x/2 fixtures had zero observed error, not a universal KAN accuracy conclusion. Maximum tensor represented numerical residual oracle difference 1.452830911130576e-16; the certificate solution error bounds are distinct. Native baseline 120 admitted calls and 840 direct samples plus R1 196 actual calls (72 polynomial, 60 batched/serial, 64 tensor/symbolic) and 504 direct polynomial samples. These counts exclude separate refusal and regression checks. Hosted results only; Windows child CPU/RSS remains unmeasured, no comparable power or physical platform conclusion. Artifacts are subject to hosted retention. Preserve scope boundaries and prioritize batching before redesigning worker lifecycle.
