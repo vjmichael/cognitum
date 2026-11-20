@@ -314,6 +314,19 @@ jobs:
           name: ssm-postnative01-${{ matrix.os }}-py${{ matrix.python-version }}
           path: ssm-postnative01-evidence/
           if-no-files-found: warn
+      - name: COG-05-SSM-POST-NATIVE-02 external NIST science and genuine checkpoint hypotheses
+        run: python -m tools.ssm_postnative02.acceptance --prior ssm-postnative01-evidence --out ssm-postnative02-evidence
+        env:
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+      - name: Preserve post-native external science evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ssm-postnative02-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: ssm-postnative02-evidence/
+          if-no-files-found: warn
       - name: Preserve SSM-02-R1 native evidence
         if: always()
         uses: actions/upload-artifact@v4
