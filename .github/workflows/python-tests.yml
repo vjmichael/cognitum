@@ -53,6 +53,15 @@ jobs:
           python tools/check_proto_descriptors.py compiled_specialists.pb
       - name: Verify core tests
         run: python -m tools.run_crossplatform_regression
+      - name: MEL-07A native CPU routing, fidelity and resource benchmark
+        run: python -m tools.mel07a_cpu --out mel07a-evidence/qualification.json --repeats 3
+      - name: Preserve MEL-07A native CPU measurements
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mel07a-cpu-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: mel07a-evidence/
+          if-no-files-found: warn
       - name: Verify synthetic replay
         run: python -m cognitum --calculator replay evals/smoke.json
       - name: Verify deterministic C03 synthetic evaluation (no Lu model)
