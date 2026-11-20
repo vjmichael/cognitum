@@ -8,8 +8,8 @@
   },
   "counts": {
     "total": 72,
-    "partial": 63,
-    "open": 9
+    "partial": 67,
+    "open": 5
   },
   "rows": [
     {
@@ -771,8 +771,8 @@
         "L29"
       ],
       "acceptance": "Analytic short trajectories, finite-difference gradient vs adjoint, solver sensitivity and held-out initial states.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Tanh neural ODE fixed hidden/trainable readout, RK4 discrete forward sensitivities verified by finite differences and independent IVP, latent initial state/readout fit with local rank check; adjoint/general encoder open; SSM-08 local pass, native pending"
     },
     {
       "id": "DS58",
@@ -784,8 +784,8 @@
         "L31"
       ],
       "acceptance": "Causal interpolants; perturb future inputs, step refinement and irregular/censored data.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Piecewise-linear neural CDE irregular knots with prefix causality and analytic reference, level 1/2 signatures and Chen identity; training/censored/higher signatures open; SSM-08 local pass, native pending"
     },
     {
       "id": "DS59",
@@ -797,8 +797,8 @@
         "L05"
       ],
       "acceptance": "Known diffusion moments, posterior predictive tests, variance calibration vs classical SDE.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Scalar tanh drift/log diffusion Euler likelihood fit and coupled Brownian simulation, seeded recovery/refinement and moments; latent variational and multidimensional SDE open; SSM-08 local pass, native pending"
     },
     {
       "id": "DS60",
@@ -812,8 +812,8 @@
         "L32"
       ],
       "acceptance": "Conservation and dissipation contract; compare black-box learner, KAN vector field and standard simulator.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Unit-mass quartic Hamiltonian and positive damping fit with nonnegative coefficients, Verlet/Strang and independent simulation energy balance; general neural PINN/KAN comparison open; SSM-08 local pass, native pending"
     },
     {
       "id": "DS61",
