@@ -107,6 +107,19 @@ jobs:
           OMP_NUM_THREADS: '1'
           OPENBLAS_NUM_THREADS: '1'
           MKL_NUM_THREADS: '1'
+      - name: COG-05-SSM-02 exact linear systems analysis, Lyapunov and Riccati qualification
+        run: python -m tools.ssm02.acceptance --prior ssm01-evidence --out ssm02-evidence
+        env:
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+      - name: Preserve SSM-02 native evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ssm02-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: ssm02-evidence/
+          if-no-files-found: warn
       - name: Preserve SSM-01 native evidence
         if: always()
         uses: actions/upload-artifact@v4

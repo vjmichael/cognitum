@@ -8,8 +8,8 @@
   },
   "counts": {
     "total": 72,
-    "partial": 21,
-    "open": 51
+    "partial": 28,
+    "open": 44
   },
   "rows": [
     {
@@ -23,7 +23,7 @@
       ],
       "acceptance": "Validate dimensions, units, initial/terminal and pre/post-update indexing against scalar closed forms.",
       "status": "PARTIAL",
-      "evidence": "Bounded exact typed deterministic state and clock; coordinate metadata not certified units; R1 local 38 tests, native pending"
+      "evidence": "Bounded exact typed deterministic state and clock; coordinate metadata not certified units; R1 scoped accepted four native targets, 152 dedicated and 460 inherited"
     },
     {
       "id": "DS02",
@@ -36,7 +36,7 @@
       ],
       "acceptance": "Exact rational discrete recurrence; matrix exponential comparison for coupled continuous system.",
       "status": "PARTIAL",
-      "evidence": "Coupled discrete MIMO exact and numerical ZOH/FOH; arbitrary interval certification open; R1 local 38 tests, native pending"
+      "evidence": "Coupled discrete MIMO exact and numerical ZOH/FOH; arbitrary interval certification open; R1 scoped accepted four native targets, 152 dedicated and 460 inherited"
     },
     {
       "id": "DS03",
@@ -49,7 +49,7 @@
       ],
       "acceptance": "Piecewise time-indexed matrices and known forcing; compare literal noncommutative products.",
       "status": "PARTIAL",
-      "evidence": "Exact bounded time-indexed affine and bilinear supplied input sequence; general continuous/nonlinear open; R1 local 38 tests, native pending"
+      "evidence": "Exact bounded time-indexed affine and bilinear supplied input sequence; general continuous/nonlinear open; R1 scoped accepted four native targets, 152 dedicated and 460 inherited"
     },
     {
       "id": "DS04",
@@ -62,7 +62,7 @@
       ],
       "acceptance": "Check exp((s+t)A), transition composition and singular A cases; exact discrete associativity.",
       "status": "PARTIAL",
-      "evidence": "Exact ordered affine composition and numerical semigroup/hold controls; R1 local 38 tests, native pending"
+      "evidence": "Exact ordered affine composition and numerical semigroup/hold controls; R1 scoped accepted four native targets, 152 dedicated and 460 inherited"
     },
     {
       "id": "DS05",
@@ -76,7 +76,7 @@
       ],
       "acceptance": "ZOH block exponential, first-order hold, Euler/Tustin error and aliasing; irregular timestamps.",
       "status": "PARTIAL",
-      "evidence": "Numerical ZOH/FOH, exact rational Euler/Tustin approximation coefficients; alias and stochastic covariance open; R1 local 38 tests, native pending"
+      "evidence": "Numerical ZOH/FOH, exact rational Euler/Tustin approximation coefficients; alias and stochastic covariance open; R1 scoped accepted four native targets, 152 dedicated and 460 inherited"
     },
     {
       "id": "DS06",
@@ -89,7 +89,7 @@
       ],
       "acceptance": "Rational transfer vs impulse convolution; pole-zero cancellations and feedthrough.",
       "status": "PARTIAL",
-      "evidence": "Exact rational resolvent/impulse and canceled-pole examples; general pole/zero analysis open; R1 local 38 tests, native pending"
+      "evidence": "Exact rational resolvent/impulse and canceled-pole examples; general pole/zero analysis open; R1 scoped accepted four native targets, 152 dedicated and 460 inherited"
     },
     {
       "id": "DS07",
@@ -102,7 +102,7 @@
       ],
       "acceptance": "Similarity-invariant input/output, Hankel rank, Ho–Kalman reconstruction, nonminimal example.",
       "status": "PARTIAL",
-      "evidence": "Exact rational similarity and finite Hankel minimal zero-initial I/O realization including rank zero; bounds and refusals; R1 local 38 tests, native pending"
+      "evidence": "Exact rational similarity and finite Hankel minimal zero-initial I/O realization including rank zero; bounds and refusals; R1 scoped accepted four native targets, 152 dedicated and 460 inherited"
     },
     {
       "id": "DS08",
@@ -115,7 +115,7 @@
       ],
       "acceptance": "Index-1 consistent initial conditions and residuals; refuse singular/unsupported index cases.",
       "status": "PARTIAL",
-      "evidence": "Exact semi-explicit index-1 descriptor reduction and consistent-state constraints; general/higher-index DAE open; R1 local 38 tests, native pending"
+      "evidence": "Exact semi-explicit index-1 descriptor reduction and consistent-state constraints; general/higher-index DAE open; R1 scoped accepted four native targets, 152 dedicated and 460 inherited"
     },
     {
       "id": "DS09",
@@ -127,8 +127,8 @@
         "L04"
       ],
       "acceptance": "Defective and transient-growth examples; Schur residual and norm bounds, not eigenvalues alone.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Numerical complex Schur residual/orthogonality and sampled nonnormal/defective transient gains; global bounds/Jordan open; SSM-02 local 40 tests, native pending"
     },
     {
       "id": "DS10",
@@ -140,8 +140,8 @@
         "L06"
       ],
       "acceptance": "Exact small controllability rank, PBH and Gramian checks; unreachable unstable counterexample.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Exact rank, rational-complex PBH, invariant quotient stabilizability and finite discrete unconstrained target witnesses; constrained reach open; SSM-02 local 40 tests, native pending"
     },
     {
       "id": "DS11",
@@ -154,8 +154,8 @@
         "L37"
       ],
       "acceptance": "Exact observability rank/PBH and indistinguishable-state pairs; reject nonidentifiable claims.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Exact rank, rational-complex PBH, dual quotient detectability and known-input state reconstruction; parameter identifiability open; SSM-02 local 40 tests, native pending"
     },
     {
       "id": "DS12",
@@ -168,8 +168,8 @@
         "L34"
       ],
       "acceptance": "Rational P positive definite and negative residual; unstable and marginal cases; continuous/discrete conventions.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Exact strict continuous/discrete Lyapunov solve, PD witnesses, replay and autonomous invariance; general marginal classification open; SSM-02 local 40 tests, native pending"
     },
     {
       "id": "DS13",
@@ -181,8 +181,8 @@
         "L04"
       ],
       "acceptance": "Check CARE/DARE and Lyapunov residuals, stabilizing root and H2/H-infinity scope.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Exact finite discrete/infinite stable Gramians and H2 squared; numerical CARE/DARE with exact feedback stability, not optimality; H-infinity open; SSM-02 local 40 tests, native pending"
     },
     {
       "id": "DS14",
@@ -208,8 +208,8 @@
         "L15"
       ],
       "acceptance": "Storage inequality, contraction metric on stated region, counterexample outside region.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Exact bounded linear autonomous quadratic contraction; passivity/dissipativity open; SSM-02 local 40 tests, native pending"
     },
     {
       "id": "DS16",
@@ -222,8 +222,8 @@
         "L35"
       ],
       "acceptance": "Outward-rounded or exact certificate checker; reject sample-only proof; enclose small known trajectories.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Exact finite discrete box overapproximation; continuous validated integration/barriers open; SSM-02 local 40 tests, native pending"
     },
     {
       "id": "DS17",
