@@ -37,12 +37,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install maintained SciPy and Protobuf compiler
-        run: python -m pip install -e ".[probability-stats]" grpcio-tools
+      - name: Install maintained SciPy, ArviZ and Protobuf compiler
+        run: python -m pip install -e ".[probability-stats]" "arviz>=0.22,<1.2" grpcio-tools
       - name: Require actual numerical backend and consistent dependency graph
         run: |
           python -m pip check
-          python -c "import scipy; from scipy.stats import beta; from scipy.special import logsumexp; print('SciPy',scipy.__version__)"
+          python -c "import scipy, arviz; from scipy.stats import beta; from scipy.special import logsumexp; print('SciPy',scipy.__version__,'ArviZ',arviz.__version__)"
       - name: Compare generated Protobuf schema against compiler
         run: |
           python -m grpc_tools.protoc -Iproto --descriptor_set_out=compiled-c13.pb proto/cognitum/probability/v1/probability.proto

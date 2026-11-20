@@ -36,10 +36,11 @@ jobs:
       - name: Guard additive C01-C19 optional dependency manifest
         run: python -m unittest discover -s tests -p test_pyproject_component_extras.py
       - name: Install real maintained baseline optional dependencies
-        run: python -m pip install -e ".[security,scientific,causal-stats,planning-graph,planning-validation,research-hdc-kan]" "grpcio-tools>=1.70,<2" "pytest>=9,<10" "jsonschema>=4,<5"
+        run: python -m pip install -e ".[security,scientific,causal-stats,planning-graph,planning-validation,research-hdc-kan,probability-stats,optimization-schedule,optimization-mip]" "arviz>=0.22,<1.2" "grpcio-tools>=1.70,<2" "pytest>=9,<10" "jsonschema>=4,<5"
       - name: Check dependency constraints and source compilation
         run: |
           python -m pip check
+          python -c "import networkx, arviz; print(networkx.__version__, arviz.__version__)"
           python -m compileall -q cognitum tests tools
       - name: Cross-platform common-tree unit regression with explicit OS ownership
         run: python -m tools.run_crossplatform_regression
@@ -48,7 +49,7 @@ jobs:
       - name: Strict 19-component source convergence gate
         run: python -m tools.cognitum_integration_source_gate --require-sources --report integration-artifacts/source-strict.json
       - name: Install all real specialist extras on converged tree
-        run: python -m pip install -e ".[security,scientific,research-hdc-kan,formal-z3,formal-cvc5,optimization-schedule,optimization-mip,planning-graph,planning-validation,probability-stats,causal-stats,spatial-core,physics-ode,temporal-statespace,temporal-learned,adaptation-classical,topology-rips,topology-verify]" "grpcio-tools>=1.70,<2" "pytest>=9,<10"
+        run: python -m pip install -e ".[security,scientific,research-hdc-kan,formal-z3,formal-cvc5,optimization-schedule,optimization-mip,planning-graph,planning-validation,probability-stats,causal-stats,spatial-core,physics-ode,temporal-statespace,temporal-learned,adaptation-classical,topology-rips,topology-verify]" "arviz>=0.22,<1.2" "grpcio-tools>=1.70,<2" "pytest>=9,<10"
       - name: Validate real cross-specialist dependency graph
         run: python -m pip check
       - name: Rerun combined-tree regression with real optional numerical backends
