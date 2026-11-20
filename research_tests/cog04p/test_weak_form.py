@@ -24,8 +24,9 @@ def test_mixed_profile():
     with pytest.raises(ValueError,match='incompatible'):p.assemble((elliptic(),transient()))
 
 def test_signed_basis():
-    a,b=elliptic(),probe('J');raw,s=p.spectrum((a,b));r=json.loads(raw)
+    a,b=elliptic(scale=-1),probe('J');raw,s=p.spectrum((a,b));r=json.loads(raw)
     assert r['mass'][0][1]==r['mass'][1][0]
+    assert Q(r['mass'][0][1])<0
     assert r['stiffness'][1][0]==r['stiffness'][0][1]
     assert all(Q(x)>0 for x in r['exact_mass_ldl_pivots'])
     assert s['values']==sorted(s['values'])
@@ -63,3 +64,12 @@ def test_corrupt_spectrum():
 def test_semidefinite_witness():
     assert p._ldl([[Q(0),Q(0)],[Q(0),Q(1)]],False)==(0,1)
     with pytest.raises(ValueError):p._ldl([[Q(0),Q(1)],[Q(1),Q(0)]],False)
+
+def test_time_derivative_excluded():
+    a=transient(correction=True)
+    r=json.loads(p.assemble((a,)))
+    from cognitum.research import kan_function_metrics as o
+    expected=json.loads(o.compare(a,a))
+    assert Q(expected['components'][2]['left_squared'])>0
+    assert Q(r['stiffness'][0][0])==Q(expected['components'][1]['left_squared'])
+    assert Q(r['mass'][0][0])==Q(expected['l2']['left_squared'])

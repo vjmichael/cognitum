@@ -8,7 +8,7 @@ def probe(stage):
     if stage=='J':
         return checkpoint(f.j,f.j.Problem(1,1,0,()),f.j.Model((),(),tuple(a*b for a,b in product(x,y))))
     if stage=='K':
-        return checkpoint(f.k,f.k.Problem(1,0,(),(0,0,0)),f.k.Model(f.j.Model((),(),tuple(a*b for a,b in product(x,t)))))
+        return checkpoint(f.k,f.k.Problem(1,0,(),(0,)),f.k.Model(f.j.Model((),(),tuple(a*b for a,b in product(x,t)))))
     if stage=='L':
         return checkpoint(f.l,f.l.Problem(1,1,0,(),()),f.l.Model(((),(),()),tuple(a*b*c for a,b,c in product(x,y,t))))
     raise ValueError('unknown probe stage')
