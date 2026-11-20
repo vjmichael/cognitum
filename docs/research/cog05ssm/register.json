@@ -8,8 +8,8 @@
   },
   "counts": {
     "total": 72,
-    "partial": 67,
-    "open": 5
+    "partial": 71,
+    "open": 1
   },
   "rows": [
     {
@@ -826,8 +826,8 @@
         "L36"
       ],
       "acceptance": "Likelihood/ELBO sanity and independent posterior reference; importance weight degeneracy and failure modes.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Offline scalar Gaussian mean-field posterior with nonlinear decoder/quadrature ELBO and fixed-depth decoder readout variational EM; reparameterized no-resampling particle gradient and ESS refusal; amortized deep inference/resampling gradients open; SSM-08-R1 local pass, native pending"
     },
     {
       "id": "DS62",
@@ -839,8 +839,8 @@
         "L40"
       ],
       "acceptance": "Held-out forcing, boundary and resolution; compare exact KAN forms and conventional PDE integrator; mesh transfer limits.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Finite-band periodic Fourier state-space operator with learned stable mode/forcing/tanh feature coefficients and held-out 32/64/128 resolution reference; general boundaries/mesh convergence/KAN comparison open; SSM-08-R1 local pass, native pending"
     },
     {
       "id": "DS63",
@@ -852,8 +852,8 @@
         "L44"
       ],
       "acceptance": "Time-split multiple datasets, proper scoring/coverage, regime ablation, leakage and distribution shift.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Labeled HMM regime fit and causal mixture forecast, proper log score and empirical PIT coverage on chronological synthetic splits, regime ablation/OOD diagnostic; real/unlabeled/calibrated abstention open; SSM-08-R1 local pass, native pending"
     },
     {
       "id": "DS64",
@@ -868,8 +868,8 @@
         "L38"
       ],
       "acceptance": "Exact automata and permutation composition, associative recall, long-horizon degradation, attention/GRU/linear recurrence controls.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Exact bounded automaton transition composition and noncommuting-order checks; handcrafted exact-key recall vs decay and last-token learned readouts; learned attention/GRU/hybrid comparisons open; SSM-08-R1 local pass, native pending"
     },
     {
       "id": "DS65",
