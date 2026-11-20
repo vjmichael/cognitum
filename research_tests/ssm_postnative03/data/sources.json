@@ -1,0 +1,56 @@
+{
+  "entries": [
+    {
+      "archive_bytes": 11979507,
+      "archive_sha256": "2fccf354445d886e7917620b0195db1f3e3e34d5a067a93b844694a4c561255a",
+      "author": "Luis Candanedo",
+      "columns": [
+        "date",
+        "T1",
+        "T2",
+        "T_out",
+        "RH_1",
+        "Appliances"
+      ],
+      "doi": "https://doi.org/10.24432/C5VC8G",
+      "excerpt_rows": 6144,
+      "excerpt_sha256": "c917e564a9d9805c394bdc093058bd591ceebff22c03364cac611abb6c437d78",
+      "id": "uci374",
+      "missing_selected_cells": 0,
+      "source_member": "energydata_complete.csv",
+      "source_member_bytes": 11979363,
+      "source_member_git_blob": "7535108143b2f78a0fbaa38b99ff20be5f475f96",
+      "source_member_sha256": "2820bf712ad0275cb18b85a05250926100d8e65ebb9f4d2d016ca91ea152a25d",
+      "transform": "first 6144 chronological observations, selected original columns, no interpolation",
+      "url": "https://archive.ics.uci.edu/static/public/374/appliances+energy+prediction.zip"
+    },
+    {
+      "archive_bytes": 8192212,
+      "archive_sha256": "b04da438b2f331ac0ffd45aebdfec0d20d2367feb5f6948c4b1f7ce1191e33c4",
+      "author": "Song Chen",
+      "columns": [
+        "year",
+        "month",
+        "day",
+        "hour",
+        "PM2.5",
+        "TEMP",
+        "PRES",
+        "WSPM"
+      ],
+      "doi": "https://doi.org/10.24432/C5RK5G",
+      "excerpt_rows": 6144,
+      "excerpt_sha256": "75b3ee40df3c81edf643d12b368e5d070b79a172e08af1a0ba9d6203e3eba70a",
+      "id": "uci501",
+      "missing_selected_cells": 9,
+      "source_member": "PRSA2017_Data_20130301-20170228.zip::PRSA_Data_20130301-20170228/PRSA_Data_Aotizhongxin_20130301-20170228.csv",
+      "source_member_bytes": 2835916,
+      "source_member_git_blob": "0700f9fb0628f1811960c35413a5fd3bc5b33c8e",
+      "source_member_sha256": "a94fbcfc71708b6ffdc033360163d91efb7f675e496f6b5860929aa96b96351b",
+      "transform": "first 6144 chronological observations, selected original columns, no interpolation",
+      "url": "https://archive.ics.uci.edu/static/public/501/beijing+multi+site+air+quality+data.zip"
+    }
+  ],
+  "license": "CC BY 4.0 (dataset-specific UCI pages)",
+  "version": 1
+}
