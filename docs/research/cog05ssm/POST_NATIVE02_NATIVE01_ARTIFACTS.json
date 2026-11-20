@@ -1,0 +1,84 @@
+{
+  "title": "COG-05-SSM-POST-NATIVE-02-NATIVE-01 independently reconciled native artifacts",
+  "authoritative_workflow_run": 44832908788,
+  "workflow_url": "https://github.com/vjmichael/cognitum/actions/runs/44832908788",
+  "source_sha": "bd2b332a06291f005adf5ab8183c56c8d36ba81f",
+  "original_391_scope_native_baseline_sha": "c382da2ef3e31643c39f7a01acf2aa1098df469a",
+  "qualification_result": "PASS_4_OF_4",
+  "platforms": [
+    {
+      "target": "ubuntu-latest/3.11",
+      "artifact_id": 14676992246,
+      "artifact_zip_sha256": "af5cf9bbc687d0bdb1d8552301c2c4fbc254c264a9ca2abf12c9a2b7640c126f",
+      "dedicated": 44,
+      "combined": 63,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "target": "ubuntu-latest/3.13",
+      "artifact_id": 14676762615,
+      "artifact_zip_sha256": "d35f910876f7ec261e132ba16ba03ce5cf295ac60a3930139ce97b6be73fa3fa",
+      "dedicated": 44,
+      "combined": 63,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "target": "windows-latest/3.11",
+      "artifact_id": 14678185798,
+      "artifact_zip_sha256": "b0058b38857c0fd8792f4b0fb88073b5ab7aaeb1186d4a0cefa7f8ae9c3ccd8f",
+      "dedicated": 44,
+      "combined": 63,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "target": "windows-latest/3.13",
+      "artifact_id": 14677408577,
+      "artifact_zip_sha256": "048e3a46fe7c99bb7e95a541a11ceef6f7b2bf6744bb724789701c2fab2b7ac5",
+      "dedicated": 44,
+      "combined": 63,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "independent_checks": {
+    "every_zip_matches_GitHub_artifact_sha256": true,
+    "every_receipt_matches_qualification_SHA": true,
+    "each_postnative01_predecessor_receipt_sha256_present": true,
+    "embedded_test_log_and_JUnit_digests_recomputed": true,
+    "JUnit_inventories_match_receipts": true,
+    "cross_platform_dedicated_case_set_identical": true,
+    "cross_platform_combined_case_set_identical": true,
+    "dedicated_case_set_subset_of_combined": true,
+    "cross_platform_cumulative_source_pin_maps_identical": true,
+    "cumulative_pinned_git_objects": 81,
+    "all_native_jobs_concluded_success": true
+  },
+  "prior_failed_runs": [
+    {
+      "run_id": 44828561298,
+      "disposition": "initial KAN duplicate receipt keyword; three platform jobs failed; fourth cancelled"
+    },
+    {
+      "run_id": 44831037543,
+      "disposition": "three platform jobs passed; Windows 3.11 cancelled before post-native gate on prior 12-minute job timeout"
+    }
+  ],
+  "timeout_minutes_current": 30,
+  "scientific_residuals": {
+    "broader_capabilities_partial": 72,
+    "physical_dynamical_law_validation": false,
+    "upstream_NIST_dat_source_bytes_authenticated": false,
+    "NIST_Statistical_Reference_Dataset_collection_SRD_number": 140,
+    "dataset_specific_distribution_rights_verified": false,
+    "general_shift_calibration_verified": false,
+    "external_execution_authorized": false
+  },
+  "meaning": "These results qualify the bounded same-head source-locked acceptance suite; 176 dedicated and 252 combined post-native test executions are repeated scope checks, not 428 distinct scientific discoveries. Prior 391-case native baseline was verified in predecessor chain."
+}
