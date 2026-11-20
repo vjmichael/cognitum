@@ -58,7 +58,7 @@ def serial(F,G,h):
 
 def affine_scan(F,G,h):
     """Inclusive parallel-doubling affine composition, independent of recurrence order."""
-    A=numeric(F,2).copy();B=numeric(G,2).copy();h=numeric(h,1);need(A.shape==B.shape and h.shape==(A.shape[1],) and len(A)<=512 and A.shape[1]<=16,'scan shape');stride=1
+    A=numeric(F,2).copy();B=numeric(G,2).copy();h=numeric(h,1);need(A.shape==B.shape and h.shape==(A.shape[1],) and len(A)<=512 and A.shape[1]<=16,'scan shape');dtype=np.result_type(A,B,h);A=A.astype(dtype);B=B.astype(dtype);stride=1
     while stride<len(A):
         a=A.copy();b=B.copy();A[stride:]=a[stride:]*a[:-stride];B[stride:]=b[stride:]+a[stride:]*b[:-stride];bounded(A);bounded(B);stride*=2
     return bounded(A*h+B)
