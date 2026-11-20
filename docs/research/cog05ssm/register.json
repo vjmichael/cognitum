@@ -8,8 +8,8 @@
   },
   "counts": {
     "total": 72,
-    "partial": 61,
-    "open": 11
+    "partial": 63,
+    "open": 9
   },
   "rows": [
     {
@@ -694,7 +694,7 @@
       ],
       "acceptance": "Reference convolution, direct recurrence and initialization parity; train genuine small CPU trials.",
       "status": "PARTIAL",
-      "evidence": "LegS NPLR/DPLR rank-one decomposition and Woodbury bilinear reference, dense parity and fixed-feature readout fit; full S4 training/fast kernels open; SSM-07 tested local scope pass, native pending"
+      "evidence": "LegS NPLR/DPLR and Woodbury bilinear reference, bounded training of time step and readout with held-out synthetic recovery; full factor training/fast kernels open; SSM-07-R1 tested local scope pass, native pending"
     },
     {
       "id": "DS52",
@@ -719,7 +719,7 @@
       ],
       "acceptance": "Serial, associative and chunked recurrence equality; irregular-step policy and finite-precision differentiation.",
       "status": "PARTIAL",
-      "evidence": "S5-style diagonal MIMO irregular ZOH and affine doubling scan/serial/chunk parity; complete S5 training and scan gradients open; SSM-07 tested local scope pass, native pending"
+      "evidence": "S5-style diagonal MIMO ZOH and affine scan/chunk parity, mixed complex dtype fix, forward JVP vs serial tangent and central differences; reverse-mode/full training open; SSM-07-R1 tested local scope pass, native pending"
     },
     {
       "id": "DS54",
@@ -731,7 +731,7 @@
       ],
       "acceptance": "Actual input-dependent delta/B/C, correct discretization, serial vs scan output/gradient and causal mask tests.",
       "status": "PARTIAL",
-      "evidence": "Single-input selective delta/B/C exact-ZOH recurrence and causal convolution/scan parity; not full Mamba-1, original discretization/gated stack/training open; SSM-07 tested local scope pass, native pending"
+      "evidence": "Selective exact ZOH plus single-channel Mamba-1-style exponential-Euler input, causal SiLU convolution, delta/B/C, skip/gate and one-state parameter fit with scan Jacobian; full multichannel architecture open; SSM-07-R1 tested local scope pass, native pending"
     },
     {
       "id": "DS55",
@@ -742,8 +742,8 @@
         "L22"
       ],
       "acceptance": "Structured matrix product vs recurrent step and block scan, shape/order/initial-state parity; no GPU performance extrapolation.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Scalar-transition SSD matrix-state serial, dense semiseparable mask and block/chunk reference with nonzero initial state/zero decay; optimized kernels/full Mamba-2 and gradients open; SSM-07-R1 tested local scope pass, native pending"
     },
     {
       "id": "DS56",
@@ -758,8 +758,8 @@
         "L27"
       ],
       "acceptance": "Complex/rotation and MIMO, discretization comparison; adjacent DeltaNet/Householder controls, permutation/recall negative cases.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Complex diagonal exponential-trapezoid MIMO reference, real rotation parity, prior input carry and refinement; handcrafted parity readout comparison only; full Mamba-3/DeltaNet/Householder and general recall open; SSM-07-R1 tested local scope pass, native pending"
     },
     {
       "id": "DS57",
