@@ -57,6 +57,15 @@ jobs:
         run: python -m tools.mel07a_cpu --out mel07a-evidence/qualification.json --repeats 3
       - name: MEL-07A-R1 polynomial, batching and cooperative CPU qualification
         run: python -m tools.mel07a_r1 --out mel07ar1-evidence
+      - name: MEL-07A-R2 bounded batching and per-worker native counters
+        run: python -m tools.mel07a_r2 --out mel07ar2-evidence
+      - name: Preserve MEL-07A-R2 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mel07ar2-cpu-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: mel07ar2-evidence/
+          if-no-files-found: warn
       - name: Preserve MEL-07A-R1 native measurements and wire evidence
         if: always()
         uses: actions/upload-artifact@v4
