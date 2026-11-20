@@ -41,7 +41,7 @@ optimization-mip = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.14,<2"]
 optimization-schedule = ["protobuf>=6.31,<8", "ortools>=9.12,<10"]
 physics-ode = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.14,<2"]
 # Legacy ArviZ for Python 3.11; split numerical engine (no plotting) on 3.12+.
-probability-stats = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.14,<2", "arviz>=0.23,<0.24; python_version < '3.12'", "arviz-stats>=1.1,<1.2; python_version >= '3.12'"]
+probability-stats = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.14,<2", "arviz>=0.23,<0.24; python_version < '3.12'", "arviz-stats[xarray]>=1.1,<1.2; python_version >= '3.12'"]
 spatial-core = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.14,<2"]
 spatial-vision = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.14,<2", "opencv-python-headless>=4.9,<5", "pillow>=10,<13"]
 temporal-learned = ["protobuf>=6.31,<8", "numpy>=1.26,<3", "scipy>=1.14,<2", "scikit-learn>=1.5,<2"]
