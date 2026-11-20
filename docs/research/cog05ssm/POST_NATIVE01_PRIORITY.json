@@ -468,7 +468,10 @@
       "postnative02_local_or_native_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
       "postnative02_evidence": "Two nontrivial signed KAN field hypothesis families and independent IVP falsification staged; no independently learned scientific equation or real trajectory validation.",
       "postnative02_verified_run": 44832908788,
-      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md"
+      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md",
+      "postnative03_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
+      "postnative03_run": 44837589141,
+      "postnative03_residual": "Only real observed temperature one-step forecasts; no governing physical equation discovery or independent causal physics."
     },
     {
       "id": "DS37",
@@ -520,7 +523,10 @@
       "postnative02_local_or_native_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
       "postnative02_evidence": "IID-to-shift coverage counterexample verified locally; dependent change detection and domain-shift calibration remain open.",
       "postnative02_verified_run": 44832908788,
-      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md"
+      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md",
+      "postnative03_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
+      "postnative03_run": 44837589141,
+      "postnative03_residual": "Limited real-sensor one-step and source-custody tests do not establish general scope."
     },
     {
       "id": "DS41",
@@ -583,7 +589,10 @@
       "next_independent_qualification": "Joint risk with correlated/heavy-tailed disturbances, distribution shift and recursive-feasibility counterexample",
       "postnative02_local_or_native_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
       "postnative02_verified_run": 44832908788,
-      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md"
+      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md",
+      "postnative03_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
+      "postnative03_run": 44837589141,
+      "postnative03_residual": "Limited real-sensor one-step and source-custody tests do not establish general scope."
     },
     {
       "id": "DS46",
@@ -767,7 +776,10 @@
       "postnative02_local_or_native_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
       "postnative02_evidence": "Two distinct nonlinear represented checkpoint dynamical scenarios against analytic IVP staged; physical energy or PINN/KAN comparison remains open.",
       "postnative02_verified_run": 44832908788,
-      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md"
+      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md",
+      "postnative03_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
+      "postnative03_run": 44837589141,
+      "postnative03_residual": "Only real observed temperature one-step forecasts; no governing physical equation discovery or independent causal physics."
     },
     {
       "id": "DS61",
@@ -807,7 +819,10 @@
       "postnative02_local_or_native_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
       "postnative02_evidence": "Conformal IID and shift coverage negative controls locally passed; NIST observations are static calibration, not chronological regime forecasting.",
       "postnative02_verified_run": 44832908788,
-      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md"
+      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md",
+      "postnative03_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
+      "postnative03_run": 44837589141,
+      "postnative03_residual": "Empirical 90% conformal coverage is below nominal on Beijing (86.16%); general conditional/shift calibration remains open."
     },
     {
       "id": "DS64",
@@ -859,7 +874,10 @@
       "postnative02_local_or_native_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
       "postnative02_evidence": "Genuine HDC Spec/Cleanup candidate, future-step suppression and abstention staged; no new native run.",
       "postnative02_verified_run": 44832908788,
-      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md"
+      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md",
+      "postnative03_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
+      "postnative03_run": 44837589141,
+      "postnative03_residual": "Limited real-sensor one-step and source-custody tests do not establish general scope."
     },
     {
       "id": "DS68",
@@ -875,7 +893,10 @@
       "postnative02_local_or_native_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
       "postnative02_evidence": "Actual MEL scalar KAN checkpoint two-regime field integrator and wrong-model control staged (six total genuine runtime cases); native unexecuted.",
       "postnative02_verified_run": 44832908788,
-      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md"
+      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md",
+      "postnative03_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
+      "postnative03_run": 44837589141,
+      "postnative03_residual": "Real trainable KAN fitted residual and analytic derivatives tested but cross-platform model snapshots differ by floating precision; no model-law validation."
     },
     {
       "id": "DS69",
@@ -891,7 +912,10 @@
       "postnative02_local_or_native_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
       "postnative02_evidence": "Source/transcription/independent protocol/evidence digests and byte-exact replay, tamper rejection passed locally; original NIST upstream bytes and signing unverified.",
       "postnative02_verified_run": 44832908788,
-      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md"
+      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md",
+      "postnative03_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
+      "postnative03_run": 44837589141,
+      "postnative03_residual": "Limited real-sensor one-step and source-custody tests do not establish general scope."
     },
     {
       "id": "DS70",
@@ -907,7 +931,10 @@
       "postnative02_local_or_native_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
       "postnative02_evidence": "Two independently published NIST observed calibration datasets (36 ozone-monitor,14 adsorption) fitted to certified values; 12 frozen split candidate/null experiments, all outcomes as expected; no time-series or verified dataset-specific licensing.",
       "postnative02_verified_run": 44832908788,
-      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md"
+      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md",
+      "postnative03_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
+      "postnative03_run": 44837589141,
+      "postnative03_residual": "Two CC BY4 UCI trajectory snapshots frozen and 12,288 rows verified; additional sites, blind long-horizon validation, signed upstream authentication open."
     },
     {
       "id": "DS71",
@@ -935,14 +962,18 @@
       "postnative02_local_or_native_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
       "postnative02_evidence": "38/38 new local, 434/434 inherited+new combined; six genuine HDC/KAN tests staged, 44-case/63-case native gate not executed; original 391-case matrix remains PASS.",
       "postnative02_verified_run": 44832908788,
-      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md"
+      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md",
+      "postnative03_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
+      "postnative03_run": 44837589141,
+      "postnative03_residual": "Limited real-sensor one-step and source-custody tests do not establish general scope."
     }
   ],
   "limitations": [
     "No DS row is promoted to FULL/ACCEPTED by aggregate 391-case pass",
     "New 44/63 scoped tests now pass natively across four Ubuntu/Windows Python targets; this does NOT complete all broad scientific research capabilities or physical hardware acceptance",
     "Tests use the original pinned research code; no full KAN/MEL runtime in local container",
-    "Safety proposals are research-only and cannot actuate systems"
+    "Safety proposals are research-only and cannot actuate systems",
+    "POST-NATIVE-03 has real sensor observations but not a learned and independently validated physical governing law; cross-platform floating-point fitted KAN hashes differ and real dependent-time uncertainty coverage is not guaranteed."
   ],
   "postnative02_tranche": {
     "date": "2026-11-20",
@@ -978,6 +1009,31 @@
     "original_nist_dat_byte_origin_verified": false,
     "dataset_specific_redistribution_rights_verified": false,
     "full_scientific_scope_qualified": false,
+    "execution_authorized": false
+  },
+  "postnative03_tranche": {
+    "source_sha": "9c02f020136744930e3708a2b00f5a1db6d34dd8",
+    "run": 44837589141,
+    "status": "FOUR_NATIVE_PASS",
+    "tests_per_platform": 29,
+    "platforms": 4,
+    "data": [
+      "UCI374",
+      "UCI501"
+    ],
+    "real_rows": 12288,
+    "license": "CC BY 4.0",
+    "provenance": "UCI official original archives SHA256 pinned, UCI374 complete member identical to author-hosted Git blob",
+    "models": [
+      "persistence",
+      "linear SSM ARX",
+      "KAN residual",
+      "HDC MAP cleanup"
+    ],
+    "dataset_374_comparison": "persistence better than integrated",
+    "dataset_501_comparison": "integrated lower RMSE but bootstrap MAE interval favors persistence",
+    "conformal_beijing_coverage": 0.8615635179153095,
+    "broad_capabilities_remaining_partial": 72,
     "execution_authorized": false
   }
 }
