@@ -132,6 +132,19 @@ jobs:
           name: ssm03-${{ matrix.os }}-py${{ matrix.python-version }}
           path: ssm03-evidence/
           if-no-files-found: warn
+      - name: COG-05-SSM-03-R1 extended scientific dynamics
+        run: python -m tools.ssm03r1.acceptance --prior ssm03-evidence --out ssm03r1-evidence
+        env:
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+      - name: Preserve SSM-03-R1 native evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ssm03r1-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: ssm03r1-evidence/
+          if-no-files-found: warn
       - name: Preserve SSM-02-R1 native evidence
         if: always()
         uses: actions/upload-artifact@v4
