@@ -197,6 +197,19 @@ jobs:
           name: ssm05r1-${{ matrix.os }}-py${{ matrix.python-version }}
           path: ssm05r1-evidence/
           if-no-files-found: warn
+      - name: COG-05-SSM-06 offline optimal control and feedback
+        run: python -m tools.ssm06.acceptance --prior ssm05r1-evidence --out ssm06-evidence
+        env:
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+      - name: Preserve SSM-06 native evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ssm06-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: ssm06-evidence/
+          if-no-files-found: warn
       - name: Preserve SSM-02-R1 native evidence
         if: always()
         uses: actions/upload-artifact@v4
