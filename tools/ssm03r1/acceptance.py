@@ -7,7 +7,7 @@ from tools.ssm02r1.acceptance import NEW_PINS as VERIFY
 from tools.ssm03.acceptance import NEW_PINS as DYNAMICS
 
 NEW_PINS={
-    'cognitum/research/ssm_extended.py':'b652154675667bdac394870bc6239e428ef0a521',
+    'cognitum/research/ssm_extended.py':'51545521268402c5313e933e246d4a3045bf556b',
     'research_tests/ssm03r1/test_extended.py':'5ba573dec4152eea99e6f2580e0bad2c77a36493',
     'research_tests/ssm03r1/test_kan_evolution.py':'779ef5114edb79cd8ff9f6032a6233cdc6bd7751',
     'cognitum/research/kan_weak_form.py':'96eab091950fc86ea700c756a17c655220f83e57',
