@@ -45,14 +45,14 @@ Frozen research charter 2026-11-20. 72 capability groups; 33 partial scoped acce
 
 | ID | Mathematical capability | Present coverage | References | Minimum independent acceptance |
 |---|---|---|---|---|
-| DS25 | Markov processes, transition kernels and generators | OPEN | L05, L08 | Probability mass, stochasticity, matrix-exponential CTMC and finite enumeration. |
-| DS26 | Itô SDEs, diffusion and Fokker–Planck | OPEN | L02, L05, L31 | Ornstein–Uhlenbeck moments, seeded path weak/strong convergence; no unqualified SDE precision. |
-| DS27 | Linear Gaussian Kalman and Kalman–Bucy | PARTIAL: Decimal scalar and independent local-level/velocity channels | L01, L02, L05 | Coupled full covariance, known Gaussian conditioning, irregular sampling and missing data; noise assumptions explicit. |
-| DS28 | Square-root, information and numerically robust filters | PARTIAL: Existing Joseph update not full square-root/information | L05, L07 | Ill-conditioned covariance, Cholesky/QR parity and PSD; compare Joseph form; reject invalid covariance. |
-| DS29 | Smoothing and posterior path sampling | OPEN | L05, L07 | Rauch–Tung–Striebel vs joint batch Gaussian and fixed-lag vs full smoothing; separate future access. |
-| DS30 | EKF, UKF and cubature filters | OPEN | L05 | Linear-limit parity and nonlinear known-reference Monte Carlo; NEES/NIS diagnostics under assumptions. |
-| DS31 | Particle/ensemble filtering and resampling | OPEN | L05, L08 | Exact small posterior and convergence across seeds, degeneracy, ESS, resampling parity; no single-seed guarantee. |
-| DS32 | HMM, switching LDS and regime inference | PARTIAL: Categorical HMM forward filter with declared matrices only | L05, L39, L41 | Finite exact enumeration/forward-backward; label permutation, Viterbi, impossible emission, regime changes. |
+| DS25 | Markov processes, transition kernels and generators | PARTIAL: Finite row-stochastic discrete Markov and continuous generator/expm propagation; local numeric pass; general kernels open; native pending | L05, L08 | Probability mass, stochasticity, matrix-exponential CTMC and finite enumeration. |
+| DS26 | Itô SDEs, diffusion and Fokker–Planck | PARTIAL: OU analytic transition and moments, coupled Euler-Maruyama terminal ensemble and seeded refinement; general SDE/Fokker-Planck open; native pending | L02, L05, L31 | Ornstein–Uhlenbeck moments, seeded path weak/strong convergence; no unqualified SDE precision. |
+| DS27 | Linear Gaussian Kalman and Kalman–Bucy | PARTIAL: Coupled sampled linear Gaussian full covariance, irregular intervals, missing whole sample, likelihood and NIS; continuous Kalman-Bucy open; native pending | L01, L02, L05 | Coupled full covariance, known Gaussian conditioning, irregular sampling and missing data; noise assumptions explicit. |
+| DS28 | Square-root, information and numerically robust filters | PARTIAL: Joseph covariance and Cholesky innovation solve, PSD diagnostics; full square-root/information propagation open; native pending | L05, L07 | Ill-conditioned covariance, Cholesky/QR parity and PSD; compare Joseph form; reject invalid covariance. |
+| DS29 | Smoothing and posterior path sampling | PARTIAL: Full offline RTS validated against joint Gaussian conditioning; fixed-lag and posterior path sampling open; native pending | L05, L07 | Rauch–Tung–Striebel vs joint batch Gaussian and fixed-lag vs full smoothing; separate future access. |
+| DS30 | EKF, UKF and cubature filters | PARTIAL: EKF and spherical-radial cubature scalar quadratic sensor updates, linear-limit parity; general nonlinear sequence/UKF open; native pending | L05 | Linear-limit parity and nonlinear known-reference Monte Carlo; NEES/NIS diagnostics under assumptions. |
+| DS31 | Particle/ensemble filtering and resampling | PARTIAL: Linear Gaussian bootstrap particle filter, log weights, ESS systematic resampling and independent-seed reference tests; nonlinear/ensemble extensions open; native pending | L05, L08 | Exact small posterior and convergence across seeds, degeneracy, ESS, resampling parity; no single-seed guarantee. |
+| DS32 | HMM, switching LDS and regime inference | PARTIAL: Categorical HMM forward/backward/Viterbi and log likelihood checked by enumeration; switching LDS and fitting open; native pending | L05, L39, L41 | Finite exact enumeration/forward-backward; label permutation, Viterbi, impossible emission, regime changes. |
 
 ## COG-05-SSM-05 — Statistical inference, identification and mathematical discovery
 
