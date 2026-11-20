@@ -68,3 +68,5 @@ Every stage can split into independently grouped tasks. DS17–24 before some fi
 **SSM-02 native update:** [bounded linear analysis accepted](SSM02_CLOSEOUT.md), all 12 jobs and evidence reconciliation; R1 local candidate native remaining. No overlapping CI.
 
 **Scientific dynamics update:** [SSM-02-R1 native acceptance](SSM02_R1_CLOSEOUT.md) reconciled. [SSM-03](SSM03.md) local candidate 140 combined tests, DS17–19/24 partial. Exact geometric/conservation identities and checked numerical diagnostics separate. Native pending; residual DS20–24 SSM-03-R1 next independent task; SSM-04 queued.
+
+**Extended scientific dynamics:** [SSM-03-R1](SSM03_R1.md) DS20–24 partial candidate, 35 isolated local tests passed, 4 real KAN checkpoint cases staged but not executed. Same-head native acceptance remains open; no control authority.
