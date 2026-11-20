@@ -33,7 +33,7 @@ def acquire(out):
             raise ValueError('unexpected source archive')
         content,path=member(raw,target)
         reader=csv.DictReader(io.StringIO(content.decode('utf-8-sig')))
-        if any(c not in reader.fieldnames for c in cols): raise ValueError('source columns')
+        if any(c not in reader.fieldnames for c in cols): raise ValueError('source columns: '+repr(reader.fieldnames)+' wanted '+repr(cols))
         o=io.StringIO(newline='');w=csv.DictWriter(o,fieldnames=cols,lineterminator='\n')
         w.writeheader();prev=None;missing=0;count=0
         for row in reader:
