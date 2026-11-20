@@ -65,6 +65,19 @@ jobs:
         run: python -m tools.cog04o.acceptance --prior mel07ar1-evidence --out cog04o-evidence
       - name: COG-04P exact weak forms, independent spectra and measured resources
         run: python -m tools.cog04p.acceptance --prior cog04o-evidence --out cog04p-evidence
+      - name: COG-04Q adaptive continuum Ritz approximation and convergence
+        run: python -m tools.cog04q.acceptance --prior cog04p-evidence --out cog04q-evidence
+        env:
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+      - name: Preserve COG-04Q native evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cog04q-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: cog04q-evidence/
+          if-no-files-found: warn
       - name: Preserve COG-04P native evidence
         if: always()
         uses: actions/upload-artifact@v4
