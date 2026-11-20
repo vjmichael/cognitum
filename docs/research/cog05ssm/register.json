@@ -8,8 +8,8 @@
   },
   "counts": {
     "total": 72,
-    "partial": 56,
-    "open": 16
+    "partial": 61,
+    "open": 11
   },
   "rows": [
     {
@@ -668,8 +668,8 @@
         "L17"
       ],
       "acceptance": "Analytic polynomial moments, streaming history approximation and explicit truncation/reconstruction error.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Online piecewise-constant LegS projection with irregular duration, cumulative energy/truncation diagnostic and independent quadrature; broader history profiles open; SSM-07 tested local scope pass, native pending"
     },
     {
       "id": "DS50",
@@ -682,7 +682,7 @@
       ],
       "acceptance": "Impulse kernel vs recurrence incl initial state, gradient check, trained synthetic identification.",
       "status": "PARTIAL",
-      "evidence": "Historical P23 training report; original checkpoint custody missing"
+      "evidence": "Real/complex MIMO LTI recurrence/convolution with initial state, stable diagonal pole/readout CPU fit and finite-difference Jacobian plus held-out trials; historical checkpoint recovery remains open; SSM-07 tested local scope pass, native pending"
     },
     {
       "id": "DS51",
@@ -693,8 +693,8 @@
         "L18"
       ],
       "acceptance": "Reference convolution, direct recurrence and initialization parity; train genuine small CPU trials.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "LegS NPLR/DPLR rank-one decomposition and Woodbury bilinear reference, dense parity and fixed-feature readout fit; full S4 training/fast kernels open; SSM-07 tested local scope pass, native pending"
     },
     {
       "id": "DS52",
@@ -706,8 +706,8 @@
         "L38"
       ],
       "acceptance": "Complex conjugacy, stable parameterization and long-memory stress; compare simple AR and GRU.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Stable complex diagonal ZOH reference, conjugate-pair/long-memory checks and fixed-feature readout fit; complete DSS/S4D/LRU and baseline comparisons open; SSM-07 tested local scope pass, native pending"
     },
     {
       "id": "DS53",
@@ -718,8 +718,8 @@
         "L20"
       ],
       "acceptance": "Serial, associative and chunked recurrence equality; irregular-step policy and finite-precision differentiation.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "S5-style diagonal MIMO irregular ZOH and affine doubling scan/serial/chunk parity; complete S5 training and scan gradients open; SSM-07 tested local scope pass, native pending"
     },
     {
       "id": "DS54",
@@ -730,8 +730,8 @@
         "L21"
       ],
       "acceptance": "Actual input-dependent delta/B/C, correct discretization, serial vs scan output/gradient and causal mask tests.",
-      "status": "OPEN",
-      "evidence": "Historical gated P23b is not Mamba"
+      "status": "PARTIAL",
+      "evidence": "Single-input selective delta/B/C exact-ZOH recurrence and causal convolution/scan parity; not full Mamba-1, original discretization/gated stack/training open; SSM-07 tested local scope pass, native pending"
     },
     {
       "id": "DS55",
