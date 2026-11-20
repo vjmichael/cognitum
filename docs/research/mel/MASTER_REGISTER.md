@@ -6,6 +6,8 @@
 
 **Date:** November 18, 2026
 
+**November 20 extension:** State-space mathematics is a third independent comprehensive engine, complementing HDC and KAN. See [COG-05-SSM charter](../cog05ssm/CHARTER.md), [DS01–DS72 capability register](../cog05ssm/REGISTER.md), and [literature](../cog05ssm/LITERATURE.md). Preserve original H1–H60, K1–K60, S01–S24 and I-01–I-20 numbering and historical scope; proposed SSM interoperability XSS-01–06 is separate and not admitted.
+
 ## Governing principles
 
 - **Established:** Supported by existing mathematical theory or published demonstrations.

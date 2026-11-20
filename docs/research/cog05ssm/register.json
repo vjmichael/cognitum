@@ -1,0 +1,1300 @@
+{
+  "profile": "cognitum.ssm.capability_register.v1",
+  "date": "2026-11-20",
+  "source": "8367942b7161d6e2bb5c09bb65118401efdef5ed",
+  "meaning": {
+    "PARTIAL": "source or historical report covers narrow slice; not a new pass",
+    "OPEN": "no broader qualification in this audit"
+  },
+  "counts": {
+    "total": 72,
+    "partial": 16,
+    "open": 56
+  },
+  "rows": [
+    {
+      "id": "DS01",
+      "stage": "COG-05-SSM-01",
+      "group": "Foundations, representation and exact linear dynamics",
+      "capability": "State spaces, time domains and state conventions",
+      "literature": [
+        "L03",
+        "L06"
+      ],
+      "acceptance": "Validate dimensions, units, initial/terminal and pre/post-update indexing against scalar closed forms.",
+      "status": "PARTIAL",
+      "evidence": "DiagonalSSM and scalar filter only"
+    },
+    {
+      "id": "DS02",
+      "stage": "COG-05-SSM-01",
+      "group": "Foundations, representation and exact linear dynamics",
+      "capability": "Continuous and discrete LTI, SISO/MIMO",
+      "literature": [
+        "L03",
+        "L42"
+      ],
+      "acceptance": "Exact rational discrete recurrence; matrix exponential comparison for coupled continuous system.",
+      "status": "PARTIAL",
+      "evidence": "DiagonalSSM has bounded diagonal A and dense B/C/D"
+    },
+    {
+      "id": "DS03",
+      "stage": "COG-05-SSM-01",
+      "group": "Foundations, representation and exact linear dynamics",
+      "capability": "Time-varying, affine and bilinear systems",
+      "literature": [
+        "L03",
+        "L39"
+      ],
+      "acceptance": "Piecewise time-indexed matrices and known forcing; compare literal noncommutative products.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS04",
+      "stage": "COG-05-SSM-01",
+      "group": "Foundations, representation and exact linear dynamics",
+      "capability": "Flow composition and semigroup/transition operator",
+      "literature": [
+        "L03",
+        "L09"
+      ],
+      "acceptance": "Check exp((s+t)A), transition composition and singular A cases; exact discrete associativity.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS05",
+      "stage": "COG-05-SSM-01",
+      "group": "Foundations, representation and exact linear dynamics",
+      "capability": "Discretization and sampling",
+      "literature": [
+        "L02",
+        "L03",
+        "L42"
+      ],
+      "acceptance": "ZOH block exponential, first-order hold, Euler/Tustin error and aliasing; irregular timestamps.",
+      "status": "PARTIAL",
+      "evidence": "Fixed local-level and constant velocity noise/transition formulas"
+    },
+    {
+      "id": "DS06",
+      "stage": "COG-05-SSM-01",
+      "group": "Foundations, representation and exact linear dynamics",
+      "capability": "Transfer functions, poles, zeros and impulse responses",
+      "literature": [
+        "L03",
+        "L06"
+      ],
+      "acceptance": "Rational transfer vs impulse convolution; pole-zero cancellations and feedthrough.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS07",
+      "stage": "COG-05-SSM-01",
+      "group": "Foundations, representation and exact linear dynamics",
+      "capability": "Coordinate transforms and minimal realization",
+      "literature": [
+        "L03",
+        "L06"
+      ],
+      "acceptance": "Similarity-invariant input/output, Hankel rank, Ho–Kalman reconstruction, nonminimal example.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS08",
+      "stage": "COG-05-SSM-01",
+      "group": "Foundations, representation and exact linear dynamics",
+      "capability": "Descriptor/DAE and algebraic constraints",
+      "literature": [
+        "L03",
+        "L09"
+      ],
+      "acceptance": "Index-1 consistent initial conditions and residuals; refuse singular/unsupported index cases.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS09",
+      "stage": "COG-05-SSM-02",
+      "group": "Qualitative dynamics, numerical analysis and mathematical assurance",
+      "capability": "Eigenstructure, Schur/Jordan and nonnormal dynamics",
+      "literature": [
+        "L03",
+        "L04"
+      ],
+      "acceptance": "Defective and transient-growth examples; Schur residual and norm bounds, not eigenvalues alone.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS10",
+      "stage": "COG-05-SSM-02",
+      "group": "Qualitative dynamics, numerical analysis and mathematical assurance",
+      "capability": "Controllability, reachability and stabilizability",
+      "literature": [
+        "L03",
+        "L06"
+      ],
+      "acceptance": "Exact small controllability rank, PBH and Gramian checks; unreachable unstable counterexample.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS11",
+      "stage": "COG-05-SSM-02",
+      "group": "Qualitative dynamics, numerical analysis and mathematical assurance",
+      "capability": "Observability, detectability and identifiability distinction",
+      "literature": [
+        "L03",
+        "L06",
+        "L37"
+      ],
+      "acceptance": "Exact observability rank/PBH and indistinguishable-state pairs; reject nonidentifiable claims.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS12",
+      "stage": "COG-05-SSM-02",
+      "group": "Qualitative dynamics, numerical analysis and mathematical assurance",
+      "capability": "Lyapunov stability and invariant sets",
+      "literature": [
+        "L03",
+        "L04",
+        "L34"
+      ],
+      "acceptance": "Rational P positive definite and negative residual; unstable and marginal cases; continuous/discrete conventions.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS13",
+      "stage": "COG-05-SSM-02",
+      "group": "Qualitative dynamics, numerical analysis and mathematical assurance",
+      "capability": "Riccati equations, Gramians and induced gains",
+      "literature": [
+        "L03",
+        "L04"
+      ],
+      "acceptance": "Check CARE/DARE and Lyapunov residuals, stabilizing root and H2/H-infinity scope.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS14",
+      "stage": "COG-05-SSM-02",
+      "group": "Qualitative dynamics, numerical analysis and mathematical assurance",
+      "capability": "Nonlinear equilibria, linearization and bifurcations",
+      "literature": [
+        "L03",
+        "L10"
+      ],
+      "acceptance": "Analytic saddle-node/Hopf examples, Jacobian prediction vs nonlinear trajectories; local vs global.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS15",
+      "stage": "COG-05-SSM-02",
+      "group": "Qualitative dynamics, numerical analysis and mathematical assurance",
+      "capability": "Contraction, passivity and dissipativity",
+      "literature": [
+        "L04",
+        "L14",
+        "L15"
+      ],
+      "acceptance": "Storage inequality, contraction metric on stated region, counterexample outside region.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS16",
+      "stage": "COG-05-SSM-02",
+      "group": "Qualitative dynamics, numerical analysis and mathematical assurance",
+      "capability": "Validated integration, interval/reachability and barrier certificates",
+      "literature": [
+        "L04",
+        "L34",
+        "L35"
+      ],
+      "acceptance": "Outward-rounded or exact certificate checker; reject sample-only proof; enclose small known trajectories.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS17",
+      "stage": "COG-05-SSM-03",
+      "group": "Simulation, physical structure and infinite-dimensional dynamics",
+      "capability": "ODE integration, stiffness and event localization",
+      "literature": [
+        "L03",
+        "L09",
+        "L28"
+      ],
+      "acceptance": "Analytic solution and independent solver refinement; stiff test; event-time bracket.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS18",
+      "stage": "COG-05-SSM-03",
+      "group": "Simulation, physical structure and infinite-dimensional dynamics",
+      "capability": "Hamiltonian, Lagrangian and symplectic methods",
+      "literature": [
+        "L09",
+        "L14"
+      ],
+      "acceptance": "Harmonic oscillator and nonlinear pendulum; symplectic condition, bounded energy drift not exact conservation by default.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS19",
+      "stage": "COG-05-SSM-03",
+      "group": "Simulation, physical structure and infinite-dimensional dynamics",
+      "capability": "Port-Hamiltonian and dissipative networks",
+      "literature": [
+        "L15",
+        "L13"
+      ],
+      "acceptance": "Skew J, PSD R, power balance; RLC and damped oscillator.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS20",
+      "stage": "COG-05-SSM-03",
+      "group": "Simulation, physical structure and infinite-dimensional dynamics",
+      "capability": "Constrained, switching and hybrid automata",
+      "literature": [
+        "L34",
+        "L35",
+        "L39"
+      ],
+      "acceptance": "Guard/reset paths, mode-specific invariants; no Zeno or missed event claims without bounds.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS21",
+      "stage": "COG-05-SSM-03",
+      "group": "Simulation, physical structure and infinite-dimensional dynamics",
+      "capability": "Delay, distributed and hereditary systems",
+      "literature": [
+        "L03",
+        "L04"
+      ],
+      "acceptance": "Known delay differential fixture and mesh convergence; explicitly account history and memory.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS22",
+      "stage": "COG-05-SSM-03",
+      "group": "Simulation, physical structure and infinite-dimensional dynamics",
+      "capability": "PDE evolution, semigroups and spatial discretization",
+      "literature": [
+        "L12",
+        "L13",
+        "L32"
+      ],
+      "acceptance": "Use existing KAN exact weak forms; diffusion/wave modal closed forms and mass-matrix time evolution.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS23",
+      "stage": "COG-05-SSM-03",
+      "group": "Simulation, physical structure and infinite-dimensional dynamics",
+      "capability": "Model reduction and balanced truncation/POD",
+      "literature": [
+        "L06",
+        "L12",
+        "L40"
+      ],
+      "acceptance": "Stable minimal LTI bound where valid; POD reconstruction and out-of-sample trajectory error.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS24",
+      "stage": "COG-05-SSM-03",
+      "group": "Simulation, physical structure and infinite-dimensional dynamics",
+      "capability": "Multiscale, coupled, graph and network dynamics",
+      "literature": [
+        "L39",
+        "L40"
+      ],
+      "acceptance": "Graph Laplacian diffusion and coupled oscillators; conservation and partition equivalence.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS25",
+      "stage": "COG-05-SSM-04",
+      "group": "Stochastic dynamics and Bayesian inference",
+      "capability": "Markov processes, transition kernels and generators",
+      "literature": [
+        "L05",
+        "L08"
+      ],
+      "acceptance": "Probability mass, stochasticity, matrix-exponential CTMC and finite enumeration.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS26",
+      "stage": "COG-05-SSM-04",
+      "group": "Stochastic dynamics and Bayesian inference",
+      "capability": "Itô SDEs, diffusion and Fokker–Planck",
+      "literature": [
+        "L02",
+        "L05",
+        "L31"
+      ],
+      "acceptance": "Ornstein–Uhlenbeck moments, seeded path weak/strong convergence; no unqualified SDE precision.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS27",
+      "stage": "COG-05-SSM-04",
+      "group": "Stochastic dynamics and Bayesian inference",
+      "capability": "Linear Gaussian Kalman and Kalman–Bucy",
+      "literature": [
+        "L01",
+        "L02",
+        "L05"
+      ],
+      "acceptance": "Coupled full covariance, known Gaussian conditioning, irregular sampling and missing data; noise assumptions explicit.",
+      "status": "PARTIAL",
+      "evidence": "Decimal scalar and independent local-level/velocity channels"
+    },
+    {
+      "id": "DS28",
+      "stage": "COG-05-SSM-04",
+      "group": "Stochastic dynamics and Bayesian inference",
+      "capability": "Square-root, information and numerically robust filters",
+      "literature": [
+        "L05",
+        "L07"
+      ],
+      "acceptance": "Ill-conditioned covariance, Cholesky/QR parity and PSD; compare Joseph form; reject invalid covariance.",
+      "status": "PARTIAL",
+      "evidence": "Existing Joseph update not full square-root/information"
+    },
+    {
+      "id": "DS29",
+      "stage": "COG-05-SSM-04",
+      "group": "Stochastic dynamics and Bayesian inference",
+      "capability": "Smoothing and posterior path sampling",
+      "literature": [
+        "L05",
+        "L07"
+      ],
+      "acceptance": "Rauch–Tung–Striebel vs joint batch Gaussian and fixed-lag vs full smoothing; separate future access.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS30",
+      "stage": "COG-05-SSM-04",
+      "group": "Stochastic dynamics and Bayesian inference",
+      "capability": "EKF, UKF and cubature filters",
+      "literature": [
+        "L05"
+      ],
+      "acceptance": "Linear-limit parity and nonlinear known-reference Monte Carlo; NEES/NIS diagnostics under assumptions.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS31",
+      "stage": "COG-05-SSM-04",
+      "group": "Stochastic dynamics and Bayesian inference",
+      "capability": "Particle/ensemble filtering and resampling",
+      "literature": [
+        "L05",
+        "L08"
+      ],
+      "acceptance": "Exact small posterior and convergence across seeds, degeneracy, ESS, resampling parity; no single-seed guarantee.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS32",
+      "stage": "COG-05-SSM-04",
+      "group": "Stochastic dynamics and Bayesian inference",
+      "capability": "HMM, switching LDS and regime inference",
+      "literature": [
+        "L05",
+        "L39",
+        "L41"
+      ],
+      "acceptance": "Finite exact enumeration/forward-backward; label permutation, Viterbi, impossible emission, regime changes.",
+      "status": "PARTIAL",
+      "evidence": "Categorical HMM forward filter with declared matrices only"
+    },
+    {
+      "id": "DS33",
+      "stage": "COG-05-SSM-05",
+      "group": "Statistical inference, identification and mathematical discovery",
+      "capability": "Likelihood, EM and Bayesian parameter estimation",
+      "literature": [
+        "L05",
+        "L08",
+        "L44"
+      ],
+      "acceptance": "Known parameters, batch likelihood and EM monotonicity when applicable; parameter uncertainty.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS34",
+      "stage": "COG-05-SSM-05",
+      "group": "Statistical inference, identification and mathematical discovery",
+      "capability": "System identification and persistent excitation",
+      "literature": [
+        "L03",
+        "L06",
+        "L37",
+        "L39"
+      ],
+      "acceptance": "Fit unknown LTI with held-out controls; rank deficiency prevents unique claim; similarity ambiguity.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS35",
+      "stage": "COG-05-SSM-05",
+      "group": "Statistical inference, identification and mathematical discovery",
+      "capability": "Subspace methods, realization from data and ERA",
+      "literature": [
+        "L06",
+        "L37"
+      ],
+      "acceptance": "Noise-free impulse recovery; noisy order selection and uncertainty; compare Ho–Kalman.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS36",
+      "stage": "COG-05-SSM-05",
+      "group": "Statistical inference, identification and mathematical discovery",
+      "capability": "Sparse discovery, symbolic dynamics and SINDy",
+      "literature": [
+        "L10",
+        "L39"
+      ],
+      "acceptance": "Recover bounded polynomial equations; derivative noise, collinearity, wrong library controls; KAN cross-check.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS37",
+      "stage": "COG-05-SSM-05",
+      "group": "Statistical inference, identification and mathematical discovery",
+      "capability": "DMD, extended DMD and Koopman approximation",
+      "literature": [
+        "L11",
+        "L39"
+      ],
+      "acceptance": "Known spectral modes, residual/error, non-invariant dictionary warning; no finite exact Koopman universal claim.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS38",
+      "stage": "COG-05-SSM-05",
+      "group": "Statistical inference, identification and mathematical discovery",
+      "capability": "Operator inference and structure-preserving identification",
+      "literature": [
+        "L12",
+        "L13",
+        "L14",
+        "L15",
+        "L33"
+      ],
+      "acceptance": "Learn linear/quadratic operators, independent known matrices, exact-recovery assumptions, unseen excitation/noise.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS39",
+      "stage": "COG-05-SSM-05",
+      "group": "Statistical inference, identification and mathematical discovery",
+      "capability": "Statistical time series, trend, seasonal and dynamic factor",
+      "literature": [
+        "L05",
+        "L44"
+      ],
+      "acceptance": "ARIMA/SARIMAX, unobserved components, factor models, rolling chronological evaluation vs persistence/seasonal naive.",
+      "status": "PARTIAL",
+      "evidence": "Ridge autoregression and simple forecast evaluation"
+    },
+    {
+      "id": "DS40",
+      "stage": "COG-05-SSM-05",
+      "group": "Statistical inference, identification and mathematical discovery",
+      "capability": "Change detection, robust likelihood, missing/OOD",
+      "literature": [
+        "L05",
+        "L07",
+        "L41"
+      ],
+      "acceptance": "Known shifts, outliers and outages; false alarms, detection delay, coverage/abstention across seeds.",
+      "status": "PARTIAL",
+      "evidence": "Innovation thresholds and HMM mode alerts; not calibrated"
+    },
+    {
+      "id": "DS41",
+      "stage": "COG-05-SSM-06",
+      "group": "Optimization, feedback and decision mathematics",
+      "capability": "Luenberger and unknown-input observers",
+      "literature": [
+        "L03",
+        "L04"
+      ],
+      "acceptance": "Error-dynamics and observer pole placement; unknown-input identifiability refusal.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS42",
+      "stage": "COG-05-SSM-06",
+      "group": "Optimization, feedback and decision mathematics",
+      "capability": "State feedback, pole placement and LQR",
+      "literature": [
+        "L03",
+        "L04"
+      ],
+      "acceptance": "Independently verify closed-loop pole placement, Riccati solution and cost against finite-horizon dynamic programming.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS43",
+      "stage": "COG-05-SSM-06",
+      "group": "Optimization, feedback and decision mathematics",
+      "capability": "LQG, Kalman-controller separation and duality",
+      "literature": [
+        "L01",
+        "L03",
+        "L05"
+      ],
+      "acceptance": "Joint filter/controller benchmark under exact assumptions; no separation claim for generic nonlinear systems.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS44",
+      "stage": "COG-05-SSM-06",
+      "group": "Optimization, feedback and decision mathematics",
+      "capability": "Model predictive control and constrained planning",
+      "literature": [
+        "L03",
+        "L04",
+        "L16"
+      ],
+      "acceptance": "Finite-horizon convex control, feasible constraints and KKT residual; C11/C12 adapter; infeasible refusal.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS45",
+      "stage": "COG-05-SSM-06",
+      "group": "Optimization, feedback and decision mathematics",
+      "capability": "Robust, stochastic and chance-constrained control",
+      "literature": [
+        "L04",
+        "L16"
+      ],
+      "acceptance": "Bounded uncertainty and explicit risk; independent reachability or independent sample coverage as distinct evidence.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS46",
+      "stage": "COG-05-SSM-06",
+      "group": "Optimization, feedback and decision mathematics",
+      "capability": "Adaptive, robust and data-enabled predictive control",
+      "literature": [
+        "L16",
+        "L37",
+        "L39"
+      ],
+      "acceptance": "Persistently exciting vs deficient datasets; compare model-first MPC and closed-loop simulation; no guarantees beyond conditions.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS47",
+      "stage": "COG-05-SSM-06",
+      "group": "Optimization, feedback and decision mathematics",
+      "capability": "Optimal experiment design and sensor placement",
+      "literature": [
+        "L03",
+        "L05",
+        "L37"
+      ],
+      "acceptance": "Finite candidate enumeration and observability/Fisher information; distinguish local identifiability.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS48",
+      "stage": "COG-05-SSM-06",
+      "group": "Optimization, feedback and decision mathematics",
+      "capability": "Safety filters, reach-avoid and certified controllers",
+      "literature": [
+        "L04",
+        "L34",
+        "L35"
+      ],
+      "acceptance": "Certificate verification separate from synthesis, unsafe initial state and infeasible commands; simulation only.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS49",
+      "stage": "COG-05-SSM-07",
+      "group": "Structured and selective learned state spaces",
+      "capability": "HiPPO and online orthogonal projection",
+      "literature": [
+        "L17"
+      ],
+      "acceptance": "Analytic polynomial moments, streaming history approximation and explicit truncation/reconstruction error.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS50",
+      "stage": "COG-05-SSM-07",
+      "group": "Structured and selective learned state spaces",
+      "capability": "LTI learned recurrence, convolution, complex/dense/low-rank",
+      "literature": [
+        "L18",
+        "L19"
+      ],
+      "acceptance": "Impulse kernel vs recurrence incl initial state, gradient check, trained synthetic identification.",
+      "status": "PARTIAL",
+      "evidence": "Historical P23 training report; original checkpoint custody missing"
+    },
+    {
+      "id": "DS51",
+      "stage": "COG-05-SSM-07",
+      "group": "Structured and selective learned state spaces",
+      "capability": "S4 and structured DPLR/NPLR",
+      "literature": [
+        "L18"
+      ],
+      "acceptance": "Reference convolution, direct recurrence and initialization parity; train genuine small CPU trials.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS52",
+      "stage": "COG-05-SSM-07",
+      "group": "Structured and selective learned state spaces",
+      "capability": "DSS/S4D, complex diagonal and LRU candidates",
+      "literature": [
+        "L19",
+        "L38"
+      ],
+      "acceptance": "Complex conjugacy, stable parameterization and long-memory stress; compare simple AR and GRU.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS53",
+      "stage": "COG-05-SSM-07",
+      "group": "Structured and selective learned state spaces",
+      "capability": "S5 MIMO and associative scan",
+      "literature": [
+        "L20"
+      ],
+      "acceptance": "Serial, associative and chunked recurrence equality; irregular-step policy and finite-precision differentiation.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS54",
+      "stage": "COG-05-SSM-07",
+      "group": "Structured and selective learned state spaces",
+      "capability": "Mamba-1 selective update and causal convolution",
+      "literature": [
+        "L21"
+      ],
+      "acceptance": "Actual input-dependent delta/B/C, correct discretization, serial vs scan output/gradient and causal mask tests.",
+      "status": "OPEN",
+      "evidence": "Historical gated P23b is not Mamba"
+    },
+    {
+      "id": "DS55",
+      "stage": "COG-05-SSM-07",
+      "group": "Structured and selective learned state spaces",
+      "capability": "Mamba-2/SSD and semiseparable kernels",
+      "literature": [
+        "L22"
+      ],
+      "acceptance": "Structured matrix product vs recurrent step and block scan, shape/order/initial-state parity; no GPU performance extrapolation.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS56",
+      "stage": "COG-05-SSM-07",
+      "group": "Structured and selective learned state spaces",
+      "capability": "Mamba-3 and generalized recurrence variants",
+      "literature": [
+        "L23",
+        "L24",
+        "L25",
+        "L26",
+        "L27"
+      ],
+      "acceptance": "Complex/rotation and MIMO, discretization comparison; adjacent DeltaNet/Householder controls, permutation/recall negative cases.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS57",
+      "stage": "COG-05-SSM-08",
+      "group": "Learned continuous dynamics, scientific operators and frontier models",
+      "capability": "Neural/latent ODE and differentiable simulation",
+      "literature": [
+        "L28",
+        "L29"
+      ],
+      "acceptance": "Analytic short trajectories, finite-difference gradient vs adjoint, solver sensitivity and held-out initial states.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS58",
+      "stage": "COG-05-SSM-08",
+      "group": "Learned continuous dynamics, scientific operators and frontier models",
+      "capability": "Neural CDE, path signatures and irregular observations",
+      "literature": [
+        "L30",
+        "L31"
+      ],
+      "acceptance": "Causal interpolants; perturb future inputs, step refinement and irregular/censored data.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS59",
+      "stage": "COG-05-SSM-08",
+      "group": "Learned continuous dynamics, scientific operators and frontier models",
+      "capability": "Neural SDEs and probabilistic latent dynamics",
+      "literature": [
+        "L31",
+        "L05"
+      ],
+      "acceptance": "Known diffusion moments, posterior predictive tests, variance calibration vs classical SDE.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS60",
+      "stage": "COG-05-SSM-08",
+      "group": "Learned continuous dynamics, scientific operators and frontier models",
+      "capability": "Physics-informed, Hamiltonian and dissipative learning",
+      "literature": [
+        "L13",
+        "L14",
+        "L15",
+        "L32"
+      ],
+      "acceptance": "Conservation and dissipation contract; compare black-box learner, KAN vector field and standard simulator.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS61",
+      "stage": "COG-05-SSM-08",
+      "group": "Learned continuous dynamics, scientific operators and frontier models",
+      "capability": "Deep Kalman, variational, differentiable particle filters",
+      "literature": [
+        "L05",
+        "L08",
+        "L36"
+      ],
+      "acceptance": "Likelihood/ELBO sanity and independent posterior reference; importance weight degeneracy and failure modes.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS62",
+      "stage": "COG-05-SSM-08",
+      "group": "Learned continuous dynamics, scientific operators and frontier models",
+      "capability": "State-space neural operators and spatiotemporal science",
+      "literature": [
+        "L32",
+        "L40"
+      ],
+      "acceptance": "Held-out forcing, boundary and resolution; compare exact KAN forms and conventional PDE integrator; mesh transfer limits.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS63",
+      "stage": "COG-05-SSM-08",
+      "group": "Learned continuous dynamics, scientific operators and frontier models",
+      "capability": "Probabilistic regime-conditioned SSM forecasting",
+      "literature": [
+        "L41",
+        "L44"
+      ],
+      "acceptance": "Time-split multiple datasets, proper scoring/coverage, regime ablation, leakage and distribution shift.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS64",
+      "stage": "COG-05-SSM-08",
+      "group": "Learned continuous dynamics, scientific operators and frontier models",
+      "capability": "Expressivity, formal languages, recall and hybrid architectures",
+      "literature": [
+        "L24",
+        "L25",
+        "L26",
+        "L27",
+        "L38"
+      ],
+      "acceptance": "Exact automata and permutation composition, associative recall, long-horizon degradation, attention/GRU/linear recurrence controls.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS65",
+      "stage": "COG-05-SSM-09",
+      "group": "Interoperability, research experiments and delivery assurance",
+      "capability": "Typed state, belief, trajectories, model and control objects",
+      "literature": [
+        "L03",
+        "L05"
+      ],
+      "acceptance": "Versioned units, shapes/time semantics, provenance, numerical class and bounded canonical encoding; existing registry.",
+      "status": "PARTIAL",
+      "evidence": "C17 Protobuf and explicit diagonal state; no common general profile"
+    },
+    {
+      "id": "DS66",
+      "stage": "COG-05-SSM-09",
+      "group": "Interoperability, research experiments and delivery assurance",
+      "capability": "Resumable streaming, batching, state reset and chunk semantics",
+      "literature": [
+        "L17",
+        "L18",
+        "L21"
+      ],
+      "acceptance": "Every partition and reset equals full recurrence under tolerance; stale/wrong model state refused; causal prefix invariance.",
+      "status": "PARTIAL",
+      "evidence": "Bounded diagonal 64-step streaming and tests"
+    },
+    {
+      "id": "DS67",
+      "stage": "COG-05-SSM-09",
+      "group": "Interoperability, research experiments and delivery assurance",
+      "capability": "HDC interoperability: regime features and associative retrieval",
+      "literature": [
+        "L05",
+        "L24",
+        "L41"
+      ],
+      "acceptance": "Match state IDs and timestamps against canonical records; HDC candidates not facts; compare exact search.",
+      "status": "PARTIAL",
+      "evidence": "Historical P23c/d sidecar reports, source/receipt custody not requalified"
+    },
+    {
+      "id": "DS68",
+      "stage": "COG-05-SSM-09",
+      "group": "Interoperability, research experiments and delivery assurance",
+      "capability": "KAN interoperability: nonlinear dynamics/observation functions",
+      "literature": [
+        "L10",
+        "L13",
+        "L32"
+      ],
+      "acceptance": "Pure KAN f/g or field operator, derivatives/Jacobians, numerical integration comparison; propagate model uncertainty.",
+      "status": "OPEN",
+      "evidence": ""
+    },
+    {
+      "id": "DS69",
+      "stage": "COG-05-SSM-09",
+      "group": "Interoperability, research experiments and delivery assurance",
+      "capability": "Exact and approximate evidence, uncertainty and calibration",
+      "literature": [
+        "L04",
+        "L05",
+        "L25",
+        "L34"
+      ],
+      "acceptance": "Separate exact algebra, floating residual, empirical calibration and certificate assumptions; coverage and falsification.",
+      "status": "PARTIAL",
+      "evidence": "Existing scoped C17 assumptions and OOD flags"
+    },
+    {
+      "id": "DS70",
+      "stage": "COG-05-SSM-09",
+      "group": "Interoperability, research experiments and delivery assurance",
+      "capability": "Scientific datasets and non-AI application validation",
+      "literature": [
+        "L37",
+        "L39",
+        "L40",
+        "L44"
+      ],
+      "acceptance": "Known simulators plus licensed real traces with frozen splits and unit/reference provenance; independent domain controls.",
+      "status": "PARTIAL",
+      "evidence": "Existing CSV adapter; historical synthetic comparisons only verified by report here"
+    },
+    {
+      "id": "DS71",
+      "stage": "COG-05-SSM-09",
+      "group": "Interoperability, research experiments and delivery assurance",
+      "capability": "CPU, memory, long streams and bounded resource execution",
+      "literature": [
+        "L18",
+        "L21",
+        "L22",
+        "L23"
+      ],
+      "acceptance": "Matched CPU-first cold/warm/streaming and memory, retain failure/energy caveats; no new native C++ benchmark requirement.",
+      "status": "PARTIAL",
+      "evidence": "Bounded reference; no new comprehensive SSM resource study"
+    },
+    {
+      "id": "DS72",
+      "stage": "COG-05-SSM-09",
+      "group": "Interoperability, research experiments and delivery assurance",
+      "capability": "Independent acceptance, safe composition and deployment gates",
+      "literature": [
+        "L04",
+        "L05",
+        "L34",
+        "L35"
+      ],
+      "acceptance": "Cross-platform pinned source, refusal tests, proof replay where possible, isolated workers, no control authority or production promotion.",
+      "status": "PARTIAL",
+      "evidence": "Existing default-off research route and native baseline"
+    }
+  ],
+  "literature": [
+    {
+      "id": "L01",
+      "title": "Kalman (1960), A New Approach to Linear Filtering and Prediction Problems",
+      "url": "https://doi.org/10.1115/1.3662552",
+      "type": "journal",
+      "note": "Discrete linear estimation; assumptions, error covariance, Riccati."
+    },
+    {
+      "id": "L02",
+      "title": "Kalman and Bucy (1961), New Results in Linear Filtering and Prediction Theory",
+      "url": "https://doi.org/10.1115/1.3658902",
+      "type": "journal",
+      "note": "Continuous-time filtering and variance equation."
+    },
+    {
+      "id": "L03",
+      "title": "Åström and Murray, Feedback Systems, second edition (2021)",
+      "url": "https://press.princeton.edu/books/hardcover/9780691193984/feedback-systems",
+      "type": "textbook",
+      "note": "State representation, matrix exponential, stability, reachability, feedback and observers."
+    },
+    {
+      "id": "L04",
+      "title": "Boyd et al. (1994), Linear Matrix Inequalities in System and Control Theory",
+      "url": "https://web.stanford.edu/~boyd/lmibook/",
+      "type": "monograph",
+      "note": "Lyapunov/Riccati inequalities, robust synthesis, convex certificates."
+    },
+    {
+      "id": "L05",
+      "title": "Särkkä and Svensson (2023), Bayesian Filtering and Smoothing, second edition",
+      "url": "https://www.cambridge.org/core/books/bayesian-filtering-and-smoothing/F88740E8D25010CF3119A5CA379FA37A",
+      "type": "textbook",
+      "note": "Bayesian filtering, smoothing, nonlinear and sequential parameter inference."
+    },
+    {
+      "id": "L06",
+      "title": "De Schutter (2000), Minimal state-space realization in linear system theory: an overview",
+      "url": "https://doi.org/10.1016/S0377-0427(00)00341-1",
+      "type": "journal review",
+      "note": "Ho–Kalman, realization uniqueness, Hankel rank and balanced realization."
+    },
+    {
+      "id": "L07",
+      "title": "Generalized Kalman smoothing: Modeling and algorithms (2017 online)",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0005109817304326",
+      "type": "journal review",
+      "note": "Robust smoothing; batch/recursive optimization."
+    },
+    {
+      "id": "L08",
+      "title": "Sequential Monte Carlo: A Unified Review (2023)",
+      "url": "https://www.annualreviews.org/content/journals/10.1146/annurev-control-042920-015119",
+      "type": "journal review",
+      "note": "Particle filtering, degeneracy and likelihood/parameter inference."
+    },
+    {
+      "id": "L09",
+      "title": "Hairer, Lubich and Wanner, Geometric Numerical Integration",
+      "url": "https://doi.org/10.1007/3-540-30666-8",
+      "type": "monograph",
+      "note": "Symplectic and structure-preserving integration."
+    },
+    {
+      "id": "L10",
+      "title": "Brunton, Proctor and Kutz (2016), Discovering governing equations from data by sparse identification of nonlinear dynamical systems",
+      "url": "https://doi.org/10.1073/pnas.1517384113",
+      "type": "journal",
+      "note": "SINDy; sparse equation discovery with library/derivative assumptions."
+    },
+    {
+      "id": "L11",
+      "title": "Tu et al. (2014), On dynamic mode decomposition: Theory and applications",
+      "url": "https://doi.org/10.3934/jcd.2014.1.391",
+      "type": "journal",
+      "note": "DMD, low-rank spectral approximations."
+    },
+    {
+      "id": "L12",
+      "title": "Peherstorfer and Willcox (2016), Data-driven operator inference for nonintrusive projection-based model reduction",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0045782516301104",
+      "type": "journal",
+      "note": "Learn projected operators from state snapshots."
+    },
+    {
+      "id": "L13",
+      "title": "Kramer, Peherstorfer and Willcox (2024), Learning Nonlinear Reduced Models from Data with Operator Inference",
+      "url": "https://doi.org/10.1146/annurev-fluid-121021-025220",
+      "type": "journal review",
+      "note": "Structure-preserving reduced modeling and conditions."
+    },
+    {
+      "id": "L14",
+      "title": "Canonical and noncanonical Hamiltonian operator inference (2023)",
+      "url": "https://doi.org/10.1016/j.cma.2023.116334",
+      "type": "journal",
+      "note": "Preservation of geometric structure in learned reductions."
+    },
+    {
+      "id": "L15",
+      "title": "Data-driven reduced-order models for port-Hamiltonian systems with operator inference (2025)",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0045782525003147",
+      "type": "journal",
+      "note": "Dissipative interconnection, energy and input/output ports."
+    },
+    {
+      "id": "L16",
+      "title": "Coulson et al., Regularized and Distributionally Robust Data-Enabled Predictive Control (2019)",
+      "url": "https://www.research-collection.ethz.ch/entities/publication/95f70dcc-0120-4c17-9332-80397e1034b2",
+      "type": "research publication",
+      "note": "DeePC under data and uncertainty assumptions."
+    },
+    {
+      "id": "L17",
+      "title": "Gu et al. (2020), HiPPO: Recurrent Memory with Optimal Polynomial Projections",
+      "url": "https://arxiv.org/abs/2008.07669",
+      "type": "paper/preprint record",
+      "note": "Online polynomial projection and compression of history."
+    },
+    {
+      "id": "L18",
+      "title": "Gu, Goel and Ré (2022), Efficiently Modeling Long Sequences with Structured State Spaces",
+      "url": "https://arxiv.org/abs/2111.00396",
+      "type": "ICLR paper/preprint record",
+      "note": "S4; structured transition and convolution/recurrence equivalence."
+    },
+    {
+      "id": "L19",
+      "title": "Gu et al. (2022), On the Parameterization and Initialization of Diagonal State Space Models",
+      "url": "https://arxiv.org/abs/2206.11893",
+      "type": "paper/preprint record",
+      "note": "S4D, DSS comparisons and initialization."
+    },
+    {
+      "id": "L20",
+      "title": "Smith, Warrington and Linderman (2023), Simplified State Space Layers for Sequence Modeling",
+      "url": "https://github.com/lindermanlab/S5",
+      "type": "ICLR paper upstream implementation",
+      "note": "S5 MIMO and parallel scan; inspect paper linked upstream."
+    },
+    {
+      "id": "L21",
+      "title": "Gu and Dao (2023), Mamba: Linear-Time Sequence Modeling with Selective State Spaces",
+      "url": "https://arxiv.org/abs/2312.00752",
+      "type": "paper/preprint record",
+      "note": "Input-dependent selective recurrence."
+    },
+    {
+      "id": "L22",
+      "title": "Dao and Gu (2024), Transformers are SSMs: Generalized Models and Efficient Algorithms Through Structured State Space Duality",
+      "url": "https://arxiv.org/abs/2405.21060",
+      "type": "paper/preprint record",
+      "note": "SSD and Mamba-2; conditional algebraic duality, not all Transformers equivalent."
+    },
+    {
+      "id": "L23",
+      "title": "Mamba-3: Improved Sequence Modeling using State Space Principles (ICLR 2026)",
+      "url": "https://proceedings.iclr.cc/paper_files/paper/2026/hash/8abd2043b71a074278d5f687947bff9c-Abstract-Conference.html",
+      "type": "peer-reviewed conference",
+      "note": "Complex recurrence, improved discretization, MIMO; published result not local measurement."
+    },
+    {
+      "id": "L24",
+      "title": "DeltaProduct: Improving State-Tracking in Linear RNNs via Householder Products (NeurIPS 2025)",
+      "url": "https://papers.nips.cc/paper_files/paper/2025/hash/e1ea2520fbf9cd1600b287dde67e0a3c-Abstract-Conference.html",
+      "type": "peer-reviewed conference",
+      "note": "Adjacent linear-recurrent family, controlled rank/state tracking."
+    },
+    {
+      "id": "L25",
+      "title": "Merrill, Petty and Sabharwal (ICML 2024), The Illusion of State in State-Space Models",
+      "url": "https://proceedings.mlr.press/v235/merrill24a.html",
+      "type": "peer-reviewed conference",
+      "note": "State-tracking counterexamples; do not infer universal expressivity."
+    },
+    {
+      "id": "L26",
+      "title": "Chen et al. (2025), The Computational Limits of State-Space Models and Mamba via the Lens of Circuit Complexity",
+      "url": "https://proceedings.mlr.press/v280/chen25b.html",
+      "type": "peer-reviewed conference",
+      "note": "Complexity bounds conditional on model precision and depth."
+    },
+    {
+      "id": "L27",
+      "title": "Sarrof et al. (NeurIPS 2024), The Expressive Capacity of State Space Models: A Formal Language Perspective",
+      "url": "https://papers.nips.cc/paper_files/paper/2024/hash/485e0981e81766248b61fd1ec43c118f-Abstract-Conference.html",
+      "type": "peer-reviewed conference",
+      "note": "Star-free tracking constructions; restricted positive result."
+    },
+    {
+      "id": "L28",
+      "title": "Chen et al. (NeurIPS 2018), Neural Ordinary Differential Equations",
+      "url": "https://papers.neurips.cc/paper_files/paper/2018/hash/69386f6bb1dfed68692a24c8686939b9-Abstract.html",
+      "type": "peer-reviewed conference",
+      "note": "Learned continuous vector fields and numerical solver dependence."
+    },
+    {
+      "id": "L29",
+      "title": "Rubanova et al. (NeurIPS 2019), Latent Ordinary Differential Equations for Irregularly-Sampled Time Series",
+      "url": "https://papers.nips.cc/paper/2019/hash/42a6845a557bef704ad8ac9cb4461d43-Abstract.html",
+      "type": "peer-reviewed conference",
+      "note": "Latent ODE inference; irregular observations."
+    },
+    {
+      "id": "L30",
+      "title": "Kidger et al. (NeurIPS 2020), Neural Controlled Differential Equations for Irregular Time Series",
+      "url": "https://proceedings.neurips.cc/paper/2020/hash/4a5876b450b45371f6cfe5047ac8cd45-Abstract.html",
+      "type": "peer-reviewed conference",
+      "note": "Path-driven vector fields and causal interpolation hazard."
+    },
+    {
+      "id": "L31",
+      "title": "Kidger (2022), On Neural Differential Equations",
+      "url": "https://arxiv.org/abs/2202.02435",
+      "type": "thesis/preprint record",
+      "note": "Neural ODE, CDE and SDE families."
+    },
+    {
+      "id": "L32",
+      "title": "State-space models are accurate and efficient neural operators for dynamical systems (2025/2026 publication record)",
+      "url": "https://doi.org/10.1016/j.neunet.2025.108496",
+      "type": "journal",
+      "note": "Mamba operator learning on particular dynamical systems; replicate before claiming efficiency."
+    },
+    {
+      "id": "L33",
+      "title": "Exact Operator Inference with Minimal Data (October 2026 issue)",
+      "url": "https://epubs.siam.org/doi/full/10.1137/25M1772484",
+      "type": "journal",
+      "note": "Investigate exact recovery assumptions, singular cases and noise; not universal identifiability."
+    },
+    {
+      "id": "L34",
+      "title": "Data-driven certificate synthesis (2026)",
+      "url": "https://doi.org/10.1016/j.automatica.2025.112798",
+      "type": "journal",
+      "note": "Safety/reachability certificate research under stated assumptions."
+    },
+    {
+      "id": "L35",
+      "title": "Data-Driven Formal Methods for Complex Dynamical Systems: A Survey (July 2026)",
+      "url": "https://arxiv.org/abs/2607.27908",
+      "type": "preprint",
+      "note": "Abstractions, functional certificates and compositional methods; not yet treated as peer-reviewed."
+    },
+    {
+      "id": "L36",
+      "title": "ZENO: Nonlinear filtering with Zakai Equation Neural Operators (October 23, 2026)",
+      "url": "https://arxiv.org/abs/2610.32926",
+      "type": "preprint",
+      "note": "Physics-informed neural approximation of unnormalized filtering distribution; no guarantee of exact learned density."
+    },
+    {
+      "id": "L37",
+      "title": "A unified view of system identification in the learning era (November 10, 2026)",
+      "url": "https://www.nature.com/articles/s44287-026-00345-z",
+      "type": "journal",
+      "note": "Classical-to-modern identification, finite data, uncertainty and long-horizon error."
+    },
+    {
+      "id": "L38",
+      "title": "State space model for new generation network alternative to transformers: a survey (October 21, 2026)",
+      "url": "https://doi.org/10.1007/s44267-026-00133-1",
+      "type": "journal review",
+      "note": "Recent neural SSM taxonomy and modalities; bibliographic lead, not reproduction."
+    },
+    {
+      "id": "L39",
+      "title": "System identification for complex dynamical systems: a survey (2026)",
+      "url": "https://www.oaepublish.com/articles/ces.2026.12",
+      "type": "journal review",
+      "note": "Recursive, sparse, coupled, hybrid and spatiotemporal identification."
+    },
+    {
+      "id": "L40",
+      "title": "Reduced-order modeling for engineering systems: survey and opportunities for digital twins (2026)",
+      "url": "https://link.springer.com/article/10.1007/s00158-026-04310-0",
+      "type": "journal review",
+      "note": "Reduced models and engineering digital twins."
+    },
+    {
+      "id": "L41",
+      "title": "RC-Mamba: regime-conditioned selective state-space models for probabilistic time-series forecasting (2026)",
+      "url": "https://www.frontiersin.org/journals/artificial-intelligence/articles/10.3389/frai.2026.1903497/full",
+      "type": "journal",
+      "note": "Regime conditioning and probabilistic forecast comparison; no trading authority."
+    },
+    {
+      "id": "L42",
+      "title": "SciPy state-space and numerical solver references",
+      "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.cont2discrete.html",
+      "type": "library documentation",
+      "note": "ZOH and alternative discretizations; pin compatible versions."
+    },
+    {
+      "id": "L43",
+      "title": "Python Control Systems Library",
+      "url": "https://python-control.readthedocs.io/en/stable/intro.html",
+      "type": "library documentation",
+      "note": "Candidate classical reference library; API/CPU/compatibility/license audit before admission."
+    },
+    {
+      "id": "L44",
+      "title": "statsmodels state-space methods",
+      "url": "https://www.statsmodels.org/stable/statespace.html",
+      "type": "library documentation",
+      "note": "State-space statistical forecasts, filters, smoothing and likelihood."
+    }
+  ]
+}
