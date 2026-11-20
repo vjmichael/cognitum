@@ -71,6 +71,19 @@ jobs:
           OMP_NUM_THREADS: '1'
           OPENBLAS_NUM_THREADS: '1'
           MKL_NUM_THREADS: '1'
+      - name: COG-04R Sturm-Liouville operators and separated boundary convergence
+        run: python -m tools.cog04r.acceptance --prior cog04q-evidence --out cog04r-evidence
+        env:
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+      - name: Preserve COG-04R native evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cog04r-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: cog04r-evidence/
+          if-no-files-found: warn
       - name: Preserve COG-04Q native evidence
         if: always()
         uses: actions/upload-artifact@v4
