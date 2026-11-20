@@ -1,6 +1,6 @@
 # COG-05-SSM — State-space and dynamical systems capability register
 
-Frozen research charter 2026-11-20. 72 capability groups; 33 partial scoped accepted/source/historical or candidate evidence and 39 open. Neither status is comprehensive qualification. Every group requires either new scoped acceptance or a justified explicit deferral; not every named variant must be implemented, but no family silently erased. Literature IDs link to [bibliography](LITERATURE.md). DS01–DS72 do not overlap H1–H60, K1–K60, shared S01–S24 or I-01–I-20.
+Research charter initiated 2026-11-20. **Current reconciliation: 72 capability groups PARTIAL, 0 OPEN** (all have bounded source/research candidates, none is declared broadly complete). Earlier 33 PARTIAL/39 OPEN figures were an initial historical snapshot, superseded by the verified four-target POST-NATIVE-02 qualification. Scoped test acceptance is not full mathematical or physical qualification. Every group requires either new scoped acceptance or a justified explicit deferral; not every named variant must be implemented, but no family silently erased. Literature IDs link to [bibliography](LITERATURE.md). DS01–DS72 do not overlap H1–H60, K1–K60, shared S01–S24 or I-01–I-20.
 
 ## COG-05-SSM-01 — Foundations, representation and exact linear dynamics
 
