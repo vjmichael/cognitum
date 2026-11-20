@@ -1,0 +1,19 @@
+# MEL-07A-R3 — resource-aware CPU batch sizing
+
+## Scope and evidence
+
+R2's accepted 856 worker observations and 104 paired trials showed substantially amortized overhead, not a universal optimal batch size. Across hosted Linux/Windows, 16-row VFA/KAN batch medians are roughly 270–383 ms; observed worker peak working set/high-water memory roughly 49–69 MiB in those batch cases. Different hardware, fixed fixture, no causal platform comparison. [R2 closeout](MEL07A_R2_CLOSEOUT.md).
+
+## Implementation
+
+`cognitum.mel.cpu_batching.plan_cpu` uses existing reviewed CPU selector, one validated typed VFA/KAN/polynomial/HDC query request and host-supplied scope/limit policy/calibration. Exact workload fingerprint binds operation descriptor, function or checkpoint, polynomial order/tolerance or HDC probe. Same function/checkpoint does not guarantee identical execution resources for different coordinates. No support for independent HDC binds, unrelated requests or multi-worker graphs. Native certified row caps: 16 VFA/KAN, 4 polynomial, 8 model HDC candidates. For at most 16 items, enumerate contiguous measured-size partitions only, with deterministic tie-breaks. Every child has a distinct derived ID and exact canonical request hash; enforce per-call profile, exact aggregate request bytes, reserve maxima for result bytes, total grant work and call count (repeated checkpoint computation charged). No new authorization. Model cannot choose profile, caps or allocate a grant. The planner is not a dispatcher or safety guarantee; the host must separately authorize exact child frames, preserve caller scope and enforce the actual existing grant.
+
+Fresh R2 same-head/host calibration uses worst observed singleton per-worker latency+verification or amortized serial time, and full batch arm elapsed for measured larger sizes, maximum observed worker CPU and peak with a 25% heuristic margin. Bounds for these estimates are only planning targets; Linux observed CPU/RSS remain sampled lower bounds, Windows CPU final and peak working set lower bound. No enforcement of OS limits, no inference to a different host or hardware, no statistical confidence claim. Timing not guaranteed; never attribute zero memory or CPU to missing data. No unmeasured batch sizes estimated. No automatic cross-scope aggregation. No persistent workers.
+
+## Qualification
+
+Same-head R2 rerun in existing Python regression job followed by R3. Test synthetic constrained cases to validate deterministic policy and rejection, not performance. Five held-out homogeneous requests use different represented coordinates/candidate order and non-power-of-two sizes. Each adaptive, hard-constrained and singleton control runs actual existing admitted worker calls with one grant per arm, with independently verified results and independent analytic or exact bit oracle. Compare every component; preserve HDC global ties and row-major polynomial derivative output semantics. Record observed CPU/time/peak (not a hard ceiling), selected sizes, independent evidence and calibration digest. No mandatory speedup threshold; estimation error is a result. No native acceptance claimed for this candidate until four environments and consolidated regression pass and receipt evidence is reconciled.
+
+No new packages; Lu remains deferred. Frozen Runtime/worker/Trace and all historical source pins unchanged.
+
+Prepublication tightening: verify all 428 same-head R2 internal payload hashes, actual per-call request/result hash and size, decoded operation-specific profile fingerprint, count and ID before ingesting any measurement. Explicit trusted per-call planning cap applies to every engine, including polynomial. Estimate error reported separately against actual held-out measurements. Unit tests avoid reimporting benchmark environment setup. Candidate inspected, but no complete local repository checkout; native CI is the numerical execution gate.

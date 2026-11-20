@@ -59,6 +59,15 @@ jobs:
         run: python -m tools.mel07a_r1 --out mel07ar1-evidence
       - name: MEL-07A-R2 bounded batching and per-worker native counters
         run: python -m tools.mel07a_r2 --out mel07ar2-evidence
+      - name: MEL-07A-R3 resource-aware batch planning and held-out execution
+        run: python -m tools.mel07a_r3 --calibration mel07ar2-evidence/qualification.json --out mel07ar3-evidence
+      - name: Preserve MEL-07A-R3 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mel07ar3-cpu-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: mel07ar3-evidence/
+          if-no-files-found: warn
       - name: Preserve MEL-07A-R2 evidence
         if: always()
         uses: actions/upload-artifact@v4
