@@ -78,3 +78,6 @@ The earlier evidence snapshot is superseded for these tasks. [SSM-01-R1 native c
 
 ## 13. SSM-04-R1 advanced stochastic dynamics (November 20)
 [Candidate report](research/cog05ssm/SSM04_R1.md). Bounded nonlinear Ito SDE, scalar finite-volume Fokker–Planck, QR square-root and information filtering, unscented sequence, FFBS, EnKF and small switching Gaussian state inference. 31 dedicated and 94 available combined tests passed; native and full repository qualification open. DS26/28–32 remain partial; no blanket completeness, no new dependencies or control authorization. Next independent SSM-05.
+
+## 14. SSM-05 statistical inference and mathematical model discovery (November 20)
+[Candidate report](research/cog05ssm/SSM05.md). 28 dedicated and 122 available combined local tests passed; DS33–38 partial. Scalar MLE/NIG and mixture EM, full-observation LTI fit, ERA, polynomial SINDy, DMD/EDMD and conservative polynomial operator inference. Native acceptance pending; no overlapping CI, no new dependencies or execution authority. Coefficient conservation residual and held-out prediction are numerical evidence, not guarantees of physical validity or unique equations. Next independent SSM-05-R1.
