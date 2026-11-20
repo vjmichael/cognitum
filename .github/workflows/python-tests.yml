@@ -63,6 +63,15 @@ jobs:
         run: python -m tools.mel07a_r3 --calibration mel07ar2-evidence/qualification.json --out mel07ar3-evidence
       - name: COG-04O exact tensor functional metrics and independent oracle
         run: python -m tools.cog04o.acceptance --prior mel07ar1-evidence --out cog04o-evidence
+      - name: COG-04P exact weak forms, independent spectra and measured resources
+        run: python -m tools.cog04p.acceptance --prior cog04o-evidence --out cog04p-evidence
+      - name: Preserve COG-04P native evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cog04p-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: cog04p-evidence/
+          if-no-files-found: warn
       - name: Preserve COG-04O native evidence
         if: always()
         uses: actions/upload-artifact@v4
