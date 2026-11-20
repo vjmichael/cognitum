@@ -262,6 +262,19 @@ jobs:
           name: ssm08-${{ matrix.os }}-py${{ matrix.python-version }}
           path: ssm08-evidence/
           if-no-files-found: warn
+      - name: COG-05-SSM-08-R1 scientific inference and expressivity
+        run: python -m tools.ssm08r1.acceptance --prior ssm08-evidence --out ssm08r1-evidence
+        env:
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+      - name: Preserve SSM-08-R1 native evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ssm08r1-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: ssm08r1-evidence/
+          if-no-files-found: warn
       - name: Preserve SSM-02-R1 native evidence
         if: always()
         uses: actions/upload-artifact@v4
