@@ -72,3 +72,5 @@ Every stage can split into independently grouped tasks. DS17–24 before some fi
 **Extended scientific dynamics:** [SSM-03-R1](SSM03_R1.md) DS20–24 partial candidate, 35 isolated local tests passed, 4 real KAN checkpoint cases staged but not executed. Same-head native acceptance remains open; no control authority.
 
 **Stochastic dynamics update:** [SSM-04](SSM04.md). SSM-04 bounded stochastic candidate: 28 dedicated and 63 available combined local passes; native pending. DS25–32 partial. No control authority, no new dependencies. Residual SSM-04-R1 robust/nonlinear/state inference profiles remain open before broad stochastic completeness.
+
+**Advanced stochastic dynamics:** [SSM-04-R1](SSM04_R1.md), 31 dedicated, 94 available combined local tests; DS26/28–32 enhanced, native acceptance pending. Broader stochastic profiles remain open. SSM-05 next independent development.
