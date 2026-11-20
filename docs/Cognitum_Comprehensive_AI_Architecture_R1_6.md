@@ -75,3 +75,6 @@ The earlier evidence snapshot is superseded for these tasks. [SSM-01-R1 native c
 
 ## 12. SSM-04 stochastic dynamics and Bayesian inference (November 20)
 [Candidate report](research/cog05ssm/SSM04.md). SSM-04 bounded stochastic candidate: 28 dedicated and 63 available combined local passes; native pending. DS25–32 partial. No control authority, no new dependencies. Finite Markov and CTMC propagation, OU analytic transition/coupled Euler, full covariance sampled Kalman and RTS, quadratic-sensor EKF/cubature, bootstrap particles and categorical HMM. Numerical estimates not certificates; full nonlinear SDE/UKF, square-root/information filters, posterior sampling, ensemble/switching inference remain open. SSM-04-R1 next independent development.
+
+## 13. SSM-04-R1 advanced stochastic dynamics (November 20)
+[Candidate report](research/cog05ssm/SSM04_R1.md). Bounded nonlinear Ito SDE, scalar finite-volume Fokker–Planck, QR square-root and information filtering, unscented sequence, FFBS, EnKF and small switching Gaussian state inference. 31 dedicated and 94 available combined tests passed; native and full repository qualification open. DS26/28–32 remain partial; no blanket completeness, no new dependencies or control authorization. Next independent SSM-05.
