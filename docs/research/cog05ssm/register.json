@@ -23,7 +23,9 @@
       ],
       "acceptance": "Validate dimensions, units, initial/terminal and pre/post-update indexing against scalar closed forms.",
       "status": "PARTIAL",
-      "evidence": "Bounded exact typed deterministic state and clock; coordinate metadata not certified units; R1 scoped accepted four native targets, 152 dedicated and 460 inherited"
+      "evidence": "Bounded exact typed deterministic state and clock; coordinate metadata not certified units; R1 scoped accepted four native targets, 152 dedicated and 460 inherited",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS02",
@@ -36,7 +38,9 @@
       ],
       "acceptance": "Exact rational discrete recurrence; matrix exponential comparison for coupled continuous system.",
       "status": "PARTIAL",
-      "evidence": "Coupled discrete MIMO exact and numerical ZOH/FOH; arbitrary interval certification open; R1 scoped accepted four native targets, 152 dedicated and 460 inherited"
+      "evidence": "Coupled discrete MIMO exact and numerical ZOH/FOH; arbitrary interval certification open; R1 scoped accepted four native targets, 152 dedicated and 460 inherited",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS03",
@@ -49,7 +53,9 @@
       ],
       "acceptance": "Piecewise time-indexed matrices and known forcing; compare literal noncommutative products.",
       "status": "PARTIAL",
-      "evidence": "Exact bounded time-indexed affine and bilinear supplied input sequence; general continuous/nonlinear open; R1 scoped accepted four native targets, 152 dedicated and 460 inherited"
+      "evidence": "Exact bounded time-indexed affine and bilinear supplied input sequence; general continuous/nonlinear open; R1 scoped accepted four native targets, 152 dedicated and 460 inherited",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS04",
@@ -62,7 +68,9 @@
       ],
       "acceptance": "Check exp((s+t)A), transition composition and singular A cases; exact discrete associativity.",
       "status": "PARTIAL",
-      "evidence": "Exact ordered affine composition and numerical semigroup/hold controls; R1 scoped accepted four native targets, 152 dedicated and 460 inherited"
+      "evidence": "Exact ordered affine composition and numerical semigroup/hold controls; R1 scoped accepted four native targets, 152 dedicated and 460 inherited",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS05",
@@ -76,7 +84,9 @@
       ],
       "acceptance": "ZOH block exponential, first-order hold, Euler/Tustin error and aliasing; irregular timestamps.",
       "status": "PARTIAL",
-      "evidence": "Numerical ZOH/FOH, exact rational Euler/Tustin approximation coefficients; alias and stochastic covariance open; R1 scoped accepted four native targets, 152 dedicated and 460 inherited"
+      "evidence": "Numerical ZOH/FOH, exact rational Euler/Tustin approximation coefficients; alias and stochastic covariance open; R1 scoped accepted four native targets, 152 dedicated and 460 inherited",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS06",
@@ -89,7 +99,9 @@
       ],
       "acceptance": "Rational transfer vs impulse convolution; pole-zero cancellations and feedthrough.",
       "status": "PARTIAL",
-      "evidence": "Exact rational resolvent/impulse and canceled-pole examples; general pole/zero analysis open; R1 scoped accepted four native targets, 152 dedicated and 460 inherited"
+      "evidence": "Exact rational resolvent/impulse and canceled-pole examples; general pole/zero analysis open; R1 scoped accepted four native targets, 152 dedicated and 460 inherited",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS07",
@@ -102,7 +114,9 @@
       ],
       "acceptance": "Similarity-invariant input/output, Hankel rank, Ho–Kalman reconstruction, nonminimal example.",
       "status": "PARTIAL",
-      "evidence": "Exact rational similarity and finite Hankel minimal zero-initial I/O realization including rank zero; bounds and refusals; R1 scoped accepted four native targets, 152 dedicated and 460 inherited"
+      "evidence": "Exact rational similarity and finite Hankel minimal zero-initial I/O realization including rank zero; bounds and refusals; R1 scoped accepted four native targets, 152 dedicated and 460 inherited",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS08",
@@ -115,7 +129,9 @@
       ],
       "acceptance": "Index-1 consistent initial conditions and residuals; refuse singular/unsupported index cases.",
       "status": "PARTIAL",
-      "evidence": "Exact semi-explicit index-1 descriptor reduction and consistent-state constraints; general/higher-index DAE open; R1 scoped accepted four native targets, 152 dedicated and 460 inherited"
+      "evidence": "Exact semi-explicit index-1 descriptor reduction and consistent-state constraints; general/higher-index DAE open; R1 scoped accepted four native targets, 152 dedicated and 460 inherited",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS09",
@@ -128,7 +144,9 @@
       ],
       "acceptance": "Defective and transient-growth examples; Schur residual and norm bounds, not eigenvalues alone.",
       "status": "PARTIAL",
-      "evidence": "Numerical complex Schur residual/orthogonality and sampled nonnormal/defective transient gains; global bounds/Jordan open; SSM-02 scoped native accepted, 160 dedicated"
+      "evidence": "Numerical complex Schur residual/orthogonality and sampled nonnormal/defective transient gains; global bounds/Jordan open; SSM-02 scoped native accepted, 160 dedicated",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS10",
@@ -141,7 +159,9 @@
       ],
       "acceptance": "Exact small controllability rank, PBH and Gramian checks; unreachable unstable counterexample.",
       "status": "PARTIAL",
-      "evidence": "Exact rank, rational-complex PBH, invariant quotient stabilizability and finite discrete unconstrained target witnesses; constrained reach open; SSM-02 scoped native accepted, 160 dedicated"
+      "evidence": "Exact rank, rational-complex PBH, invariant quotient stabilizability and finite discrete unconstrained target witnesses; constrained reach open; SSM-02 scoped native accepted, 160 dedicated",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS11",
@@ -155,7 +175,9 @@
       ],
       "acceptance": "Exact observability rank/PBH and indistinguishable-state pairs; reject nonidentifiable claims.",
       "status": "PARTIAL",
-      "evidence": "Exact rank, rational-complex PBH, dual quotient detectability and known-input state reconstruction; parameter identifiability open; SSM-02 scoped native accepted, 160 dedicated"
+      "evidence": "Exact rank, rational-complex PBH, dual quotient detectability and known-input state reconstruction; parameter identifiability open; SSM-02 scoped native accepted, 160 dedicated",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS12",
@@ -169,7 +191,9 @@
       ],
       "acceptance": "Rational P positive definite and negative residual; unstable and marginal cases; continuous/discrete conventions.",
       "status": "PARTIAL",
-      "evidence": "Exact strict continuous/discrete Lyapunov solve, PD witnesses, replay and autonomous invariance; general marginal classification open; SSM-02 scoped native accepted, 160 dedicated"
+      "evidence": "Exact strict continuous/discrete Lyapunov solve, PD witnesses, replay and autonomous invariance; general marginal classification open; SSM-02 scoped native accepted, 160 dedicated",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS13",
@@ -182,7 +206,9 @@
       ],
       "acceptance": "Check CARE/DARE and Lyapunov residuals, stabilizing root and H2/H-infinity scope.",
       "status": "PARTIAL",
-      "evidence": "Exact finite discrete/infinite stable Gramians and H2 squared; numerical CARE/DARE with exact feedback stability; exact supplied-storage H-infinity upper and rational-frequency lower witnesses; synthesis and global search open; R1 scoped native accepted, 132 dedicated; preceding bounded SSM-02 linear scope native accepted"
+      "evidence": "Exact finite discrete/infinite stable Gramians and H2 squared; numerical CARE/DARE with exact feedback stability; exact supplied-storage H-infinity upper and rational-frequency lower witnesses; synthesis and global search open; R1 scoped native accepted, 132 dedicated; preceding bounded SSM-02 linear scope native accepted",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS14",
@@ -195,7 +221,9 @@
       ],
       "acceptance": "Analytic saddle-node/Hopf examples, Jacobian prediction vs nonlinear trajectories; local vs global.",
       "status": "PARTIAL",
-      "evidence": "Bounded rational polynomial equilibrium/Jacobian checks, strict local Lyapunov linearization and canonical saddle-node/Hopf classification; enumeration/continuation open; R1 scoped native accepted, 132 dedicated"
+      "evidence": "Bounded rational polynomial equilibrium/Jacobian checks, strict local Lyapunov linearization and canonical saddle-node/Hopf classification; enumeration/continuation open; R1 scoped native accepted, 132 dedicated",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS15",
@@ -209,7 +237,9 @@
       ],
       "acceptance": "Storage inequality, contraction metric on stated region, counterexample outside region.",
       "status": "PARTIAL",
-      "evidence": "Exact linear quadratic contraction, general quadratic supply/passivity verification, polynomial invariant-box infinity-norm contraction; storage synthesis open; R1 scoped native accepted, 132 dedicated; preceding bounded SSM-02 linear scope native accepted"
+      "evidence": "Exact linear quadratic contraction, general quadratic supply/passivity verification, polynomial invariant-box infinity-norm contraction; storage synthesis open; R1 scoped native accepted, 132 dedicated; preceding bounded SSM-02 linear scope native accepted",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS16",
@@ -223,7 +253,9 @@
       ],
       "acceptance": "Outward-rounded or exact certificate checker; reject sample-only proof; enclose small known trajectories.",
       "status": "PARTIAL",
-      "evidence": "Discrete box overapproximation, exact polynomial invariant faces/map inclusion and strict continuous tube/endpoint enclosure; general barriers/adaptive verified flow open; R1 scoped native accepted, 132 dedicated; preceding bounded SSM-02 linear scope native accepted"
+      "evidence": "Discrete box overapproximation, exact polynomial invariant faces/map inclusion and strict continuous tube/endpoint enclosure; general barriers/adaptive verified flow open; R1 scoped native accepted, 132 dedicated; preceding bounded SSM-02 linear scope native accepted",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS17",
@@ -237,7 +269,9 @@
       ],
       "acceptance": "Analytic solution and independent solver refinement; stiff test; event-time bracket.",
       "status": "PARTIAL",
-      "evidence": "Bounded autonomous LTI/polynomial DOP853 and Radau, refinement/cross-method checks and affine directional numerical events; certified event completeness/forced and nonautonomous systems open; SSM-03 local 29 tests, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Bounded autonomous LTI/polynomial DOP853 and Radau, refinement/cross-method checks and affine directional numerical events; certified event completeness/forced and nonautonomous systems open; SSM-03 local 29 tests, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P2",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS18",
@@ -250,7 +284,9 @@
       ],
       "acceptance": "Harmonic oscillator and nonlinear pendulum; symplectic condition, bounded energy drift not exact conservation by default.",
       "status": "PARTIAL",
-      "evidence": "Exact constant-mass separable polynomial Hamiltonian/Lagrangian and reversible symplectic Verlet, floating long trajectory diagnostics; general nonseparable/constrained mechanics open; SSM-03 local 29 tests, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Exact constant-mass separable polynomial Hamiltonian/Lagrangian and reversible symplectic Verlet, floating long trajectory diagnostics; general nonseparable/constrained mechanics open; SSM-03 local 29 tests, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P2",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS19",
@@ -263,7 +299,9 @@
       ],
       "acceptance": "Skew J, PSD R, power balance; RLC and damped oscillator.",
       "status": "PARTIAL",
-      "evidence": "Exact quadratic port-Hamiltonian implicit midpoint, coupled multiport work/dissipation balance; nonlinear/distributed pH open; SSM-03 local 29 tests, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Exact quadratic port-Hamiltonian implicit midpoint, coupled multiport work/dissipation balance; nonlinear/distributed pH open; SSM-03 local 29 tests, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P2",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS20",
@@ -277,7 +315,9 @@
       ],
       "acceptance": "Guard/reset paths, mode-specific invariants; no Zeno or missed event claims without bounds.",
       "status": "PARTIAL",
-      "evidence": "Linear semi-explicit index-1 DAE and ordered affine-guard/reset hybrid simulation; local numeric candidate; general nonlinear/high-index, cyclic modes and invariant verification open; SSM-03-R1 bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Linear semi-explicit index-1 DAE and ordered affine-guard/reset hybrid simulation; local numeric candidate; general nonlinear/high-index, cyclic modes and invariant verification open; SSM-03-R1 bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P2",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS21",
@@ -290,7 +330,9 @@
       ],
       "acceptance": "Known delay differential fixture and mesh convergence; explicitly account history and memory.",
       "status": "PARTIAL",
-      "evidence": "Constant-history single positive retarded linear delay method of steps with refinement; local numeric candidate; variable/distributed/neutral delays open; SSM-03-R1 bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Constant-history single positive retarded linear delay method of steps with refinement; local numeric candidate; variable/distributed/neutral delays open; SSM-03-R1 bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P2",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS22",
@@ -304,7 +346,9 @@
       ],
       "acceptance": "Use existing KAN exact weak forms; diffusion/wave modal closed forms and mass-matrix time evolution.",
       "status": "PARTIAL",
-      "evidence": "Mass/stiffness modal diffusion and wave locally tested; real COG-04P exact KAN assembly bridge staged, checkpoint tests not executed; continuum/general boundary guarantees open; SSM-03-R1 bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Mass/stiffness modal diffusion and wave locally tested; real COG-04P exact KAN assembly bridge staged, checkpoint tests not executed; continuum/general boundary guarantees open; SSM-03-R1 bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P2",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS23",
@@ -318,7 +362,9 @@
       ],
       "acceptance": "Stable minimal LTI bound where valid; POD reconstruction and out-of-sample trajectory error.",
       "status": "PARTIAL",
-      "evidence": "POD/Galerkin reconstruction and held-out error; stable minimal continuous balanced truncation with numerical residual and estimated HSV bound; local numeric candidate; SSM-03-R1 bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "POD/Galerkin reconstruction and held-out error; stable minimal continuous balanced truncation with numerical residual and estimated HSV bound; local numeric candidate; SSM-03-R1 bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P2",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS24",
@@ -331,7 +377,9 @@
       ],
       "acceptance": "Graph Laplacian diffusion and coupled oscillators; conservation and partition equivalence.",
       "status": "PARTIAL",
-      "evidence": "Prior exact invariants plus weighted symmetric graph mass/partition comparison and modal coupled oscillators locally tested; directed/multiscale/distributed remaining; SSM-03-R1 bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Prior exact invariants plus weighted symmetric graph mass/partition comparison and modal coupled oscillators locally tested; directed/multiscale/distributed remaining; SSM-03-R1 bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P2",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS25",
@@ -344,7 +392,9 @@
       ],
       "acceptance": "Probability mass, stochasticity, matrix-exponential CTMC and finite enumeration.",
       "status": "PARTIAL",
-      "evidence": "Finite row-stochastic discrete Markov and continuous generator/expm propagation; local numeric pass; general kernels open; SSM-04 bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Finite row-stochastic discrete Markov and continuous generator/expm propagation; local numeric pass; general kernels open; SSM-04 bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS26",
@@ -358,7 +408,9 @@
       ],
       "acceptance": "Ornstein–Uhlenbeck moments, seeded path weak/strong convergence; no unqualified SDE precision.",
       "status": "PARTIAL",
-      "evidence": "OU analytic transition; nonlinear tanh coupled drift and diagonal state-dependent Ito noise, nested Brownian Euler grids; scalar reflecting finite-volume Fokker–Planck with constant diffusion and heat-mode checks; broader SDE/PDE scope open; SSM-04-R1 local pass; bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "OU analytic transition; nonlinear tanh coupled drift and diagonal state-dependent Ito noise, nested Brownian Euler grids; scalar reflecting finite-volume Fokker–Planck with constant diffusion and heat-mode checks; broader SDE/PDE scope open; SSM-04-R1 local pass; bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS27",
@@ -372,7 +424,9 @@
       ],
       "acceptance": "Coupled full covariance, known Gaussian conditioning, irregular sampling and missing data; noise assumptions explicit.",
       "status": "PARTIAL",
-      "evidence": "Coupled sampled linear Gaussian full covariance, irregular intervals, missing whole sample, likelihood and NIS; continuous Kalman-Bucy open; SSM-04 bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Coupled sampled linear Gaussian full covariance, irregular intervals, missing whole sample, likelihood and NIS; continuous Kalman-Bucy open; SSM-04 bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS28",
@@ -385,7 +439,9 @@
       ],
       "acceptance": "Ill-conditioned covariance, Cholesky/QR parity and PSD; compare Joseph form; reject invalid covariance.",
       "status": "PARTIAL",
-      "evidence": "Joseph/Cholesky plus QR covariance-factor prediction/update and precision/vector information filter; linear parity and ill-conditioned square-root fixture; sparse/rank-deficient profiles open; SSM-04-R1 local pass; bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Joseph/Cholesky plus QR covariance-factor prediction/update and precision/vector information filter; linear parity and ill-conditioned square-root fixture; sparse/rank-deficient profiles open; SSM-04-R1 local pass; bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS29",
@@ -398,7 +454,9 @@
       ],
       "acceptance": "Rauch–Tung–Striebel vs joint batch Gaussian and fixed-lag vs full smoothing; separate future access.",
       "status": "PARTIAL",
-      "evidence": "Offline RTS and FFBS joint posterior path sampling with batch Gaussian reference; fixed-lag and nonlinear paths open; SSM-04-R1 local pass; bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Offline RTS and FFBS joint posterior path sampling with batch Gaussian reference; fixed-lag and nonlinear paths open; SSM-04-R1 local pass; bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS30",
@@ -410,7 +468,9 @@
       ],
       "acceptance": "Linear-limit parity and nonlinear known-reference Monte Carlo; NEES/NIS diagnostics under assumptions.",
       "status": "PARTIAL",
-      "evidence": "EKF/cubature measurement and full positive-weight unscented sequence for tanh transition and quadratic observations; nonlinear calibration/general models open; SSM-04-R1 local pass; bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "EKF/cubature measurement and full positive-weight unscented sequence for tanh transition and quadratic observations; nonlinear calibration/general models open; SSM-04-R1 local pass; bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS31",
@@ -423,7 +483,9 @@
       ],
       "acceptance": "Exact small posterior and convergence across seeds, degeneracy, ESS, resampling parity; no single-seed guarantee.",
       "status": "PARTIAL",
-      "evidence": "Linear Gaussian bootstrap particle and stochastic ensemble Kalman filters, seeded references; nonlinear particles, localization and calibration open; SSM-04-R1 local pass; bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Linear Gaussian bootstrap particle and stochastic ensemble Kalman filters, seeded references; nonlinear particles, localization and calibration open; SSM-04-R1 local pass; bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS32",
@@ -437,7 +499,9 @@
       ],
       "acceptance": "Finite exact enumeration/forward-backward; label permutation, Viterbi, impossible emission, regime changes.",
       "status": "PARTIAL",
-      "evidence": "Categorical HMM and non-pruned bounded switching Gaussian path enumeration with independent scalar reference and permutation; switching smoothing/IMM/EM open; SSM-04-R1 local pass; bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Categorical HMM and non-pruned bounded switching Gaussian path enumeration with independent scalar reference and permutation; switching smoothing/IMM/EM open; SSM-04-R1 local pass; bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS33",
@@ -451,7 +515,9 @@
       ],
       "acceptance": "Known parameters, batch likelihood and EM monotonicity when applicable; parameter uncertainty.",
       "status": "PARTIAL",
-      "evidence": "Scalar MLE/NIG, mixture EM and latent scalar Gaussian AR(1) Kalman/RTS EM for transition/process/measurement variance, missing observations and monotonic likelihood; broader latent models open; SSM-05-R1 local pass for tested scope, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Scalar MLE/NIG, mixture EM and latent scalar Gaussian AR(1) Kalman/RTS EM for transition/process/measurement variance, missing observations and monotonic likelihood; broader latent models open; SSM-05-R1 local pass for tested scope, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS34",
@@ -466,7 +532,9 @@
       ],
       "acceptance": "Fit unknown LTI with held-out controls; rank deficiency prevents unique claim; similarity ambiguity.",
       "status": "PARTIAL",
-      "evidence": "Fully observed discrete LTI A/B identification with rank guard and independent supplied held-out controls; latent/noisy-regressor identification open; SSM-05 local pass; bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Fully observed discrete LTI A/B identification with rank guard and independent supplied held-out controls; latent/noisy-regressor identification open; SSM-05 local pass; bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS35",
@@ -479,7 +547,9 @@
       ],
       "acceptance": "Noise-free impulse recovery; noisy order selection and uncertainty; compare Ho–Kalman.",
       "status": "PARTIAL",
-      "evidence": "SISO/MIMO ERA plus noisy impulse order selection on separate validation and untouched test, similarity ambiguity; general stochastic subspace open; SSM-05-R1 local pass for tested scope, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "SISO/MIMO ERA plus noisy impulse order selection on separate validation and untouched test, similarity ambiguity; general stochastic subspace open; SSM-05-R1 local pass for tested scope, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS36",
@@ -492,7 +562,9 @@
       ],
       "acceptance": "Recover bounded polynomial equations; derivative noise, collinearity, wrong library controls; KAN cross-check.",
       "status": "PARTIAL",
-      "evidence": "Polynomial derivative SINDy plus compact-window weak SINDy on uniform trajectories, held-out controls; actual KAN represented-field polynomial bridge staged, two integration cases unexecuted; nonlinear/PDE/general symbolic discovery open; SSM-05-R1 local pass for tested scope, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Polynomial derivative SINDy plus compact-window weak SINDy on uniform trajectories, held-out controls; actual KAN represented-field polynomial bridge staged, two integration cases unexecuted; nonlinear/PDE/general symbolic discovery open; SSM-05-R1 local pass for tested scope, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P0B",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS37",
@@ -505,7 +577,9 @@
       ],
       "acceptance": "Known spectral modes, residual/error, non-invariant dictionary warning; no finite exact Koopman universal claim.",
       "status": "PARTIAL",
-      "evidence": "Full-rank DMD and polynomial EDMD with observable residual and noninvariant dictionary counterexample; general spectral guarantees open; SSM-05 local pass; bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Full-rank DMD and polynomial EDMD with observable residual and noninvariant dictionary counterexample; general spectral guarantees open; SSM-05 local pass; bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS38",
@@ -521,7 +595,9 @@
       ],
       "acceptance": "Learn linear/quadratic operators, independent known matrices, exact-recovery assumptions, unseen excitation/noise.",
       "status": "PARTIAL",
-      "evidence": "Polynomial Euclidean and supplied SPD metric energy-conserving operator inference with coefficient null-space constraints; diagnostic residual and held-out error; dissipative/port/general structures open; SSM-05-R1 local pass for tested scope, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Polynomial Euclidean and supplied SPD metric energy-conserving operator inference with coefficient null-space constraints; diagnostic residual and held-out error; dissipative/port/general structures open; SSM-05-R1 local pass for tested scope, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS39",
@@ -534,7 +610,9 @@
       ],
       "acceptance": "ARIMA/SARIMAX, unobserved components, factor models, rolling chronological evaluation vs persistence/seasonal naive.",
       "status": "PARTIAL",
-      "evidence": "Expanding-window trend/season/lag ridge forecasting, past-only residual intervals, persistence/seasonal-naive baselines; empirical coverage, no general guarantee; ARIMA/state-space components/factors open; SSM-05-R1 local pass for tested scope, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Expanding-window trend/season/lag ridge forecasting, past-only residual intervals, persistence/seasonal-naive baselines; empirical coverage, no general guarantee; ARIMA/state-space components/factors open; SSM-05-R1 local pass for tested scope, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS40",
@@ -548,7 +626,9 @@
       ],
       "acceptance": "Known shifts, outliers and outages; false alarms, detection delay, coverage/abstention across seeds.",
       "status": "PARTIAL",
-      "evidence": "Two-sided clipped block CUSUM, split-calibrated rank threshold, conditional exchangeability assumption and marginal false-alarm level only; seeded null/shift/outlier tests; dependent/missing/OOD calibration open; SSM-05-R1 local pass for tested scope, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Two-sided clipped block CUSUM, split-calibrated rank threshold, conditional exchangeability assumption and marginal false-alarm level only; seeded null/shift/outlier tests; dependent/missing/OOD calibration open; SSM-05-R1 local pass for tested scope, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P0C",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS41",
@@ -561,7 +641,9 @@
       ],
       "acceptance": "Error-dynamics and observer pole placement; unknown-input identifiability refusal.",
       "status": "PARTIAL",
-      "evidence": "Known-input Luenberger plus discrete full-order unknown-input observer with full-rank CE and observable transformed dynamics; decoupling error checks; general detectability/noise open; SSM-06-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Known-input Luenberger plus discrete full-order unknown-input observer with full-rank CE and observable transformed dynamics; decoupling error checks; general detectability/noise open; SSM-06-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS42",
@@ -574,7 +656,9 @@
       ],
       "acceptance": "Independently verify closed-loop pole placement, Riccati solution and cost against finite-horizon dynamic programming.",
       "status": "PARTIAL",
-      "evidence": "Discrete stable distinct real pole placement, stabilizing DARE LQR residual and finite-horizon Bellman dynamic programming; broader control domains open; SSM-06 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Discrete stable distinct real pole placement, stabilizing DARE LQR residual and finite-horizon Bellman dynamic programming; broader control domains open; SSM-06 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS43",
@@ -588,7 +672,9 @@
       ],
       "acceptance": "Joint filter/controller benchmark under exact assumptions; no separation claim for generic nonlinear systems.",
       "status": "PARTIAL",
-      "evidence": "Stationary discrete Gaussian predictor LQG, dual Riccati and augmented state/error separation checks, seeded simulation; constrained and nonlinear cases open; SSM-06 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Stationary discrete Gaussian predictor LQG, dual Riccati and augmented state/error separation checks, seeded simulation; constrained and nonlinear cases open; SSM-06 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS44",
@@ -602,7 +688,10 @@
       ],
       "acceptance": "Finite-horizon convex control, feasible constraints and KKT residual; C11/C12 adapter; infeasible refusal.",
       "status": "PARTIAL",
-      "evidence": "Box-constrained finite-horizon QP with KKT checks and robust receding-horizon simulation; recursive feasibility/general planning adapter open; SSM-06-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Box-constrained finite-horizon QP with KKT checks and robust receding-horizon simulation; recursive feasibility/general planning adapter open; SSM-06-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "LOCAL_SUBSET_PASS",
+      "post_native01_bounded_evidence": "Offline receding simulation explicitly not a recursive feasibility proof; accepted 391-case source code unchanged; broader capability PARTIAL"
     },
     {
       "id": "DS45",
@@ -615,7 +704,10 @@
       ],
       "acceptance": "Bounded uncertainty and explicit risk; independent reachability or independent sample coverage as distinct evidence.",
       "status": "PARTIAL",
-      "evidence": "Exact fixed-feedback invariant-box witness and finite-horizon bounded-disturbance envelope or Gaussian union-bound chance constraint tightening; corner and Monte Carlo checks; parameter uncertainty/tube feedback open; SSM-06-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Exact fixed-feedback invariant-box witness and finite-horizon bounded-disturbance envelope or Gaussian union-bound chance constraint tightening; corner and Monte Carlo checks; parameter uncertainty/tube feedback open; SSM-06-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P0C",
+      "post_native01_status": "LOCAL_SUBSET_PASS",
+      "post_native01_bounded_evidence": "Independent Gaussian marginal tail at 3 risk thresholds and matched-variance heavy-tailed counterexample; accepted 391-case source code unchanged; broader capability PARTIAL"
     },
     {
       "id": "DS46",
@@ -629,7 +721,9 @@
       ],
       "acceptance": "Persistently exciting vs deficient datasets; compare model-first MPC and closed-loop simulation; no guarantees beyond conditions.",
       "status": "PARTIAL",
-      "evidence": "Offline expanding least-squares certainty-equivalent adaptive planning and full-state noiseless trajectory-span predictive control, rank/consistency refusal and MPC parity; noisy/latent/robust theory open; SSM-06-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Offline expanding least-squares certainty-equivalent adaptive planning and full-state noiseless trajectory-span predictive control, rank/consistency refusal and MPC parity; noisy/latent/robust theory open; SSM-06-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS47",
@@ -643,7 +737,9 @@
       ],
       "acceptance": "Finite candidate enumeration and observability/Fisher information; distinguish local identifiability.",
       "status": "PARTIAL",
-      "evidence": "Finite D-optimal linear experiment and weighted observability Gramian sensor subset selection, rank refusal; general nonlinear design open; SSM-06-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Finite D-optimal linear experiment and weighted observability Gramian sensor subset selection, rank refusal; general nonlinear design open; SSM-06-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS48",
@@ -657,7 +753,10 @@
       ],
       "acceptance": "Certificate verification separate from synthesis, unsafe initial state and infeasible commands; simulation only.",
       "status": "PARTIAL",
-      "evidence": "Exact rational fixed-feedback invariant-box and scalar one-step robust nearest-safe-action filter, unsafe/infeasible refusal; multivariate and reach-avoid synthesis open; SSM-06-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Exact rational fixed-feedback invariant-box and scalar one-step robust nearest-safe-action filter, unsafe/infeasible refusal; multivariate and reach-avoid synthesis open; SSM-06-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P0C",
+      "post_native01_status": "LOCAL_SUBSET_PASS",
+      "post_native01_bounded_evidence": "360 enumerated exact rational scalar profiles: 354 feasible, six correctly refused; accepted 391-case source code unchanged; broader capability PARTIAL"
     },
     {
       "id": "DS49",
@@ -669,7 +768,9 @@
       ],
       "acceptance": "Analytic polynomial moments, streaming history approximation and explicit truncation/reconstruction error.",
       "status": "PARTIAL",
-      "evidence": "Online piecewise-constant LegS projection with irregular duration, cumulative energy/truncation diagnostic and independent quadrature; broader history profiles open; SSM-07 tested local scope pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Online piecewise-constant LegS projection with irregular duration, cumulative energy/truncation diagnostic and independent quadrature; broader history profiles open; SSM-07 tested local scope pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P2",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS50",
@@ -682,7 +783,9 @@
       ],
       "acceptance": "Impulse kernel vs recurrence incl initial state, gradient check, trained synthetic identification.",
       "status": "PARTIAL",
-      "evidence": "Real/complex MIMO LTI recurrence/convolution with initial state, stable diagonal pole/readout CPU fit and finite-difference Jacobian plus held-out trials; historical checkpoint recovery remains open; SSM-07 tested local scope pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Real/complex MIMO LTI recurrence/convolution with initial state, stable diagonal pole/readout CPU fit and finite-difference Jacobian plus held-out trials; historical checkpoint recovery remains open; SSM-07 tested local scope pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P2",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS51",
@@ -694,7 +797,9 @@
       ],
       "acceptance": "Reference convolution, direct recurrence and initialization parity; train genuine small CPU trials.",
       "status": "PARTIAL",
-      "evidence": "LegS NPLR/DPLR and Woodbury bilinear reference, bounded training of time step and readout with held-out synthetic recovery; full factor training/fast kernels open; SSM-07-R1 tested local scope pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "LegS NPLR/DPLR and Woodbury bilinear reference, bounded training of time step and readout with held-out synthetic recovery; full factor training/fast kernels open; SSM-07-R1 tested local scope pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P2",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS52",
@@ -707,7 +812,9 @@
       ],
       "acceptance": "Complex conjugacy, stable parameterization and long-memory stress; compare simple AR and GRU.",
       "status": "PARTIAL",
-      "evidence": "Stable complex diagonal ZOH reference, conjugate-pair/long-memory checks and fixed-feature readout fit; complete DSS/S4D/LRU and baseline comparisons open; SSM-07 tested local scope pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Stable complex diagonal ZOH reference, conjugate-pair/long-memory checks and fixed-feature readout fit; complete DSS/S4D/LRU and baseline comparisons open; SSM-07 tested local scope pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P2",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS53",
@@ -719,7 +826,9 @@
       ],
       "acceptance": "Serial, associative and chunked recurrence equality; irregular-step policy and finite-precision differentiation.",
       "status": "PARTIAL",
-      "evidence": "S5-style diagonal MIMO ZOH and affine scan/chunk parity, mixed complex dtype fix, forward JVP vs serial tangent and central differences; reverse-mode/full training open; SSM-07-R1 tested local scope pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "S5-style diagonal MIMO ZOH and affine scan/chunk parity, mixed complex dtype fix, forward JVP vs serial tangent and central differences; reverse-mode/full training open; SSM-07-R1 tested local scope pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P2",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS54",
@@ -731,7 +840,9 @@
       ],
       "acceptance": "Actual input-dependent delta/B/C, correct discretization, serial vs scan output/gradient and causal mask tests.",
       "status": "PARTIAL",
-      "evidence": "Selective exact ZOH plus single-channel Mamba-1-style exponential-Euler input, causal SiLU convolution, delta/B/C, skip/gate and one-state parameter fit with scan Jacobian; full multichannel architecture open; SSM-07-R1 tested local scope pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Selective exact ZOH plus single-channel Mamba-1-style exponential-Euler input, causal SiLU convolution, delta/B/C, skip/gate and one-state parameter fit with scan Jacobian; full multichannel architecture open; SSM-07-R1 tested local scope pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P2",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS55",
@@ -743,7 +854,9 @@
       ],
       "acceptance": "Structured matrix product vs recurrent step and block scan, shape/order/initial-state parity; no GPU performance extrapolation.",
       "status": "PARTIAL",
-      "evidence": "Scalar-transition SSD matrix-state serial, dense semiseparable mask and block/chunk reference with nonzero initial state/zero decay; optimized kernels/full Mamba-2 and gradients open; SSM-07-R1 tested local scope pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Scalar-transition SSD matrix-state serial, dense semiseparable mask and block/chunk reference with nonzero initial state/zero decay; optimized kernels/full Mamba-2 and gradients open; SSM-07-R1 tested local scope pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P2",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS56",
@@ -759,7 +872,9 @@
       ],
       "acceptance": "Complex/rotation and MIMO, discretization comparison; adjacent DeltaNet/Householder controls, permutation/recall negative cases.",
       "status": "PARTIAL",
-      "evidence": "Complex diagonal exponential-trapezoid MIMO reference, real rotation parity, prior input carry and refinement; handcrafted parity readout comparison only; full Mamba-3/DeltaNet/Householder and general recall open; SSM-07-R1 tested local scope pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Complex diagonal exponential-trapezoid MIMO reference, real rotation parity, prior input carry and refinement; handcrafted parity readout comparison only; full Mamba-3/DeltaNet/Householder and general recall open; SSM-07-R1 tested local scope pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P2",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS57",
@@ -772,7 +887,9 @@
       ],
       "acceptance": "Analytic short trajectories, finite-difference gradient vs adjoint, solver sensitivity and held-out initial states.",
       "status": "PARTIAL",
-      "evidence": "Tanh neural ODE fixed hidden/trainable readout, RK4 discrete forward sensitivities verified by finite differences and independent IVP, latent initial state/readout fit with local rank check; adjoint/general encoder open; SSM-08 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Tanh neural ODE fixed hidden/trainable readout, RK4 discrete forward sensitivities verified by finite differences and independent IVP, latent initial state/readout fit with local rank check; adjoint/general encoder open; SSM-08 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS58",
@@ -785,7 +902,9 @@
       ],
       "acceptance": "Causal interpolants; perturb future inputs, step refinement and irregular/censored data.",
       "status": "PARTIAL",
-      "evidence": "Piecewise-linear neural CDE irregular knots with prefix causality and analytic reference, level 1/2 signatures and Chen identity; training/censored/higher signatures open; SSM-08 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Piecewise-linear neural CDE irregular knots with prefix causality and analytic reference, level 1/2 signatures and Chen identity; training/censored/higher signatures open; SSM-08 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS59",
@@ -798,7 +917,9 @@
       ],
       "acceptance": "Known diffusion moments, posterior predictive tests, variance calibration vs classical SDE.",
       "status": "PARTIAL",
-      "evidence": "Scalar tanh drift/log diffusion Euler likelihood fit and coupled Brownian simulation, seeded recovery/refinement and moments; latent variational and multidimensional SDE open; SSM-08 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Scalar tanh drift/log diffusion Euler likelihood fit and coupled Brownian simulation, seeded recovery/refinement and moments; latent variational and multidimensional SDE open; SSM-08 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS60",
@@ -813,7 +934,9 @@
       ],
       "acceptance": "Conservation and dissipation contract; compare black-box learner, KAN vector field and standard simulator.",
       "status": "PARTIAL",
-      "evidence": "Unit-mass quartic Hamiltonian and positive damping fit with nonnegative coefficients, Verlet/Strang and independent simulation energy balance; general neural PINN/KAN comparison open; SSM-08 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Unit-mass quartic Hamiltonian and positive damping fit with nonnegative coefficients, Verlet/Strang and independent simulation energy balance; general neural PINN/KAN comparison open; SSM-08 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P0B",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS61",
@@ -827,7 +950,9 @@
       ],
       "acceptance": "Likelihood/ELBO sanity and independent posterior reference; importance weight degeneracy and failure modes.",
       "status": "PARTIAL",
-      "evidence": "Offline scalar Gaussian mean-field posterior with nonlinear decoder/quadrature ELBO and fixed-depth decoder readout variational EM; reparameterized no-resampling particle gradient and ESS refusal; amortized deep inference/resampling gradients open; SSM-08-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Offline scalar Gaussian mean-field posterior with nonlinear decoder/quadrature ELBO and fixed-depth decoder readout variational EM; reparameterized no-resampling particle gradient and ESS refusal; amortized deep inference/resampling gradients open; SSM-08-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS62",
@@ -840,7 +965,9 @@
       ],
       "acceptance": "Held-out forcing, boundary and resolution; compare exact KAN forms and conventional PDE integrator; mesh transfer limits.",
       "status": "PARTIAL",
-      "evidence": "Finite-band periodic Fourier state-space operator with learned stable mode/forcing/tanh feature coefficients and held-out 32/64/128 resolution reference; general boundaries/mesh convergence/KAN comparison open; SSM-08-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Finite-band periodic Fourier state-space operator with learned stable mode/forcing/tanh feature coefficients and held-out 32/64/128 resolution reference; general boundaries/mesh convergence/KAN comparison open; SSM-08-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS63",
@@ -853,7 +980,9 @@
       ],
       "acceptance": "Time-split multiple datasets, proper scoring/coverage, regime ablation, leakage and distribution shift.",
       "status": "PARTIAL",
-      "evidence": "Labeled HMM regime fit and causal mixture forecast, proper log score and empirical PIT coverage on chronological synthetic splits, regime ablation/OOD diagnostic; real/unlabeled/calibrated abstention open; SSM-08-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Labeled HMM regime fit and causal mixture forecast, proper log score and empirical PIT coverage on chronological synthetic splits, regime ablation/OOD diagnostic; real/unlabeled/calibrated abstention open; SSM-08-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P0C",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS64",
@@ -869,7 +998,9 @@
       ],
       "acceptance": "Exact automata and permutation composition, associative recall, long-horizon degradation, attention/GRU/linear recurrence controls.",
       "status": "PARTIAL",
-      "evidence": "Exact bounded automaton transition composition and noncommuting-order checks; handcrafted exact-key recall vs decay and last-token learned readouts; learned attention/GRU/hybrid comparisons open; SSM-08-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Exact bounded automaton transition composition and noncommuting-order checks; handcrafted exact-key recall vs decay and last-token learned readouts; learned attention/GRU/hybrid comparisons open; SSM-08-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P1",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS65",
@@ -882,7 +1013,10 @@
       ],
       "acceptance": "Versioned units, shapes/time semantics, provenance, numerical class and bounded canonical encoding; existing registry.",
       "status": "PARTIAL",
-      "evidence": "Canonical scientific/KAN vector-field descriptor with source, dataset, checkpoint, unit, normalized-domain and model/stream/step-bound state records, no actuation; general typed registry/dimensional semantics open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Canonical scientific/KAN vector-field descriptor with source, dataset, checkpoint, unit, normalized-domain and model/stream/step-bound state records, no actuation; general typed registry/dimensional semantics open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P0A",
+      "post_native01_status": "LOCAL_SUBSET_PASS",
+      "post_native01_bounded_evidence": "Canonical model- and state-bound control proposal remains non-authorizing; accepted 391-case source code unchanged; broader capability PARTIAL"
     },
     {
       "id": "DS66",
@@ -896,7 +1030,10 @@
       ],
       "acceptance": "Every partition and reset equals full recurrence under tolerance; stale/wrong model state refused; causal prefix invariance.",
       "status": "PARTIAL",
-      "evidence": "Existing exact LTI single-split replay plus frozen model/stream/state identity and measured repeatable 64-step resource replay; durable transactional custody/every partition/open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Existing exact LTI single-split replay plus frozen model/stream/state identity and measured repeatable 64-step resource replay; durable transactional custody/every partition/open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P0A",
+      "post_native01_status": "LOCAL_SUBSET_PASS",
+      "post_native01_bounded_evidence": "1,024 complete nonempty partitions, exact serialized replay, stale/restart/prefix controls; accepted 391-case source code unchanged; broader capability PARTIAL"
     },
     {
       "id": "DS67",
@@ -910,7 +1047,9 @@
       ],
       "acceptance": "Match state IDs and timestamps against canonical records; HDC candidates not facts; compare exact search.",
       "status": "PARTIAL",
-      "evidence": "Native-path adapter now uses genuine HDC research Spec('MAP') and Cleanup, exact bipolar-dot cross-check, past-state cutoff, abstention; 4 genuine composition tests passed in native gate, HDC runtime qualification open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Native-path adapter now uses genuine HDC research Spec('MAP') and Cleanup, exact bipolar-dot cross-check, past-state cutoff, abstention; 4 genuine composition tests passed in native gate, HDC runtime qualification open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P0B",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS68",
@@ -924,7 +1063,9 @@
       ],
       "acceptance": "Pure KAN f/g or field operator, derivatives/Jacobians, numerical integration comparison; propagate model uncertainty.",
       "status": "PARTIAL",
-      "evidence": "Genuine MEL/KAN field/checkpoint functions composed through normalized-domain RK4 and local EKF with real HDC candidate and source-pinned dataset; 4 KAN composition tests passed in native gate, general nonlinear/uncertainty still open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Genuine MEL/KAN field/checkpoint functions composed through normalized-domain RK4 and local EKF with real HDC candidate and source-pinned dataset; 4 KAN composition tests passed in native gate, general nonlinear/uncertainty still open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P0B",
+      "post_native01_status": "NOT_RETESTED"
     },
     {
       "id": "DS69",
@@ -939,7 +1080,10 @@
       ],
       "acceptance": "Separate exact algebra, floating residual, empirical calibration and certificate assumptions; coverage and falsification.",
       "status": "PARTIAL",
-      "evidence": "Typed unverified numerical-residual evidence for full candidate trace, source/checkpoint/dataset digests and explicit assumptions; scientific verification/calibration/authenticity open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Typed unverified numerical-residual evidence for full candidate trace, source/checkpoint/dataset digests and explicit assumptions; scientific verification/calibration/authenticity open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P0A",
+      "post_native01_status": "LOCAL_SUBSET_PASS",
+      "post_native01_bounded_evidence": "All four typed evidence classifications reject authority and lack verifier status; accepted 391-case source code unchanged; broader capability PARTIAL"
     },
     {
       "id": "DS70",
@@ -954,7 +1098,10 @@
       ],
       "acceptance": "Known simulators plus licensed real traces with frozen splits and unit/reference provenance; independent domain controls.",
       "status": "PARTIAL",
-      "evidence": "Bounded strict CSV scientific dataset validation, digest/provenance and declared-but-unverified licensing, frozen hash-pinned chronological train/val/test ARX experiment, 3 seeded synthetic recovery and falsification/leakage controls; real licensed traces open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Bounded strict CSV scientific dataset validation, digest/provenance and declared-but-unverified licensing, frozen hash-pinned chronological train/val/test ARX experiment, 3 seeded synthetic recovery and falsification/leakage controls; real licensed traces open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P0A",
+      "post_native01_status": "LOCAL_SUBSET_PASS",
+      "post_native01_bounded_evidence": "Shift falsification, withheld-data leakage check, pinned protocol and unverified licensing refusal; accepted 391-case source code unchanged; broader capability PARTIAL"
     },
     {
       "id": "DS71",
@@ -969,7 +1116,10 @@
       ],
       "acceptance": "Matched CPU-first cold/warm/streaming and memory, retain failure/energy caveats; no new native C++ benchmark requirement.",
       "status": "PARTIAL",
-      "evidence": "Actual CPU first/warm wall/process timing, Python allocation peak and 64-step deterministic state replay with explicit resource budget and scope caveats; native OS RSS/GPU/energy/sustained cases open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Actual CPU first/warm wall/process timing, Python allocation peak and 64-step deterministic state replay with explicit resource budget and scope caveats; native OS RSS/GPU/energy/sustained cases open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P0C",
+      "post_native01_status": "LOCAL_SUBSET_PASS",
+      "post_native01_bounded_evidence": "256-step, three-repeat CPU/Python-allocation diagnostic explicitly not OS/GPU/energy benchmark; accepted 391-case source code unchanged; broader capability PARTIAL"
     },
     {
       "id": "DS72",
@@ -984,7 +1134,10 @@
       ],
       "acceptance": "Cross-platform pinned source, refusal tests, proof replay where possible, isolated workers, no control authority or production promotion.",
       "status": "PARTIAL",
-      "evidence": "Same-head SSM09B gate with inherited receipt/pin/artifact verification, 37 dedicated and 391 consolidated native tests passed in each of four targets; 33 new and 377 isolated local passed; now 37 dedicated and 391 consolidated each of four native targets passed, 14 previously excluded KAN/HDC cases executed in the native 391-test gate, no production rights; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL"
+      "evidence": "Same-head SSM09B gate with inherited receipt/pin/artifact verification, 37 dedicated and 391 consolidated native tests passed in each of four targets; 33 new and 377 isolated local passed; now 37 dedicated and 391 consolidated each of four native targets passed, 14 previously excluded KAN/HDC cases executed in the native 391-test gate, no production rights; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
+      "post_native_priority": "P0A",
+      "post_native01_status": "LOCAL_SUBSET_PASS",
+      "post_native01_bounded_evidence": "No actuation authority, distinct 391-case unchanged-source native baseline, 19 new local tests unexecuted natively; accepted 391-case source code unchanged; broader capability PARTIAL"
     }
   ],
   "literature": [
@@ -1337,5 +1490,30 @@
     "external_actuation_authorized": false,
     "qualified_scope": "Bounded SSM research tests, prior receipt chain, actual HDC/MEL/KAN runtime composition, cross-platform GitHub-hosted native Python; not every broad DS acceptance criterion",
     "residuals": "Physical workstation/GPU/FPGA qualification, licensed domain datasets, broader autonomous mathematical research science, production performance, complete guarantees and per-row mathematical scope remain open."
+  },
+  "latest_postnative01": {
+    "branch": "research/ssm-postnative01-20261120",
+    "scope": "independent capability-specific negative controls",
+    "baseline_native_sha": "c382da2ef3e31643c39f7a01acf2aa1098df469a",
+    "local_test_source_sha": "15046a2e53721b34ef2be2215d1680e18539e464",
+    "local_dedicated": {
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0
+    },
+    "local_combined": {
+      "passed": 396,
+      "failed": 0,
+      "skipped": 0
+    },
+    "new_native_status": "NOT_EXECUTED",
+    "priorities": {
+      "P0A": 5,
+      "P0B": 4,
+      "P0C": 5,
+      "P1": 42,
+      "P2": 16
+    },
+    "report_path": "docs/research/cog05ssm/POST_NATIVE01.md"
   }
 }
