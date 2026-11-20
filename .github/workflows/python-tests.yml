@@ -288,6 +288,19 @@ jobs:
           name: ssm09a-${{ matrix.os }}-py${{ matrix.python-version }}
           path: ssm09a-evidence/
           if-no-files-found: warn
+      - name: COG-05-SSM-09B scientific validation and consolidated native acceptance
+        run: python -m tools.ssm09b.acceptance --prior ssm09a-evidence --out ssm09b-evidence
+        env:
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+      - name: Preserve SSM-09B native evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ssm09b-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: ssm09b-evidence/
+          if-no-files-found: warn
       - name: Preserve SSM-02-R1 native evidence
         if: always()
         uses: actions/upload-artifact@v4
