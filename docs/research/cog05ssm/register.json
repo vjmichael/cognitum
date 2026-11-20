@@ -451,7 +451,7 @@
       ],
       "acceptance": "Known parameters, batch likelihood and EM monotonicity when applicable; parameter uncertainty.",
       "status": "PARTIAL",
-      "evidence": "Scalar normal MLE and conjugate normal-inverse-gamma posterior; Gaussian mixture EM with constrained variance and likelihood control; latent state EM/general MLE open; SSM-05 local pass; native pending"
+      "evidence": "Scalar MLE/NIG, mixture EM and latent scalar Gaussian AR(1) Kalman/RTS EM for transition/process/measurement variance, missing observations and monotonic likelihood; broader latent models open; SSM-05-R1 local pass for tested scope, native pending"
     },
     {
       "id": "DS34",
@@ -479,7 +479,7 @@
       ],
       "acceptance": "Noise-free impulse recovery; noisy order selection and uncertainty; compare Ho–Kalman.",
       "status": "PARTIAL",
-      "evidence": "SISO/MIMO ERA impulse realization and rank/gap guard; supplied order, similarity ambiguity; noisy order selection open; SSM-05 local pass; native pending"
+      "evidence": "SISO/MIMO ERA plus noisy impulse order selection on separate validation and untouched test, similarity ambiguity; general stochastic subspace open; SSM-05-R1 local pass for tested scope, native pending"
     },
     {
       "id": "DS36",
@@ -492,7 +492,7 @@
       ],
       "acceptance": "Recover bounded polynomial equations; derivative noise, collinearity, wrong library controls; KAN cross-check.",
       "status": "PARTIAL",
-      "evidence": "Polynomial STLSQ SINDy with derivative data, wrong library/noise/held-out controls; derivative reconstruction and KAN cross-check open; SSM-05 local pass; native pending"
+      "evidence": "Polynomial derivative SINDy plus compact-window weak SINDy on uniform trajectories, held-out controls; actual KAN represented-field polynomial bridge staged, two integration cases unexecuted; nonlinear/PDE/general symbolic discovery open; SSM-05-R1 local pass for tested scope, native pending"
     },
     {
       "id": "DS37",
@@ -521,7 +521,7 @@
       ],
       "acceptance": "Learn linear/quadratic operators, independent known matrices, exact-recovery assumptions, unseen excitation/noise.",
       "status": "PARTIAL",
-      "evidence": "Polynomial operator inference with optional coefficient-level Euclidean quadratic conservation constraint; noisy and incompatible model tests; general structure constraints open; SSM-05 local pass; native pending"
+      "evidence": "Polynomial Euclidean and supplied SPD metric energy-conserving operator inference with coefficient null-space constraints; diagnostic residual and held-out error; dissipative/port/general structures open; SSM-05-R1 local pass for tested scope, native pending"
     },
     {
       "id": "DS39",
@@ -534,7 +534,7 @@
       ],
       "acceptance": "ARIMA/SARIMAX, unobserved components, factor models, rolling chronological evaluation vs persistence/seasonal naive.",
       "status": "PARTIAL",
-      "evidence": "Ridge autoregression and simple forecast evaluation"
+      "evidence": "Expanding-window trend/season/lag ridge forecasting, past-only residual intervals, persistence/seasonal-naive baselines; empirical coverage, no general guarantee; ARIMA/state-space components/factors open; SSM-05-R1 local pass for tested scope, native pending"
     },
     {
       "id": "DS40",
@@ -548,7 +548,7 @@
       ],
       "acceptance": "Known shifts, outliers and outages; false alarms, detection delay, coverage/abstention across seeds.",
       "status": "PARTIAL",
-      "evidence": "Innovation thresholds and HMM mode alerts; not calibrated"
+      "evidence": "Two-sided clipped block CUSUM, split-calibrated rank threshold, conditional exchangeability assumption and marginal false-alarm level only; seeded null/shift/outlier tests; dependent/missing/OOD calibration open; SSM-05-R1 local pass for tested scope, native pending"
     },
     {
       "id": "DS41",
