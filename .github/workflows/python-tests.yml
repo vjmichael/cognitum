@@ -83,6 +83,19 @@ jobs:
           OMP_NUM_THREADS: '1'
           OPENBLAS_NUM_THREADS: '1'
           MKL_NUM_THREADS: '1'
+      - name: COG-04T coupled non-self-adjoint continuum eigenproblems
+        run: python -m tools.cog04t.acceptance --prior cog04s-evidence --out cog04t-evidence
+        env:
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+      - name: Preserve COG-04T native evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cog04t-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: cog04t-evidence/
+          if-no-files-found: warn
       - name: Preserve COG-04S native evidence
         if: always()
         uses: actions/upload-artifact@v4
