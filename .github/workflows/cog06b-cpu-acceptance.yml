@@ -111,6 +111,12 @@ on:
       - docs/research/cog04l/**
       - tools/cog04l/**
       - research_tests/cog04l/**
+      - docs/research/cog04m/**
+      - tools/cog04m/**
+      - research_tests/cog04m/**
+      - docs/research/cog04n/**
+      - tools/cog04n/**
+      - research_tests/cog04n/**
       - docs/research/COG03F2_SOURCE_MANIFEST.json
       - docs/research/COG03F_SOURCE_MANIFEST.json
       - tools/cog03e2g_cifar.py
@@ -373,6 +379,10 @@ jobs:
         run: python -m tools.cog04k.acceptance --out cog03bc-artifacts/cog04k
       - name: COG-04L Three-axis transient tensor KAN residual certification
         run: python -m tools.cog04l.acceptance --out cog03bc-artifacts/cog04l
+      - name: COG-04M typed tensor field exchange and certificate replay
+        run: python -m tools.cog04m.acceptance --out cog03bc-artifacts/cog04m
+      - name: COG-04N scoped tensor admission and cooperative scientific residual
+        run: python -m tools.cog04n.acceptance --out cog03bc-artifacts/cog04n
       - name: Preserve verified public MobileNetV2 checkpoint for offline CORe50
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
         timeout-minutes: 5

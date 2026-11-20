@@ -1,0 +1,24 @@
+syntax = "proto3";
+package cognitum.mel.tensor_field.v1;
+// Research transport only: no host grant or registry admission.
+enum Profile { PROFILE_UNSPECIFIED = 0; ELLIPTIC_XY = 1; PARABOLIC_XT = 2; PARABOLIC_XYT = 3; }
+enum Operation { OPERATION_UNSPECIFIED = 0; POINT = 1; BOX_INTEGRAL = 2; }
+message Axis { string name = 1; string unit = 2; uint32 basis_count = 3; repeated double interior_knots = 4 [packed=true]; }
+message Checkpoint {
+ uint32 schema_version = 1; Profile profile = 2; repeated Axis axes = 3;
+ string basis = 4; string layout = 5; string arithmetic = 6;
+ bytes model_json = 7; bytes problem_json = 8; bytes certificate_json = 9;
+ bytes model_sha256 = 10; bytes problem_identity = 11; bytes certificate_sha256 = 12;
+}
+message Request {
+ uint32 schema_version = 1; string request_id = 2; string correlation_id = 3;
+ bytes checkpoint_sha256 = 4; Operation operation = 5;
+ repeated double lower = 6 [packed=true]; repeated double upper = 7 [packed=true];
+ repeated uint32 derivative = 8 [packed=true]; bytes descriptor_sha256 = 9;
+}
+message Result {
+ uint32 schema_version = 1; bytes request_sha256 = 2; bytes checkpoint_sha256 = 3;
+ string exact_value = 4; string pde_target_error_upper = 5;
+ string assurance = 6; string request_id = 7; string correlation_id = 8;
+ bytes descriptor_sha256 = 9;
+}

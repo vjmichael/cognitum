@@ -1,0 +1,15 @@
+# COG-04N — scoped reference tensor cooperation
+
+## Scope
+
+Research only. Exact corrected G–L parent `79100e57fa2dc4e0417a01d84495d61433e9f4b4` plus M typed field exchange. Two explicitly reviewed reference plugins use existing Registry, Runtime, policy and spawned worker implementation. No existing scalar route, shared schema, production Lu host, catalog, or model advertising is changed. No OS confinement or durable host custody is claimed. The in-process trusted host creates approvals and scoped grants; end-user/model payloads cannot create those grants. This is an additive reference admission profile, not the installed Lu authorization broker.
+
+Approvals bind immutable canonical checkpoint and certificate; grants bind session/workspace/subject/turn, reviewed route and exact registry entry, expiry, call count, administrative work charge, request/result byte caps and cooperation permission. Refuse replayed requests, disabled/replaced routes, wrong profile/scope, stale/revoked grant, mismatched checkpoint or result, and overbudget calls. Cancellation/revocation discards an in-flight result before receipt publication; this is not instantaneous process kill. The existing Runtime supplies worker timeout. Session state and replay tombstones are bounded and in memory, not durable. Content digests bind evidence, not signatures. The work charge is an administrative quota, not a proven FLOP bound.
+
+## Cooperative scientific operations
+
+Point value, mixed partials and box integration use M exact represented tensor operations. Derive a fixed PDE residual stencil from the admitted problem; independent tensor calls return exact derivative/value witnesses. A separate symbolic worker combines these rationals and evaluates polynomial forcing with recursive Horner evaluation. Replay independently recomputes forcing via direct monomials, verifies every tensor request/result, scope, plan identity, ordered stencil, handoff and exact sum, and refuses residual outside the continuous certificate. No general nonlinear, coupled PDE or derivative target-error claim. No additional physical accuracy claim beyond J/K/L's admitted certificates.
+
+## Evidence
+
+54 local Linux Python 3.13 tests, zero failures/errors/skips. Three freshly learned J/K/L scientific fields, 16 actual existing Runtime spawn calls (13 tensor, 3 symbolic), all receipts independently replayed, including separate integral calls. Maximum residual discrepancy with the independent NumPy/SciPy evaluation and direct forcing oracle: 4.336808689942018e-17. This is represented-function comparison, not target PDE error. All three residuals lie within their original exact residual certificates. Negative controls cover invalid scope, digest, wire, approval, descriptor, budgets, route replacement, grant expiration, revoke/cancel during result publication, plan replay and tampered receipts. Local checkout is partial; hosted gate verifies full source manifest and same-head M receipt, then runs all N tests and fresh benchmarks on each matrix cell. No installed Lu execution or fresh GGUF inference.
