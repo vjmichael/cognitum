@@ -48,6 +48,13 @@ def source_check():
     planning_test_repair={planning_test_path:"6ca55aef63114b12fb7bdbf076c237936a3ca1bd"}
     planning_test_origin="1cca0f48960855a0ca121620e8644682563bc175"
     seen_planning_test=0
+    # C13 compatibility: retain the original historical and frozen blobs.
+    c13_path="cognitum/probability_diagnostics.py"
+    c13_original="c94e0f7bb3d2b3e9ce69a47d8dea4d645380004a"
+    c13_historical="35190beb1000b6d33039a84cbbc92fc9b844f3cc"
+    c13_repair={c13_path:"dbbdc91188446715bb0915e48d37a51bb72d9909"}
+    c13_regression={"tests/test_c13_diagnostics_compatibility.py":"24604bd8500481e8340259987011091213cbf2bb"}
+    seen_c13=0
     for rel in ("docs/integration/COG06B_C10_SOURCE_PROVENANCE.json",
                 "docs/integration/COG06B_C11_C13_SOURCE_PROVENANCE.json"):
         manifest=json.loads((ROOT/rel).read_text(encoding="utf-8"))
@@ -55,6 +62,14 @@ def source_check():
             if git("rev-parse","HEAD:"+item["path"])!=item["sha"]:
                 raise RuntimeError("historical blob drift: "+item["path"])
         for item in manifest.get("records",[]):
+            if item.get("destination")==c13_path:
+                if (rel!="docs/integration/COG06B_C11_C13_SOURCE_PROVENANCE.json"
+                        or manifest["historical_commit"]!=planning_test_origin
+                        or item["source_path"]!=c13_path or item["source_blob"]!=c13_historical
+                        or item["pre_import_repair_blob"]!=c13_original
+                        or git("rev-parse",planning_test_origin+":"+c13_path)!=c13_historical):
+                    raise RuntimeError("C13 original provenance mismatch")
+                seen_c13+=1
             if item["disposition"]=="exact":
                 destination=item["destination"]
                 expected=item["source_blob"]
@@ -71,6 +86,11 @@ def source_check():
                     raise RuntimeError("historical blob drift: "+destination)
     if seen_planning_test!=1:
         raise RuntimeError("missing/duplicated original C12 provenance record")
+    if seen_c13!=1:
+        raise RuntimeError("missing/duplicated C13 provenance record")
+    for rel,expected in {**c13_repair,**c13_regression}.items():
+        if git("rev-parse","HEAD:"+rel)!=expected:
+            raise RuntimeError("unreviewed C13 compatibility mutation: "+rel)
     # Permit only the demonstrated C06/C07 duplicate-message repair, not
     # arbitrary replacement of accepted runtime/schema/test files.
     identity_repair={"proto/cognitum/memory/v1/host_owned.proto",
@@ -106,21 +126,26 @@ def source_check():
     prior_changes=git("diff","--name-only","--diff-filter=MDTRC",frozen,head,"--","cognitum","proto","tests").splitlines()
     if git("rev-parse",frozen+":"+planning_test_path)!=planning_test_original:
         raise RuntimeError("frozen C12 test provenance mismatch")
-    if set(prior_changes)!=set(causal_repair) | set(cancellation_repair) | set(planning_test_repair):
+    if git("rev-parse",frozen+":"+c13_path)!=c13_original:
+        raise RuntimeError("frozen C13 runtime provenance mismatch")
+    if set(prior_changes)!=set(causal_repair) | set(cancellation_repair) | set(planning_test_repair) | set(c13_repair):
         raise RuntimeError("unexpected COG-06G accepted runtime/schema/test modification: "+repr(prior_changes))
     # No other replacement of accepted mature runtime or existing schemas.
     changed=git("diff","--name-only",baseline,head).splitlines()
     for rel in changed:
-        if rel not in identity_repair and rel not in proof_repair and rel not in causal_repair and rel not in cancellation_repair and rel not in planning_test_repair and rel.startswith(("cognitum/","proto/","tests/test_")):
+        if rel not in identity_repair and rel not in proof_repair and rel not in causal_repair and rel not in cancellation_repair and rel not in planning_test_repair and rel not in c13_repair and rel.startswith(("cognitum/","proto/","tests/test_")):
             if subprocess.run(["git","cat-file","-e",baseline+":"+rel],cwd=ROOT,
                               stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0:
                 raise RuntimeError("accepted existing runtime/schema/test replaced: "+rel)
     return {"commit":head,"baseline":baseline,"changed_paths":changed,
+            "c13_compatibility":{"historical_blob":c13_historical,"frozen_blob":c13_original,"candidate_blob":c13_repair[c13_path],"regression":c13_regression},
             "c12_test_repair":{"path":planning_test_path,"historical_commit":planning_test_origin,
                                "historical_blob":planning_test_original,"accepted_candidate_blob":planning_test_repair[planning_test_path]}}
 
 def native_preflight():
-    import numpy, scipy, networkx, z3, cvc5, arviz
+    import numpy, scipy, networkx, z3, cvc5
+    from cognitum.probability_diagnostics import _diagnostics_backend
+    _, diagnostics_version = _diagnostics_backend()
     from scipy.optimize import milp
     from ortools.sat.python import cp_model
     from scipy.integrate import solve_ivp
@@ -130,7 +155,8 @@ def native_preflight():
     path=z3_library()
     if not path:raise RuntimeError("required C API Z3 library unavailable")
     print(json.dumps({"z3_lib_sha256":hashlib.sha256(path.read_bytes()).hexdigest(),
-                      "versions":{x:version(x) for x in ("numpy","scipy","networkx","z3-solver","cvc5","ortools","unified-planning","arviz")}}))
+                      "diagnostics_backend":"arviz-"+diagnostics_version,
+                      "versions":{x:version(x) for x in ("numpy","scipy","networkx","z3-solver","cvc5","ortools","unified-planning")}}))
     # All imported engines are CPU libraries. No GPU execution or checkpoint load.
 
 def descriptors():
@@ -178,8 +204,7 @@ def main():
     report["source"]=source_check();save()
     if not run("install_cpu_dependencies",[PY,"-m","pip","install","-e",
         ".["+EXTRAS+"]","grpcio-tools>=1.70,<2",
-        "pytest>=9,<10","jsonschema>=4,<5","threadpoolctl>=3,<4",
-        "arviz>=0.20,<2"],1500):return 1
+        "pytest>=9,<10","jsonschema>=4,<5","threadpoolctl>=3,<4"],1500):return 1
     run("pip_check",[PY,"-m","pip","check"])
     run("pip_freeze",[PY,"-m","pip","freeze"])
     run("compile",[PY,"-m","compileall","-q","cognitum","tests","tools"])

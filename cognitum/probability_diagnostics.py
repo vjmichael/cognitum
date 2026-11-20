@@ -6,7 +6,9 @@ or convergence certification can be inferred from these numbers alone.
 from __future__ import annotations
 import hashlib
 import math
+import sys
 import time
+import warnings
 from cognitum.planning import TRACE, NAME, _encode, _decode
 from cognitum.proto import probability_diagnostics_pb2 as p
 
@@ -36,23 +38,51 @@ def _parse(raw):
     return req
 
 
+def _diagnostics_backend():
+    """Select the numerical engine without importing the modern plotting facade."""
+    try:
+        if sys.version_info >= (3, 12):
+            import arviz_stats as az
+            version = 'stats-' + str(az.__version__)
+        else:
+            # The supported 0.23.x legacy build still imports Matplotlib. Its
+            # migration notice is informational, not a numerical warning.
+            with warnings.catch_warnings():
+                warnings.filterwarnings('default', message=r'\s*ArviZ is undergoing a major refactor',
+                                        category=FutureWarning, module=r'arviz')
+                import arviz as az
+            version = str(az.__version__)
+        if not all(callable(getattr(az, name, None)) for name in ('rhat', 'ess', 'mcse')):
+            raise ImportError('DIAGNOSTICS_API_UNAVAILABLE')
+        return az, version
+    except AttributeError as exc:
+        raise ImportError('DIAGNOSTICS_API_UNAVAILABLE') from exc
+
+
 def _calculate(req):
     import numpy as np
-    import arviz as az
+    az, version = _diagnostics_backend()
     rows=[]
     for var in req.parameters:
         draws=np.asarray([list(ch.values) for ch in var.chains],dtype=float)
-        # ArviZ computes rank-normalized split R-hat and robust bulk/tail ESS.
-        fields=(float(az.rhat(draws,method='rank')),
-                float(az.ess(draws,method='bulk')),
-                float(az.ess(draws,method='tail',prob=(.05,.95))),
-                float(az.mcse(draws,method='mean')))
+        if np.all(draws == draws.flat[0]):
+            raise ArithmeticError('UNDEFINED_CHAIN_DIAGNOSTICS')
+        try:
+            with warnings.catch_warnings():
+                warnings.simplefilter('error', RuntimeWarning)
+                # Rank-normalized split R-hat and robust bulk/tail ESS.
+                fields=(float(az.rhat(draws,method='rank')),
+                        float(az.ess(draws,method='bulk')),
+                        float(az.ess(draws,method='tail',prob=(.05,.95))),
+                        float(az.mcse(draws,method='mean')))
+        except RuntimeWarning as exc:
+            raise ArithmeticError('UNDEFINED_CHAIN_DIAGNOSTICS') from exc
         if any(not math.isfinite(v) or v<=0 for v in fields):
             raise ArithmeticError('UNDEFINED_CHAIN_DIAGNOSTICS')
         rows.append(dict(parameter=var.parameter,chains=len(var.chains),
                          draws_per_chain=len(var.chains[0].values),
                          rhat_rank=fields[0],ess_bulk=fields[1],ess_tail=fields[2],mcse_mean=fields[3]))
-    return str(az.__version__),rows
+    return version,rows
 
 
 def run_diagnostics_frame(raw,*,host_authorized=False,enabled=False):

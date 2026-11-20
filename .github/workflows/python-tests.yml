@@ -28,11 +28,11 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install optional Protobuf dependencies and compiler
-        run: python -m pip install -e ".[security,scientific,causal-stats,planning-graph,probability-stats,optimization-schedule,optimization-mip]" "arviz>=0.22,<1.2" "grpcio-tools>=1.70,<2" "jsonschema>=4,<5" "pytest==9.0.2"
+        run: python -m pip install -e ".[security,scientific,causal-stats,planning-graph,probability-stats,optimization-schedule,optimization-mip]" "grpcio-tools>=1.70,<2" "jsonschema>=4,<5" "pytest==9.0.2"
       - name: Require actual graph and diagnostics backends
         run: |
           python -m pip check
-          python -c "import networkx, arviz; print(networkx.__version__, arviz.__version__)"
+          python -c "import networkx; from cognitum.probability_diagnostics import _diagnostics_backend; az, version = _diagnostics_backend(); print(networkx.__version__, version)"
       - name: Compile and compare native Protobuf schema
         run: |
           python -m grpc_tools.protoc -Iproto --descriptor_set_out=compiled_cognitum.pb proto/cognitum/v1/capability.proto
