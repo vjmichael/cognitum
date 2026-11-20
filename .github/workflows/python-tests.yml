@@ -77,6 +77,19 @@ jobs:
           OMP_NUM_THREADS: '1'
           OPENBLAS_NUM_THREADS: '1'
           MKL_NUM_THREADS: '1'
+      - name: COG-04S separable tensor continuum eigenproblems
+        run: python -m tools.cog04s.acceptance --prior cog04r-evidence --out cog04s-evidence
+        env:
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+      - name: Preserve COG-04S native evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cog04s-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: cog04s-evidence/
+          if-no-files-found: warn
       - name: Preserve COG-04R native evidence
         if: always()
         uses: actions/upload-artifact@v4
