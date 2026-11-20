@@ -8,8 +8,8 @@
   },
   "counts": {
     "total": 72,
-    "partial": 19,
-    "open": 53
+    "partial": 21,
+    "open": 51
   },
   "rows": [
     {
@@ -23,7 +23,7 @@
       ],
       "acceptance": "Validate dimensions, units, initial/terminal and pre/post-update indexing against scalar closed forms.",
       "status": "PARTIAL",
-      "evidence": "SSM-01 candidate typed unit/clock/domain and pre-update contract; labels not dimensions; 17 local tests, native pending"
+      "evidence": "Bounded exact typed deterministic state and clock; coordinate metadata not certified units; R1 local 38 tests, native pending"
     },
     {
       "id": "DS02",
@@ -36,7 +36,7 @@
       ],
       "acceptance": "Exact rational discrete recurrence; matrix exponential comparison for coupled continuous system.",
       "status": "PARTIAL",
-      "evidence": "SSM-01 candidate exact coupled discrete MIMO and numeric ZOH; 17 local tests, native pending"
+      "evidence": "Coupled discrete MIMO exact and numerical ZOH/FOH; arbitrary interval certification open; R1 local 38 tests, native pending"
     },
     {
       "id": "DS03",
@@ -49,7 +49,7 @@
       ],
       "acceptance": "Piecewise time-indexed matrices and known forcing; compare literal noncommutative products.",
       "status": "PARTIAL",
-      "evidence": "SSM-01 candidate exact ordered affine maps, not general time-varying/bilinear execution; 17 local tests, native pending"
+      "evidence": "Exact bounded time-indexed affine and bilinear supplied input sequence; general continuous/nonlinear open; R1 local 38 tests, native pending"
     },
     {
       "id": "DS04",
@@ -62,7 +62,7 @@
       ],
       "acceptance": "Check exp((s+t)A), transition composition and singular A cases; exact discrete associativity.",
       "status": "PARTIAL",
-      "evidence": "SSM-01 candidate exact affine composition and numerical ZOH semigroup check; 17 local tests, native pending"
+      "evidence": "Exact ordered affine composition and numerical semigroup/hold controls; R1 local 38 tests, native pending"
     },
     {
       "id": "DS05",
@@ -76,7 +76,7 @@
       ],
       "acceptance": "ZOH block exponential, first-order hold, Euler/Tustin error and aliasing; irregular timestamps.",
       "status": "PARTIAL",
-      "evidence": "SSM-01 candidate ZOH; FOH/Tustin/aliasing/covariance open; 17 local tests, native pending"
+      "evidence": "Numerical ZOH/FOH, exact rational Euler/Tustin approximation coefficients; alias and stochastic covariance open; R1 local 38 tests, native pending"
     },
     {
       "id": "DS06",
@@ -89,7 +89,7 @@
       ],
       "acceptance": "Rational transfer vs impulse convolution; pole-zero cancellations and feedthrough.",
       "status": "PARTIAL",
-      "evidence": "SSM-01 candidate exact impulse and nonsingular rational transfer evaluation; pole/zero analysis open; 17 local tests, native pending"
+      "evidence": "Exact rational resolvent/impulse and canceled-pole examples; general pole/zero analysis open; R1 local 38 tests, native pending"
     },
     {
       "id": "DS07",
@@ -101,8 +101,8 @@
         "L06"
       ],
       "acceptance": "Similarity-invariant input/output, Hankel rank, Ho–Kalman reconstruction, nonminimal example.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Exact rational similarity and finite Hankel minimal zero-initial I/O realization including rank zero; bounds and refusals; R1 local 38 tests, native pending"
     },
     {
       "id": "DS08",
@@ -114,8 +114,8 @@
         "L09"
       ],
       "acceptance": "Index-1 consistent initial conditions and residuals; refuse singular/unsupported index cases.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Exact semi-explicit index-1 descriptor reduction and consistent-state constraints; general/higher-index DAE open; R1 local 38 tests, native pending"
     },
     {
       "id": "DS09",
