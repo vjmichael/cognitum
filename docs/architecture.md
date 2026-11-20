@@ -1,6 +1,8 @@
 # Architecture and boundaries
 
-**Current comprehensive architectural design:** [Cognitum Revision 1.5](Cognitum_Comprehensive_AI_Architecture_R1_5.md) with [all 19 component specs](design/technology-portfolio-C01-C19.md) and [research/validation/delivery protocol](design/research-validation-and-delivery.md). This original short file remains an implementation sketch and must not be read as claiming production Lu integration. Revision 1.4 is preserved as a historical source.
+**Current governing design revision:** [Revision 1.6 — three mathematical engines and MEL extension](Cognitum_Comprehensive_AI_Architecture_R1_6.md). It extends the preserved R1.5 design, retains prior security/host contracts, and governs the broader SSM research scope. The [master task ledger](MASTER_TASK_LEDGER.md) is the current scheduler.
+
+**Historical comprehensive architectural baseline:** [Cognitum Revision 1.5](Cognitum_Comprehensive_AI_Architecture_R1_5.md) with [all 19 component specs](design/technology-portfolio-C01-C19.md) and [research/validation/delivery protocol](design/research-validation-and-delivery.md). This original short file remains an implementation sketch and must not be read as claiming production Lu integration. Revision 1.4 is preserved as a historical source.
 
 **Active implementation roadmap:** [Component development lifecycle and tracker](roadmap.md). Every component now follows its own P0 research/standards/hardware survey, P1 implementation, P2 smoke testing, and P3 standard-baseline benchmarking. Historical global phases from Revision 1.4 are retained as archival design input, not the execution schedule. Existing prototype verification is reusable evidence, not automatic P3 certification.
 

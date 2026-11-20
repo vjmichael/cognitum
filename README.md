@@ -1,5 +1,7 @@
 # Cognitum — component roadmap and initial core prototype
 
+**Current governing design:** [Revision 1.6 — HDC, KAN and SSM mathematical engines](docs/Cognitum_Comprehensive_AI_Architecture_R1_6.md) · [Master task ledger](docs/MASTER_TASK_LEDGER.md). SSM is a comprehensive dynamical-systems mathematical engine, not simply a neural architecture. Existing R1.5 and MEL historical designs remain preserved.
+
 **Scientific research entry point:** [COG-05A mathematical assurance, reproducibility and native benchmarks](docs/research/cog05a/REPORT.md). The scoped COG-04A–U and MEL CPU reference research is indexed by exact accepted source and native evidence; this is research, not production admission.
 
 **Mission update (2026-10-29):** Cognitum is **transformer AI augmentation**, not a competition to beat every conventional tool. Conventional algorithms may be first-class trusted specialist engines to compensate for a transformer's weak exactness, memory, planning, uncertainty or spatial reasoning. [Governing decision, full C01–C19 implementation audit and release definitions](docs/design/ADR-augmentation-first-transformer-capabilities-2026-10-29.md). **Alpha ≠ all 19 components built.**

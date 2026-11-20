@@ -1,9 +1,12 @@
-# Cognitum complete AI technology design — Revision 1.5 index
+# Cognitum complete mathematical and AI technology design — Revision 1.6 index
 
-This is the **full design set** for Cognitum as an optional, native Protobuf Lu DLC Core Extension. It preserves Revision 1.4's recovered original 12-technology research vision, makes the 19-component order operational and records current host/security/research constraints.
+[**Current governing revision 1.6**](../Cognitum_Comprehensive_AI_Architecture_R1_6.md) extends R1.5 with HDC, KAN and SSM as three full mathematical engines, including non-AI science. The [master task ledger](../MASTER_TASK_LEDGER.md) controls current tasks and acceptance. Older status tables below are historical.
+
+This is the **full R1.5 baseline design set** for Cognitum as an optional, native Protobuf Lu DLC Core Extension. It preserves Revision 1.4's recovered original 12-technology research vision, makes the 19-component order operational and records current host/security/research constraints.
 
 | Document | Read this for |
 |---|---|
+| [**Comprehensive Architecture (R1.6)**](../Cognitum_Comprehensive_AI_Architecture_R1_6.md) | Current normative mathematical-engine extension, SSM scope, cooperation and evidence boundaries; read with R1.5 |
 | [**Comprehensive AI Architecture (R1.5)**](../Cognitum_Comprehensive_AI_Architecture_R1_5.md) | Normative host/Cognitum/Workspace responsibilities; existing vs proposed evidence; Protobuf/security; memory ownership; provenance; component lifecycle; hardware/permission/deletion policies |
 | [**Technology Portfolio C01–C19**](technology-portfolio-C01-C19.md) | All 19 components: question, typed interface design, incumbent libraries, build/test/benchmark gates, CPU/GPU/FPGA options, major failure modes and status |
 | [**Research, Validation and Delivery**](research-validation-and-delivery.md) | Eight concrete cross-technology research hypotheses, factorial ablations, end-to-end A/B/C/D methods, benchmark tiers, metrics, risks, P0–P3 checklist, priority/dependency milestones and unresolved ADRs |
