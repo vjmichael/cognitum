@@ -1,0 +1,42 @@
+name: Cognitum exact offline scientific wheelhouse
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/scientific-wheelhouse-native.yml'
+      - 'tools/qualify_scientific_wheels.py'
+      - 'docs/integration/scientific-wheelhouse/**'
+      - 'cognitum/probability_diagnostics.py'
+      - 'tests/test_c13_p4_diagnostics.py'
+      - 'tests/test_c13_diagnostics_compatibility.py'
+permissions:
+  contents: read
+jobs:
+  native-wheelhouse:
+    name: Exact wheels / ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          architecture: x64
+      - name: Verify exact wheels, install offline, and run real engines and C13 source tests
+        run: python tools/qualify_scientific_wheels.py --locks docs/integration/scientific-wheelhouse --out wheelhouse-acceptance --rehydrate --source-root .
+      - name: Preserve hash-bound qualification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scientific-wheelhouse-${{ matrix.os }}-${{ matrix.python }}
+          path: |
+            wheelhouse-acceptance/*.json
+            wheelhouse-acceptance/*.log
+            wheelhouse-acceptance/stats-only.txt
+          if-no-files-found: warn

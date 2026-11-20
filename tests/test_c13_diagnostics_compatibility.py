@@ -70,8 +70,13 @@ from cognitum.proto import probability_diagnostics_pb2 as p
 if sys.version_info >= (3, 12):
     original=builtins.__import__
     def guarded(name,*args,**kwargs):
-        if name.split('.')[0] in {'arviz','arviz_plots','matplotlib'}:
-            raise AssertionError('unexpected plotting import: '+name)
+        root=name.split('.')[0]
+        if root in {'arviz','arviz_plots'}:
+            raise AssertionError('unexpected facade or plotting package import: '+name)
+        if root in {'matplotlib','plotly','bokeh'}:
+            # ArviZ Base probes optional backends and catches ImportError.
+            # Model an actually absent package, not a broken import.
+            raise ModuleNotFoundError('optional plotting backend absent: '+name,name=name)
         return original(name,*args,**kwargs)
     builtins.__import__=guarded
 rng=random.Random(3)
@@ -86,7 +91,8 @@ assert result.status==p.DIAGNOSTICS_SUCCESS, result
 assert d.verify_diagnostics_receipt(raw,out).evidence_valid
 if sys.version_info >= (3, 12):
     assert result.backend_version.startswith('arviz-stats-')
-    assert not {'arviz','arviz_plots','matplotlib'}.intersection(sys.modules)
+    assert not {'arviz','arviz_plots','matplotlib','plotly','bokeh'}.intersection(
+        name.split('.')[0] for name in sys.modules)
 else:
     assert result.backend_version.startswith('arviz-0.23.')
 """

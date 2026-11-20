@@ -53,7 +53,7 @@ def source_check():
     c13_original="c94e0f7bb3d2b3e9ce69a47d8dea4d645380004a"
     c13_historical="35190beb1000b6d33039a84cbbc92fc9b844f3cc"
     c13_repair={c13_path:"dbbdc91188446715bb0915e48d37a51bb72d9909"}
-    c13_regression={"tests/test_c13_diagnostics_compatibility.py":"24604bd8500481e8340259987011091213cbf2bb"}
+    c13_regression={"tests/test_c13_diagnostics_compatibility.py":"60dc8b6c7834d905497621f16e06a901f92266fa"}
     seen_c13=0
     for rel in ("docs/integration/COG06B_C10_SOURCE_PROVENANCE.json",
                 "docs/integration/COG06B_C11_C13_SOURCE_PROVENANCE.json"):
