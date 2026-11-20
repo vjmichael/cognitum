@@ -66,3 +66,5 @@ Every stage can split into independently grouped tasks. DS17–24 before some fi
 **SSM-02-R1 update:** exact bounded nonlinear equilibrium and verification, quadratic dissipativity/passivity and induced gain bracket profiles added locally; [R1 report](SSM02_R1.md), 111 combined tests. Native pending. No general nonlinear or storage synthesis claim. Master ledger schedules sequential acceptance, followed by SSM-03 independent scientific dynamics.
 
 **SSM-02 native update:** [bounded linear analysis accepted](SSM02_CLOSEOUT.md), all 12 jobs and evidence reconciliation; R1 local candidate native remaining. No overlapping CI.
+
+**Scientific dynamics update:** [SSM-02-R1 native acceptance](SSM02_R1_CLOSEOUT.md) reconciled. [SSM-03](SSM03.md) local candidate 140 combined tests, DS17–19/24 partial. Exact geometric/conservation identities and checked numerical diagnostics separate. Native pending; residual DS20–24 SSM-03-R1 next independent task; SSM-04 queued.
