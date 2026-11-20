@@ -1,5 +1,7 @@
 # Research remains a first-class lane
 
+**Current research index (COG-05A):** [Mathematical assurance and reproducibility](research/cog05a/REPORT.md) consolidates the later scoped COG-04A–U and MEL CPU native qualification. The paragraphs below describe the original starter and historical portfolio; they are not a current implementation-status denial.
+
 The calculator proves a narrow interface, not Cognitum's scientific thesis. No HDC, KAN, SSM, capsule, causal, planning or learned component was implemented or validated here. All research remains opt-in; no automatic promotion path exists.
 
 Preserve the Revision 1.4 portfolio: HDC with temporal state; HDC with persistent object graphs; KAN as a bounded planner/simulator surrogate; learned state dynamics; multimodal temporal/spatial memory; learned capability selection; and trace-informed improvements. Hypervectors, embeddings, state vectors and poses require explicit typed conversion contracts rather than a universal coordinate space.

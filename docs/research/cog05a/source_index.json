@@ -1,0 +1,329 @@
+{
+  "profile": "cognitum.cog05a.research_index.v1",
+  "qualified_source": "826e4b9459e4b70413ef8f0813a4c41c2b609fae",
+  "qualified_tree": "0dbbeb3d5de4e65d3a7dea489e87fc7d8b56f4b8",
+  "preconsolidation_head": "4b1e13137480b4229170a2eed9a9a8ffac82cdd9",
+  "preconsolidation_tree": "96fa345048ecf80c60d298803dcc6d174716181b",
+  "only_drift_since_qualified_source": [
+    "docs/MASTER_TASK_LEDGER.md"
+  ],
+  "artifact_run": 44683244710,
+  "integration_run": 44683244685,
+  "historical_acceptance": [
+    {
+      "stage": "COG-04A/B",
+      "source": "1430d8e226119be3d3e07303d44cacd3da4a0855",
+      "runs": [
+        44599085693
+      ]
+    },
+    {
+      "stage": "COG-04C/D",
+      "source": "5e848d14f7df79efe9cb27c7fc0fbf1e68faaa3e",
+      "runs": [
+        44614381216
+      ]
+    },
+    {
+      "stage": "COG-04E/F",
+      "source": "9f735116db942e98bc7fc8c5e3bacd9fce1c149a",
+      "runs": [
+        44620431830
+      ]
+    },
+    {
+      "stage": "COG-04G–L-R1",
+      "source": "79100e57fa2dc4e0417a01d84495d61433e9f4b4",
+      "runs": [
+        44640474204
+      ]
+    },
+    {
+      "stage": "COG-04M/N",
+      "source": "ab4c91d9d728ad1f6e8f50fa0e8c18754d39da0d",
+      "runs": [
+        44643948757
+      ]
+    },
+    {
+      "stage": "MEL-07A",
+      "source": "71050d284fd7678a8ab9c1ffe5f94d7b34c4afef",
+      "runs": [
+        44663655326,
+        44663655236
+      ]
+    },
+    {
+      "stage": "MEL-07A-R1",
+      "source": "21fc878eb7cbe4b3c0163f4ad18bbecd1861e925",
+      "runs": [
+        44664652451,
+        44664652419
+      ]
+    },
+    {
+      "stage": "MEL-07A-R2",
+      "source": "df432b9636a5046971486786ae3fe2bf7748744d",
+      "runs": [
+        44666754286,
+        44666754114
+      ]
+    },
+    {
+      "stage": "MEL-07A-R3",
+      "source": "cd3a215c27c7de50fe93b90acea9f206bbcb10d1",
+      "runs": [
+        44668969288,
+        44668969244
+      ]
+    },
+    {
+      "stage": "COG-04O",
+      "source": "05ecf152340ae2cb10880fc4e0f47b8a1fa874ed",
+      "runs": [
+        44672169701,
+        44672169683
+      ]
+    },
+    {
+      "stage": "COG-04P-R1",
+      "source": "c8251846f7959f37a0d8d100e3d53d8707cd2290",
+      "runs": [
+        44674609064,
+        44674609012
+      ]
+    },
+    {
+      "stage": "COG-04Q",
+      "source": "5262c6c564d7004a27fb8497bd58b271e9a68186",
+      "runs": [
+        44676073795,
+        44676073774
+      ]
+    },
+    {
+      "stage": "COG-04R",
+      "source": "b5023acc73ea0137f029ab5a88254d456162ed27",
+      "runs": [
+        44677433573,
+        44677433431
+      ]
+    },
+    {
+      "stage": "COG-04S",
+      "source": "7c0f20126b9b264f39dac091dbc835e818a79858",
+      "runs": [
+        44679321402,
+        44679321413
+      ]
+    },
+    {
+      "stage": "COG-04T",
+      "source": "c15988604a058824ee8b84c0046f7169f82de243",
+      "runs": [
+        44681170055,
+        44681170026
+      ]
+    },
+    {
+      "stage": "COG-04U",
+      "source": "826e4b9459e4b70413ef8f0813a4c41c2b609fae",
+      "runs": [
+        44683244710,
+        44683244685
+      ]
+    }
+  ],
+  "scope": "selected research source, tests, harnesses, reports and configuration; full commit tree is authoritative; manifest is not a dependency lock",
+  "git_blobs": {
+    ".github/workflows/python-tests.yml": "d66f6343db9f78c514289eeb243a019bbf4cf768",
+    "cognitum/mel/kan_equations.py": "22eca080d936590f7e82735489ae41bc0dc8e882",
+    "cognitum/mel/kan_fields.py": "f55e9ca4625311f613dd395df3a58549d819ab0d",
+    "cognitum/mel/kan_multivariate.py": "869c65745d724f838d58fd11d0ad654426f6542d",
+    "cognitum/mel/kan_symbolic.py": "b26b798d87248ce36c80178106acfd3b22f9e315",
+    "cognitum/mel/polynomial_exchange.py": "391d72516b8b2955e6d23541313b4f3ffbd06c3c",
+    "cognitum/mel/polynomial_kan.py": "58e9a55044fdf7630e2f0ea7879384561d9f27d3",
+    "cognitum/mel/polynomial_kan_pb2.py": "33aaf8a2105e5b7c021487dc65a5b25366e69c75",
+    "cognitum/mel/polynomial_model.py": "21df548022247e09b263f37b66e91360e9109552",
+    "cognitum/mel/polynomial_witness.py": "c269dc30b926e3ffc4649e5ece79a78416d88209",
+    "cognitum/mel/tensor_cooperation.py": "03f917538163bb0254f478adb639e5d93d91f3dd",
+    "cognitum/mel/tensor_field.py": "a94e1d8d8a0c202668fc84da6e4354eacdb43891",
+    "cognitum/mel/tensor_field_pb2.py": "461c107ff36e7295c022c132c40f0500029930e5",
+    "cognitum/research/kan_adaptive.py": "a6bc95355967e19c3ab17014f8a97fe33a0125aa",
+    "cognitum/research/kan_approval.py": "ee3471db63570a9016b685298ac81edf071a84c1",
+    "cognitum/research/kan_certified_spectrum.py": "875ad2dc1348a90f35109cab1dbaaa0490f9c2e7",
+    "cognitum/research/kan_continuum_ritz.py": "39dc96691906867bb3f1a81423c3305a340b3574",
+    "cognitum/research/kan_coupled_ritz.py": "af19cee250e1f6bfa340a40a44e3f6c43b4b30af",
+    "cognitum/research/kan_differential_learning.py": "9b8768466ce287ff0edfcff89013a8284a190578",
+    "cognitum/research/kan_elliptic_certificate.py": "0f2b725c2f0c7a886aaf4cbf03140d31d50dde6c",
+    "cognitum/research/kan_elliptic_learning.py": "a0102d65b68b5d4b403f0d53d5d34728000565bc",
+    "cognitum/research/kan_function_metrics.py": "b55215b30249aafada8342b7d794895af17143bd",
+    "cognitum/research/kan_optional.py": "2b71e3a6433a12b27b58a372ecff4839217c20a2",
+    "cognitum/research/kan_portable.py": "f56b9b937a166531ca8130f89e50964ea02e66d8",
+    "cognitum/research/kan_spacetime_certificate.py": "12b699c5d6aafd1d1db5c14672fa1391610957eb",
+    "cognitum/research/kan_spacetime_learning.py": "b2888a0920d206ab5435ae4ecca146be3e4233f1",
+    "cognitum/research/kan_sturm_liouville.py": "92e4a2e4ae5447427546275f1d2341b67d9b5029",
+    "cognitum/research/kan_tensor_ritz.py": "03154b6dc1b73347bf633de730d84c1ce208edde",
+    "cognitum/research/kan_trainable.py": "238f1ea9969aab6ecd87be0dcefb9966ae6a6d59",
+    "cognitum/research/kan_transient_certificate.py": "7d39f459aa8459e02776f94b91ad59364cf633d7",
+    "cognitum/research/kan_transient_learning.py": "491db199f69462179bace2423f1445346704b6a3",
+    "cognitum/research/kan_weak_form.py": "96eab091950fc86ea700c756a17c655220f83e57",
+    "docs/research/cog04a/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "docs/research/cog04a/K1_K60_RECONCILIATION.json": "dd88bf54a191b453096c89f5aee7b6fef0877578",
+    "docs/research/cog04a/K1_K60_RECONCILIATION.md": "620921a4a017a2cda38659518d25c741e1c835c7",
+    "docs/research/cog04a/REPORT.md": "512fe04f54e0ce87b03383c775b039c933f8b9a5",
+    "docs/research/cog04a/manifest.json": "454597890050134ec3205a7e8c5e728367fe535a",
+    "docs/research/cog04b/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "docs/research/cog04b/REPORT.md": "93fc56bde63ef73de9b6da253826ec7df404222f",
+    "docs/research/cog04b/manifest.json": "9f0432de6f685bd12d14d3b3400f1cff35de8c2a",
+    "docs/research/cog04c/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "docs/research/cog04c/REPORT.md": "5af8856bc495c29199634a7d67b7640ef85af785",
+    "docs/research/cog04c/manifest.json": "391c50b2842d7ab214e31c1bd070158900616723",
+    "docs/research/cog04d/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "docs/research/cog04d/REPORT.md": "b86760bd34b00f232686345b582b48918bc320d4",
+    "docs/research/cog04d/manifest.json": "336d446126a756b83d37af9d40756b3e2917090a",
+    "docs/research/cog04e/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "docs/research/cog04e/REPORT.md": "1038ca3f134b1c46c94da0772cec9163ffe6c801",
+    "docs/research/cog04e/manifest.json": "557faeba243b14ad055b0091598bb7e0e57da415",
+    "docs/research/cog04f/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "docs/research/cog04f/REPORT.md": "7201c4382371058d87bcd5f622e64c614d283a45",
+    "docs/research/cog04f/manifest.json": "e0d12e9c7b8cb19fc3959e52ebca9ff4554a1c67",
+    "docs/research/cog04g/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "docs/research/cog04g/REPORT.md": "4f167b8eeb3846a6c9b4d295e49e051a81fd3327",
+    "docs/research/cog04g/manifest.json": "1204f2749dd1560b42e36f08dca4a57fc947ab72",
+    "docs/research/cog04h/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "docs/research/cog04h/REPORT.md": "6472235177fb381213fe00972ce5cd704f5e852a",
+    "docs/research/cog04h/manifest.json": "906c9230c96f8f62c2ff0cea2f8fc1bee494a83a",
+    "docs/research/cog04i/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "docs/research/cog04i/REPORT.md": "270f0b3444807cef879c121179a4c5161869ecfd",
+    "docs/research/cog04i/manifest.json": "8319177db00e674e580b894f419018150c02604f",
+    "docs/research/cog04j/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "docs/research/cog04j/REPORT.md": "5319ea5e15238e87ca2fce8d6d46a564bdf37ff6",
+    "docs/research/cog04j/manifest.json": "f77eaa15fd8a21e6d7d9dd420878cc49b8a8e1a2",
+    "docs/research/cog04k/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "docs/research/cog04k/REPORT.md": "4ae15e3466cf301756598eb2e14831e82aaf0e0d",
+    "docs/research/cog04k/manifest.json": "05ccf5c3ba972e2d743ccb99caaa8b2bb09082fb",
+    "docs/research/cog04l/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "docs/research/cog04l/REPORT.md": "1d5cb415d945c84ab32426c2149aceb634ce4677",
+    "docs/research/cog04l/manifest.json": "e4f439d339c5c299dce12f839c42fac3bb8d98f3",
+    "docs/research/cog04m/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "docs/research/cog04m/REPORT.md": "79376900c25eb9e0756fa0e4ce7f08c5ab1b7371",
+    "docs/research/cog04m/manifest.json": "3bdbf91ae82f4ee8cb30f78d7acee0c2ca2740cd",
+    "docs/research/cog04n/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "docs/research/cog04n/REPORT.md": "a5f496f4f4e64c682f069dff2c1affb588f1ef14",
+    "docs/research/cog04n/manifest.json": "86f73c633393c4be233646703d177c3d0514d91d",
+    "docs/research/cog04o/RECONCILIATION.json": "c574e0417746e708af5080b4162a348fdc2c5a5e",
+    "docs/research/cog04o/RECONCILIATION.md": "880e44ce3006fac61d38f015d8b83e06b7445ba3",
+    "docs/research/cog04o/REPORT.md": "34471af5342ecf081c0f4dcdcf71de60f14396e0",
+    "docs/research/cog04p/REPORT.md": "d93119cd8ab3d6b2e61069b1d1a1faa02972e2a5",
+    "docs/research/cog04q/REPORT.md": "7603f3c0df0339e9384416708f0f0465313ab14d",
+    "docs/research/cog04r/REPORT.md": "158474b2ded2654907c8b695e0630e588ab86fc5",
+    "docs/research/cog04s/REPORT.md": "c859935d00d2d016f059e26630095b1ceb6ed58d",
+    "docs/research/cog04t/REPORT.md": "31a8c475eec00690a44ef524f7fae1747229dab8",
+    "docs/research/cog04u/REPORT.md": "7ce954ad89472268a7d600e49290a1a3814d3f0c",
+    "docs/research/mel/MEL07A_CPU.md": "69bb709cb0a520f05ed0043808717739c878cf5f",
+    "docs/research/mel/MEL07A_R1.md": "6b64726b3fc18f10bfee3c9d8b668a7a748e4400",
+    "docs/research/mel/MEL07A_R2_CLOSEOUT.md": "f2cb2fc7fa6b9d460dbefecdf813729211b774f7",
+    "docs/research/mel/MEL07A_R3.md": "8877e6f2d3e98b7f849984c8a9d26010eb1e03dd",
+    "pyproject.toml": "bb5f31660070e506a1d0a4d78a73828172974b9b",
+    "research_tests/cog04a/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "research_tests/cog04a/test_trainable.py": "6ccdec749ce5a1e460e239e10ac24135fbc56b18",
+    "research_tests/cog04b/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "research_tests/cog04b/test_polynomial_kan.py": "6918e5df2eb01dbc24b782bac89d965ed0fc74bc",
+    "research_tests/cog04c/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "research_tests/cog04c/test_integration.py": "7d6f14f5e791d884edb586d34692fb91e6f26569",
+    "research_tests/cog04d/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "research_tests/cog04d/test_adaptive.py": "00243e523661d653a7628f9ebfe56371b8759d2e",
+    "research_tests/cog04e/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "research_tests/cog04e/test_symbolic.py": "ba590499128728f012dcf506bfa710ac08c2f7d7",
+    "research_tests/cog04f/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "research_tests/cog04f/test_multivariate.py": "860f94ddba544e2320b0b37754b463b06334794f",
+    "research_tests/cog04g/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "research_tests/cog04g/test_fields.py": "51107ff67cc2e6273bbfa07b4c46c8b053d56b59",
+    "research_tests/cog04h/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "research_tests/cog04h/test_equations.py": "d30ababa55e1a3892e73e8c249b53633ded4ac3c",
+    "research_tests/cog04i/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "research_tests/cog04i/test_learning.py": "6b2bd6cc298dbb1e5d7ce2e45ed2e9616c1685e5",
+    "research_tests/cog04j/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "research_tests/cog04j/test_elliptic.py": "262c73b748ec8c876d4565ce77aebd2cacc8a230",
+    "research_tests/cog04k/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "research_tests/cog04k/test_transient.py": "fe4ee321c432db5b34e94a24b5fe85a2b2536d2e",
+    "research_tests/cog04l/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "research_tests/cog04l/test_spacetime.py": "c8aadbb92c0beb435e4ae9415f220bc470150a69",
+    "research_tests/cog04m/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "research_tests/cog04m/test_tensor_field.py": "a375741170186faa5a1e20a481c61a14ba937e83",
+    "research_tests/cog04n/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "research_tests/cog04n/test_tensor_cooperation.py": "ab8854a58c47d197c02a6199d77b8940339f93d8",
+    "research_tests/cog04o/test_function_metrics.py": "327b12f0d239521041365702c4e02b7e1215b4bc",
+    "research_tests/cog04p/test_weak_form.py": "508dcb8eed519ba9f80c3c55c16fa80eb6b1456a",
+    "research_tests/cog04q/test_continuum.py": "3f939b1b6827d8b88b24d719c63b2a2fb1d74e91",
+    "research_tests/cog04r/test_sturm_liouville.py": "261e12f4312c1ada74026c5c99884b7929df6269",
+    "research_tests/cog04s/test_tensor_ritz.py": "b9738bef473ad6bb1c42c49a7040198b0f61e001",
+    "research_tests/cog04t/test_coupled_ritz.py": "18ed2b2a5bb2ec6872d276e5d1a68c77f7a3742c",
+    "research_tests/cog04u/test_certified_spectrum.py": "18a561834739b8d66b3da91665391abba08808c7",
+    "tools/cog04a/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "tools/cog04a/acceptance.py": "f12c2d9834e9d13a7010cff3a1697e727f315e18",
+    "tools/cog04a/benchmark.py": "30427083079468d4111f1650d5209bceb5c607fb",
+    "tools/cog04b/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "tools/cog04b/acceptance.py": "d7b178b0e177b2e9c68a9f3287dd39ab8aa7aefb",
+    "tools/cog04c/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "tools/cog04c/acceptance.py": "fa52bc1cf65790457988ec6bc3faab403d776f07",
+    "tools/cog04d/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "tools/cog04d/acceptance.py": "b5673d20dc932d6eeb956ba06c3dceee348fbfa4",
+    "tools/cog04e/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "tools/cog04e/acceptance.py": "4b0b2d60bbcea89df7e5eabf4915fa60ca1005cd",
+    "tools/cog04f/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "tools/cog04f/acceptance.py": "ece5569cfe7d9f8592443cdbf32a880421c8eb5d",
+    "tools/cog04g/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "tools/cog04g/acceptance.py": "173e0f6646ca790c23ef2dab0bec35eef33c4f9d",
+    "tools/cog04h/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "tools/cog04h/acceptance.py": "f24f8b26bc6c1b6e3f8af8bf45045eefd5c35054",
+    "tools/cog04i/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "tools/cog04i/acceptance.py": "7409b28c5d596cd0e572a0217a59b3ae0f7baa38",
+    "tools/cog04i/benchmark.py": "a5baca859df35c52f0b99aff1c1a61d5c218b451",
+    "tools/cog04j/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "tools/cog04j/acceptance.py": "f718cbb4414274d34a995924494ab0e1fd13cce2",
+    "tools/cog04j/benchmark.py": "36fe44f8e44639e0049021f20242263af391ed08",
+    "tools/cog04k/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "tools/cog04k/acceptance.py": "038cd2a9c2b2b7f1865f66ab4e8bce9bc5ec9bf2",
+    "tools/cog04k/benchmark.py": "2191f8e1a7416b01622ae10600da4b2153486e29",
+    "tools/cog04l/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "tools/cog04l/acceptance.py": "d246dc79c3c3e76c9e480ce188b55acdd8e594f5",
+    "tools/cog04l/benchmark.py": "721d70aa8fbaa4b685dc04ad0b4d5e1bd73e6c80",
+    "tools/cog04m/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "tools/cog04m/acceptance.py": "63b3e71c8f882ccca06f159da6ced6e84193ce74",
+    "tools/cog04m/benchmark.py": "d10ebe34b5b9c68071abe8de4a79c22eecd58f19",
+    "tools/cog04m/worker.py": "5225e3f79282b321a554ba71acf974c70cc56f7e",
+    "tools/cog04n/.gitattributes": "fcadb2cf97913f58a2523f535336e725c6b59d1f",
+    "tools/cog04n/acceptance.py": "fccd2790bc19ae254fb415d331090ca6e27b2846",
+    "tools/cog04n/benchmark.py": "a64f4eda14a74071f89027e9924ec3832b0fa8a4",
+    "tools/cog04o/acceptance.py": "56e101a50277f1c3a08f7d426a2063c7dbcc0fc9",
+    "tools/cog04o/fixtures.py": "e9b449cb1b569d8c1552a46d525a65b02f116c27",
+    "tools/cog04o/oracle.py": "c48b44d734f1e9336a27fc439362c1778ef9acca",
+    "tools/cog04p/acceptance.py": "114cdf018dcd0a6ff7b79134e9dce9240eada049",
+    "tools/cog04p/fixtures.py": "dc99566ed6be15ac2aaf0dc62374165be34db8b9",
+    "tools/cog04p/oracle.py": "5f8af15c150f7efa8b7e4cbe8dbba26a4bb2d74d",
+    "tools/cog04p/profile.py": "0cb74f48306aa8faf21ac612d12cdac5ad0490e6",
+    "tools/cog04q/acceptance.py": "1af512f87a7af844d9b9dee01939eb8df613629b",
+    "tools/cog04q/oracle.py": "d1778a4c53b70aca00a64c570858209007b39a5a",
+    "tools/cog04r/acceptance.py": "407dc029f51bac5fab57297f361339b1f7a378be",
+    "tools/cog04r/fixtures.py": "46950ee8f9c65644758a31de19347801e1c72e92",
+    "tools/cog04r/oracle.py": "2b1359129cb2b077fd20f33c04e53a1d06f9adfc",
+    "tools/cog04r/profile.py": "dedb322ddcfbd1181d4cf8a2a8ad1560f21c5136",
+    "tools/cog04s/acceptance.py": "fb424af963c6ad33800224b9678e3a498dee37da",
+    "tools/cog04s/fixtures.py": "16bce91fb983433a217001761020109c2fd1082d",
+    "tools/cog04s/oracle.py": "e5818f21406bea8bfea4be61e19c87fa85e96d94",
+    "tools/cog04s/profile.py": "bdd0a470840e8b7112b1a59de802ec2cbfbdab73",
+    "tools/cog04t/acceptance.py": "a6cc870a7554127970dd25f2296e84199acb6f3d",
+    "tools/cog04t/fixtures.py": "79ca40996da21c9cabd2d0311068875ff5cddb49",
+    "tools/cog04t/oracle.py": "ea25e4b374f6b11ed5183bfc4efb7e699300c6d9",
+    "tools/cog04t/profile.py": "443e4daa540df91f6494d93d96a9ee9985962a67",
+    "tools/cog04u/acceptance.py": "59159c651a02a0c344d017a25a35c3d5f3da6369",
+    "tools/cog04u/oracle.py": "a3bd19e201d0cfddad6fd5c4529af01b18aafd47",
+    "tools/cog04u/profile.py": "1b670d6e8242804478b1701f6109c82fa544b650",
+    "tools/mel07a_cpu.py": "b1d3c18eee76b1df6dc4a67f88d8eb00e58b50a8",
+    "tools/mel07a_r1.py": "b945a139f7389040c224b12ccf509fcd6b4a893b",
+    "tools/mel07a_r2.py": "28d37e2616086e0471055ba0d0a9c6e5f9f857e1",
+    "tools/mel07a_r3.py": "6cca6d2ff11f3aeac7204c3b5e440074eddbf9b2"
+  }
+}
