@@ -1,0 +1,23 @@
+name: POST-NATIVE-03 authenticated-source acquisition
+on:
+  push:
+    branches:
+      - 'research/ssm03-data-acquire-*'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Retrieve UCI license-labelled observed time series and freeze original bytes
+        run: python3 tools/ssm_postnative03/acquire.py postnative03-acquired
+      - name: Preserve complete original source archives, deterministic excerpts and provenance receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: postnative03-observed-source
+          path: postnative03-acquired/
+          if-no-files-found: warn
