@@ -29,3 +29,28 @@ Changed only `.github/workflows/python-tests.yml` job `timeout-minutes` **12 →
 - Preserve native [first-run evidence](https://github.com/vjmichael/cognitum/actions/runs/44828561298) and local reproducibility separately. Do not stack additional CI runs or permit external system actuation.
 
 **Current status: repaired candidate prepared, cross-platform acceptance pending.**
+
+## Final closeout — bounded native qualification PASS
+
+### Authoritative final acceptance — 44832908788
+[GitHub Actions run 44832908788](https://github.com/vjmichael/cognitum/actions/runs/44832908788) **completed SUCCESS**, four GitHub-hosted native OS/Python jobs, all at the **single source SHA** `bd2b332a06291f005adf5ab8183c56c8d36ba81f`. A longer **30-minute per-job timeout** resolved the Windows 3.11 hosted execution cancellation. The only difference from the three-pass mathematical candidate is workflow timeout plus documentation; **no mathematical code, test, fixture, data, source pin or acceptance threshold changed**. This is a source-locked candidate, not the earlier failed SHA.
+
+| Native environment | POST-NATIVE-02 dedicated | POST-NATIVE-01+02 combined | Pinned source blobs | GitHub artifact |
+|---|---:|---:|---:|---|
+| Ubuntu / Python 3.11 | 44/44 | 63/63 | 81/81 | [14676992246](https://github.com/vjmichael/cognitum/actions/runs/44832908788/artifacts/14676992246) |
+| Ubuntu / Python 3.13 | 44/44 | 63/63 | 81/81 | [14676762615](https://github.com/vjmichael/cognitum/actions/runs/44832908788/artifacts/14676762615) |
+| Windows / Python 3.11 | 44/44 | 63/63 | 81/81 | [14678185798](https://github.com/vjmichael/cognitum/actions/runs/44832908788/artifacts/14678185798) |
+| Windows / Python 3.13 | 44/44 | 63/63 | 81/81 | [14677408577](https://github.com/vjmichael/cognitum/actions/runs/44832908788/artifacts/14677408577) |
+
+Downloaded and independently audited all four artifact ZIPs. Every receipt asserts `status=PASS`, matching `source_sha`, `source_pins` count 81, `dedicated.tests=44` and `combined.tests=63`, zero failures/errors/skips; every included JUnit testcase was counted and each receipt artifact SHA-256 recomputed. Prior POST-NATIVE-01 receipt hashes differ correctly across the four platform jobs and are enforced by the same-head gate. All four jobs finished with `conclusion=success`. This gives **176 dedicated** and **252 combined post-native** test executions across platforms; those counts are repeated scoped tests, not independent scientific discoveries. The inherited 391-case accepted baseline is enforced upstream in the same-head chain; it is not a fresh set of 391 distinct post-native tests.
+
+Original failed [run 44828561298](https://github.com/vjmichael/cognitum/actions/runs/44828561298): three native variants failed a shared duplicate result-key bug, one Windows run cancelled before reaching the gate. First corrected [run 44831037543](https://github.com/vjmichael/cognitum/actions/runs/44831037543): 3/4 environments passed, Windows 3.11 cancelled due too-short 12-minute job timeout during earlier SSM stage. Final run above resolved both blockers **without relaxing mathematical acceptance**. Retain both earlier runs in the audit trail.
+
+### Scientific evidence and rights: residuals deliberately NOT closed
+- **NIST reference consistency verified:** all publicly rendered response/predictor numeric pairs checked against frozen transcriptions (Norris 36, Misra1a 14) with zero mismatches, and certified numerical regressions independently matched by existing tests. The original upstream `.dat` bytes and historical acquisition chain are **not** cryptographically authenticated by a canonical CSV digest.
+- **Source classification confirmed:** NIST Statistical Reference Datasets are **SRD 140**, and NIST distinguishes SRD licensing from other government works. These two dataset-specific redistribution/derivative rights and attribution/permission requirements remain **unresolved**. Public access and certified output are not a license grant. See [provenance audit](POST_NATIVE02_PROVENANCE_AUDIT.md), [NIST StRD home](https://www.itl.nist.gov/div898/strd/), [NIST SRD catalog](https://www.nist.gov/srd/srd-catalog) and [NIST licensing policy](https://www.nist.gov/open/copyright-fair-use-and-licensing-statements-srd-data-software-and-technical-series-publications).
+- **Uncertainty remains conditional:** split-conformal marginal coverage assumes exchangeability; the small and shifted datasets do not establish general/conditional calibration or out-of-distribution reliability. Deliberate shift counterexamples do not qualify a universal detector.
+- **KAN/HDC/SSM functional scope:** six repository-dependent tests now pass across four native targets, exercising two genuine checkpoint-represented mathematical vector fields, HDC candidates and falsification. They are **not** independent validation of a discovered physical law, generalized KAN training, physical state estimation or guaranteed model-uncertainty propagation.
+- **Governance:** every one of the 72 DS broad capabilities remains `PARTIAL`, none promoted to complete by this suite; `execution_authorized=False`, no Maj Vaj/physical/control authority, no production acceptance or physical Radeon/FPGA workstation qualification.
+
+**Final task disposition: PASS for bounded source-locked 44/63 post-native tests on all four native matrix targets, with previously verified 391-case baseline preserved. No outstanding numerical regression in the executed scope. Broader research/dataset/rights/physical validation remain open.**
