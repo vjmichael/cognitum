@@ -95,6 +95,19 @@ jobs:
           OMP_NUM_THREADS: '1'
           OPENBLAS_NUM_THREADS: '1'
           MKL_NUM_THREADS: '1'
+      - name: COG-05C frozen mathematical conformance and accepted control qualification
+        run: python -m tools.cog05c.qualification --prior cog04u-evidence --out cog05c-evidence
+        env:
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+      - name: Preserve COG-05C native evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cog05c-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: cog05c-evidence/
+          if-no-files-found: warn
       - name: Preserve COG-04U native evidence
         if: always()
         uses: actions/upload-artifact@v4
