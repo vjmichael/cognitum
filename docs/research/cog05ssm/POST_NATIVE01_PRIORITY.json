@@ -465,8 +465,10 @@
       "current_evidence": "Polynomial derivative SINDy plus compact-window weak SINDy on uniform trajectories, held-out controls; actual KAN represented-field polynomial bridge staged, two integration cases unexecuted; nonlinear/PDE/general symbolic discovery open; SSM-05-R1 local pass for tested scope, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
       "targeted_local_19_case_tranche": "NOT_RETESTED_IN_NEW_TRANCHE",
       "next_independent_qualification": "Genuine KAN/checkpoint versus independent noisy dynamical equation discovery, wrong-library controls, exact represented-function distinction",
-      "postnative02_local_or_native_status": "NATIVE_ONLY_STAGED",
-      "postnative02_evidence": "Two nontrivial signed KAN field hypothesis families and independent IVP falsification staged; no independently learned scientific equation or real trajectory validation."
+      "postnative02_local_or_native_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
+      "postnative02_evidence": "Two nontrivial signed KAN field hypothesis families and independent IVP falsification staged; no independently learned scientific equation or real trajectory validation.",
+      "postnative02_verified_run": 44832908788,
+      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md"
     },
     {
       "id": "DS37",
@@ -515,8 +517,10 @@
       "current_evidence": "Two-sided clipped block CUSUM, split-calibrated rank threshold, conditional exchangeability assumption and marginal false-alarm level only; seeded null/shift/outlier tests; dependent/missing/OOD calibration open; SSM-05-R1 local pass for tested scope, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
       "targeted_local_19_case_tranche": "NOT_RETESTED_IN_NEW_TRANCHE",
       "next_independent_qualification": "Time-dependent and missing-data shifts, detection delay/false alarm/abstention calibration across seeds and external datasets",
-      "postnative02_local_or_native_status": "LOCAL_NEGATIVE_CONTROL",
-      "postnative02_evidence": "IID-to-shift coverage counterexample verified locally; dependent change detection and domain-shift calibration remain open."
+      "postnative02_local_or_native_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
+      "postnative02_evidence": "IID-to-shift coverage counterexample verified locally; dependent change detection and domain-shift calibration remain open.",
+      "postnative02_verified_run": 44832908788,
+      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md"
     },
     {
       "id": "DS41",
@@ -576,7 +580,10 @@
       "broad_capability_status": "PARTIAL",
       "current_evidence": "Exact fixed-feedback invariant-box witness and finite-horizon bounded-disturbance envelope or Gaussian union-bound chance constraint tightening; corner and Monte Carlo checks; parameter uncertainty/tube feedback open; SSM-06-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
       "targeted_local_19_case_tranche": "SUBSET_PASS_NOT_FULL_SCOPE",
-      "next_independent_qualification": "Joint risk with correlated/heavy-tailed disturbances, distribution shift and recursive-feasibility counterexample"
+      "next_independent_qualification": "Joint risk with correlated/heavy-tailed disturbances, distribution shift and recursive-feasibility counterexample",
+      "postnative02_local_or_native_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
+      "postnative02_verified_run": 44832908788,
+      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md"
     },
     {
       "id": "DS46",
@@ -757,8 +764,10 @@
       "current_evidence": "Unit-mass quartic Hamiltonian and positive damping fit with nonnegative coefficients, Verlet/Strang and independent simulation energy balance; general neural PINN/KAN comparison open; SSM-08 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
       "targeted_local_19_case_tranche": "NOT_RETESTED_IN_NEW_TRANCHE",
       "next_independent_qualification": "Energy-conserving vs dissipative neural/KAN/analytic models with physically grounded held-out trajectories and numerical invariant checks",
-      "postnative02_local_or_native_status": "NATIVE_ONLY_STAGED",
-      "postnative02_evidence": "Two distinct nonlinear represented checkpoint dynamical scenarios against analytic IVP staged; physical energy or PINN/KAN comparison remains open."
+      "postnative02_local_or_native_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
+      "postnative02_evidence": "Two distinct nonlinear represented checkpoint dynamical scenarios against analytic IVP staged; physical energy or PINN/KAN comparison remains open.",
+      "postnative02_verified_run": 44832908788,
+      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md"
     },
     {
       "id": "DS61",
@@ -795,8 +804,10 @@
       "current_evidence": "Labeled HMM regime fit and causal mixture forecast, proper log score and empirical PIT coverage on chronological synthetic splits, regime ablation/OOD diagnostic; real/unlabeled/calibrated abstention open; SSM-08-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
       "targeted_local_19_case_tranche": "NOT_RETESTED_IN_NEW_TRANCHE",
       "next_independent_qualification": "Real-world chronological regime forecasting, confidence interval calibration and distribution-shift detection vs robust baselines",
-      "postnative02_local_or_native_status": "LOCAL_LIMITED",
-      "postnative02_evidence": "Conformal IID and shift coverage negative controls locally passed; NIST observations are static calibration, not chronological regime forecasting."
+      "postnative02_local_or_native_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
+      "postnative02_evidence": "Conformal IID and shift coverage negative controls locally passed; NIST observations are static calibration, not chronological regime forecasting.",
+      "postnative02_verified_run": 44832908788,
+      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md"
     },
     {
       "id": "DS64",
@@ -845,8 +856,10 @@
       "current_evidence": "Native-path adapter now uses genuine HDC research Spec('MAP') and Cleanup, exact bipolar-dot cross-check, past-state cutoff, abstention; 4 genuine composition tests passed in native gate, HDC runtime qualification open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
       "targeted_local_19_case_tranche": "NOT_RETESTED_IN_NEW_TRANCHE",
       "next_independent_qualification": "Real HDC encoder and associative retrieval integrated with canonical state and chronology, ambiguity/retrieval wrong-answer controls",
-      "postnative02_local_or_native_status": "NATIVE_ONLY_STAGED",
-      "postnative02_evidence": "Genuine HDC Spec/Cleanup candidate, future-step suppression and abstention staged; no new native run."
+      "postnative02_local_or_native_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
+      "postnative02_evidence": "Genuine HDC Spec/Cleanup candidate, future-step suppression and abstention staged; no new native run.",
+      "postnative02_verified_run": 44832908788,
+      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md"
     },
     {
       "id": "DS68",
@@ -859,8 +872,10 @@
       "current_evidence": "Genuine MEL/KAN field/checkpoint functions composed through normalized-domain RK4 and local EKF with real HDC candidate and source-pinned dataset; 4 KAN composition tests passed in native gate, general nonlinear/uncertainty still open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
       "targeted_local_19_case_tranche": "NOT_RETESTED_IN_NEW_TRANCHE",
       "next_independent_qualification": "Multiple novel genuine KAN checkpoints with independent gradients, jacobians, domain/uncertainty propagation, heldout perturbations",
-      "postnative02_local_or_native_status": "NATIVE_ONLY_STAGED",
-      "postnative02_evidence": "Actual MEL scalar KAN checkpoint two-regime field integrator and wrong-model control staged (six total genuine runtime cases); native unexecuted."
+      "postnative02_local_or_native_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
+      "postnative02_evidence": "Actual MEL scalar KAN checkpoint two-regime field integrator and wrong-model control staged (six total genuine runtime cases); native unexecuted.",
+      "postnative02_verified_run": 44832908788,
+      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md"
     },
     {
       "id": "DS69",
@@ -873,8 +888,10 @@
       "current_evidence": "Typed unverified numerical-residual evidence for full candidate trace, source/checkpoint/dataset digests and explicit assumptions; scientific verification/calibration/authenticity open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
       "targeted_local_19_case_tranche": "SUBSET_PASS_NOT_FULL_SCOPE",
       "next_independent_qualification": "Independent verifier for source, artifact bytes, numerical residual, exact representation and probabilistic calibration assumptions",
-      "postnative02_local_or_native_status": "LOCAL_PASS_LIMITED",
-      "postnative02_evidence": "Source/transcription/independent protocol/evidence digests and byte-exact replay, tamper rejection passed locally; original NIST upstream bytes and signing unverified."
+      "postnative02_local_or_native_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
+      "postnative02_evidence": "Source/transcription/independent protocol/evidence digests and byte-exact replay, tamper rejection passed locally; original NIST upstream bytes and signing unverified.",
+      "postnative02_verified_run": 44832908788,
+      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md"
     },
     {
       "id": "DS70",
@@ -887,8 +904,10 @@
       "current_evidence": "Bounded strict CSV scientific dataset validation, digest/provenance and declared-but-unverified licensing, frozen hash-pinned chronological train/val/test ARX experiment, 3 seeded synthetic recovery and falsification/leakage controls; real licensed traces open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
       "targeted_local_19_case_tranche": "SUBSET_PASS_NOT_FULL_SCOPE",
       "next_independent_qualification": "Independently licensed real scientific dataset with verified provenance, chronological splits, shift falsification, ablations and replication",
-      "postnative02_local_or_native_status": "LOCAL_PASS_LIMITED",
-      "postnative02_evidence": "Two independently published NIST observed calibration datasets (36 ozone-monitor,14 adsorption) fitted to certified values; 12 frozen split candidate/null experiments, all outcomes as expected; no time-series or verified dataset-specific licensing."
+      "postnative02_local_or_native_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
+      "postnative02_evidence": "Two independently published NIST observed calibration datasets (36 ozone-monitor,14 adsorption) fitted to certified values; 12 frozen split candidate/null experiments, all outcomes as expected; no time-series or verified dataset-specific licensing.",
+      "postnative02_verified_run": 44832908788,
+      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md"
     },
     {
       "id": "DS71",
@@ -913,13 +932,15 @@
       "current_evidence": "Same-head SSM09B gate with inherited receipt/pin/artifact verification, 37 dedicated and 391 consolidated native tests passed in each of four targets; 33 new and 377 isolated local passed; now 37 dedicated and 391 consolidated each of four native targets passed, 14 previously excluded KAN/HDC cases executed in the native 391-test gate, no production rights; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL",
       "targeted_local_19_case_tranche": "SUBSET_PASS_NOT_FULL_SCOPE",
       "next_independent_qualification": "Independent multi-platform residue tests, receipts, threat/authority boundary, repeatable deployment-independent refusal conditions",
-      "postnative02_local_or_native_status": "LOCAL_PASS_LIMITED",
-      "postnative02_evidence": "38/38 new local, 434/434 inherited+new combined; six genuine HDC/KAN tests staged, 44-case/63-case native gate not executed; original 391-case matrix remains PASS."
+      "postnative02_local_or_native_status": "SCOPED_NATIVE_PASS_BROAD_PARTIAL",
+      "postnative02_evidence": "38/38 new local, 434/434 inherited+new combined; six genuine HDC/KAN tests staged, 44-case/63-case native gate not executed; original 391-case matrix remains PASS.",
+      "postnative02_verified_run": 44832908788,
+      "postnative02_native_evidence": "44 dedicated / 63 combined post-native cases per 4 target, same SHA bd2b332a; 81 pins; limitations remain, see POST_NATIVE02_NATIVE01.md"
     }
   ],
   "limitations": [
     "No DS row is promoted to FULL/ACCEPTED by aggregate 391-case pass",
-    "New tests have only local qualification; GitHub-hosted native run is pending",
+    "New 44/63 scoped tests now pass natively across four Ubuntu/Windows Python targets; this does NOT complete all broad scientific research capabilities or physical hardware acceptance",
     "Tests use the original pinned research code; no full KAN/MEL runtime in local container",
     "Safety proposals are research-only and cannot actuate systems"
   ],
@@ -931,7 +952,7 @@
     "local_new": 38,
     "local_combined": 434,
     "local_failures": 0,
-    "native_extra_unexecuted": 6,
+    "native_extra_unexecuted": 0,
     "native_required_new": 44,
     "native_postnative_combined": 63,
     "observed_external_rows": 50,
@@ -941,7 +962,22 @@
     ],
     "licensing_specific_verification": false,
     "original_upstream_byte_authentication": false,
-    "new_native_status": "STAGED_NOT_EXECUTED",
-    "same_head_chain_required": true
+    "new_native_status": "PASS_BOUNDED_FOUR_PLATFORM",
+    "same_head_chain_required": true,
+    "native_extra_previously_unexecuted": 6,
+    "authoritative_native_run": 44832908788,
+    "native_qualification_sha": "bd2b332a06291f005adf5ab8183c56c8d36ba81f",
+    "native_targets_passed": 4,
+    "native_dedicated_per_target": 44,
+    "native_combined_per_target": 63,
+    "cumulative_source_pins": 81,
+    "ci_timeout_raised_to_minutes": 30,
+    "corrected_redundant_receipt_keyword": true,
+    "nist_published_numeric_pairs_equal_frozen_csv": 50,
+    "nist_collection_srd": 140,
+    "original_nist_dat_byte_origin_verified": false,
+    "dataset_specific_redistribution_rights_verified": false,
+    "full_scientific_scope_qualified": false,
+    "execution_authorized": false
   }
 }
