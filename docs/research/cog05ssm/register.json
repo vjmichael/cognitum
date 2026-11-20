@@ -358,7 +358,7 @@
       ],
       "acceptance": "Ornstein–Uhlenbeck moments, seeded path weak/strong convergence; no unqualified SDE precision.",
       "status": "PARTIAL",
-      "evidence": "OU analytic transition and moments, coupled Euler-Maruyama terminal ensemble and seeded refinement; general SDE/Fokker-Planck open; SSM-04 native pending"
+      "evidence": "OU analytic transition; nonlinear tanh coupled drift and diagonal state-dependent Ito noise, nested Brownian Euler grids; scalar reflecting finite-volume Fokker–Planck with constant diffusion and heat-mode checks; broader SDE/PDE scope open; SSM-04-R1 local pass; native pending"
     },
     {
       "id": "DS27",
@@ -385,7 +385,7 @@
       ],
       "acceptance": "Ill-conditioned covariance, Cholesky/QR parity and PSD; compare Joseph form; reject invalid covariance.",
       "status": "PARTIAL",
-      "evidence": "Joseph covariance and Cholesky innovation solve, PSD diagnostics; full square-root/information propagation open; SSM-04 native pending"
+      "evidence": "Joseph/Cholesky plus QR covariance-factor prediction/update and precision/vector information filter; linear parity and ill-conditioned square-root fixture; sparse/rank-deficient profiles open; SSM-04-R1 local pass; native pending"
     },
     {
       "id": "DS29",
@@ -398,7 +398,7 @@
       ],
       "acceptance": "Rauch–Tung–Striebel vs joint batch Gaussian and fixed-lag vs full smoothing; separate future access.",
       "status": "PARTIAL",
-      "evidence": "Full offline RTS validated against joint Gaussian conditioning; fixed-lag and posterior path sampling open; SSM-04 native pending"
+      "evidence": "Offline RTS and FFBS joint posterior path sampling with batch Gaussian reference; fixed-lag and nonlinear paths open; SSM-04-R1 local pass; native pending"
     },
     {
       "id": "DS30",
@@ -410,7 +410,7 @@
       ],
       "acceptance": "Linear-limit parity and nonlinear known-reference Monte Carlo; NEES/NIS diagnostics under assumptions.",
       "status": "PARTIAL",
-      "evidence": "EKF and spherical-radial cubature scalar quadratic sensor updates, linear-limit parity; general nonlinear sequence/UKF open; SSM-04 native pending"
+      "evidence": "EKF/cubature measurement and full positive-weight unscented sequence for tanh transition and quadratic observations; nonlinear calibration/general models open; SSM-04-R1 local pass; native pending"
     },
     {
       "id": "DS31",
@@ -423,7 +423,7 @@
       ],
       "acceptance": "Exact small posterior and convergence across seeds, degeneracy, ESS, resampling parity; no single-seed guarantee.",
       "status": "PARTIAL",
-      "evidence": "Linear Gaussian bootstrap particle filter, log weights, ESS systematic resampling and independent-seed reference tests; nonlinear/ensemble extensions open; SSM-04 native pending"
+      "evidence": "Linear Gaussian bootstrap particle and stochastic ensemble Kalman filters, seeded references; nonlinear particles, localization and calibration open; SSM-04-R1 local pass; native pending"
     },
     {
       "id": "DS32",
@@ -437,7 +437,7 @@
       ],
       "acceptance": "Finite exact enumeration/forward-backward; label permutation, Viterbi, impossible emission, regime changes.",
       "status": "PARTIAL",
-      "evidence": "Categorical HMM forward/backward/Viterbi and log likelihood checked by enumeration; switching LDS and fitting open; SSM-04 native pending"
+      "evidence": "Categorical HMM and non-pruned bounded switching Gaussian path enumeration with independent scalar reference and permutation; switching smoothing/IMM/EM open; SSM-04-R1 local pass; native pending"
     },
     {
       "id": "DS33",
