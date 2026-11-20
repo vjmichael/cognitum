@@ -5,7 +5,7 @@ from pathlib import Path
 
 SOURCES = [
     ('uci374',374,'appliances+energy+prediction.zip','energydata_complete.csv',
-     ['date','T1','T2','To','RH_1','Appliances'],'C5VC8G','Luis Candanedo'),
+     ['date','T1','T2','T_out','RH_1','Appliances'],'C5VC8G','Luis Candanedo'),
     ('uci501',501,'beijing+multi+site+air+quality+data.zip',
      'PRSA_Data_Aotizhongxin_20130301-20170228.csv',
      ['year','month','day','hour','PM2.5','TEMP','PRES','WSPM'],'C5RK5G','Song Chen')]
