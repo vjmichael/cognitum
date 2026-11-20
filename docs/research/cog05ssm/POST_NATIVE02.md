@@ -1,6 +1,6 @@
 # COG-05-SSM-POST-NATIVE-02 — Independent external data, falsification and uncertainty
 
-**Status:** locally qualified candidate; **38/38 newly runnable tests PASS**, **434/434 available combined local tests PASS**; **six additional genuine HDC/KAN tests STAGED, NOT EXECUTED**. The source-identical prior 391-case/4-native-target baseline remains independently PASS at c382da2e and is NOT an acceptance of these new tests. No CI triggered and no production or physical execution authorization.
+**Current status:** **NATIVE PASS at source-locked SHA `bd2b332a`** — all four Ubuntu/Windows Python 3.11/3.13 environments passed **44/44 dedicated and 63/63 combined post-native tests**, including six genuine HDC/KAN repository-only cases. The earlier isolated local candidate passed 38/38 newly runnable and 434/434 available combined local tests; that historical test subset is superseded by the completed [native qualification](POST_NATIVE02_NATIVE01.md). The original 391-case predecessor remains accepted. No production, physical or external execution authorization.
 
 ## Independence and NIST source provenance (November 20, 2026)
 Two real observed calibration datasets were retrieved from NIST StRD data pages and their 50 source data rows manually transcribed into strictly versioned/canonical CSV fixtures; this task did not retrieve upstream .dat files as raw bytes. **Our SHA-256s identify our own canonical transcriptions, NOT a verified byte identity to NIST's .dat.** NIST's independent certified parameters/SSE provide numerical cross-checks; they were never passed into the fitted estimators or model selection. Licensing: consulted NIST general copyright statement, but did not audit dataset-specific rights; fixture says license_scope_verified=false. These are physically observed calibration relationships, NOT longitudinal dynamical state measurements.
@@ -38,7 +38,7 @@ The new suite stages six tests using the actual MEL elliptic checkpoint fixture,
 - Detailed 12-trial numerical audit and frozen protocol SHA registry: [POST_NATIVE02_LOCAL_RESULTS.json](POST_NATIVE02_LOCAL_RESULTS.json).
 
 ## Acceptance and residual classification
-**NEW 44-case native gate staged** after previous 19-case POST-NATIVE-01 same-head gate and SSM-09B 391-case receipt, with all source pins, source/checkpoint data files, previous receipts and digests required unchanged. The gate requires 44 dedicated and 63 combined post-native tests. This gate has **NOT** been executed, and therefore neither six KAN/HDC cases nor 38 external-data cases have new cross-platform native acceptance yet. The original 391-case acceptance is not reopened/reclassified.
+**Historical candidate (before native acceptance):** the 44-case dedicated/63-case combined gate was staged after the 19-case POST-NATIVE-01 same-head gate and SSM-09B 391-case receipt, retaining source/checkpoint data pins, prior receipts and digests. **Current outcome:** that gate has now been executed and passed on all four hosted native targets in [run 44832908788](https://github.com/vjmichael/cognitum/actions/runs/44832908788). The original 391-case acceptance is preserved, not reclassified as fresh scientific validation.
 
 Priority residuals:
 - DS69/70/72 (P0A): externally certified numerical cross-checks and reproducible falsification now have local coverage; authentic raw-upstream-byte verification, specific rights audit, larger datasets and production-grade independent provenance/security still open.
@@ -46,8 +46,8 @@ Priority residuals:
 - DS40/45/63 (P0C): IID split-conformal coverage and changed-distribution negative controls locally verified; conditional distribution shift, general risk and real regime forecasting open.
 - ALL 72 research capabilities remain PARTIAL. P0A=5, P0B=4, P0C=5, P1=42, P2=16. Test-case coverage does not equal full mathematical acceptance.
 
-## Next independent closeout
-**COG-05-SSM-POST-NATIVE-02-NATIVE-01 — Execute same-SHA cross-platform gate for 44 new external-science/HDC-KAN tests and 63 combined post-native tests, repair any genuine fixture regressions, and reconcile dataset rights/provenance without changing the already qualified source tree.**
+## Next independent research scope
+Reconcile original upstream NIST .dat byte provenance and dataset-specific SRD 140 reuse terms; qualify physical dynamical measurements and robust uncertainty calibration under shift. **Do not rerun the completed 44/63 native gate merely to change its source lock.**
 
 ## Native addendum — POST-NATIVE-02-NATIVE-01 complete
 
