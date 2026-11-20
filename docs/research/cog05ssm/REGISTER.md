@@ -1,17 +1,17 @@
 # COG-05-SSM — State-space and dynamical systems capability register
 
-Frozen research charter 2026-11-20. 72 capability groups; 16 partial source/historical evidence and 56 open. Neither status is comprehensive qualification. Every group requires either new scoped acceptance or a justified explicit deferral; not every named variant must be implemented, but no family silently erased. Literature IDs link to [bibliography](LITERATURE.md). DS01–DS72 do not overlap H1–H60, K1–K60, shared S01–S24 or I-01–I-20.
+Frozen research charter 2026-11-20. 72 capability groups; 19 partial source/historical or candidate evidence and 53 open. Neither status is comprehensive qualification. Every group requires either new scoped acceptance or a justified explicit deferral; not every named variant must be implemented, but no family silently erased. Literature IDs link to [bibliography](LITERATURE.md). DS01–DS72 do not overlap H1–H60, K1–K60, shared S01–S24 or I-01–I-20.
 
 ## COG-05-SSM-01 — Foundations, representation and exact linear dynamics
 
 | ID | Mathematical capability | Present coverage | References | Minimum independent acceptance |
 |---|---|---|---|---|
-| DS01 | State spaces, time domains and state conventions | PARTIAL: DiagonalSSM and scalar filter only | L03, L06 | Validate dimensions, units, initial/terminal and pre/post-update indexing against scalar closed forms. |
-| DS02 | Continuous and discrete LTI, SISO/MIMO | PARTIAL: DiagonalSSM has bounded diagonal A and dense B/C/D | L03, L42 | Exact rational discrete recurrence; matrix exponential comparison for coupled continuous system. |
-| DS03 | Time-varying, affine and bilinear systems | OPEN | L03, L39 | Piecewise time-indexed matrices and known forcing; compare literal noncommutative products. |
-| DS04 | Flow composition and semigroup/transition operator | OPEN | L03, L09 | Check exp((s+t)A), transition composition and singular A cases; exact discrete associativity. |
-| DS05 | Discretization and sampling | PARTIAL: Fixed local-level and constant velocity noise/transition formulas | L02, L03, L42 | ZOH block exponential, first-order hold, Euler/Tustin error and aliasing; irregular timestamps. |
-| DS06 | Transfer functions, poles, zeros and impulse responses | OPEN | L03, L06 | Rational transfer vs impulse convolution; pole-zero cancellations and feedthrough. |
+| DS01 | State spaces, time domains and state conventions | PARTIAL: SSM-01 candidate typed unit/clock/domain and pre-update contract; labels not dimensions (native pending) | L03, L06 | Validate dimensions, units, initial/terminal and pre/post-update indexing against scalar closed forms. |
+| DS02 | Continuous and discrete LTI, SISO/MIMO | PARTIAL: SSM-01 candidate exact coupled discrete MIMO and numeric ZOH (native pending) | L03, L42 | Exact rational discrete recurrence; matrix exponential comparison for coupled continuous system. |
+| DS03 | Time-varying, affine and bilinear systems | PARTIAL: SSM-01 candidate exact ordered affine maps, not general time-varying/bilinear execution (native pending) | L03, L39 | Piecewise time-indexed matrices and known forcing; compare literal noncommutative products. |
+| DS04 | Flow composition and semigroup/transition operator | PARTIAL: SSM-01 candidate exact affine composition and numerical ZOH semigroup check (native pending) | L03, L09 | Check exp((s+t)A), transition composition and singular A cases; exact discrete associativity. |
+| DS05 | Discretization and sampling | PARTIAL: SSM-01 candidate ZOH; FOH/Tustin/aliasing/covariance open (native pending) | L02, L03, L42 | ZOH block exponential, first-order hold, Euler/Tustin error and aliasing; irregular timestamps. |
+| DS06 | Transfer functions, poles, zeros and impulse responses | PARTIAL: SSM-01 candidate exact impulse and nonsingular rational transfer evaluation; pole/zero analysis open (native pending) | L03, L06 | Rational transfer vs impulse convolution; pole-zero cancellations and feedthrough. |
 | DS07 | Coordinate transforms and minimal realization | OPEN | L03, L06 | Similarity-invariant input/output, Hankel rank, Ho–Kalman reconstruction, nonminimal example. |
 | DS08 | Descriptor/DAE and algebraic constraints | OPEN | L03, L09 | Index-1 consistent initial conditions and residuals; refuse singular/unsupported index cases. |
 

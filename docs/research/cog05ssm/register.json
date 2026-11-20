@@ -8,8 +8,8 @@
   },
   "counts": {
     "total": 72,
-    "partial": 16,
-    "open": 56
+    "partial": 19,
+    "open": 53
   },
   "rows": [
     {
@@ -23,7 +23,7 @@
       ],
       "acceptance": "Validate dimensions, units, initial/terminal and pre/post-update indexing against scalar closed forms.",
       "status": "PARTIAL",
-      "evidence": "DiagonalSSM and scalar filter only"
+      "evidence": "SSM-01 candidate typed unit/clock/domain and pre-update contract; labels not dimensions; 17 local tests, native pending"
     },
     {
       "id": "DS02",
@@ -36,7 +36,7 @@
       ],
       "acceptance": "Exact rational discrete recurrence; matrix exponential comparison for coupled continuous system.",
       "status": "PARTIAL",
-      "evidence": "DiagonalSSM has bounded diagonal A and dense B/C/D"
+      "evidence": "SSM-01 candidate exact coupled discrete MIMO and numeric ZOH; 17 local tests, native pending"
     },
     {
       "id": "DS03",
@@ -48,8 +48,8 @@
         "L39"
       ],
       "acceptance": "Piecewise time-indexed matrices and known forcing; compare literal noncommutative products.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "SSM-01 candidate exact ordered affine maps, not general time-varying/bilinear execution; 17 local tests, native pending"
     },
     {
       "id": "DS04",
@@ -61,8 +61,8 @@
         "L09"
       ],
       "acceptance": "Check exp((s+t)A), transition composition and singular A cases; exact discrete associativity.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "SSM-01 candidate exact affine composition and numerical ZOH semigroup check; 17 local tests, native pending"
     },
     {
       "id": "DS05",
@@ -76,7 +76,7 @@
       ],
       "acceptance": "ZOH block exponential, first-order hold, Euler/Tustin error and aliasing; irregular timestamps.",
       "status": "PARTIAL",
-      "evidence": "Fixed local-level and constant velocity noise/transition formulas"
+      "evidence": "SSM-01 candidate ZOH; FOH/Tustin/aliasing/covariance open; 17 local tests, native pending"
     },
     {
       "id": "DS06",
@@ -88,8 +88,8 @@
         "L06"
       ],
       "acceptance": "Rational transfer vs impulse convolution; pole-zero cancellations and feedthrough.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "SSM-01 candidate exact impulse and nonsingular rational transfer evaluation; pole/zero analysis open; 17 local tests, native pending"
     },
     {
       "id": "DS07",
