@@ -74,3 +74,5 @@ Every stage can split into independently grouped tasks. DS17–24 before some fi
 **Stochastic dynamics update:** [SSM-04](SSM04.md). SSM-04 bounded stochastic candidate: 28 dedicated and 63 available combined local passes; native pending. DS25–32 partial. No control authority, no new dependencies. Residual SSM-04-R1 robust/nonlinear/state inference profiles remain open before broad stochastic completeness.
 
 **Advanced stochastic dynamics:** [SSM-04-R1](SSM04_R1.md), 31 dedicated, 94 available combined local tests; DS26/28–32 enhanced, native acceptance pending. Broader stochastic profiles remain open. SSM-05 next independent development.
+
+**Model discovery:** [SSM-05](SSM05.md). 28 dedicated and 122 available combined local tests passed; DS33–38 partial. Scalar MLE/NIG and mixture EM, full-observation LTI fit, ERA, polynomial SINDy, DMD/EDMD and conservative polynomial operator inference. Native acceptance pending; no overlapping CI, no new dependencies or execution authority. SSM-05-R1 next independent development, DS39–40 and broader identification remain open.
