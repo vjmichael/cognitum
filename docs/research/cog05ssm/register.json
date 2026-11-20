@@ -8,8 +8,8 @@
   },
   "counts": {
     "total": 72,
-    "partial": 28,
-    "open": 44
+    "partial": 29,
+    "open": 43
   },
   "rows": [
     {
@@ -182,7 +182,7 @@
       ],
       "acceptance": "Check CARE/DARE and Lyapunov residuals, stabilizing root and H2/H-infinity scope.",
       "status": "PARTIAL",
-      "evidence": "Exact finite discrete/infinite stable Gramians and H2 squared; numerical CARE/DARE with exact feedback stability, not optimality; H-infinity open; SSM-02 local 40 tests, native pending"
+      "evidence": "Exact finite discrete/infinite stable Gramians and H2 squared; numerical CARE/DARE with exact feedback stability; exact supplied-storage H-infinity upper and rational-frequency lower witnesses; synthesis and global search open; R1 local 33 new tests, native pending"
     },
     {
       "id": "DS14",
@@ -194,8 +194,8 @@
         "L10"
       ],
       "acceptance": "Analytic saddle-node/Hopf examples, Jacobian prediction vs nonlinear trajectories; local vs global.",
-      "status": "OPEN",
-      "evidence": ""
+      "status": "PARTIAL",
+      "evidence": "Bounded rational polynomial equilibrium/Jacobian checks, strict local Lyapunov linearization and canonical saddle-node/Hopf classification; enumeration/continuation open; R1 local 33 new tests, native pending"
     },
     {
       "id": "DS15",
@@ -209,7 +209,7 @@
       ],
       "acceptance": "Storage inequality, contraction metric on stated region, counterexample outside region.",
       "status": "PARTIAL",
-      "evidence": "Exact bounded linear autonomous quadratic contraction; passivity/dissipativity open; SSM-02 local 40 tests, native pending"
+      "evidence": "Exact linear quadratic contraction, general quadratic supply/passivity verification, polynomial invariant-box infinity-norm contraction; storage synthesis open; R1 local 33 new tests, native pending"
     },
     {
       "id": "DS16",
@@ -223,7 +223,7 @@
       ],
       "acceptance": "Outward-rounded or exact certificate checker; reject sample-only proof; enclose small known trajectories.",
       "status": "PARTIAL",
-      "evidence": "Exact finite discrete box overapproximation; continuous validated integration/barriers open; SSM-02 local 40 tests, native pending"
+      "evidence": "Discrete box overapproximation, exact polynomial invariant faces/map inclusion and strict continuous tube/endpoint enclosure; general barriers/adaptive verified flow open; R1 local 33 new tests, native pending"
     },
     {
       "id": "DS17",
