@@ -1,0 +1,38 @@
+name: Cognitum POST-NATIVE-03 observed-dynamics acceptance
+on:
+  push:
+    branches:
+      - 'research/ssm-postnative03-native-*'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native:
+    name: "Observed science / ${{ matrix.os }} / Python ${{ matrix.python-version }}"
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 18
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11','3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install exact inherited scientific dependencies and test runner
+        run: python -m pip install -e ".[scientific]" "pytest==9.0.2"
+      - name: Source-locked real-trajectory HDC/KAN/SSM native qualification
+        env:
+          OMP_NUM_THREADS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+        run: python -m tools.ssm_postnative03.acceptance postnative03-evidence
+      - name: Preserve mathematical evidence, source pins and typed receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: postnative03-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: postnative03-evidence/
+          if-no-files-found: warn
