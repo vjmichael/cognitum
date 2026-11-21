@@ -45,6 +45,11 @@ try {
   }
   if(!$observed -or $observed.State -ne 'Running' -or
      [uint32]$observed.ProcessId -eq 0){
+    $refusal=Join-Path $root 'r2-native-refusal.json'
+    if(Test-Path -LiteralPath $refusal -PathType Leaf){
+      $diag=Get-Content -LiteralPath $refusal -Raw | ConvertFrom-Json
+      throw ("SCM native fixture startup refused at "+$diag.stage+": "+$diag.reason)
+    }
     throw 'Real fixed SSM SCM service never entered RUNNING'
   }
   $pidService=[uint32]$observed.ProcessId
@@ -54,7 +59,12 @@ try {
   }
   $main=Get-CimInstance Win32_Process -Filter ("ProcessId="+$pidService)
   if(!$main -or [uint32]$main.SessionId -ne 0){
-    throw 'SCM process session zero unavailable'
+    $refusal=Join-Path $root 'r2-native-refusal.json'
+    if(Test-Path -LiteralPath $refusal -PathType Leaf){
+      $diag=Get-Content -LiteralPath $refusal -Raw | ConvertFrom-Json
+      throw ("SCM original process exited at "+$diag.stage+": "+$diag.reason)
+    }
+    throw 'SCM process disappeared before kernel token/session witness'
   }
   $owner=Invoke-CimMethod -InputObject $main -MethodName GetOwnerSid
   if($owner.ReturnValue -ne 0 -or $owner.Sid -cne 'S-1-5-18'){
