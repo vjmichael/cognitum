@@ -1,0 +1,32 @@
+{
+  "forecast_fitting_or_scoring": false,
+  "frozen_preregistration_sha256": "fd0b6a372ee5cd9ee8870ad20c475261460a069daf4fd52f56e8dcc2961a5104",
+  "historical_public_availability_attested": false,
+  "native_run": 44872224722,
+  "native_sha": "d6ec165ee7dfbe6af08bb2f428c328869fefa3b0",
+  "production_admission": false,
+  "scope": "BENCH02_R3_SOURCE_ONLY_ORIGINAL_BYTE_ARCHIVAL",
+  "sites": {
+    "KATL": {
+      "bytes": 127196,
+      "cohort_sha256": "4db676db1494ae0d98425f4aede5962da24429d2c5405da6c97e592eab15ce92",
+      "rows": 242,
+      "sha256": "ac0b69ce3b4755e56e9273310af94be638dd240d9857a98a719812f1dd441622"
+    },
+    "KDEN": {
+      "bytes": 127608,
+      "cohort_sha256": "4057e4f76528d0e58696684e9acfb8d678b41151ad3b049bee16014cff841384",
+      "rows": 259,
+      "sha256": "dd72f4e2b9dde753c2a9c0f964ca86eb2b8091eeaf9b7b807c3b8d7a98618645"
+    },
+    "KSEA": {
+      "bytes": 138884,
+      "cohort_sha256": "61e73936c5a79139d59de847fc542fa20399fb6d9817f181d3ffdd3bc741cf7a",
+      "rows": 261,
+      "sha256": "2b2772ea7ad91d76f22e1be82269c0b41e86294392241a42bae9d81f061a6205"
+    }
+  },
+  "source_artifact_id": 14694461680,
+  "source_artifact_zip_sha256": "2d15ac47bda440eaaf7351a558d18e695814f4728ec28ff5e82852510ff70e3b",
+  "strict_first_capture_bounded_test_eligible_origins": 0
+}
