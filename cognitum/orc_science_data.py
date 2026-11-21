@@ -272,7 +272,12 @@ class CandidateContract:
 
     def __post_init__(self):
         from .orc_graph import catalog
-        if self.operation not in {x.operation for x in catalog()}:
+        # MEL's reviewed descriptors are input-compatibility candidates,
+        # never permission. The trusted host separately installs/adopts routes.
+        from .mel.admission import routes as mel_routes
+        candidates = {x.operation for x in catalog()}
+        candidates.update(x.operation for x in mel_routes(include_engines=True))
+        if self.operation not in candidates:
             raise ValueError("unknown mathematical capability")
         if type(self.units) is not Units or self.time_base != "unix_ms_utc":
             raise ValueError("typed units and UTC time required")
