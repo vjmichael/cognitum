@@ -70,9 +70,9 @@ if($Mode -eq 'provision'){
     if($peer.HasExited){throw 'Test-only original user peer died before OS admission'}
     $pidPeer=[uint32]$peer.Id
     $wmi=Get-CimInstance Win32_Process -Filter ("ProcessId="+$pidPeer)
-    if(!$wmi -or [uint32]$wmi.SessionId -eq 0){
-      throw 'Original independent user peer session missing or is SYSTEM/session zero'
-    }
+    if(!$wmi){throw 'Original non-System peer process session unavailable'}
+    # Session 0 can belong to a dedicated non-System service worker identity.
+    # Actual TokenUser is still verified and SYSTEM is refused below.
     $owner=Invoke-CimMethod -InputObject $wmi -MethodName GetOwnerSid
     if($owner.ReturnValue -ne 0 -or !$owner.Sid -or
        $owner.Sid -in @('S-1-5-18','S-1-5-7')){
@@ -98,6 +98,7 @@ if($Mode -eq 'provision'){
       profile=$profile
       profile_sid=$sid
       original_peer_pid=$pidPeer
+      original_peer_session=[uint32]$wmi.SessionId
       original_peer_birth=$birth
       original_peer_user_sid=$owner.Sid
       original_peer_image_sha256=$imageSha

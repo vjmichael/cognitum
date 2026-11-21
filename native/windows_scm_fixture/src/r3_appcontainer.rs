@@ -1,6 +1,6 @@
 //! R3 strict Windows AppContainer SSM launcher.
 //!
-//! ONLY a separately pinned, living, non-SYSTEM interactive OS peer token
+//! ONLY a separately pinned, living, non-SYSTEM OS peer token
 //! may be the origin. Service never copies its own SYSTEM token into child.
 //! Installer must provision the exact AppContainer profile, signed runtime,
 //! per-profile ACLs and peer publisher/creation identity independently.
@@ -186,10 +186,13 @@ fn pinned_peer()->io::Result<(Owned,Owned,u64)>{
         return Err(denied("original peer process creation differs from installer pin"));
     }
     let mut session=u32::MAX;
-    if unsafe{ProcessIdToSessionId(pid,&mut session)}==0||session==0||
+    if unsafe{ProcessIdToSessionId(pid,&mut session)}==0||
        session==u32::MAX{
-        return Err(denied("peer process is SYSTEM/session zero"));
+        return Err(denied("pinned peer process session identity unavailable"));
     }
+    // A dedicated non-SYSTEM service user may legitimately be in session 0.
+    // Require separately pinned OS TokenUser SID, AppContainer package SID,
+    // kernel creation time and approved executable digest; never SYSTEM.
     let mut path=vec![0u16;32768];
     let mut size=path.len() as u32;
     if unsafe{QueryFullProcessImageNameW(process.0,0,path.as_mut_ptr(),&mut size)}==0||
