@@ -1,0 +1,108 @@
+{
+  "schema": "cognitum.ssm04r6int01.external_native_original_evidence.v1",
+  "qualification": "PASS_HOST_ONLY_MEL_SSM_AUTHENTICATED_JOURNAL_RESTART",
+  "qualified_original_sha": "3a2c1ba6eaac51ed9934f0cbbcaeb3ba993dbc4d",
+  "original_run_id": 44914658450,
+  "original_run_attempt": 1,
+  "original_run_url": "https://github.com/vjmichael/cognitum/actions/runs/44914658450",
+  "jobs": {
+    "original_native_jobs": 4,
+    "original_independent_jobs": 1,
+    "passed": 5
+  },
+  "native_tests": {
+    "per_environment": 274,
+    "aggregate_passed": 1096,
+    "aggregate_failed": 0,
+    "aggregate_errored": 0,
+    "aggregate_skipped": 0,
+    "per_environment_new_integration": 23,
+    "per_environment_original_other": 251
+  },
+  "original_source_blob_hashes": {
+    "cognitum/research/ssm_stochastic.py": "e6616d14f4b02bd447f872f2a67a444d83bc7df6",
+    "cognitum/research/ssm_stochastic_extended.py": "19aefcc2c01ff629f6da5778b12fa0d495a3b610",
+    "cognitum/research/ssm_stochastic_continuous.py": "026ee4e3b9e4e8be7d0158b9e8771bb691809293",
+    "cognitum/research/ssm_stochastic_increments.py": "3eebcec1da8bae1cb3a65d33aab389c584cff89b",
+    "research_tests/ssm04r2/test_continuous.py": "8b8b16a9f3a3355cadd8ac7b19bf05af097e737a",
+    "research_tests/ssm04r3/test_increments.py": "ee311ead4b017e0e080f41cf412d22bfff0139b3",
+    "cognitum/research/ssm_stochastic_smoothing.py": "bc657af3ba28474c72bbb34376739f6bdef82106",
+    "research_tests/ssm04r4/test_correlated_smoothing.py": "f9cc09a3a54308135d6f25f63904d18d0d3ff6f8",
+    "cognitum/research/ssm_stochastic_streaming.py": "731208b392d3a948ee7677c2e24f1117e2c8df79",
+    "research_tests/ssm04r5/test_streaming.py": "826e1a7402cf89ae5c8855cbe52fd8280617c73a",
+    "cognitum/research/ssm_stochastic_checkpoints.py": "30773bfaf4871bf686df0690419e3244c380be03",
+    "research_tests/ssm04r6/test_checkpoints.py": "23ae54dc6a8c47e2230df98af58d4eba3808ba77",
+    "cognitum/mel/admission.py": "405fa91935f62226ab0d1a2f0d8b7313e2327116",
+    "cognitum/mel/ssm_recovery.py": "8d326324c4cca3706b977ec687583efcd5716c26",
+    "research_tests/mel_ssm_r6int01/test_journal.py": "ba7cb4a29908e433d26840d7d5f8b51738d3bb1d"
+  },
+  "original_artifacts": [
+    {
+      "id": 14711515781,
+      "name": "cognitum-ssm04r6-int01-windows-latest-py3.13",
+      "github_sha256": "sha256:e6337d1ea7b84e5422f38311414ecdd5d93a2eda825502fe4e30617935bb8ac5",
+      "externally_downloaded_and_digest_verified": true,
+      "zip_crc_verified": true,
+      "original_junit_testcases_passed": 274
+    },
+    {
+      "id": 14711490414,
+      "name": "cognitum-ssm04r6-int01-ubuntu-latest-py3.13",
+      "github_sha256": "sha256:3f9d381ef866d28f1ca10cf8626fb0ce85763f2554f1c6003f818e512f00c1a7",
+      "externally_downloaded_and_digest_verified": true,
+      "zip_crc_verified": true,
+      "original_junit_testcases_passed": 274
+    },
+    {
+      "id": 14711380955,
+      "name": "cognitum-ssm04r6-int01-independent",
+      "github_sha256": "sha256:62fd46b08b2f7369206c4c29facdd64322f12aa062c383ecb858c715c0e4c181",
+      "externally_downloaded_and_digest_verified": true,
+      "zip_crc_verified": true,
+      "original_junit_testcases_passed": null
+    },
+    {
+      "id": 14711197280,
+      "name": "cognitum-ssm04r6-int01-ubuntu-latest-py3.11",
+      "github_sha256": "sha256:67c2061d97a9a94ce82c8480d831f93998b7f55cc3c86d478802a9dd27af2b08",
+      "externally_downloaded_and_digest_verified": true,
+      "zip_crc_verified": true,
+      "original_junit_testcases_passed": 274
+    },
+    {
+      "id": 14710384620,
+      "name": "cognitum-ssm04r6-int01-windows-latest-py3.11",
+      "github_sha256": "sha256:6bfc93768c3277ae3f5d80dadc05eac9725ae6434aa879d65aa4a3d41963415e",
+      "externally_downloaded_and_digest_verified": true,
+      "zip_crc_verified": true,
+      "original_junit_testcases_passed": 274
+    }
+  ],
+  "independent_external_original_checks": {
+    "five_zip_sha256_match_authoritative_github_artifact_digests": true,
+    "all_zip_crc_valid": true,
+    "all_four_junit_identities_identical": true,
+    "all_original_test_identities_unique": true,
+    "all_15_git_hashes_match": true,
+    "all_original_qualified_shas_match": true,
+    "independent_original_fifth_receipt_verified": true
+  },
+  "initial_run": {
+    "run_id": 44914500386,
+    "sha": "aaad6b62180aecf48462faa73679d1fab4ce5718",
+    "per_environment_pass": 273,
+    "per_environment_fail": 1,
+    "issue": "Test expected binding denial; authorized foreign scope correctly refused earlier by MEL policy",
+    "repair": "Changed one test expectation and updated its pinned workflow Git blob; journal source unchanged"
+  },
+  "limits": {
+    "installed_OS_credential_broker_qualified": false,
+    "protected_revision_service_installed": false,
+    "external_exactly_once_qualified": false,
+    "full_sqlite_deletion_audit_qualified": false,
+    "installed_MEL_SSM_worker_authorized": false,
+    "windows_power_loss_qualified": false,
+    "plaintext_checkpoint_payload_encrypted": false
+  },
+  "note": "One successor closes out documentation and temporary CI trigger only; qualifying original SHA remains the recorded immutable source and test revision."
+}

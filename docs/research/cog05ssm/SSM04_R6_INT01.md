@@ -1,6 +1,6 @@
 # COG-05-SSM-04-R6-INT-01 — MEL host-scoped SSM checkpoint and journal integration
 
-**2026-11-21 state: host-only candidate committed; native exact-source acceptance pending.** Accepted R3/R4/R5/R6 mathematical source and original tests are unchanged. This does not install an SSM tool in the MEL registry or claim Lu model-facing approval or OS credential-broker custody.
+**2026-11-21 state: HOST-ONLY MEL INTEGRATION ACCEPTED at exact-source native testing scope — 5/5 GitHub native/evidence jobs PASS; 274/274 tests per Windows/Ubuntu Python 3.11/3.13 platform, 1,096/1,096 total.** Original qualified commit: 3a2c1ba6eaac51ed9934f0cbbcaeb3ba993dbc4d. Accepted R3–R6 mathematical source and tests remain byte-for-byte unchanged. This does NOT install an SSM tool in the MEL registry or qualify Lu model-facing admission, OS credential-broker custody, or physical exactly-once delivery.
 
 ## Architecture and authority boundary
 
@@ -28,6 +28,16 @@ HostSSMJournal(..., initial_engine=...) creates a stream only with a fresh trust
 
 Research test suite: research_tests/mel_ssm_r6int01/test_journal.py. Tests exercise a real existing MEL Admission/Runtime session, with explicit fake broker and monotonic anchor (not falsely described as installed security). Cases cover scoped host authorization, deterministic R5 recovery, missing increments, watermark release, key absence from DB, CAS failure/reconciliation, replay/idempotency and conflict refusal, tampering of snapshots/event heads/outbox, checkpoint revocations, symlink, payload limits and six randomized restart traces.
 
-Native acceptance: one controlled branch-scoped GitHub Actions batch on Windows/Ubuntu Python 3.11/3.13 runs original SSM and MEL admission tests with new journal tests, followed by a fifth original-JUnit/source-blob reconciliation job. Preserve and independently rehash original evidence. Retire the temporary trigger only after successful native acceptance.
+## R6-INT-01 exact-source native acceptance and original artifact custody
+
+- **Original accepted run:** [#44914658450](https://github.com/vjmichael/cognitum/actions/runs/44914658450), first successful consolidated successor, at exact SHA 3a2c1ba6eaac51ed9934f0cbbcaeb3ba993dbc4d. All **five original GitHub Actions jobs passed**.
+- Ubuntu Python 3.11 **274/274**, Ubuntu Python 3.13 **274/274**, Windows Python 3.11 **274/274**, Windows Python 3.13 **274/274**. Aggregate **1,096/1,096**, with zero native failures, errors or skips; **23** new MEL–SSM host-journal tests passed in each environment.
+- The fifth original CI job independently matched all four original native JUnit (classname, name) identities and 15 unchanged/integration Git blob IDs, together with their exact original commit SHA, and produced PASS_HOST_MEL_JOURNAL_MATH_RECOVERY_AND_ORIGINAL_SOURCES.
+- **Separate outside-CI verification:** independently downloaded the five original GitHub Actions ZIP artifacts, compared their SHA-256 digests to the original GitHub metadata, verified ZIP CRC integrity, parsed all four original JUnit XML records and all 15 Git source/test hashes, confirmed identical original test identities and read the independent fifth-job receipt. Inventory: [SSM04_R6_INT01_NATIVE_ARTIFACTS.json](SSM04_R6_INT01_NATIVE_ARTIFACTS.json).
+- **Initial unsuccessful workflow #44914500386:** all four native systems executed 274 tests, with **273 passed and one incorrect test expectation**. The test wrongly expected the checkpoint scope-binding denial, while the existing MEL authorization correctly denied the foreign scope earlier. Repaired only that test and its pinned workflow hash; no journal implementation or preexisting mathematical source changes were required. One controlled consolidated successor produced the successful run.
+- **CI trigger retirement:** after acceptance, change the temporary branch-scoped push trigger to manual-only in a non-forced documentation/CI-control-only [skip ci] closeout commit. Original exact-SHA qualification remains anchored at 3a2c1ba6eaac51ed9934f0cbbcaeb3ba993dbc4d; the subsequent closeout commit is NOT presented as tested.
+- **Explicit installed-security exclusions:** the credential hook does not itself implement protected OS key storage; the monotonic anchor and model approval must be supplied by a trusted host; external downstream exactly-once delivery, full SQLite deletion/rollback audit, end-to-end protected MEL SSM worker route, filesystem ACL and Windows power-loss behavior remain unqualified.
+
+**R6-INT-01 host-only native integration: PASS at the specified mathematical/journal/scope test boundary.**
 
 **Pending after acceptance:** genuinely installed OS key custody, independently protected revision CAS, full journal deletion/rollback audit, durable destination delivery guarantees, actual supervised MEL SSM worker/Protobuf route and its installed authorization. These are not fulfilled by a host-only adapter.
