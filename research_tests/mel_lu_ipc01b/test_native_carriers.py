@@ -291,3 +291,60 @@ def test_trusted_host_preflight_fails_closed_with_absent_real_core():
         else:
             native.installed_core_health_preflight(
                 endpoint="/absent",enrolled_key=KEY,package_hash=PACKAGE)
+
+
+def test_source_fixture_health_preflight_never_becomes_installed_issuer_evidence(
+        monkeypatch):
+    """A valid fixture HMAC and HealthReport cannot authenticate a publisher."""
+    if sys.platform == "win32":
+        monkeypatch.setattr(native, "connect_windows_named_pipe",
+                            lambda *args, **kwargs: SyntheticCoreStream())
+    elif sys.platform.startswith("linux"):
+        monkeypatch.setattr(native, "connect_linux_uds",
+                            lambda *args, **kwargs: SyntheticCoreStream())
+    else:
+        pytest.skip("Windows/Linux native carrier only")
+    result = native.installed_core_health_preflight(
+        endpoint="/host-supplied-test-endpoint",
+        enrolled_key=KEY,
+        package_hash=PACKAGE,
+        expected_uid=0,
+        windows_process_pin={},
+    )
+    assert result["handshake"]["authenticated"]
+    assert result["core_health_module_verified"]
+    assert result["core_service_connected"]
+    assert result["source_fixture_excluded"] is False
+    assert result["real_installed_core_evidence_supplied_by_host"] is False
+    assert result["installed_signed_publisher_verified_by_client"] is False
+    assert result["accepted_lu_core_issuer_receipt_contract"] is False
+    assert result["genuine_per_turn_pure_compute_grant_verified"] is False
+    assert result["independent_revision_authority_verified"] is False
+    assert result["installed_acceptance"] == "BLOCKED_CORE_ISSUER_AND_ENROLLMENT"
+    assert not result["model_tool_execution_authorized"]
+    assert not result["output_delivery_authorized"]
+    assert not result["output_acknowledgment_authorized"]
+
+
+def test_installed_preflight_refuses_bad_enrollment_before_connect(monkeypatch):
+    """Invalid secret/package material must not even attempt a native peer."""
+    def never_open(*args, **kwargs):
+        raise AssertionError("untrusted handshake inputs opened an OS endpoint")
+    if sys.platform == "win32":
+        monkeypatch.setattr(native, "connect_windows_named_pipe", never_open)
+    elif sys.platform.startswith("linux"):
+        monkeypatch.setattr(native, "connect_linux_uds", never_open)
+    else:
+        pytest.skip("Windows/Linux native carrier only")
+    for key, package, expected in (
+        (b"short", PACKAGE, "handshake key"),
+        (KEY, b"short", "package SHA-256"),
+    ):
+        with pytest.raises(readonly.LuClientRefused, match=expected):
+            native.installed_core_health_preflight(
+                endpoint="/must-never-be-opened",
+                enrolled_key=key,
+                package_hash=package,
+                expected_uid=0,
+                windows_process_pin={},
+            )
