@@ -1,0 +1,153 @@
+name: Cognitum Lu IPC-01E-R3 OS-enrolled Health and protected worker prerequisites
+
+on:
+  push:
+    branches:
+      - integration/cog-lu-ipc01e-r2-custody-20261121
+    paths:
+      - cognitum/mel/lu_ipc_install_host.py
+      - cognitum/mel/lu_ipc_windows_job_probe.py
+      - research_tests/mel_lu_ipc01e_r3/**
+      - .github/workflows/cog-lu-ipc01e-r3-native.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cog-lu-ipc01e-r3-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  native:
+    name: OS prerequisites / ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.11', '3.13']
+    env:
+      PYTHONHASHSEED: '0'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install exact native source-test dependencies
+        run: python -m pip install grpcio-tools==1.76.0 protobuf==6.33.1 numpy==2.2.6 scipy==1.15.3 pytest==9.0.2 cryptography==46.0.3
+      - name: Compile and audit original Lu/Cognitum native Protobuf
+        shell: bash
+        run: |
+          python -m research_tests.mel_lu_ipc01c.compile_pinned_lu_ssm \
+            --root "$GITHUB_WORKSPACE/cognitum/mel/vendor" \
+            --descriptor-out "$GITHUB_WORKSPACE/cog-lu-ipc01e-r3.desc" \
+            --receipt "$GITHUB_WORKSPACE/cog-lu-ipc01e-r3-proto.json"
+      - name: Python syntax and native OS prerequisite tests
+        run: |
+          python -m compileall -q cognitum/mel/lu_ipc_install_host.py cognitum/mel/lu_ipc_windows_job_probe.py research_tests/mel_lu_ipc01e_r3/test_installed_host_prerequisites.py
+          python -m pytest -q research_tests/mel_lu_ipc01a/test_workspace_contract.py research_tests/mel_lu_ipc01a/test_proto_client.py research_tests/mel_lu_ipc01b/test_native_carriers.py research_tests/mel_lu_ipc01c/test_typed_ssm_contract.py research_tests/mel_lu_ipc01d/test_durable_lifecycle.py research_tests/mel_lu_ipc01e/test_outbox_reconcile.py research_tests/mel_ssm_r6int02/test_native_host.py research_tests/mel_lu_ipc01e_r2/test_native_custody_signed_receipt.py research_tests/mel_lu_ipc01e_r3/test_installed_host_prerequisites.py --junitxml=cog-lu-ipc01e-r3-native.xml
+      - name: Preserve original source SHA and three exact new code blobs
+        if: always()
+        shell: bash
+        run: |
+          git rev-parse HEAD > cog-lu-ipc01e-r3-source-sha.txt
+          git hash-object cognitum/mel/lu_ipc_install_host.py cognitum/mel/lu_ipc_windows_job_probe.py research_tests/mel_lu_ipc01e_r3/test_installed_host_prerequisites.py > cog-lu-ipc01e-r3-source-blobs.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cog-lu-ipc01e-r3-${{ matrix.os }}-py${{ matrix.python }}
+          path: |
+            cog-lu-ipc01e-r3-native.xml
+            cog-lu-ipc01e-r3-source-sha.txt
+            cog-lu-ipc01e-r3-source-blobs.txt
+            cog-lu-ipc01e-r3.desc
+            cog-lu-ipc01e-r3-proto.json
+          if-no-files-found: warn
+
+  independent:
+    name: Exact-source cross-OS reconciliation; no installed Core authority
+    runs-on: ubuntu-latest
+    needs: [native]
+    if: ${{ always() && needs.native.result == 'success' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: cog-lu-ipc01e-r3-*
+          path: original-native
+          merge-multiple: false
+      - name: Independently verify JUnit identities, original source and no promotion
+        shell: bash
+        env:
+          ACCEPTED_SHA: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          roots=Path("original-native")
+          wanted={f"cog-lu-ipc01e-r3-{platform}-py{py}" for platform in ("ubuntu-latest","windows-latest") for py in ("3.11","3.13")}
+          assert {x.name for x in roots.iterdir() if x.is_dir()}==wanted
+          names=None; results={}
+          files=[
+              "cognitum/mel/lu_ipc_install_host.py",
+              "cognitum/mel/lu_ipc_windows_job_probe.py",
+              "research_tests/mel_lu_ipc01e_r3/test_installed_host_prerequisites.py",
+          ]
+          expected=[]
+          for filename in files:
+              raw=Path(filename).read_bytes()
+              expected.append(hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest())
+          for folder in sorted(roots.iterdir()):
+              assert (folder/"cog-lu-ipc01e-r3-source-sha.txt").read_text().strip()==os.environ["ACCEPTED_SHA"]
+              current=(folder/"cog-lu-ipc01e-r3-source-blobs.txt").read_text().splitlines()
+              assert current==expected
+              proto=json.loads((folder/"cog-lu-ipc01e-r3-proto.json").read_text())
+              assert proto["exact_lu_workspace_proto_preserved"]
+              assert proto["cognitum_domain_proto_compiled"]
+              assert not proto["genuine_installed_lu_core_connected"]
+              tests=list(ET.parse(folder/"cog-lu-ipc01e-r3-native.xml").getroot().iter("testcase"))
+              assert len(tests)>=205
+              assert not any(t.find(x) is not None for t in tests for x in ("failure","error","skipped"))
+              ids=sorted((x.attrib.get("classname"),x.attrib.get("name")) for x in tests)
+              assert len(set(ids))==len(ids)
+              if names is None:names=ids
+              else:assert names==ids
+              results[folder.name]=len(tests)
+          receipt=dict(schema="cognitum.lu_ipc01e_r3.native_prerequisite.v1",
+             exact_qualified_source_sha=os.environ["ACCEPTED_SHA"],
+             result="PASS_NATIVE_OS_PREREQUISITE_SOURCE_ONLY",
+             original_case_counts=results,
+             original_source_git_blobs_match=True,
+             cross_os_case_identity_match=True,
+             windows_job_fixed_probe_only=True,
+             linux_cgroup_fixture_only=True,
+             os_keyring_may_explicitly_refuse=True,
+             core_installed_enrollment_contract_accepted=False,
+             installed_cognitum_ssm_worker_admitted=False,
+             real_core_health_exchange_verified=False,
+             approved_core_issuer_receipt_verified=False,
+             original_turn_pure_compute_grant_verified=False,
+             output_delivery_or_ack_authorized=False)
+          Path("cog-lu-ipc01e-r3-independent.json").write_text(
+              json.dumps(receipt,indent=2,sort_keys=True)+"\n")
+          print(json.dumps(receipt,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cog-lu-ipc01e-r3-independent
+          path: cog-lu-ipc01e-r3-independent.json
+          if-no-files-found: warn
