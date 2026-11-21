@@ -148,6 +148,51 @@ def compile_mel(
                    batch_sha, plan.identity, plan, cohort)
 
 
+def check_source_current(
+    handoff: Handoff, raw: bytes, *,
+    site_id: str, units: d.Units, clock: d.Clock,
+    provenance: d.Provenance, source_current,
+) -> bool:
+    """Host-side source/plan preflight; it does not replace worker admission.
+
+    The trusted host must repeat this on publication and drive existing
+    Cancellation/Admission revocation if a source becomes stale in flight.
+    No new daemon or orchestrator is created. Never pass this function itself
+    as a substitute for a host-issued computation grant.
+    """
+    if type(handoff) is not Handoff or not callable(source_current):
+        raise ValueError("trusted source handoff and freshness callback required")
+    series = _source(raw, site_id=site_id, units=units,
+                     clock=clock, provenance=provenance)
+    if (series.identity != handoff.series_identity or
+        provenance.raw_sha256 != handoff.source_sha256):
+        raise ValueError("stale or substituted scientific source")
+    plan = handoff.plan
+    if type(plan) is g.Plan:
+        actual = plan.identity
+        if handoff.operation not in ("vfa.evaluate", "kan.evaluate"):
+            raise ValueError("MEL handoff operation mismatch")
+        if (len(plan.nodes) != 2 or type(plan.nodes[0]) is not g.Seed or
+            plan.nodes[1].parent != "seed" or
+            type(plan.nodes[1]) is not (
+                g.Vfa if handoff.operation == "vfa.evaluate" else g.Kan)):
+            raise ValueError("unexpected scientific graph")
+    elif type(plan) is CpuPlan:
+        actual = plan_digest(plan)
+        if (handoff.operation != "temporal.kalman" or
+            len(plan.steps) != 1 or
+            plan.steps[0].operation != "temporal.kalman" or
+            plan.steps[0].source.revision != series.identity[:40]):
+            raise ValueError("unexpected deterministic graph")
+    else:
+        raise ValueError("unreviewed handoff plan")
+    if actual != handoff.plan_sha256 or handoff.execution_authorized is not False:
+        raise ValueError("tampered handoff identity or authority")
+    if source_current(handoff, series) is not True:
+        raise ValueError("scientific source no longer current")
+    return True
+
+
 def compile_kalman(
     raw: bytes, *, site_id: str, units: d.Units, clock: d.Clock,
     provenance: d.Provenance, workspace_id: str, subject_id: str,
