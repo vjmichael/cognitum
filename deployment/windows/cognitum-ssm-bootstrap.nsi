@@ -41,6 +41,12 @@ Section "Stage signed Cognitum SSM bootstrap files" SecRequired
  ExecWait '"$SYSDIR\icacls.exe" "$INSTDIR" /grant:r *S-1-5-18:(OI)(CI)F *S-1-5-32-544:(OI)(CI)F *S-1-5-32-545:(OI)(CI)RX *S-1-15-2-1:(OI)(CI)RX /T /Q' $0
  StrCmp $0 0 +2
   Abort "Protected installed file ACL enrollment failed"
+ ; Inheritable (OI)(CI) ACEs alone need not grant effective access on each
+ ; existing file. Add explicit non-inheritable leaf ACEs on every copied
+ ; import and executable before inheritance is stripped.
+ ExecWait '"$SYSDIR\icacls.exe" "$INSTDIR" /grant *S-1-5-18:F *S-1-5-32-544:F *S-1-5-32-545:RX *S-1-15-2-1:RX /T /Q' $0
+ StrCmp $0 0 +2
+  Abort "Explicit installed file access ACL enrollment failed"
  ExecWait '"$SYSDIR\icacls.exe" "$INSTDIR" /setowner *S-1-5-32-544 /T /Q' $0
  StrCmp $0 0 +2
   Abort "Installed code owners could not be pinned to Administrators"
