@@ -1,0 +1,209 @@
+name: Cognitum PHYSICAL-02-R2 restricted SSM SCM and provisioned CNG
+on:
+  push:
+    branches: [integration/cog-lu-ipc01e-r2-custody-20261121]
+    paths: [.github/workflows/cog-r5-physical02-r2-native.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cognitum-r5-r2-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  windows-restricted-cng:
+    name: Real SCM restricted token and external machine P256 receipt, CI only
+    runs-on: windows-latest
+    timeout-minutes: 40
+    env:
+      PYTHONHASHSEED: '0'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install exact maintained mathematical and signature dependencies
+        run: python -m pip install numpy==2.2.6 scipy==1.15.3 protobuf==6.33.1 grpcio-tools==1.76.0 cryptography==46.0.3 pytest==9.0.2
+      - name: Verify original SSM typed Protobuf and R1/R2 signature refusal tests
+        shell: pwsh
+        run: |
+          python -m research_tests.mel_lu_ipc01c.compile_pinned_lu_ssm --root "$PWD/cognitum/mel/vendor" --descriptor-out "$PWD/r2-lu-ssm.desc" --receipt "$PWD/r2-proto.json"
+          if($LASTEXITCODE -ne 0){throw 'Exact Lu/Cognitum Protobuf provenance failed'}
+          python -m pytest -q research_tests/mel_lu_ipc01e_r5/test_scm_r1_fixed_intent.py research_tests/mel_lu_ipc01e_r5/test_scm_r2_signed_stop.py --junitxml=r2-native-tests.xml
+          if($LASTEXITCODE -ne 0){throw 'R2 original/signed-stop negative suite failed'}
+      - name: Stage exact fixed real SSM and random test-only original intent
+        shell: pwsh
+        run: |
+          $root=Join-Path $PWD 'native/windows_scm_fixture/target/r1-fixture'
+          New-Item -ItemType Directory -Path $root -Force | Out-Null
+          python scripts/cog_r5_r1_scm_ssm_fixture.py prepare --root "$root" --env-file "$env:GITHUB_ENV"
+          if($LASTEXITCODE -ne 0){throw 'Reviewable one-use exact SSM staging failed'}
+      - name: Provision independent CI-only LocalMachine P256 key outside SCM
+        id: provision
+        shell: pwsh
+        run: |
+          $root=Join-Path $PWD 'native/windows_scm_fixture/target/r1-fixture'
+          & ./scripts/cog-r5-physical02-r2-cng-provision.ps1 -Mode provision -FixtureRoot $root -EnvFile "$env:GITHUB_ENV"
+      - name: Build exact native restricted-token service with no Cargo registry dependencies
+        shell: pwsh
+        run: |
+          cargo build --manifest-path native/windows_scm_fixture/Cargo.toml --release --locked --offline --features r2-restricted-fixture
+          if($LASTEXITCODE -ne 0){throw 'Genuine Windows restricted SSM SCM build failed'}
+      - name: Require unsigned/unpinned fixture refusal by production signed-host preflight
+        shell: pwsh
+        run: |
+          $exe="$PWD/native/windows_scm_fixture/target/release/cognitum-scm-supervisor.exe"
+          $root=[IO.Path]::GetDirectoryName($exe)
+          $hash=(Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash.ToLowerInvariant()
+          $refused=$false
+          try{
+            & ./scripts/cog-r5-physical02-r2-signed-host-preflight.ps1 -InstalledExecutable $exe -ApprovedInstallRoot $root -ApprovedImageSha256 $hash -ApprovedSignerCertificateSha256 ('f'*64)
+          }catch{
+            if($_.Exception.Message -like '*COG_R2_INSTALLED_REFUSED*'){$refused=$true}
+            else{throw}
+          }
+          if(-not $refused){throw 'Unsigned ephemeral CI fixture passed signed installer gate'}
+          Write-Host 'PASS_UNSIGNED_SCM_NOT_PRODUCTION_APPROVED'
+      - name: Real Windows restricted SSM, SCM kernel Job, signed original stop and restart refusal
+        shell: pwsh
+        run: |
+          $root=Join-Path $PWD 'native/windows_scm_fixture/target/r1-fixture'
+          & ./scripts/cog-r5-physical02-r2-restricted-cng-test.ps1 -Executable "$PWD/native/windows_scm_fixture/target/release/cognitum-scm-supervisor.exe" -FixtureRoot $root -EvidencePath "$PWD/r2-windows-native.json"
+      - name: Remove original test-only CNG signer, verify OS key absent
+        if: always() && steps.provision.outcome == 'success'
+        shell: pwsh
+        run: |
+          $root=Join-Path $PWD 'native/windows_scm_fixture/target/r1-fixture'
+          & ./scripts/cog-r5-physical02-r2-cng-provision.ps1 -Mode remove -FixtureRoot $root
+          if($LASTEXITCODE -ne 0){throw 'Independent CNG machine key deletion failed'}
+          '{"schema":"cognitum.ssm.r2.CI_KSP_revoked.v1","CNG_key_original_absent_after_deletion":true,"production_signer":false}' | Set-Content -LiteralPath r2-machine-key-revoked.json -Encoding ascii
+      - name: Preserve original source pins and public-only signature artifacts
+        if: always()
+        shell: pwsh
+        run: |
+          (git rev-parse HEAD) | Out-File r2-source-sha.txt -Encoding ascii
+          (git hash-object native/windows_scm_fixture/src/main.rs native/windows_scm_fixture/src/ssm_fixture.rs native/windows_scm_fixture/src/r2_restricted.rs native/windows_scm_fixture/src/r2_signer.rs native/windows_scm_fixture/Cargo.toml native/windows_scm_fixture/Cargo.lock scripts/cog-r5-physical02-r2-cng-provision.ps1 scripts/cog-r5-physical02-r2-signed-host-preflight.ps1 scripts/cog-r5-physical02-r2-restricted-cng-test.ps1 scripts/cog-r5-physical02-r1-real-ssm-scm.ps1 scripts/cog_r5_r2_verify_signed_stop.py research_tests/mel_lu_ipc01e_r5/test_scm_r2_signed_stop.py) | Out-File r2-source-blobs.txt -Encoding ascii
+          $bin='native/windows_scm_fixture/target/release/cognitum-scm-supervisor.exe'
+          if(Test-Path $bin){(Get-FileHash $bin -Algorithm SHA256).Hash.ToLowerInvariant() | Out-File r2-binary-sha.txt -Encoding ascii}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: r2-windows-restricted-CNG-public
+          path: |
+            r2-windows-native.json
+            r2-r1-windows.json
+            r2-machine-key-revoked.json
+            r2-public-test-enrollment.json
+            r2-native-tests.xml
+            r2-proto.json
+            r2-source-sha.txt
+            r2-source-blobs.txt
+            r2-binary-sha.txt
+            native/windows_scm_fixture/target/r1-fixture/input.frame
+            native/windows_scm_fixture/target/r1-fixture/output.frame
+            native/windows_scm_fixture/target/r1-fixture/prelaunch.json
+            native/windows_scm_fixture/target/r1-fixture/stop.json
+            native/windows_scm_fixture/target/r1-fixture/r2-signed-stop.json
+            native/windows_scm_fixture/target/r1-fixture/r2-public-p256.blob
+          if-no-files-found: warn
+  linux-closed:
+    name: Linux cannot inherit SCM authority; P256 tamper refusals
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install cryptography==46.0.3 pytest==9.0.2
+      - name: Verify signer rejection and Linux service fail-closed
+        shell: bash
+        run: |
+          python -m pytest -q research_tests/mel_lu_ipc01e_r5/test_scm_r2_signed_stop.py
+          cargo build --manifest-path native/windows_scm_fixture/Cargo.toml --release --locked --offline
+          if native/windows_scm_fixture/target/release/cognitum-scm-supervisor; then
+            echo "FAIL: Windows SCM succeeded on Linux"; exit 1
+          fi
+          echo "PASS_LINUX_NO_SCM_AUTHORITY"
+  independent:
+    name: Exact-source, external public-key and numerical independent audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    needs: [windows-restricted-cng,linux-closed]
+    if: ${{ always() && needs.windows-restricted-cng.result == 'success' && needs.linux-closed.result == 'success' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy==2.2.6 scipy==1.15.3 cryptography==46.0.3
+      - uses: actions/download-artifact@v4
+        with:
+          name: r2-windows-restricted-CNG-public
+          path: original
+      - name: Independently audit original source and non-authority
+        shell: bash
+        env:
+          SHA: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          from scripts.cog_r5_r2_verify_signed_stop import verify_raw
+          from cognitum.mel.ssm_supervisor import SSMComputeFactory
+          from cognitum.mel.ssm_supervisor import OP
+          a=Path('original')
+          assert (a/'r2-source-sha.txt').read_text().strip()==os.environ['SHA']
+          files=['native/windows_scm_fixture/src/main.rs','native/windows_scm_fixture/src/ssm_fixture.rs','native/windows_scm_fixture/src/r2_restricted.rs','native/windows_scm_fixture/src/r2_signer.rs','native/windows_scm_fixture/Cargo.toml','native/windows_scm_fixture/Cargo.lock','scripts/cog-r5-physical02-r2-cng-provision.ps1','scripts/cog-r5-physical02-r2-signed-host-preflight.ps1','scripts/cog-r5-physical02-r2-restricted-cng-test.ps1','scripts/cog-r5-physical02-r1-real-ssm-scm.ps1','scripts/cog_r5_r2_verify_signed_stop.py','research_tests/mel_lu_ipc01e_r5/test_scm_r2_signed_stop.py']
+          pins=[]
+          for name in files:
+              raw=Path(name).read_bytes()
+              pins.append(hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest())
+          assert (a/'r2-source-blobs.txt').read_text().splitlines()==pins
+          r=json.loads((a/'r2-windows-native.json').read_text(encoding='utf-8-sig'))
+          assert r['status']=='PASS_REAL_RESTRICTED_SSM_CNG_SIGNED_CI_ONLY'
+          for k in ('genuine_SCM_service_Job_owned_fixed_SSM','real_OS_restricted_primary_token_independently_observed','real_OS_Job_membership_independently_observed','numerical_SSM_output_independently_recalculated','original_service_restart_replay_denied','real_OS_KSP_nonexportable_P256_signer'):
+              assert r[k] is True,k
+          for k in ('original_worker_AppContainer','original_worker_low_privilege_user_not_SYSTEM','installed_signed_production_publisher','installer_protected_image_and_data_ACL','independent_production_receipt_issuer','independently_pinned_monotonic_restart_anchor','authentic_Core_Health_authenticated','original_Core_pure_compute_grant','output_delivery_or_ack_authorized'):
+              assert r[k] is False,k
+          base=a/'native/windows_scm_fixture/target/r1-fixture'
+          pub=(base/'r2-public-p256.blob').read_bytes()
+          approved=json.loads((a/'r2-public-test-enrollment.json').read_text(encoding='utf-8-sig'))
+          stop=(base/'stop.json').read_bytes()
+          pending=json.loads((base/'prelaunch.json').read_bytes())
+          local=json.loads(stop)
+          signed=json.loads((base/'r2-signed-stop.json').read_bytes())
+          receipt=verify_raw(local_stop=stop,signed=signed,public_blob=pub,approved_public_sha256=approved['public_blob_sha256'],original_request_sha256=pending['request_sha256'],original_nonce=pending['nonce'],expected_service_pid=local['service_pid'],expected_worker_pid=local['worker_pid'])
+          assert receipt['real_native_CNG_signature_valid'] is True
+          assert hashlib.sha256(pub).hexdigest()==r['externally_provisioned_public_blob_pin']
+          assert hashlib.sha256((base/'r2-signed-stop.json').read_bytes()).hexdigest()==r['signed_stop_file_sha256']
+          request=json.loads((base/'input.frame').read_bytes())
+          answer=json.loads((base/'output.frame').read_bytes())
+          assert request['operation']==OP and answer['status']=='ok'
+          assert answer['reply']==SSMComputeFactory().handle(OP,request['payload'])
+          assert json.loads((a/'r2-machine-key-revoked.json').read_text())['CNG_key_original_absent_after_deletion'] is True
+          p=json.loads((a/'r2-proto.json').read_text())
+          assert p['exact_lu_workspace_proto_preserved'] is True and p['genuine_installed_lu_core_connected'] is False
+          bin_sha=(a/'r2-binary-sha.txt').read_text().strip()
+          assert len(bin_sha)==64
+          report={'schema':'cognitum.ssm.r2.native_restricted_CNG_exact_source.v1','qualified_sha':os.environ['SHA'],'exact_git_blob_pins':len(pins),'unsigned_service_bin_sha256':bin_sha,'true_restricted_token_under_SCM_Job':True,'independent_CNG_P256_machine_test_signature':True,'ephemeral_CNG_key_revocation':True,'real_fixed_SSM_math':True,'AppContainer':False,'independently_installed_signer':False,'approved_signed_publisher':False,'genuine_Core_Health':False,'Linux_delegated_positive':False,'output_release':False}
+          Path('r2-independent.json').write_text(json.dumps(report,sort_keys=True,indent=2)+'\n')
+          print(json.dumps(report,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: r2-independent
+          path: r2-independent.json
+          if-no-files-found: warn
