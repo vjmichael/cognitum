@@ -36,7 +36,7 @@
   "github_vm_child_original_parent_is_service": true,
   "github_vm_child_actual_kernel_job_membership_independently_observed": true,
   "github_vm_service_stop_reaps_child": true,
-  "github_vm_fixture_deleted_after_test": true,
+  "github_vm_fixture_deleted_after_test": false,
   "windows_physical_signed_production_service_installed": false,
   "windows_authenticode_production_publisher_verified": false,
   "windows_production_installed_service_worker_restricted_SSM_executed": false,
@@ -48,5 +48,7 @@
   "original_core_per_turn_pure_compute_grant": false,
   "external_output_delivery_authorized": false,
   "core_output_ack_authorized": false,
-  "model_tool_execution_authorized": false
+  "model_tool_execution_authorized": false,
+  "github_vm_fixture_delete_requested_in_finally": true,
+  "github_vm_fixture_deletion_independently_verified": false
 }
