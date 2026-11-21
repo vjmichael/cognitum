@@ -26,6 +26,7 @@ from threading import RLock
 from google.protobuf.message import DecodeError
 from .vendor.lu.workspace.v0 import workspace_pb2 as lu
 from . import lu_ssm_contract as ssm
+from .vendor.cognitum.ssm.v1 import ssm_pb2
 
 PROFILE = "cognitum.lu_ipc01d_r1.local_operation_verifier.v1"
 DOMAIN = b"Cognitum.Lu.IPC01D.LocalObserver.HMAC.v1\x00"
@@ -36,7 +37,8 @@ MAX_CREDIT = 64
 REFERENCE = re.compile(r"[A-Za-z0-9_.:/-]{1,128}\Z", re.ASCII)
 REASON = re.compile(r"[A-Za-z0-9_.:/-]{1,96}\Z", re.ASCII)
 ACTIONS = frozenset(("begin","credit","progress","terminal","cancel",
-                     "cancel_ack","reconcile","reconciled","revoke"))
+                     "cancel_ack","reconcile","reconciled","revoke",
+                     "outbox_snapshot","uncertain_hold"))
 TERMINAL = frozenset((lu.TERMINAL_STATE_APPLIED,
     lu.TERMINAL_STATE_REFUSED,lu.TERMINAL_STATE_FAILED,
     lu.TERMINAL_STATE_CANCELLED,lu.TERMINAL_STATE_UNCERTAIN))
@@ -127,11 +129,13 @@ def _initial_state():
                 cancel_requested=False,cancel_ack=False,
                 reconcile_requested=False,reconcile_status="not_requested",
                 revoked=False,events=0,receipt_raw=None,
-                original_session=None,origin=None,typed_sha=None)
+                original_session=None,origin=None,typed_sha=None,
+                outbox_sha=None,outbox_count=0,uncertain_hold=False)
 
 
 def _summarize(state):
     return dict(status=("revoked" if state["revoked"] else
+             "uncertain_hold" if state["uncertain_hold"] else
              "reconciled_candidate" if state["reconcile_status"]=="matched" else
              "terminal_candidate" if state["terminal"] is not None else
              "cancel_signalled_not_terminated" if state["cancel_ack"] else
@@ -142,6 +146,11 @@ def _summarize(state):
          worker_termination_verified=False,
          original_terminal_observed=state["terminal"] is not None,
          reconciliation_status=state["reconcile_status"],
+         outbox_snapshot_recorded=state["outbox_sha"] is not None,
+         original_outbox_snapshot_sha256=state["outbox_sha"],
+         original_outbox_output_count=state["outbox_count"],
+         uncertain_hold=state["uncertain_hold"],
+         retry_or_acknowledgment_authorized=False,
          source_verified_through_independent_lu_core=False,
          signed_core_receipt_verified=False,
          domain_execution_authorized=False,
@@ -379,8 +388,67 @@ class DurableLuOperationVerifier:
                           observed.state in (lu.TERMINAL_STATE_UNSPECIFIED,
                                              lu.TERMINAL_STATE_UNCERTAIN),
                           "missing evidence is not an applied event")
+                    _need(state["reconcile_status"]!="matched",
+                          "reconciliation must not downgrade verified candidate")
                     state["reconcile_status"]="unknown"
                 state["reconcile_requested"]=False
+            elif kind=="outbox_snapshot":
+                try:snapshot=json.loads(raw.decode("ascii"))
+                except (ValueError,UnicodeError) as exc:
+                    raise ValueError("Cognitum IPC lifecycle refused: malformed outbox snapshot") from exc
+                _need(type(snapshot) is dict and
+                      set(snapshot)=={"schema","stream_id","event_id",
+                                     "checkpoint_revision","checkpoint_sha256",
+                                     "outputs"} and _canonical(snapshot)==raw and
+                      snapshot["schema"]=="cognitum.lu_ipc01e_r1.original_outbox_snapshot.v1",
+                      "strict source-only outbox inventory")
+                _need(not state["revoked"] and not state["cancel_requested"]
+                      and not state["uncertain_hold"] and
+                      state["outbox_sha"] is None and
+                      state["reconcile_status"]=="matched" and
+                      state["terminal"]==lu.TERMINAL_STATE_APPLIED,
+                      "reconciled, uncancelled, unrevoked original terminal required")
+                terminal=lu.OperationReceipt.FromString(state["receipt_raw"])
+                _need(terminal.HasField("output") and
+                      terminal.output.type_url==ssm.OUTPUT_URL,
+                      "original SSM result receipt")
+                result=ssm_pb2.SsmAdvanceResult.FromString(
+                    terminal.output.encoded_message)
+                _need(result.disposition==ssm_pb2.ADVANCE_DISPOSITION_COMMITTED and
+                      snapshot["stream_id"]==self._prepared.stream_id and
+                      snapshot["event_id"]==self._op and
+                      snapshot["checkpoint_revision"]==result.observed_revision and
+                      snapshot["checkpoint_revision"]==self._prepared.expected_revision+1 and
+                      snapshot["checkpoint_sha256"]==result.observed_checkpoint_sha256.hex() and
+                      type(snapshot["outputs"]) is list and
+                      len(snapshot["outputs"])==result.pending_release_count and
+                      len(snapshot["outputs"])<=ssm.MAX_OUTPUTS,
+                      "original committed revision and complete outbox count")
+                seen=set()
+                for row in snapshot["outputs"]:
+                    _need(type(row) is dict and set(row)=={"output_id","body_sha256"} and
+                          type(row["output_id"]) is str and
+                          type(row["body_sha256"]) is str and
+                          re.fullmatch(r"[0-9a-f]{64}",row["output_id"]) and
+                          re.fullmatch(r"[0-9a-f]{64}",row["body_sha256"]) and
+                          row["output_id"] not in seen,
+                          "bounded uniquely identified outbox row")
+                    seen.add(row["output_id"])
+                _need(snapshot["outputs"]==sorted(snapshot["outputs"],key=lambda x:x["output_id"]),
+                      "canonical sorted outbox inventory")
+                state["outbox_sha"]=_digest(raw)
+                state["outbox_count"]=len(snapshot["outputs"])
+            elif kind=="uncertain_hold":
+                try:hold=json.loads(raw.decode("ascii"))
+                except (ValueError,UnicodeError) as exc:
+                    raise ValueError("Cognitum IPC lifecycle refused: malformed uncertain hold") from exc
+                _need(type(hold) is dict and set(hold)=={"reason"} and
+                      _canonical(hold)==raw and
+                      type(hold["reason"]) is str and
+                      REASON.fullmatch(hold["reason"]) is not None and
+                      not state["uncertain_hold"],
+                      "one original uncertainty hold")
+                state["uncertain_hold"]=True
             elif kind=="revoke":
                 try:revoked=json.loads(raw.decode("ascii"))
                 except (ValueError,UnicodeError) as exc:
@@ -472,6 +540,43 @@ class DurableLuOperationVerifier:
     def note_revoke(self,reason_code):
         _text(reason_code,"independently authorized revocation reason",REASON)
         self._append("revoke",_canonical({"reason":reason_code}))
+        return self.status()
+
+    def note_outbox_snapshot(self, *, stream_id, event_id, revision,
+                             checkpoint_sha256, outputs):
+        """Persist one *unpublishable* originally observed R6 outbox inventory.
+
+        A trusted host must independently call the R6 journal verifier and
+        provide the resulting complete pending inventory. This method
+        performs immutable source matching and one-time audit, NOT broker
+        admission, user permission, actual delivery or acknowledgment.
+        """
+        _text(stream_id,"original outbox stream ID")
+        _text(event_id,"original outbox event ID")
+        _need(type(revision) is int and revision>=1,"bounded snapshot revision")
+        _need(type(checkpoint_sha256) is str and
+              re.fullmatch(r"[0-9a-f]{64}",checkpoint_sha256),
+              "original R6 checkpoint digest")
+        _need(type(outputs) is (list) and len(outputs)<=ssm.MAX_OUTPUTS,
+              "bounded outbox inventory")
+        rows=[]
+        for item in outputs:
+            _need(type(item) is dict and set(item)=={"output_id","body_sha256"},
+                  "exact outbox row schema")
+            rows.append(dict(item))
+        rows.sort(key=lambda x:x["output_id"])
+        raw=_canonical(dict(
+            schema="cognitum.lu_ipc01e_r1.original_outbox_snapshot.v1",
+            stream_id=stream_id,event_id=event_id,
+            checkpoint_revision=revision,
+            checkpoint_sha256=checkpoint_sha256,outputs=rows))
+        self._append("outbox_snapshot",raw)
+        return self.status()
+
+    def note_uncertain_hold(self,reason_code):
+        """Irreversibly record local uncertainty; never permit delivery."""
+        _text(reason_code,"trusted uncertain outcome reason",REASON)
+        self._append("uncertain_hold",_canonical({"reason":reason_code}))
         return self.status()
 
     def observe_frame(self,raw):
