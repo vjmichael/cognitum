@@ -86,6 +86,27 @@ if($Mode -eq 'provision'){
     $grantRX='*'+$sid+':(OI)(CI)RX'
     $grantM='*'+$sid+':(OI)(CI)M'
     $pythonRoot=Split-Path -Parent $python
+    # Restricted/AppContainer tokens cannot rely on privileged traverse
+    # rights of the service host. Grant this exact test package READ/TRAVERSE
+    # (not WRITE, not inheritance) on every existing ancestor, including
+    # the drive and GitHub-hosted Python/runtime and source ancestors.
+    foreach($protectedLeaf in @($pythonRoot,$source,$root)){
+      $cursor=Get-Item -LiteralPath $protectedLeaf -Force
+      while($cursor){
+        if(($cursor.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0){
+          throw 'Fixed Python/SSM/AppContainer parent ancestry contains reparse point'
+        }
+        $parent=$cursor.Parent
+        if($parent){
+          $traverse='*'+$sid+':(RX)'
+          & icacls.exe $parent.FullName /grant $traverse /Q
+          if($LASTEXITCODE -ne 0){
+            throw 'Temporary AppContainer SID missing exact ancestor read/traverse grant'
+          }
+        }
+        $cursor=$parent
+      }
+    }
     & icacls.exe $pythonRoot /grant $grantRX /T /C /Q
     if($LASTEXITCODE -ne 0){throw 'R3 AppContainer read-only pinned Python runtime ACL not installed'}
     & icacls.exe $source /grant $grantRX /T /C /Q
