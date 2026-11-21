@@ -60,10 +60,14 @@ jobs:
             $record=[ordered]@{schema='cognitum.ssm.r3r1.production_installer_runtime.v1';runtime_manifest_sha256=$pin}
             [IO.File]::WriteAllText($provenance,($record|ConvertTo-Json -Compress),[Text.Encoding]::ASCII)
             $ppin=(Get-FileHash $provenance -Algorithm SHA256).Hash.ToLowerInvariant()
-            & icacls.exe $base /inheritance:r /grant:r '*S-1-5-18:(OI)(CI)F' '*S-1-5-32-544:(OI)(CI)F' /T /Q |Out-Null
-            if($LASTEXITCODE -ne 0){throw 'Synthetic protected ACL setup failed'}
+            # Establish every child's independent administrator grants and
+            # owner BEFORE removing inherited runner access from the parent.
+            & icacls.exe $base /grant:r '*S-1-5-18:(OI)(CI)F' '*S-1-5-32-544:(OI)(CI)F' /T /C /Q |Out-Null
+            if($LASTEXITCODE -ne 0){throw 'Synthetic trusted ACE enrollment failed'}
             & icacls.exe $base /setowner '*S-1-5-32-544' /T /C /Q |Out-Null
             if($LASTEXITCODE -ne 0){throw 'Synthetic protected owner setup failed'}
+            & icacls.exe $base /inheritance:r /T /C /Q |Out-Null
+            if($LASTEXITCODE -ne 0){throw 'Synthetic inherited ACE removal failed'}
             $observed=& $audit -ApprovedInstallRoot $base -RuntimeRoot $runtime -ApprovedManifestSha256 $pin -ApprovedProvenanceSha256 $ppin|ConvertFrom-Json
             if($observed.status -cne 'PASS_INSTALLED_RUNTIME_DIGEST_ACL_OBSERVATION_ONLY' -or
                $observed.original_file_count -ne 2 -or $observed.output_release_authorized -ne $false){
@@ -85,5 +89,12 @@ jobs:
             if(-not $denied){throw 'Unsigned/uninstalled SCM fixture promoted'}
             Write-Host 'PASS_CI_SYNTHETIC_PROTECTED_RUNTIME_AND_UNSIGNED_HOST_REFUSAL_ONLY'
           }finally{
-            if(Test-Path -LiteralPath $base){Remove-Item -LiteralPath $base -Recurse -Force -ErrorAction Stop}
+            if(Test-Path -LiteralPath $base){
+              # Test-only cleanup after restoring the runner's original file
+              # access. The protected runtime audit above never uses this ACE.
+              $runnerSid=[Security.Principal.WindowsIdentity]::GetCurrent().User.Value
+              & icacls.exe $base /grant ('*'+$runnerSid+':(OI)(CI)F') /T /C /Q |Out-Null
+              if($LASTEXITCODE -ne 0){throw 'Synthetic fixture cleanup ACL restoration failed'}
+              Remove-Item -LiteralPath $base -Recurse -Force -ErrorAction Stop
+            }
           }
