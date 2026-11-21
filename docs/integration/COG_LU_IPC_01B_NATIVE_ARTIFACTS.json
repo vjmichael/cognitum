@@ -1,0 +1,104 @@
+{
+  "schema": "cognitum.lu_ipc01b.external_five_original_artifacts.v1",
+  "qualification": "PASS_NATIVE_CARRIERS_SYNTHETIC_HEALTH_ONLY",
+  "exact_original_qualified_source_sha": "d24317816d3b1fae01186d5ba4c40f757f312f85",
+  "original_github_run_id": 44919832409,
+  "original_github_run_url": "https://github.com/vjmichael/cognitum/actions/runs/44919832409",
+  "original_run_attempt": 1,
+  "original_jobs_total": 5,
+  "original_jobs_passed": 5,
+  "test_totals": {
+    "per_native_platform": 38,
+    "native_platform_count": 4,
+    "aggregate_passed": 152,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "original_12_source_git_blobs": [
+    "4e01d921197fb1c58c99958479b1cede36e13c9a",
+    "ac57eb0afc4b2f0630531470e067461d8e2268ea",
+    "b21612457c3763dab8233d0eced5e5fffca968ad",
+    "7c70333ddbe85fc187e6b1d5ba9956abca4c5a58",
+    "300300b9f63f417afcc0ec650697e3012b7bdab0",
+    "405fa91935f62226ab0d1a2f0d8b7313e2327116",
+    "8db687bd4912f92af3b505088e7683ca0df2a9b2",
+    "05e40e09c7a3e9bfdf838d38f4e971682ec8cfd2",
+    "64ca56b974d8b0d0b5e3d566e8c0c5bab36ee474",
+    "8d0e1774c3ba7d697b3fc6190295271f81b76e80",
+    "898946a3a68105c4e663bb019c90b399fef1aba8",
+    "1cf32a0c29d750f6629b7e90da3c516ee50e570c"
+  ],
+  "original_workspace_proto_git_blob": "4e01d921197fb1c58c99958479b1cede36e13c9a",
+  "compiled_descriptor_sha256": "96c0990039adfff5539b67429393e59999f6b1151f3eaf68f1affec3f266fa2d",
+  "generated_python_sha256": "3757c3adcd357d57a353a29490c60e687eedb32f6a4d78ea8759378a15e2d22b",
+  "original_artifacts": [
+    {
+      "id": 14713820518,
+      "name": "cognitum-lu-ipc01b-windows-latest-py3.13",
+      "github_authoritative_sha256": "sha256:e893f0fa5965257d67c052b347cc4eee6d76162862cc9e1216492800a5be7190",
+      "original_native_backend": "win32_named_pipe_overlapped_os_process_pin",
+      "original_junit_passed": 38,
+      "independently_downloaded_archive_sha256_matched": true,
+      "zip_crc_passed": true
+    },
+    {
+      "id": 14713321811,
+      "name": "cognitum-lu-ipc01b-windows-latest-py3.11",
+      "github_authoritative_sha256": "sha256:feee8e8df44889885695c4c2bf757e559b038bbddce2f54b928727d92c4a402f",
+      "original_native_backend": "win32_named_pipe_overlapped_os_process_pin",
+      "original_junit_passed": 38,
+      "independently_downloaded_archive_sha256_matched": true,
+      "zip_crc_passed": true
+    },
+    {
+      "id": 14713296757,
+      "name": "cognitum-lu-ipc01b-ubuntu-latest-py3.13",
+      "github_authoritative_sha256": "sha256:feb63e0ac83fc465099eb4b40b5c643c7097c5d51386fa8b1f6b3f0d9b30a5d1",
+      "original_native_backend": "linux_af_unix_so_peercred_private_inode",
+      "original_junit_passed": 38,
+      "independently_downloaded_archive_sha256_matched": true,
+      "zip_crc_passed": true
+    },
+    {
+      "id": 14713199274,
+      "name": "cognitum-lu-ipc01b-independent",
+      "github_authoritative_sha256": "sha256:8362e416a936b8c4f55c20f0258f4c178052c23c88835a6127dd0e7bc067c23a",
+      "original_native_backend": "independent",
+      "original_junit_passed": null,
+      "independently_downloaded_archive_sha256_matched": true,
+      "zip_crc_passed": true
+    },
+    {
+      "id": 14712947951,
+      "name": "cognitum-lu-ipc01b-ubuntu-latest-py3.11",
+      "github_authoritative_sha256": "sha256:1c1ef5ae6b16ed29e980b7962184b6f664a79301d0f7a3652135dbdd8a5ef2d2",
+      "original_native_backend": "linux_af_unix_so_peercred_private_inode",
+      "original_junit_passed": 38,
+      "independently_downloaded_archive_sha256_matched": true,
+      "zip_crc_passed": true
+    }
+  ],
+  "externally_verified": {
+    "all_five_original_ZIP_SHA256_and_CRC": true,
+    "all_four_original_JUnit_classname_and_case_IDs_identical": true,
+    "all_four_source_SHA_and_12_blobs_match": true,
+    "generated_descriptor_and_Python_IDs_identical": true,
+    "original_fifth_job_receipt_verified": true
+  },
+  "real_world_dispositions": {
+    "native_win32_client_transport_tested": true,
+    "native_linux_uds_SO_PEERCRED_tested": true,
+    "original_testing_server_is_real_lu_core": false,
+    "Core_installed_health_dispatcher_authenticated": false,
+    "signed_installed_Core_enrollment_qualified": false,
+    "OS_installed_publisher_signer_qualified": false,
+    "model_or_tool_execution_authorized": false,
+    "external_lu_core_repo_changed": false
+  },
+  "existing_Lu_Core_issues": [
+    "https://github.com/vjmichael/Lu-AI-GUI/issues/245",
+    "https://github.com/vjmichael/Lu-AI-GUI/issues/248"
+  ],
+  "closeout_is_source_unchanged": true
+}

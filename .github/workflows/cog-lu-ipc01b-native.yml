@@ -1,11 +1,6 @@
 name: Cognitum Lu IPC-01B native OS client and health-only source qualification
 
 on:
-  push:
-    branches:
-      - integration/cog-lu-ipc01b-native-client-20261121
-    paths:
-      - '.github/workflows/cog-lu-ipc01b-native.yml'
   workflow_dispatch:
 
 permissions:
