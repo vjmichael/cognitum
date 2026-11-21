@@ -1,0 +1,145 @@
+{
+  "schema": "cognitum.orcgraph.bench02.r5.prospective_preregistered.v1",
+  "purpose": "Prospectively test whether original Orc native HDC/KAN/SSM and portable selection improve matched causal meteorological forecasts; avoid historical retrospective availability proxy",
+  "frozen_before_any_new_site_data": "R5 source/venue/method/cohort specification to be committed before any prospective collection or model fit; earlier R3/R4 source/result familiarity disclosed",
+  "earlier_benchmark_heldout_data_already_viewed": true,
+  "prior_Git_identity": {
+    "R3_protocol_SHA256": "fd0b6a372ee5cd9ee8870ad20c475261460a069daf4fd52f56e8dcc2961a5104",
+    "R4_negative_report_blob": "5dc4fa1f980fc7678371cba78dbfdbdfe09fb651",
+    "R4_protocol_blob": "1cf7c2ae11e09130ef036f3812ebfb849235f26b",
+    "R4_R2_original_native_receipt_blob": "194275093e91a96909abe7efd61b951d057099f1",
+    "R4_R2_R3_portable_receipt_blob": "ea8c8ab8fb90a272b68d5bc56d66d9f031c4b42c",
+    "R4_R2_R3_original_native_source": "06eb4ff9f40fd437992842f6cd7e4d9c3db1cc7f"
+  },
+  "prospective_data": {
+    "source_provider": "NOAA NWS Aviation Weather Center",
+    "provider_API_documentation": "https://aviationweather.gov/data/api/",
+    "GET_url": "https://aviationweather.gov/api/data/metar?ids=KBOS,KMSP,KPHX&format=json&hours=2",
+    "sites_fixed_order": [
+      "KBOS",
+      "KMSP",
+      "KPHX"
+    ],
+    "replacements": "no substitutions even if all forecasts refuse",
+    "nominal_poll_interval_minutes": 10,
+    "poll_minimum_spacing_seconds": 600,
+    "one_API_GET_per_lane_per_poll": true,
+    "max_HTTP_body_bytes": 2000000,
+    "max_METAR_rows_per_poll": 100,
+    "required_response": "HTTP 200 JSON list; strict UTF-8 and source SHA-256; preserve exact HTTP bytes, status, URL and Date response header",
+    "http_user_agent": "Cognitum-R5-ProspectiveResearch/1.0 (noncommercial research; respectful NOAA polling)",
+    "first_start_not_before_utc": "2026-11-23T00:00:00Z",
+    "collection_activation": "explicit separate authorization and real witness artifact provisioning required; not silently started by this preregistration",
+    "fixed_window": "28 contiguous full UTC days = 672 hourly buckets",
+    "start_alignment": "first 00:00 UTC strictly AFTER both independent witness lanes have produced and externally anchored one valid initial capture; never backdate",
+    "fold_hours": {
+      "train": 336,
+      "calibration": 168,
+      "test": 168
+    },
+    "forecast_horizons_hours": [
+      1,
+      3,
+      6
+    ],
+    "feature_lags_hours": [
+      0,
+      1,
+      3,
+      6,
+      24
+    ],
+    "forecast_issue_offset_minutes_after_hour_end": 20,
+    "target_observation_time": "must be strictly later than issue timestamp, and target observed in its exact later hourly bucket",
+    "target_unit": "K",
+    "source_unit": "Celsius",
+    "conversion": "Kelvin = source numeric temp + 273.15, original numerical source retained unrounded",
+    "no_imputation": true,
+    "same_hour_multiple_reports": "mark ambiguous and refuse entire station-hour, including later corrected observations; retain all raw variants",
+    "no_silent_source_hour_missingness": true,
+    "no_fold_boundary_crossing": true,
+    "late_or_revised_observation": "first anchored exact raw report required; later modified or corrected station-hour disqualifies the hour rather than rewriting history",
+    "no_training_on_calibration_or_test": true
+  },
+  "witnesses": {
+    "lanes_fixed": [
+      "A",
+      "B"
+    ],
+    "separate_native_jobs_and_external_artifacts": true,
+    "external_anchor": "for each exact raw HTTP response and capture record, separately verify GitHub Actions immutable artifact ID, source run ID, object SHA256, artifact created_at, original run/job and trusted server recorded timestamp; never trust artifact ID or timestamp embedded by uploader without external lookup",
+    "independently_trusted_artifact_metadata_required": true,
+    "admissibility_for_forecast_origin": "same exact observation identity and unchanged raw report witnessed by both A and B; both external artifact creation UTC timestamps <= issue time; original HTTP source bytes verified per artifact; both claims capture start <= completion <= external artifact creation",
+    "first_available_proof": "first observed and externally anchored by THESE two observers, not the instant it first existed worldwide",
+    "unattested_global_publisher_first_available_claim": false,
+    "provider_receiptTime_is_not_first_publication_attestation": true,
+    "trusted_server_time_limit": "independent external GitHub artifact created_at <= issue, not just runner clock or NOAA receiptTime",
+    "noncaptured_intervals": "retain explicit no-observation/error/gap receipts with sequence, never assume observations existed",
+    "witness_pair_independence": "two separate native executions/archives; independently verify distinct run IDs, artifact IDs and capture lanes; same provider upstream is correlated; do not claim independent weather sources",
+    "minimum_end_to_end_source_window": "all train/cal/test full UTC 672 hours with every poll recorded or explicit gap flag and monotone witness sequences; missing intervals are refusals, not backfilled",
+    "external_anchored_hash_chain": "each lane chained immutable per-poll canonical JSON record SHA256 to prior record; verifier checks every predecessor and global sequence without omissions; anchors independently tied to externally indexed artifacts; first-seen claims refuse earlier missing or gap intervals"
+  },
+  "models": {
+    "primary_reference": "direct_ridge prior accepted fixed registration; original methods and weights code pinned at independent execution",
+    "registered_baselines": [
+      "direct_ridge",
+      "ridge_AR24",
+      "persistence",
+      "lag24_persistence",
+      "train_mean",
+      "timeaware_ssm"
+    ],
+    "native_research_methods": [
+      "ssm_kan",
+      "ssm_hdc",
+      "ssm_kan_hdc"
+    ],
+    "orchestrator": [
+      "original_orc_default",
+      "original_orc_research_opt_in_portable_near_tie_abstention"
+    ],
+    "research_selection_near_tie_tolerance_K": 1e-10,
+    "no_post_hoc_alpha_basis_or_hdc_research_training_changes": true,
+    "original_fit_only_train_calibrate_only_cal_test_scored_only_after_frozen_decisions": true,
+    "if_new_models_proposed": "separate prereg new independent future data; never mutate this protocol or original R4 report"
+  },
+  "scientific_metrics": {
+    "primary_metric": "equal-weight macro of per-site/per-horizon signed fractional test RMSE gain versus registered direct ridge, requiring all 9 site-horizon cells, not a selective evaluated-only mean",
+    "secondary_metrics": [
+      "MAE K per case",
+      "RMSE K per case",
+      "abstention counts and reasons",
+      "missingness and corrections",
+      "Kase HDC/KAN OOD counts",
+      "paired RMSE/MAE gains",
+      "relative computational cost (measured native duration separately from model error)"
+    ],
+    "time_dependence": "fixed 6-hour disjoint chronological blocks, bootstrap 256 seeds with seed 5506; intervals denied if fewer than 4 blocks",
+    "coverage_abstention": "report all refused cases/origins; incomplete model has no full-9 macro, no silent partial win",
+    "first_prospective_acceptance_requirement": "at least 4 eligible contiguous 6-hour blocks per task, else report insufficient evidence, no significance claims",
+    "exploratory_multiplicity": "no p-value or general superiority without prereg multiplicity correction and genuine independent replication",
+    "holdout_firewall": "record signed or externally anchored train/cal predictions and selected method prior to any held-out target scoring; evaluator requires frozen decision manifest",
+    "strict_per_origin_availability_including_test": true
+  },
+  "execution": {
+    "CI_policy": "manual-only source preflight; no scheduled continuous CI or Docker; prospective collection separately authorized and durable",
+    "security": "host operator authorizes network fetch and preservation; no secret exfiltration, explicit fixed NOAA destination, host permission separate from scientific data",
+    "witness_production_activation_is_out_of_scope_for_R5_documentation_and_fixture_qualification": true,
+    "no_claim_first_publication_or_original_sensors_signed": true,
+    "no_claim_installed_MEL_or_production_GPU_FPGA": true,
+    "rejection_conditions": [
+      "missing verified independent artifact metadata",
+      "artifact anchor after forecast issue",
+      "two witnesses disagree",
+      "source body hash mismatch",
+      "non-GitHub externally authenticated timestamp",
+      "replayed or reordered poll record",
+      "uncaptured polling gap",
+      "duplicate/corrected station-hour",
+      "forecast target visible before origin",
+      "invalid provider source or 429",
+      "training/test leakage",
+      "posthoc station/model change"
+    ]
+  }
+}
