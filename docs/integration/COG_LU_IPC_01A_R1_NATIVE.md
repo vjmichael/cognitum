@@ -1,0 +1,24 @@
+# COG-LU-IPC-01A-R1 — pinned Lu Protobuf compilation and authenticated read-only client
+
+**2026-11-21 source candidate; native qualification pending.** Cognitum-side changes ONLY. The Lu Core repository is inspected/read-only; all Lu-owned source work was filed as [LU-IPC-COG-01 #248](https://github.com/vjmichael/Lu-AI-GUI/issues/248). Lu Core's Health endpoint issue [#245](https://github.com/vjmichael/Lu-AI-GUI/issues/245) is an existing separate prerequisite, not reimplemented here.
+
+## Exact Lu source
+
+- Lu repository \`vjmichael/Lu-AI-GUI\`, inspected branch \`lu/ipc01d-r2-r1-native-20261120\` at \`ea6e35e6a10a0754e166eb4c34a794eb0c9b5551\`.
+- Exact Lu-owned Protobuf file \`src-tauri/lu-core/proto/lu/workspace/v0/workspace.proto\` Git blob \`4e01d921197fb1c58c99958479b1cede36e13c9a\`. Cognitum vendors **identical source bytes**, with checkout-enforced LF in \`cognitum/mel/vendor/lu/workspace/v0/workspace.proto\`; this is NOT a second owner schema.
+- \`research_tests/mel_lu_ipc01a/compile_pinned_proto.py\` computes the original Git blob SHA from actual bytes, refuses source drift, then runs **real grpcio-tools protoc** to generate Python \`workspace_pb2.py\` and the binary \`FileDescriptorSet\` at the exact source. Pinned native dependencies and compiler version are supplied by the qualification workflow, not by model input.
+- \`cognitum/mel/lu_workspace_contract.py\` retains five reviewed native MEL \`vfa.evaluate\`, \`vfa.gradient\`, \`hdc.bind\`, \`hdc.query\`, \`kan.evaluate\` Protobuf types/descriptor+codec identities. The source-only candidate marks \`MODULE_ROLE_CORE_EXTENSION\`, \`EFFECT_CLASS_PURE_COMPUTE\`, version 1. **No provider registration or Lu grant occurs.** R6-SSM remains unregistered pending its reviewed new typed message pair.
+
+## Cognitum native read-only client
+
+\`cognitum/mel/lu_ipc_readonly.py\` consumes exact generated Lu messages; bounded 4-byte big-endian length-prefixed Protobuf with **256 KiB frame** limit and strict canonical bytes; 3-second timeout is expected from host-owned stream. Handshake: nonzero 32-byte client nonce and externally enrolled nonzero 32-byte shared secret; send \`Hello\` (Cognitum claimed role and package SHA), verify host \`AuthChallenge\` nonce and correlation, compute \`lu.workspace.client.v0\\0\` domain HMAC over exact serialized \`Hello\` and challenge, validate \`Welcome\` session/epoch/version and \`lu.workspace.server.v0\\0\` HMAC including original Hello, challenge, host session and unsigned Welcome. Key material is caller-provided from trusted installed credential custody, never from the handshake or model prompt.
+
+After successful handshake the only allowed operation is one bounded, matched \`HealthRequest -> HealthReport\` exchange at a time. No registration, capability invocation, model load/inference, file access, or arbitrary RPC method is exposed. Repeated/stale sessions, wrong IDs, noncanonical/oversized/truncated frames, downgraded versions, wrong key/MAC, malformed health epoch, or unauthorized read/write are refused. Socket helper checks Linux UDS endpoint parent and socket metadata/peer UID, but **host still must establish signed installed Lu identity and enrollment independently**; a UID or HMAC is not an OS package/signature grant. Windows named-pipe **client integration is the following 01B task**; no unreviewed Windows fallback transport was added.
+
+**Known gaps:** Lu owns the actual protected Health dispatcher (#245) and protected first-party Cognitum signed enrollment, ToolEffect PURE_COMPUTE bridge and typed SSM codec (#248). In-process challenge-response test fixtures are only cross-language-source-compatible cryptographic/Protobuf **synthetic tests**; they do not prove that a real installed Lu Core accepted a Cognitum client. Cognitum-side capability proposals are inert and must not be model-advertised until native Lu installed acceptance.
+
+## Qualification gate and next step
+
+Run four original Windows/Ubuntu Python 3.11/3.13 jobs, compiling the *actual frozen Lu .proto*, independently comparing all generated descriptor hashes and source Git IDs across targets, executing original \`research_tests/mel_lu_ipc01a/test_workspace_contract.py\` and new \`test_proto_client.py\`, and archiving the native JUnit, descriptor, generated-module digests, evidence receipts. A fifth job checks the actual original artifacts/source SHA and test identity across four platforms. Do not report an installed Core exchange from this result.
+
+**Next engineering:** COG-LU-IPC-01A-R2 or 01B — exact-source real named-pipe / Unix-domain-socket client admission, accepted Core-side Health dispatcher, and protected installed signed credentials, with Lu changes done exclusively in issue #248/#245. Preserve frozen SSM/R6/MEL source. No duplicate CI or source change to Lu.
