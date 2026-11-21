@@ -5,6 +5,7 @@ param(
  [Parameter(Mandatory=$true)][ValidateSet('provision','remove')][string]$Mode,
  [Parameter(Mandatory=$true)][string]$FixtureRoot,
  [Parameter(Mandatory=$true)][string]$RuntimeParent,
+ [Parameter(Mandatory=$true)][string]$WorkerRoot,
  [string]$EnvFile
 )
 Set-StrictMode -Version Latest
@@ -12,8 +13,11 @@ $ErrorActionPreference='Stop'
 if($env:OS -ne 'Windows_NT'){throw 'Genuine Windows required'}
 $root=[IO.Path]::GetFullPath($FixtureRoot)
 $runtime=[IO.Path]::GetFullPath($RuntimeParent)
+$worker=[IO.Path]::GetFullPath($WorkerRoot)
+if(@($root,$runtime,$worker)|Select-Object -Unique|Measure-Object|Select-Object -ExpandProperty Count -ErrorAction Stop|Where-Object {$_ -ne 3}){throw 'Host-owned original, frozen runtime and worker I/O cannot be the same path'}
 if(!(Test-Path -LiteralPath $root -PathType Container) -or
-   !(Test-Path -LiteralPath $runtime -PathType Container)){
+   !(Test-Path -LiteralPath $runtime -PathType Container) -or
+   !(Test-Path -LiteralPath $worker -PathType Container)){
   throw 'Fresh original numerical and frozen-runtime parent directories required'
 }
 $manifest=Join-Path $root 'r3-r1-external-nonadmin.json'
@@ -102,7 +106,9 @@ if($Mode -eq 'provision'){
      Grant-Exact $runtime $identity '(OI)(CI)RX'
    }
    Grant-Exact $root $package '(OI)(CI)M'
-   foreach($leaf in @($runtime,$root)){
+   Grant-Exact $worker $sid '(OI)(CI)M'
+   Grant-Exact $worker $package '(OI)(CI)M'
+   foreach($leaf in @($runtime,$root,$worker)){
      $cursor=Get-Item -LiteralPath $leaf -Force
      while($cursor){
        if(($cursor.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0){
