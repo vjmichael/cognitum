@@ -1,0 +1,253 @@
+{
+  "task": "COG-ORCH-01E-BENCH-01",
+  "outcome": "SCOPED_COMPLETE_HISTORICAL_REAL_OBSERVATIONS_MIXED_RESULTS_NO_CONSISTENT_SUPERIORITY",
+  "tested_source_sha": "8d0b1d2d8d05b7496ec159b241e3f8c7fac3dba9",
+  "run": 44865667216,
+  "same_source_windows_linux_python_3_11_3_13": true,
+  "native_platforms": 4,
+  "unique_testcases": 436,
+  "total_testcase_executions": 1744,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "case_identity_digest_sha256": "b302e83565aaac595bf54d6337da998665f6979f01f78e4defa042fd65adee69",
+  "original_archives": [
+    {
+      "id": 14691483987,
+      "name": "orcbench01-windows-latest-py3.13",
+      "sha256": "0b1eec8bc2fb89bb7fdc2266352185297c094096e4837f62bd14409369007de4",
+      "archive_bytes": 341854,
+      "url": "https://github.com/vjmichael/cognitum/actions/runs/44865667216/artifacts/14691483987"
+    },
+    {
+      "id": 14691314460,
+      "name": "orcbench01-ubuntu-latest-py3.11",
+      "sha256": "fc368e668eecdd03f0b1601843314f345e9861dc5b73f0f505f1eb930069228c",
+      "archive_bytes": 341613,
+      "url": "https://github.com/vjmichael/cognitum/actions/runs/44865667216/artifacts/14691314460"
+    },
+    {
+      "id": 14691304640,
+      "name": "orcbench01-windows-latest-py3.11",
+      "sha256": "47dd24c37d9dde47d57257dcad120d0ca590b3bd2371bf87e8be96f61579d052",
+      "archive_bytes": 341780,
+      "url": "https://github.com/vjmichael/cognitum/actions/runs/44865667216/artifacts/14691304640"
+    },
+    {
+      "id": 14690964810,
+      "name": "orcbench01-ubuntu-latest-py3.13",
+      "sha256": "b5932577e9f5687b36a6bb23d12fc2d015b882a0796aa53f623defdf6762c35c",
+      "archive_bytes": 341771,
+      "url": "https://github.com/vjmichael/cognitum/actions/runs/44865667216/artifacts/14690964810"
+    }
+  ],
+  "source_git_blobs": {
+    "tools/orcbench01/benchmark.py": "cc65794f63fb7d6d6def6c4ce0541fc85a6439ca",
+    "tests/test_orc_real_benchmark.py": "bb7d3f2f9acb5c8f9f9c38a8eaecc34e0c26aed9",
+    "docs/research/orcgraph/ORCH01E_BENCH01_PREREG.md": "4b21d099f71b12f19625bf5bda5f04f4ed2bd8cd",
+    "research_tests/ssm_postnative04/data/Changping.csv": "60162fd7183d4ca62a869ddb4fa47d2eb43c076e",
+    "research_tests/ssm_postnative04/data/Dingling.csv": "f083504372ba2ab3083d8518b910a8c1fd850ebd",
+    "research_tests/ssm_postnative04/data/Guanyuan.csv": "12c1c4665eaedfc0d314fd4ede22c6bc8e27fff5",
+    "research_tests/ssm_postnative04/data/sources.json": "bc4f1e632a08c677a861a9208036bf87df63df5c",
+    "research_tests/ssm_postnative04/data/acquisition.json": "67afd02bd74dc6c2e856279f9437392c17f4312f",
+    "research_tests/ssm_postnative05r4/data/Rac_daily_Q.csv": "0277bb41d84dc49d85b9a016fbfbce4f4ac59ed7",
+    "research_tests/ssm_postnative05r4/data/Musk_daily_Q.csv": "964a615050252f4a05ebca9d69caffed847444d1",
+    "research_tests/ssm_postnative05r4/data/USGS_siteInfo.csv": "174a59d509ceb3a56d6b7c44f38cb687ed24648d",
+    "research_tests/ssm_postnative04/test_multisite.py": "c53646d7c06ecca2348f0531ddb7b91885d77ab9",
+    "tools/orc01e/selection_evidence.py": "90d9071d1e4c80abb4b581b751f23325c1c8392f",
+    "cognitum/orc_selection.py": "048e0f4ac75bbaa595e1c15a1066a7fd7e6679ce",
+    "tests/test_orc_selection.py": "f89cccd870f943b608d02919bf487f4e99deec5b",
+    "tools/orc01d/synthetic_evidence.py": "3fb9aeebf39476140bec1dadc30e5fb72bf0d829",
+    "cognitum/orc_comparison.py": "332003efd069514a98a5f0975a3b45b616169912",
+    "tests/test_orc_comparison.py": "aa618661a8bea239f3ab3b36fe2ca0cbc3e07428",
+    "cognitum/orc_handoff.py": "57231646214f19f29b21faa7d6dc0c2dbcd1e10a",
+    "tests/test_orc_handoff.py": "1b577c34d7290e2b4fd97c08b4505ef313d2a2dd",
+    "cognitum/orc_science_data.py": "5c04729d62e2df37609f6e589d2238e662e0ac83",
+    "tests/test_orc_science_data.py": "f1913928404937d5df0dbfa17d7838d39ff05191",
+    "cognitum/orc_graph.py": "c513557f2131cfeec907a9d0a6a5eb2b636a4db6",
+    "tests/test_orc_graph.py": "f3ed00866df2481b53eefb12d8cb87e422960edb",
+    "cognitum/cooperative.py": "eaa5952f2b25a15e35d9ae4ec2216c4bb6e8cc69",
+    "cognitum/cooperative_cpu.py": "8c090ff024eee7cd1dbad40f076a4a5a0e06f0de",
+    "cognitum/mel/cooperation.py": "e1a64c6dd4a9233d7f79199554f0119fca12d721",
+    "cognitum/mel/admission.py": "405fa91935f62226ab0d1a2f0d8b7313e2327116",
+    "cognitum/mel/verified_graph.py": "01ab98016c97345b1808927116e84eb22d79cb6d",
+    "cognitum/mel/engines.py": "72e4869e366013357e77aff0fe9b70eef8aac47c",
+    "cognitum/mel/native.py": "2f8ccf40e7f1ead28edd3a1ffaee767b6e63b9a7",
+    "cognitum/runtime.py": "885c4bf56114c7cab98252539e5900113ae3418b",
+    "cognitum/research/ssm_timeaware.py": "25d790981424a9546863d802848f3887d8c92975",
+    "cognitum/research/kan_trainable.py": "238f1ea9969aab6ecd87be0dcefb9966ae6a6d59",
+    "cognitum/research/hdc_algebra.py": "1b64d122fd0a34e5de3e747c4076ffaa80216284",
+    "cognitum/research/hdc_associative.py": "42121bc738737ce3dbe3b3921d41404ceec47d73",
+    "research_tests/ssm_postnative05r4/test_timeaware.py": "13202566fc069188864ac94e803c7e54be21cd11",
+    "tests/test_cooperative.py": "cd3084748e8ac44cd3b67ca70510bd11da7093d8",
+    "tests/test_cooperative_compositions.py": "5d1b615d56b31167147f3943b255ceb374de3450",
+    "research_tests/mel04b/test_cooperation.py": "fcc861b498635f9a62986c3fde9843748894b70a",
+    "research_tests/mel05b/test_graph_acceptance.py": "9d10f8b60fb62aa7137b67c1354ddc9b4b8847ea",
+    "research_tests/mel05b/test_inline_enforcement.py": "2b9551e28f673ee912db9dea1fef2ea20d453d0a"
+  },
+  "source_git_pins_matched_authoritative_tree_and_all_archives": true,
+  "original_zip_crc_sha256_junit_and_rowwise_recomputed_metrics_verified": true,
+  "dependencies_all_native": {
+    "networkx": "3.5",
+    "numpy": "2.3.5",
+    "ortools": "9.15.6755",
+    "protobuf": "6.33.6",
+    "pytest": "9.0.2",
+    "scipy": "1.17.0"
+  },
+  "source_qualification": {
+    "original_source_domains": [
+      "UCI 501 Beijing historical temperature Changping °C→K, CC BY 4.0",
+      "USGS EGRET-derived Raccoon daily discharge m3/s",
+      "USGS EGRET-derived Muskingum daily discharge m3/s"
+    ],
+    "original_source_already_used_in_cognitum_research": true,
+    "original_publisher_sensor_signature_verified": false,
+    "observed_publication_availability_verified": false,
+    "reported_availability_is_assumed": true,
+    "initial_uci_site_duplication_detected_prior_to_benchmark": true,
+    "recorded_pre_result_protocol_amendment": true,
+    "train_cal_test": "60/20/20 chronological with exact matched origins/targets",
+    "horizon_steps": [
+      1,
+      6,
+      24
+    ],
+    "series_count": 3,
+    "cross_domain_aggregation": "equal-weight mean fractional RMSE change relative to each series' own direct ridge",
+    "source_provenance_manifest": "docs/research/orcgraph/ORCH01E_BENCH01_PREREG.md"
+  },
+  "case_results": [
+    {
+      "task": "Changping_1h",
+      "unit": "K",
+      "n": 383,
+      "baseline_direct_ridge_rmse": 1.2892570542828505,
+      "default_method": "direct_ridge",
+      "default_signed_rmse_gain": 0,
+      "research_method": "direct_ridge",
+      "research_signed_rmse_gain": 0,
+      "strong_classical_method": "ridge_AR24",
+      "strong_classical_rmse": 0.9768528672784184
+    },
+    {
+      "task": "Changping_6h",
+      "unit": "K",
+      "n": 378,
+      "baseline_direct_ridge_rmse": 9.289050267570309,
+      "default_method": "persistence",
+      "default_signed_rmse_gain": 3.258506318848907,
+      "research_method": "persistence",
+      "research_signed_rmse_gain": 3.258506318848907,
+      "strong_classical_method": "ridge_AR24",
+      "strong_classical_rmse": 3.7788570403496378
+    },
+    {
+      "task": "Changping_24h",
+      "unit": "K",
+      "n": 360,
+      "baseline_direct_ridge_rmse": 4.969771054639993,
+      "default_method": "persistence",
+      "default_signed_rmse_gain": 1.6788576387156064,
+      "research_method": "persistence",
+      "research_signed_rmse_gain": 1.6788576387156064,
+      "strong_classical_method": "persistence",
+      "strong_classical_rmse": 3.2909134159243862
+    },
+    {
+      "task": "Rac_1d",
+      "unit": "m3/s",
+      "n": 383,
+      "baseline_direct_ridge_rmse": 21.724147491163958,
+      "default_method": "persistence",
+      "default_signed_rmse_gain": -1.6167395014737096,
+      "research_method": "ssm_hdc",
+      "research_signed_rmse_gain": -1.4768239252569089,
+      "strong_classical_method": "persistence",
+      "strong_classical_rmse": 23.340886992637667
+    },
+    {
+      "task": "Rac_6d",
+      "unit": "m3/s",
+      "n": 378,
+      "baseline_direct_ridge_rmse": 69.21417937885977,
+      "default_method": "persistence",
+      "default_signed_rmse_gain": -6.090120042482667,
+      "research_method": "ssm_hdc",
+      "research_signed_rmse_gain": -4.068350507620892,
+      "strong_classical_method": "persistence",
+      "strong_classical_rmse": 75.30429942134244
+    },
+    {
+      "task": "Rac_24d",
+      "unit": "m3/s",
+      "n": 360,
+      "baseline_direct_ridge_rmse": 97.80206518331745,
+      "default_method": "timeaware_ssm",
+      "default_signed_rmse_gain": -6.774321676284018,
+      "research_method": "ssm_kan_hdc",
+      "research_signed_rmse_gain": 2.4658418036521113,
+      "strong_classical_method": "timeaware_ssm",
+      "strong_classical_rmse": 104.57638685960147
+    },
+    {
+      "task": "Musk_1d",
+      "unit": "m3/s",
+      "n": 383,
+      "baseline_direct_ridge_rmse": 48.788456078897454,
+      "default_method": "direct_ridge",
+      "default_signed_rmse_gain": 0,
+      "research_method": "direct_ridge",
+      "research_signed_rmse_gain": 0,
+      "strong_classical_method": "ridge_AR24",
+      "strong_classical_rmse": 49.10832816901395
+    },
+    {
+      "task": "Musk_6d",
+      "unit": "m3/s",
+      "n": 378,
+      "baseline_direct_ridge_rmse": 164.63602701610557,
+      "default_method": "timeaware_ssm",
+      "default_signed_rmse_gain": -12.2557060978219,
+      "research_method": "timeaware_ssm",
+      "research_signed_rmse_gain": -12.2557060978219,
+      "strong_classical_method": "timeaware_ssm",
+      "strong_classical_rmse": 176.89173311392747
+    },
+    {
+      "task": "Musk_24d",
+      "unit": "m3/s",
+      "n": 360,
+      "baseline_direct_ridge_rmse": 174.34310615945643,
+      "default_method": "timeaware_ssm",
+      "default_signed_rmse_gain": -34.50035081829759,
+      "research_method": "timeaware_ssm",
+      "research_signed_rmse_gain": -34.50035081829759,
+      "strong_classical_method": "timeaware_ssm",
+      "strong_classical_rmse": 208.84345697775402
+    }
+  ],
+  "default_orc": {
+    "rmse_wins": 2,
+    "losses": 5,
+    "ties": 2,
+    "macro_mean_fractional_rmse_gain": 0.02051095661318962
+  },
+  "research_opt_in_orc": {
+    "rmse_wins": 3,
+    "losses": 4,
+    "ties": 2,
+    "macro_mean_fractional_rmse_gain": 0.034969745170102234
+  },
+  "conclusion": "Positive equal-weight macro fractional mean but more heldout losses than wins; no general predictive superiority established.",
+  "descriptive_dependence_audit": "Nonoverlapping 24-origin block sensitivity and 90%-nominal calibration-only block-max interval; no conditional coverage proof.",
+  "runtime_audit": "perf_counter measured partial source/fit/proposal/score phase duration, tracemalloc Python allocations only; not full RSS/C native memory or isolated per-method performance.",
+  "not_demonstrated": [
+    "Genuinely unseen source/site generalization",
+    "Real publisher observation availability timestamps",
+    "Original sensor signatures and external authority of reported rights",
+    "Dependence-aware statistical significance across independent datasets",
+    "KAN bitwise portability and complete physical accuracy",
+    "Production installed MEL authorization/user workflows or real CH+A(t) collaboration gains"
+  ]
+}

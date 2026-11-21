@@ -1,6 +1,6 @@
 # Orc Graph versus ridge — owner-requested post-completion benchmark
 
-**Owner decision (November 20, 2026):** After completing the Orc Graph architecture (ORCH-01B–E), undertake a real independent comparison to measure whether routing actually helps Cognitum over **direct ridge regression**, not merely whether its graph executes. **Status: NEXT SCIENTIFIC EXPERIMENT / NOT EXECUTED.**
+**Owner decision (November 20, 2026):** After completing the Orc Graph architecture (ORCH-01B–E), undertake a real independent comparison to measure whether routing actually helps Cognitum over **direct ridge regression**, not merely whether its graph executes. **Status: BOUNDED RETROSPECTIVE REAL-OBSERVATION EXPERIMENT EXECUTED; INDEPENDENT NEW-SOURCE GENERALIZATION STILL OPEN.**
 
 ## Pre-registered question and distinct effects
 
@@ -28,3 +28,7 @@ The five bounded Orc Graph architecture stages passed source-locked native tests
 ## BENCH-01 locked real observation study
 
 The specific site/feature/cohort/baseline/metric contract is recorded [before any test outcome](ORCH01E_BENCH01_PREREG.md). This new study uses already archived real UCI air-temperature data for three sites with explicit CC BY 4.0 attribution. It is not an unseen-source or original-sensor-attested experiment. Any failures or losses must be preserved in result tables, with no future-label selection.
+
+## BENCH-01 actual outcomes and next qualification (Nov 20 source cohort)
+
+[Full nine-task heldout results](ORCH01E_BENCH01_RESULTS.md), [original archive/source receipt manifest](ORCH01E_BENCH01_NATIVE_ARTIFACTS.json). Source-locked CI [44865667216](https://github.com/vjmichael/cognitum/actions/runs/44865667216) passed 436/436 ×4 native OS/Python targets. The pre-result three-duplicate-temperature preflight was refused, documented and amended before any benchmark results. Original source research datasets were previously known, with observation-release timestamp assumptions. Default Orc vs direct ridge: **2 RMSE wins, 5 losses, 2 ties**, dimensionless macro mean fractional improvement +2.05%; explicitly opt-in research Orc **3 wins, 4 losses, 2 ties**, +3.50%. Strong AR24 and 24-lag persistence often competed effectively. Positive average alongside majority losses **does not establish consistent superiority**. Independent never-seen-site/instrument/operational-publication validation remains separate, as does CH⊕aT real user evidence.
