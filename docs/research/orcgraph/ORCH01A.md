@@ -27,3 +27,7 @@ The output is an **inert Proposal wrapping cognitum.cooperative.Plan**, with its
 - No stacked CI or claims of certified cross-site physical forecasting; accepted R4 physical source SHA cf78900c4fcec3981b93c842144c53b15cc0d411, 72 PARTIAL groups and all adverse outcomes remain untouched.
 
 **Next after scoped qualification:** ORCH-01B units, clock, provenance, train-only scientific transformations; independent R4-R1 checkpoint/source data and untouched-site validation work remains open.
+
+## ORCH-01A-R1 inherited dependency repair
+
+Initial native run [44854337433](https://github.com/vjmichael/cognitum/actions/runs/44854337433) reached all four OS/Python cells but failed the **same three inherited planning/scheduling acceptance tests** per cell (60/63 tests passed in the first Linux 3.13 report). The new Orc Graph tests passed. Root cause: the new workflow installed the scientific extra but omitted the pre-existing optional C12 planning dependency, NetworkX. The original C12 planner correctly yields UNSUPPORTED without it; inherited tests require the real NetworkX graph path and accept only independently validated plan witnesses. **Repair:** add the existing planning-graph extra and pin networkx==3.5 to the native workflow; do NOT remove/skip/change planning tests or weaken verifier expectations. The first matrix was fully terminal before triggering a corrected candidate. Original first-run source SHA preserved for evidence, not accepted. R1 native result pending.
