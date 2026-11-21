@@ -5,7 +5,8 @@
 param(
   [Parameter(Mandatory=$true)][string]$Executable,
   [Parameter(Mandatory=$true)][string]$FixtureRoot,
-  [Parameter(Mandatory=$true)][string]$EvidencePath
+  [Parameter(Mandatory=$true)][string]$EvidencePath,
+  [string]$WorkerRoot
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'
@@ -13,10 +14,12 @@ if($env:OS -ne 'Windows_NT'){throw 'Native Windows SCM required'}
 $svc='CognitumSsmNativeFixtureV1'
 $exe=[IO.Path]::GetFullPath($Executable)
 $root=[IO.Path]::GetFullPath($FixtureRoot)
+$io=if($WorkerRoot){[IO.Path]::GetFullPath($WorkerRoot)}else{$root}
+if(!(Test-Path -LiteralPath $io -PathType Container)){throw 'Pinned worker I/O root missing'}
 $evidence=[IO.Path]::GetFullPath($EvidencePath)
 $stop=[IO.Path]::Combine($root,'stop.json')
 $prelaunch=[IO.Path]::Combine($root,'prelaunch.json')
-$output=[IO.Path]::Combine($root,'output.frame')
+$output=[IO.Path]::Combine($io,'output.frame')
 if(!(Test-Path -LiteralPath $exe -PathType Leaf) -or
    !(Test-Path -LiteralPath $root -PathType Container)){
   throw 'Missing exact fixed service binary or CI fixture root'
@@ -163,7 +166,7 @@ public static class CognitumR1JobObserve {
     }
     $signedStopSha=(Get-FileHash -LiteralPath $env:COG_R2_CI_SIGNED_STOP -Algorithm SHA256).Hash.ToLowerInvariant()
   }
-  $verifyOutput=& python scripts/cog_r5_r1_scm_ssm_fixture.py verify --root "$root"
+  $verifyOutput=& python scripts/cog_r5_r1_scm_ssm_fixture.py verify --root "$root" --worker-root "$io"
   if($LASTEXITCODE -ne 0){throw 'Independently recalculated SSM math differs'}
   $verified=$verifyOutput | ConvertFrom-Json
   if($verified.real_ssm_factory_output_matches -ne $true -or
