@@ -27,7 +27,7 @@ from research_tests.mel_ssm_r6int01.test_journal import (
     S,CTX,KeyBroker,RevisionAnchor,_engine,
 )
 from research_tests.mel_lu_ipc01d.test_durable_lifecycle import (
-    TestIndependentRevisionAnchor,
+    TestIndependentRevisionAnchor as FixtureRevisionAnchor,
 )
 
 REQUEST="r6-registered-source-only-request"
@@ -108,7 +108,7 @@ def combined(tmp_path):
        output=lu.TypedValue(type_url=ssm.OUTPUT_URL,
            encoded_message=typed_out.SerializeToString(deterministic=True)))
     broker=OriginalOperationKeyBroker()
-    anchor=TestIndependentRevisionAnchor()
+    anchor=FixtureRevisionAnchor()
     kw=dict(directory=str(tmp_path/"original-lu-log"),
       broker=broker,anchor=anchor,trusted_origin=origin,
       request_id=REQUEST,core_session_ref=SESSION,
@@ -198,7 +198,7 @@ def test_outbox_snapshot_survives_original_lu_log_restart_and_replay_refusal(com
     combined["verifier"]=reopened
     assert reopened.status()==before
     assert reopened.status()["original_outbox_snapshot_sha256"]==accepted["local_snapshot_sha256"]
-    with pytest.raises(ValueError,match="lifecycle refused"):
+    with pytest.raises(ValueError,match="outbox reconciliation refused"):
         observe(combined)
 
 
