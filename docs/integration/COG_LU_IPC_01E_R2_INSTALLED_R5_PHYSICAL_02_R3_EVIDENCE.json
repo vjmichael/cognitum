@@ -1,0 +1,74 @@
+{
+  "schema": "cognitum.lu_ipc_r5_physical02_r3.partial_acceptance.v1",
+  "task": "COG-LU-IPC-01E-R2-INSTALLED-R5-PHYSICAL-02-R3",
+  "status": "PASS_NATIVE_SCM_SIGNED_ORIGINAL_UNCERTAIN_RESTART_BLOCKED_FULL_APP_CONTAINER_AND_INSTALLED",
+  "original_recovery_qualified_source_sha": "78f160e237c69a517ecdd9a65dd296015130cf68",
+  "recovery_native": {
+    "id": 44945806116,
+    "url": "https://github.com/vjmichael/cognitum/actions/runs/44945806116",
+    "jobs": 4,
+    "conclusion": "success",
+    "exact_git_source_blobs_verified": 14,
+    "real_windows_signature_tamper_tests_passed": 29
+  },
+  "recovery_integrated": {
+    "id": 44945806076,
+    "url": "https://github.com/vjmichael/cognitum/actions/runs/44945806076",
+    "jobs": 8,
+    "conclusion": "success"
+  },
+  "recovery_unsigned_windows_fixture_binary_sha256": "75ba656deed9b4ee10a4f29d96d89eea2f9a566390e3c59f3ba0ca37f98127ce",
+  "native_recovery_artifacts": [
+    {
+      "id": 14724040636,
+      "name": "r3-windows-forced-signed-uncertain-public",
+      "sha256": "a72314975fb6e76a97269615d09d39fef19d3c34bc14f5167940ce85b1df9311"
+    },
+    {
+      "id": 14723144069,
+      "name": "r3-independent-original-source",
+      "sha256": "c528430421be613b46a0ebfca83f94aed611623312e3e8fbb4c5365b8bf013be"
+    }
+  ],
+  "positive_appcontainer_trial_original_source_sha": "3e04145c691fd7dee2bbaf9c14bd8dc9d7317bea",
+  "positive_appcontainer_trial": {
+    "id": 44946157532,
+    "url": "https://github.com/vjmichael/cognitum/actions/runs/44946157532",
+    "state_at_original_document": "in_progress",
+    "completed_full_numerical_acceptance": false
+  },
+  "appcontainer_trial_integrated": {
+    "id": 44946157756,
+    "url": "https://github.com/vjmichael/cognitum/actions/runs/44946157756",
+    "jobs": 8,
+    "conclusion": "success"
+  },
+  "first_appcontainer_native_trial": {
+    "id": 44945806202,
+    "conclusion": "failure",
+    "reported_kernel_error": "ERROR_FILE_NOT_FOUND (2)"
+  },
+  "source_strict_AppContainer_only_native_abi_compiled": true,
+  "AppContainer_token_identity_source_verified_before_resume": true,
+  "OS_created_no_network_CI_AppContainer_profile": true,
+  "OS_issued_original_non_SYSTEM_CI_user_peer": true,
+  "full_python_SSM_numerical_execution_under_AppContainer_verified": false,
+  "actual_native_windows_SCMSupervisor_force_termination_restart": true,
+  "domain_separated_CNG_P256_signed_original_prelaunch": true,
+  "domain_separated_CNG_P256_signed_uncertain_restart": true,
+  "exact_original_nonce_and_request_and_prior_signature_bound": true,
+  "distinct_real_OS_service_generation_verified": true,
+  "local_replay_refused": true,
+  "original_kernel_job_empty_after_hard_crash_claimed": false,
+  "original_effect_success_after_crash_claimed": false,
+  "external_mono_antirollback_signed_recovery_accepted": false,
+  "independently_approved_production_signer": false,
+  "physical_installed_signed_Cognitum_publisher": false,
+  "physical_power_loss_signed_recovery_test": false,
+  "genuine_delegated_linux_cgroup_recovery": false,
+  "real_lu_Core_Health_authenticated": false,
+  "original_Core_grant_PURE_COMPUTE": false,
+  "original_SSM_output_released": false,
+  "model_or_tool_authorized": false,
+  "outbox_recipient_ACK": false
+}
