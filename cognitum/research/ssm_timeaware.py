@@ -168,7 +168,7 @@ def fit(s):
     keep=np.linspace(0,len(o)-1,min(1536,len(o)),dtype=int)
     lay=Layer("chebyshev",3,np.tile([0.,1.],(3,1)),np.zeros((1,3,4)),
               np.ones((1,3)),np.zeros(1))
-    kan=Network((lay,)).fit_linear(norm[keep],(residual[keep]/state_scale)[:,None],ridge=2.)
+    kan=Network((lay,)).fit_linear(norm[keep],(residual[keep]/state_scale)[:,None],ridge=.5)
     _,snap=kan.research_snapshot()
     zkan=kan.evaluate(norm[keep])[0][:,0]*state_scale
     left=residual[keep]-zkan
