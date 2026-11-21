@@ -16,6 +16,10 @@ mod r2_restricted;
 mod r2_signer;
 #[cfg(all(windows, feature = "r2-restricted-fixture"))]
 mod r2_diagnostic;
+#[cfg(all(windows, feature = "r3-signed-recovery"))]
+mod r3_recovery;
+#[cfg(all(windows, feature = "r3-appcontainer-fixture"))]
+mod r3_appcontainer;
 #[cfg(all(windows, feature = "acceptance-fixture"))]
 mod win {
     use std::{
@@ -247,8 +251,12 @@ mod win {
             }
             #[cfg(feature = "r2-cng-fixture")]
             crate::r2_signer::require_preprovisioned()?;
+            #[cfg(feature = "r3-signed-recovery")]
+            crate::r3_recovery::refuse_prior_original()?;
             #[cfg(feature = "ssm-fixture")]
             let (app, mut cmd, original_fixture) = crate::ssm_fixture::prepare()?;
+            #[cfg(feature = "r3-signed-recovery")]
+            crate::r3_recovery::sign_verified_prelaunch(&original_fixture)?;
             #[cfg(not(feature = "ssm-fixture"))]
             let (app, mut cmd) = {
                 let exe = std::env::current_exe()?;
@@ -259,11 +267,17 @@ mod win {
             let mut si = StartupInfo { cb: mem::size_of::<StartupInfo>() as u32,
                                       ..Default::default() };
             let mut pi = ProcessInfo::default();
-            #[cfg(feature = "r2-restricted-fixture")]
+            #[cfg(feature = "r3-appcontainer-fixture")]
+            crate::r3_appcontainer::launch(&app,&mut cmd,
+                (&si as *const StartupInfo).cast(),
+                (&mut pi as *mut ProcessInfo).cast())?;
+            #[cfg(all(not(feature = "r3-appcontainer-fixture"),
+                      feature = "r2-restricted-fixture"))]
             crate::r2_restricted::launch(&app,&mut cmd,
                 (&si as *const StartupInfo).cast(),
                 (&mut pi as *mut ProcessInfo).cast())?;
-            #[cfg(not(feature = "r2-restricted-fixture"))]
+            #[cfg(all(not(feature = "r3-appcontainer-fixture"),
+                      not(feature = "r2-restricted-fixture")))]
             if unsafe {
                 CreateProcessW(app.as_ptr(), cmd.as_mut_ptr(), ptr::null_mut(),
                                ptr::null_mut(), 0, CREATE_SUSPENDED | CREATE_NO_WINDOW,

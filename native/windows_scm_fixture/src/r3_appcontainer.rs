@@ -77,6 +77,7 @@ unsafe extern "system"{
         capacity:u32,required:*mut u32)->i32;
     fn ConvertSidToStringSidW(sid:Handle,output:*mut *mut u16)->i32;
     fn EqualSid(a:Handle,b:Handle)->i32;
+    fn FreeSid(sid:Handle)->Handle;
     fn CreateProcessAsUserW(token:Handle,application:*const u16,command:*mut u16,
         pa:Handle,ta:Handle,inherit:i32,flags:u32,environment:Handle,
         directory:*const u16,startup:*const StartupInfo,process:Handle)->i32;
@@ -104,6 +105,10 @@ impl Drop for Owned{fn drop(&mut self){if !self.0.is_null(){
 }}}
 struct OwnedSid(Handle);
 impl Drop for OwnedSid{fn drop(&mut self){if !self.0.is_null(){
+    unsafe{FreeSid(self.0);}
+}}}
+struct OwnedLocal(Handle);
+impl Drop for OwnedLocal{fn drop(&mut self){if !self.0.is_null(){
     unsafe{LocalFree(self.0);}
 }}}
 struct Attr{bytes:Vec<usize>,ready:bool}
@@ -141,7 +146,7 @@ fn string_sid(sid:Handle)->io::Result<String>{
     if unsafe{ConvertSidToStringSidW(sid,&mut raw)}==0||raw.is_null(){
         return Err(denied("cannot verify OS user/package SID"));
     }
-    let owned=OwnedSid(raw.cast());
+    let _owned=OwnedLocal(raw.cast());
     let mut len=0usize;
     while len<256 && unsafe{*raw.add(len)}!=0 {len+=1;}
     if len==0||len>=256{return Err(denied("unbounded OS user SID"));}

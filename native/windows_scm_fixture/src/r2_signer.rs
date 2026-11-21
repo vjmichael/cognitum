@@ -154,11 +154,9 @@ pub fn sign_local_stopped_original(stop_path:&Path)->io::Result<()>{
 #[cfg(feature="r3-signed-recovery")]
 pub(crate) fn sign_r3_frame(domain:&[u8],body:&[u8])
     ->io::Result<([u8;SIGNATURE_LEN],[u8;32])>{
-    if !matches!(domain,
-        b"Cognitum.R3.CI.PRELAUNCH.v1\0" |
-        b"Cognitum.R3.CI.UNCERTAIN_RESTART.v1\0" |
-        b"Cognitum.R3.CI.REPLAY_REFUSED.v1\0"
-    ){
+    if domain!=b"Cognitum.R3.CI.PRELAUNCH.v1\0" &&
+       domain!=b"Cognitum.R3.CI.UNCERTAIN_RESTART.v1\0" &&
+       domain!=b"Cognitum.R3.CI.REPLAY_REFUSED.v1\0" {
         return Err(denied("R3 original receipt signer domain not approved"));
     }
     if body.is_empty() || body.len()>2048 {
@@ -176,4 +174,29 @@ pub(crate) fn sign_r3_frame(domain:&[u8],body:&[u8])
         return Err(denied("R3 genuine OS-machine receipt signature refused"));
     }
     Ok((signature,sha(&pubkey)?))
+}
+
+
+#[cfg(feature="r3-signed-recovery")]
+pub(crate) fn r3_sha(bytes:&[u8])->io::Result<[u8;32]>{
+    if bytes.len()>8192{return Err(denied("R3 original marker too large"));}
+    sha(bytes)
+}
+#[cfg(feature="r3-appcontainer-fixture")]
+pub(crate) fn r3_sha_image(bytes:&[u8])->io::Result<[u8;32]>{
+    if bytes.is_empty()||bytes.len()>64*1024*1024{
+        return Err(denied("pinned peer executable too large"));
+    }
+    let mut raw=ptr::null_mut();
+    if unsafe{BCryptOpenAlgorithmProvider(&mut raw,wide("SHA256").as_ptr(),
+        ptr::null(),0)}!=0||raw.is_null(){
+        return Err(denied("peer image CNG SHA256 unavailable"));
+    }
+    let provider=OwnedB(raw);
+    let mut result=[0u8;32];
+    if unsafe{BCryptHash(provider.0,ptr::null(),0,
+        bytes.as_ptr(),bytes.len() as u32,result.as_mut_ptr(),32)}!=0{
+        return Err(denied("peer image CNG hash failed"));
+    }
+    Ok(result)
 }

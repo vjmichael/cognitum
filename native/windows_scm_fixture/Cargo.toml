@@ -10,6 +10,8 @@ acceptance-fixture = []
 ssm-fixture = ["acceptance-fixture"]
 r2-cng-fixture = ["ssm-fixture"]
 r2-restricted-fixture = ["r2-cng-fixture"]
+r3-signed-recovery = ["r2-cng-fixture"]
+r3-appcontainer-fixture = ["r3-signed-recovery"]
 
 [[bin]]
 name = "cognitum-scm-supervisor"
