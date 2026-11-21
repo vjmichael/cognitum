@@ -71,7 +71,7 @@ jobs:
           test "$(git hash-object research_tests/mel_lu_ipc01c/test_typed_ssm_contract.py)" = "dc1af1130a6d5f37cf18c6a20b44ad09be251fc0"
           test "$(git hash-object research_tests/mel_lu_ipc01c/compile_pinned_lu_ssm.py)" = "c4a50016415af98509ac9fe7d0283b2c513ee29a"
           test "$(git hash-object research_tests/mel_lu_ipc01d/test_durable_lifecycle.py)" = "65b3470a4e7622b2e7c057a059009c66f730f181"
-          test "$(git hash-object research_tests/mel_lu_ipc01e/test_outbox_reconcile.py)" = "9734642c1a6de9ff41a768797c586bb78508eb0c"
+          test "$(git hash-object research_tests/mel_lu_ipc01e/test_outbox_reconcile.py)" = "835d804dfc65f690b93a0236098c56c4266607d8"
           test "$(git hash-object .gitattributes)" = "f475ae5dffefa219891604df8acae665de8c102a"
           test "$(git hash-object docs/integration/COG_LU_IPC_01E_R1_OUTBOX.md)" = "bc94a9b35dbf5957df510a9433f67639575503ae"
       - name: Archive original native JUnit and Protobuf receipts
@@ -120,7 +120,7 @@ jobs:
                   for platform in ("windows-latest","ubuntu-latest")
                   for py in ("3.11","3.13")}
           assert {x.name for x in root.iterdir() if x.is_dir()}==wanted
-          pins=["4e01d921197fb1c58c99958479b1cede36e13c9a","755562254afdbea686ee33b95567c505f2f85e49","ac57eb0afc4b2f0630531470e067461d8e2268ea","300300b9f63f417afcc0ec650697e3012b7bdab0","b21612457c3763dab8233d0eced5e5fffca968ad","7c70333ddbe85fc187e6b1d5ba9956abca4c5a58","01ec228aa1ac1417c77d7a444f3c27a32b632e1c","62dede174eff782cd20ab44998bff981b0ef5583","14fa22acd34f72e2df080d23b52e18a289a1cd1a","d9ca61ce225e90855b2bfba42f98abf78a7d3276","405fa91935f62226ab0d1a2f0d8b7313e2327116","05e40e09c7a3e9bfdf838d38f4e971682ec8cfd2","64ca56b974d8b0d0b5e3d566e8c0c5bab36ee474","8d0e1774c3ba7d697b3fc6190295271f81b76e80","dc1af1130a6d5f37cf18c6a20b44ad09be251fc0","c4a50016415af98509ac9fe7d0283b2c513ee29a","65b3470a4e7622b2e7c057a059009c66f730f181","9734642c1a6de9ff41a768797c586bb78508eb0c","f475ae5dffefa219891604df8acae665de8c102a","bc94a9b35dbf5957df510a9433f67639575503ae"]
+          pins=["4e01d921197fb1c58c99958479b1cede36e13c9a","755562254afdbea686ee33b95567c505f2f85e49","ac57eb0afc4b2f0630531470e067461d8e2268ea","300300b9f63f417afcc0ec650697e3012b7bdab0","b21612457c3763dab8233d0eced5e5fffca968ad","7c70333ddbe85fc187e6b1d5ba9956abca4c5a58","01ec228aa1ac1417c77d7a444f3c27a32b632e1c","62dede174eff782cd20ab44998bff981b0ef5583","14fa22acd34f72e2df080d23b52e18a289a1cd1a","d9ca61ce225e90855b2bfba42f98abf78a7d3276","405fa91935f62226ab0d1a2f0d8b7313e2327116","05e40e09c7a3e9bfdf838d38f4e971682ec8cfd2","64ca56b974d8b0d0b5e3d566e8c0c5bab36ee474","8d0e1774c3ba7d697b3fc6190295271f81b76e80","dc1af1130a6d5f37cf18c6a20b44ad09be251fc0","c4a50016415af98509ac9fe7d0283b2c513ee29a","65b3470a4e7622b2e7c057a059009c66f730f181","835d804dfc65f690b93a0236098c56c4266607d8","f475ae5dffefa219891604df8acae665de8c102a","bc94a9b35dbf5957df510a9433f67639575503ae"]
           match=None
           receipts={}
           for folder in sorted(root.iterdir()):

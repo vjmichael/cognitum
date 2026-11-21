@@ -27,7 +27,7 @@ from research_tests.mel_ssm_r6int01.test_journal import (
     S,CTX,KeyBroker,RevisionAnchor,_engine,
 )
 from research_tests.mel_lu_ipc01d.test_durable_lifecycle import (
-    TestKeyBroker,TestIndependentRevisionAnchor,
+    TestIndependentRevisionAnchor,
 )
 
 REQUEST="r6-registered-source-only-request"
@@ -35,6 +35,17 @@ SESSION="original-core-session-locked"
 EPOCH="original-core-epoch-locked"
 STREAM="ssm-session-01"
 EVENT="event-002"
+
+
+class OriginalOperationKeyBroker:
+    """Explicit separate domain test key for event-002, not 01D event-1."""
+
+    def __init__(self):
+        self.enabled=True
+
+    def borrow_key(self, scope, operation_ref):
+        assert scope[-1] == operation_ref == EVENT
+        return bytes(range(1,33)) if self.enabled else None
 
 
 @pytest.fixture
@@ -96,7 +107,7 @@ def combined(tmp_path):
        durable_receipt_sha256=hashlib.sha256(b"source-only locator").digest(),
        output=lu.TypedValue(type_url=ssm.OUTPUT_URL,
            encoded_message=typed_out.SerializeToString(deterministic=True)))
-    broker=TestKeyBroker()
+    broker=OriginalOperationKeyBroker()
     anchor=TestIndependentRevisionAnchor()
     kw=dict(directory=str(tmp_path/"original-lu-log"),
       broker=broker,anchor=anchor,trusted_origin=origin,
