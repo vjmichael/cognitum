@@ -1,0 +1,94 @@
+{
+  "task": "COG-ORCH-01B",
+  "classification": "BOUNDED_NATIVE_PASS_DATA_PIPELINE_ONLY",
+  "accepted_exact_source_sha": "5dc8f99316619670297cdfbbe4aeef428f0e41eb",
+  "ci": {
+    "id": 44856022442,
+    "url": "https://github.com/vjmichael/cognitum/actions/runs/44856022442",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "verification": "All four original archived ZIP downloads independently SHA-256 checked; ZIP CRC passes. JUnit testcase identities compared, zero failed/error/skipped, exact source commit, nine canonical Git blob identities and resolved dependency versions checked across OS/Python cells. Verified by separate local archive inspection.",
+  "per_platform_testcases": 133,
+  "distinct_cases": 133,
+  "combined_native_executions": 532,
+  "cases_per_platform": {
+    "new_orc_science_data": 70,
+    "prior_orc_graph": 31,
+    "inherited_cooperative": 12,
+    "inherited_cooperative_compositions": 20
+  },
+  "all_platforms_same_junit_case_identity": true,
+  "case_identity_sha256": "40bae2aacca2b4d31db36a4cf4f619af2118ffeeb8b1cd3574c1784f4e5f641b",
+  "all_platforms_same_git_blob_ids": true,
+  "raw_working_tree_sha256_same_across_all_platforms": false,
+  "raw_working_tree_differences": "Eight Python source/test working-tree SHA256 values differ between Windows and Linux; canonical Git blobs are equal across all targets. No claim of raw-byte checkout identity or known mechanism.",
+  "source_test_git_blob_ids": {
+    "cognitum/cooperative.py": "eaa5952f2b25a15e35d9ae4ec2216c4bb6e8cc69",
+    "cognitum/cooperative_cpu.py": "8c090ff024eee7cd1dbad40f076a4a5a0e06f0de",
+    "cognitum/mel/cooperation.py": "e1a64c6dd4a9233d7f79199554f0119fca12d721",
+    "cognitum/orc_graph.py": "c513557f2131cfeec907a9d0a6a5eb2b636a4db6",
+    "cognitum/orc_science_data.py": "8396fd959e92673d1d492a61d60a2ab49f58a01b",
+    "tests/test_cooperative.py": "cd3084748e8ac44cd3b67ca70510bd11da7093d8",
+    "tests/test_cooperative_compositions.py": "5d1b615d56b31167147f3943b255ceb374de3450",
+    "tests/test_orc_graph.py": "f3ed00866df2481b53eefb12d8cb87e422960edb",
+    "tests/test_orc_science_data.py": "f1913928404937d5df0dbfa17d7838d39ff05191"
+  },
+  "dependencies_all_targets": {
+    "networkx": "3.5",
+    "numpy": "2.3.5",
+    "ortools": "9.15.6755",
+    "protobuf": "6.33.6",
+    "pytest": "9.0.2",
+    "scipy": "1.17.0"
+  },
+  "artifacts": [
+    {
+      "id": 14688220185,
+      "name": "orc01b-ubuntu-latest-py3.13",
+      "zip_sha256": "c45afa461b3165e9336570f5fb5a087482b8afad371d0becb88d1378feccf5ac",
+      "zip_size_bytes": 3828,
+      "uri": "https://github.com/vjmichael/cognitum/actions/runs/44856022442/artifacts/14688220185"
+    },
+    {
+      "id": 14688080409,
+      "name": "orc01b-ubuntu-latest-py3.11",
+      "zip_sha256": "d11f6c413f2e2493cd9d031be4a9b42ab62e198cacfb0fe20e1213fe82b638d7",
+      "zip_size_bytes": 3814,
+      "uri": "https://github.com/vjmichael/cognitum/actions/runs/44856022442/artifacts/14688080409"
+    },
+    {
+      "id": 14687193651,
+      "name": "orc01b-windows-latest-py3.11",
+      "zip_sha256": "b3f6529bbc517f730ae6755da47da804f1a2c3dd44958f460374556964b998c2",
+      "zip_size_bytes": 3820,
+      "uri": "https://github.com/vjmichael/cognitum/actions/runs/44856022442/artifacts/14687193651"
+    },
+    {
+      "id": 14687099327,
+      "name": "orc01b-windows-latest-py3.13",
+      "zip_sha256": "394eece70dd4f156a46b39c56a8d7975416bdc169a6e88fc93ed734974358c98",
+      "zip_size_bytes": 3873,
+      "uri": "https://github.com/vjmichael/cognitum/actions/runs/44856022442/artifacts/14687099327"
+    }
+  ],
+  "acceptance_scope": [
+    "Original-byte source SHA256 and explicitly non-authenticated provenance",
+    "Strict UTC measurement/availability time handling and explicit missingness",
+    "Fail closed on scientific units, unmarked regular gaps, duplicate IDs/times, invalid/nonfinite observations",
+    "Chronological train/cal/test and independently refitted train-only normalizer",
+    "Forecast-origin as-of feature gating; exact lag/horizon target labels separate; missing denominator recorded",
+    "Candidate quantity/unit, irregularity, missingness and reported unit-evidence compatibility",
+    "Matched evaluation cohort refusal for incomparable baselines",
+    "No separate host executor, no cross-source scientific transfer claim"
+  ],
+  "remaining_holds": [
+    "Real source publishers and original sensor/units/rights not cryptographically certified",
+    "R4 physical dataset-specific original CSV adapter/time-of-availability not implemented",
+    "HDC/KAN/SSM/ridge candidate compatibility does not grant worker execution",
+    "No empirical ridge benchmark or improvement claim; owner-requested future ORCH-01E-BENCH-01",
+    "All 72 SSM broad research capability groups remain PARTIAL",
+    "Accepted R4 model and accepted ORCH-01A source locks remain untouched",
+    "No installed host Lu integration or physical actuator authorization"
+  ]
+}

@@ -1,6 +1,6 @@
 # ADR — Cognitum's Orc Graph and CH⊕aT (owner decision, 2026-11-20)
 
-**Decision:** ADOPTED AS NORMATIVE PRODUCT ARCHITECTURE AND COLLABORATION PRINCIPLE. **Engineering:** ORCH-01A bounded native PASS; ORCH-01B–E QUEUED, no general integration or production promotion. **Authority:** User-owned product decision. **Relationship:** Extends [MEL ADR-001](../research/mel/ADR-001.md), the [R1.6 architecture](../Cognitum_Comprehensive_AI_Architecture_R1_6.md) and the [master task ledger](../MASTER_TASK_LEDGER.md); no replacement of accepted source or research evidence.
+**Decision:** ADOPTED AS NORMATIVE PRODUCT ARCHITECTURE AND COLLABORATION PRINCIPLE. **Engineering:** ORCH-01A and ORCH-01B bounded native PASS; ORCH-01C–E QUEUED, no general integration, accuracy or production promotion. **Authority:** User-owned product decision. **Relationship:** Extends [MEL ADR-001](../research/mel/ADR-001.md), the [R1.6 architecture](../Cognitum_Comprehensive_AI_Architecture_R1_6.md) and the [master task ledger](../MASTER_TASK_LEDGER.md); no replacement of accepted source or research evidence.
 
 ## Names and meaning
 
@@ -61,3 +61,8 @@ This ADR **accepts the name and architectural direction only**. It neither promo
 ## Evidence-bearing implementation amendment — ORCH-01A (November 20)
 
 **First bounded architecture stage accepted, not whole architecture.** Existing COG-06 native reviewed CPU graph is the execution target; the new Orc Graph module merely constructs typed source-stamped inert plans for two selected deterministic scientific goals. Same-source four-platform native pass at 5345c998ddd84b22063a7a5b865ff586644b424a: 63/63 test identities on each OS/Python cell, 31 Orc-specific and 32 inherited. [Source and test analysis](../research/orcgraph/ORCH01A.md), [four independently inspected native artifacts](../research/orcgraph/ORCH01A_NATIVE_ARTIFACTS.json) and [run 44854713221](https://github.com/vjmichael/cognitum/actions/runs/44854713221). Every original R4 physical science/source hold and 72 partial DS capabilities remain unchanged. The remaining orchestration work is still staged and not production.
+
+
+## Scientific source contract amendment — ORCH-01B bounded native acceptance
+
+At accepted SHA `5dc8f99316619670297cdfbbe4aeef428f0e41eb`, ORCH-01B introduced an immutable, byte-checked scientific data source/profile, explicit UTC measurement and availability clocks, strict units and missingness, chronological train/cal/test, train-only normalization, matched holdout cohort enforcement, and unprivileged candidate compatibility. [Four-platform acceptance, 133/133 per target](https://github.com/vjmichael/cognitum/actions/runs/44856022442); [independently checked artifacts](../research/orcgraph/ORCH01B_NATIVE_ARTIFACTS.json), [limitations](../research/orcgraph/ORCH01B.md). This does not attest upstream sensors, eliminate conditional uncertainty miscalibration or create source permissions. It does not silently authorize HDC/KAN/SSM/ridge execution. [Owner-requested eventual ridge benchmark preregistered](../research/orcgraph/ORC_VS_RIDGE_BENCHMARK_PLAN.md); separate data pipeline, selection and multi-engine hypotheses before any improvement claim.
