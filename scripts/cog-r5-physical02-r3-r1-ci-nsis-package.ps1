@@ -73,6 +73,7 @@ if((Get-AuthenticodeSignature -LiteralPath $installer).Status -ne
  Refuse 'Hosted unsigned package test must never claim a signed production release'
 }
 $owned=$false
+$originalTestFailure=$null
 try{
  $owned=$true
  # The /D attempt must not redirect the production carrier outside Program Files.
@@ -107,12 +108,23 @@ try{
   $acl=Get-Acl -LiteralPath $path
   $owner=$acl.GetOwner([Security.Principal.SecurityIdentifier]).Value
   if($trusted -cnotcontains $owner){Refuse 'Installed NSIS tree owner is not SYSTEM or Administrators'}
+  $adminEffective=$false
+  $systemEffective=$false
   foreach($ace in $acl.GetAccessRules($true,$true,[Security.Principal.SecurityIdentifier])){
-   if($ace.AccessControlType -eq [Security.AccessControl.AccessControlType]::Allow -and
-      (([int64]$ace.FileSystemRights -band $writeMask) -ne 0) -and
-      $trusted -cnotcontains $ace.IdentityReference.Value){
+   if($ace.AccessControlType -ne [Security.AccessControl.AccessControlType]::Allow){continue}
+   $sid=$ace.IdentityReference.Value
+   $rights=[int64]$ace.FileSystemRights
+   if(($rights -band $writeMask) -ne 0 -and $trusted -cnotcontains $sid){
     Refuse 'Untrusted write principal remained after NSIS ACL sealing'
    }
+   if(($ace.PropagationFlags -band [Security.AccessControl.PropagationFlags]::InheritOnly) -ne 0){
+    continue
+   }
+   if($sid -eq 'S-1-5-18' -and ($rights -band $writeMask) -ne 0){$systemEffective=$true}
+   if($sid -eq 'S-1-5-32-544' -and ($rights -band $writeMask) -ne 0){$adminEffective=$true}
+  }
+  if(-not $adminEffective -or -not $systemEffective){
+   Refuse 'Installed file lacks effective SYSTEM/Administrators access'
   }
  }
  if(Get-CimInstance Win32_Service -Filter "Name='CognitumSsmSupervisorV1'"){
@@ -132,13 +144,24 @@ try{
  Write-Host 'PASS_CI_ONLY_UNSIGNED_NSIS_REAL_INSTALL_PROTECTED_ACL_AND_PACKAGED_SCM_LIFECYCLE'
  Write-Host ('CI_UNSIGNED_INSTALLER_SHA256='+
    (Get-FileHash -LiteralPath $installer -Algorithm SHA256).Hash.ToLowerInvariant())
+}catch{
+ $originalTestFailure=$_
 }finally{
+ $cleanupFailure=$null
  if($owned){
-  if(Get-CimInstance Win32_Service -Filter "Name='CognitumSsmSupervisorV1'"){
-   Refuse 'CI-owned SCM service remains: cannot safely remove packaged tree'
-  }
-  if(Test-Path -LiteralPath $installRoot){
-   Remove-Item -LiteralPath $installRoot -Force -Recurse -ErrorAction Stop
-  }
+  try{
+   if(Get-CimInstance Win32_Service -Filter "Name='CognitumSsmSupervisorV1'"){
+    Refuse 'CI-owned SCM service remains: cannot safely remove packaged tree'
+   }
+   if(Test-Path -LiteralPath $installRoot){
+    Remove-Item -LiteralPath $installRoot -Force -Recurse -ErrorAction Stop
+   }
+  }catch{$cleanupFailure=$_}
  }
+ if($originalTestFailure){
+  $detail='Original NSIS package test failure: '+$originalTestFailure.Exception.Message
+  if($cleanupFailure){$detail+='; cleanup also failed: '+$cleanupFailure.Exception.Message}
+  Refuse $detail
+ }
+ if($cleanupFailure){Refuse ('Unsigned NSIS cleanup failure: '+$cleanupFailure.Exception.Message)}
 }
