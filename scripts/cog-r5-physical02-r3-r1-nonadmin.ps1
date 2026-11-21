@@ -6,6 +6,7 @@ param(
  [Parameter(Mandatory=$true)][string]$FixtureRoot,
  [Parameter(Mandatory=$true)][string]$RuntimeParent,
  [Parameter(Mandatory=$true)][string]$WorkerRoot,
+ [string]$PeerPython,
  [string]$EnvFile
 )
 Set-StrictMode -Version Latest
@@ -122,7 +123,8 @@ if($Mode -eq 'provision'){
        $cursor=$cursor.Parent
      }
    }
-   $python=[IO.Path]::GetFullPath($env:COG_R1_CI_PYTHON)
+   if(-not $PeerPython -or -not [IO.Path]::IsPathRooted($PeerPython)){throw 'Externally pinned user source Python required'}
+   $python=[IO.Path]::GetFullPath($PeerPython)
    $peer=Start-Process -FilePath $python -Credential $cred -LoadUserProfile -WorkingDirectory $root -ArgumentList '-c "import time;time.sleep(1200)"' -PassThru -WindowStyle Hidden
    Start-Sleep -Milliseconds 150
    $peer.Refresh()

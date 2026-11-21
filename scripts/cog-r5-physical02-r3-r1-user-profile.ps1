@@ -17,7 +17,7 @@ $me=[Security.Principal.WindowsIdentity]::GetCurrent()
 if($me.User.Value -cne $ExpectedUserSid -or
    $me.User.Value -in @('S-1-5-18','S-1-5-7') -or
    $me.IsSystem -or
-   ([Security.Principal.WindowsPrincipal]$me).IsInRole(
+   ([Security.Principal.WindowsPrincipal]::new($me)).IsInRole(
        [Security.Principal.WindowsBuiltInRole]::Administrator)){
  throw 'Profile owner is not the separately enrolled nonadministrator user'
 }
