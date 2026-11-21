@@ -1,15 +1,6 @@
 name: Cognitum IPC-01E R4 fixed SSM OS protected original operation
 
 on:
-  push:
-    branches:
-      - integration/cog-lu-ipc01e-r2-custody-20261121
-    paths:
-      - cognitum/mel/ssm_r4_protected.py
-      - cognitum/mel/ssm_supervisor.py
-      - cognitum/mel/ssm_recovery.py
-      - research_tests/mel_lu_ipc01e_r4/**
-      - .github/workflows/cog-lu-ipc01e-r4-native.yml
   workflow_dispatch:
 
 permissions:

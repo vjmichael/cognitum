@@ -1,0 +1,71 @@
+{
+  "schema": "cognitum.lu_ipc01e_r4.original_fixed_ssm_native_evidence.v1",
+  "task": "COG-LU-IPC-01E-R2-INSTALLED-R4",
+  "status": "PASS_NATIVE_FIXED_SSM_SOURCE_ONLY_BLOCKED_INSTALLED",
+  "original_qualified_source_sha": "fad39fb0e29fe83f2483f8106c3bf8fd66ae72aa",
+  "native_run": {
+    "id": 44933418268,
+    "url": "https://github.com/vjmichael/cognitum/actions/runs/44933418268",
+    "conclusion": "success",
+    "jobs": 5,
+    "per_platform": 215,
+    "total": 860,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "source_blobs_verified": 4,
+    "cross_os_junit_identities_verified": true,
+    "platforms": [
+      "ubuntu-latest Python 3.11",
+      "ubuntu-latest Python 3.13",
+      "windows-latest Python 3.11",
+      "windows-latest Python 3.13"
+    ]
+  },
+  "integration_run": {
+    "id": 44933418142,
+    "url": "https://github.com/vjmichael/cognitum/actions/runs/44933418142",
+    "conclusion": "success",
+    "jobs": 8
+  },
+  "artifacts": [
+    {
+      "id": 14719070324,
+      "name": "cog-lu-ipc01e-r4-independent",
+      "sha256": "06502cba4c835691b476b675e63999b9ef59afa7a4470f65c83cda1897e5ff49"
+    },
+    {
+      "id": 14718373456,
+      "name": "cog-lu-ipc01e-r4-windows-latest-py3.11",
+      "sha256": "7759b75dbaeee0cc4ba3442f000a4e6777644becc5a0d97e33012d039fddd685"
+    },
+    {
+      "id": 14718169390,
+      "name": "cog-lu-ipc01e-r4-ubuntu-latest-py3.13",
+      "sha256": "597f0578f3aba5843b182f4778494572d7ceda8d31b857ac0ae3c6ec283c0825"
+    },
+    {
+      "id": 14718104523,
+      "name": "cog-lu-ipc01e-r4-ubuntu-latest-py3.11",
+      "sha256": "6c4204ff2eb5ebd13512262cfebb2d29389953c2b6ffa9f2ac5760fbc7adba47"
+    },
+    {
+      "id": 14717664924,
+      "name": "cog-lu-ipc01e-r4-windows-latest-py3.13",
+      "sha256": "94364f289023699ee3bc6c4a8faa2519ecc954b8cd3ec7fe826ed02ddfdaefd9"
+    }
+  ],
+  "real_windows_fixed_ssm_numerical_job_membership_and_kernel_exit": true,
+  "windows_process_created_suspended_before_job": false,
+  "linux_kernel_cgroup_source_path_implemented": true,
+  "linux_delegated_cgroup_positive_executed": false,
+  "linux_undelegated_refusal_verified": true,
+  "durable_operation_hmac_prelaunch_and_uncertain_restart_hold": true,
+  "independent_signed_terminal_stop_receipt": false,
+  "installed_service_enrollment_or_verified_publisher": false,
+  "accepted_real_lu_core_health_exchange": false,
+  "accepted_real_lu_pure_compute_grant": false,
+  "external_independent_monotonic_antirollback": false,
+  "output_delivery_or_ack_authorized": false,
+  "model_tool_execution_authorized": false
+}
