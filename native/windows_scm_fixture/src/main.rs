@@ -8,6 +8,8 @@
 //! A real signed installer, independent stop-signing authority, restricted SSM
 //! worker, encrypted delivery channel and original Core admission remain OPEN.
 #![deny(unsafe_op_in_unsafe_fn)]
+#[cfg(all(windows, feature = "ssm-fixture"))]
+mod ssm_fixture;
 #[cfg(all(windows, feature = "acceptance-fixture"))]
 mod win {
     use std::{
@@ -139,6 +141,7 @@ mod win {
         fn ResumeThread(thread: Handle) -> u32;
         fn TerminateJobObject(job: Handle, code: u32) -> i32;
         fn WaitForSingleObject(handle: Handle, timeout: u32) -> u32;
+        fn GetExitCodeProcess(process: Handle, code: *mut u32) -> i32;
         fn CloseHandle(handle: Handle) -> i32;
     }
 
@@ -217,6 +220,8 @@ mod win {
         child: Owned,
         child_thread: Owned,
         pid: u32,
+        #[cfg(feature = "ssm-fixture")]
+        original_fixture: crate::ssm_fixture::Prepared,
     }
     impl Keeper {
         fn start() -> io::Result<Self> {
@@ -234,10 +239,15 @@ mod win {
             } == 0 {
                 return Err(denied("SCM-owned Job limit configuration refused"));
             }
-            let exe = std::env::current_exe()?;
-            let app = wide(exe.as_os_str());
-            let command = format!("\"{}\" {}", exe.display(), TEST_CHILD);
-            let mut cmd = wide(OsStr::new(&command));
+            #[cfg(feature = "ssm-fixture")]
+            let (app, mut cmd, original_fixture) = crate::ssm_fixture::prepare()?;
+            #[cfg(not(feature = "ssm-fixture"))]
+            let (app, mut cmd) = {
+                let exe = std::env::current_exe()?;
+                let app = wide(exe.as_os_str());
+                let command = format!("\"{}\" {}", exe.display(), TEST_CHILD);
+                (app, wide(OsStr::new(&command)))
+            };
             let mut si = StartupInfo { cb: mem::size_of::<StartupInfo>() as u32,
                                       ..Default::default() };
             let mut pi = ProcessInfo::default();
@@ -275,7 +285,10 @@ mod win {
                 }
                 return Err(denied("SCM-owned suspended worker resume refused"));
             }
-            Ok(Self { job, child, child_thread: thread, pid: pi.pid })
+            Ok(Self { job, child, child_thread: thread, pid: pi.pid,
+                #[cfg(feature = "ssm-fixture")]
+                original_fixture,
+            })
         }
         fn alive(&self) -> bool {
             unsafe { WaitForSingleObject(self.child.0, 0) == WAIT_TIMEOUT }
@@ -301,7 +314,16 @@ mod win {
                     thread::sleep(Duration::from_millis(20));
                 }
             }
-            wrote && waited && empty && self.pid > 0
+            let owned_stopped = wrote && waited && empty && self.pid > 0;
+            #[cfg(feature = "ssm-fixture")]
+            {
+                if !owned_stopped { return false; }
+                return crate::ssm_fixture::record_stop(
+                    &self.original_fixture,self.pid,
+                    unsafe { GetCurrentProcessId() },empty).is_ok();
+            }
+            #[cfg(not(feature = "ssm-fixture"))]
+            { owned_stopped }
         }
     }
     unsafe extern "system" fn service_main(_: u32, _: *mut *mut u16) {
@@ -331,9 +353,22 @@ mod win {
         let deadline = Instant::now() + Duration::from_secs(15);
         let mut abnormal = false;
         while !STOP.load(Ordering::Acquire) {
-            if !keeper.alive() || Instant::now() >= deadline {
+            if Instant::now() >= deadline {
                 abnormal = true;
                 break;
+            }
+            if !keeper.alive() {
+                #[cfg(not(feature = "ssm-fixture"))]
+                { abnormal = true; break; }
+                #[cfg(feature = "ssm-fixture")]
+                {
+                    let mut code = u32::MAX;
+                    let clean = unsafe {
+                        GetExitCodeProcess(keeper.child.0,&mut code)
+                    } != 0 && code == 0
+                    && std::path::Path::new(env!("COG_R1_CI_OUTPUT")).is_file();
+                    if !clean {abnormal = true; break;}
+                }
             }
             thread::sleep(Duration::from_millis(50));
         }
