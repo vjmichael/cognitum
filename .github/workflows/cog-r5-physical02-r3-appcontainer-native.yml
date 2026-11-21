@@ -1,4 +1,4 @@
-name: Cognitum R5 PHYSICAL-02-R3 original AppContainer pinned-peer lifetime acceptance
+name: Cognitum R3-R1 native target-user image/CWD AppContainer diagnosis
 on:
   workflow_dispatch:
 permissions:
