@@ -194,6 +194,14 @@ def inspect_proposed_signed_core_receipt(
     except (ImportError,ValueError,InvalidSignature) as exc:
         raise ValueError("Cognitum Lu receipt attestation refused: Ed25519 signature/key unavailable or invalid") from exc
 
+    audit=verifier.note_provisional_issuer_attestation(
+        hashlib.sha256(signed_claim).hexdigest(),value["nonce_sha256"])
+    _need(audit["provisional_issuer_attestation_observed"] and
+          audit["original_provisional_attestation_sha256"]==
+          hashlib.sha256(signed_claim).hexdigest() and
+          not audit["result_publication_authorized"],
+          "durable one-use signature observation refused")
+
     # A valid signed *proposal* is not an existing Lu Core grant or a native
     # installed signer. The receipt is still unpublishable until the Core
     # contract, OS credential enrollment and independently authoritative
