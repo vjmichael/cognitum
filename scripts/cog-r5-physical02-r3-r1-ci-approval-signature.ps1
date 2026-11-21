@@ -42,14 +42,14 @@ try{
  $cms.ComputeSignature($signer)
  [IO.File]::WriteAllBytes($sig,$cms.Encode())
  $gate=Join-Path $PSScriptRoot 'cog-r5-physical02-r3-r1-verify-detached-approval.ps1'
- $args=@{
+ $approvalInputs=@{
   ApprovalJson=$json
   DetachedSignatureP7s=$sig
   ApprovedReleaseAuthorityCertificateSha256=$certSha
   ApprovedPublisherCertificateSha256=$publisher
   ExpectedSourceSha=$ExactSourceSha
  }
- $raw=& $gate @args
+ $raw=& $gate @approvalInputs
  if(-not $raw){throw 'Original disposable CMS cryptographic witness missing'}
  $witness=($raw|Out-String)|ConvertFrom-Json
  if($witness.status -cne 'PASS_DETACHED_APPROVAL_CRYPTOGRAPHIC_IDENTITY_OBSERVATION_ONLY' -or
@@ -66,13 +66,13 @@ try{
   }
   if(-not $refused){throw 'Untrusted detached approval was promoted'}
  }
- Must-Refuse { & $gate @args -ApprovedReleaseAuthorityCertificateSha256 ('7'*64) }
- Must-Refuse { & $gate @args -ApprovedPublisherCertificateSha256 $certSha }
- Must-Refuse { & $gate @args -ExpectedSourceSha ('8'*40) }
+ Must-Refuse { & $gate @approvalInputs -ApprovedReleaseAuthorityCertificateSha256 ('7'*64) }
+ Must-Refuse { & $gate @approvalInputs -ApprovedPublisherCertificateSha256 $certSha }
+ Must-Refuse { & $gate @approvalInputs -ExpectedSourceSha ('8'*40) }
  # Tamper one signed payload byte without resigning.
  [IO.File]::WriteAllBytes($json,[Text.Encoding]::UTF8.GetBytes(
    ([Text.Encoding]::UTF8.GetString($data)).Replace(('3'*64),('9'*64))))
- Must-Refuse { & $gate @args }
+ Must-Refuse { & $gate @approvalInputs }
  # A signer approving output release must be rejected even if signed.
  $a.permits_output_release=$true
  $wrong=[Text.Encoding]::UTF8.GetBytes(($a|ConvertTo-Json -Compress))
@@ -81,7 +81,7 @@ try{
    [Security.Cryptography.Pkcs.ContentInfo]::new([byte[]]$wrong),$true)
  $wrongCms.ComputeSignature($signer)
  [IO.File]::WriteAllBytes($sig,$wrongCms.Encode())
- Must-Refuse { & $gate @args }
+ Must-Refuse { & $gate @approvalInputs }
  Write-Host 'PASS_CI_ONLY_DETACHED_CMS_APPROVAL_IDENTITY_TAMPER_AND_OUTPUT_DENIAL'
 }finally{
  if($null -ne $cert){
