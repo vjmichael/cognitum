@@ -54,7 +54,7 @@ class LinuxUDSServer:
         self.directory.chmod(0o700)
         self.path=self.directory/"lu-ipc-test.sock"
         self.listen=socket.socket(socket.AF_UNIX,socket.SOCK_STREAM)
-        self.listen.settimeout(4)
+        self.listen.settimeout(1.5)
         self.listen.bind(str(self.path))
         self.path.chmod(0o600)
         self.listen.listen(1)
@@ -80,9 +80,11 @@ class LinuxUDSServer:
         self.thread.join(timeout=6)
 
 
-@pytest.mark.skipif(not sys.platform.startswith("linux"),
-                    reason="Linux AF_UNIX native only")
 def test_linux_native_uds_auth_health_over_real_os_socket(tmp_path):
+    if not sys.platform.startswith("linux"):
+        with pytest.raises(readonly.LuClientRefused,match="native Linux UDS only"):
+            native.connect_linux_uds("/unused",trusted_core_uid=0)
+        return
     server=LinuxUDSServer(tmp_path)
     stream=native.connect_linux_uds(str(server.path),trusted_core_uid=os.getuid())
     client=readonly.AuthenticatedReadOnlyLuClient(stream,
@@ -102,9 +104,11 @@ def test_linux_native_uds_auth_health_over_real_os_socket(tmp_path):
     assert server.error is None
 
 
-@pytest.mark.skipif(not sys.platform.startswith("linux"),
-                    reason="Linux AF_UNIX native only")
 def test_linux_native_peer_uid_and_private_socket_refusals(tmp_path):
+    if not sys.platform.startswith("linux"):
+        with pytest.raises(readonly.LuClientRefused,match="native Linux UDS only"):
+            native.connect_linux_uds("/unused",trusted_core_uid=0)
+        return
     server=LinuxUDSServer(tmp_path,stop_after=0)
     try:
         with pytest.raises(readonly.LuClientRefused,match="private Core-owned directory"):
@@ -124,9 +128,11 @@ def test_linux_native_peer_uid_and_private_socket_refusals(tmp_path):
         server.join()
 
 
-@pytest.mark.skipif(not sys.platform.startswith("linux"),
-                    reason="Linux AF_UNIX native only")
 def test_linux_native_authentication_rejects_forged_core(tmp_path):
+    if not sys.platform.startswith("linux"):
+        with pytest.raises(readonly.LuClientRefused,match="native Linux UDS only"):
+            native.connect_linux_uds("/unused",trusted_core_uid=0)
+        return
     server=LinuxUDSServer(tmp_path,fault="bad_server_mac",stop_after=2)
     stream=native.connect_linux_uds(str(server.path),trusted_core_uid=os.getuid())
     client=readonly.AuthenticatedReadOnlyLuClient(stream,
@@ -201,8 +207,11 @@ class WindowsNativePipeServer:
         self.thread.join(timeout=7)
 
 
-@pytest.mark.skipif(sys.platform!="win32",reason="real Win32 named pipe only")
 def test_windows_native_named_pipe_auth_health():
+    if sys.platform!="win32":
+        with pytest.raises(readonly.LuClientRefused,match="native Windows named pipe only"):
+            native._windows_api()
+        return
     server=WindowsNativePipeServer()
     assert server.ready.wait(4)
     pin=native.observe_windows_process(os.getpid())
@@ -225,8 +234,11 @@ def test_windows_native_named_pipe_auth_health():
     assert server.error is None
 
 
-@pytest.mark.skipif(sys.platform!="win32",reason="real Win32 named pipe only")
 def test_windows_os_observed_process_image_pin_mismatch_refusal():
+    if sys.platform!="win32":
+        with pytest.raises(readonly.LuClientRefused,match="native Windows named pipe only"):
+            native._windows_api()
+        return
     server=WindowsNativePipeServer(stop_after=0)
     pin=native.observe_windows_process(os.getpid())
     bad=dict(pin,image_sha256="f"*64)
@@ -239,8 +251,11 @@ def test_windows_os_observed_process_image_pin_mismatch_refusal():
         server.join()
 
 
-@pytest.mark.skipif(sys.platform!="win32",reason="real Win32 named pipe only")
 def test_windows_named_pipe_path_and_incomplete_identity_pin_refused():
+    if sys.platform!="win32":
+        with pytest.raises(readonly.LuClientRefused,match="native Windows named pipe only"):
+            native._windows_api()
+        return
     pin=native.observe_windows_process(os.getpid())
     with pytest.raises(readonly.LuClientRefused,match="named-pipe path"):
         native.connect_windows_named_pipe(
@@ -256,13 +271,11 @@ def test_no_generic_client_server_or_model_permissions():
     assert not hasattr(native,"invoke")
     assert not hasattr(native,"grant_permission")
     assert not hasattr(native,"create_model")
-    with pytest.raises(readonly.LuClientRefused,match="unsupported OS-local"):
-        # Negative fixture without installed host enrollment.
-        if sys.platform not in ("win32","linux"): 
-            native.installed_core_health_preflight(endpoint="/absent",
-                enrolled_key=KEY,package_hash=PACKAGE)
-        else:
-            raise readonly.LuClientRefused("unsupported OS-local Lu transport grant")
+    client=readonly.AuthenticatedReadOnlyLuClient(
+        SyntheticCoreStream(),enrolled_key=KEY,installed_package_sha256=PACKAGE)
+    with pytest.raises(readonly.LuClientRefused,match="authenticated session"):
+        client.health()
+    client.close()
 
 
 def test_trusted_host_preflight_fails_closed_with_absent_real_core():
