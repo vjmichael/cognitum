@@ -144,3 +144,36 @@ pub fn sign_local_stopped_original(stop_path:&Path)->io::Result<()>{
     f.sync_all()?;
     Ok(())
 }
+
+
+/// R3: one original, domain-separated signature over a closed canonical
+/// native receipt frame. The key is machine-held and separately preprovisioned;
+/// the production publisher/issuer/antirollback remain unqualified in CI.
+/// This API NEVER returns private key bytes, creates keys, grants effects,
+/// or accepts a signer-selected path from IPC.
+#[cfg(feature="r3-signed-recovery")]
+pub(crate) fn sign_r3_frame(domain:&[u8],body:&[u8])
+    ->io::Result<([u8;SIGNATURE_LEN],[u8;32])>{
+    if !matches!(domain,
+        b"Cognitum.R3.CI.PRELAUNCH.v1\0" |
+        b"Cognitum.R3.CI.UNCERTAIN_RESTART.v1\0" |
+        b"Cognitum.R3.CI.REPLAY_REFUSED.v1\0"
+    ){
+        return Err(denied("R3 original receipt signer domain not approved"));
+    }
+    if body.is_empty() || body.len()>2048 {
+        return Err(denied("R3 bounded original receipt frame refused"));
+    }
+    let (_provider,key,pubkey)=open()?;
+    let mut to_hash=domain.to_vec();
+    to_hash.extend_from_slice(body);
+    let digest=sha(&to_hash)?;
+    let mut signature=[0u8;SIGNATURE_LEN];
+    let mut used=0u32;
+    if unsafe{NCryptSignHash(key.0,ptr::null_mut(),digest.as_ptr(),32,
+        signature.as_mut_ptr(),SIGNATURE_LEN as u32,&mut used,0)}!=0||
+        used as usize!=SIGNATURE_LEN{
+        return Err(denied("R3 genuine OS-machine receipt signature refused"));
+    }
+    Ok((signature,sha(&pubkey)?))
+}
