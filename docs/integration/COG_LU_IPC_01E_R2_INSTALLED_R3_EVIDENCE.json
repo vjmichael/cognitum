@@ -1,0 +1,69 @@
+{
+  "schema": "cognitum.lu_ipc01e_r2_installed_r3.native_source_receipt.v1",
+  "task": "COG-LU-IPC-01E-R2-INSTALLED-R3",
+  "disposition": "PASS_NATIVE_OS_PREREQUISITE_SOURCE_ONLY_BLOCKED_INSTALLED",
+  "original_qualified_source_sha": "6f6cff40c4f8c3fb46dc65ce04e30d943b262c00",
+  "native_run": {
+    "id": 44931910090,
+    "url": "https://github.com/vjmichael/cognitum/actions/runs/44931910090",
+    "conclusion": "success",
+    "jobs": 5,
+    "case_counts": {
+      "ubuntu-latest-py3.11": 209,
+      "ubuntu-latest-py3.13": 209,
+      "windows-latest-py3.11": 209,
+      "windows-latest-py3.13": 209
+    },
+    "total_cases": 836,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "original_three_source_git_blobs_identical": true,
+    "junit_case_ids_identical": true
+  },
+  "integration_run": {
+    "id": 44931910018,
+    "url": "https://github.com/vjmichael/cognitum/actions/runs/44931910018",
+    "conclusion": "success",
+    "jobs": 8
+  },
+  "artifacts": [
+    {
+      "id": 14718131874,
+      "name": "cog-lu-ipc01e-r3-ubuntu-latest-py3.13",
+      "sha256": "6f7c0f2a52bfbbeab20220d4c0f717d9ef1797a5891500a84e84f6bfda708314"
+    },
+    {
+      "id": 14717792759,
+      "name": "cog-lu-ipc01e-r3-windows-latest-py3.13",
+      "sha256": "ed20e3374d4896c14c652a6e6610c307b8968bb62c8d1e5f10a0d5512e14f9f2"
+    },
+    {
+      "id": 14717742831,
+      "name": "cog-lu-ipc01e-r3-windows-latest-py3.11",
+      "sha256": "ecb2a5deef4ed51f939c8412cbe82e9a9a86a3c4116fa9f8a9295cfeeb2029e8"
+    },
+    {
+      "id": 14717672974,
+      "name": "cog-lu-ipc01e-r3-independent",
+      "sha256": "9abc07845c6c781ab418e9f07a9ec1882c7357afb06e314607c29f3bdc0ca091"
+    },
+    {
+      "id": 14717188793,
+      "name": "cog-lu-ipc01e-r3-ubuntu-latest-py3.11",
+      "sha256": "2dab7b77223c3299824e8e680e30461f5cb7f9073b83807f1fc95ac4e76b776c"
+    }
+  ],
+  "native_windows_fixed_diagnostic_job_reap_observed": true,
+  "linux_cgroup2_preflight_only": true,
+  "os_keyring_may_refuse_without_fallback": true,
+  "accepted_core_installed_health_endpoint": false,
+  "accepted_core_cognitum_publisher_enrollment": false,
+  "accepted_core_issuer_signed_receipt_contract": false,
+  "real_installed_core_health_exchange": false,
+  "production_cognitum_ssm_worker_job_cgroup_custody": false,
+  "durable_independent_executor_stop_receipt": false,
+  "independent_hardware_remote_revision_floor": false,
+  "output_delivery_or_ack_authorized": false,
+  "model_tool_execution_authorized": false
+}

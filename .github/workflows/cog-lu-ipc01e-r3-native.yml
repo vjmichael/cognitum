@@ -1,14 +1,6 @@
 name: Cognitum Lu IPC-01E-R3 OS-enrolled Health and protected worker prerequisites
 
 on:
-  push:
-    branches:
-      - integration/cog-lu-ipc01e-r2-custody-20261121
-    paths:
-      - cognitum/mel/lu_ipc_install_host.py
-      - cognitum/mel/lu_ipc_windows_job_probe.py
-      - research_tests/mel_lu_ipc01e_r3/**
-      - .github/workflows/cog-lu-ipc01e-r3-native.yml
   workflow_dispatch:
 
 permissions:
