@@ -136,3 +136,6 @@
 
 # Pin exact Lu Core workspace.proto bytes on every native checkout.
 /cognitum/mel/vendor/lu/workspace/v0/workspace.proto text eol=lf
+
+# Cognitum-owned SSM v1 typed IPC contract must match exact native Git blob.
+/cognitum/mel/vendor/cognitum/ssm/v1/ssm.proto text eol=lf
