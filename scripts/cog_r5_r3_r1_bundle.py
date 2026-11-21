@@ -110,6 +110,15 @@ def prepare(destination:Path, repo:Path):
             need((required_testing/"__init__.py").is_file(),
                  "required pinned numpy.testing import package missing")
             copytree(required_testing,copied_site/name/"testing")
+            # NumPy 2.2's public numpy.testing imports pd_NA from this
+            # single _core/tests support module during normal SciPy import.
+            # Import exactly the pinned support file, never the test suite.
+            natype=src/"_core"/"tests"/"_natype.py"
+            need(natype.is_file() and not natype.is_symlink(),
+                 "required NumPy _natype runtime support absent")
+            private_support=copied_site/name/"_core"/"tests"
+            private_support.mkdir()
+            shutil.copy2(natype,private_support/"_natype.py")
     # Native extension/PE DLL modules that NumPy/SciPy/cryptography import.
     for pattern in ("_cffi_backend*.pyd","_cffi_backend*.dll"):
         for src in site.glob(pattern):
