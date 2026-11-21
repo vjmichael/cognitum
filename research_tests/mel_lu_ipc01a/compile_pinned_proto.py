@@ -30,7 +30,7 @@ def compile_workspace_proto(root: Path, descriptor_path: Path) -> dict:
         "grpc_tools.protoc", "-I" + str(root),
         "--python_out=" + str(root),
         "--descriptor_set_out=" + str(descriptor_path),
-        str(PROTO_RELATIVE).replace("\\", "/"),
+        str(path),
     ])
     if result != 0:
         raise RuntimeError("Lu workspace v0 native protoc compilation failed")
