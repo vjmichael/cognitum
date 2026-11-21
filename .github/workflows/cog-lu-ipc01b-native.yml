@@ -1,0 +1,174 @@
+name: Cognitum Lu IPC-01B native OS client and health-only source qualification
+
+on:
+  push:
+    branches:
+      - integration/cog-lu-ipc01b-native-client-20261121
+    paths:
+      - '.github/workflows/cog-lu-ipc01b-native.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cognitum-lu-ipc01b-native-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  native:
+    name: Cognitum Lu IPC native OS transport / ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.11', '3.13']
+    env:
+      PYTHONHASHSEED: '0'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install pinned native Protobuf compiler and MEL dependencies
+        run: python -m pip install grpcio-tools==1.76.0 protobuf==6.33.1 numpy==2.2.6 scipy==1.15.3 pytest==9.0.2
+      - name: Compile source-pinned Lu workspace Protobuf on genuine native OS
+        shell: bash
+        run: |
+          python -m research_tests.mel_lu_ipc01a.compile_pinned_proto \
+            --root "$GITHUB_WORKSPACE/cognitum/mel/vendor" \
+            --descriptor-out "$GITHUB_WORKSPACE/lu-ipc-v0.desc" \
+            --receipt "$GITHUB_WORKSPACE/lu-ipc-v0-compile.json"
+      - name: Run original R1 and native Windows named-pipe/Linux UDS client tests
+        run: python -m pytest -q research_tests/mel_lu_ipc01a/test_workspace_contract.py research_tests/mel_lu_ipc01a/test_proto_client.py research_tests/mel_lu_ipc01b/test_native_carriers.py --junitxml=lu-ipc01b-native.xml
+      - name: Distinguish actual OS transport tests from genuine installed Core
+        if: always()
+        run: python -m research_tests.mel_lu_ipc01b.native_disposition --junit lu-ipc01b-native.xml --output lu-ipc01b-native-os.json
+      - name: Pin all original Lu/Cognitum IPC source and test Git identities
+        if: always()
+        shell: bash
+        run: |
+          git rev-parse HEAD > lu-ipc01b-source-sha.txt
+          git hash-object cognitum/mel/vendor/lu/workspace/v0/workspace.proto cognitum/mel/lu_workspace_contract.py cognitum/mel/lu_ipc_readonly.py cognitum/mel/lu_ipc_native.py cognitum/mel/lu_adapter.py cognitum/mel/admission.py research_tests/mel_lu_ipc01a/compile_pinned_proto.py research_tests/mel_lu_ipc01a/test_workspace_contract.py research_tests/mel_lu_ipc01a/test_proto_client.py research_tests/mel_lu_ipc01b/test_native_carriers.py research_tests/mel_lu_ipc01b/native_disposition.py docs/integration/COG_LU_IPC_01B_NATIVE.md > lu-ipc01b-source-blobs.txt
+          test "$(git hash-object cognitum/mel/vendor/lu/workspace/v0/workspace.proto)" = "4e01d921197fb1c58c99958479b1cede36e13c9a"
+          test "$(git hash-object cognitum/mel/lu_workspace_contract.py)" = "ac57eb0afc4b2f0630531470e067461d8e2268ea"
+          test "$(git hash-object cognitum/mel/lu_ipc_readonly.py)" = "b21612457c3763dab8233d0eced5e5fffca968ad"
+          test "$(git hash-object cognitum/mel/lu_ipc_native.py)" = "7c70333ddbe85fc187e6b1d5ba9956abca4c5a58"
+          test "$(git hash-object cognitum/mel/lu_adapter.py)" = "300300b9f63f417afcc0ec650697e3012b7bdab0"
+          test "$(git hash-object cognitum/mel/admission.py)" = "405fa91935f62226ab0d1a2f0d8b7313e2327116"
+          test "$(git hash-object research_tests/mel_lu_ipc01a/compile_pinned_proto.py)" = "8db687bd4912f92af3b505088e7683ca0df2a9b2"
+          test "$(git hash-object research_tests/mel_lu_ipc01a/test_workspace_contract.py)" = "05e40e09c7a3e9bfdf838d38f4e971682ec8cfd2"
+          test "$(git hash-object research_tests/mel_lu_ipc01a/test_proto_client.py)" = "64ca56b974d8b0d0b5e3d566e8c0c5bab36ee474"
+          test "$(git hash-object research_tests/mel_lu_ipc01b/test_native_carriers.py)" = "8d0e1774c3ba7d697b3fc6190295271f81b76e80"
+          test "$(git hash-object research_tests/mel_lu_ipc01b/native_disposition.py)" = "898946a3a68105c4e663bb019c90b399fef1aba8"
+          test "$(git hash-object docs/integration/COG_LU_IPC_01B_NATIVE.md)" = "1cf32a0c29d750f6629b7e90da3c516ee50e570c"
+      - name: Preserve original JUnit, source, protoc and genuine OS carrier receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cognitum-lu-ipc01b-${{ matrix.os }}-py${{ matrix.python }}
+          path: |
+            lu-ipc01b-native.xml
+            lu-ipc01b-native-os.json
+            lu-ipc01b-source-sha.txt
+            lu-ipc01b-source-blobs.txt
+            lu-ipc-v0.desc
+            lu-ipc-v0-compile.json
+            cognitum/mel/vendor/lu/workspace/v0/workspace_pb2.py
+          if-no-files-found: warn
+
+  independent:
+    name: Reconcile four original OS carrier JUnits, Protobuf descriptors and source pins
+    needs: [native]
+    if: ${{ always() && needs.native.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: cognitum-lu-ipc01b-*
+          path: original-native-evidence
+          merge-multiple: false
+      - name: Independently verify original native OS cases, exact source and Core nonclaims
+        shell: bash
+        env:
+          QUALIFIED_SHA: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os,xml.etree.ElementTree as ET
+          root=Path("original-native-evidence")
+          wanted={f"cognitum-lu-ipc01b-{platform}-py{py}"
+                for platform in ("ubuntu-latest","windows-latest")
+                for py in ("3.11","3.13")}
+          assert {d.name for d in root.iterdir() if d.is_dir()}==wanted
+          locks=["4e01d921197fb1c58c99958479b1cede36e13c9a","ac57eb0afc4b2f0630531470e067461d8e2268ea","b21612457c3763dab8233d0eced5e5fffca968ad","7c70333ddbe85fc187e6b1d5ba9956abca4c5a58","300300b9f63f417afcc0ec650697e3012b7bdab0","405fa91935f62226ab0d1a2f0d8b7313e2327116","8db687bd4912f92af3b505088e7683ca0df2a9b2","05e40e09c7a3e9bfdf838d38f4e971682ec8cfd2","64ca56b974d8b0d0b5e3d566e8c0c5bab36ee474","8d0e1774c3ba7d697b3fc6190295271f81b76e80","898946a3a68105c4e663bb019c90b399fef1aba8","1cf32a0c29d750f6629b7e90da3c516ee50e570c"]
+          reference=None
+          receipts={}
+          for folder in sorted(root.iterdir()):
+              assert (folder/"lu-ipc01b-source-sha.txt").read_text().strip()==os.environ["QUALIFIED_SHA"]
+              assert (folder/"lu-ipc01b-source-blobs.txt").read_text().splitlines()==locks
+              compile=json.loads((folder/"lu-ipc-v0-compile.json").read_text())
+              assert compile["source_git_blob"]=="4e01d921197fb1c58c99958479b1cede36e13c9a"
+              assert compile["contract_compiled"] and not compile["installed_lu_host_connection_qualified"]
+              assert hashlib.sha256((folder/"lu-ipc-v0.desc").read_bytes()).hexdigest()==compile["descriptor_sha256"]
+              pyfile=folder/"cognitum/mel/vendor/lu/workspace/v0/workspace_pb2.py"
+              assert pyfile.is_file()
+              assert hashlib.sha256(pyfile.read_bytes()).hexdigest()==compile["python_generated_sha256"]
+              cases=list(ET.parse(folder/"lu-ipc01b-native.xml").getroot().iter("testcase"))
+              assert len(cases)==38,(folder.name,len(cases))
+              assert not any(case.find(tag)is not None for case in cases
+                             for tag in ("error","failure","skipped"))
+              names=sorted((case.get("classname"),case.get("name")) for case in cases)
+              assert len(set(names))==len(names)
+              disposition=json.loads((folder/"lu-ipc01b-native-os.json").read_text())
+              assert disposition["schema"]=="cognitum.lu_ipc01b.original_native_transport.v1"
+              assert disposition["test_cases_passed"]==38
+              assert disposition["native_byte_stream_test_exercised"]
+              assert not disposition["native_test_server_is_real_lu_core"]
+              assert not disposition["real_installed_core_health_exercised"]
+              assert not disposition["installed_enrolled_credentials_qualified"]
+              if "-windows-" in folder.name:
+                  assert disposition["native_os"]=="win32"
+                  assert disposition["backend"]=="win32_named_pipe_overlapped_os_process_pin"
+              else:
+                  assert disposition["native_os"].startswith("linux")
+                  assert disposition["backend"]=="linux_af_unix_so_peercred_private_inode"
+              identity=(names,compile["descriptor_sha256"],compile["python_generated_sha256"])
+              if reference is None:reference=identity
+              else:assert identity==reference
+              receipts[folder.name]=dict(passed=len(cases),native_backend=disposition["backend"])
+          receipt=dict(schema="cognitum.lu_ipc01b.original_native_evidence.v1",
+            status="PASS_NATIVE_OS_CARRIERS_SYNTHETIC_LU_HEALTH_AND_PINNED_PROTO",
+            original_sha=os.environ["QUALIFIED_SHA"],
+            four_platform_receipts=receipts,
+            all_12_source_blobs_match=True,all_38_original_junit_cases_identical=True,
+            all_native_generated_descriptors_identical=True,
+            actual_Lu_Core_Health_authenticated=False,
+            Core_signed_enrollment_qualified=False,
+            publisher_identity_qualified=False,
+            model_tool_execution_authorized=False)
+          Path("lu-ipc01b-independent.json").write_text(
+              json.dumps(receipt,sort_keys=True,indent=2)+"\n")
+          print(json.dumps(receipt,sort_keys=True))
+          PY
+      - name: Preserve independent original source/OS evidence receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cognitum-lu-ipc01b-independent
+          path: lu-ipc01b-independent.json
+          if-no-files-found: warn
