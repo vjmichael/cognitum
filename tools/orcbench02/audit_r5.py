@@ -35,16 +35,43 @@ STATIONS={
  "KDEN":"dd72f4e2b9dde753c2a9c0f964ca86eb2b8091eeaf9b7b807c3b8d7a98618645",
  "KATL":"ac0b69ce3b4755e56e9273310af94be638dd240d9857a98a719812f1dd441622",
 }
+NAMES={
+14694682761:"orcbench02-r4-ubuntu-latest-py3.11",
+14694214884:"orcbench02-r4-ubuntu-latest-py3.13",
+14694089529:"orcbench02-r4-windows-latest-py3.11",
+14694851373:"orcbench02-r4-windows-latest-py3.13",
+14695638527:"orcbench02-r4r2r3-ubuntu-latest-py3.11",
+14695223848:"orcbench02-r4r2r3-ubuntu-latest-py3.13",
+14695773244:"orcbench02-r4r2r3-windows-latest-py3.11",
+14695368459:"orcbench02-r4r2r3-windows-latest-py3.13",
+14696066746:"orcbench02-r4r2r3-independent-four-native",
+}
+class ExtractedOriginal:
+    """Supported GitHub Actions source download with externally pinned ZIP digest."""
+    def __init__(self,folder):
+        self.folder=folder
+        need(folder.is_dir(),"original extracted GitHub Actions artifact unavailable")
+    def namelist(self):
+        return sorted(x.name for x in self.folder.iterdir() if x.is_file())
+    def read(self,name):
+        need(name in self.namelist(),"missing extracted original source receipt")
+        return (self.folder/name).read_bytes()
+    def testzip(self):return None
+
 class Refusal(ValueError):pass
 def need(ok,s):
     if not ok:raise Refusal(s)
 
-def artifact(path,aid,expected):
-    filename=path/f"github-actions-artifact-{aid}.zip"
-    data=filename.read_bytes()
-    need(sha256(data).hexdigest()==expected,f"original ZIP {aid} content digest changed")
-    z=ZipFile(filename)
-    need(z.testzip() is None,f"original ZIP {aid} CRC invalid")
+def artifact(path,aid,expected,*,extracted=False):
+    if extracted:
+        z=ExtractedOriginal(path/NAMES[aid])
+    else:
+        filename=path/f"github-actions-artifact-{aid}.zip"
+        data=filename.read_bytes()
+        need(sha256(data).hexdigest()==expected,
+             f"original ZIP {aid} content digest changed")
+        z=ZipFile(filename)
+        need(z.testzip() is None,f"original ZIP {aid} CRC invalid")
     suites=[]
     for name in z.namelist():
         if name.endswith(".xml"):
@@ -62,14 +89,20 @@ def metric(y,p):
     need(n==len(p) and n>0,"unmatched original observation labels")
     return sqrt(fsum((a-b)**2 for a,b in zip(y,p))/n)
 
-def verify(directory):
+def verify(directory,*,extracted=False):
     path=Path(directory);r4={};native={};original_suites={}
+    if extracted:
+        metadata=json.loads((path/"original-github-metadata-pins.json").read_bytes())
+        need(metadata.get("schema")=="cognitum.orc.bench02.r5.independent_github_artifact_digest.v1"
+             and {int(k):v for k,v in metadata["original_artifact_SHA256"].items()}==
+                 {**R4,**NATIVE,**FOURWAY},
+             "independent GitHub original ZIP digest pin verification missing")
     for group,dests,expected_sha,filename,test_n in (
        ("R4",r4,R4_SHA,"bench02-r4-results.json",104),
        ("R4R2R3",native,NATIVE_SHA,"bench02-r4r2r3-results.json",322)):
         ids=R4 if group=="R4" else NATIVE
         for aid,pin in ids.items():
-            z,suites=artifact(path,aid,pin)
+            z,suites=artifact(path,aid,pin,extracted=extracted)
             need(sum(suites)==test_n,f"{group} source-native tests changed")
             need(z.read("source-sha.txt").decode().strip()==expected_sha,
                  f"{group} exact tested source SHA changed")
@@ -80,7 +113,7 @@ def verify(directory):
                  f"{group} original case/origin denominator changed")
             dests[aid]=(obj,rows)
             original_suites[str(aid)]=suites
-    four,other=artifact(path,14696066746,FOURWAY[14696066746])
+    four,other=artifact(path,14696066746,FOURWAY[14696066746],extracted=extracted)
     receipt=json.loads(four.read("bench02-r4r2r3-cross-native-receipt.json"))
     need(receipt["status"]=="PASS_PORTABLE_ABSTENTION_AND_ORIGINAL_SOURCE_REPLAY" and
          receipt["original_4way_portable_decision_SHA256"]==PORTABLE_SHA and
@@ -133,6 +166,8 @@ def verify(directory):
              "historical retro receipts misrepresented as first publication")
     return {
         "schema":"cognitum.orc.bench02.r5.independent_original_ZIP_replay.v1",
+        "archive_provenance_mode":("independent GitHub REST SHA256 metadata plus actions/download-artifact original extracted bytes"
+                                   if extracted else "original independently downloaded ZIP SHA256 and CRC"),
         "R4_archive_originals_checked":len(r4),
         "R4R2R3_native_archive_originals_checked":len(native),
         "independent_cross_native_archive_checked":True,
@@ -152,9 +187,10 @@ def verify(directory):
 def main(argv=None):
     parser=argparse.ArgumentParser()
     parser.add_argument("--archives",required=True)
+    parser.add_argument("--extracted",action="store_true")
     parser.add_argument("--out",required=True)
     a=parser.parse_args(argv)
-    result=verify(a.archives)
+    result=verify(a.archives,extracted=a.extracted)
     with Path(a.out).open("x",encoding="utf-8",newline="\n") as f:
         json.dump(result,f,sort_keys=True,indent=2);f.write("\n")
     print(json.dumps({"R4":result["R4_archive_originals_checked"],

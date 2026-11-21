@@ -75,33 +75,60 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Fetch nine original GitHub Actions ZIPs; no NOAA calls or new observations
+      - name: Retrieve exact original R4 artifacts through supported GitHub cross-run artifact transport
+        uses: actions/download-artifact@v4
+        with:
+          run-id: 44873223743
+          github-token: ${{ github.token }}
+          pattern: orcbench02-r4-*
+          path: historical-originals
+          merge-multiple: false
+      - name: Retrieve exact original native KAN HDC and four-way portability archives through artifact transport
+        uses: actions/download-artifact@v4
+        with:
+          run-id: 44875900382
+          github-token: ${{ github.token }}
+          pattern: orcbench02-r4r2r3-*
+          path: historical-originals
+          merge-multiple: false
+      - name: Independently verify nine original GitHub immutable artifact SHA256 metadata and source run IDs
         env:
           GH_REPLAY_TOKEN: ${{ github.token }}
         shell: bash
         run: |
-          mkdir -p historical-originals
           python - <<'PY'
+          from tools.orcbench02.audit_r5 import R4,NATIVE,FOURWAY,NAMES
           from urllib.request import Request,urlopen
           from pathlib import Path
-          import os
+          import os,json
           token=os.environ['GH_REPLAY_TOKEN']
-          aids=(14694682761,14694214884,14694089529,14694851373,
-                14695638527,14695223848,14695773244,14695368459,14696066746)
-          for aid in aids:
-              url=f'https://api.github.com/repos/vjmichael/cognitum/actions/artifacts/{aid}/zip'
-              headers={'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json',
-                       'X-GitHub-Api-Version':'2022-11-28',
-                       'User-Agent':'Cognitum-R5-historical-independent-original-audit'}
-              with urlopen(Request(url,headers=headers),timeout=30) as response:
-                  if response.status!=200:raise RuntimeError('original Actions source ZIP unavailable')
-                  content=response.read(2000001)
-              if len(content)>2000000:raise RuntimeError('original artifact oversized')
-              Path(f'historical-originals/github-actions-artifact-{aid}.zip').write_bytes(content)
-          print('Independently downloaded',len(aids),'untouched original GitHub archives')
+          original={**R4,**NATIVE,**FOURWAY}
+          for aid,pinned in original.items():
+              url=f'https://api.github.com/repos/vjmichael/cognitum/actions/artifacts/{aid}'
+              req=Request(url,headers={
+                  'Authorization':'Bearer '+token,
+                  'Accept':'application/vnd.github+json',
+                  'X-GitHub-Api-Version':'2022-11-28',
+                  'User-Agent':'Cognitum-R5-science-independent-original-digest'
+              })
+              with urlopen(req,timeout=20) as response:
+                  if response.status!=200:raise RuntimeError('no trustworthy GitHub original artifact metadata')
+                  meta=json.loads(response.read(100000))
+              expected_run=44873223743 if aid in R4 else 44875900382
+              if not (meta.get('id')==aid and meta.get('name')==NAMES[aid] and
+                      meta.get('expired') is False and
+                      meta.get('digest')=='sha256:'+pinned and
+                      (meta.get('workflow_run') or {}).get('id')==expected_run):
+                  raise RuntimeError('Original source artifact/runner digest mismatch')
+              if not Path('historical-originals',NAMES[aid]).is_dir():
+                  raise RuntimeError('Original corresponding GitHub ZIP was not downloaded')
+          Path('historical-originals/original-github-metadata-pins.json').write_text(
+              json.dumps({'schema':'cognitum.orc.bench02.r5.independent_github_artifact_digest.v1',
+                  'original_artifact_SHA256':original},sort_keys=True,indent=2)+'\n')
+          print('Nine original GitHub ZIP digests and exact runs independently verified')
           PY
-      - name: Independently replay R4 and original native specialists and all 265 historical clocks
-        run: python -m tools.orcbench02.audit_r5 --archives historical-originals --out bench02-r5-independent-archive-evidence.json
+      - name: Independently replay original source, clocks, native HDC KAN SSM metrics and losses
+        run: python -m tools.orcbench02.audit_r5 --archives historical-originals --extracted --out bench02-r5-independent-archive-evidence.json
       - name: Retain independent negative and positive historical scientific evidence
         if: always()
         uses: actions/upload-artifact@v4
