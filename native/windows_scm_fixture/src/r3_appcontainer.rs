@@ -41,6 +41,9 @@ struct StartupInfo{
 #[repr(C)]
 struct StartupInfoEx{base:StartupInfo,attributes:Handle}
 #[repr(C)]
+struct ProbeProcessInfo{process:Handle,thread:Handle,pid:u32,tid:u32}
+
+#[repr(C)]
 struct SecurityCapabilities{sid:Handle,capabilities:Handle,count:u32,reserved:u32}
 #[repr(C)]
 #[derive(Default)]
@@ -364,9 +367,41 @@ pub fn launch(application:&[u16],command:&mut[u16],
         return Err(denied("SCM failed closed when restoring its SYSTEM identity"));
     }
     if let Some(err)=launch_error{
+        // Exact same image, non-SYSTEM user token, environment and CWD.
+        // No AppContainer package attribute *only for a terminated SUSPENDED
+        // diagnostic probe*. Never resume this probe or return its handles
+        // as an alternative worker. This distinguishes target-user filesystem
+        // resolution from AppContainer package/namespace setup.
+        let mut baseline_startup:StartupInfo=unsafe{mem::zeroed()};
+        baseline_startup.cb=mem::size_of::<StartupInfo>() as u32;
+        let mut probe:ProbeProcessInfo=unsafe{mem::zeroed()};
+        let mut probe_command=command.to_vec();
+        let base_created=unsafe{CreateProcessAsUserW(
+            reduced.0,application.as_ptr(),probe_command.as_mut_ptr(),
+            ptr::null_mut(),ptr::null_mut(),0,
+            CREATE_SUSPENDED|CREATE_NO_WINDOW|CREATE_UNICODE_ENVIRONMENT,
+            env.as_mut_ptr().cast(),wide_cwd.as_ptr(),
+            &baseline_startup,(&mut probe as *mut ProbeProcessInfo).cast()
+        )}!=0;
+        let base_error=if base_created{0}else{
+            io::Error::last_os_error().raw_os_error().unwrap_or(-1)
+        };
+        if base_created{
+            // Before any untrusted user code can execute, terminate, await
+            // death and close BOTH original native handles.
+            if probe.process.is_null()||probe.thread.is_null(){
+                std::process::abort();
+            }
+            if unsafe{TerminateProcess(probe.process,0xE8)}==0||
+               unsafe{WaitForSingleObject(probe.process,5000)}!=0{
+                std::process::abort();
+            }
+            unsafe{CloseHandle(probe.thread);
+                   CloseHandle(probe.process);}
+        }
         return Err(denied(&format!(
-            "native non-System AppContainer CreateProcessAsUserW OS {}; user_image_visible={}",
-            err,user_image_visible
+            "AppContainer CreateProcessAsUserW OS {}; original_user_image_visible={}; suspended_nonlowbox_probe_created_and_reaped={}; nonlowbox_error={}",
+            err,user_image_visible,base_created,base_error
         )));
     }
     // Caller owns process+thread HANDLEs, original PID and Job after success.
