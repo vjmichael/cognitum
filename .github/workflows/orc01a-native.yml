@@ -21,20 +21,21 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install deterministic scientific dependencies
-        run: python -m pip install -e ".[scientific,planning-graph]" "pytest==9.0.2" "numpy==2.3.5" "scipy==1.17.0" "networkx==3.5"
+        run: python -m pip install -e ".[scientific,planning-graph,optimization-schedule]" "pytest==9.0.2" "numpy==2.3.5" "scipy==1.17.0" "networkx==3.5"
       - name: Execute Orc Graph and inherited cooperative tests
         run: python -m pytest -q tests/test_orc_graph.py tests/test_cooperative.py tests/test_cooperative_compositions.py --junitxml=orc01a.xml
       - name: Record exact source and environment
         if: always()
         shell: python
         run: |
-          import hashlib, json, pathlib, platform, subprocess, sys
+          import hashlib, importlib.metadata as md, json, pathlib, platform, subprocess, sys
           paths = ("cognitum/orc_graph.py", "tests/test_orc_graph.py",
                    "cognitum/cooperative.py", "cognitum/cooperative_cpu.py",
                    "cognitum/mel/cooperation.py", "tests/test_cooperative.py",
                    "tests/test_cooperative_compositions.py")
           receipt = {"git_sha": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
                      "platform": platform.platform(), "python": sys.version,
+                     "dependencies": {x: md.version(x) for x in ("pytest","numpy","scipy","networkx","ortools","protobuf")},
                      "sources": {p: {"git_blob": subprocess.check_output(
                          ["git", "hash-object", p], text=True).strip(),
                          "sha256": hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()}
