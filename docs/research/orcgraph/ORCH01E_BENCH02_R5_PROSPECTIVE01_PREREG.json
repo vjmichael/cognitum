@@ -1,0 +1,110 @@
+{
+  "schema": "cognitum.orc.bench02.r5.prospective01.operator_custody.v1",
+  "status": "source-only operational precommit before collector implementation; no prospective original NOAA observations or trained methods",
+  "parents": {
+    "R5_prereg_git_blob": "02828d09afaf584a9b5cc8a66e0f2de917b48429",
+    "R5_accepted_science_source": "dadfc1e9639dd7927e6621902ac35123db51e53d",
+    "R5_negative_report_git_blob": "b36cd8ed271bf3983946ada248babc43c3f298ed"
+  },
+  "immutable_science": {
+    "sites": [
+      "KBOS",
+      "KMSP",
+      "KPHX"
+    ],
+    "two_lanes": [
+      "A",
+      "B"
+    ],
+    "interval_seconds": 600,
+    "forecast_issue_offset_minutes": 20,
+    "horizons_hours": [
+      1,
+      3,
+      6
+    ],
+    "lags_hours": [
+      0,
+      1,
+      3,
+      6,
+      24
+    ],
+    "fold_hours": [
+      336,
+      168,
+      168
+    ],
+    "no_modelling_or_outcome_selection": true
+  },
+  "operator": {
+    "explicit_approval_required": true,
+    "default_enabled": false,
+    "mode": "per-lane bounded local noninteractive once invocation, never daemon or cron installed by code or CI",
+    "secret": "256-bit random HMAC key in external OS protected POSIX 0600 file, never repo, standard output, GitHub Actions or committed artifact",
+    "signature": "HMAC-SHA256 of canonical JSON grant without signature; constant-time verification",
+    "approved_capability": "exact NOAA GET URL, one lane A or B, fixed R5 schema and Git blob, 10 min, activation UTC and expiry UTC, max 4032 polls, immutable audience and approval id",
+    "operator_must_create_separate_A_and_B_grants": true,
+    "no_restart_auto_reenable": true,
+    "OS_permission": "real activation fails closed on unsupported protected key-file OS custody; Linux POSIX stat owner/mode checked; Windows key custody NOT claimed",
+    "no_approval_material_created_in_this_task": true
+  },
+  "journal": {
+    "storage": "per-lane independent SQLite WAL FULL synchronous, rollback guard binds DB to operator grant and original protocol",
+    "records": "append-only hash chained INTENT, OBSERVED, ERROR, GAP, INTERRUPTED; no overwrite/delete; transaction protected BEGIN IMMEDIATE",
+    "timing": "slot index from fixed activation at 10-minute UTC alignment, at most 2 minutes late to actually poll; missed slots GAP including recovery",
+    "durable_intent_before_network": true,
+    "no_retry_for_same_slot": true,
+    "failure": "HTTP non-200, 429, invalid JSON, timeout, crash, duplicate/revision and provider errors must preserve explicit bounded error receipt; never create synthetic temperature",
+    "data": "original response bytes in bounded base64 with SHA and content type; exact receipt and qualified row identities on success",
+    "backpressure": "max one poll per slot per lane; max body 2 MB; no unbounded replay on restart",
+    "corrections": "different original rows for same site/hour observed in any independently archived future polls cause CORRECTED_REFUSAL, not rewrite first forecast/target history",
+    "gaps": "every expected scheduled slot must be present as OBSERVED or typed ERROR/GAP/INTERRUPTED and independently externally anchored; a local record alone is not trusted availability",
+    "forbidden": "journal alone cannot prove receipt existed before issue; never promote unanchored local capture"
+  },
+  "external_custody": {
+    "provider": "GitHub Actions original upload-artifact plus externally sourced artifact metadata",
+    "method": "supported actions/download-artifact exact original artifact and separately authenticated GitHub metadata id/run/name/sha256 created_at; direct /zip redirects that returned 401 are not relied on",
+    "one_archived_poll_per_lane_per_slot": true,
+    "two_distinct_original_workflow_runs_and_artifact_ids": true,
+    "creation_timestamp": "GitHub original metadata created_at in UTC must be <= forecast issue UTC for eligible feature; runner timestamps alone untrusted",
+    "hash": "GitHub original ZIP SHA-256 digest must equal external metadata digest; verified record hash and source bytes must match archived original",
+    "retention_limit": "R5 entire 28d and acceptance duration must fall within actual artifact retention; 90d optional retention and external permanent archive later",
+    "correlated_upstream": "same NOAA provider is NOT two independent providers, only two separately timestamped collectors",
+    "unverifiable_global_first_publication": true,
+    "ZIP_safety": "bounded ZIP size; safe single filename, no traversal, valid CRC, maximum original JSON bytes",
+    "no_self_attested_archive_verified_bool": true
+  },
+  "native_tests": {
+    "targets": [
+      "windows-latest py3.11",
+      "windows-latest py3.13",
+      "ubuntu-latest py3.11",
+      "ubuntu-latest py3.13"
+    ],
+    "qualification_type": "synthetic/no network + exact original source-lock and historical negatives",
+    "required_negative_cases": [
+      "unsigned/expired/wrong URL or lane grant",
+      "insecure/wrong-owner key",
+      "double invoke same slot",
+      "crash between intent and result",
+      "missing one slot gap",
+      "HTTP 429 and malformed response",
+      "duplicate/corrected station-hour",
+      "stale external created_at",
+      "same source run for both lanes",
+      "forged GitHub artifact checksum",
+      "unanchored local timestamps",
+      "wrong original prereg Git blob",
+      "early target leakage",
+      "replay/tamper prior journal"
+    ],
+    "installation_scheduling": "manual only; no scheduled NOAA traffic; no Docker"
+  },
+  "acceptance": {
+    "scope": "durable host-qualified synthetic source capture and externally authenticated artifact contract, not actual two-lane future collection",
+    "do_not_claim": "production 28d source, global publisher first availability, real live NOAA polling, HDC/KAN improvement, installed MEL authority",
+    "potential_operating_cost": "Two 10-minute lanes for 28 days imply 8064 source polls and potentially 8064 per-poll artifact publications; require approved capacity, artifact retention, runner/time cost and uptime before live activation",
+    "next": "separate operator-approved installation in two actual independent hosts, verify independent third-party anchors and first live capture; then 28 full days and frozen evaluation"
+  }
+}
