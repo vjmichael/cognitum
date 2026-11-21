@@ -39,7 +39,10 @@ jobs:
             $tokens=$null
             $errors=$null
             [void][Management.Automation.Language.Parser]::ParseFile((Resolve-Path $p).Path,[ref]$tokens,[ref]$errors)
-            if(@($errors).Count -ne 0){throw 'Read-only installed script has syntax error'}
+            if(@($errors).Count -ne 0){
+              $details=(@($errors)|ForEach-Object{[string]$_.Extent.StartLineNumber+':'+[string]$_.Extent.StartColumnNumber+' '+$_.Message}) -join '; '
+              throw ('PowerShell parser refused '+$p+': '+$details)
+            }
             if(Select-String -LiteralPath $p -Pattern '(?im)^\s*\$(home|host)\s*='){
               throw 'PowerShell protected automatic variable assignment in production preflight'
             }
