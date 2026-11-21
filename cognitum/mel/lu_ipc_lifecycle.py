@@ -38,7 +38,7 @@ REFERENCE = re.compile(r"[A-Za-z0-9_.:/-]{1,128}\Z", re.ASCII)
 REASON = re.compile(r"[A-Za-z0-9_.:/-]{1,96}\Z", re.ASCII)
 ACTIONS = frozenset(("begin","credit","progress","terminal","cancel",
                      "cancel_ack","reconcile","reconciled","revoke",
-                     "outbox_snapshot","uncertain_hold"))
+                     "outbox_snapshot","uncertain_hold","issuer_attestation"))
 TERMINAL = frozenset((lu.TERMINAL_STATE_APPLIED,
     lu.TERMINAL_STATE_REFUSED,lu.TERMINAL_STATE_FAILED,
     lu.TERMINAL_STATE_CANCELLED,lu.TERMINAL_STATE_UNCERTAIN))
@@ -130,7 +130,8 @@ def _initial_state():
                 reconcile_requested=False,reconcile_status="not_requested",
                 revoked=False,events=0,receipt_raw=None,
                 original_session=None,origin=None,typed_sha=None,
-                outbox_sha=None,outbox_count=0,uncertain_hold=False)
+                outbox_sha=None,outbox_count=0,uncertain_hold=False,
+                issuer_attestation_sha=None,issuer_attestation_nonce=None)
 
 
 def _summarize(state):
@@ -149,6 +150,8 @@ def _summarize(state):
          outbox_snapshot_recorded=state["outbox_sha"] is not None,
          original_outbox_snapshot_sha256=state["outbox_sha"],
          original_outbox_output_count=state["outbox_count"],
+         provisional_issuer_attestation_observed=state["issuer_attestation_sha"] is not None,
+         original_provisional_attestation_sha256=state["issuer_attestation_sha"],
          uncertain_hold=state["uncertain_hold"],
          retry_or_acknowledgment_authorized=False,
          source_verified_through_independent_lu_core=False,
@@ -438,6 +441,26 @@ class DurableLuOperationVerifier:
                       "canonical sorted outbox inventory")
                 state["outbox_sha"]=_digest(raw)
                 state["outbox_count"]=len(snapshot["outputs"])
+            elif kind=="issuer_attestation":
+                try:att=json.loads(raw.decode("ascii"))
+                except (ValueError,UnicodeError) as exc:
+                    raise ValueError("Cognitum IPC lifecycle refused: invalid issuer attestation log") from exc
+                _need(type(att) is dict and
+                      set(att)=={"claim_sha256","nonce_sha256"} and
+                      _canonical(att)==raw and
+                      all(type(att[k]) is str and
+                          re.fullmatch(r"[0-9a-f]{64}",att[k])
+                          for k in ("claim_sha256","nonce_sha256")) and
+                      att["nonce_sha256"]!="0"*64 and
+                      state["issuer_attestation_sha"] is None and
+                      state["outbox_sha"] is not None and
+                      state["reconcile_status"]=="matched" and
+                      state["terminal"]==lu.TERMINAL_STATE_APPLIED and
+                      not state["revoked"] and not state["uncertain_hold"] and
+                      not state["cancel_requested"] and not state["cancel_ack"],
+                      "single authenticatable original issuer proof only")
+                state["issuer_attestation_sha"]=att["claim_sha256"]
+                state["issuer_attestation_nonce"]=att["nonce_sha256"]
             elif kind=="uncertain_hold":
                 try:hold=json.loads(raw.decode("ascii"))
                 except (ValueError,UnicodeError) as exc:
@@ -571,6 +594,23 @@ class DurableLuOperationVerifier:
             checkpoint_revision=revision,
             checkpoint_sha256=checkpoint_sha256,outputs=rows))
         self._append("outbox_snapshot",raw)
+        return self.status()
+
+    def note_provisional_issuer_attestation(self,claim_sha256,nonce_sha256):
+        """Consume one *candidate* signed receipt in the original local chain.
+
+        A locally chained verifier audit is not a Lu grant nor external
+        irreversible Core nonce service. It refuses repeated receipt
+        candidates across local restarts until the authoritative anchor is
+        independently replaced by an installed anti-rollback custodian.
+        """
+        _need(type(claim_sha256) is str and
+              re.fullmatch(r"[0-9a-f]{64}",claim_sha256) and
+              type(nonce_sha256) is str and
+              re.fullmatch(r"[0-9a-f]{64}",nonce_sha256),
+              "exact issuer attestation SHA/nonce")
+        self._append("issuer_attestation",_canonical(dict(
+            claim_sha256=claim_sha256,nonce_sha256=nonce_sha256)))
         return self.status()
 
     def note_uncertain_hold(self,reason_code):
