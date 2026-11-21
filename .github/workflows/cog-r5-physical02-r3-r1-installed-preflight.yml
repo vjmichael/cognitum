@@ -45,8 +45,8 @@ jobs:
             if(-not $refused){throw 'Untrusted frozen installed file set passed audit'}
           }
           function New-ProtectedCase([string]$name,[string]$kind){
-            $home=$prefix+'-'+$name
-            $runtime=Join-Path $home 'runtime'
+            $caseRoot=$prefix+'-'+$name
+            $runtime=Join-Path $caseRoot 'runtime'
             New-Item -ItemType Directory -Path $runtime -Force|Out-Null
             $empty=Join-Path $runtime '__init__.py'
             $code=Join-Path $runtime 'a.py'
@@ -67,7 +67,7 @@ jobs:
             # This deliberately invalid MSI is still a real on-disk artifact:
             # verify rejection is due to its absent trusted publisher, not
             # simply because a nonexistent path was supplied.
-            $unsigned=Join-Path $home 'untrusted.msi'
+            $unsigned=Join-Path $caseRoot 'untrusted.msi'
             [IO.File]::WriteAllBytes($unsigned,[byte[]]::new(2048))
             $unsignedPin=(Get-FileHash $unsigned -Algorithm SHA256).Hash.ToLowerInvariant()
             # Construct all adversarial bytes while the fixture is mutable.
@@ -82,16 +82,16 @@ jobs:
               # Per-file explicit trusted write ACEs FIRST; then owner; only
               # then drop inherited writable runner ACEs. The runner receives
               # read/execute so it can audit, not modify, the sealed files.
-              & icacls.exe $home /grant:r '*S-1-5-18:(OI)(CI)F' '*S-1-5-32-544:(OI)(CI)F' /T /C /Q |Out-Null
+              & icacls.exe $caseRoot /grant:r '*S-1-5-18:(OI)(CI)F' '*S-1-5-32-544:(OI)(CI)F' /T /C /Q |Out-Null
               if($LASTEXITCODE -ne 0){throw 'Trusted per-file ACE setup failed'}
-              & icacls.exe $home /setowner '*S-1-5-32-544' /T /C /Q |Out-Null
+              & icacls.exe $caseRoot /setowner '*S-1-5-32-544' /T /C /Q |Out-Null
               if($LASTEXITCODE -ne 0){throw 'Trusted per-file ownership setup failed'}
-              & icacls.exe $home /grant ('*'+$runnerSid+':(OI)(CI)RX') /T /C /Q |Out-Null
+              & icacls.exe $caseRoot /grant ('*'+$runnerSid+':(OI)(CI)RX') /T /C /Q |Out-Null
               if($LASTEXITCODE -ne 0){throw 'Read-only audit ACE setup failed'}
-              & icacls.exe $home /inheritance:r /T /C /Q |Out-Null
+              & icacls.exe $caseRoot /inheritance:r /T /C /Q |Out-Null
               if($LASTEXITCODE -ne 0){throw 'Inherited runner write ACE elimination failed'}
             }
-            return [pscustomobject]@{Home=$home;Runtime=$runtime;ManifestPin=$pin;ProvenancePin=$ppin;UnsignedPin=$unsignedPin}
+            return [pscustomobject]@{Home=$caseRoot;Runtime=$runtime;ManifestPin=$pin;ProvenancePin=$ppin;UnsignedPin=$unsignedPin}
           }
           $good=New-ProtectedCase 'valid' 'valid'
           $tampered=New-ProtectedCase 'tamper' 'tampered'
