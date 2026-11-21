@@ -1,6 +1,6 @@
 # ORCH-01E — Evidence-informed method selection
 
-**Status: ACTIVE BOUNDED SOURCE CANDIDATE. Native qualification pending.** 01A–D remain independently accepted and unmodified.
+**Status: ACCEPTED bounded offline native scientific selection; independent real-world acceptance not claimed.** 01A–D remain independently accepted and unmodified.
 
 ## Source and design
 
@@ -21,3 +21,7 @@ Run new ORCH-01E adversarial test cases, all original 01D comparisons including 
 ## ORCH-01E-R1 original native dependency reconciliation
 
 First [native run 44863088386](https://github.com/vjmichael/cognitum/actions/runs/44863088386) is terminal FAIL on all four platforms, **389/389 actual original/new tests passed on each platform** (49 new cases versus the unchanged 340-case ORCH-01D regression suite), no skipped mathematical test. The evidence generator failed its entrypoint with `ModuleNotFoundError: No module named 'tools'`: `tools/` is not an installed Python package. R1 replaces only that test instrument's unsupported package import with an explicit source-repository-local `runpy.run_path` reference to the original unchanged 01D synthetic fixture, preserving identical synthetic source bytes. It does not change selection logic, acceptance tests, original math kernels, numeric thresholds, or scientific claims. **R1 unchanged-SHA four-native-target test and original artifact reconciliation pending.**
+
+## Final R1 same-source native acceptance
+
+Run https://github.com/vjmichael/cognitum/actions/runs/44863332744 completed SUCCESS at SHA 3a944d624c7914cc0246bffd910551b7aae80e75: 389/389 tests on Ubuntu/Windows Python 3.11/3.13, no failure/error/skip. Four archived ZIPs independently downloaded, SHA/CRC checked; JUnit inventories and 30 Git blob pins matched, and synthetic selection, budget refusal, unsigned user override and post-frozen ridge comparison were checked. The preceding matrix passed all tests but failed standalone tools fixture import; this exact-source R1 changes only import syntax, not mathematical models, policy decisions or accepted tests. Synthetic oscillatory selected persistence, RMSE ~0.05449 against ridge ~0.06604 (95 test origins); shifted synthetic selected persistence, RMSE ~0.05343 against ridge ~0.11749 (89 origins). These are NOT independent real-world datasets, demonstrated superiority or authenticated human-agent workflows. KAN checkpoint and derived model/decision hashes vary across OS. Resource budgets are only static proxies; physical sources, measured resources, actual user overrides, uncertainty generalization and owner-registered real Orc vs ridge benchmark remain unfinished.
