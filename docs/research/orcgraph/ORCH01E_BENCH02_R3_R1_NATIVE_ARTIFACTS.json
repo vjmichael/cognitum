@@ -1,0 +1,179 @@
+{
+  "task": "COG-ORCH-01E-BENCH-02-R3-R1",
+  "scope_status": "SCOPED_PASS_RETROSPECTIVE_SOURCE_AND_COHORT_ONLY",
+  "accepted_exact_source_commit": "d6ec165ee7dfbe6af08bb2f428c328869fefa3b0",
+  "preregistration_first_commit": "2dcd67df515e65d9da0cccb5c3e6b08736716573",
+  "preregistration_sha256": "fd0b6a372ee5cd9ee8870ad20c475261460a069daf4fd52f56e8dcc2961a5104",
+  "native_action_url": "https://github.com/vjmichael/cognitum/actions/runs/44872224722",
+  "native_run_id": 44872224722,
+  "native_run_status": "completed_success",
+  "native_platforms": [
+    "ubuntu-latest Python 3.11",
+    "ubuntu-latest Python 3.13",
+    "windows-latest Python 3.11",
+    "windows-latest Python 3.13"
+  ],
+  "junit_tests_per_target": 81,
+  "junit_test_executions": 324,
+  "native_failed": 0,
+  "native_skipped": 0,
+  "matching_four_original_junit_test_inventories": true,
+  "canonical_git_source_blobs": [
+    {
+      "path": "docs/research/orcgraph/ORCH01E_BENCH02_R3_PREREG.json",
+      "sha": "512b25936105bb89bdf4957d1c0da14195e784fc"
+    },
+    {
+      "path": "tools/orcbench02/cohorts.py",
+      "sha": "dcb40c878969f37d6839f2ff74285de4657c385c"
+    },
+    {
+      "path": "tests/test_orc_bench02_cohorts.py",
+      "sha": "a2d0009c314b092fb4a16ad8f74b2c31aa9ccc27"
+    },
+    {
+      "path": "tools/orcbench02/capture_r3.py",
+      "sha": "32cf87c327dc065d9ee4b0641c6ccb7e89666adf"
+    },
+    {
+      "path": "tests/test_orc_bench02_capture_r3.py",
+      "sha": "d60a1e30db22867213f68db25d775e398d209b90"
+    },
+    {
+      "path": "tools/orcbench02/acquisition.py",
+      "sha": "ec51fd8f59a425907721b5ab3a522804604b964c"
+    }
+  ],
+  "archived_native_and_source_artifacts": [
+    {
+      "name": "ubuntu-latest-py3.11",
+      "id": 14694710315,
+      "zip_sha256": "ddc85e80993ee0cf22d3f9010d45a71da94ff9095c95fdf2f9aeb08651c6ad3e",
+      "verified_junit_cases": 81
+    },
+    {
+      "name": "ubuntu-latest-py3.13",
+      "id": 14694014872,
+      "zip_sha256": "cfb0c57b11755a62cc279356071ed24d6b89ff6e5dbd83e7aff3f660546b8cba",
+      "verified_junit_cases": 81
+    },
+    {
+      "name": "windows-latest-py3.11",
+      "id": 14694596174,
+      "zip_sha256": "80362141c2f8e5be61f7a433441af2820e8558d29a7101605f7628418131d1e9",
+      "verified_junit_cases": 81
+    },
+    {
+      "name": "windows-latest-py3.13",
+      "id": 14694655990,
+      "zip_sha256": "50fbfbf5a59cb109c6624d4c4fea8749bab090b8699ce00a04114ce468f0467c",
+      "verified_junit_cases": 81
+    },
+    {
+      "name": "original-external-source-cohort",
+      "id": 14694461680,
+      "zip_sha256": "2d15ac47bda440eaaf7351a558d18e695814f4728ec28ff5e82852510ff70e3b",
+      "contains_original_noaa_bytes": true
+    }
+  ],
+  "original_site_data": {
+    "KSEA": {
+      "original_rows": 261,
+      "raw_bytes": 138884,
+      "original_raw_sha256": "2b2772ea7ad91d76f22e1be82269c0b41e86294392241a42bae9d81f061a6205",
+      "cohort_sha256": "61e73936c5a79139d59de847fc542fa20399fb6d9817f181d3ffdd3bc741cf7a",
+      "capture_started_ms": 1795239881887,
+      "capture_finished_ms": 1795239882392,
+      "hourly_bins": 192,
+      "unique_single_report_hours": 178,
+      "ambiguous_multiple_report_hours": 14,
+      "retrospective_test_eligible_by_horizon": {
+        "1": 21,
+        "3": 19,
+        "6": 17
+      },
+      "strict_first_capture_test_eligible_by_horizon": {
+        "1": 0,
+        "3": 0,
+        "6": 0
+      }
+    },
+    "KDEN": {
+      "original_rows": 259,
+      "raw_bytes": 127608,
+      "original_raw_sha256": "dd72f4e2b9dde753c2a9c0f964ca86eb2b8091eeaf9b7b807c3b8d7a98618645",
+      "cohort_sha256": "4057e4f76528d0e58696684e9acfb8d678b41151ad3b049bee16014cff841384",
+      "capture_started_ms": 1795239883512,
+      "capture_finished_ms": 1795239883926,
+      "hourly_bins": 192,
+      "unique_single_report_hours": 176,
+      "ambiguous_multiple_report_hours": 16,
+      "retrospective_test_eligible_by_horizon": {
+        "1": 37,
+        "3": 35,
+        "6": 32
+      },
+      "strict_first_capture_test_eligible_by_horizon": {
+        "1": 0,
+        "3": 0,
+        "6": 0
+      }
+    },
+    "KATL": {
+      "original_rows": 242,
+      "raw_bytes": 127196,
+      "original_raw_sha256": "ac0b69ce3b4755e56e9273310af94be638dd240d9857a98a719812f1dd441622",
+      "cohort_sha256": "4db676db1494ae0d98425f4aede5962da24429d2c5405da6c97e592eab15ce92",
+      "capture_started_ms": 1795239885043,
+      "capture_finished_ms": 1795239885407,
+      "hourly_bins": 192,
+      "unique_single_report_hours": 190,
+      "ambiguous_multiple_report_hours": 2,
+      "retrospective_test_eligible_by_horizon": {
+        "1": 37,
+        "3": 35,
+        "6": 32
+      },
+      "strict_first_capture_test_eligible_by_horizon": {
+        "1": 0,
+        "3": 0,
+        "6": 0
+      }
+    }
+  },
+  "original_response_rows": 762,
+  "fixed_station_set": [
+    "KSEA",
+    "KDEN",
+    "KATL"
+  ],
+  "source_url_template": "https://aviationweather.gov/api/data/metar?ids={ICAO}&format=json&hours=240",
+  "source_run_started_at_utc": "2026-11-21T05:43:48Z",
+  "source_run_updated_at_utc": "2026-11-21T05:44:50Z",
+  "all_5_zip_crc_passed": true,
+  "independent_cohort_replay": "9 station_horizon_cohorts, all 3 fixed fold labels, original source CRC and SHA, strictly causal pre-origin feature receipt checks, zero future first-capture origins",
+  "stale_r2_run": {
+    "id": 44868881226,
+    "source_sha": "4696144ecd122822de5cddd2cc5f7a28310f704b",
+    "terminal": "cancelled"
+  },
+  "first_native_failure": {
+    "run_id": 44872124190,
+    "cause": "Windows autocrlf changed the frozen protocol original working-tree-byte digest",
+    "failed_cases_each_windows_target": 8,
+    "remedy": "Git EOL=LF for immutable JSON and pinned source files; verify git hash-object == Git original HEAD blob"
+  },
+  "provenance_limitations": [
+    "AWC reported receipt time is not independently signed original public availability",
+    "GitHub host wall clock and HTTPS system CA do not independently authenticate original station sensor signatures",
+    "strict first-capture historical as-of eligible origins were zero",
+    "GitHub Actions artifact retention is finite",
+    "no numerical forecasting model fit or heldout scoring",
+    "no production MEL authorization or installed OS trusted-time custody"
+  ],
+  "next_tasks": [
+    "COG-ORCH-01E-BENCH-02-R4",
+    "COG-ORCH-01E-BENCH-02-R5",
+    "COG-ORCH-FIN-01"
+  ]
+}

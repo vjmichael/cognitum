@@ -53,3 +53,6 @@
 /tests/test_orc_bench02_capture_r3.py text eol=lf
 /tools/orcbench02/acquisition.py text eol=lf
 /.github/workflows/orcbench02-r3-r1.yml text eol=lf
+
+# Preserve original externally acquired R3 evidence byte-for-byte across native checkouts.
+/research_tests/orcbench02/r3_20261121/* -text

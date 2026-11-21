@@ -1,9 +1,7 @@
 name: Cognitum BENCH-02 R3-R1 queue reconciliation, native and original cohorts
 
 on:
-  push:
-    branches:
-      - research/orc-bench02-r3-preregister-20261120
+  workflow_dispatch:
 
 permissions:
   contents: read
