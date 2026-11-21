@@ -53,7 +53,9 @@ function Run-Profile([System.Management.Automation.PSCredential]$Credential,[str
  if($process.ExitCode -ne 0){
    # The original disposable test profile can emit only its bounded OS
    # refusal category, not its password, environment or credential objects.
-   $message=if(Test-Path $err){Get-Content -LiteralPath $err -Raw}else{'No native Windows stderr'}
+   $message=if(Test-Path $err){Get-Content -LiteralPath $err -Raw}else{''}
+   if(-not $message -and (Test-Path $out)){$message=Get-Content -LiteralPath $out -Raw}
+   if(-not $message){$message='OS helper exited without diagnostic'}
    $message=[regex]::Replace([string]$message,'[^A-Za-z0-9 _.,:;/=+()#-]','_')
    $message=$message.Substring(0,[Math]::Min(350,$message.Length))
    throw ('Nonadmin Windows AppContainer profile '+$Action+' refused: '+$message)
