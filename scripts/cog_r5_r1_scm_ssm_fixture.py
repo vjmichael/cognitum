@@ -25,10 +25,21 @@ from cognitum.research import ssm_stochastic_streaming as streaming
 DOMAIN=b"Cognitum.SCM.R1.test.intent.v1\x00"
 
 
-def prepare(root:Path,env_file:Path,*,runtime_root:Path|None=None):
+def prepare(root:Path,env_file:Path,*,runtime_root:Path|None=None,
+            worker_root:Path|None=None):
     root=root.resolve(strict=True)
     if not root.is_dir():
         raise ValueError("fixture root unavailable")
+    if worker_root is None:
+        worker_root=root
+    else:
+        worker_root=Path(worker_root)
+        if not worker_root.is_absolute() or worker_root.is_symlink():
+            raise ValueError("worker I/O must be independently pinned absolute directory")
+        worker_root=worker_root.resolve(strict=True)
+        if not worker_root.is_dir() or worker_root==root:
+            raise ValueError("worker I/O cannot be original signed host journal")
+
     if runtime_root is None:
         python=Path(sys.executable).resolve(strict=True)
         script=(Path(__file__).resolve().parents[1] /
@@ -70,8 +81,8 @@ def prepare(root:Path,env_file:Path,*,runtime_root:Path|None=None):
     paths={
         "COG_R1_CI_PYTHON":python,
         "COG_R1_CI_SCRIPT":script,
-        "COG_R1_CI_REQUEST":root/"input.frame",
-        "COG_R1_CI_OUTPUT":root/"output.frame",
+        "COG_R1_CI_REQUEST":worker_root/"input.frame",
+        "COG_R1_CI_OUTPUT":worker_root/"output.frame",
         "COG_R1_CI_INTENT":root/"intent.frame",
         "COG_R1_CI_PRELAUNCH":root/"prelaunch.json",
         "COG_R1_CI_STOP":root/"stop.json",
@@ -114,11 +125,12 @@ def prepare(root:Path,env_file:Path,*,runtime_root:Path|None=None):
             "independent_signer":False}
 
 
-def verify(root:Path):
+def verify(root:Path,*,worker_root:Path|None=None):
     from cognitum.mel.ssm_supervisor import SSMComputeFactory
     root=root.resolve(strict=True)
-    request=json.loads((root/"input.frame").read_text(encoding="ascii"))
-    output=json.loads((root/"output.frame").read_text(encoding="ascii"))
+    worker_root=Path(worker_root).resolve(strict=True) if worker_root is not None else root
+    request=json.loads((worker_root/"input.frame").read_text(encoding="ascii"))
+    output=json.loads((worker_root/"output.frame").read_text(encoding="ascii"))
     stop=json.loads((root/"stop.json").read_text(encoding="ascii"))
     intent=(root/"intent.frame").read_bytes().split(b"\n")
     fields=intent[0].decode("ascii").split("\t")
@@ -127,11 +139,11 @@ def verify(root:Path):
     expected=SSMComputeFactory().handle(request["operation"],request["payload"])
     if output["reply"] != expected:
         raise ValueError("SCM worker did not run real unchanged SSM math")
-    expected_result=hashlib.sha256((root/"output.frame").read_bytes()).hexdigest()
+    expected_result=hashlib.sha256((worker_root/"output.frame").read_bytes()).hexdigest()
     if stop != {
         "schema":"cognitum.ssm.r1.scm_local_stop.v1",
         "original_nonce":fields[11],
-        "request_sha256":hashlib.sha256((root/"input.frame").read_bytes()).hexdigest(),
+        "request_sha256":hashlib.sha256((worker_root/"input.frame").read_bytes()).hexdigest(),
         "result_sha256":expected_result,
         "service_pid":stop["service_pid"],"worker_pid":stop["worker_pid"],
         "kernel_job_empty":True,"independently_signed":False,
@@ -162,12 +174,14 @@ if __name__=="__main__":
     parser.add_argument("--root",required=True)
     parser.add_argument("--env-file")
     parser.add_argument("--runtime-root")
+    parser.add_argument("--worker-root")
     args=parser.parse_args()
     if args.mode=="prepare":
         if not args.env_file:
             raise ValueError("GitHub Env path required")
         result=prepare(Path(args.root),Path(args.env_file),
-                       runtime_root=Path(args.runtime_root) if args.runtime_root else None)
+                       runtime_root=Path(args.runtime_root) if args.runtime_root else None,
+                       worker_root=Path(args.worker_root) if args.worker_root else None)
     else:
-        result=verify(Path(args.root))
+        result=verify(Path(args.root),worker_root=Path(args.worker_root) if args.worker_root else None)
     print(json.dumps(result,sort_keys=True))
