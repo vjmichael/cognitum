@@ -14,6 +14,19 @@ This is a **falsifiable objective, not a universal mathematical identity, guaran
 
 For Cognitum, CH⊕aT is implemented through *eventual* usable, transparent, controllable collaboration: the user defines goals and permissions, AI/model logic may propose mathematical methods, Orc Graph can construct/review typed candidate plans, and authenticated execution/independent verification produce interpretable evidence. The framework applies at product level; Cognitum does not need to own the user's conversation or Lu's model runtime to satisfy its portion.
 
+## Recovered originating Lu practical-capability framework (November 7, 2026)
+
+**Historically adopted notation: `C_practical = f(K, I, A, F)`, NOT `f(K,I,A,P)`.** The original user observation was that “capability + model-facing interface = performance”: an AI may possess reasoning capability but not the means to execute it. The more explicit Lu formula adopted on November 7 means:
+
+| Letter | Intended factor |
+| --- | --- |
+| **K** | Knowledge and reasoning capability |
+| **I** | Tool/model-facing interfaces that expose applicable capabilities |
+| **A** | Host-owned authorized access and scoped execution permission |
+| **F** | Verified feedback, correction and recovery |
+
+The four-factor expression is a **conceptual function**, not a numerical performance law or a guarantee of synergy. It should be evaluated with real task completion, correctness, authorization, error recovery, cost and independent observations. KαNT (model architecture/scale/task analysis), the practical Lu `K/I/A/F` factors and CH⊕aT (user–AI task collaboration) describe **related but nonidentical levels**, not a formally established nested derivation. Orc Graph specifically strengthens **I** (typed discoverable mathematical interfaces), **A** (host-governed execution through existing gates) and **F** (source-bound checking/feedback), while its mathematical candidates can augment **K**. No renaming of the original formula, research result or Lu product code is authorized here.
+
 ## Existing architecture must be reused
 
 - Extend **existing** MEL typed objects/Protobuf and admission, `Registry`, `Runtime`, policy, existing cooperative DAG/`cooperative.py`, source and checkpoint guards, cancellation, bounded workers, and evidence receipts. ADR-001 explicitly disallows a second orchestrator, scheduler, plugin registry, authorization service, journal, or agent loop. Orc Graph is a **named evolution of that existing cooperative execution path**, not a parallel implementation.
