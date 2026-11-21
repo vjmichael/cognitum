@@ -17,6 +17,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -157,6 +158,28 @@ def prepare(destination:Path, repo:Path):
     return report
 
 
+def _smoke_refusal(stderr:bytes, returncode:int)->str:
+    """Bounded, path/secret-free diagnostics for CI-only numerical process."""
+    status=f"exit={returncode & 0xffffffff:08x}"
+    text=stderr[:32768].decode("utf-8",errors="replace")
+    patterns=(
+      (r"ModuleNotFoundError: No module named ['\\\"]([A-Za-z_][A-Za-z0-9_.]{0,63})['\\\"]", "missing_module"),
+      (r"DLL load failed while importing ([A-Za-z_][A-Za-z0-9_]{0,63})", "dll_import"),
+      (r"ImportError: .*?([A-Za-z_][A-Za-z0-9_]{0,63})", "import_error"),
+    )
+    for pattern,kind in patterns:
+        match=re.search(pattern,text)
+        if match:
+            return f"{kind}:{match.group(1)};{status}"
+    if "Fatal Python error:" in text:
+        return "interpreter_initialization;"+status
+    if "Traceback (most recent call last):" in text:
+        return "python_exception;"+status
+    if returncode==3:
+        return "fixed_ssm_child_rejected_input;"+status
+    return "native_process_or_unknown;"+status
+
+
 def smoke(directory:Path,request:Path):
     need(sys.platform=="win32","native Windows frozen SSM required")
     directory=directory.resolve(strict=True)
@@ -175,7 +198,8 @@ def smoke(directory:Path,request:Path):
              "TMP":str(root),"WINDIR":os.environ["SystemRoot"],
             },capture_output=True)
         need(result.returncode==0 and out.is_file(),
-             "actual frozen Python/NumPy/SciPy numerical smoke failed")
+             "actual frozen Python/NumPy/SciPy numerical smoke failed ("+
+             _smoke_refusal(result.stderr,result.returncode)+")")
         reply=json.loads(out.read_bytes())
         need(reply.get("status")=="ok" and type(reply.get("reply")) is dict,
              "frozen numerical code did not produce bounded candidate")
