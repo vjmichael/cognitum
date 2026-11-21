@@ -68,11 +68,13 @@ Orders are owner-adjustable; COG-03/04/05 remain research-only and do not gate t
 
 | Work item | Status | Work scope / required qualification |
 | --- | --- | --- |
-| **COG-ORCH-01A — Capability Graph** | QUEUED | Inventory/reconcile MEL, COG-06 cooperative DAG, deterministic/symbolic, HDC, KAN, SSM, statistical and physics tools; publish versioned typed descriptors and graph compiler contracts; negative compatibility/source/auth tests. |
+| **COG-ORCH-01A — Capability Graph** | ACTIVE — code staged, source-locked native acceptance pending | Inventory/reconcile MEL, COG-06 cooperative DAG, deterministic/symbolic, HDC, KAN, SSM, statistical and physics tools; publish versioned typed descriptors and graph compiler contracts; negative compatibility/source/auth tests. |
 | **COG-ORCH-01B — Scientific Data Pipeline** (`COG-PIPE-01`) | QUEUED | Immutable source/units/clock/gap records, typed feature transformations and train-only fitting. Validate independent source provenance, missingness and no training/calibration/test leakage. |
 | **COG-ORCH-01C — Execution Layer** (`COG-EXEC-01`) | QUEUED | Bind inert graph proposals to existing trusted admission, registry, worker, cancellation/revocation and receipts. No implicit research grant; native OS and model/host interaction acceptance. |
 | **COG-ORCH-01D — Matched Comparison and Composition** | QUEUED | Eligible exact/deterministic tools and ridge/statistical/mechanistic/SSM/KAN/HDC/hybrids; separate validation-selected winner from untouched test outcome; uncertainty/drift, resource budgets and negative outcomes retained. |
 | **COG-ORCH-01E — Evidence-Informed Selection** | QUEUED | Start with deterministic routing, then qualify adaptive planning only against independent unseen tasks; explain routing, record abstention, verify user ability to override, and measure CH⊕aT cooperation against matched controls. |
+
+**ORCH-01A implementation staged:** [source audit and native acceptance contract](research/orcgraph/ORCH01A.md). No parallel executor: typed inert catalog compiled to existing COG-06 scientific CPU graph; exact linear and finite integer witness test routes, 13 original operation metadata records, four reviewed bridges, HDC/KAN/SSM/ridge research discovery unqualified. Native workflow not yet accepted; preserve original SSM R4 source locks.
 
 **Sequencing / blockers:** ORCH-01A/B may proceed as architecture/data work independently of COG-05-SSM-POST-NATIVE-05-R4-R1; no model-specific performance promotion before reproducible KAN checkpoints, sensor custody, held-out transfer and meaningful mechanistic baselines. Do not equate this **design promotion** with native/scientific acceptance; source-locked R4 `cf78900c4fcec3981b93c842144c53b15cc0d411` and historical receipts remain unchanged. No new CI or Lu integration authorized by this ledger update.
 

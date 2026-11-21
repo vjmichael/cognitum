@@ -32,7 +32,7 @@ def integer(backend="exhaustive", proof=True):
 def task(goal="exact_linear", frames=None):
     f = frames if frames is not None else (
         (linear(),) if goal == "exact_linear" else (linear(),integer()))
-    return ScientificTask(goal,f,tuple(SourceStamp("data"+str(i),"r1",sha(raw))
+    return ScientificTask(goal,f,tuple(SourceStamp("data"+str(i),"r1",sha(raw) if type(raw) is bytes else "0"*64)
                                         for i,raw in enumerate(f)))
 
 

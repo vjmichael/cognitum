@@ -1,0 +1,51 @@
+name: Cognitum ORCH-01A native deterministic Orc Graph
+on:
+  push:
+    branches: ['research/orc-01a-native-*']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  orc:
+    name: "Orc Graph / ${{ matrix.os }} / Python ${{ matrix.python-version }}"
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install deterministic scientific dependencies
+        run: python -m pip install -e ".[scientific]" "pytest==9.0.2" "numpy==2.3.5" "scipy==1.17.0"
+      - name: Execute Orc Graph and inherited cooperative tests
+        run: python -m pytest -q tests/test_orc_graph.py tests/test_cooperative.py tests/test_cooperative_compositions.py --junitxml=orc01a.xml
+      - name: Record exact source and environment
+        if: always()
+        shell: python
+        run: |
+          import hashlib, json, pathlib, platform, subprocess, sys
+          paths = ("cognitum/orc_graph.py", "tests/test_orc_graph.py",
+                   "cognitum/cooperative.py", "cognitum/cooperative_cpu.py",
+                   "cognitum/mel/cooperation.py", "tests/test_cooperative.py",
+                   "tests/test_cooperative_compositions.py")
+          receipt = {"git_sha": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
+                     "platform": platform.platform(), "python": sys.version,
+                     "sources": {p: {"git_blob": subprocess.check_output(
+                         ["git", "hash-object", p], text=True).strip(),
+                         "sha256": hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()}
+                         for p in paths}}
+          pathlib.Path("orc01a-source.json").write_text(json.dumps(receipt, indent=2, sort_keys=True))
+      - name: Archive native JUnit and source receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: orc01a-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: |
+            orc01a.xml
+            orc01a-source.json
+          if-no-files-found: warn
