@@ -1,11 +1,6 @@
 name: Cognitum PHYSICAL-02 genuine Windows SCM fixture kernel qualification
 
 on:
-  push:
-    branches:
-      - integration/cog-lu-ipc01e-r2-custody-20261121
-    paths:
-      - .github/workflows/cog-r5-physical02-scm.yml
   workflow_dispatch:
 
 permissions:

@@ -1,0 +1,52 @@
+{
+  "schema": "cognitum.lu_ipc_r5_physical02.native_scm_fixture_evidence.v1",
+  "task": "COG-LU-IPC-01E-R2-INSTALLED-R5-PHYSICAL-02",
+  "status": "PASS_ACTUAL_CI_WINDOWS_SCM_FIXTURE_ONLY_BLOCKED_SIGNED_INSTALLED_CORE_AND_LINUX",
+  "exact_source_sha": "611e35c270443321bd8c84c592723698f26b2da2",
+  "native_scm_run": {
+    "id": 44937093244,
+    "url": "https://github.com/vjmichael/cognitum/actions/runs/44937093244",
+    "conclusion": "success",
+    "jobs": 3
+  },
+  "integration_run": {
+    "id": 44937092861,
+    "url": "https://github.com/vjmichael/cognitum/actions/runs/44937092861",
+    "conclusion": "success",
+    "jobs": 8
+  },
+  "native_scm_artifacts": [
+    {
+      "id": 14720285946,
+      "name": "r5-physical02-windows-scm-native",
+      "sha256": "b21b14f730c9ac1209cafd37607dcd31a6869ca0e5a7f399385d2983aa186e59"
+    },
+    {
+      "id": 14720096496,
+      "name": "r5-physical02-independent-native",
+      "sha256": "9f4d3947e50a36cda06018eac092cce8382cc6486fb0921e1a131dc10e22ec42"
+    }
+  ],
+  "unsigned_ci_fixture_binary_sha256": "99e1126644e3d3223c7096836f4b0728fc48b9cbe3cd53ca8862347ba2f19c04",
+  "github_vm_service_created_via_real_scm": true,
+  "github_vm_scm_local_system_token_observed": true,
+  "github_vm_scm_session_zero_observed": true,
+  "github_vm_job_created_inside_service_process": true,
+  "github_vm_fixed_diagnostic_worker_suspended_before_job_attach": true,
+  "github_vm_child_original_parent_is_service": true,
+  "github_vm_child_actual_kernel_job_membership_independently_observed": true,
+  "github_vm_service_stop_reaps_child": true,
+  "github_vm_fixture_deleted_after_test": true,
+  "windows_physical_signed_production_service_installed": false,
+  "windows_authenticode_production_publisher_verified": false,
+  "windows_production_installed_service_worker_restricted_SSM_executed": false,
+  "windows_authenticated_original_Core_control_channel": false,
+  "independent_service_owned_signed_termination_receipts": false,
+  "independently_persisted_rollback_protected_restart_receipt": false,
+  "linux_positive_delegated_cgroup_recovery_proven": false,
+  "real_installed_lu_core_health_authenticated": false,
+  "original_core_per_turn_pure_compute_grant": false,
+  "external_output_delivery_authorized": false,
+  "core_output_ack_authorized": false,
+  "model_tool_execution_authorized": false
+}

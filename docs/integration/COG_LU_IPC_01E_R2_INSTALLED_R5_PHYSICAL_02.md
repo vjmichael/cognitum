@@ -1,0 +1,39 @@
+# COG-LU-IPC-01E-R2-INSTALLED-R5-PHYSICAL-02 — Genuine Windows SCM *fixture* qualification
+
+**2026-11-21. ACCEPTED: Windows native SCM acceptance fixture with independently observed SCM-owned kernel Job and child cleanup. BLOCKED: signed installed Cognitum production service, real SCM-owned fixed SSM admission, independent production stop signing, delegated Linux restart, and real enrolled Lu Core Health.**
+
+## Exact original source and OS evidence
+
+- Original tested source commit: `611e35c270443321bd8c84c592723698f26b2da2` on existing branch `integration/cog-lu-ipc01e-r2-custody-20261121`. Later closeout/CI-retirement SHA does not independently qualify the binary.
+- [Native Windows SCM original run #44937093244](https://github.com/vjmichael/cognitum/actions/runs/44937093244): **3/3 jobs PASS**, including actual hosted Windows SCM service create/start/read/stop/delete under LocalSystem, genuine service-child process parentage, independent kernel `IsProcessInJob`, service STOP followed by child nonexistence, Linux executable refusal and independent same-SHA/source/binary receipt audit. **This is a genuine Windows SCM service on a disposable GitHub-hosted VM, not a signed installed production Cognitum package on the user's physical Windows host.**
+- [C01–C19 same-source integration #44937092861](https://github.com/vjmichael/cognitum/actions/runs/44937092861): **8/8 jobs PASS** across Windows and Ubuntu, Python 3.11/3.13, combined-tree regression and all optional extras.
+- Independent original four-source blob audit PASS. Native Rust Windows service binary SHA256: `99e1126644e3d3223c7096836f4b0728fc48b9cbe3cd53ca8862347ba2f19c04` (this unsigned build is only the tested GitHub-runner artifact, not an approval pin for production).
+- Original Actions artifacts: `r5-physical02-windows-scm-native` archive ID 14720285946 SHA256 `b21b14f730c9ac1209cafd37607dcd31a6869ca0e5a7f399385d2983aa186e59`; `r5-physical02-independent-native` ID 14720096496 SHA256 `9f4d3947e50a36cda06018eac092cce8382cc6486fb0921e1a131dc10e22ec42`.
+- `COG_LU_IPC_01E_R2_INSTALLED_R5_PHYSICAL_02_EVIDENCE.json` preserves the evidence and explicitly marks all unqualified installed and Core authority claims **false**.
+- The ephemeral SCM fixture was deleted in the original CI script's `finally` branch. Both runs terminal before workflow returned to manual-only; no stacked CI.
+
+## Shared toolchain and Lu Core reference investigation
+
+- The user's Library folder `/Shared Development Toolchain` has `Windows Build Cache` with MSVC + Windows SDK, `Rust` with 1.99.1 Windows MSVC std, `NSIS` 3.11, `PowerShell` 7.6.10, plus Windows CPython. It **does not itself store a dedicated Cognitum SCM service binary**. Windows SCM is an OS subsystem, not a standalone build tool: compile an SCM-aware service executable and register it through the genuine SCM.
+- Reviewed Lu Core PR #244 at exact reference `b7f6b51a1f0278dc411ff3c1311bf6172cb7dddb`: `src-tauri/lu-win-worker-job/src/bin/lu-ipc-scm-supervisor.rs`, `ipc_scm_owned_jobs.rs`, `ipc_scm_launcher.rs`, `ipc_scm_control.rs`, `ipc_scm_supervisor.rs`, and `scripts/lu-ipc-r5-installed-scm-preflight.ps1`. Adapted **only the native service/Job lifecycle pattern**. Lu's private `LuCoreIpcScmControlV1` is Core-only and MUST NOT become the public Cognitum gateway. No Lu Core files changed.
+
+## Cognitum SCM source delivered
+
+1. `native/windows_scm_fixture`: dependency-free Rust native SCM entrypoint, binary `cognitum-scm-supervisor.exe`, fixed Windows service name `CognitumSsmNativeFixtureV1`. Only an explicit `acceptance-fixture` feature builds active Windows service code; the default and non-Windows binaries refuse activation. This is **not** a production host or general tool runtime.
+2. Service exclusively runs under real `StartServiceCtrlDispatcherW`/registration/status changes. It verifies native LocalSystem token SID and session zero; an ordinary interactive direct launch is denied. It creates a Job with `JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE` and active-worker cap 1; launches one fixed **diagnostic** subprocess with `CREATE_SUSPENDED`, calls `AssignProcessToJobObject` and `IsProcessInJob` before `ResumeThread`, and retains the original Job/process handles in the SCM service. SCM STOP kills the Job, waits/reaps the original worker and observes empty `QueryInformationJobObject` accounting. The service has a bounded automatic stop for fixture safety and refuses all user/model commands.
+3. `scripts/cog-r5-physical02-scm-fixture.ps1`: installs the exact unsigned fixture *only on ephemeral native Windows acceptance VM*, independently verifies live dedicated LocalSystem service PID/token, session zero, a child of that same SCM service PID, native kernel Job membership (`IsProcessInJob`), and child termination on SCM STOP; deletes its service in `finally`. The source shows pass only if the original native observations actually occurred, not from a mock process tree.
+4. `.github/workflows/cog-r5-physical02-scm.yml`: exact-branch Windows Rust/MSVC service build (zero registry dependencies), genuine SCM kernel lifecycle, Linux negative acceptance, and independent original source/binary/claims audit. Returns to `workflow_dispatch` only after the original cohort.
+
+## Explicit blockers / why installed acceptance is NOT passed
+
+- This service is **unsigned and short-lived**, installed by CI only. It is an actual SCM process but **not Cognitum's signed persistent production SCM supervisor**, installer-controlled service SID/ACL or independently approved Authenticode publisher.
+- The worker is a fixed **custody diagnostic**, not the real Cognitum SSM numerical process. The existing `ssm_r5_windows_job.py` can run a real SSM child under a local Job, but it is NOT YET moved behind this new independently owned SCM service or an authenticated Core-originated native control channel.
+- No protected independent service-held signer key, original-operation-bound signed terminal/restart receipt, external monotonic antirollback anchor, authenticated observer evidence from a separately installed Cognitum package, or physical power-loss recovery acceptance. The observed SCM Job evidence stays separate from the existing local MEL HMAC journal.
+- The local Linux environment is cgroup-v2 **read-only and not delegated**. No actually installed independently managed Linux supervisor with positive delegated cgroup, watchkeeper kill/restart and original-bound kernel-empty audit was measured here. CI's Linux test only proves a Windows SCM executable refuses on Linux.
+- Lu Core [#245](https://github.com/vjmichael/Lu-AI-GUI/issues/245) and [#248](https://github.com/vjmichael/Lu-AI-GUI/issues/248) still lack accepted **real installed public Lu WorkspaceFrame Health** endpoint plus Cognitum signed enrollment and original per-turn `PURE_COMPUTE` grant. Core's private SCM control pipe is not a public client Health endpoint. **No real Cognitum ↔ installed Core Health exchange** happened, no model/tool or output release/ACK authorized.
+
+## Required next engineering task
+
+**`COG-LU-IPC-01E-R2-INSTALLED-R5-PHYSICAL-02-R1` — Replace the unsigned SCM diagnostic with an installer-signed Cognitum production service that independently authenticates the original Core request, owns one suspended restricted fixed SSM worker, produces durable service-owned signed termination/restart receipts and authorizes no delivery without original Core grant. Independently qualify a genuinely delegated Linux watchkeeper supervisor and the first enrolled Core Health when #245/#248 become available.**
+
+Do not install the unsigned fixture on production Windows, never auto-provision signer/credential pins from an IPC payload, do not claim source-only CI as physical signed acceptance, and never stack new CI while an original cohort runs.
