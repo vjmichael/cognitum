@@ -1,6 +1,6 @@
 # ADR — Cognitum's Orc Graph and CH⊕aT (owner decision, 2026-11-20)
 
-**Decision:** ADOPTED AS NORMATIVE PRODUCT ARCHITECTURE AND COLLABORATION PRINCIPLE. **Engineering:** ORCH-01A/01B/01C bounded native PASS; ORCH-01D–E QUEUED, no general research engine orchestration, accuracy or production promotion. **Authority:** User-owned product decision. **Relationship:** Extends [MEL ADR-001](../research/mel/ADR-001.md), the [R1.6 architecture](../Cognitum_Comprehensive_AI_Architecture_R1_6.md) and the [master task ledger](../MASTER_TASK_LEDGER.md); no replacement of accepted source or research evidence.
+**Decision:** ADOPTED AS NORMATIVE PRODUCT ARCHITECTURE AND COLLABORATION PRINCIPLE. **Engineering:** ORCH-01A/01B/01C/01D bounded native PASS; ORCH-01E QUEUED, no general research engine orchestration, accuracy or production promotion. **Authority:** User-owned product decision. **Relationship:** Extends [MEL ADR-001](../research/mel/ADR-001.md), the [R1.6 architecture](../Cognitum_Comprehensive_AI_Architecture_R1_6.md) and the [master task ledger](../MASTER_TASK_LEDGER.md); no replacement of accepted source or research evidence.
 
 ## Names and meaning
 
@@ -75,3 +75,8 @@ At accepted SHA `5dc8f99316619670297cdfbbe4aeef428f0e41eb`, ORCH-01B introduced 
 ## ORCH-01D scientific comparison source candidate
 
 The staged source adds a *bounded offline evaluator* that fits actual R4 ridge and elapsed-time SSM research baselines and, when independently enabled, the existing COG-04A KAN and HDC MAP candidate matcher. It never replaces MEL authorization or the accepted 01C host publication guard. Original 01B matched scientific cohorts and train-only normalization bind the experiment; calibration alone chooses the candidate and a frozen post-selection holdout records both wins and regressions. Dependence-aware interval reports are descriptive and refuse inadequate contiguous sample support; they do not authenticate original sensors, guarantee conditional coverage or prove scientific generalization. [Staged 01D design and pending native evidence](../research/orcgraph/ORCH01D.md); [owner-reserved independent physical ridge benchmark](../research/orcgraph/ORC_VS_RIDGE_BENCHMARK_PLAN.md). Nothing is promoted to production by source presence alone.
+
+
+## ORCH-01D-R2 bounded comparative-science acceptance
+
+The offline matched scientific evaluator at immutable tested SHA `a389cd4d525b3acbfbb3a46cc21fcf800d5d42d9` passed [four-platform run 44861516999](https://github.com/vjmichael/cognitum/actions/runs/44861516999) with 340/340 test identities per environment and four independently inspected ZIPs. All 27 Git blob pins, archived JUnit identities and synthetic row-wise metrics were reconciled. [Evidence manifest](../research/orcgraph/ORCH01D_NATIVE_ARTIFACTS.json), [reviewed limitations](../research/orcgraph/ORCH01D.md). Small synthetic RMSE gains were observed but one shifted fixture had worse MAE; KAN snapshots remain nonidentical bytewise across OS and original independent physical performance is not demonstrated. No new MEL runtime or grant issuer is authorized. Owner's later independent ridge benchmark remains reserved after ORCH-01E.

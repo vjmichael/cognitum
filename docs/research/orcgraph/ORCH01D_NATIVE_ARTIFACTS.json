@@ -1,0 +1,121 @@
+{
+  "task": "COG-ORCH-01D-R2",
+  "status": "ACCEPTED_SCOPED_OFFLINE_COMPARISON_NATIVE_NOT_PHYSICAL",
+  "accepted_source_sha": "a389cd4d525b3acbfbb3a46cc21fcf800d5d42d9",
+  "accepted_run": 44861516999,
+  "run_url": "https://github.com/vjmichael/cognitum/actions/runs/44861516999",
+  "native_cells": 4,
+  "tests_per_cell": 340,
+  "unique_test_ids": 340,
+  "total_executions": 1360,
+  "failed": 0,
+  "errors": 0,
+  "skipped": 0,
+  "testcase_identities_sha256": "30369632d1a8e5fcaa74f01c865c666e6d71acd188d7281c6580458dbd41c03a",
+  "identical_testcase_ids_across_platforms": true,
+  "canonical_git_pins_match_authoritative_git_tree": true,
+  "source_git_blobs": {
+    "cognitum/cooperative.py": "eaa5952f2b25a15e35d9ae4ec2216c4bb6e8cc69",
+    "cognitum/cooperative_cpu.py": "8c090ff024eee7cd1dbad40f076a4a5a0e06f0de",
+    "cognitum/mel/admission.py": "405fa91935f62226ab0d1a2f0d8b7313e2327116",
+    "cognitum/mel/cooperation.py": "e1a64c6dd4a9233d7f79199554f0119fca12d721",
+    "cognitum/mel/engines.py": "72e4869e366013357e77aff0fe9b70eef8aac47c",
+    "cognitum/mel/native.py": "2f8ccf40e7f1ead28edd3a1ffaee767b6e63b9a7",
+    "cognitum/mel/verified_graph.py": "01ab98016c97345b1808927116e84eb22d79cb6d",
+    "cognitum/orc_comparison.py": "332003efd069514a98a5f0975a3b45b616169912",
+    "cognitum/orc_graph.py": "c513557f2131cfeec907a9d0a6a5eb2b636a4db6",
+    "cognitum/orc_handoff.py": "57231646214f19f29b21faa7d6dc0c2dbcd1e10a",
+    "cognitum/orc_science_data.py": "5c04729d62e2df37609f6e589d2238e662e0ac83",
+    "cognitum/research/hdc_algebra.py": "1b64d122fd0a34e5de3e747c4076ffaa80216284",
+    "cognitum/research/hdc_associative.py": "42121bc738737ce3dbe3b3921d41404ceec47d73",
+    "cognitum/research/kan_trainable.py": "238f1ea9969aab6ecd87be0dcefb9966ae6a6d59",
+    "cognitum/research/ssm_timeaware.py": "25d790981424a9546863d802848f3887d8c92975",
+    "cognitum/runtime.py": "885c4bf56114c7cab98252539e5900113ae3418b",
+    "research_tests/mel04b/test_cooperation.py": "fcc861b498635f9a62986c3fde9843748894b70a",
+    "research_tests/mel05b/test_graph_acceptance.py": "9d10f8b60fb62aa7137b67c1354ddc9b4b8847ea",
+    "research_tests/mel05b/test_inline_enforcement.py": "2b9551e28f673ee912db9dea1fef2ea20d453d0a",
+    "research_tests/ssm_postnative05r4/test_timeaware.py": "13202566fc069188864ac94e803c7e54be21cd11",
+    "tests/test_cooperative.py": "cd3084748e8ac44cd3b67ca70510bd11da7093d8",
+    "tests/test_cooperative_compositions.py": "5d1b615d56b31167147f3943b255ceb374de3450",
+    "tests/test_orc_comparison.py": "aa618661a8bea239f3ab3b36fe2ca0cbc3e07428",
+    "tests/test_orc_graph.py": "f3ed00866df2481b53eefb12d8cb87e422960edb",
+    "tests/test_orc_handoff.py": "1b577c34d7290e2b4fd97c08b4505ef313d2a2dd",
+    "tests/test_orc_science_data.py": "f1913928404937d5df0dbfa17d7838d39ff05191",
+    "tools/orc01d/synthetic_evidence.py": "3fb9aeebf39476140bec1dadc30e5fb72bf0d829"
+  },
+  "independent_audit": "All ZIP bytes independently downloaded, GitHub ZIP SHA-256 and CRC checked; JUnit testcase identity sets and zero-failure counts checked; 27 source Git blob IDs matched across all native archives and against GitHub source tree at exact commit; three required archive files each; synthetic heldout predictions independently rescored for every method in both scenarios, calibration-only minimum MAE winner recalculated, and signed ridge gains and skipped denominators verified.",
+  "resolved_dependencies_all_cells": {
+    "networkx": "3.5",
+    "numpy": "2.3.5",
+    "ortools": "9.15.6755",
+    "protobuf": "6.33.6",
+    "pytest": "9.0.2",
+    "scipy": "1.17.0"
+  },
+  "raw_text_file_sha256_not_identical_across_os": true,
+  "raw_differing_python_file_count": 19,
+  "synthetic_payload_identical_across_os": false,
+  "synthetic_kan_model_sha_identical_across_os": false,
+  "max_abs_per_prediction_variation_observed_vs_ubuntu311": 9.3e-13,
+  "synthetic_cases": [
+    {
+      "scenario": "oscillatory_synthetic",
+      "generated_rows": 480,
+      "heldout_rows": 95,
+      "calibration_selected": "ssm_kan",
+      "signed_rmse_gain_vs_ridge_approx": 0.001028,
+      "signed_mae_gain_vs_ridge_approx": 0.005598
+    },
+    {
+      "scenario": "shifted_synthetic",
+      "generated_rows": 480,
+      "heldout_rows": 89,
+      "calibration_selected": "ssm_kan_hdc",
+      "signed_rmse_gain_vs_ridge_approx": 0.004213,
+      "signed_mae_gain_vs_ridge_approx": -0.025827
+    }
+  ],
+  "archives": [
+    {
+      "platform": "Ubuntu Python 3.11",
+      "id": 14689852855,
+      "zip_sha256": "5c24bf6437c932162e5a0f246edecd91e2e0fb01ff3e1fa50039b0fa12088d1f",
+      "bytes": 22615,
+      "evidence_sha256": "fcaa684c07f7c04d3f699a102f7d4955c5a89b7a1b1f387a8a6c890974d1acf2",
+      "artifact_url": "https://github.com/vjmichael/cognitum/actions/runs/44861516999/artifacts/14689852855"
+    },
+    {
+      "platform": "Ubuntu Python 3.13",
+      "id": 14690246345,
+      "zip_sha256": "33893e63692e9fbc2e35a8b91ccba41c7da0b3e6e83bbdefcf99fc7e8a6f9de4",
+      "bytes": 22668,
+      "evidence_sha256": "ad2ce58740357dba838e5ef5283669ea8551274e986b28b590e10a0947345de0",
+      "artifact_url": "https://github.com/vjmichael/cognitum/actions/runs/44861516999/artifacts/14690246345"
+    },
+    {
+      "platform": "Windows Python 3.11",
+      "id": 14690065870,
+      "zip_sha256": "ed0345a93ae42cd13c790ea1974b3ce256790c2444f4c110ffbaa853ccd1980c",
+      "bytes": 22710,
+      "evidence_sha256": "7e6bf9c23b9885abc80b03757db4139b31eaa41f58da545eb0cb12e97a81637f",
+      "artifact_url": "https://github.com/vjmichael/cognitum/actions/runs/44861516999/artifacts/14690065870"
+    },
+    {
+      "platform": "Windows Python 3.13",
+      "id": 14689394138,
+      "zip_sha256": "3a3b6909481678e75777e3c591c8c498c17aaa41c96bc3aa076fd7d54201580d",
+      "bytes": 22703,
+      "evidence_sha256": "ba2d991be08b89a094fbce26ef19d90a48aef41e5e53759acda943d6f395a87d",
+      "artifact_url": "https://github.com/vjmichael/cognitum/actions/runs/44861516999/artifacts/14689394138"
+    }
+  ],
+  "nonclaims": [
+    "Not a physical independently sourced Orc Graph vs ridge benchmark",
+    "KAN checkpoint byte reproducibility unresolved",
+    "Synthetic tiny gains do not establish cross-site scientific predictive improvement",
+    "Full graph automatic method selection/authorizing research worker not completed; ORCH-01E queued",
+    "No conditional empirical 90% coverage guarantee or sensor source attestation",
+    "72 broader SSM research groups remain PARTIAL",
+    "R4 source acceptance unchanged"
+  ]
+}
