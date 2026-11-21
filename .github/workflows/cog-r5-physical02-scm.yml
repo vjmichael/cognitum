@@ -1,0 +1,148 @@
+name: Cognitum PHYSICAL-02 genuine Windows SCM fixture kernel qualification
+
+on:
+  push:
+    branches:
+      - integration/cog-lu-ipc01e-r2-custody-20261121
+    paths:
+      - .github/workflows/cog-r5-physical02-scm.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cog-r5-physical02-scm-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  windows-scm:
+    name: Genuine ephemeral SCM and kernel Job ownership (unsigned fixture only)
+    runs-on: windows-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Require native Rust/MSVC toolchain
+        shell: pwsh
+        run: |
+          rustc --version
+          cargo --version
+          Get-Command sc.exe | Out-Host
+      - name: Build EXACT fixed native Windows SCM service (no network dependencies)
+        shell: pwsh
+        run: |
+          cargo build --manifest-path native/windows_scm_fixture/Cargo.toml --release --locked --offline --features acceptance-fixture
+          if($LASTEXITCODE -ne 0){throw 'R5 SCM binary build failed'}
+      - name: Independently create/start/inspect/stop/delete actual Windows SCM fixture
+        shell: pwsh
+        run: |
+          & ./scripts/cog-r5-physical02-scm-fixture.ps1 -Executable "$PWD/native/windows_scm_fixture/target/release/cognitum-scm-supervisor.exe" -EvidencePath "$PWD/r5-scm-native-windows.json"
+          if($LASTEXITCODE -ne 0){throw 'Real Windows SCM host fixture did not pass'}
+      - name: Persist exact original source SHA and fixed service source hashes
+        if: always()
+        shell: pwsh
+        run: |
+          (git rev-parse HEAD) | Out-File -FilePath r5-scm-source-sha.txt -Encoding ascii
+          (git hash-object native/windows_scm_fixture/src/main.rs native/windows_scm_fixture/Cargo.toml native/windows_scm_fixture/Cargo.lock scripts/cog-r5-physical02-scm-fixture.ps1) | Out-File -FilePath r5-scm-git-blobs.txt -Encoding ascii
+          if(Test-Path native/windows_scm_fixture/target/release/cognitum-scm-supervisor.exe){
+            (Get-FileHash native/windows_scm_fixture/target/release/cognitum-scm-supervisor.exe -Algorithm SHA256).Hash.ToLowerInvariant() | Out-File r5-scm-binary-sha.txt -Encoding ascii
+          }
+      - name: Retain kernel/service lifecycle and original-source receipts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: r5-physical02-windows-scm-native
+          path: |
+            r5-scm-native-windows.json
+            r5-scm-source-sha.txt
+            r5-scm-git-blobs.txt
+            r5-scm-binary-sha.txt
+          if-no-files-found: warn
+
+  linux-refusal:
+    name: Windows service refuses Linux and still has no production endpoint
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Compile zero-dependency non-Windows refusal path
+        shell: bash
+        run: |
+          cargo build --manifest-path native/windows_scm_fixture/Cargo.toml --locked --offline --release
+          if native/windows_scm_fixture/target/release/cognitum-scm-supervisor; then
+            echo "non-Windows SCM fixture incorrectly accepted"; exit 1
+          fi
+          echo "PASS_LINUX_SCM_REFUSAL_ONLY"
+
+  independent:
+    name: Original source kernel receipt audit; installed signer and Health still absent
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    needs: [windows-scm,linux-refusal]
+    if: ${{ always() && needs.windows-scm.result == 'success' && needs.linux-refusal.result == 'success' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: r5-physical02-windows-scm-native
+          path: original
+      - name: Reject non-original source and installed authority claims
+        shell: bash
+        env:
+          ORIGINAL_SHA: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          p=Path("original")
+          assert (p/"r5-scm-source-sha.txt").read_text().strip()==os.environ["ORIGINAL_SHA"]
+          paths=["native/windows_scm_fixture/src/main.rs",
+                 "native/windows_scm_fixture/Cargo.toml",
+                 "native/windows_scm_fixture/Cargo.lock",
+                 "scripts/cog-r5-physical02-scm-fixture.ps1"]
+          pins=[]
+          for item in paths:
+              src=Path(item).read_bytes()
+              pins.append(hashlib.sha1(b"blob "+str(len(src)).encode()+b"\x00"+src).hexdigest())
+          assert (p/"r5-scm-git-blobs.txt").read_text().splitlines()==pins
+          binary=(p/"r5-scm-binary-sha.txt").read_text().strip()
+          assert len(binary)==64 and all(x in '0123456789abcdef' for x in binary)
+          record=json.loads((p/"r5-scm-native-windows.json").read_text(encoding="utf-8-sig"))
+          assert record["schema"]=="cognitum.ssm_r5.scminternal_ephemeral_fixture.v1"
+          assert record["status"]=="PASS_GENUINE_CI_SCM_FIXTURE_ONLY"
+          for field in ["service_local_system_sid_observed","service_session_zero_observed",
+              "child_parent_is_scm_service","child_kernel_job_membership_observed",
+              "child_gone_after_scm_stop"]:
+              assert record[field] is True, field
+          for field in ["installed_signed_cognitum_production_service",
+              "fixed_ssm_operation_executed_under_scm",
+              "independent_signed_stop_receipt_issued",
+              "actual_lu_core_health_authenticated","model_tool_or_outbox_authorized"]:
+              assert record[field] is False, field
+          out={"schema":"cognitum.r5_physical02.native_scm_fixture.v1",
+              "original_source_sha":os.environ["ORIGINAL_SHA"],
+              "service_binary_sha256":binary,
+              "exact_source_blob_pins_verified":len(pins),
+              "actual_windows_scm_fixture_passed":True,
+              "scm_owned_kernel_job_membership_and_stop_observed":True,
+              "fixed_ssm_numeric_worker_admitted_under_scm":False,
+              "independent_installed_publisher_signer_accepted":False,
+              "linux_delegated_recovery_physically_accepted":False,
+              "independent_signed_stop_receipt_accepted":False,
+              "real_installed_core_health_authenticated":False,
+              "effect_and_output_release_authorized":False}
+          Path("r5-physical02-independent.json").write_text(json.dumps(out,sort_keys=True,indent=2)+"\n")
+          print(json.dumps(out,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: r5-physical02-independent-native
+          path: r5-physical02-independent.json
+          if-no-files-found: warn
