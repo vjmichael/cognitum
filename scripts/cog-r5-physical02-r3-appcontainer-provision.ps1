@@ -64,7 +64,10 @@ if($Mode -eq 'provision'){
     if($sid -cnotmatch '^S-1-15-2-[0-9-]+$'){
       throw 'Windows AppContainer profile not independently given a package SID'
     }
-    $peer=Start-Process -FilePath $python -ArgumentList @('-c','"import time;time.sleep(180)"') -PassThru -WindowStyle Hidden
+    # All Windows profile/ACL enrollment can exceed minutes on hosted runners;
+    # keep this **disposable original peer** alive for the whole bounded CI
+    # kernel lifecycle. The finally/cleanup always reaps the original PID.
+    $peer=Start-Process -FilePath $python -ArgumentList @('-c','"import time;time.sleep(1200)"') -PassThru -WindowStyle Hidden
     Start-Sleep -Milliseconds 100
     $peer.Refresh()
     if($peer.HasExited){throw 'Test-only original user peer died before OS admission'}
@@ -113,6 +116,14 @@ if($Mode -eq 'provision'){
     if($LASTEXITCODE -ne 0){throw 'R3 AppContainer read-only Cognitum source ACL not installed'}
     & icacls.exe $root /grant $grantM /T /C /Q
     if($LASTEXITCODE -ne 0){throw 'R3 AppContainer temporary numerical data ACL unavailable'}
+    # The EXACT original peer must still be alive after ACL enrollment.
+    # Reobserve kernel identity, not just trust the cached PID/manifest.
+    $peer.Refresh()
+    if($peer.HasExited){throw 'Pinned non-System original peer expired during ACL enrollment'}
+    $recheck=Get-CimInstance Win32_Process -Filter ("ProcessId="+$pidPeer)
+    if(!$recheck -or [CognitumR3AppProfile]::Birth($peer.Handle) -ne $birth){
+      throw 'Original OS peer PID/generation changed during profile enrollment'
+    }
     $witness=Join-Path $root 'r3-original-appcontainer-witness.json'
     [ordered]@{
       schema='cognitum.ssm.r3.external_CI_AppContainer_profile.v1'
