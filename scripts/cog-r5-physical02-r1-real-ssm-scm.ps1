@@ -48,7 +48,11 @@ try {
   }
   if(!$observed -or $observed.State -ne 'Running' -or
      [uint32]$observed.ProcessId -eq 0){
-    $refusal=Join-Path $root 'r2-native-refusal.json'
+    $refusal=if($env:COG_R3_CI_APP_SID){
+      Join-Path $root 'r3-appcontainer-refusal.json'
+    }else{
+      Join-Path $root 'r2-native-refusal.json'
+    }
     if(Test-Path -LiteralPath $refusal -PathType Leaf){
       $diag=Get-Content -LiteralPath $refusal -Raw | ConvertFrom-Json
       throw ("SCM native fixture startup refused at "+$diag.stage+": "+$diag.reason)
@@ -62,7 +66,11 @@ try {
   }
   $main=Get-CimInstance Win32_Process -Filter ("ProcessId="+$pidService)
   if(!$main -or [uint32]$main.SessionId -ne 0){
-    $refusal=Join-Path $root 'r2-native-refusal.json'
+    $refusal=if($env:COG_R3_CI_APP_SID){
+      Join-Path $root 'r3-appcontainer-refusal.json'
+    }else{
+      Join-Path $root 'r2-native-refusal.json'
+    }
     if(Test-Path -LiteralPath $refusal -PathType Leaf){
       $diag=Get-Content -LiteralPath $refusal -Raw | ConvertFrom-Json
       throw ("SCM original process exited at "+$diag.stage+": "+$diag.reason)
