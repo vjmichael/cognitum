@@ -1,0 +1,64 @@
+{
+  "task": "COG-ORCH-01E-BENCH-02-R1",
+  "scope": "OFFLINE_EXTERNAL_SOURCE_ADMISSION_REFUSAL_ONLY",
+  "outcome": "ACCEPTED_SCOPED_NATIVE; NO_EXTERNAL_SCIENTIFIC_BENCHMARK",
+  "tested_source_sha": "81cfcaa366c005094911911389e854ce0f80beb8",
+  "run_id": 44867765950,
+  "targets": [
+    "ubuntu-latest Python 3.11",
+    "ubuntu-latest Python 3.13",
+    "windows-latest Python 3.11",
+    "windows-latest Python 3.13"
+  ],
+  "same_source": true,
+  "tests_per_target": 21,
+  "total_executions": 84,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "original_artifacts": [
+    {
+      "id": 14692537951,
+      "name": "orcbench02-ubuntu-latest-py3.13",
+      "zip_sha256": "1fb93d52e67fca54287a88e7282f56f88862d8b30107fd40aefc7100d7ca85d2"
+    },
+    {
+      "id": 14692142880,
+      "name": "orcbench02-windows-latest-py3.11",
+      "zip_sha256": "ac0f7f09701c9eb47b0e5909a08bf1cc3bc79bbf19562212064e4855cfa54856"
+    },
+    {
+      "id": 14692092859,
+      "name": "orcbench02-ubuntu-latest-py3.11",
+      "zip_sha256": "fc5aa94bc74f17ae57d40e24de733bb10fdda9532c5907d16aa26ba8bda0f763"
+    },
+    {
+      "id": 14691963331,
+      "name": "orcbench02-windows-latest-py3.13",
+      "zip_sha256": "fcd653353b2f5065d0b3896f9013e803f766cdb73ae35ba6feceeae41ad13da9"
+    }
+  ],
+  "original_git_source_blobs": {
+    "tools/orcbench02/availability_gate.py": "41fd5c696aff7d7603559ecf51e85666ad075858",
+    "tests/test_orc_bench02_availability.py": "16def662812ca0156ca2fa75728f9478a038a0ea",
+    "docs/research/orcgraph/ORCH01E_BENCH02_R1.md": "2e25a99f3da74b6ef057368026cfec07b8da0e73",
+    "docs/MASTER_TASK_LEDGER.md": "8f4b2540346dd1a961385f934652011f484a493b"
+  },
+  "independently_verified": [
+    "archive CRC",
+    "archive ZIP SHA-256",
+    "original commit SHA",
+    "matching 21 JUnit test IDs",
+    "four original source Git object identities",
+    "zero failed, errored or skipped JUnit tests"
+  ],
+  "not_qualified": [
+    "external publisher bytes actually fetched",
+    "true public historical availability",
+    "sensor signature",
+    "untouched external station forecast",
+    "production installed MEL admission",
+    "user-AI synergy"
+  ],
+  "next": "COG-ORCH-01E-BENCH-02-R2"
+}
