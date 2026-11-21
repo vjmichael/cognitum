@@ -46,8 +46,18 @@ public static class CognitumR3R1PeerBirth {
 '@
 function Run-Profile([System.Management.Automation.PSCredential]$Credential,[string]$Action,[string]$Sid){
  $argsText='-NoProfile -NonInteractive -ExecutionPolicy Bypass -File "'+$profileCopy+'" -Mode '+$Action+' -Root "'+$root+'" -ExpectedUserSid '+$Sid
- $process=Start-Process -FilePath $sysPwsh -Credential $Credential -LoadUserProfile -WorkingDirectory $root -ArgumentList $argsText -PassThru -Wait -WindowStyle Hidden
- if($process.ExitCode -ne 0){throw ('Nonadmin Windows AppContainer profile '+$Action+' refused')}
+ $out=Join-Path $root ('r3r1-profile-'+$Action+'-stdout.txt')
+ $err=Join-Path $root ('r3r1-profile-'+$Action+'-stderr.txt')
+ if((Test-Path $out) -or (Test-Path $err)){throw 'Refuse reused original nonadministrator profile diagnostic'}
+ $process=Start-Process -FilePath $sysPwsh -Credential $Credential -LoadUserProfile -WorkingDirectory $root -ArgumentList $argsText -PassThru -Wait -WindowStyle Hidden -RedirectStandardOutput $out -RedirectStandardError $err
+ if($process.ExitCode -ne 0){
+   # The original disposable test profile can emit only its bounded OS
+   # refusal category, not its password, environment or credential objects.
+   $message=if(Test-Path $err){Get-Content -LiteralPath $err -Raw}else{'No native Windows stderr'}
+   $message=[regex]::Replace([string]$message,'[^A-Za-z0-9 _.,:;/=+()#-]','_')
+   $message=$message.Substring(0,[Math]::Min(350,$message.Length))
+   throw ('Nonadmin Windows AppContainer profile '+$Action+' refused: '+$message)
+ }
 }
 function Grant-Exact([string]$path,[string]$sid,[string]$rights){
  & icacls.exe $path /grant ('*'+$sid+':'+$rights) /Q
