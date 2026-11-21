@@ -295,7 +295,9 @@ def test_non_protobuf_input_and_unknown_effect_are_not_accepted():
 
 def test_linux_unix_connect_refuses_untrusted_path_before_socket_open():
     if not __import__("sys").platform.startswith("linux"):
-        pytest.skip("Linux-only path/peer checks")
+        with pytest.raises(c.LuClientRefused,match="Linux UDS only"):
+            c.connect_linux_unix_socket("/unused.sock",expected_uid=0)
+        return
     with pytest.raises(c.LuClientRefused,match="absolute endpoint"):
         c.connect_linux_unix_socket("../user-supplied.sock",expected_uid=0)
     with pytest.raises(c.LuClientRefused,match="service UID"):
