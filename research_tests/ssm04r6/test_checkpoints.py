@@ -230,11 +230,13 @@ def test_symlink_refusal_and_oversized_checkpoint(tmp_path):
     p=tmp_path/'checkpoint.json';cp.atomic_write_checkpoint(p,_signed(_engine()))
     alias=tmp_path/'alias'
     try:alias.symlink_to(p)
-    except (OSError,NotImplementedError):pytest.skip('symlink creation unavailable')
-    with pytest.raises(ValueError,match='symlink'):
-        cp.read_checkpoint(alias)
-    with pytest.raises(ValueError,match='symlink'):
-        cp.atomic_write_checkpoint(alias,b'123')
+    except (OSError,NotImplementedError):
+        assert not alias.exists()  # Windows without symlink privilege
+    else:
+        with pytest.raises(ValueError,match='symlink'):
+            cp.read_checkpoint(alias)
+        with pytest.raises(ValueError,match='symlink'):
+            cp.atomic_write_checkpoint(alias,b'123')
     with pytest.raises(ValueError,match='byte budget'):
         _restore(b' '* (cp.MAX_CHECKPOINT_BYTES+1))
 
