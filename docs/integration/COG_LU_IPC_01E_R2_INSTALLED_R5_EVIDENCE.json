@@ -1,0 +1,72 @@
+{
+  "schema": "cognitum.lu_ipc01e_r5.original_exact_source_evidence.v1",
+  "task": "COG-LU-IPC-01E-R2-INSTALLED-R5",
+  "status": "PASS_NATIVE_SOURCE_ONLY_BLOCKED_INSTALLED_OS_AND_REAL_CORE",
+  "original_qualified_source_sha": "5153b8717f6cdebd74b0cb086fcf35b7533ed06e",
+  "native_run": {
+    "id": 44934413560,
+    "url": "https://github.com/vjmichael/cognitum/actions/runs/44934413560",
+    "conclusion": "success",
+    "jobs": 5,
+    "per_platform_cases": 237,
+    "total_cases": 948,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "exact_git_blob_pins": 9,
+    "cross_os_junit_identities_matched": true,
+    "platforms": [
+      "ubuntu-latest py3.11",
+      "ubuntu-latest py3.13",
+      "windows-latest py3.11",
+      "windows-latest py3.13"
+    ]
+  },
+  "integration_run": {
+    "id": 44934413510,
+    "url": "https://github.com/vjmichael/cognitum/actions/runs/44934413510",
+    "conclusion": "success",
+    "jobs": 8
+  },
+  "artifacts": [
+    {
+      "id": 14719470385,
+      "name": "cog-lu-ipc01e-r5-ubuntu-latest-py3.13",
+      "sha256": "8296a78c5ade2b7cba850e0028a0cf59949a0b8a1b6e4d3f689e025f6fbec110"
+    },
+    {
+      "id": 14718559584,
+      "name": "cog-lu-ipc01e-r5-independent",
+      "sha256": "2e052f6165af276b0c3d4404b2364cc0a55ce2f66d42fc83119c1e50afefabc3"
+    },
+    {
+      "id": 14718544643,
+      "name": "cog-lu-ipc01e-r5-windows-latest-py3.13",
+      "sha256": "2b41e74453b11dde1ec272783caed6fa14912cfacba7f141f2e32bc409563fb5"
+    },
+    {
+      "id": 14718544596,
+      "name": "cog-lu-ipc01e-r5-windows-latest-py3.11",
+      "sha256": "680c8f0e306a3189c8f7338bfde979b90e85f561eab14b14be153bc7d1c7489b"
+    },
+    {
+      "id": 14718484789,
+      "name": "cog-lu-ipc01e-r5-ubuntu-latest-py3.11",
+      "sha256": "2511cdeee7217009622b7010aa280b038bdcd605f047a3652eed85b874232984"
+    }
+  ],
+  "windows_suspended_fixed_ssm_kernel_Job_before_first_instruction_qualified_native": true,
+  "windows_signed_installed_SCM_service_owned_job_qualified": false,
+  "external_proposed_stop_signature_match_source_qualified": true,
+  "independent_production_stop_signer_enrolled": false,
+  "Linux_kernel_cgroup2_detected": true,
+  "linux_locally_delegated_root_writable": false,
+  "linux_positive_delegated_cgroup_restart_qualified": false,
+  "exact_original_linux_watchkeeper_recovery_binding_source_qualified": true,
+  "real_installed_Core_Health_exchange_verified": false,
+  "Lu_Core_issuer_and_Cognitum_service_enrollment_accepted": false,
+  "Lu_Core_original_PURE_COMPUTE_grant_verified": false,
+  "external_monotonic_rollback_anchor_verified": false,
+  "output_delivery_or_ack_authorized": false,
+  "model_tool_execution_authorized": false
+}

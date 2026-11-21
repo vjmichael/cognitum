@@ -1,17 +1,6 @@
 name: Cognitum IPC-01E R5 suspended SSM and external stop-verifier qualification
 
 on:
-  push:
-    branches:
-      - integration/cog-lu-ipc01e-r2-custody-20261121
-    paths:
-      - cognitum/mel/ssm_r5_fixed_child.py
-      - cognitum/mel/ssm_r5_windows_job.py
-      - cognitum/mel/ssm_r5_stop_receipt.py
-      - cognitum/mel/ssm_r5_linux_recovery.py
-      - cognitum/mel/ssm_r4_protected.py
-      - research_tests/mel_lu_ipc01e_r5/**
-      - .github/workflows/cog-lu-ipc01e-r5-native.yml
   workflow_dispatch:
 
 permissions:
