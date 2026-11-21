@@ -11,7 +11,7 @@ pub fn refused(stage:&str,reason:&str){
         "stop_receipt"=>"stop_receipt",
         _=>"unknown",
     };
-    let clipped=reason.chars().take(110).map(|c|
+    let clipped=reason.chars().take(256).map(|c|
         if c.is_ascii_alphanumeric()||c==' '||c=='-'||c=='_'||c==':'{
             c
         }else{'_'}).collect::<String>();
