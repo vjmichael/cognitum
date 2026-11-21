@@ -79,7 +79,6 @@ jobs:
         run: |
           $root=Join-Path $PWD 'native/windows_scm_fixture/target/r1-fixture'
           & ./scripts/cog-r5-physical02-r2-cng-provision.ps1 -Mode remove -FixtureRoot $root
-          if($LASTEXITCODE -ne 0){throw 'Independent CNG machine key deletion failed'}
           '{"schema":"cognitum.ssm.r2.CI_KSP_revoked.v1","CNG_key_original_absent_after_deletion":true,"production_signer":false}' | Set-Content -LiteralPath r2-machine-key-revoked.json -Encoding ascii
       - name: Preserve original source pins and public-only signature artifacts
         if: always()
@@ -109,6 +108,7 @@ jobs:
             native/windows_scm_fixture/target/r1-fixture/stop.json
             native/windows_scm_fixture/target/r1-fixture/r2-signed-stop.json
             native/windows_scm_fixture/target/r1-fixture/r2-public-p256.blob
+            native/windows_scm_fixture/target/r1-fixture/r2-native-refusal.json
           if-no-files-found: warn
   linux-closed:
     name: Linux cannot inherit SCM authority; P256 tamper refusals

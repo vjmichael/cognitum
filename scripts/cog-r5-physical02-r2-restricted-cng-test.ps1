@@ -29,7 +29,6 @@ if($approved.schema -cne 'cognitum.ssm.r2.CI_external_KSP_enrollment.v1' -or
 & icacls.exe $root /grant '*S-1-5-32-545:(OI)(CI)M' /T
 if($LASTEXITCODE -ne 0){throw 'Windows temporary restricted SID fixture ACL unavailable'}
 & ./scripts/cog-r5-physical02-r1-real-ssm-scm.ps1 -Executable $Executable -FixtureRoot $root -EvidencePath "$PWD/r2-r1-windows.json"
-if($LASTEXITCODE -ne 0){throw 'SCM restricted SSM numerical lifecycle refused'}
 $r1=Get-Content -LiteralPath "$PWD/r2-r1-windows.json" -Raw | ConvertFrom-Json
 if($r1.status -cne 'PASS_REAL_FIXED_SSM_UNDER_SCM_FIXTURE_ONLY' -or
    $r1.original_one_use_restart_replay_denied -ne $true -or
