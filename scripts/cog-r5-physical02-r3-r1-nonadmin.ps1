@@ -67,7 +67,7 @@ if($Mode -eq 'provision'){
    $clear=[Convert]::ToBase64String([Security.Cryptography.RandomNumberGenerator]::GetBytes(48))
    $secure=ConvertTo-SecureString $clear -AsPlainText -Force
    $clear=$null
-   $user=New-LocalUser -Name $name -Password $secure -AccountNeverExpires -PasswordNeverExpires -Description 'Disposable Cognitum nonadmin CI-only AppContainer source'
+   $user=New-LocalUser -Name $name -Password $secure -AccountNeverExpires -PasswordNeverExpires -Description 'Cognitum CI-only nonadmin SSM'
    $sid=$user.SID.Value
    if($sid -cnotmatch '^S-1-5-21-[0-9-]+$'){throw 'Dedicated user SID is not local standard user'}
    $members=@(Get-LocalGroupMember -SID ([Security.Principal.SecurityIdentifier]::new('S-1-5-32-544')))
