@@ -1,0 +1,16 @@
+{
+  "author_attribution_required": true,
+  "dataset_doi": "https://doi.org/10.24432/C5RK5G",
+  "dataset_id": "UCI-501",
+  "license": "CC BY 4.0",
+  "nested_archive_sha256": "d1b9261c54132f04c374f762f1e5e512af19f95c95fd6bfa1e8ac7e927e3b0b8",
+  "rows_verified": 18432,
+  "sites": {
+    "Changping": "0ea30f0517c43b5ecbb6cc3210ab29770a695c8c7577b43181cc230f9cd1d551",
+    "Dingling": "80eb24e8ea45b22e3a49cc357d68d0cab6a9a1727bf59d862422dab4a51bd664",
+    "Guanyuan": "4882bf5a20d1e3fbfc6f47ea8904201f4576d85223c06fa6ffd49523afb37928"
+  },
+  "source_archive_sha256": "b04da438b2f331ac0ffd45aebdfec0d20d2367feb5f6948c4b1f7ce1191e33c4",
+  "source_url": "https://archive.ics.uci.edu/static/public/501/beijing+multi+site+air+quality+data.zip",
+  "upstream_publisher_signature_verified": false
+}
