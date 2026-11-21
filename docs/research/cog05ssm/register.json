@@ -1680,7 +1680,7 @@
   },
   "latest_postnative05": {
     "task": "COG-05-SSM-POST-NATIVE-05",
-    "status": "PUBLISHER_LOCKED_RESEARCH_CANDIDATE_NOT_NATIVE_QUALIFIED",
+    "status": "BOUNDED_TWO_PUBLISHER_NATIVE_ACCEPTED_FULL_HDC_KAN_SSM_OOD_TASK_OPEN",
     "research_branch": "research/ssm-postnative05-20261120",
     "source_publishers": [
       "NOAA-CO-OPS",
@@ -1698,10 +1698,33 @@
     "independent_original_instrument_attestation": false,
     "native_hdc_kan_ssm_out_of_domain_tested": false,
     "conditional_time_series_coverage_guaranteed": false,
-    "source_locked_native_accepted": false,
+    "source_locked_native_accepted": true,
     "all_scientific_capabilities_complete": false,
     "execution_authorized": false,
     "design": "docs/research/cog05ssm/POST_NATIVE05.md",
-    "preserved_prior_acceptance_sha": "6160e322ba24f8ec4d8f4a7d90ad885daeb32c92"
+    "preserved_prior_acceptance_sha": "6160e322ba24f8ec4d8f4a7d90ad885daeb32c92",
+    "qualification_run_id": 44844570161,
+    "qualification_run_url": "https://github.com/vjmichael/cognitum/actions/runs/44844570161",
+    "qualification_sha": "127672af94fb126163efd51057dfd5adf0f9bb4e",
+    "native_targets": [
+      "ubuntu-latest/3.11",
+      "ubuntu-latest/3.13",
+      "windows-latest/3.11",
+      "windows-latest/3.13"
+    ],
+    "tests_per_target": 15,
+    "native_targets_succeeded": 4,
+    "native_targets_failed": 0,
+    "native_targets_skipped": 0,
+    "scoped_observational_native_accepted": true,
+    "physical_law_discovered": false,
+    "native_evidence_manifest": "docs/research/cog05ssm/POST_NATIVE05_R3_NATIVE_ARTIFACTS.json",
+    "observed_noaa_120min_rmse_direct_ridge": 0.16077030512970503,
+    "observed_noaa_120min_rmse_persistence": 0.29731,
+    "observed_noaa_120min_coverage_nominal_90_percent": 0.8097973994557001,
+    "observed_noaa_120min_first_half_coverage": 0.9219600725952813,
+    "observed_noaa_120min_second_half_coverage": 0.6977025392986699,
+    "usgs_dependent_coverage_status": "REFUSED_INSUFFICIENT_BLOCKS",
+    "next_task": "COG-05-SSM-POST-NATIVE-05-R4"
   }
 }
