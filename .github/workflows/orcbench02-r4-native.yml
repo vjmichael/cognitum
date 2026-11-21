@@ -1,9 +1,6 @@
 name: Cognitum BENCH-02 R4 frozen retrospective ridge versus Orc policy
 
 on:
-  push:
-    branches:
-      - research/orc-bench02-r4-frozen-20261120
   workflow_dispatch:
 
 permissions:

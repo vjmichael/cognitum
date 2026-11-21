@@ -1,0 +1,175 @@
+{
+  "schema": "cognitum.orc.bench02.r4.native_scientific_receipts.v1",
+  "acceptance": "ACCEPTED_RETROSPECTIVE_R3_COHORT_POLICY_ADAPTER_ONLY",
+  "native_run_id": 44873223743,
+  "native_run_url": "https://github.com/vjmichael/cognitum/actions/runs/44873223743",
+  "tested_source_sha": "11ed7697defd2a6df1c75360ddf2e7aca6a890ae",
+  "frozen_protocol_first_commit": "2cb66358c0a5d53453f5f7fdf792fc57b25bd018",
+  "frozen_protocol_canonical_git_blob": "1cf7c2ae11e09130ef036f3812ebfb849235f26b",
+  "frozen_R3_protocol_sha256": "fd0b6a372ee5cd9ee8870ad20c475261460a069daf4fd52f56e8dcc2961a5104",
+  "original_source_capture_run": 44872224722,
+  "original_source_hashes": {
+    "KSEA": "2b2772ea7ad91d76f22e1be82269c0b41e86294392241a42bae9d81f061a6205",
+    "KDEN": "dd72f4e2b9dde753c2a9c0f964ca86eb2b8091eeaf9b7b807c3b8d7a98618645",
+    "KATL": "ac0b69ce3b4755e56e9273310af94be638dd240d9857a98a719812f1dd441622"
+  },
+  "native_targets": [
+    {
+      "os": "ubuntu-latest",
+      "python": "3.11",
+      "artifact_id": 14694682761,
+      "zip_sha256": "57d07fb313b68d60fd685e93d42d353672e05037a700a5a230d7b3cf2e2f949d",
+      "pretest_tests": 95,
+      "replay_tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "os": "ubuntu-latest",
+      "python": "3.13",
+      "artifact_id": 14694214884,
+      "zip_sha256": "8331b57aee84cd4f598018b56f98287f3aad356edc0dfcc02ed463a30f0cf238",
+      "pretest_tests": 95,
+      "replay_tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "os": "windows-latest",
+      "python": "3.11",
+      "artifact_id": 14694089529,
+      "zip_sha256": "81a2afeba74577cd7bc3090519d6af3fd1d35b742fbf54f187b4d2f2f12708f5",
+      "pretest_tests": 95,
+      "replay_tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "os": "windows-latest",
+      "python": "3.13",
+      "artifact_id": 14694851373,
+      "zip_sha256": "9ff3d3321015e17adbd833680c23763f19e1a883162b201ae089ef8820742d2f",
+      "pretest_tests": 95,
+      "replay_tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    }
+  ],
+  "source_blob_lock_order": [
+    {
+      "path": "docs/research/orcgraph/ORCH01E_BENCH02_R4_PREREG.json",
+      "sha": "1cf7c2ae11e09130ef036f3812ebfb849235f26b"
+    },
+    {
+      "path": "tools/orcbench02/benchmark_r4.py",
+      "sha": "5ad4c5967ac4c0b44df5cf400bea970054941c73"
+    },
+    {
+      "path": "tests/test_orc_bench02_r4_pretest.py",
+      "sha": "39f1c9868199474a319885f025b08826f9d47eb7"
+    },
+    {
+      "path": "tests/test_orc_bench02_r4_results.py",
+      "sha": "6feff7bf2d96c567ba4bd4470f5ce8b275a5d8f6"
+    },
+    {
+      "path": "tools/orcbench02/cohorts.py",
+      "sha": "dcb40c878969f37d6839f2ff74285de4657c385c"
+    },
+    {
+      "path": "docs/research/orcgraph/ORCH01E_BENCH02_R3_PREREG.json",
+      "sha": "512b25936105bb89bdf4957d1c0da14195e784fc"
+    }
+  ],
+  "original_frozen_decision_sha256_all_platforms": "1862874f99424a2768e27975f826ef20bef82b42613c34888bb636b550328cc0",
+  "identical_four_platform_junit_case_inventories": true,
+  "identical_four_platform_decision_identity": true,
+  "matched_original_predictions_per_platform": 265,
+  "identical_original_cohorts_across_all_methods": true,
+  "four_platform_numeric_macros_agree_within": 1e-9,
+  "native_total_tests": 416,
+  "native_fails": 0,
+  "native_skips": 0,
+  "nine_case_reports_in_study": true,
+  "site_horizon_order": [
+    "KSEA_1h",
+    "KSEA_3h",
+    "KSEA_6h",
+    "KDEN_1h",
+    "KDEN_3h",
+    "KDEN_6h",
+    "KATL_1h",
+    "KATL_3h",
+    "KATL_6h"
+  ],
+  "macro_comparisons_signed_relative_rmse": {
+    "persistence": {
+      "wins": 5,
+      "losses": 4,
+      "ties": 0,
+      "gain_fraction": 0.009187872034175544
+    },
+    "ridge_AR24": {
+      "wins": 5,
+      "losses": 4,
+      "ties": 0,
+      "gain_fraction": -0.20008249321103516
+    },
+    "lag24_persistence": {
+      "wins": 1,
+      "losses": 8,
+      "ties": 0,
+      "gain_fraction": -0.8160978548580752
+    },
+    "train_mean": {
+      "wins": 2,
+      "losses": 7,
+      "ties": 0,
+      "gain_fraction": -1.7720078323272175
+    },
+    "timeaware_ssm": {
+      "wins": 6,
+      "losses": 3,
+      "ties": 0,
+      "gain_fraction": -0.010031378036570856
+    },
+    "orc_default": {
+      "wins": 3,
+      "losses": 3,
+      "ties": 3,
+      "gain_fraction": -0.021102590932257723
+    },
+    "orc_expanded_classical": {
+      "wins": 4,
+      "losses": 3,
+      "ties": 2,
+      "gain_fraction": -0.03015332113932516
+    }
+  },
+  "initial_failed_run": {
+    "id": 44873151118,
+    "reason": "original Orc SelectionPolicy import required protobuf package on isolated runners",
+    "source_sha": "2e4ce8eeb804db40012af589ffad42d8edaab06a",
+    "no_scores_produced": true
+  },
+  "corrective_change": "native workflow added protobuf==6.33.1 only; scientific model source and frozen protocol unchanged",
+  "scope_limits": [
+    "original HDC/KAN research candidates NOT evaluated",
+    "Orc candidates are from R3 cohort adapter; not direct original propose_forecast",
+    "AWC reported historical receipt != independently authenticated public availability",
+    "strict first-capture historical eligibility = 0 all nine tasks",
+    "no original instrument signatures, installed protected resource quotas or MEL authorization",
+    "dependent block bootstrap sensitivity only, not statistical significance or conditional coverage",
+    "no end-to-end Orc Graph scientific superiority proven"
+  ],
+  "next_tasks": [
+    "BENCH-02-R5 independent science/native consolidation",
+    "COG-ORCH-FIN-01 installed host authorization and trusted scientific data custody",
+    "prospective independently witnessed first-availability research",
+    "full source-bound HDC/KAN Orc comparison"
+  ]
+}
