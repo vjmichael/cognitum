@@ -21,6 +21,7 @@ public static class CognitumR2CngProvision {
  [DllImport("ncrypt.dll",CharSet=CharSet.Unicode)] static extern int NCryptOpenKey(IntPtr provider,out IntPtr key,string name,int legacy,int flags);
  [DllImport("ncrypt.dll",CharSet=CharSet.Unicode)] static extern int NCryptCreatePersistedKey(IntPtr provider,out IntPtr key,string algorithm,string name,int legacy,int flags);
  [DllImport("ncrypt.dll",CharSet=CharSet.Unicode)] static extern int NCryptSetProperty(IntPtr key,string name,byte[] property,int length,int flags);
+ [DllImport("ncrypt.dll",CharSet=CharSet.Unicode)] static extern int NCryptGetProperty(IntPtr key,string name,byte[] property,int length,out int used,int flags);
  [DllImport("ncrypt.dll")] static extern int NCryptFinalizeKey(IntPtr key,int flags);
  [DllImport("ncrypt.dll",CharSet=CharSet.Unicode)] static extern int NCryptExportKey(IntPtr key,IntPtr export,string blobType,IntPtr parameters,byte[] output,int outputSize,out int written,int flags);
  [DllImport("ncrypt.dll")] static extern int NCryptDeleteKey(IntPtr key,int flags);
@@ -45,6 +46,10 @@ public static class CognitumR2CngProvision {
      if(status!=0)throw new InvalidOperationException("Nonexportable policy refused 0x"+status.ToString("x"));
      status=NCryptFinalizeKey(key,0);
      if(status!=0)throw new InvalidOperationException("FinalizeKey refused 0x"+status.ToString("x"));
+     byte[] policy=new byte[4];int policyUsed=0;
+     status=NCryptGetProperty(key,"Export Policy",policy,policy.Length,out policyUsed,0);
+     if(status!=0||policyUsed!=4||BitConverter.ToInt32(policy,0)!=0)
+       throw new InvalidOperationException("CNG KSP nonexportable policy not independently readable");
      byte[] blob=new byte[72]; int written=0;
      status=NCryptExportKey(key,IntPtr.Zero,"ECCPUBLICBLOB",IntPtr.Zero,blob,72,out written,0);
      if(status!=0||written!=72||blob[0]!=0x45||blob[1]!=0x43||blob[2]!=0x53||blob[3]!=0x31)
@@ -66,6 +71,9 @@ public static class CognitumR2CngProvision {
      if(s!=0||key==IntPtr.Zero)throw new InvalidOperationException("Original test CNG signer absent");
      s=NCryptDeleteKey(key,0);
      if(s!=0){NCryptFreeObject(key);throw new InvalidOperationException("CNG cleanup failed 0x"+s.ToString("x"));}
+     IntPtr remaining;
+     s=NCryptOpenKey(provider,out remaining,name,0,Machine);
+     if(s==0){NCryptFreeObject(remaining);throw new InvalidOperationException("CNG key remained after independent deletion");}
    }finally{NCryptFreeObject(provider);}
  }
 }
