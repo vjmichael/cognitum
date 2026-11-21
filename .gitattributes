@@ -44,3 +44,12 @@
 # Frozen UCI 501 multisite PM2.5 excerpts, licensing and acquisition receipts.
 /research_tests/ssm_postnative04/data/*.csv text eol=lf
 /research_tests/ssm_postnative04/data/*.json text eol=lf
+
+# BENCH-02 R3 immutable preregistration and exact-source native parity.
+/docs/research/orcgraph/ORCH01E_BENCH02_R3_PREREG.json text eol=lf
+/tools/orcbench02/cohorts.py text eol=lf
+/tests/test_orc_bench02_cohorts.py text eol=lf
+/tools/orcbench02/capture_r3.py text eol=lf
+/tests/test_orc_bench02_capture_r3.py text eol=lf
+/tools/orcbench02/acquisition.py text eol=lf
+/.github/workflows/orcbench02-r3-r1.yml text eol=lf

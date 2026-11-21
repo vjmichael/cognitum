@@ -95,6 +95,14 @@ jobs:
         run: |
           git rev-parse HEAD > source-sha.txt
           git hash-object docs/research/orcgraph/ORCH01E_BENCH02_R3_PREREG.json tools/orcbench02/cohorts.py tests/test_orc_bench02_cohorts.py tools/orcbench02/capture_r3.py tests/test_orc_bench02_capture_r3.py tools/orcbench02/acquisition.py > source-blobs.txt
+          for f in docs/research/orcgraph/ORCH01E_BENCH02_R3_PREREG.json tools/orcbench02/cohorts.py tests/test_orc_bench02_cohorts.py tools/orcbench02/capture_r3.py tests/test_orc_bench02_capture_r3.py tools/orcbench02/acquisition.py; do
+                      observed=$(git hash-object "$f")
+                      canonical=$(git rev-parse "HEAD:$f")
+                      if [ "$observed" != "$canonical" ]; then
+                        echo "Refuse noncanonical working-tree bytes: $f"
+                        exit 1
+                      fi
+                    done
           python - <<'PY'
           from pathlib import Path
           from hashlib import sha256
