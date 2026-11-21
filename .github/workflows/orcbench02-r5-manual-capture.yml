@@ -1,0 +1,70 @@
+name: Cognitum R5 prospective NOAA first-seen manual source capture
+
+# Intentionally NO schedule. Each lane/sequence is explicitly dispatched by
+# an operator, independently, and must receive its OWN GitHub workflow run.
+# This workflow is NOT approval of recurring network activity or production MEL.
+on:
+  workflow_dispatch:
+    inputs:
+      lane:
+        description: 'Original independent source observer A or B'
+        type: choice
+        options: ['A','B']
+        required: true
+      seq:
+        description: 'Next zero-based poll number (no gaps or source reset)'
+        type: string
+        default: '0'
+        required: true
+      previous:
+        description: 'Exact prior original capture SHA256; zeros only for seq 0'
+        type: string
+        default: '0000000000000000000000000000000000000000000000000000000000000000'
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cognitum-r5-source-${{ github.event.inputs.lane }}
+  cancel-in-progress: false
+
+jobs:
+  authenticated-operator-request-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Source-locked exact repository checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Native standard-library Python source witness
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify exact precommitted prospective protocol Git blob
+        shell: bash
+        run: |
+          test "$(git hash-object docs/research/orcgraph/ORCH01E_BENCH02_R5_PREREG.json)" = "02828d09afaf584a9b5cc8a66e0f2de917b48429"
+          test "$(git hash-object docs/research/orcgraph/ORCH01E_BENCH02_R5_PREREG.json)" = "$(git rev-parse HEAD:docs/research/orcgraph/ORCH01E_BENCH02_R5_PREREG.json)"
+      - name: Confirm authenticated explicit operator's requested lane and source chain
+        id: record
+        env:
+          R5_LANE: ${{ github.event.inputs.lane }}
+          R5_SEQUENCE: ${{ github.event.inputs.seq }}
+          R5_PREVIOUS: ${{ github.event.inputs.previous }}
+        shell: bash
+        run: |
+          if ! [[ "$R5_SEQUENCE" =~ ^(0|[1-9][0-9]*)$ ]]; then echo "Invalid source sequence"; exit 1; fi
+          if ! [[ "$R5_PREVIOUS" =~ ^[0-9a-f]{64}$ ]]; then echo "Invalid source predecessor"; exit 1; fi
+          if [ "$R5_SEQUENCE" = "0" ] && [ "$R5_PREVIOUS" != "0000000000000000000000000000000000000000000000000000000000000000" ]; then echo "Non-genesis source chain"; exit 1; fi
+          printf -v serial '%06d' "$R5_SEQUENCE"
+          echo "name=orcbench02-r5-capture-$R5_LANE-$serial" >> "$GITHUB_OUTPUT"
+          python -m tools.orcbench02.prospective_r5 --lane "$R5_LANE" --seq "$R5_SEQUENCE" --previous "$R5_PREVIOUS" --output capture.json
+      - name: Externally timestamp one immutable original HTTPS source response
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.record.outputs.name }}
+          if-no-files-found: error
+          retention-days: 90
+          path: capture.json

@@ -1,0 +1,181 @@
+{
+  "schema": "cognitum.orc.bench02.r5.independently_consolidated_original_science.v1",
+  "task": "COG-ORCH-01E-BENCH-02-R5",
+  "source": "independently re-read nine original GitHub Actions ZIP archives: four R4, four original R4R2R3, original four-platform comparator; originals CRC/SHA/JUnit validated; 265 original test origin/target clocks per platform independently cross-checked",
+  "historical_evidence_generated_locally": "r5-independent-historical-replay.json",
+  "historical_evidence_local_SHA256": "2163d75e531b1c57c85a059de346f120de42c45c4b8523647fdcba425611d076",
+  "original_acceptance_runs": {
+    "R4": {
+      "run": 44873223743,
+      "exact_source_sha": "11ed7697defd2a6df1c75360ddf2e7aca6a890ae",
+      "native_platforms": 4,
+      "pretest_and_result_checks_per_platform": 104,
+      "original_retrospective_cases": 9,
+      "original_heldout_pairs": 265
+    },
+    "R4_R2_R3": {
+      "run": 44875900382,
+      "exact_source_sha": "06eb4ff9f40fd437992842f6cd7e4d9c3db1cc7f",
+      "native_platforms": 4,
+      "native_checks_per_platform": 322,
+      "fifth_independent_four_platform_reconciliation": "PASS",
+      "original_retrospective_cases": 9,
+      "original_heldout_pairs": 265
+    }
+  },
+  "original_nine_archived_ZIPs": [
+    {
+      "id": 14694682761,
+      "study": "R4",
+      "sha256": "57d07fb313b68d60fd685e93d42d353672e05037a700a5a230d7b3cf2e2f949d"
+    },
+    {
+      "id": 14694214884,
+      "study": "R4",
+      "sha256": "8331b57aee84cd4f598018b56f98287f3aad356edc0dfcc02ed463a30f0cf238"
+    },
+    {
+      "id": 14694089529,
+      "study": "R4",
+      "sha256": "81a2afeba74577cd7bc3090519d6af3fd1d35b742fbf54f187b4d2f2f12708f5"
+    },
+    {
+      "id": 14694851373,
+      "study": "R4",
+      "sha256": "9ff3d3321015e17adbd833680c23763f19e1a883162b201ae089ef8820742d2f"
+    },
+    {
+      "id": 14695638527,
+      "study": "R4R2R3",
+      "sha256": "5534c2a764c5a64f71a06bb5dc7d0d3a62c609ea8d488da2939798f670418f73"
+    },
+    {
+      "id": 14695223848,
+      "study": "R4R2R3",
+      "sha256": "1c07d0c74215003ebef893ee82538d182813141d79d0a0a9ec2983d057d0121f"
+    },
+    {
+      "id": 14695773244,
+      "study": "R4R2R3",
+      "sha256": "402941b728dd75a06a11859482628a3c0f31917328e8ce55e83708cd7a93358d"
+    },
+    {
+      "id": 14695368459,
+      "study": "R4R2R3",
+      "sha256": "3390d2362a3bae703b1ac2bc1017b47a337d5b1c1df4704dddc448d6f2c5ed77"
+    },
+    {
+      "id": 14696066746,
+      "study": "R4R2R3_independent",
+      "sha256": "a73ad4b4656e0d003af80555debb29108b5e51b6dac51fcf8cea659479fef72a"
+    }
+  ],
+  "original_history_observations": {
+    "original_NOAA_sha256": {
+      "KSEA": "2b2772ea7ad91d76f22e1be82269c0b41e86294392241a42bae9d81f061a6205",
+      "KDEN": "dd72f4e2b9dde753c2a9c0f964ca86eb2b8091eeaf9b7b807c3b8d7a98618645",
+      "KATL": "ac0b69ce3b4755e56e9273310af94be638dd240d9857a98a719812f1dd441622"
+    },
+    "R3_prereg_sha256": "fd0b6a372ee5cd9ee8870ad20c475261460a069daf4fd52f56e8dcc2961a5104",
+    "R4_negative_report_git_blob": "5dc4fa1f980fc7678371cba78dbfdbdfe09fb651",
+    "R4R2R3_accepted_receipt_blob": "ea8c8ab8fb90a272b68d5bc56d66d9f031c4b42c",
+    "identical_265_origin_target_clocks_both_archival_studies": true,
+    "max_original_target_numeric_roundoff_K": 5.684341886080802e-14,
+    "max_original_direct_ridge_replay_difference_K": 0
+  },
+  "method_results_vs_accepted_R4_direct_ridge": {
+    "R4_policy_adapter_default": {
+      "wins": 3,
+      "losses": 3,
+      "ties": 3,
+      "cases": 9,
+      "macro_fractional_RMSE_gain": -0.021102590932257723
+    },
+    "R4_policy_adapter_expanded_classical": {
+      "wins": 4,
+      "losses": 3,
+      "ties": 2,
+      "cases": 9,
+      "macro_fractional_RMSE_gain": -0.03015332113932516
+    },
+    "original_native_SSM_KAN": {
+      "wins": 6,
+      "losses": 3,
+      "cases": 9,
+      "macro_fractional_RMSE_gain": 0.0353790032484963
+    },
+    "original_native_SSM_HDC": {
+      "wins": 6,
+      "losses": 3,
+      "cases": 9,
+      "macro_fractional_RMSE_gain": 0.014213714653547156
+    },
+    "original_native_SSM_KAN_HDC": {
+      "wins": 6,
+      "losses": 3,
+      "cases": 9,
+      "macro_fractional_RMSE_gain": 0.032853846521084716
+    },
+    "original_native_Orc_default": {
+      "selected_cases": 7,
+      "abstentions": [
+        "KSEA_6h",
+        "KDEN_6h"
+      ],
+      "wins": 3,
+      "losses": 4,
+      "reported_only_fractional_RMSE_gain": -0.026068364992874467,
+      "complete_nine_case_macro": false
+    },
+    "original_native_Orc_research_portable": {
+      "selected_cases": 6,
+      "abstentions": [
+        "KSEA_6h",
+        "KDEN_6h",
+        "KATL_1h"
+      ],
+      "wins": 3,
+      "losses": 3,
+      "reported_only_fractional_RMSE_gain": -0.004199976756466615,
+      "complete_nine_case_macro": false
+    }
+  },
+  "native_model_integrity": {
+    "original_KAN_train_only_degree_2_Chebyshev_residual_least_squares": true,
+    "original_HDC_train_only_256D_MAP_two_median_regimes": true,
+    "native_original_propose_forecast_and_frozen_holdout_source_bound": true,
+    "portable_four_way_sha256": "703f13885bb81db5b63f718cf0c6a7beebb180d5d56f189bfbdf222a649a0789",
+    "portable_near_tie_refusal_KATL_1h": true,
+    "maximum_calibration_RMSE_drift_K": 9.325873406851315e-15,
+    "maximum_prediction_drift_K": 1.1368683772161603e-13
+  },
+  "limitations": {
+    "R3_strict_first_capture_heldout_origins": 0,
+    "historical_AWC_reported_receipt_not_publisher_authenticated": true,
+    "no_randomization_or_independent_new_sites_in_old_R4": true,
+    "old_R4_historical_heldout_predictions_already_viewed": true,
+    "no_nine_case_macro_for_native_selector_due_to_abstention": true,
+    "no_demonstrated_HDC_plus_KAN_synergy_beyond_KAN_alone": true,
+    "no_prospective_out_of_sample_superiority_proven": true,
+    "no_installed_MEL_custody_or_host_authority": true
+  },
+  "prospective_successor": {
+    "prereg_commit": "d7f8bbc90f105c82f89305c984659e8057a4227e",
+    "original_new_prereg_git_blob": "02828d09afaf584a9b5cc8a66e0f2de917b48429",
+    "new_source_sites": [
+      "KBOS",
+      "KMSP",
+      "KPHX"
+    ],
+    "duration_full_UTC_days": 28,
+    "two_original_witness_lanes": [
+      "A",
+      "B"
+    ],
+    "network_capture_active": false,
+    "observations_captured_under_new_protocol": 0,
+    "independent_GitHub_creation_time_receipts_obtained": 0,
+    "future_trusted_global_first_publication_attested": false,
+    "conclusion": "prospective protocol preregistered, scientific data collection/forecast evaluation NOT YET performed"
+  }
+}

@@ -92,3 +92,14 @@
 
 # R4-R2-R3 accepted native evidence manifest portable checkout.
 /docs/research/orcgraph/ORCH01E_BENCH02_R4_R2_R3_NATIVE_ARTIFACTS.json text eol=lf
+
+# Preregistered R5 prospective source receipts and original independent science audit.
+/docs/research/orcgraph/ORCH01E_BENCH02_R5_PREREG.json text eol=lf
+/docs/research/orcgraph/ORCH01E_BENCH02_R5.md text eol=lf
+/docs/research/orcgraph/ORCH01E_BENCH02_R5_HISTORICAL_AUDIT.json text eol=lf
+/tools/orcbench02/prospective_r5.py text eol=lf
+/tools/orcbench02/audit_r5.py text eol=lf
+/tests/test_orc_bench02_r5_prospective.py text eol=lf
+/tests/test_orc_bench02_r5_historical.py text eol=lf
+/.github/workflows/orcbench02-r5-native.yml text eol=lf
+/.github/workflows/orcbench02-r5-manual-capture.yml text eol=lf

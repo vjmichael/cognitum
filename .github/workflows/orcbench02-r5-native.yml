@@ -1,0 +1,111 @@
+name: Cognitum BENCH-02 R5 prospective preregistration and historical independent audit
+
+on:
+  push:
+    branches:
+      - research/orc-bench02-r5-prospective-lock-20261120
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: cognitum-orc-bench02-r5-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  native-future-source-refusal:
+    name: Frozen prospective source custody / ${{ matrix.os }} / py${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.11', '3.13']
+    env:
+      PYTHONHASHSEED: '0'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Pin original Orc scientific and protobuf execution dependencies
+        run: python -m pip install numpy==2.2.6 scipy==1.15.3 protobuf==6.33.1 pytest==9.0.2
+      - name: Original safety R3/R4/native selector and R5 prospective-first-seen refusal coverage
+        run: python -m pytest -q tests/test_orc_science_data.py tests/test_orc_comparison.py tests/test_orc_selection.py tests/test_orc_bench02_availability.py tests/test_orc_bench02_acquisition.py tests/test_orc_bench02_cohorts.py tests/test_orc_bench02_capture_r3.py tests/test_orc_bench02_r4_pretest.py tests/test_orc_bench02_r4r2_pretest.py tests/test_orc_bench02_r4r2r3_pretest.py tests/test_orc_bench02_r5_prospective.py tests/test_orc_bench02_r5_historical.py --junitxml=bench02-r5-native.xml
+      - name: Preserve exact R5 source locks and unchanged historical negative reports
+        shell: bash
+        run: |
+          git rev-parse HEAD > bench02-r5-source-sha.txt
+          git hash-object docs/research/orcgraph/ORCH01E_BENCH02_R5_PREREG.json tools/orcbench02/prospective_r5.py tools/orcbench02/audit_r5.py tests/test_orc_bench02_r5_prospective.py tests/test_orc_bench02_r5_historical.py docs/research/orcgraph/ORCH01E_BENCH02_R4.md docs/research/orcgraph/ORCH01E_BENCH02_R4_R2_R3_NATIVE_ARTIFACTS.json > bench02-r5-source-blobs.txt
+          test "$(git hash-object docs/research/orcgraph/ORCH01E_BENCH02_R5_PREREG.json)" = "02828d09afaf584a9b5cc8a66e0f2de917b48429"
+          test "$(git hash-object docs/research/orcgraph/ORCH01E_BENCH02_R4.md)" = "5dc4fa1f980fc7678371cba78dbfdbdfe09fb651"
+          test "$(git hash-object docs/research/orcgraph/ORCH01E_BENCH02_R4_R2_R3_NATIVE_ARTIFACTS.json)" = "ea8c8ab8fb90a272b68d5bc56d66d9f031c4b42c"
+          for file in docs/research/orcgraph/ORCH01E_BENCH02_R5_PREREG.json tools/orcbench02/prospective_r5.py tools/orcbench02/audit_r5.py tests/test_orc_bench02_r5_prospective.py tests/test_orc_bench02_r5_historical.py docs/research/orcgraph/ORCH01E_BENCH02_R4.md docs/research/orcgraph/ORCH01E_BENCH02_R4_R2_R3_NATIVE_ARTIFACTS.json; do
+            test "$(git hash-object "$file")" = "$(git rev-parse "HEAD:$file")" || { echo "Noncanonical original Git checkout: $file"; exit 1; }
+          done
+      - name: Archive unchanged-source original Windows/Linux native test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: orcbench02-r5-native-${{ matrix.os }}-py${{ matrix.python }}
+          path: |
+            bench02-r5-native.xml
+            bench02-r5-source-sha.txt
+            bench02-r5-source-blobs.txt
+          if-no-files-found: warn
+
+  independently-replay-original-nine-archives:
+    name: Independent prior R4 and R4-R2-R3 original archive scientific replay
+    needs: [native-future-source-refusal]
+    if: ${{ always() && needs.native-future-source-refusal.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Fetch nine original GitHub Actions ZIPs; no NOAA calls or new observations
+        env:
+          GH_REPLAY_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          mkdir -p historical-originals
+          python - <<'PY'
+          from urllib.request import Request,urlopen
+          from pathlib import Path
+          import os
+          token=os.environ['GH_REPLAY_TOKEN']
+          aids=(14694682761,14694214884,14694089529,14694851373,
+                14695638527,14695223848,14695773244,14695368459,14696066746)
+          for aid in aids:
+              url=f'https://api.github.com/repos/vjmichael/cognitum/actions/artifacts/{aid}/zip'
+              headers={'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json',
+                       'X-GitHub-Api-Version':'2022-11-28',
+                       'User-Agent':'Cognitum-R5-historical-independent-original-audit'}
+              with urlopen(Request(url,headers=headers),timeout=30) as response:
+                  if response.status!=200:raise RuntimeError('original Actions source ZIP unavailable')
+                  content=response.read(2000001)
+              if len(content)>2000000:raise RuntimeError('original artifact oversized')
+              Path(f'historical-originals/github-actions-artifact-{aid}.zip').write_bytes(content)
+          print('Independently downloaded',len(aids),'untouched original GitHub archives')
+          PY
+      - name: Independently replay R4 and original native specialists and all 265 historical clocks
+        run: python -m tools.orcbench02.audit_r5 --archives historical-originals --out bench02-r5-independent-archive-evidence.json
+      - name: Retain independent negative and positive historical scientific evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: orcbench02-r5-independent-original-nine-ZIPs
+          path: bench02-r5-independent-archive-evidence.json
+          if-no-files-found: warn
