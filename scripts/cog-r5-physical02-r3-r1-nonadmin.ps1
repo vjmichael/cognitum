@@ -49,7 +49,25 @@ function Run-Profile([System.Management.Automation.PSCredential]$Credential,[str
  $out=Join-Path $root ('r3r1-profile-'+$Action+'-stdout.txt')
  $err=Join-Path $root ('r3r1-profile-'+$Action+'-stderr.txt')
  if((Test-Path $out) -or (Test-Path $err)){throw 'Refuse reused original nonadministrator profile diagnostic'}
- $process=Start-Process -FilePath $sysPwsh -Credential $Credential -LoadUserProfile -WorkingDirectory $root -ArgumentList $argsText -PassThru -Wait -WindowStyle Hidden -RedirectStandardOutput $out -RedirectStandardError $err
+ # Windows Start-Process -Credential may otherwise inherit the runner
+ # Administrator's private TEMP/TMP. Add-Type then fails in the wrong user's
+ # profile; never weaken the Administrator TEMP ACL to work around this.
+ # This directory is a dedicated standard-user-writable ephemeral scratch
+ # under the external CI provision root, not the SCM signer/journal.
+ $scratch=Join-Path $root 'r3r1-nonadmin-temp'
+ if(!(Test-Path -LiteralPath $scratch -PathType Container)){
+   New-Item -ItemType Directory -Path $scratch -Force | Out-Null
+ }
+ $priorTemp=$env:TEMP
+ $priorTmp=$env:TMP
+ try{
+   $env:TEMP=$scratch
+   $env:TMP=$scratch
+   $process=Start-Process -FilePath $sysPwsh -Credential $Credential -LoadUserProfile -WorkingDirectory $root -ArgumentList $argsText -PassThru -Wait -WindowStyle Hidden -RedirectStandardOutput $out -RedirectStandardError $err
+ }finally{
+   $env:TEMP=$priorTemp
+   $env:TMP=$priorTmp
+ }
  if($process.ExitCode -ne 0){
    # The original disposable test profile can emit only its bounded OS
    # refusal category, not its password, environment or credential objects.
