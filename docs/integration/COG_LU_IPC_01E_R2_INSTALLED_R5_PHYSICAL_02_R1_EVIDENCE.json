@@ -1,0 +1,48 @@
+{
+  "schema": "cognitum.lu_ipc_r5_physical02_r1.real_fixed_ssm_original_native.v1",
+  "task": "COG-LU-IPC-01E-R2-INSTALLED-R5-PHYSICAL-02-R1",
+  "qualified_original_git_sha": "4aaaae30b5c02f63f39014c0d100b87c69e5b431",
+  "status": "PASS_ACTUAL_NATIVE_SCM_OWNED_REAL_SSM_CI_FIXTURE_ONLY_BLOCKED_PRODUCTION",
+  "native_ci": {
+    "id": 44938794334,
+    "url": "https://github.com/vjmichael/cognitum/actions/runs/44938794334",
+    "conclusion": "success",
+    "jobs": 3,
+    "original_source_blob_sha_verified": 8
+  },
+  "integration_ci": {
+    "id": 44938794280,
+    "url": "https://github.com/vjmichael/cognitum/actions/runs/44938794280",
+    "conclusion": "success",
+    "jobs": 8
+  },
+  "service_binary_unsigned_test_sha256": "1c5debc5de9651439880f81cd421bb9b04ad8b6b5fce509e549bf5b631fa7fa6",
+  "artifacts": [
+    {
+      "id": 14720252722,
+      "name": "r5-r1-windows-real-ssm",
+      "sha256": "3a464929c7b760a4e0698efb44fc8dfe546008aeea2bf9d8db2ddbfbb088a924"
+    }
+  ],
+  "native_windows_real_SCM_running_LocalSystem_session0": true,
+  "native_windows_service_owns_original_Job_and_worker": true,
+  "native_windows_fixed_SSM_factory_executed_under_SCM": true,
+  "native_windows_original_test_mac_verified_before_release": true,
+  "native_windows_fixed_python_and_script_hashes_checked": true,
+  "native_windows_real_ssm_result_independently_recalculated": true,
+  "native_windows_kernel_Job_empty_and_worker_reaped": true,
+  "native_windows_service_owned_fsynced_local_stop_record": true,
+  "native_windows_original_operation_replay_denied_on_service_restart": true,
+  "native_windows_temporary_test_service_deleted_and_verified": true,
+  "native_windows_worker_AppContainer_restricted_token": false,
+  "signed_installed_production_scm_publisher": false,
+  "independent_issuer_protected_original_operation_control": false,
+  "independent_durable_signed_termination_restart_receipt": false,
+  "rollback_resistant_monotonic_external_anchor": false,
+  "production_pinned_immutable_image_and_data_handle_acl": false,
+  "positive_linux_delegated_cgroup_restart": false,
+  "real_installed_lu_core_health_authenticated": false,
+  "original_core_pure_compute_grant": false,
+  "output_delivery_authorized": false,
+  "outbox_recipient_ack_authorized": false
+}
