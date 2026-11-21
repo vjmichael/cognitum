@@ -22,7 +22,7 @@ fn hex(bytes:&[u8])->String{
     s
 }
 fn sha(raw:&[u8])->Result<String>{
-    Ok(hex(&crate::r2_signer::r3_sha_image(raw)?))
+    Ok(hex(&crate::r2_signer::r3_sha_runtime(raw)?))
 }
 pub fn verify()->Result<()>{
     let root=Path::new(env!("COG_R3_R1_RUNTIME_ROOT"));

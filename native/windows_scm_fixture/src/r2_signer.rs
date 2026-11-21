@@ -184,8 +184,21 @@ pub(crate) fn r3_sha(bytes:&[u8])->io::Result<[u8;32]>{
 }
 #[cfg(feature="r3-appcontainer-fixture")]
 pub(crate) fn r3_sha_image(bytes:&[u8])->io::Result<[u8;32]>{
-    if bytes.is_empty()||bytes.len()>64*1024*1024{
-        return Err(denied("pinned peer executable too large"));
+    if bytes.is_empty(){
+        return Err(denied("pinned peer executable image empty"));
+    }
+    r3_sha_bounded(bytes)
+}
+#[cfg(feature="r3-r1-frozen-fixture")]
+pub(crate) fn r3_sha_runtime(bytes:&[u8])->io::Result<[u8;32]>{
+    // Empty Python __init__.py is valid and MUST still be SHA256-verified.
+    // Do not relax the executable-only nonempty identity requirement above.
+    r3_sha_bounded(bytes)
+}
+#[cfg(feature="r3-appcontainer-fixture")]
+fn r3_sha_bounded(bytes:&[u8])->io::Result<[u8;32]>{
+    if bytes.len()>64*1024*1024{
+        return Err(denied("CNG runtime/image SHA256 input exceeds bound"));
     }
     let mut raw=ptr::null_mut();
     if unsafe{BCryptOpenAlgorithmProvider(&mut raw,wide("SHA256").as_ptr(),
@@ -194,8 +207,9 @@ pub(crate) fn r3_sha_image(bytes:&[u8])->io::Result<[u8;32]>{
     }
     let provider=OwnedB(raw);
     let mut result=[0u8;32];
+    let data=if bytes.is_empty(){ptr::null()}else{bytes.as_ptr()};
     if unsafe{BCryptHash(provider.0,ptr::null(),0,
-        bytes.as_ptr(),bytes.len() as u32,result.as_mut_ptr(),32)}!=0{
+        data,bytes.len() as u32,result.as_mut_ptr(),32)}!=0{
         return Err(denied("peer image CNG hash failed"));
     }
     Ok(result)
