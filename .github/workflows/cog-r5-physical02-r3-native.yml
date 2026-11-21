@@ -124,6 +124,7 @@ jobs:
       COG_R3_CI_PEER_IMAGE_SHA256: '0000000000000000000000000000000000000000000000000000000000000000'
       COG_R3_CI_PROFILE: 'CognitumSsmR3CiSandboxV1'
       COG_R3_CI_APP_SID: 'S-1-15-2-0'
+      COG_R3_CI_APP_WITNESS: 'C:\Missing\r3-app-witness.json'
     steps:
       - uses: actions/checkout@v4
         with:

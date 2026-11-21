@@ -1,5 +1,8 @@
 name: Cognitum R5 PHYSICAL-02-R3 original non-System AppContainer full Python SSM
 on:
+  push:
+    branches: [integration/cog-lu-ipc01e-r2-custody-20261121]
+    paths: [.github/workflows/cog-r5-physical02-r3-appcontainer-native.yml]
   workflow_dispatch:
 permissions:
   contents: read
