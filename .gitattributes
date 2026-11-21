@@ -86,3 +86,6 @@
 /tests/test_orc_bench02_r4r2r3_pretest.py text eol=lf
 /tests/test_orc_bench02_r4r2r3_results.py text eol=lf
 /.github/workflows/orcbench02-r4r2r3-native.yml text eol=lf
+
+# Original source-locked R4-R2 artifact metadata must not undergo Windows CRLF translation.
+/docs/research/orcgraph/ORCH01E_BENCH02_R4_R2_NATIVE_ARTIFACTS.json text eol=lf

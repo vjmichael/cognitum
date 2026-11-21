@@ -113,8 +113,7 @@ def portable_payload(site,h,source,model,calibration,decisions):
                 "candidate_eligibility": [
                     {"method":v.method,"eligible":v.eligible,
                      "reason_codes":list(v.reasons),
-                     "work_proxy":v.evaluation_work_proxy,
-                     "memory_proxy":v.model_memory_proxy_bytes}
+                     "work_proxy":v.evaluation_work_proxy}
                     for v in decision.candidates]}
             for policy_name,decision in decisions.items()},
         "first_capture_eligible_test":0,

@@ -81,6 +81,14 @@ def test_certificate_uses_exact_source_and_calibration_numerics_only():
     assert len(receipt["original_selection"])==2
     assert len(receipt["calibration_numeric_receipts"])==7
     assert "raw_original_decision_sha256" not in str(receipt)
+    # Volatile KAN snapshot decimal serialization size is preserved in the
+    # original raw Decision, but must not be a portable method-identity field.
+    for policy in receipt["original_selection"].values():
+        for candidate in policy["candidate_eligibility"]:
+            assert "memory_proxy" not in candidate
+    _,decisions,_=q.original_fitted_case("KSEA",3)
+    assert all(any(x.model_memory_proxy_bytes>0 for x in decision.candidates)
+               for decision in decisions.values())
 
 def test_frozen_pretest_replays_original_nine_cases_without_holdout():
     frozen=q.freeze()
