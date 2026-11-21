@@ -21,6 +21,53 @@ if($me.User.Value -cne $ExpectedUserSid -or
        [Security.Principal.WindowsBuiltInRole]::Administrator)){
  throw 'Profile owner is not the separately enrolled nonadministrator user'
 }
+# Start-Process -Credential -LoadUserProfile can retain the invoking CI
+# runner's TEMP/TMP even though the token is the enrolled standard user.
+# Add-Type must never compile inside another account's private profile.
+# This scratch directory is owned by the original user, denies the later
+# AppContainer package SID, and grants no SCM or administrator authority.
+$profileTemp=Join-Path $root 'r3-r1-private-profile-compiler-temp'
+if(Test-Path -LiteralPath $profileTemp){
+  $existing=Get-Item -LiteralPath $profileTemp -Force
+  if(-not $existing.PSIsContainer -or
+     ($existing.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0){
+    throw 'Nonadmin profile compiler scratch redirected or not a directory'
+  }
+}else{
+  New-Item -ItemType Directory -Path $profileTemp -ErrorAction Stop|Out-Null
+  $acl=New-Object Security.AccessControl.DirectorySecurity
+  $acl.SetOwner($me.User)
+  $acl.SetAccessRuleProtection($true,$false)
+  $inherit=[Security.AccessControl.InheritanceFlags]::ContainerInherit -bor
+    [Security.AccessControl.InheritanceFlags]::ObjectInherit
+  foreach($who in @($me.User,([Security.Principal.SecurityIdentifier]::new('S-1-5-18')))){
+    $acl.AddAccessRule([Security.AccessControl.FileSystemAccessRule]::new(
+      $who,[Security.AccessControl.FileSystemRights]::FullControl,$inherit,
+      [Security.AccessControl.PropagationFlags]::None,
+      [Security.AccessControl.AccessControlType]::Allow))
+  }
+  Set-Acl -LiteralPath $profileTemp -AclObject $acl -ErrorAction Stop
+}
+$acl=Get-Acl -LiteralPath $profileTemp -ErrorAction Stop
+$actualOwner=$acl.GetOwner([Security.Principal.SecurityIdentifier]).Value
+$rules=@($acl.GetAccessRules($true,$false,[Security.Principal.SecurityIdentifier]))
+if(-not $acl.AreAccessRulesProtected -or $actualOwner -cne $ExpectedUserSid -or
+   $rules.Count -ne 2){
+  throw 'Nonadmin profile compiler scratch owner or protected DACL refused'
+}
+foreach($rule in $rules){
+  if($rule.AccessControlType -ne [Security.AccessControl.AccessControlType]::Allow -or
+     $rule.IdentityReference.Value -notin @($ExpectedUserSid,'S-1-5-18')){
+    throw 'Foreign principal has nonadmin compiler scratch permissions'
+  }
+}
+$env:TEMP=$profileTemp
+$env:TMP=$profileTemp
+$env:TMPDIR=$profileTemp
+if(([IO.Path]::GetTempPath()).TrimEnd([IO.Path]::DirectorySeparatorChar) -ine
+   $profileTemp.TrimEnd([IO.Path]::DirectorySeparatorChar)){
+  throw 'Nonadmin profile helper did not select its owned compiler scratch'
+}
 Add-Type -TypeDefinition @'
 using System;
 using System.Runtime.InteropServices;
