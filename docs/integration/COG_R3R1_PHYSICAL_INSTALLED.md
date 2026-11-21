@@ -13,9 +13,10 @@ The tested binary has test-only embedded HMAC intent and is **not** a genuine si
 ## Read-only physical preflight
 
 The following scripts require **independently approved** release pins and do not mutate system state:
-1. scripts/cog-r5-physical02-r2-signed-host-preflight.ps1 — existing Authenticode-pinned installed service, restricted service SID, process image and SYSTEM/session custody observation.
-2. scripts/cog-r5-physical02-r3-r1-runtime-audit.ps1 — externally pinned production manifest and separately pinned provenance, every closed Python/NumPy/SciPy import hash, exact full file inventory, protected owner/NTFS ACL, no reparse, bounded file count and byte size. Empty legitimate Python modules are hash-checked.
-3. scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1 — requires both gates and emits **only** signed host plus runtime integrity observation, not full installed acceptance.
+1. scripts/cog-r5-physical02-r3-r1-signed-installer.ps1 — verifies a pre-existing staged MSI/EXE package's embedded Authenticode signature and independently pinned package/publisher SHA256, with protected ancestry, bounded size and pre/post observation hashes. No installer is created, signed or run.
+2. scripts/cog-r5-physical02-r2-signed-host-preflight.ps1 — existing Authenticode-pinned installed service, restricted service SID, process image and SYSTEM/session custody observation.
+3. scripts/cog-r5-physical02-r3-r1-runtime-audit.ps1 — externally pinned production manifest and separately pinned provenance, every closed Python/NumPy/SciPy import hash, exact full file inventory, protected owner/NTFS ACL, no reparse, bounded file count and byte size. Empty legitimate Python modules are hash-checked.
+4. scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1 — requires all three gates and emits **only** signed host plus runtime integrity observation, not full installed acceptance.
 
 The production provenance schema is cognitum.ssm.r3r1.production_installer_runtime.v1, different from the CI fixture schema; **the CI runtime cannot be promoted by renaming its service**. All image, signer-certificate, manifest and provenance SHA-256 pins must come from an independent release authority, not from files that the installer self-declares.
 
@@ -30,3 +31,5 @@ The new hosted Windows preflight workflow uses only a **synthetic protected runt
 - Physical installed Windows restart/uninstall/reinstall/cancellation/cleanup/tamper evidence on one pinned release build and independent evidence audit.
 
 **Never** claim PASS_INSTALLED, approve a release, or deliver/ACK original output based on this preflight alone. LocalSystem fallback, user-writable imports and test-only symmetric key authority remain prohibited.
+
+The upstream source repository does not yet contain a production Windows SCM executable or a signed, independently approved installer. The script gate is fail-closed and cannot make either exist. The immutable CI fixture must never be signed as a shortcut.

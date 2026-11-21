@@ -6,6 +6,7 @@ on:
       - .github/workflows/cog-r5-physical02-r3-r1-installed-preflight.yml
       - scripts/cog-r5-physical02-r3-r1-runtime-audit.ps1
       - scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1
+      - scripts/cog-r5-physical02-r3-r1-signed-installer.ps1
   workflow_dispatch:
 permissions:
   contents: read
@@ -21,30 +22,32 @@ jobs:
       - name: Verify syntax and read-only admission code
         shell: pwsh
         run: |
-          foreach($p in @('scripts/cog-r5-physical02-r3-r1-runtime-audit.ps1','scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1')){
+          foreach($p in @('scripts/cog-r5-physical02-r3-r1-runtime-audit.ps1','scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1','scripts/cog-r5-physical02-r3-r1-signed-installer.ps1')){
             $tokens=$null
             $errors=$null
             [void][Management.Automation.Language.Parser]::ParseFile((Resolve-Path $p).Path,[ref]$tokens,[ref]$errors)
             if(@($errors).Count -ne 0){throw 'Read-only installed script has syntax error'}
           }
-      - name: Native synthetic protected file admission and negative cases
+      - name: Native pre-staged protected file integrity and negative cases
         shell: pwsh
         run: |
           $ErrorActionPreference='Stop'
-          $base=Join-Path $env:RUNNER_TEMP ('cog-r3r1-readonly-'+$env:GITHUB_RUN_ID)
-          $runtime=Join-Path $base 'runtime'
-          New-Item -ItemType Directory -Path $runtime -Force|Out-Null
           $audit='./scripts/cog-r5-physical02-r3-r1-runtime-audit.ps1'
-          function Denied([scriptblock]$code){
+          $prefix=Join-Path $env:RUNNER_TEMP ('cog-r3r1-sealed-'+$env:GITHUB_RUN_ID)
+          $runnerSid=[Security.Principal.WindowsIdentity]::GetCurrent().User.Value
+          function Denied([scriptblock]$check){
             $refused=$false
-            try{& $code|Out-Null}catch{
-              if($_.Exception.Message -match 'COG_R3R1_INSTALLED_RUNTIME_REFUSED|COG_R2_INSTALLED_REFUSED'){
+            try{& $check|Out-Null}catch{
+              if($_.Exception.Message -match 'COG_R3R1_INSTALLED_RUNTIME_REFUSED'){
                 $refused=$true
               }else{throw}
             }
-            if(-not $refused){throw 'Unapproved physical package accepted'}
+            if(-not $refused){throw 'Untrusted frozen installed file set passed audit'}
           }
-          try{
+          function New-ProtectedCase([string]$name,[string]$kind){
+            $home=$prefix+'-'+$name
+            $runtime=Join-Path $home 'runtime'
+            New-Item -ItemType Directory -Path $runtime -Force|Out-Null
             $empty=Join-Path $runtime '__init__.py'
             $code=Join-Path $runtime 'a.py'
             [IO.File]::WriteAllBytes($empty,[byte[]]@())
@@ -57,44 +60,66 @@ jobs:
             [IO.File]::WriteAllText($manifest,($h0+$tab+'__init__.py'+$lf+$h1+$tab+'a.py'+$lf),[Text.Encoding]::ASCII)
             $pin=(Get-FileHash $manifest -Algorithm SHA256).Hash.ToLowerInvariant()
             $provenance=Join-Path $runtime 'r3-r1-runtime-provenance.json'
-            $record=[ordered]@{schema='cognitum.ssm.r3r1.production_installer_runtime.v1';runtime_manifest_sha256=$pin}
+            $schema=if($kind -eq 'ci'){ 'cognitum.ssm.r3r1.test_installer_style_frozen_runtime.v1' }else{'cognitum.ssm.r3r1.production_installer_runtime.v1'}
+            $record=[ordered]@{schema=$schema;runtime_manifest_sha256=$pin}
             [IO.File]::WriteAllText($provenance,($record|ConvertTo-Json -Compress),[Text.Encoding]::ASCII)
             $ppin=(Get-FileHash $provenance -Algorithm SHA256).Hash.ToLowerInvariant()
-            # Establish every child's independent administrator grants and
-            # owner BEFORE removing inherited runner access from the parent.
-            & icacls.exe $base /grant:r '*S-1-5-18:(OI)(CI)F' '*S-1-5-32-544:(OI)(CI)F' /T /C /Q |Out-Null
-            if($LASTEXITCODE -ne 0){throw 'Synthetic trusted ACE enrollment failed'}
-            & icacls.exe $base /setowner '*S-1-5-32-544' /T /C /Q |Out-Null
-            if($LASTEXITCODE -ne 0){throw 'Synthetic protected owner setup failed'}
-            & icacls.exe $base /inheritance:r /T /C /Q |Out-Null
-            if($LASTEXITCODE -ne 0){throw 'Synthetic inherited ACE removal failed'}
-            $observed=& $audit -ApprovedInstallRoot $base -RuntimeRoot $runtime -ApprovedManifestSha256 $pin -ApprovedProvenanceSha256 $ppin|ConvertFrom-Json
-            if($observed.status -cne 'PASS_INSTALLED_RUNTIME_DIGEST_ACL_OBSERVATION_ONLY' -or
-               $observed.original_file_count -ne 2 -or $observed.output_release_authorized -ne $false){
-              throw 'Synthetic protected manifest audit not read-only'
+            # This deliberately invalid MSI is still a real on-disk artifact:
+            # verify rejection is due to its absent trusted publisher, not
+            # simply because a nonexistent path was supplied.
+            $unsigned=Join-Path $home 'untrusted.msi'
+            [IO.File]::WriteAllBytes($unsigned,[byte[]]::new(2048))
+            $unsignedPin=(Get-FileHash $unsigned -Algorithm SHA256).Hash.ToLowerInvariant()
+            # Construct all adversarial bytes while the fixture is mutable.
+            # Never grant the runner write access after the file set is sealed.
+            if($kind -eq 'tampered'){
+              [IO.File]::WriteAllText($code,'print(2)',[Text.Encoding]::ASCII)
             }
-            Denied {& $audit -ApprovedInstallRoot $base -RuntimeRoot $runtime -ApprovedManifestSha256 ('0'*64) -ApprovedProvenanceSha256 $ppin}
-            Denied {& $audit -ApprovedInstallRoot $base -RuntimeRoot $runtime -ApprovedManifestSha256 $ppin -ApprovedProvenanceSha256 $ppin}
-            [IO.File]::WriteAllText($code,'print(2)',[Text.Encoding]::ASCII)
-            Denied {& $audit -ApprovedInstallRoot $base -RuntimeRoot $runtime -ApprovedManifestSha256 $pin -ApprovedProvenanceSha256 $ppin}
-            [IO.File]::WriteAllText($code,'print(1)',[Text.Encoding]::ASCII)
-            $extra=Join-Path $runtime 'rogue.py'
-            [IO.File]::WriteAllText($extra,'pass',[Text.Encoding]::ASCII)
-            Denied {& $audit -ApprovedInstallRoot $base -RuntimeRoot $runtime -ApprovedManifestSha256 $pin -ApprovedProvenanceSha256 $ppin}
-            Remove-Item $extra -Force
-            $denied=$false
-            try{
-              & ./scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1 -InstalledExecutable (Join-Path $base 'CognitumSsmNativeFixtureV1.exe') -ApprovedInstallRoot $base -ApprovedImageSha256 $pin -ApprovedSignerCertificateSha256 $pin -RuntimeRoot $runtime -ApprovedRuntimeManifestSha256 $pin -ApprovedRuntimeProvenanceSha256 $ppin |Out-Null
-            }catch{$denied=$true}
-            if(-not $denied){throw 'Unsigned/uninstalled SCM fixture promoted'}
-            Write-Host 'PASS_CI_SYNTHETIC_PROTECTED_RUNTIME_AND_UNSIGNED_HOST_REFUSAL_ONLY'
-          }finally{
-            if(Test-Path -LiteralPath $base){
-              # Test-only cleanup after restoring the runner's original file
-              # access. The protected runtime audit above never uses this ACE.
-              $runnerSid=[Security.Principal.WindowsIdentity]::GetCurrent().User.Value
-              & icacls.exe $base /grant ('*'+$runnerSid+':(OI)(CI)F') /T /C /Q |Out-Null
-              if($LASTEXITCODE -ne 0){throw 'Synthetic fixture cleanup ACL restoration failed'}
-              Remove-Item -LiteralPath $base -Recurse -Force -ErrorAction Stop
+            if($kind -eq 'extra'){
+              [IO.File]::WriteAllText((Join-Path $runtime 'rogue.py'),'pass',[Text.Encoding]::ASCII)
             }
+            if($kind -ne 'unprotected'){
+              # Per-file explicit trusted write ACEs FIRST; then owner; only
+              # then drop inherited writable runner ACEs. The runner receives
+              # read/execute so it can audit, not modify, the sealed files.
+              & icacls.exe $home /grant:r '*S-1-5-18:(OI)(CI)F' '*S-1-5-32-544:(OI)(CI)F' /T /C /Q |Out-Null
+              if($LASTEXITCODE -ne 0){throw 'Trusted per-file ACE setup failed'}
+              & icacls.exe $home /setowner '*S-1-5-32-544' /T /C /Q |Out-Null
+              if($LASTEXITCODE -ne 0){throw 'Trusted per-file ownership setup failed'}
+              & icacls.exe $home /grant ('*'+$runnerSid+':(OI)(CI)RX') /T /C /Q |Out-Null
+              if($LASTEXITCODE -ne 0){throw 'Read-only audit ACE setup failed'}
+              & icacls.exe $home /inheritance:r /T /C /Q |Out-Null
+              if($LASTEXITCODE -ne 0){throw 'Inherited runner write ACE elimination failed'}
+            }
+            return [pscustomobject]@{Home=$home;Runtime=$runtime;ManifestPin=$pin;ProvenancePin=$ppin;UnsignedPin=$unsignedPin}
           }
+          $good=New-ProtectedCase 'valid' 'valid'
+          $tampered=New-ProtectedCase 'tamper' 'tampered'
+          $unlisted=New-ProtectedCase 'extra' 'extra'
+          $ci=New-ProtectedCase 'ci' 'ci'
+          $unprotected=New-ProtectedCase 'unprotected' 'unprotected'
+          $observed=& $audit -ApprovedInstallRoot $good.Home -RuntimeRoot $good.Runtime -ApprovedManifestSha256 $good.ManifestPin -ApprovedProvenanceSha256 $good.ProvenancePin|ConvertFrom-Json
+          if($observed.status -cne 'PASS_INSTALLED_RUNTIME_DIGEST_ACL_OBSERVATION_ONLY' -or
+             $observed.original_file_count -ne 2 -or $observed.production_installer_verified -ne $false -or
+             $observed.output_release_authorized -ne $false){
+            throw 'Protected synthetic manifest observation not bounded and read-only'
+          }
+          Denied {& $audit -ApprovedInstallRoot $good.Home -RuntimeRoot $good.Runtime -ApprovedManifestSha256 ('0'*64) -ApprovedProvenanceSha256 $good.ProvenancePin}
+          Denied {& $audit -ApprovedInstallRoot $good.Home -RuntimeRoot $good.Runtime -ApprovedManifestSha256 $good.ProvenancePin -ApprovedProvenanceSha256 $good.ProvenancePin}
+          Denied {& $audit -ApprovedInstallRoot $tampered.Home -RuntimeRoot $tampered.Runtime -ApprovedManifestSha256 $tampered.ManifestPin -ApprovedProvenanceSha256 $tampered.ProvenancePin}
+          Denied {& $audit -ApprovedInstallRoot $unlisted.Home -RuntimeRoot $unlisted.Runtime -ApprovedManifestSha256 $unlisted.ManifestPin -ApprovedProvenanceSha256 $unlisted.ProvenancePin}
+          Denied {& $audit -ApprovedInstallRoot $ci.Home -RuntimeRoot $ci.Runtime -ApprovedManifestSha256 $ci.ManifestPin -ApprovedProvenanceSha256 $ci.ProvenancePin}
+          Denied {& $audit -ApprovedInstallRoot $unprotected.Home -RuntimeRoot $unprotected.Runtime -ApprovedManifestSha256 $unprotected.ManifestPin -ApprovedProvenanceSha256 $unprotected.ProvenancePin}
+          $noUnsignedPromotion=$false
+          try{
+            & ./scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1 -SignedInstallerPackage (Join-Path $good.Home 'untrusted.msi') -ApprovedInstallerSha256 $good.UnsignedPin -InstalledExecutable (Join-Path $good.Home 'CognitumSsmNativeFixtureV1.exe') -ApprovedInstallRoot $good.Home -ApprovedImageSha256 $good.ManifestPin -ApprovedSignerCertificateSha256 $good.ManifestPin -RuntimeRoot $good.Runtime -ApprovedRuntimeManifestSha256 $good.ManifestPin -ApprovedRuntimeProvenanceSha256 $good.ProvenancePin|Out-Null
+          }catch{
+            if($_.Exception.Message -notmatch 'COG_R3R1_SIGNED_PACKAGE_REFUSED'){
+              throw 'Unexpected installed gate failure; unsigned Authenticode refusal not independently proven'
+            }
+            $noUnsignedPromotion=$true
+          }
+          if(-not $noUnsignedPromotion){throw 'CI-only/uninstalled SCM identity promoted to production'}
+          # These are disposable hosted-runner test roots. Never restore write
+          # access or mutate the sealed source to make negative tests pass.
+          Write-Host 'PASS_CI_ONLY_PRESTAGED_PROTECTED_RUNTIME_AND_UNSIGNED_HOST_REFUSAL'
