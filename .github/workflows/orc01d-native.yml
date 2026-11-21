@@ -29,11 +29,14 @@ jobs:
         run: python -m pip install -e ".[scientific,planning-graph,optimization-schedule]" "pytest==9.0.2" "numpy==2.3.5" "scipy==1.17.0" "networkx==3.5"
       - name: Run genuine scientific, inherited MEL, Orc and physical-source R4 qualification
         run: python -m pytest -q tests/test_orc_comparison.py tests/test_orc_handoff.py tests/test_orc_science_data.py tests/test_orc_graph.py tests/test_cooperative.py tests/test_cooperative_compositions.py research_tests/mel04b/test_cooperation.py research_tests/mel05b/test_graph_acceptance.py research_tests/mel05b/test_inline_enforcement.py research_tests/ssm_postnative05r4/test_timeaware.py --junitxml=orc01d.xml
+      - name: Emit independently reviewable synthetic holdout predictions
+        run: python tools/orc01d/synthetic_evidence.py --output orc01d-synthetic.json
       - name: Preserve exact scientific and worker source lock
         if: always()
         shell: python
         run: |
           import hashlib, importlib.metadata as md, json, pathlib, platform, subprocess, sys
+          paths = ("tools/orc01d/synthetic_evidence.py",
           paths = ("cognitum/orc_comparison.py", "tests/test_orc_comparison.py",
                    "cognitum/orc_handoff.py", "tests/test_orc_handoff.py",
                    "cognitum/orc_science_data.py", "tests/test_orc_science_data.py",
@@ -67,4 +70,5 @@ jobs:
           path: |
             orc01d.xml
             orc01d-source.json
+            orc01d-synthetic.json
           if-no-files-found: warn

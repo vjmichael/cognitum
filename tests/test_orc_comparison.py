@@ -148,7 +148,7 @@ def test_selection_uses_only_calibration_not_test_targets():
 
 def test_train_fit_does_not_consume_future_calibration_labels():
     a=series()
-    b=series(raw(160,edit={100:8000.}))
+    b=series(raw(160,edit={100:20.}))
     f1=fit(a,kan=True,hdc=True);f2=fit(b,kan=True,hdc=True)
     assert f1.ridge_weight==f2.ridge_weight
     assert f1.kan_snapshot==f2.kan_snapshot

@@ -19,3 +19,9 @@
 ## Completion and future user benchmark
 
 ORCH-01D establishes a matching and falsification *mechanism*. The user-required `COG-ORCH-01E-BENCH-01` remains independently reserved for after ORCH-01E: using independently sourced matched physical holdouts, strong ridge/calibration-selected baselines, and separately measuring data preparation gains, method-selection gains and real hybrid gains. A tie or regression against ridge must be recorded unedited. No final benchmark has been executed by the synthetic experiments here.
+
+## First CI diagnostic and a single-source correction (R1)
+
+First native run [44859363391](https://github.com/vjmichael/cognitum/actions/runs/44859363391) exercised 340 cases per target and found **one new-test fixture error**, not a bypassed numerical guard: the synthetic calibration-only value 8,000 produced standardized data greater than the preserved `MAX_FEATURE_MAGNITUDE=1000` contract. R1 replaces it with the still-substantially changed but finite, in-bounds calibration-only value 20; training-fit immutability and changed calibration score requirements are retained. Original inherited R4 source, 01C MEL, and 01B source contracts remain unchanged. The R1 matrix is required to terminate without failures before any acceptance claim.
+
+A deterministic *synthetic-only* prediction evidence generator is added to CI. It records complete calibration metrics, frozen selected method, actual untouched synthetic test targets/forecast predictions, signed ridge gains, fallback/uncertainty details and exact fixture/model SHA. It is explicitly NOT an independent physical benchmark or evidence of sensor-causal superiority; original published R4 river/NOAA observations remain under their unchanged R4 tests.
