@@ -132,6 +132,9 @@ jobs:
           $binary='native/windows_scm_fixture/target/release/cognitum-scm-supervisor.exe'
           & $binary
           if($LASTEXITCODE -eq 0){throw 'Direct launch without installed SCM admitted AppContainer service'}
+          # This expected *native denial* leaves a nonzero process exit in PowerShell.
+          # Clear only the shell bookkeeping after checking the genuine refusal.
+          $global:LASTEXITCODE=0
           Write-Host 'PASS_NATIVE_APP_CONTAINER_SOURCE_COMPILED_AND_UNENROLLED_DIRECT_RUN_REFUSED'
   linux-refusal:
     name: Linux CNG/AppContainer denial and signed uncertain tamper tests
