@@ -1,4 +1,4 @@
-name: Cognitum R5 PHYSICAL-02-R3 original non-System AppContainer full Python SSM
+name: Cognitum R5 PHYSICAL-02-R3 original AppContainer Python SSM and ancestry qualification
 on:
   push:
     branches: [integration/cog-lu-ipc01e-r2-custody-20261121]
