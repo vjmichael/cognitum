@@ -75,3 +75,14 @@
 /tests/test_orc_bench02_r4r2_pretest.py text eol=lf
 /tests/test_orc_bench02_r4r2_results.py text eol=lf
 /.github/workflows/orcbench02-r4r2-native.yml text eol=lf
+
+# R4-R2-R3 original-source frozen portable near-tie refusal experiment.
+/docs/research/orcgraph/ORCH01E_BENCH02_R4_R2_R3_PREREG.json text eol=lf
+/docs/research/orcgraph/ORCH01E_BENCH02_R4_R2_R3_RECEIPT_AMENDMENT.json text eol=lf
+/docs/research/orcgraph/ORCH01E_BENCH02_R4_R2_R3.md text eol=lf
+/cognitum/orc_selection.py text eol=lf
+/tools/orcbench02/portable_r4r2r3.py text eol=lf
+/tools/orcbench02/portable_verify_r4r2r3.py text eol=lf
+/tests/test_orc_bench02_r4r2r3_pretest.py text eol=lf
+/tests/test_orc_bench02_r4r2r3_results.py text eol=lf
+/.github/workflows/orcbench02-r4r2r3-native.yml text eol=lf

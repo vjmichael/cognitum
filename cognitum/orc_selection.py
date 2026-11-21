@@ -55,6 +55,8 @@ class SelectionPolicy:
     minimum_research_contiguous_blocks: int = 9
     require_documented_units: bool = False
     require_reported_rights: bool = False
+    # Opt-in portable refusal; legacy policies remain at exact raw-float semantics.
+    portable_near_tie_mae_kelvin: float = 0.0
 
     def __post_init__(self):
         for value in (self.max_evaluation_work_proxy,
@@ -77,6 +79,10 @@ class SelectionPolicy:
             _guard(type(value) is float and isfinite(value)
                    and 0. <= value <= 1e9,
                    "finite nonnegative calibration benefit threshold required")
+        _guard(type(self.portable_near_tie_mae_kelvin) is float and
+               isfinite(self.portable_near_tie_mae_kelvin) and
+               0. <= self.portable_near_tie_mae_kelvin <= 1e-6,
+               "explicit bounded near-tie research abstention")
         for value in (self.allow_research_proposals,
                       self.require_documented_units,
                       self.require_reported_rights):
@@ -295,10 +301,22 @@ def propose_forecast(
             if competitors:
                 best = min(competitors,key=lambda v:(
                     v.calibration_mae, _STEPS[v.method], all_methods.index(v.method)))
-                selected = best.method
-                basis = ("calibration_only_research_proposal" if best.research_only
-                         else "calibration_only_reviewed_baseline")
-                reasons.append("gain_calibration_only_not_independent_validation")
+                # Opt-in numerical ambiguity is a refusal, not an invitation
+                # to choose the platform-favored model or weaken source gates.
+                ambiguous = (policy.portable_near_tie_mae_kelvin > 0. and
+                    any(v.method != best.method and
+                        (best.research_only or v.research_only) and
+                        abs(v.calibration_mae-best.calibration_mae) <=
+                        policy.portable_near_tie_mae_kelvin for v in competitors))
+                if ambiguous:
+                    selected = None
+                    basis = "portable_near_tie_abstention"
+                    reasons.append("ambiguous_near_tied_research_calibration")
+                else:
+                    selected = best.method
+                    basis = ("calibration_only_research_proposal" if best.research_only
+                             else "calibration_only_reviewed_baseline")
+                    reasons.append("gain_calibration_only_not_independent_validation")
         else:
             for fallback in ("persistence","train_mean"):
                 if fallback in eligible:
