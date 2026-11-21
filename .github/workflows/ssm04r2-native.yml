@@ -1,9 +1,6 @@
 name: Cognitum SSM-04-R2 native continuous and irregular-time estimator qualification
 
 on:
-  push:
-    branches:
-      - research/ssm04r2-continuous-estimation-20261121
   workflow_dispatch:
 
 permissions:

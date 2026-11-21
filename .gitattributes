@@ -123,3 +123,6 @@
 /research_tests/ssm04r2/test_continuous.py text eol=lf
 /docs/research/cog05ssm/SSM04_R2.md text eol=lf
 /.github/workflows/ssm04r2-native.yml text eol=lf
+
+# Original accepted exact-source SSM04-R2-R1 five-platform evidence manifest.
+/docs/research/cog05ssm/SSM04_R2_R1_NATIVE_ARTIFACTS.json text eol=lf

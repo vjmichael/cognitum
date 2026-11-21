@@ -1,0 +1,113 @@
+{
+  "schema": "cognitum.ssm04r2.r1.native_independently_qualified.v1",
+  "task": "COG-05-SSM-04-R2-R1",
+  "status": "PASS_EXACT_UNCHANGED_SOURCE_5_OF_5_NATIVE_AND_INDEPENDENT",
+  "native_run": {
+    "id": 44879505986,
+    "url": "https://github.com/vjmichael/cognitum/actions/runs/44879505986",
+    "exact_tested_SHA": "ee88fdb0a53af04603c51b41c30768bdc62f9c0d",
+    "result": "success",
+    "jobs_successful": 5,
+    "native_targets": 4,
+    "independent_identity_job": true
+  },
+  "artifact_originals": [
+    {
+      "label": "ubuntu_py311",
+      "id": 14696524962,
+      "zip_sha256": "66a1496f2b9ef43ed6be67b9e4a81b45aefaa25e5dea384bc8f7ed54f182638b",
+      "original_tests": 77,
+      "failed": 0,
+      "errored": 0,
+      "skipped": 0
+    },
+    {
+      "label": "ubuntu_py313",
+      "id": 14696764430,
+      "zip_sha256": "71f666bdd005050564d55dc1e11235b7b68628e7369e656009370b32b8b64cbf",
+      "original_tests": 77,
+      "failed": 0,
+      "errored": 0,
+      "skipped": 0
+    },
+    {
+      "label": "windows_py311",
+      "id": 14697368614,
+      "zip_sha256": "8f0a47ecd4c0cc0aea08154306d7204b6295981418a3e7c74780a3739a3c49e7",
+      "original_tests": 77,
+      "failed": 0,
+      "errored": 0,
+      "skipped": 0
+    },
+    {
+      "label": "windows_py313",
+      "id": 14697512137,
+      "zip_sha256": "f5ed66fd320490e6890fae50a3f27e1e6ec393f2a565ad2d01ffc98485537245",
+      "original_tests": 77,
+      "failed": 0,
+      "errored": 0,
+      "skipped": 0
+    },
+    {
+      "label": "independent_four_platforms",
+      "id": 14697727149,
+      "zip_sha256": "142281b5c4f2e2e96a2ca6c60327f3ba9d478b8dcae889680cc75da7d6736ad2",
+      "original_tests": null,
+      "failed": 0,
+      "errored": 0,
+      "skipped": 0
+    }
+  ],
+  "original_5_ZIP_sha256_and_CRC_independently_verified": true,
+  "original_JUnit_test_inventories_identical_all_4": true,
+  "original_4_native_source_sha_identical": true,
+  "total_original_native_tests": 308,
+  "original_test_counts_per_native_platform": 77,
+  "exact_original_source_Git_blobs": {
+    "stochastic_core_unchanged": "e6616d14f4b02bd447f872f2a67a444d83bc7df6",
+    "stochastic_extended_unchanged": "19aefcc2c01ff629f6da5778b12fa0d495a3b610",
+    "continuous_new": "026ee4e3b9e4e8be7d0158b9e8771bb691809293",
+    "continuous_new_tests": "8b8b16a9f3a3355cadd8ac7b19bf05af097e737a",
+    "original_SSM04_tests_unchanged": "5da5e7c5a7e41346a279f82d2490b87246ee592f",
+    "original_SSM04_R1_tests_unchanged": "4ea283a170fd3018eaf3c406f982e441a6733275"
+  },
+  "public_mathematical_interfaces": {
+    "kalman_bucy": {
+      "parameters": "A,Q,H,R,m0,P0,times,measurement_rates; bounded DOP853 rtol/atol",
+      "semantics": "Continuous Kalman-Bucy mean and Riccati ODE driven by held piecewise-constant observed rate, NOT exact white-noise sample-path innovation integration",
+      "output": "means, covariances, timestamps, unprojected min eigenvalues, solver steps, numerical-only receipts"
+    },
+    "irregular_filter": {
+      "parameters": "A,Q,H,R,m0,P0,times,observations with None missing, initial_time,max_segment",
+      "semantics": "strict elapsed-time continuous drift/process-noise discretization; discrete Gaussian sample update; no missing observation imputation",
+      "output": "causal filtered means and covariance, predicted states/noise, F transitions, NIS, log-likelihood, missingness, step budgets"
+    },
+    "fixed_lag_smooth": {
+      "parameters": "causal filtered result, integer lag of sample events (not seconds)",
+      "semantics": "releases state i conditioned only on observations through event i+lag; tail pending; no future beyond release",
+      "output": "state indexes/timestamps, release timestamps, smoothed means/covariance, pending count"
+    }
+  },
+  "safety_and_limits": {
+    "max_state_dimension": 8,
+    "max_observation_dimension": 8,
+    "max_observation_events": 256,
+    "max_irregular_discretization_segments": 4096,
+    "no_certified_covariance_enclosure": true,
+    "no_exact_Itô_continuous_noise_path_claim": true,
+    "no_installed_MEL_execution_authority": true,
+    "no_new_forecasting_performance_benchmarked": true,
+    "no_old_HDC_KAN_Orc_science_revised": true,
+    "original_native_candidate_source_unmodified_after_testing": true
+  },
+  "additional_local_non_identity_bound_audit": {
+    "status": "PASS_LOCAL_EARLIER_WORKING_COPY_NOT_AN_EXACT_SOURCE_SHA_RECEIPT",
+    "independent_random_two_state_cases": 40,
+    "exact_Riccati_scalar_cases": 7,
+    "independent_batch_conditioned_fixed_lag_releases": 320,
+    "max_absolute_moment_difference_observed_under": 1.3e-15,
+    "warning": "This supplemental numerical calculation used a local earlier working file with a different Git blob; it is supplementary and not counted in native accepted source tests."
+  },
+  "scientific_next": "COG-05-SSM-04-R3 — continuous stochastic observation-increment integration and stability-preserving square-root covariance, with analytical references",
+  "completion_scope": "exact-source Windows/Linux native mathematics and API contract qualified; no production/scientific generalization claims"
+}
