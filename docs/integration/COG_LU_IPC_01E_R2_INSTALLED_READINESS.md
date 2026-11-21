@@ -42,3 +42,15 @@ Required evidence manifest is a *reference/index of independently verifiable rec
 **Core-owned:** #245 and #248 must publish an actual Core-maintained endpoint/enrollment and cryptographically or authenticated-host accepted original operation receipt proof format; include accepted publisher pins, typed SSM admission/effect mapping, epoch/turn grant, revocation, external release broker contract and independently produced receipts. Update existing issues, not a duplicate.
 
 **Cognitum-owned:** adapt the existing `lu_ipc_native`, `lu_ipc_receipt_attestation`, `lu_ipc_lifecycle`, `lu_ipc_outbox`, and real R6 supervisor **only** against the accepted Core contract. Then run the six installed stages and native regression with one exact-source cohort. Do not publish/acknowledge or implicitly retry before authorization. This readiness document itself is not an installed test, and does not assert a production handshake occurred.
+
+## R1 Cognitum client hardening while awaiting accepted Core contract (2026-11-21)
+
+**Status: SOURCE CANDIDATE / INSTALLED BLOCKED / NOT NATIVE-REQUALIFIED.** After the R2 784-case native source acceptance (which applies only to the original pinned commit), Cognitum implemented a small, entirely Cognitum-owned R1 client correction:
+
+- The AuthenticatedReadOnlyLuClient.health() method now refuses any authenticated HealthReport whose exact module identity is not lu.core, and closes/poisons the client transport on any malformed/foreign Health response instead of allowing a session to continue after a protocol refusal.
+- The installed_core_health_preflight() function validates the enrolled key and package digest *before* attempting the native OS connection, returns the remote connected status separately, and explicitly refuses to interpret source-compatible HMAC+native transport as a genuine publisher, installed package, approved issuer format, real per-turn PURE_COMPUTE grant, anti-rollback root, output delivery or ACK.
+- Research tests test_proto_client.py and test_native_carriers.py now cover foreign HealthReport.module_id, poisoned sessions, connected=False health, forged fixture HMAC never becoming installed authority, and bad enrollment refusing prior to connect.
+
+These are regression tests **added in source**, not claimed passing on native runners. The current container did not have a full exact Cognitum checkout or installed Lu Core and therefore did not run genuine native or installed acceptance. No CI dispatched. **The R2 original immutable native receipt remains historical evidence only.** Requalification must inspect the exact new branch head and run a single bounded native matrix once dependencies and prepared source are ready.
+
+Lu Core #245 and #248 remain open. The accepted Core issuer/publisher enrollment, endpoint, and per-turn receipt contract do not yet exist for this integration; no provisional Ed25519 envelope is promoted to production. No Lu repository changes. This task cannot be closed as an installed qualification or a production IPC exchange.
