@@ -247,6 +247,18 @@ class AuthenticatedReadOnlyLuClient:
 
     def health(self):
         _need(self.authenticated, "authenticated session required")
+        try:
+            return self._health_checked()
+        except Exception:
+            # A malformed or foreign reply poisons this authenticated session.
+            # Never continue reading from a potentially desynchronized stream.
+            try:
+                self.close()
+            except OSError:
+                pass
+            raise
+
+    def _health_checked(self):
         request = self._request_id()
         self._io.send(_frame(request, pb.HealthRequest(),
                              "health", session=self._session))
@@ -256,6 +268,8 @@ class AuthenticatedReadOnlyLuClient:
               "health request correlation mismatch")
         report = report_frame.health_report
         _ref(report.module_id, "health module")
+        _need(report.module_id == "lu.core",
+              "health responder must be lu.core")
         _need(type(report.connected) is bool and
               type(report.status_code) is str and
               0 < len(report.status_code) <= 96 and
