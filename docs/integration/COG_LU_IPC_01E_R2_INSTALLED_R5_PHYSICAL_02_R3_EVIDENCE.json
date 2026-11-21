@@ -70,5 +70,32 @@
   "original_Core_grant_PURE_COMPUTE": false,
   "original_SSM_output_released": false,
   "model_or_tool_authorized": false,
-  "outbox_recipient_ACK": false
+  "outbox_recipient_ACK": false,
+  "second_native_appcontainer_trial": {
+    "original_source_sha": "3e04145c691fd7dee2bbaf9c14bd8dc9d7317bea",
+    "id": 44946157532,
+    "conclusion": "failure",
+    "native_refusal": "original approved non-System peer not alive",
+    "peer_expired_during_acl_enrollment": true,
+    "full_appcontainer_SSM_accepted": false
+  },
+  "peer_lifetime_repair": {
+    "original_source_sha": "e25b953adb31184f374169dcc3912bb4ead69aeb",
+    "original_peer_lifetime_sec": 1200,
+    "kernel_peer_generation_rechecked_after_acl": true,
+    "integrated_run_id": 44946753495,
+    "integrated_jobs_passed": 8
+  },
+  "final_positive_appcontainer_trial": {
+    "original_source_sha": "2d6de056e747589b34db79bebce865632b3b03a5",
+    "id": 44947049617,
+    "disposition_at_docs_revision": "in_progress",
+    "full_appcontainer_SSM_accepted": false
+  },
+  "final_source_integration": {
+    "original_source_sha": "2d6de056e747589b34db79bebce865632b3b03a5",
+    "id": 44947049601,
+    "jobs": 8,
+    "conclusion": "success"
+  }
 }
