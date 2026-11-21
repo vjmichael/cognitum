@@ -45,9 +45,13 @@ For UCI 374 building T1 (°C), the 12-step (2-hour) held-out direct ridge RMSE w
 ## Local qualification and blockers
 - **31/31** new locally runnable source integrity, chronological leakage, missing-data, 1/6/24-step multi-site baseline, source swap, cross-site transfer, block-residual and shift-refusal tests PASS.
 - **54/54** combined with 23 inherited runnable POST-NATIVE-03 observed-data tests PASS; Python 3.13.5 / NumPy 2.3.5 / SciPy 1.17.0 / pytest 9.0.2, single-thread BLAS.
-- New genuine Cognitum HDC/KAN/SSM integrated multi-step tests are staged in the downloadable candidate but require native full repository and remain **NOT EXECUTED**.
-- Repo integration still required: install the exact tested source/test files from candidate ZIP on this branch, create same-SHA 4-target focused CI workflow with fresh original-byte acquisition, run native genuine integration/ablation and replay; reconcile all receipts. No completed new native acceptance may be inferred from the prior source locks.
+- **Historical local status, superseded by POST-NATIVE-04-R1:** all seven genuine HDC/KAN/SSM integrated multi-step tests were subsequently executed and passed within the 38-case native gate on four Windows/Linux targets.
+- **Historical local candidate status, now superseded:** the exact source/test/data blobs have been published to this branch and independently hash-checked; native HDC/KAN/SSM and inherited regression checks passed in [POST-NATIVE-04-R1](POST_NATIVE04_R1.md).
 - **All 72 broader scientific mathematical capabilities remain PARTIAL**, no execution authority, no permission for external actuation or autonomous scientific truth promotion.
 
 ## Current next task
 **POST-NATIVE-04-R1 — Publish exact tested source and tests, complete the source-locked four-platform native HDC/KAN/SSM multi-horizon qualification, verify receipt inventories and independent UCI archive integrity, then reconcile scientific falsification and uncertainty evidence without overclaiming calibrated dependent-time-series coverage.**
+
+## Verified POST-NATIVE-04-R1 native follow-up (2026-11-20)
+
+**PASS for defined observational mathematical scope.** The exact retested ZIP-source version and byte-pinned CSV samples are now published; [native run 44842101661](https://github.com/vjmichael/cognitum/actions/runs/44842101661) at SHA `6160e322ba24f8ec4d8f4a7d90ad885daeb32c92` reports 38/38 dedicated and 67/67 combined tests on Ubuntu/Windows Python 3.11/3.13, zero failures/errors/skips, 16 identical new+inherited source pins and independently verified JUnit/log/archive hashes. See [native engineering closeout](POST_NATIVE04_R1.md) and [artifact manifest](POST_NATIVE04_R1_NATIVE_ARTIFACTS.json). Original UCI ZIP was re-extracted offline with exact matching 18,432 observed rows. This does not repair poor 90% interval coverage, eliminate cross-site weather duplication, qualify real physical causality, or establish superiority of HDC/KAN/SSM against the strongest baselines. All 72 broad mathematical capabilities remain PARTIAL; no external actuation.
