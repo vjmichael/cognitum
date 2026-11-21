@@ -62,6 +62,7 @@ try {
   }
   $childObserved=$false
   $childJobObserved=$false
+  $childRestrictedObserved=$false
   $deadline=[DateTime]::UtcNow.AddSeconds(10)
   # Parent service alone knows its exact Job HANDLE. Independent observer
   # can sometimes see a running Python child and its OS Job membership.
@@ -72,6 +73,8 @@ public static class CognitumR1JobObserve {
   [DllImport("kernel32.dll", SetLastError=true)] public static extern IntPtr OpenProcess(uint access,bool inherit,int pid);
   [DllImport("kernel32.dll", SetLastError=true)] [return: MarshalAs(UnmanagedType.Bool)] public static extern bool IsProcessInJob(IntPtr process,IntPtr job,[MarshalAs(UnmanagedType.Bool)] out bool member);
   [DllImport("kernel32.dll", SetLastError=true)] [return: MarshalAs(UnmanagedType.Bool)] public static extern bool CloseHandle(IntPtr handle);
+  [DllImport("advapi32.dll", SetLastError=true)] [return: MarshalAs(UnmanagedType.Bool)] public static extern bool OpenProcessToken(IntPtr process,uint access,out IntPtr token);
+  [DllImport("advapi32.dll", SetLastError=true)] [return: MarshalAs(UnmanagedType.Bool)] public static extern bool IsTokenRestricted(IntPtr token);
 }
 '@
   while([DateTime]::UtcNow -lt $deadline){
@@ -87,6 +90,17 @@ public static class CognitumR1JobObserve {
           $member=$false
           if([CognitumR1JobObserve]::IsProcessInJob($handle,[IntPtr]::Zero,[ref]$member) -and $member){
             $childJobObserved=$true
+          }
+          if($env:COG_R2_CI_KEY_NAME) {
+            $token=[IntPtr]::Zero
+            if([CognitumR1JobObserve]::OpenProcessToken($handle,0x8,[ref]$token) -and
+               $token -ne [IntPtr]::Zero){
+              try {
+                if([CognitumR1JobObserve]::IsTokenRestricted($token)){
+                  $childRestrictedObserved=$true
+                }
+              } finally { [void][CognitumR1JobObserve]::CloseHandle($token) }
+            }
           }
         }finally{[void][CognitumR1JobObserve]::CloseHandle($handle)}
       }
@@ -166,6 +180,7 @@ public static class CognitumR1JobObserve {
     original_mac_verified_by_service_before_worker=$true
     independent_child_process_observed=$childObserved
     independent_child_job_membership_observed=$childJobObserved
+    independently_observed_restricted_token=$childRestrictedObserved
     service_local_system_session_zero=$true
     service_pid=$pidService
     numerical_worker_pid=$pidWorker
