@@ -179,7 +179,7 @@ def test_block_max_calendar_gaps_refused_unless_enough_truly_contiguous():
     b=m.blocks(e,t,300,24)
     assert b.shape==(40,24)
     assert np.all(b.max(1)==3.)
-    report=m.block_calibrate(e[:96],t[:96],e[480:576],t[480:576],m.NOAA)
+    report=m.block_calibrate(e[:96],np.zeros(96),t[:96],e[480:576],np.zeros(96),t[480:576],m.NOAA)
     assert report["status"]=="REFUSED_INSUFFICIENT_DEPENDENT_BLOCKS"
     assert report["conditional_coverage_guaranteed"] is False
 
