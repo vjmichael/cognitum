@@ -60,7 +60,7 @@ jobs:
           test "$(git hash-object research_tests/ssm04r6/test_checkpoints.py)" = "23ae54dc6a8c47e2230df98af58d4eba3808ba77"
           test "$(git hash-object cognitum/mel/admission.py)" = "405fa91935f62226ab0d1a2f0d8b7313e2327116"
           test "$(git hash-object cognitum/mel/ssm_recovery.py)" = "8d326324c4cca3706b977ec687583efcd5716c26"
-          test "$(git hash-object research_tests/mel_ssm_r6int01/test_journal.py)" = "b076649bdf04ad728f65acd067fff468b0b93430"
+          test "$(git hash-object research_tests/mel_ssm_r6int01/test_journal.py)" = "ba7cb4a29908e433d26840d7d5f8b51738d3bb1d"
           test "$(git hash-object cognitum/research/ssm_stochastic.py)" = "$(git rev-parse "HEAD:cognitum/research/ssm_stochastic.py")"
           test "$(git hash-object cognitum/research/ssm_stochastic_extended.py)" = "$(git rev-parse "HEAD:cognitum/research/ssm_stochastic_extended.py")"
           test "$(git hash-object cognitum/research/ssm_stochastic_continuous.py)" = "$(git rev-parse "HEAD:cognitum/research/ssm_stochastic_continuous.py")"
@@ -118,7 +118,7 @@ jobs:
                    for platform in ('ubuntu-latest','windows-latest')
                    for version in ('3.11','3.13')}
           assert {p.name for p in root.iterdir() if p.is_dir()} == expected
-          expected_hashes=["e6616d14f4b02bd447f872f2a67a444d83bc7df6","19aefcc2c01ff629f6da5778b12fa0d495a3b610","026ee4e3b9e4e8be7d0158b9e8771bb691809293","3eebcec1da8bae1cb3a65d33aab389c584cff89b","8b8b16a9f3a3355cadd8ac7b19bf05af097e737a","ee311ead4b017e0e080f41cf412d22bfff0139b3","bc657af3ba28474c72bbb34376739f6bdef82106","f9cc09a3a54308135d6f25f63904d18d0d3ff6f8","731208b392d3a948ee7677c2e24f1117e2c8df79","826e1a7402cf89ae5c8855cbe52fd8280617c73a","30773bfaf4871bf686df0690419e3244c380be03","23ae54dc6a8c47e2230df98af58d4eba3808ba77","405fa91935f62226ab0d1a2f0d8b7313e2327116","8d326324c4cca3706b977ec687583efcd5716c26","b076649bdf04ad728f65acd067fff468b0b93430"]
+          expected_hashes=["e6616d14f4b02bd447f872f2a67a444d83bc7df6","19aefcc2c01ff629f6da5778b12fa0d495a3b610","026ee4e3b9e4e8be7d0158b9e8771bb691809293","3eebcec1da8bae1cb3a65d33aab389c584cff89b","8b8b16a9f3a3355cadd8ac7b19bf05af097e737a","ee311ead4b017e0e080f41cf412d22bfff0139b3","bc657af3ba28474c72bbb34376739f6bdef82106","f9cc09a3a54308135d6f25f63904d18d0d3ff6f8","731208b392d3a948ee7677c2e24f1117e2c8df79","826e1a7402cf89ae5c8855cbe52fd8280617c73a","30773bfaf4871bf686df0690419e3244c380be03","23ae54dc6a8c47e2230df98af58d4eba3808ba77","405fa91935f62226ab0d1a2f0d8b7313e2327116","8d326324c4cca3706b977ec687583efcd5716c26","ba7cb4a29908e433d26840d7d5f8b51738d3bb1d"]
           common=None
           counts={}
           integrated={}
