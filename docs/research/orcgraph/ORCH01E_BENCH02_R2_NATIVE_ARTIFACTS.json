@@ -1,0 +1,101 @@
+{
+  "task": "COG-ORCH-01E-BENCH-02-R2",
+  "scope": "ACCEPTED_SOURCE_CAPTURE_AND_REVISION_INTEGRITY_ONLY",
+  "tested_source_sha": "d7be4b07ffdd50577c24f378e01217055fe3360b",
+  "native_run": 44868902636,
+  "native_run_status": "completed_success",
+  "native_targets": [
+    "ubuntu-latest Python 3.11",
+    "ubuntu-latest Python 3.13",
+    "windows-latest Python 3.11",
+    "windows-latest Python 3.13"
+  ],
+  "testcases_per_native_target": 44,
+  "native_total_executions": 176,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "independently_verified_same_case_names": true,
+  "independently_verified_same_source_sha_and_five_git_blobs": true,
+  "source_blobs": {
+    "tools/orcbench02/acquisition.py": "ec51fd8f59a425907721b5ab3a522804604b964c",
+    "tests/test_orc_bench02_acquisition.py": "c6833b483ea02aba96a21496910eaef2fe1160ac",
+    "tools/orcbench02/availability_gate.py": "41fd5c696aff7d7603559ecf51e85666ad075858",
+    "tests/test_orc_bench02_availability.py": "16def662812ca0156ca2fa75728f9478a038a0ea",
+    "docs/research/orcgraph/ORCH01E_BENCH02_R2.md": "0e722cb6725967a619285e58f2711f11423f5f5e"
+  },
+  "artifacts": [
+    {
+      "id": 14693525105,
+      "name": "bench02-r2-windows-latest-py3.11",
+      "bytes": 1522,
+      "sha256": "d381e5a6b8fea1aaabac21f4348cbd4961df3058d73242d7adb8524a8e14f0b7",
+      "tests": 44
+    },
+    {
+      "id": 14693086361,
+      "name": "bench02-r2-ubuntu-latest-py3.13",
+      "bytes": 1517,
+      "sha256": "1cb9ad5ba8ca8ec89755dcffc03d0f2fe02fed63a0da5a4a61cd7723c0cf1544",
+      "tests": 44
+    },
+    {
+      "id": 14692624878,
+      "name": "bench02-r2-ubuntu-latest-py3.11",
+      "bytes": 1510,
+      "sha256": "03538c9cdd8f6fdcf02726c9cb41a6ce6234790292d6f2f6cc15e6fb7f8f9416",
+      "tests": 44
+    },
+    {
+      "id": 14691974869,
+      "name": "bench02-r2-windows-latest-py3.13",
+      "bytes": 1523,
+      "sha256": "188c9795f693aa14a83d3614a040b67109ff3dbe3b8b97f0bd23f77b9019eea3",
+      "tests": 44
+    },
+    {
+      "id": 14692254119,
+      "name": "bench02-r2-real-KMCI",
+      "bytes": 2558,
+      "sha256": "14a08553bcedd0a0c3d2eb9c4ac0f152669e33259ab15512c377734c2d815da8",
+      "live_capture": true
+    }
+  ],
+  "original_provider": "NOAA/NWS Aviation Weather Center METAR Data API",
+  "original_request": "https://aviationweather.gov/api/data/metar?ids=KMCI&format=json&hours=3",
+  "station": "KMCI",
+  "original_response_bytes": 1370,
+  "original_response_rows": 3,
+  "original_response_sha256": "d332e16d7c9f9ae9253bdfd2563695aa2bc8cf39a92891549bb38a914914989a",
+  "raw_git_object_sha": "29a5c108d0d308129904049413bce73a4de3aba9",
+  "original_receipt_bytes": 2060,
+  "original_receipt_sha256": "53397b576ef7af249584bc5fe484ac00e2994d87a6e69456cce4f9031209e9a6",
+  "receipt_git_object_sha": "07c838b79174b7de5fde0dd4b185f0bcff5aaba5",
+  "receipt_chain_entry_sha256": "e84984b19d1c72b2d623b8e369f5bfe177cd820a15ee9e245340e73a62d54027",
+  "observation_start_utc": "2026-11-21T02:53:00Z",
+  "observation_end_utc": "2026-11-21T04:53:00Z",
+  "capture_started_ms": 1795237332075,
+  "capture_completed_ms": 1795237332216,
+  "provider_reported_http_date": "Sat, 21 Nov 2026 05:02:12 GMT",
+  "github_run_created_at": "2026-11-21T05:01:44Z",
+  "github_run_updated_at": "2026-11-21T05:02:15Z",
+  "capture_context": "github-run:44868902636:attempt:1",
+  "original_corrections_observed_in_this_live_capture": 0,
+  "synthetic_test_covers_corrections_revisions_dedup": true,
+  "source_and_receipt_git_archive_path": "research_tests/orcbench02/awc_kmci_20261121/",
+  "current_historical_public_availability_proven": false,
+  "source_time_independently_signed": false,
+  "external_journal_head_anchor": false,
+  "true_os_worm_proven": false,
+  "original_instrument_signature_verified": false,
+  "production_mel_authorized": false,
+  "new_forecast_metrics_computed": false,
+  "unintended_duplicate_old_sha_run_id": 44868881226,
+  "unintended_duplicate_qualifies_new_source": false,
+  "next_tasks": [
+    "BENCH-02-R3",
+    "BENCH-02-R4",
+    "BENCH-02-R5",
+    "COG-ORCH-FIN-01"
+  ]
+}
