@@ -112,3 +112,25 @@ def test_inspection_cannot_mint_scm_or_core_grants_or_sign_stop_receipts():
         "publish_output",
     ):
         assert not hasattr(physical, identifier)
+
+
+def test_read_only_cli_returns_blocked_without_installed_or_delegated_host(capsys):
+    if sys.platform == "win32":
+        rc = physical.main([
+            "windows-scm",
+            "--service", _unavailable_service()["trusted_service_name"],
+            "--image", _unavailable_service()["trusted_image_path"],
+            "--sha256", "a"*64,
+            "--binary-command", _unavailable_service()["trusted_binary_command"],
+            "--account", _unavailable_service()["trusted_service_account"],
+            "--sid-type", "3",
+        ])
+    else:
+        rc = physical.main(["linux-cgroup", "--delegated-root", "relative"])
+    import json
+    observed = json.loads(capsys.readouterr().out)
+    assert rc == 2
+    assert observed["status"] == "BLOCKED_PHYSICAL_PREREQUISITE"
+    assert observed["genuine_installed_core_health_verified"] is False
+    assert observed["independent_stop_custody_verified"] is False
+    assert observed["output_delivery_authorized"] is False
