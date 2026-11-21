@@ -35,7 +35,7 @@ MAX_OUTPUTS = streaming.MAX_PENDING
 MAX_REVISION = min(2**63-2, streaming.MAX_EVENTS+1)
 SOURCE_RELATIVE = "cognitum/ssm/v1/ssm.proto"
 # The original Git source SHA is pinned after creation of this first review.
-SOURCE_GIT_SHA = "SEAL_WITH_EXACT_SOURCE_BLOB"
+SOURCE_GIT_SHA = "5e783cbdc0a814f524386702896c5cad97fe29fa"
 IDENTIFIER = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.:-]{0,95}\Z",re.ASCII)
 ORIGIN_NAME = re.compile(r"[A-Za-z0-9_.:/-]{1,128}\Z",re.ASCII)
 REASON = re.compile(r"[A-Za-z0-9_.:/-]{1,96}\Z",re.ASCII)
