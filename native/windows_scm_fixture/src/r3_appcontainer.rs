@@ -317,8 +317,16 @@ pub fn launch(application:&[u16],command:&mut[u16],
     }
     let duplicated=Owned(duplicated);
     let mut reduced=ptr::null_mut();
+    // The R3-R1 installer-style source is already an independently checked
+    // NONADMIN local account; LUA_TOKEN is intended to downgrade admins and
+    // can disturb a genuine standard-user profile. Remove ALL privileges,
+    // retain the nonadmin TokenUser, and require actual TokenElevation=0.
+    #[cfg(feature = "r3-r1-frozen-fixture")]
+    let restrictions=DISABLE_MAX_PRIVILEGE;
+    #[cfg(not(feature = "r3-r1-frozen-fixture"))]
+    let restrictions=DISABLE_MAX_PRIVILEGE|LUA_TOKEN;
     if unsafe{CreateRestrictedToken(duplicated.0,
-        DISABLE_MAX_PRIVILEGE|LUA_TOKEN,0,ptr::null_mut(),0,ptr::null_mut(),
+        restrictions,0,ptr::null_mut(),0,ptr::null_mut(),
         0,ptr::null_mut(),&mut reduced)}==0||reduced.is_null(){
         return Err(denied("AppContainer caller token not reduced from approved user"));
     }
