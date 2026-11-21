@@ -1,0 +1,90 @@
+{
+  "task": "COG-05-SSM-POST-NATIVE-05-R4",
+  "status": "BOUNDED_NATIVE_PASS_4_OF_4_NEGATIVE_SCIENCE_PRESERVED",
+  "run_id": 44848932899,
+  "run_url": "https://github.com/vjmichael/cognitum/actions/runs/44848932899",
+  "accepted_source_sha": "cf78900c4fcec3981b93c842144c53b15cc0d411",
+  "qualification_branch": "research/ssm-postnative05-r4-native-r3-20261120",
+  "target_scope": "true elapsed-time scalar SSM exact matrix-exponential witness; train-fitted native Cognitum KAN/HDC matched ablations; publisher-hosted real-site observational and dependence/missingness stress",
+  "exact_source_pins_per_target": 27,
+  "r4_new_pins": 6,
+  "inherited_p05_p04_p03_pins": 21,
+  "distinct_testcases": 25,
+  "tests_per_target": 25,
+  "successful_targets": 4,
+  "failed_targets": 0,
+  "skipped_targets": 0,
+  "source_publishers": [
+    "DOI-USGS",
+    "NOAA-CO-OPS"
+  ],
+  "observed_series": [
+    {
+      "source": "DOI-USGS/loadflexBatch/Raccoon River",
+      "records": 3653,
+      "unit": "cms",
+      "source_blob": "0277bb41d84dc49d85b9a016fbfbce4f4ac59ed7"
+    },
+    {
+      "source": "DOI-USGS/loadflexBatch/Muskingum River",
+      "records": 3652,
+      "unit": "cms",
+      "source_blob": "964a615050252f4a05ebca9d69caffed847444d1"
+    },
+    {
+      "source": "NOAA-CO-OPS partner uneven water level",
+      "records": 34081,
+      "raw_records": 34099,
+      "unit": "unverified",
+      "source_blob": "8421af63a839c767555a53af74b71106ee68241e"
+    }
+  ],
+  "independently_verified_testcase_inventories_match": true,
+  "independently_verified_all_receipt_listed_hashes": true,
+  "independently_verified_identical_source_pin_maps": true,
+  "max_abs_cross_platform_heldout_metric_delta": 5.684341886080802e-14,
+  "max_relative_cross_platform_heldout_metric_delta": 1.671795693118804e-13,
+  "bitwise_KAN_checkpoint_SHA_match": false,
+  "KAN_checkpoint_replay_numerically_qualified": true,
+  "original_instrument_signatures_verified": false,
+  "unconditional_dependent_coverage_proven": false,
+  "physical_law_discovered": false,
+  "physical_causality_established": false,
+  "universal_hdc_kan_ssm_superiority_proven": false,
+  "execution_authorized": false,
+  "all_72_broad_capabilities_complete": false,
+  "artifacts": [
+    {
+      "target": "ubuntu/3.11",
+      "id": 14684147238,
+      "zip_sha256": "20a387574e34f250cf1c001c7c4b42166b65639b37d12f14c7e4320db91f7ee6",
+      "receipt_sha256": "1c7ea19e5ac9d3ff5ec4928a28b1c9be18a096d6ebf6fdd2b5f166338d767aa5",
+      "science_sha256": "ed1a6302208b9670f33091e003bcb32328d8a0159a97300b2ac4e282d986712e",
+      "junit_sha256": "db98d48a585c273834d0c1f7454a622114ce5a4caffb3d63f85e67cdb6205e8e"
+    },
+    {
+      "target": "ubuntu/3.13",
+      "id": 14683489483,
+      "zip_sha256": "4e3184fd3060227063cc9f80168f01e41bc3d5c05b47fe95f4c6fd078bc9b79f",
+      "receipt_sha256": "9fa3536e2e57e5af0583dfa0fbf813f65ab2e61cf8c5eceb541ac4019b2d08c4",
+      "science_sha256": "ed1a6302208b9670f33091e003bcb32328d8a0159a97300b2ac4e282d986712e",
+      "junit_sha256": "7d29d607f1fb2a25b5b79f5ccf3effea32e8fb21f1704ca834ffa6d0db87675e"
+    },
+    {
+      "target": "windows/3.11",
+      "id": 14683604372,
+      "zip_sha256": "38adb68675bcee654d5849205a3fbf3e4ef7f3ad4966b7eea4d401da64bd67c5",
+      "receipt_sha256": "8d43bc390641dbb10610559b79b9283214ddfe07bb5a6ca90f631951ab5985c1",
+      "science_sha256": "6f697367518e1453f0820f710afcaa9ab627aada69cefd32131bf61f345bc4fb",
+      "junit_sha256": "2746e1661370196a5166b9cf3a479f109b6456a07e136de70797d8a33ac05044"
+    },
+    {
+      "target": "windows/3.13",
+      "id": 14683519640,
+      "zip_sha256": "dff67dd0a77ea00d8d6086547cf993b9d9c781ca98392c3333ffa363172b403b",
+      "receipt_sha256": "594597a39ab44b269cfce854fc9a5b02573cd3eed7ad5228eeb0f562eed96c31",
+      "science_sha256": "c0daadcc2dcffed85701d0ce976f8ee001ff781594913b3dccc126ea51558098",
+      "junit_sha256": "54be50311987fc15d5639bec5207f95baa75f457f94de34ce790d0eac01d4c4b"
+    }
+  ]
+}
