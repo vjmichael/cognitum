@@ -25,7 +25,7 @@ import sysconfig
 import tempfile
 
 MAX_FILES = 12000
-MAX_FILE_BYTES = 128 * 1024 * 1024
+MAX_FILE_BYTES = 64 * 1024 * 1024
 MAX_BUNDLE_BYTES = 1400 * 1024 * 1024
 REQUIRED_DEPS = ("numpy", "scipy", "google", "cryptography")
 OPTIONAL_DEPS = ("numpy.libs", "scipy.libs", "cffi", "pycparser")
@@ -117,7 +117,7 @@ def prepare(destination:Path, repo:Path):
     # Canonical manifest includes all files except itself and provenance.
     entries=[]
     total=0
-    for p in sorted(destination.rglob("*"),key=lambda x:x.as_posix().lower()):
+    for p in sorted(destination.rglob("*"),key=lambda x:x.as_posix()):
         if not p.is_file():
             continue
         need(not p.is_symlink() and not any(parent.is_symlink() for parent in p.parents

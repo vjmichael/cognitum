@@ -21,6 +21,8 @@ mod r2_diagnostic;
 mod r3_recovery;
 #[cfg(all(windows, feature = "r3-appcontainer-fixture"))]
 mod r3_appcontainer;
+#[cfg(all(windows, feature = "r3-r1-frozen-fixture"))]
+mod r3_r1_runtime;
 #[cfg(all(windows, feature = "acceptance-fixture"))]
 mod win {
     use std::{
@@ -250,6 +252,8 @@ mod win {
             } == 0 {
                 return Err(denied("SCM-owned Job limit configuration refused"));
             }
+            #[cfg(feature = "r3-r1-frozen-fixture")]
+            crate::r3_r1_runtime::verify()?;
             #[cfg(feature = "r2-cng-fixture")]
             crate::r2_signer::require_preprovisioned()?;
             #[cfg(feature = "r3-signed-recovery")]
