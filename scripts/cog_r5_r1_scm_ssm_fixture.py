@@ -25,13 +25,39 @@ from cognitum.research import ssm_stochastic_streaming as streaming
 DOMAIN=b"Cognitum.SCM.R1.test.intent.v1\x00"
 
 
-def prepare(root:Path,env_file:Path):
+def prepare(root:Path,env_file:Path,*,runtime_root:Path|None=None):
     root=root.resolve(strict=True)
     if not root.is_dir():
         raise ValueError("fixture root unavailable")
-    python=Path(sys.executable).resolve(strict=True)
-    script=(Path(__file__).resolve().parents[1] /
-            "cognitum/mel/ssm_r5_fixed_child.py").resolve(strict=True)
+    if runtime_root is None:
+        python=Path(sys.executable).resolve(strict=True)
+        script=(Path(__file__).resolve().parents[1] /
+                "cognitum/mel/ssm_r5_fixed_child.py").resolve(strict=True)
+        frozen_pins={}
+    else:
+        runtime_root=Path(runtime_root)
+        if not runtime_root.is_absolute() or runtime_root.is_symlink():
+            raise ValueError("not an externally staged absolute immutable SSM runtime")
+        runtime_root=runtime_root.resolve(strict=True)
+        python=runtime_root/"python.exe"
+        script=runtime_root/"cognitum/mel/ssm_r5_fixed_child.py"
+        manifest=runtime_root/"r3-r1-runtime.manifest"
+        provenance=runtime_root/"r3-r1-runtime-provenance.json"
+        if not all(p.is_file() and not p.is_symlink()
+                   for p in (python,script,manifest,provenance)):
+            raise ValueError("R3 original frozen image/script/manifest not installed")
+        report=json.loads(provenance.read_text(encoding="ascii"))
+        digest=hashlib.sha256(manifest.read_bytes()).hexdigest()
+        if report["schema"]!="cognitum.ssm.r3r1.test_installer_style_frozen_runtime.v1" or (
+           report["runtime_manifest_sha256"]!=digest or
+           report["python_sha256"]!=hashlib.sha256(python.read_bytes()).hexdigest() or
+           report["fixed_script_sha256"]!=hashlib.sha256(script.read_bytes()).hexdigest() or
+           report["signed_installer_publisher_approved"] is not False):
+            raise ValueError("original frozen numerical package pin mismatch")
+        frozen_pins={
+          "COG_R3_R1_RUNTIME_ROOT":str(runtime_root),
+          "COG_R3_R1_RUNTIME_MANIFEST_SHA256":digest,
+        }
     engine=streaming.FixedDurationIncrementSmoother(
         [[-.2]],[[.3]],[[1]],[[.5]],[.1],[[.7]],lag_duration=1.0,
         noise_cross=[[.1]],max_pending_states=16)
@@ -68,6 +94,7 @@ def prepare(root:Path,env_file:Path):
     paths["COG_R1_CI_INTENT"].write_bytes(raw+b"\n"+tag.encode("ascii")+b"\n")
     pins={
         **{n:str(p) for n,p in paths.items()},
+        **frozen_pins,
         "COG_R1_CI_PYTHON_SHA256":hashlib.sha256(python.read_bytes()).hexdigest(),
         "COG_R1_CI_SCRIPT_SHA256":hashlib.sha256(script.read_bytes()).hexdigest(),
         "COG_R1_CI_REQUEST_SHA256":request_sha,
@@ -134,11 +161,13 @@ if __name__=="__main__":
     parser.add_argument("mode",choices=("prepare","verify"))
     parser.add_argument("--root",required=True)
     parser.add_argument("--env-file")
+    parser.add_argument("--runtime-root")
     args=parser.parse_args()
     if args.mode=="prepare":
         if not args.env_file:
             raise ValueError("GitHub Env path required")
-        result=prepare(Path(args.root),Path(args.env_file))
+        result=prepare(Path(args.root),Path(args.env_file),
+                       runtime_root=Path(args.runtime_root) if args.runtime_root else None)
     else:
         result=verify(Path(args.root))
     print(json.dumps(result,sort_keys=True))
