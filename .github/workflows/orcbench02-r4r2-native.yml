@@ -1,9 +1,6 @@
 name: Cognitum BENCH-02 R4-R2 original native Orc SSM KAN HDC
 
 on:
-  push:
-    branches:
-      - research/orc-bench02-r4-r2-original-orc-20261120
   workflow_dispatch:
 
 permissions:

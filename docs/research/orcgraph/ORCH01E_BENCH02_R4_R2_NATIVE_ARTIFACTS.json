@@ -1,0 +1,153 @@
+{
+  "schema": "cognitum.orc.bench02.r4.r2.native_results.v1",
+  "task": "COG-ORCH-01E-BENCH-02-R4-R2",
+  "acceptance": "NATIVE_SOURCE_EXECUTION_PASS_PORTABLE_SELECTION_FAIL",
+  "unqualified_scientific_closure": true,
+  "preregistered_before_specialist_scoring": {
+    "commit": "f87d30cc706b2a988e6a94de7f1ea6c8e9926a02",
+    "protocol_git_blob": "2a746c1737627183fab924466dffb5bf4b034014"
+  },
+  "native_accepted_source_sha": "06d292f67d367a03cd646fb4d021624a43c7941a",
+  "original_run_id": 44874407427,
+  "url": "https://github.com/vjmichael/cognitum/actions/runs/44874407427",
+  "original_R4_direct_ridge_benchmark_git_blob": "5ad4c5967ac4c0b44df5cf400bea970054941c73",
+  "original_R4_negative_scientific_report_git_blob": "5dc4fa1f980fc7678371cba78dbfdbdfe09fb651",
+  "R3_original_protocol_sha256": "fd0b6a372ee5cd9ee8870ad20c475261460a069daf4fd52f56e8dcc2961a5104",
+  "locked_source_blobs_order": [
+    "2a746c1737627183fab924466dffb5bf4b034014",
+    "cde9183820065e07bea69527861bc2fa477a608a",
+    "81be2aec9bb7a049f97d6326c58f2a7b74a910dd",
+    "a8eb62d7bbf08087257170168520b45fcb4c42d5",
+    "fcaa745cdc30ddffa5739e0869cf74a1b956a073",
+    "c8442c4fee9dcdef2b1975580283f17413e9db65",
+    "4c458360bd993d644f18405a45efc6159784eeea",
+    "5ad4c5967ac4c0b44df5cf400bea970054941c73",
+    "5dc4fa1f980fc7678371cba78dbfdbdfe09fb651"
+  ],
+  "native_artifacts": [
+    {
+      "target": "ubuntu-latest Python 3.11",
+      "artifact_id": 14694919165,
+      "zip_sha256": "2e13ba4003bdab6a00593facb0fac76a54929582fca62a99f025969d6311907f",
+      "junit_tests": 305,
+      "failures": 0,
+      "original_decision_sha256": "c8ecf8c7f1f6aaaf91ca84ac9fa0c54b246ae4902c24fa901a554876a3249a93",
+      "KATL_1h_research_selected": "ssm_kan",
+      "reported_only_research_macro_fractional_gain": 0.0035318
+    },
+    {
+      "target": "ubuntu-latest Python 3.13",
+      "artifact_id": 14694734843,
+      "zip_sha256": "02b0951f9eb88947709a30e475a704d017f322d469b337063c830c72b4f40779",
+      "junit_tests": 305,
+      "failures": 0,
+      "original_decision_sha256": "f6926608c7e5327d3e03233ad00d9d5d1f7513307d7427bf2b36a03d0ae2b8e5",
+      "KATL_1h_research_selected": "ssm_kan_hdc",
+      "reported_only_research_macro_fractional_gain": 0.0059248
+    },
+    {
+      "target": "windows-latest Python 3.11",
+      "artifact_id": 14694778020,
+      "zip_sha256": "e69953b923b36f8dbc0f4f955588e3b85f89cced0235db807627bdf6feaa2668",
+      "junit_tests": 305,
+      "failures": 0,
+      "original_decision_sha256": "77a22da8dbd7f94237941ccaf66ecbebfc9b8f8830f0a40e862e351922f396e5",
+      "KATL_1h_research_selected": "ssm_kan_hdc",
+      "reported_only_research_macro_fractional_gain": 0.0059248
+    },
+    {
+      "target": "windows-latest Python 3.13",
+      "artifact_id": 14695241690,
+      "zip_sha256": "348ad7eafa8afb4f3dcca154fccb94d3b2d011512d213a076f2e648600dda8a3",
+      "junit_tests": 305,
+      "failures": 0,
+      "original_decision_sha256": "fb502ae34e4e178fc7ebc51cf46da6fa4dc80ddc6602c87f63015ec6179cfc8a",
+      "KATL_1h_research_selected": "ssm_kan",
+      "reported_only_research_macro_fractional_gain": 0.0035318
+    }
+  ],
+  "tests_total": 1220,
+  "independent_original_zip_sha_and_CRC_passed": 4,
+  "all_four_JUnit_case_inventories_exactly_equal": true,
+  "original_source_clock_and_original_265_holdout_pairs_matched_per_platform": true,
+  "original_R4_baseline_replayed_against_previous_accepted_265_prediction_rows": true,
+  "all_per_method_RMSE_MAE_signed_gains_independently_recomputed": true,
+  "original_unedited_negative_results_preserved": true,
+  "nine_site_horizon_methods": {
+    "native_ssm_kan": {
+      "wins": 6,
+      "losses": 3,
+      "ties": 0,
+      "macro_fractional_gain": 0.035379
+    },
+    "native_ssm_hdc": {
+      "wins": 6,
+      "losses": 3,
+      "ties": 0,
+      "macro_fractional_gain": 0.0142137
+    },
+    "native_ssm_kan_hdc": {
+      "wins": 6,
+      "losses": 3,
+      "ties": 0,
+      "macro_fractional_gain": 0.0328538
+    },
+    "original_orc_default": {
+      "evaluated_tasks": 7,
+      "abstentions": 2,
+      "wins": 3,
+      "losses": 4,
+      "reported_only_fractional_gain": -0.0260684,
+      "complete_nine_case_macro": false
+    },
+    "original_orc_research_opt_in": {
+      "evaluated_tasks": 7,
+      "abstentions": 2,
+      "wins": 4,
+      "losses": 3,
+      "reported_only_fractional_gain_range": [
+        0.0035318,
+        0.0059248
+      ],
+      "complete_nine_case_macro": false
+    }
+  },
+  "selector_abstentions_for_both_policies": [
+    "KSEA_6h",
+    "KDEN_6h"
+  ],
+  "portability_failure": {
+    "station": "KATL",
+    "horizon_hours": 1,
+    "competing_specialists": [
+      "ssm_kan",
+      "ssm_kan_hdc"
+    ],
+    "nearly_equal_calibration_MAE_K": 0.90056973068,
+    "different_selected_methods_across_targets": true,
+    "all_four_native_frozen_decision_hashes_differ": true,
+    "reason": "original selection sorts unrounded floating calibration MAE; sub-floating-precision numerical fit differences changed ranking",
+    "no_posthoc_tie_break_applied": true,
+    "resolution_needed": "new, independently specified portable near-tie or abstention policy and independent prospective/untouched evaluation"
+  },
+  "inference_limits": [
+    "prior R4 heldout site outcomes already reviewed, so specialist benchmark is exploratory",
+    "NOAA AWC historical receiptTime not authenticated first public availability",
+    "strict first-capture-eligible origin count is 0",
+    "no installed MEL grants or actual Orc Graph host route execution",
+    "selection research-only and does not prove broad specialist synergy",
+    "nearly tied research methods were selected inconsistently across OS/Python",
+    "no posthoc rescue of model ranking permitted"
+  ],
+  "predecessor_failed_runs": [
+    {
+      "run": 44874218364,
+      "issue": "test-only refusal match expected 'mismatch' but correct source-denial text was 'original R3 source'"
+    },
+    {
+      "run": 44874314733,
+      "issue": "Python tuple/list comparison rejected semantically identical frozen JSON decision artifact; exact canonical serialization fixed before scoring"
+    }
+  ],
+  "next": "COG-ORCH-01E-BENCH-02-R4-R2-R3: independently preregister portable near-tie refusal/decision tolerance without using observed heldout performance; requalify native original route, then R5 consolidation"
+}
