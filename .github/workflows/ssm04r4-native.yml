@@ -1,6 +1,11 @@
 name: Cognitum SSM-04-R4 correlated integrated-increment smoothing native qualification
 
 on:
+  push:
+    branches:
+      - research/ssm04r4-correlated-increment-smoothing-20261121
+    paths:
+      - '.github/workflows/ssm04r4-native.yml'
   workflow_dispatch:
 
 permissions:
