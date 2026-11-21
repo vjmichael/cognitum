@@ -1,0 +1,102 @@
+{
+  "task": "ORCH-01E-R1",
+  "scoped_status": "FOUR_PLATFORM_NATIVE_PASS_NOT_PHYSICAL_OR_PRODUCT_ACCEPTANCE",
+  "qualified_source_sha": "3a944d624c7914cc0246bffd910551b7aae80e75",
+  "ci_run_id": 44863332744,
+  "testcases_per_platform": 389,
+  "new_testcases": 49,
+  "inherited_testcases": 340,
+  "combined_executions": 1556,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "canonical_case_identities_sha256": "349ce8ae9816c3b95a7f573073b5be14c93d717b2293da65ad27ab6ea1c2457a",
+  "case_identities_identical_across_platforms": true,
+  "source_git_blobs_match_across_platforms_and_authoritative_git_tree": true,
+  "source_git_blob_pins": {
+    "tools/orc01e/selection_evidence.py": "90d9071d1e4c80abb4b581b751f23325c1c8392f",
+    "cognitum/orc_selection.py": "048e0f4ac75bbaa595e1c15a1066a7fd7e6679ce",
+    "tests/test_orc_selection.py": "f89cccd870f943b608d02919bf487f4e99deec5b",
+    "tools/orc01d/synthetic_evidence.py": "3fb9aeebf39476140bec1dadc30e5fb72bf0d829",
+    "cognitum/orc_comparison.py": "332003efd069514a98a5f0975a3b45b616169912",
+    "tests/test_orc_comparison.py": "aa618661a8bea239f3ab3b36fe2ca0cbc3e07428",
+    "cognitum/orc_handoff.py": "57231646214f19f29b21faa7d6dc0c2dbcd1e10a",
+    "tests/test_orc_handoff.py": "1b577c34d7290e2b4fd97c08b4505ef313d2a2dd",
+    "cognitum/orc_science_data.py": "5c04729d62e2df37609f6e589d2238e662e0ac83",
+    "tests/test_orc_science_data.py": "f1913928404937d5df0dbfa17d7838d39ff05191",
+    "cognitum/orc_graph.py": "c513557f2131cfeec907a9d0a6a5eb2b636a4db6",
+    "tests/test_orc_graph.py": "f3ed00866df2481b53eefb12d8cb87e422960edb",
+    "cognitum/cooperative.py": "eaa5952f2b25a15e35d9ae4ec2216c4bb6e8cc69",
+    "cognitum/cooperative_cpu.py": "8c090ff024eee7cd1dbad40f076a4a5a0e06f0de",
+    "cognitum/mel/cooperation.py": "e1a64c6dd4a9233d7f79199554f0119fca12d721",
+    "cognitum/mel/admission.py": "405fa91935f62226ab0d1a2f0d8b7313e2327116",
+    "cognitum/mel/verified_graph.py": "01ab98016c97345b1808927116e84eb22d79cb6d",
+    "cognitum/mel/engines.py": "72e4869e366013357e77aff0fe9b70eef8aac47c",
+    "cognitum/mel/native.py": "2f8ccf40e7f1ead28edd3a1ffaee767b6e63b9a7",
+    "cognitum/runtime.py": "885c4bf56114c7cab98252539e5900113ae3418b",
+    "cognitum/research/ssm_timeaware.py": "25d790981424a9546863d802848f3887d8c92975",
+    "cognitum/research/kan_trainable.py": "238f1ea9969aab6ecd87be0dcefb9966ae6a6d59",
+    "cognitum/research/hdc_algebra.py": "1b64d122fd0a34e5de3e747c4076ffaa80216284",
+    "cognitum/research/hdc_associative.py": "42121bc738737ce3dbe3b3921d41404ceec47d73",
+    "research_tests/ssm_postnative05r4/test_timeaware.py": "13202566fc069188864ac94e803c7e54be21cd11",
+    "tests/test_cooperative.py": "cd3084748e8ac44cd3b67ca70510bd11da7093d8",
+    "tests/test_cooperative_compositions.py": "5d1b615d56b31167147f3943b255ceb374de3450",
+    "research_tests/mel04b/test_cooperation.py": "fcc861b498635f9a62986c3fde9843748894b70a",
+    "research_tests/mel05b/test_graph_acceptance.py": "9d10f8b60fb62aa7137b67c1354ddc9b4b8847ea",
+    "research_tests/mel05b/test_inline_enforcement.py": "2b9551e28f673ee912db9dea1fef2ea20d453d0a"
+  },
+  "artifacts": [
+    {
+      "id": 14690921546,
+      "name": "orc01e-ubuntu-latest-py3.13",
+      "sha256": "517ad9ed656e44fa2faeb46726e488842b45aaeb170ae8794298b3fa5faabf28",
+      "bytes": 12376,
+      "artifact_url": "https://github.com/vjmichael/cognitum/actions/runs/44863332744/artifacts/14690921546"
+    },
+    {
+      "id": 14690703109,
+      "name": "orc01e-windows-latest-py3.13",
+      "sha256": "ca9a03483a1bc46697977d5d0b2061230b00ccf7a780a1799fc0a28170741fac",
+      "bytes": 12341,
+      "artifact_url": "https://github.com/vjmichael/cognitum/actions/runs/44863332744/artifacts/14690703109"
+    },
+    {
+      "id": 14690518917,
+      "name": "orc01e-ubuntu-latest-py3.11",
+      "sha256": "6b2e1ec06120bf4b0f619f468b55f127d83386445cf6c2e88c6db3783f155bbf",
+      "bytes": 12393,
+      "artifact_url": "https://github.com/vjmichael/cognitum/actions/runs/44863332744/artifacts/14690518917"
+    },
+    {
+      "id": 14690382885,
+      "name": "orc01e-windows-latest-py3.11",
+      "sha256": "6e37a186a0a2416251b8a93b7ab3820e7034a397b2a29b934428c87d8660ae47",
+      "bytes": 12409,
+      "artifact_url": "https://github.com/vjmichael/cognitum/actions/runs/44863332744/artifacts/14690382885"
+    }
+  ],
+  "methodology": "Four ZIPs independently downloaded; SHA-256 and CRC checked, JUnit case names, full 30-blob Git canonical IDs, decision evidence, calibration-only selected methods, frozen signed ridge differences, abstention and nonauthorizing operator override verified.",
+  "synthetic_cases": [
+    {
+      "kind": "oscillatory_synthetic",
+      "selected": "persistence",
+      "test_n": 95,
+      "ridge_rmse_approx": 0.0660405851,
+      "selected_rmse_approx": 0.0544880142
+    },
+    {
+      "kind": "shifted_synthetic",
+      "selected": "persistence",
+      "test_n": 89,
+      "ridge_rmse_approx": 0.1174878632,
+      "selected_rmse_approx": 0.0534347036
+    }
+  ],
+  "remaining_holds": [
+    "No independent physical sensor/source attestation or tested generalization",
+    "No actual RAM/time/energy budget measurement; policy uses proxy estimates",
+    "No cryptographically verified user override or actual user/model cooperation evidence",
+    "Linux versus Windows KAN snapshot and decision identity bytes differ; 22 raw Python source/test checked-out file SHA values differ even though canonical Git blobs agree",
+    "No production mainline/installed Lu acceptance and 72 broader SSM groups remain PARTIAL"
+  ]
+}

@@ -1,6 +1,6 @@
 # ADR — Cognitum's Orc Graph and CH⊕aT (owner decision, 2026-11-20)
 
-**Decision:** ADOPTED AS NORMATIVE PRODUCT ARCHITECTURE AND COLLABORATION PRINCIPLE. **Engineering:** ORCH-01A/01B/01C/01D bounded native PASS; ORCH-01E QUEUED, no general research engine orchestration, accuracy or production promotion. **Authority:** User-owned product decision. **Relationship:** Extends [MEL ADR-001](../research/mel/ADR-001.md), the [R1.6 architecture](../Cognitum_Comprehensive_AI_Architecture_R1_6.md) and the [master task ledger](../MASTER_TASK_LEDGER.md); no replacement of accepted source or research evidence.
+**Decision:** ADOPTED AS NORMATIVE PRODUCT ARCHITECTURE AND COLLABORATION PRINCIPLE. **Engineering:** ORCH-01A–E scoped offline native PASS; real physical benchmark and production qualification still OPEN, no general research engine orchestration, accuracy or production promotion. **Authority:** User-owned product decision. **Relationship:** Extends [MEL ADR-001](../research/mel/ADR-001.md), the [R1.6 architecture](../Cognitum_Comprehensive_AI_Architecture_R1_6.md) and the [master task ledger](../MASTER_TASK_LEDGER.md); no replacement of accepted source or research evidence.
 
 ## Names and meaning
 
@@ -80,3 +80,7 @@ The staged source adds a *bounded offline evaluator* that fits actual R4 ridge a
 ## ORCH-01D-R2 bounded comparative-science acceptance
 
 The offline matched scientific evaluator at immutable tested SHA `a389cd4d525b3acbfbb3a46cc21fcf800d5d42d9` passed [four-platform run 44861516999](https://github.com/vjmichael/cognitum/actions/runs/44861516999) with 340/340 test identities per environment and four independently inspected ZIPs. All 27 Git blob pins, archived JUnit identities and synthetic row-wise metrics were reconciled. [Evidence manifest](../research/orcgraph/ORCH01D_NATIVE_ARTIFACTS.json), [reviewed limitations](../research/orcgraph/ORCH01D.md). Small synthetic RMSE gains were observed but one shifted fixture had worse MAE; KAN snapshots remain nonidentical bytewise across OS and original independent physical performance is not demonstrated. No new MEL runtime or grant issuer is authorized. Owner's later independent ridge benchmark remains reserved after ORCH-01E.
+
+## ORCH-01E native evidence amendment
+
+Evidence-informed offline method proposals passed native CI https://github.com/vjmichael/cognitum/actions/runs/44863332744 at unchanged source 3a944d624c7914cc0246bffd910551b7aae80e75 (389/389 each of four platforms). The selector rechecks 01B raw-source identity and 01D calibration before proposing a conservative baseline or opted-in research method. Operator requests remain unauthenticated intents; no new MEL grant, supervisor or scheduler is created. Resource budgets are explicit proxies, not measured RAM/time. Original archives independently verified and limitations recorded in docs/research/orcgraph/ORCH01E.md. Neither independent physical predictive benefit nor CH⊕aT user efficacy is established. The owner-requested real independent Orc-versus-ridge benchmark follows.

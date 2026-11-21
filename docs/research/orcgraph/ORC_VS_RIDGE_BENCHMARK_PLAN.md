@@ -1,6 +1,6 @@
 # Orc Graph versus ridge — owner-requested post-completion benchmark
 
-**Owner decision (November 20, 2026):** After completing the Orc Graph architecture (ORCH-01B–E), undertake a real independent comparison to measure whether routing actually helps Cognitum over **direct ridge regression**, not merely whether its graph executes. **Status: RESERVED / NOT EXECUTED.**
+**Owner decision (November 20, 2026):** After completing the Orc Graph architecture (ORCH-01B–E), undertake a real independent comparison to measure whether routing actually helps Cognitum over **direct ridge regression**, not merely whether its graph executes. **Status: NEXT SCIENTIFIC EXPERIMENT / NOT EXECUTED.**
 
 ## Pre-registered question and distinct effects
 
@@ -19,3 +19,7 @@
 ## Acceptance outcome
 
 Only claim Orc Graph improves **heldout predictive accuracy over ridge** when a credible matched independent comparison supports it, including drift and dataset limitations. If it does not, report that result, preserve negative outcomes and keep ridge as the selected method where it is best. Orc Graph is not required to win every task. This experiment belongs to **COG-ORCH-01E-BENCH-01**, with ORCH-01D creating the matched-evaluation machinery. No benchmark is run or approved by recording this plan.
+
+## Post-ORCH-01E independent benchmark readiness
+
+The five bounded Orc Graph architecture stages passed source-locked native tests, most recently https://github.com/vjmichael/cognitum/actions/runs/44863332744. This is NOT the independent scientific result: its two synthetic selected methods were persistence and the data were generated. BENCH-01 must source and lock real independently observed datasets with original publisher/licensing/unit evidence, preserve as-of observations and honest missingness, select only on calibration, compare frozen direct ridge, physical/statistical baselines and Orc-selected eligible methods on identical untouched observations and report negatives and dependence-aware uncertainty with actual compute budgets. Original KAN bitwise snapshot differences remain unresolved.
