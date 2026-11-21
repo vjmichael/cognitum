@@ -93,7 +93,7 @@ def test_mismatched_horizon_source_and_provenance_refused():
     x=r.source_bound("KSEA",1)
     with pytest.raises(ValueError,match="original R3"):
         replace(x["fixed"],horizon_ms=HOUR*3)
-    with pytest.raises(ValueError,match="mismatch"):
+    with pytest.raises(ValueError,match="original R3 source"):
         d=x["selection_kwargs"]
         science.qualify(x["raw"],site_id="KDEN",units=d["units"],clock=d["clock"],
                         provenance=d["provenance"],fixed_research=x["fixed"])
