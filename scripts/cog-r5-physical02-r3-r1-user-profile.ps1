@@ -46,9 +46,14 @@ if(Test-Path -LiteralPath $profileTemp){
       [Security.AccessControl.PropagationFlags]::None,
       [Security.AccessControl.AccessControlType]::Allow))
   }
-  Set-Acl -LiteralPath $profileTemp -AclObject $acl -ErrorAction Stop
+  # The native WindowsPowerShell child can have a restricted module search
+  # path under Start-Process -Credential. Avoid Security-module autoload
+  # entirely: DirectoryInfo exposes the same Windows directory ACL APIs.
+  $directory=[IO.DirectoryInfo]::new($profileTemp)
+  $directory.SetAccessControl($acl)
 }
-$acl=Get-Acl -LiteralPath $profileTemp -ErrorAction Stop
+$directory=[IO.DirectoryInfo]::new($profileTemp)
+$acl=$directory.GetAccessControl()
 $actualOwner=$acl.GetOwner([Security.Principal.SecurityIdentifier]).Value
 $rules=@($acl.GetAccessRules($true,$false,[Security.Principal.SecurityIdentifier]))
 if(-not $acl.AreAccessRulesProtected -or $actualOwner -cne $ExpectedUserSid -or
