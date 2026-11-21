@@ -1,11 +1,6 @@
 name: Cognitum Lu IPC-01C-R1 typed SSM and original native IPC acceptance
 
 on:
-  push:
-    branches:
-      - integration/cog-lu-ipc01c-r1-typed-ssm-20261121
-    paths:
-      - '.github/workflows/cog-lu-ipc01c-r1-native.yml'
   workflow_dispatch:
 
 permissions:
@@ -69,7 +64,7 @@ jobs:
           test "$(git hash-object research_tests/mel_lu_ipc01c/test_typed_ssm_contract.py)" = "dc1af1130a6d5f37cf18c6a20b44ad09be251fc0"
           test "$(git hash-object research_tests/mel_lu_ipc01c/compile_pinned_lu_ssm.py)" = "c4a50016415af98509ac9fe7d0283b2c513ee29a"
           test "$(git hash-object .gitattributes)" = "f475ae5dffefa219891604df8acae665de8c102a"
-          test "$(git hash-object docs/integration/COG_LU_IPC_01C_R1_TYPED_SSM.md)" = "5681de31796c94fb53bb7ef34418fc3e7f43699b"
+          test "$(git hash-object docs/integration/COG_LU_IPC_01C_R1_TYPED_SSM.md)" = "2727735b98646e11439f2e60ba6e8c3019ae517e"
       - name: Preserve original native JUnit and genuinely compiled descriptor evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -116,7 +111,7 @@ jobs:
                     for platform in ("ubuntu-latest","windows-latest")
                     for py in ("3.11","3.13")}
           assert {p.name for p in root.iterdir() if p.is_dir()}==required
-          pins=["4e01d921197fb1c58c99958479b1cede36e13c9a","755562254afdbea686ee33b95567c505f2f85e49","ac57eb0afc4b2f0630531470e067461d8e2268ea","300300b9f63f417afcc0ec650697e3012b7bdab0","b21612457c3763dab8233d0eced5e5fffca968ad","7c70333ddbe85fc187e6b1d5ba9956abca4c5a58","01ec228aa1ac1417c77d7a444f3c27a32b632e1c","405fa91935f62226ab0d1a2f0d8b7313e2327116","d9ca61ce225e90855b2bfba42f98abf78a7d3276","05e40e09c7a3e9bfdf838d38f4e971682ec8cfd2","64ca56b974d8b0d0b5e3d566e8c0c5bab36ee474","8d0e1774c3ba7d697b3fc6190295271f81b76e80","dc1af1130a6d5f37cf18c6a20b44ad09be251fc0","c4a50016415af98509ac9fe7d0283b2c513ee29a","f475ae5dffefa219891604df8acae665de8c102a","5681de31796c94fb53bb7ef34418fc3e7f43699b"]
+          pins=["4e01d921197fb1c58c99958479b1cede36e13c9a","755562254afdbea686ee33b95567c505f2f85e49","ac57eb0afc4b2f0630531470e067461d8e2268ea","300300b9f63f417afcc0ec650697e3012b7bdab0","b21612457c3763dab8233d0eced5e5fffca968ad","7c70333ddbe85fc187e6b1d5ba9956abca4c5a58","01ec228aa1ac1417c77d7a444f3c27a32b632e1c","405fa91935f62226ab0d1a2f0d8b7313e2327116","d9ca61ce225e90855b2bfba42f98abf78a7d3276","05e40e09c7a3e9bfdf838d38f4e971682ec8cfd2","64ca56b974d8b0d0b5e3d566e8c0c5bab36ee474","8d0e1774c3ba7d697b3fc6190295271f81b76e80","dc1af1130a6d5f37cf18c6a20b44ad09be251fc0","c4a50016415af98509ac9fe7d0283b2c513ee29a","f475ae5dffefa219891604df8acae665de8c102a","2727735b98646e11439f2e60ba6e8c3019ae517e"]
           reference=None
           counts={}
           for folder in sorted(root.iterdir()):

@@ -1,0 +1,105 @@
+{
+  "schema": "cognitum.lu_ipc01c_r1.external_original_native_artifacts.v1",
+  "status": "PASS_TYPED_SSM_CONTRACT_AND_UNREGISTERED_PURE_DOMAIN",
+  "original_source_sha": "66eda02c9faae6c31340eaf35474f01b539c0ee0",
+  "original_github_run_id": 44923723958,
+  "original_github_run_url": "https://github.com/vjmichael/cognitum/actions/runs/44923723958",
+  "original_native_jobs_passed": 4,
+  "original_independent_jobs_passed": 1,
+  "native_test_cases": {
+    "per_platform": 100,
+    "platforms": 4,
+    "total_passed": 400,
+    "total_failed": 0,
+    "total_skipped": 0,
+    "new_domain_cases_per_platform": 62
+  },
+  "original_16_git_blob_hashes": [
+    "4e01d921197fb1c58c99958479b1cede36e13c9a",
+    "755562254afdbea686ee33b95567c505f2f85e49",
+    "ac57eb0afc4b2f0630531470e067461d8e2268ea",
+    "300300b9f63f417afcc0ec650697e3012b7bdab0",
+    "b21612457c3763dab8233d0eced5e5fffca968ad",
+    "7c70333ddbe85fc187e6b1d5ba9956abca4c5a58",
+    "01ec228aa1ac1417c77d7a444f3c27a32b632e1c",
+    "405fa91935f62226ab0d1a2f0d8b7313e2327116",
+    "d9ca61ce225e90855b2bfba42f98abf78a7d3276",
+    "05e40e09c7a3e9bfdf838d38f4e971682ec8cfd2",
+    "64ca56b974d8b0d0b5e3d566e8c0c5bab36ee474",
+    "8d0e1774c3ba7d697b3fc6190295271f81b76e80",
+    "dc1af1130a6d5f37cf18c6a20b44ad09be251fc0",
+    "c4a50016415af98509ac9fe7d0283b2c513ee29a",
+    "f475ae5dffefa219891604df8acae665de8c102a",
+    "5681de31796c94fb53bb7ef34418fc3e7f43699b"
+  ],
+  "lu_schema_git_blob": "4e01d921197fb1c58c99958479b1cede36e13c9a",
+  "cognitum_ssm_schema_git_blob": "755562254afdbea686ee33b95567c505f2f85e49",
+  "composite_descriptor_sha256": "d2cf48e33c80837ac99f2a080ba16996617020c84482f690b8ea1e5f089e79f0",
+  "generated_python_sha256": {
+    "lu/workspace/v0/workspace.proto": "3757c3adcd357d57a353a29490c60e687eedb32f6a4d78ea8759378a15e2d22b",
+    "cognitum/ssm/v1/ssm.proto": "4aa6463da1775f93ada551f172ac3a69f5f2e261ca0955089fd4d345b51cef40"
+  },
+  "original_artifacts": [
+    {
+      "artifact_id": 14715490395,
+      "name": "cognitum-lu-ipc01c-r1-windows-latest-py3.13",
+      "original_github_sha256": "sha256:c7941167da76147fd964a37b6c4ed07128286a05ec8f0bf2956104024fc25155",
+      "independently_downloaded_SHA256_matches": true,
+      "zip_crc_verified": true,
+      "original_junit_cases_passed": 100
+    },
+    {
+      "artifact_id": 14715490303,
+      "name": "cognitum-lu-ipc01c-r1-ubuntu-latest-py3.13",
+      "original_github_sha256": "sha256:84b5e4e10cd0456e16279f8a7a596462f990bca20b2a93c6a8bc0df040964836",
+      "independently_downloaded_SHA256_matches": true,
+      "zip_crc_verified": true,
+      "original_junit_cases_passed": 100
+    },
+    {
+      "artifact_id": 14715291200,
+      "name": "cognitum-lu-ipc01c-r1-windows-latest-py3.11",
+      "original_github_sha256": "sha256:5b42e872bcc028967eada76c9f1b7d50061a4686d7078332b5296f954d124239",
+      "independently_downloaded_SHA256_matches": true,
+      "zip_crc_verified": true,
+      "original_junit_cases_passed": 100
+    },
+    {
+      "artifact_id": 14714986241,
+      "name": "cognitum-lu-ipc01c-r1-ubuntu-latest-py3.11",
+      "original_github_sha256": "sha256:5119dde6695d84bf1eb73fdabf71c893b380854c84e5e36c65b4f1800becfe3b",
+      "independently_downloaded_SHA256_matches": true,
+      "zip_crc_verified": true,
+      "original_junit_cases_passed": 100
+    },
+    {
+      "artifact_id": 14714922924,
+      "name": "cognitum-lu-ipc01c-r1-independent",
+      "original_github_sha256": "sha256:5904a47bc2a25096142aee6d1fc403a938aac2f4eac9d03c4e8eccf554598149",
+      "independently_downloaded_SHA256_matches": true,
+      "zip_crc_verified": true,
+      "original_junit_cases_passed": null
+    }
+  ],
+  "independent_external_checks": {
+    "original_all_5_zip_SHA256_and_CRC_true": true,
+    "all_4_original_JUnits_100_matching_cases": true,
+    "all_4_original_source_and_16_git_blobs_match": true,
+    "all_native_protoc_files_match": true,
+    "original_fifth_job_receipt_verified": true
+  },
+  "trust_boundaries": {
+    "real_installed_Lu_Core_health_verified": false,
+    "signed_Cognitum_DLC_admitted": false,
+    "native_lu_pure_tool_effect_granted": false,
+    "ssm_effect_invocation_enabled": false,
+    "accepted_hardware_monotonic_floor": false,
+    "source_fixture_only": true
+  },
+  "core_issues": [
+    "https://github.com/vjmichael/Lu-AI-GUI/issues/245",
+    "https://github.com/vjmichael/Lu-AI-GUI/issues/248"
+  ],
+  "closeout_does_not_requalify_untested_source": true,
+  "manual_workflow_pin_note": "Docs pin updated to the closeout doc blob only, 15 original code/source/test pins unchanged. Original run remains certified by its own SHA and original ZIP evidence."
+}
