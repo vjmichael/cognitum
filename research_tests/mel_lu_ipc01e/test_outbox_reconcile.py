@@ -362,6 +362,23 @@ def test_original_lu_anchor_outage_stalls_without_implicit_recovery(combined):
     assert combined["journal"].status()["pending_outputs"]==1
 
 
+def test_uncertain_hold_blocks_existing_credit_and_new_progress(combined):
+    original=combined["verifier"]
+    original.note_credit(1,0)
+    bridge.record_uncertain_delivery_hold(original,"host_outcome_unknown")
+    with pytest.raises(ValueError,match="lifecycle refused"):
+        original.observe_frame(raw_frame(combined,"operation_event",
+            lu.OperationEvent(
+                operation_ref=EVENT,
+                progress=lu.OperationProgress(stage_code="untrusted",percent=10)),
+            seq=1))
+    with pytest.raises(ValueError,match="lifecycle refused"):
+        original.note_credit(1,0)
+    assert original.status()["remaining_credits"]==1
+    assert original.status()["uncertain_hold"]
+    assert not original.status()["result_publication_authorized"]
+
+
 def test_no_automatic_ack_server_model_dispatch_or_replay_credential(combined):
     assert not hasattr(bridge,"publish")
     assert not hasattr(bridge,"acknowledge")

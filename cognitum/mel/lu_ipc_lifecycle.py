@@ -294,8 +294,8 @@ class DurableLuOperationVerifier:
             if kind=="credit":
                 msg=self._decode_frame(raw,"stream_credit")
                 d=msg.stream_credit
-                _need(not state["revoked"] and state["terminal"] is None and
-                      d.operation_ref==self._op and
+                _need(not state["revoked"] and not state["uncertain_hold"] and
+                      state["terminal"] is None and d.operation_ref==self._op and
                       d.acknowledged_sequence<=state["sequence"] and
                       1<=d.additional_events<=MAX_CREDIT and
                       state["credits"]+d.additional_events<=MAX_CREDIT,
@@ -304,8 +304,8 @@ class DurableLuOperationVerifier:
             elif kind in ("progress","terminal"):
                 msg=self._decode_frame(raw,"operation_event",stream_event=True)
                 event=msg.operation_event
-                _need(not state["revoked"] and state["terminal"] is None and
-                      state["credits"]>0 and
+                _need(not state["revoked"] and not state["uncertain_hold"] and
+                      state["terminal"] is None and state["credits"]>0 and
                       msg.sequence==state["sequence"]+1 and
                       event.operation_ref==self._op and
                       event.WhichOneof("data")==kind,
