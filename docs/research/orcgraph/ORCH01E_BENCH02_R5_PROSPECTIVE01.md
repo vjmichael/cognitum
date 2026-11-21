@@ -1,6 +1,6 @@
 # COG-ORCH-01E-BENCH-02-R5-PROSPECTIVE-01 — durable source-first-seen operator custody
 
-**Status:** precommitted source-only operational qualification; real 28-day prospective capture remains NOT STARTED. This is not a new KAN/HDC result, a publisher-signed first-availability claim, or installed MEL authorization.
+**Status: SOURCE-ONLY NATIVE ACCEPTED (5/5 original jobs); REAL DUAL-RUN ARTIFACT PUBLICATION AND INSTALLED SCHEDULE NOT YET QUALIFIED.** No actual NOAA poll or 28-day prospective acquisition has started. This is not a new KAN/HDC result, a publisher-signed first-availability claim, or installed MEL authorization.
 
 ## Why the additional collector was necessary
 
@@ -41,3 +41,13 @@ At 2 lanes × 6 polls/hour × 24 hours/day × 28 days, the design calls for **8,
 3. Collect and externally verify all source/negative/gap records across the 28-day prospective study. Accept missingness as failed eligibility, not replacement.
 4. Freeze original method fits/selection before future heldout scoring, evaluate every predeclared site/horizon against strong classical baselines, with source-dependent uncertainty and full refusal denominators.
 5. Independent HDC/KAN capacity and learning-curve studies on **new** observations; separately qualify FIN-01 installed MEL authority.
+
+## Accepted native evidence and exact remaining operational qualification
+
+[Original run #44878446644](https://github.com/vjmichael/cognitum/actions/runs/44878446644) **PASS** at exact source commit `74be636fb3049cbb291193d78593d9bb15273566`. Original native Windows/Linux Python 3.11/3.13 each passed **336/336** unchanged and new source-admission tests, or **1,344/1,344** native test executions; zero failed/error/skipped. The fifth separately executed independent native receipt validator passed full four-way source SHA, original nine canonical source Git identities and identical original JUnit case inventories. Independently downloaded all five original GitHub ZIPs, matched GitHub-recorded ZIP SHA-256s and CRCs, extracted each JUnit and matched source SHA. [Complete original artifact manifest](ORCH01E_BENCH02_R5_PROSPECTIVE01_NATIVE_ARTIFACTS.json).
+
+**No new source-acceptance failure on this exact candidate.** The genuine issue identified in the operational architecture is not a negative test: there is as yet **no running protected publication relay that takes the durable original slot export, uploads it as an immutable GitHub artifact, and confirms the external server creation time in a separate real A/B workflow run**. All trustworthy GitHub artifact metadata checked *for the R5-PROSPECTIVE-01 source intake* was synthetic within negative tests; the real downloaded ZIPs in this qualification contain **test outputs**, not real NOAA polls. Hence the operational **two-lane end-to-end publication acceptance remains OPEN** despite passing native code tests.
+
+Installed Windows credential custody remains unqualified: the source deliberately refuses to activate with a raw key file on Windows. Actual protected unattended source host scheduling must not be installed/activated until its first operator grant, egress/retention/runner budget and exact source SHA are reviewed. Real operator grants created = **0**; real source observations acquired = **0**; externally witnessed prospective original two-lane polling slots = **0**. One original 28-day study would require up to **8,064 individual source polls**. No model accuracy, KAN/HDC training, original R5 science prereg or previous negative result changed.
+
+**Scoped acceptance ruling:** Durable journal, fail-closed operator-authorization checks, explicit recovery/gap/source-error and correction handling, external GitHub metadata+ZIP cryptographic verification *implementation and synthetic native regression* PASS. Do **not** claim installed publisher, third-party two-run custody, a verified prospective first-seen source timeline or operation over 28 days. The next engineering task is **R5-PROSPECTIVE-01-R1**: build and independently qualify the real two-run protected GitHub artifact publisher/reader transport and installed timer custody, with no scheduled collection until operator approval.

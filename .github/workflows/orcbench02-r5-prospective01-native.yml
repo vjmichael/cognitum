@@ -1,9 +1,6 @@
 name: Cognitum BENCH-02 R5-PROSPECTIVE-01 durable two-lane source custody qualification
 
 on:
-  push:
-    branches:
-      - research/orc-bench02-r5-prospective01-custody-20261120
   workflow_dispatch:
 
 permissions:

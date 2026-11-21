@@ -114,3 +114,6 @@
 /tools/orcbench02/prospective_r5_custody.py text eol=lf
 /tests/test_orc_bench02_r5_prospective01.py text eol=lf
 /.github/workflows/orcbench02-r5-prospective01-native.yml text eol=lf
+
+# Accepted R5-PROSPECTIVE-01 qualified native evidence.
+/docs/research/orcgraph/ORCH01E_BENCH02_R5_PROSPECTIVE01_NATIVE_ARTIFACTS.json text eol=lf

@@ -1,0 +1,111 @@
+{
+  "schema": "cognitum.orc.bench02.r5.prospective01.native_custody_acceptance.v1",
+  "task": "COG-ORCH-01E-BENCH-02-R5-PROSPECTIVE-01",
+  "disposition": "ACCEPTED_SOURCE_ONLY_NATIVE_SYNTHETIC_OPERATOR_JOURNAL; REAL_TWO_LANE_EXTERNAL_PUBLISHING_NOT_YET_QUALIFIED",
+  "accepted_original_native_source_sha": "74be636fb3049cbb291193d78593d9bb15273566",
+  "native_workflow": {
+    "run_id": 44878446644,
+    "url": "https://github.com/vjmichael/cognitum/actions/runs/44878446644",
+    "result": "success",
+    "native_jobs_passed": 4,
+    "independent_source_parity_job": "success"
+  },
+  "preregistered_before_source_implementation": {
+    "commit": "6dea4be2724e17c3d36d4bf18638b3cb7e63a0d2",
+    "operator_protocol_git_blob": "4329f1e3281c7a7590cec5720dbca6a0c77c6e7f",
+    "original_R5_prereg_git_blob": "02828d09afaf584a9b5cc8a66e0f2de917b48429"
+  },
+  "original_source_native_artifacts": [
+    {
+      "os": "ubuntu-latest",
+      "python": "3.11",
+      "id": 14697132188,
+      "zip_sha256": "d8fa98b0bddceb5374a4ff5bdc7fb43f186b2893b723c47bee75fa65bc0af91c",
+      "junit_tests": 336,
+      "junit_failures": 0,
+      "junit_errors": 0,
+      "junit_skips": 0
+    },
+    {
+      "os": "ubuntu-latest",
+      "python": "3.13",
+      "id": 14696987857,
+      "zip_sha256": "0c82f3d66cd651f8ecef00dcc00d7487535d6ccdeb7af342718622b8ab609155",
+      "junit_tests": 336,
+      "junit_failures": 0,
+      "junit_errors": 0,
+      "junit_skips": 0
+    },
+    {
+      "os": "windows-latest",
+      "python": "3.11",
+      "id": 14696923009,
+      "zip_sha256": "4450d1971a74837f73ffaa21722ebc3751529b3a9c2199673db612b567e55da4",
+      "junit_tests": 336,
+      "junit_failures": 0,
+      "junit_errors": 0,
+      "junit_skips": 0
+    },
+    {
+      "os": "windows-latest",
+      "python": "3.13",
+      "id": 14696268395,
+      "zip_sha256": "4d2a4033dc676987460048d9a5b6d1d3bb30482af5d1a0b2bf4b386ada75a8f5",
+      "junit_tests": 336,
+      "junit_failures": 0,
+      "junit_errors": 0,
+      "junit_skips": 0
+    }
+  ],
+  "independent_original_four_native_artifact": {
+    "id": 14696858260,
+    "zip_sha256": "a58c51b11ad3bcfe846d0a9df7f05bc4ef94ec81cbe87bba5e5791c66660ec95",
+    "status": "PASS_EXACT_FOUR_SOURCE_AND_JUNIT_INVENTORIES",
+    "notes": "original independent source receipt explicitly says NO real two lane artifact publication qualified"
+  },
+  "total_test_executions": 1344,
+  "all_five_original_archive_SHA256_and_CRC_independently_verified": true,
+  "all_four_identical_source_SHA_and_original_JUnit_inventory": true,
+  "synthetic_negative_tests_cover": [
+    "forged/expired/lane-scoped/operator-grant denial",
+    "one request maximum per ten minute slot and duplicate replay",
+    "transactional intent before source fetch; crash becomes INTERRUPTED",
+    "unattended missing and late slot becomes GAP, no imputation",
+    "HTTP429, unexpected station, malformed source body and network fault become ERROR",
+    "original source bytes preserved with bounded SHA and no backdating",
+    "SQL UPDATE/DELETE denial, grant identity mismatch on restart",
+    "full synthetic 25h two independent source histories for 24h original feature lag",
+    "source correction/duplicate observation refusal",
+    "original Github ZIP name/ID/run/source SHA/digest/capture-time authenticity checks under synthetic metadata fixture",
+    "first-seen original source cannot use future external creation timestamp",
+    "two witness runs must differ; skipped artifact/slot refuses"
+  ],
+  "source_custody_status": {
+    "host_journal": "source-locked SQLite WAL FULL, hash chained and append-only synthetic tests PASSED",
+    "operator_grants": "strict signed HMAC time and exact source binding synthetic tests PASSED",
+    "posix_key_file_custody": "0600 owner and regular file tests passed on Linux; Windows real protected key custody not implemented",
+    "no_unattended_polling_authorized": true,
+    "actual_operator_keys_installed": 0,
+    "no_real_NOAA_POLLs": 0,
+    "actual_GitHub_source_poll_artifacts_created": 0,
+    "no_live_two_independent_source_hosts_accepted": true,
+    "GitHub_artifact_metadata_and_digest": "verifier implemented and mock-qualified; actual two distinct source-run e2e publication not witnessed",
+    "future_first_publication_global_publisher_attestation": false,
+    "installed_MEL_authority": false
+  },
+  "original_scientific_evidence_preserved": {
+    "original_R5_source_report_git_blob": "b36cd8ed271bf3983946ada248babc43c3f298ed",
+    "original_R4_negative_report_git_blob": "5dc4fa1f980fc7678371cba78dbfdbdfe09fb651",
+    "original_accepted_R5_native_artifacts_git_blob": "f81413068cbb6b62a6c9677e2a0ef2843eecb16b",
+    "no_new_KAN_HDC_model_training": true,
+    "no_retroactive_R3_R4_target_or_cohort_changes": true
+  },
+  "necessary_operational_next": [
+    "Build/source-qualify protected artifact publisher accepting local immutable poll.json and supported GitHub Actions immutable per-poll upload; verify GitHub server artifact metadata/ZIP in two separate real runs",
+    "Install two separately supervised source observers under explicit operator approval (Linux POSIX protected key; independently qualify Windows if required) with service/timer disabled by default",
+    "Verify timestamp/retention/uptime, rate limit, clock drift and queue delays under installed restart",
+    "Approve per-lane 4032 polls and up to 8064 per-poll artifacts, cost and retention before launch",
+    "Collect full 28d KBOS/KMSP/KPHX chronological witnesses and score only frozen methods after calibration"
+  ],
+  "next_task": "COG-ORCH-01E-BENCH-02-R5-PROSPECTIVE-01-R1 — independently qualify genuine protected publication transport and dual-run external GitHub timestamp/custody, preserving unapproved schedule off"
+}
