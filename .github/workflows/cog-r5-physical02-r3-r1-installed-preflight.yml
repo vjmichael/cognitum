@@ -31,6 +31,9 @@ jobs:
             $errors=$null
             [void][Management.Automation.Language.Parser]::ParseFile((Resolve-Path $p).Path,[ref]$tokens,[ref]$errors)
             if(@($errors).Count -ne 0){throw 'Read-only installed script has syntax error'}
+            if(Select-String -LiteralPath $p -Pattern '(?im)^\s*\$(home|host)\s*='){
+              throw 'PowerShell protected automatic variable assignment in production preflight'
+            }
           }
       - name: Compile distinct genuine no-worker production SCM bootstrap
         shell: pwsh
@@ -107,10 +110,22 @@ jobs:
               if($LASTEXITCODE -ne 0){throw 'Trusted per-file ACE setup failed'}
               & icacls.exe $caseRoot /setowner '*S-1-5-32-544' /T /C /Q |Out-Null
               if($LASTEXITCODE -ne 0){throw 'Trusted per-file ownership setup failed'}
-              & icacls.exe $caseRoot /grant ('*'+$runnerSid+':(OI)(CI)RX') /T /C /Q |Out-Null
-              if($LASTEXITCODE -ne 0){throw 'Read-only audit ACE setup failed'}
+              # A leaf file requires an effective ACE for the current runner,
+              # not just an inheritable (OI)(CI) ACE on its parent directory.
+              & icacls.exe $caseRoot /grant ('*'+$runnerSid+':RX') /T /C /Q |Out-Null
+              if($LASTEXITCODE -ne 0){throw 'Explicit read-only test audit ACE setup failed'}
               & icacls.exe $caseRoot /inheritance:r /T /C /Q |Out-Null
               if($LASTEXITCODE -ne 0){throw 'Inherited runner write ACE elimination failed'}
+              # Reaffirm exact LEAF read-only ACE after removing inheritance.
+              # This never grants worker or test runner Modify/Write.
+              & icacls.exe $caseRoot /grant ('*'+$runnerSid+':RX') /T /C /Q |Out-Null
+              if($LASTEXITCODE -ne 0){throw 'Protected leaf read-only audit ACE unavailable'}
+              foreach($candidateFile in @($empty,$code,$manifest,$provenance,$unsigned)){
+                try{
+                  $handle=[IO.File]::OpenRead($candidateFile)
+                  $handle.Dispose()
+                }catch{throw 'Protected CI witness lacks read-only access before independent audit'}
+              }
             }
             return [pscustomobject]@{Home=$caseRoot;Runtime=$runtime;ManifestPin=$pin;ProvenancePin=$ppin;UnsignedPin=$unsignedPin}
           }

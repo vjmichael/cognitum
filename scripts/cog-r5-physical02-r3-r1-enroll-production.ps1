@@ -99,11 +99,23 @@ if($LASTEXITCODE -ne 0){Refuse 'SCM protected dedicated registration failed'}
 if($LASTEXITCODE -ne 0){Refuse 'Restricted service SID failed; installed state requires independent review'}
 & sc.exe start $service
 if($LASTEXITCODE -ne 0){Refuse 'Protected SCM startup failed; installed state requires independent review'}
+# sc.exe reports a pending transition before Win32_Service becomes RUNNING.
+# Bound this observer to 10 seconds; it creates no second operation.
+$started=$false
+for($i=0;$i -lt 50;$i++){
+ $observed=Get-CimInstance Win32_Service -Filter "Name='$service'"
+ if($null -ne $observed -and $observed.State -ceq 'Running'){
+  $started=$true
+  break
+ }
+ Start-Sleep -Milliseconds 200
+}
+if(-not $started){Refuse 'Native SCM service failed bounded RUNNING observation'}
 $h=& $hostGate -InstalledExecutable $exe -ApprovedInstallRoot $root -ApprovedImageSha256 $ApprovedExecutableSha256 -ApprovedSignerCertificateSha256 $ApprovedSignerCertificateSha256
 if(-not $h){Refuse 'Real signed installed host witness absent'}
-$host=($h|Out-String)|ConvertFrom-Json
-if($host.status -cne 'PASS_SIGNED_SCM_IDENTITY_OBSERVATION_ONLY' -or
-   $host.external_output_release_authorized -ne $false){
+$hostWitness=($h|Out-String)|ConvertFrom-Json
+if($hostWitness.status -cne 'PASS_SIGNED_SCM_IDENTITY_OBSERVATION_ONLY' -or
+   $hostWitness.external_output_release_authorized -ne $false){
  Refuse 'Original installed SCM service identity not verified'
 }
 [pscustomobject]@{
@@ -112,7 +124,7 @@ if($host.status -cne 'PASS_SIGNED_SCM_IDENTITY_OBSERVATION_ONLY' -or
  signed_installer_sha256=$pkg.release_package_sha256
  signed_service_sha256=$ApprovedExecutableSha256
  protected_runtime_manifest_sha256=$runtime.manifest_sha256
- service_pid=$host.service_pid
+ service_pid=$hostWitness.service_pid
  nonadmin_AppContainer_worker_verified=$false
  separate_production_CNG_signer_verified=$false
  original_Lu_Core_grant_verified=$false
