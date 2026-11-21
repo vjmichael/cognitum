@@ -1,0 +1,172 @@
+name: Cognitum Lu IPC-01C-R1 typed SSM and original native IPC acceptance
+
+on:
+  push:
+    branches:
+      - integration/cog-lu-ipc01c-r1-typed-ssm-20261121
+    paths:
+      - '.github/workflows/cog-lu-ipc01c-r1-native.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cognitum-lu-ipc01c-r1-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  native:
+    name: Cognitum typed SSM v1 / ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.11','3.13']
+    env:
+      PYTHONHASHSEED: '0'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install exact native protoc, MEL mathematical and test dependencies
+        run: python -m pip install grpcio-tools==1.76.0 protobuf==6.33.1 numpy==2.2.6 scipy==1.15.3 pytest==9.0.2
+      - name: Native compile exact original Lu v0 and Cognitum SSM v1 sources
+        shell: bash
+        run: |
+          python -m research_tests.mel_lu_ipc01c.compile_pinned_lu_ssm \
+            --root "$GITHUB_WORKSPACE/cognitum/mel/vendor" \
+            --descriptor-out "$GITHUB_WORKSPACE/lu-cog-ssm-v1.desc" \
+            --receipt "$GITHUB_WORKSPACE/lu-cog-ssm-v1-native.json"
+      - name: Test original five MEL descriptors, native IPC and strict SSM type/effect boundaries
+        run: python -m pytest -q research_tests/mel_lu_ipc01a/test_workspace_contract.py research_tests/mel_lu_ipc01a/test_proto_client.py research_tests/mel_lu_ipc01b/test_native_carriers.py research_tests/mel_lu_ipc01c/test_typed_ssm_contract.py --junitxml=lu-ipc01c-r1-native.xml
+      - name: Preserve immutable original source SHA and 16 code/contract Git blob identities
+        if: always()
+        shell: bash
+        run: |
+          git rev-parse HEAD > lu-ipc01c-r1-source-sha.txt
+          git hash-object cognitum/mel/vendor/lu/workspace/v0/workspace.proto cognitum/mel/vendor/cognitum/ssm/v1/ssm.proto cognitum/mel/lu_workspace_contract.py cognitum/mel/lu_adapter.py cognitum/mel/lu_ipc_readonly.py cognitum/mel/lu_ipc_native.py cognitum/mel/lu_ssm_contract.py cognitum/mel/admission.py cognitum/mel/ssm_recovery.py research_tests/mel_lu_ipc01a/test_workspace_contract.py research_tests/mel_lu_ipc01a/test_proto_client.py research_tests/mel_lu_ipc01b/test_native_carriers.py research_tests/mel_lu_ipc01c/test_typed_ssm_contract.py research_tests/mel_lu_ipc01c/compile_pinned_lu_ssm.py .gitattributes docs/integration/COG_LU_IPC_01C_R1_TYPED_SSM.md > lu-ipc01c-r1-source-blobs.txt
+          test "$(git hash-object cognitum/mel/vendor/lu/workspace/v0/workspace.proto)" = "4e01d921197fb1c58c99958479b1cede36e13c9a"
+          test "$(git hash-object cognitum/mel/vendor/cognitum/ssm/v1/ssm.proto)" = "755562254afdbea686ee33b95567c505f2f85e49"
+          test "$(git hash-object cognitum/mel/lu_workspace_contract.py)" = "ac57eb0afc4b2f0630531470e067461d8e2268ea"
+          test "$(git hash-object cognitum/mel/lu_adapter.py)" = "300300b9f63f417afcc0ec650697e3012b7bdab0"
+          test "$(git hash-object cognitum/mel/lu_ipc_readonly.py)" = "b21612457c3763dab8233d0eced5e5fffca968ad"
+          test "$(git hash-object cognitum/mel/lu_ipc_native.py)" = "7c70333ddbe85fc187e6b1d5ba9956abca4c5a58"
+          test "$(git hash-object cognitum/mel/lu_ssm_contract.py)" = "01ec228aa1ac1417c77d7a444f3c27a32b632e1c"
+          test "$(git hash-object cognitum/mel/admission.py)" = "405fa91935f62226ab0d1a2f0d8b7313e2327116"
+          test "$(git hash-object cognitum/mel/ssm_recovery.py)" = "d9ca61ce225e90855b2bfba42f98abf78a7d3276"
+          test "$(git hash-object research_tests/mel_lu_ipc01a/test_workspace_contract.py)" = "05e40e09c7a3e9bfdf838d38f4e971682ec8cfd2"
+          test "$(git hash-object research_tests/mel_lu_ipc01a/test_proto_client.py)" = "64ca56b974d8b0d0b5e3d566e8c0c5bab36ee474"
+          test "$(git hash-object research_tests/mel_lu_ipc01b/test_native_carriers.py)" = "8d0e1774c3ba7d697b3fc6190295271f81b76e80"
+          test "$(git hash-object research_tests/mel_lu_ipc01c/test_typed_ssm_contract.py)" = "dc1af1130a6d5f37cf18c6a20b44ad09be251fc0"
+          test "$(git hash-object research_tests/mel_lu_ipc01c/compile_pinned_lu_ssm.py)" = "c4a50016415af98509ac9fe7d0283b2c513ee29a"
+          test "$(git hash-object .gitattributes)" = "f475ae5dffefa219891604df8acae665de8c102a"
+          test "$(git hash-object docs/integration/COG_LU_IPC_01C_R1_TYPED_SSM.md)" = "5681de31796c94fb53bb7ef34418fc3e7f43699b"
+      - name: Preserve original native JUnit and genuinely compiled descriptor evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cognitum-lu-ipc01c-r1-${{ matrix.os }}-py${{ matrix.python }}
+          path: |
+            lu-ipc01c-r1-native.xml
+            lu-ipc01c-r1-source-sha.txt
+            lu-ipc01c-r1-source-blobs.txt
+            lu-cog-ssm-v1.desc
+            lu-cog-ssm-v1-native.json
+            cognitum/mel/vendor/lu/workspace/v0/workspace_pb2.py
+            cognitum/mel/vendor/cognitum/ssm/v1/ssm_pb2.py
+          if-no-files-found: warn
+
+  independent:
+    name: Original native 4x JUnit/source and Lu-Cognitum compiled Protobuf audit
+    needs: [native]
+    if: ${{ always() && needs.native.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: cognitum-lu-ipc01c-r1-*
+          path: original-native-evidence
+          merge-multiple: false
+      - name: Independently verify original four platform Protobuf and no-live-grant evidence
+        shell: bash
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os,xml.etree.ElementTree as ET
+          root=Path("original-native-evidence")
+          required={f"cognitum-lu-ipc01c-r1-{platform}-py{py}"
+                    for platform in ("ubuntu-latest","windows-latest")
+                    for py in ("3.11","3.13")}
+          assert {p.name for p in root.iterdir() if p.is_dir()}==required
+          pins=["4e01d921197fb1c58c99958479b1cede36e13c9a","755562254afdbea686ee33b95567c505f2f85e49","ac57eb0afc4b2f0630531470e067461d8e2268ea","300300b9f63f417afcc0ec650697e3012b7bdab0","b21612457c3763dab8233d0eced5e5fffca968ad","7c70333ddbe85fc187e6b1d5ba9956abca4c5a58","01ec228aa1ac1417c77d7a444f3c27a32b632e1c","405fa91935f62226ab0d1a2f0d8b7313e2327116","d9ca61ce225e90855b2bfba42f98abf78a7d3276","05e40e09c7a3e9bfdf838d38f4e971682ec8cfd2","64ca56b974d8b0d0b5e3d566e8c0c5bab36ee474","8d0e1774c3ba7d697b3fc6190295271f81b76e80","dc1af1130a6d5f37cf18c6a20b44ad09be251fc0","c4a50016415af98509ac9fe7d0283b2c513ee29a","f475ae5dffefa219891604df8acae665de8c102a","5681de31796c94fb53bb7ef34418fc3e7f43699b"]
+          reference=None
+          counts={}
+          for folder in sorted(root.iterdir()):
+              assert (folder/"lu-ipc01c-r1-source-sha.txt").read_text().strip()==os.environ["SOURCE_SHA"]
+              assert (folder/"lu-ipc01c-r1-source-blobs.txt").read_text().splitlines()==pins
+              meta=json.loads((folder/"lu-cog-ssm-v1-native.json").read_text())
+              assert meta["schema"]=="cognitum.lu_ipc01c_r1.native_protoc_compilation.v1"
+              assert meta["exact_lu_workspace_proto_preserved"]
+              assert meta["cognitum_domain_proto_compiled"]
+              assert not meta["live_registration_authorized"]
+              assert not meta["genuine_installed_lu_core_connected"]
+              lu="lu/workspace/v0/workspace.proto"
+              ssm="cognitum/ssm/v1/ssm.proto"
+              assert meta["exact_owner_sources"][lu]["git_blob_sha"]==pins[0]
+              assert meta["exact_owner_sources"][ssm]["git_blob_sha"]==pins[1]
+              assert hashlib.sha256((folder/"lu-cog-ssm-v1.desc").read_bytes()).hexdigest()==meta["composite_descriptor_sha256"]
+              for name in (lu,ssm):
+                  generated=folder/("cognitum/mel/vendor/"+name.replace(".proto","_pb2.py"))
+                  assert generated.is_file()
+                  assert hashlib.sha256(generated.read_bytes()).hexdigest()==meta["generated_python_sha256"][name]
+              cases=list(ET.parse(folder/"lu-ipc01c-r1-native.xml").getroot().iter("testcase"))
+              assert len(cases)>=90,(folder.name,len(cases))
+              assert not any(c.find(tag) is not None for c in cases
+                             for tag in ("failure","error","skipped"))
+              names=sorted((c.get("classname"),c.get("name")) for c in cases)
+              assert len(set(names))==len(names)
+              assert sum("mel_lu_ipc01c" in c.get("classname") for c in cases)>=50
+              identity=(names,meta["composite_descriptor_sha256"],
+                        tuple(sorted(meta["generated_python_sha256"].items())))
+              if reference is None:reference=identity
+              else:assert identity==reference
+              counts[folder.name]=len(cases)
+          assert len(set(counts.values()))==1
+          receipt=dict(schema="cognitum.lu_ipc01c_r1.original_qualified_evidence.v1",
+             status="PASS_TYPED_SSM_CONTRACT_AND_UNREGISTERED_PURE_DOMAIN",
+             qualified_sha=os.environ["SOURCE_SHA"],native_test_counts=counts,
+             cross_platform_source_descriptor_and_JUnit_identical=True,
+             exact_16_Git_blobs_match=True,
+             genuine_installed_Core_invocation_qualified=False,
+             Lu_CORE_PURE_COMPUTE_bridge_qualified=False,
+             model_tool_registration_authorized=False,
+             hardware_revision_authority_qualified=False)
+          Path("lu-ipc01c-r1-independent.json").write_text(
+              json.dumps(receipt,sort_keys=True,indent=2)+"\n")
+          print(json.dumps(receipt,sort_keys=True))
+          PY
+      - name: Preserve fifth original independent exact-source receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cognitum-lu-ipc01c-r1-independent
+          path: lu-ipc01c-r1-independent.json
+          if-no-files-found: warn
