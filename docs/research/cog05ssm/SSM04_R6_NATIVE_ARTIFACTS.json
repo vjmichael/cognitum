@@ -1,0 +1,104 @@
+{
+  "schema": "cognitum.ssm04r6.external_original_native_artifact_verification.v1",
+  "qualification": "PASS_EXACT_SOURCE_NATIVE_AUTHENTICATED_STREAM_CHECKPOINTS",
+  "original_qualified_sha": "8f09e45fe598e5e7a21cb5bcdd62f0025bd3b2b1",
+  "original_run_id": 44913653728,
+  "original_run_attempt": 1,
+  "original_run_url": "https://github.com/vjmichael/cognitum/actions/runs/44913653728",
+  "original_job_conclusions": {
+    "native_ubuntu_py311": "success",
+    "native_ubuntu_py313": "success",
+    "native_windows_py311": "success",
+    "native_windows_py313": "success",
+    "independent": "success"
+  },
+  "test_summary": {
+    "per_platform_passed": 199,
+    "aggregate_passed": 796,
+    "aggregate_failed": 0,
+    "aggregate_errors": 0,
+    "aggregate_skipped": 0,
+    "r6_cases_per_platform": 22,
+    "prior_ssm_cases_per_platform": 177
+  },
+  "source_blob_hashes": {
+    "cognitum/research/ssm_stochastic.py": "e6616d14f4b02bd447f872f2a67a444d83bc7df6",
+    "cognitum/research/ssm_stochastic_extended.py": "19aefcc2c01ff629f6da5778b12fa0d495a3b610",
+    "cognitum/research/ssm_stochastic_continuous.py": "026ee4e3b9e4e8be7d0158b9e8771bb691809293",
+    "cognitum/research/ssm_stochastic_increments.py": "3eebcec1da8bae1cb3a65d33aab389c584cff89b",
+    "research_tests/ssm04r2/test_continuous.py": "8b8b16a9f3a3355cadd8ac7b19bf05af097e737a",
+    "research_tests/ssm04r3/test_increments.py": "ee311ead4b017e0e080f41cf412d22bfff0139b3",
+    "cognitum/research/ssm_stochastic_smoothing.py": "bc657af3ba28474c72bbb34376739f6bdef82106",
+    "research_tests/ssm04r4/test_correlated_smoothing.py": "f9cc09a3a54308135d6f25f63904d18d0d3ff6f8",
+    "cognitum/research/ssm_stochastic_streaming.py": "731208b392d3a948ee7677c2e24f1117e2c8df79",
+    "research_tests/ssm04r5/test_streaming.py": "826e1a7402cf89ae5c8855cbe52fd8280617c73a",
+    "cognitum/research/ssm_stochastic_checkpoints.py": "30773bfaf4871bf686df0690419e3244c380be03",
+    "research_tests/ssm04r6/test_checkpoints.py": "23ae54dc6a8c47e2230df98af58d4eba3808ba77"
+  },
+  "artifacts": [
+    {
+      "artifact_id": 14711185150,
+      "name": "cog05-ssm04r6-ubuntu-latest-py3.11",
+      "github_sha256_digest": "sha256:2b58f92e78a6751577a901b98669aae6e85594def4937340593218fec0515540",
+      "independently_downloaded_zip_sha256_matched": true,
+      "independently_verified_zip_crc": true,
+      "original_junit_passed_count": 199
+    },
+    {
+      "artifact_id": 14710986859,
+      "name": "cog05-ssm04r6-ubuntu-latest-py3.13",
+      "github_sha256_digest": "sha256:30b298250e235df4c34819a93beffc4fb5a1b89e7d96a842b7756b4bd7bb3541",
+      "independently_downloaded_zip_sha256_matched": true,
+      "independently_verified_zip_crc": true,
+      "original_junit_passed_count": 199
+    },
+    {
+      "artifact_id": 14710877247,
+      "name": "cog05-ssm04r6-windows-latest-py3.11",
+      "github_sha256_digest": "sha256:3606b1815d83eba0260d883ec07b134c2bbd03882142cfb9cc76b2759235ca26",
+      "independently_downloaded_zip_sha256_matched": true,
+      "independently_verified_zip_crc": true,
+      "original_junit_passed_count": 199
+    },
+    {
+      "artifact_id": 14710717711,
+      "name": "cog05-ssm04r6-windows-latest-py3.13",
+      "github_sha256_digest": "sha256:8b7e005498d1133537c03db0b873a1e2f6f1471d6c06c66eddc35d940f779ac0",
+      "independently_downloaded_zip_sha256_matched": true,
+      "independently_verified_zip_crc": true,
+      "original_junit_passed_count": 199
+    },
+    {
+      "artifact_id": 14709664916,
+      "name": "cog05-ssm04r6-independent-native",
+      "github_sha256_digest": "sha256:42c204dd502b8a6ad0e2a3572e9910c7f775a31b6e07b7d49a26f5c14909c42e",
+      "independently_downloaded_zip_sha256_matched": true,
+      "independently_verified_zip_crc": true,
+      "original_junit_passed_count": null
+    }
+  ],
+  "independent_external_verification": {
+    "four_original_junit_test_id_lists_identical": true,
+    "all_original_junit_case_identities_unique": true,
+    "all_original_sources_sha_match_qualified_sha": true,
+    "all_12_source_blobs_match_original_qualified_sha": true,
+    "all_four_native_xml_error_failure_skip_absent": true,
+    "original_fifth_job_receipt_verified": true
+  },
+  "first_run_note": {
+    "run_id": 44913499219,
+    "sha": "266803706d0bbd550f4540b1d07ea9a0b4bc3cc7",
+    "native_cases_passed": 796,
+    "fifth_job_failure": "audit script inspected JUnit name instead of classname; source and native math tests passed",
+    "repair_scope": "one workflow assertion only"
+  },
+  "limited_scope": {
+    "os_credential_broker_qualified": false,
+    "installed_MEL_execution_authorized": false,
+    "external_exactly_once_journal_integrated": false,
+    "windows_power_loss_durability_qualified": false,
+    "checkpoint_payload_encrypted": false,
+    "certified_covariance_enclosure": false
+  },
+  "note": "Only docs/evidence/CI-control changed after successful native qualification. Do not substitute the later closeout commit for the original qualified source SHA."
+}

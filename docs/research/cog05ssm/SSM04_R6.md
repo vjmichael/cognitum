@@ -1,6 +1,6 @@
 # COG-05-SSM-04-R6 — authenticated, durable R5 streaming checkpoints
 
-**2026-11-21 status: implemented as isolated research candidate; exact-source native Windows/Linux acceptance pending.** R5-R1 accepted mathematical source and test blobs remain unchanged. This work adds no installed or privileged execution authority.
+**ACCEPTED native R6 mathematical/recovery qualification (2026-11-21): 5/5 original corrected GitHub Actions jobs PASSED, 199 tests per Windows/Ubuntu Python 3.11/3.13 platform = 796/796, 0 failures/errors/skips.** Exact original qualifying SHA: `8f09e45fe598e5e7a21cb5bcdd62f0025bd3b2b1`; the later docs/CI-control-only closeout SHA is *not* falsely treated as the tested SHA. Accepted R3-R5 source and tests remain unchanged. No installed or privileged execution authority is implied.
 
 ## Recovery contract and bounded on-disk representation
 
@@ -31,8 +31,14 @@ New exact R6 Git blobs:
 - cognitum/research/ssm_stochastic_checkpoints.py 30773bfaf4871bf686df0690419e3244c380be03
 - research_tests/ssm04r6/test_checkpoints.py 8532167cc41b80cc69424219881c1b58e1a1a101
 
-## Native qualification plan
+## Original exact-source native acceptance and R6 closeout — 2026-11-21
 
-One branch-scoped exact-source workflow batch across Windows/Ubuntu Python 3.11/3.13 running unchanged original R3/R4/R5 suites plus R6 and earlier SSM tests. Original JUnit XML, exact Git head SHA, and 12 original source/test blob IDs are uploaded from each environment. A fifth independent job compares the original four JUnits, all per-platform hash receipts and scientific-scope denials. Only genuine failures authorize a reviewed consolidated source repair. After full acceptance retire the one-time push trigger without altering the qualified Python files.
+- **Original green run:** [#44913653728](https://github.com/vjmichael/cognitum/actions/runs/44913653728), attempt 1, SHA `8f09e45fe598e5e7a21cb5bcdd62f0025bd3b2b1`, **5/5 jobs passed**.
+- **Four real native targets:** Ubuntu Python 3.11 **199/199**, Ubuntu Python 3.13 **199/199**, Windows Python 3.11 **199/199**, Windows Python 3.13 **199/199**. Across all four, **796/796 passed; no failures/errors/skips**; the 199 cases include 22 new R6 cases and 177 accepted original R0-R5 regressions.
+- **Fifth original independent CI job:** downloaded the original four JUnit and SHA/12-blob artifacts; verified all original 199 test-case (classname,name) identities, exactly 22 R6 class cases, exact SHA and identical 12 original Git blob hashes; produced the PASS_AUTHENTICATED_DETERMINISTIC_CHECKPOINTS_AND_LEGACY_SOURCE original receipt.
+- **Additional external independent verification:** downloaded all five official GitHub Actions artifact ZIPs again, compared original SHA-256 digests to GitHub's original artifact metadata, verified archive CRCs, parsed all four original JUnits, confirmed all original SHA and 12 blob hashes, compared identical 199 test identities, checked 22 R6 test cases per platform and read the fifth-job original JSON receipt. Evidence inventory: [SSM04_R6_NATIVE_ARTIFACTS.json](SSM04_R6_NATIVE_ARTIFACTS.json).
+- **Original failed CI #44913499219:** all four native jobs **199/199 passed** at exact SHA `266803706d0bbd550f4540b1d07ea9a0b4bc3cc7`, but its fifth job incorrectly searched the JUnit *name* instead of *classname* for the R6 marker, so its independent receipt failed. This was only a CI audit assertion error. It was repaired once in the workflow; **no changes to R3/R4/R5/R6 mathematical, checkpoint or test Python files** between the original and green SHA.
+- **One-time CI retirement:** after successful acceptance, the R6 workflow's branch-scoped automatic `push` trigger is returned to `workflow_dispatch` only, in a single **[skip ci] non-forced documentation/evidence/CI-control closeout commit**. No stacked CI, no merge to main, and no untested code claim.
+- **Security/scientific limitations:** model authentication requires the trusted external signer/broker; monotonic revision and exact digest authority require external protected storage; exactly-once input and output reconciliation requires a separate durable event/output journal; Windows directory fsync/power-loss and ACL custody are not certified; signed checkpoint data are not encrypted; no installed MEL authority and no formal covariance enclosure.
 
-**Next:** COG-05-SSM-04-R6-R1 — reconcile native qualification, independent evidence and refusal/recovery tests; then prepare protected broker/journal and installed MEL acceptance separately.
+**R6 native mathematical and authenticated checkpoint/recovery acceptance: PASS.** The next integration group is the protected credential broker, trusted revision-floor custody and journaled checkpoint/input/output lifecycle, then installed MEL integration.

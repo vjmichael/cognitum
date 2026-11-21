@@ -1,11 +1,6 @@
 name: Cognitum SSM-04-R6 authenticated durable checkpoint native qualification
 
 on:
-  push:
-    branches:
-      - research/ssm04r6-authenticated-checkpoints-20261121
-    paths:
-      - '.github/workflows/ssm04r6-native.yml'
   workflow_dispatch:
 
 permissions:
