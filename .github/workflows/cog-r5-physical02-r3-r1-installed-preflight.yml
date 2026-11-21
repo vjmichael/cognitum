@@ -43,7 +43,7 @@ jobs:
               $details=(@($errors)|ForEach-Object{[string]$_.Extent.StartLineNumber+':'+[string]$_.Extent.StartColumnNumber+' '+$_.Message}) -join '; '
               throw ('PowerShell parser refused '+$p+': '+$details)
             }
-            if(Select-String -LiteralPath $p -Pattern '(?im)^\s*\$(home|host)\s*='){
+            if(Select-String -LiteralPath $p -Pattern '(?im)^\s*\$(home|host|args)\s*='){
               throw 'PowerShell protected automatic variable assignment in production preflight'
             }
           }
@@ -61,7 +61,7 @@ jobs:
           }
           if(-not $denied){throw 'Unapproved release was permitted to sign'}
           Write-Host 'PASS_CI_NO_APPROVED_SIGNER_NO_SIGNED_PACKAGE'
-      - name: Verify disposable detached CMS signature and production admission refusal
+      - name: Verify CI-only detached CMS authority, tamper refusal and physical admission denial
         shell: pwsh
         run: |
           $ErrorActionPreference='Stop'
