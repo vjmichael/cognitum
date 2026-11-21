@@ -133,3 +133,6 @@
 /docs/research/cog05ssm/SSM04_R3.md text eol=lf
 /.github/workflows/ssm04r3-native.yml text eol=lf
 /docs/research/cog05ssm/SSM04_R3_NATIVE_ARTIFACTS.json text eol=lf
+
+# Pin exact Lu Core workspace.proto bytes on every native checkout.
+/cognitum/mel/vendor/lu/workspace/v0/workspace.proto text eol=lf
