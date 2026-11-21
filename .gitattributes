@@ -106,3 +106,11 @@
 
 # Preserve accepted source-only R5 ZIP/digest and JUnit evidence across Windows checkouts.
 /docs/research/orcgraph/ORCH01E_BENCH02_R5_NATIVE_ARTIFACTS.json text eol=lf
+
+# R5 prospective source-first-seen operator authority and immutable 2-lane receipts.
+/docs/research/orcgraph/ORCH01E_BENCH02_R5_PROSPECTIVE01_PREREG.json text eol=lf
+/docs/research/orcgraph/ORCH01E_BENCH02_R5_PROSPECTIVE01.md text eol=lf
+/tools/orcbench02/prospective_r5_durable.py text eol=lf
+/tools/orcbench02/prospective_r5_custody.py text eol=lf
+/tests/test_orc_bench02_r5_prospective01.py text eol=lf
+/.github/workflows/orcbench02-r5-prospective01-native.yml text eol=lf

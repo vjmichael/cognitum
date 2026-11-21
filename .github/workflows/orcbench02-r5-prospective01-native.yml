@@ -1,0 +1,133 @@
+name: Cognitum BENCH-02 R5-PROSPECTIVE-01 durable two-lane source custody qualification
+
+on:
+  push:
+    branches:
+      - research/orc-bench02-r5-prospective01-custody-20261120
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: cognitum-r5-prospective01-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  native-durable:
+    name: Native original R5 and durable source refusal / ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.11', '3.13']
+    env:
+      PYTHONHASHSEED: '0'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Pin accepted native scientific and independent source-test dependencies
+        run: python -m pip install numpy==2.2.6 scipy==1.15.3 protobuf==6.33.1 pytest==9.0.2
+      - name: Original old R3 R4 R4-R2 R4-R2-R3 R5 negatives plus new durable two-host and external-source adversarial tests
+        run: python -m pytest -q tests/test_orc_science_data.py tests/test_orc_comparison.py tests/test_orc_selection.py tests/test_orc_bench02_availability.py tests/test_orc_bench02_acquisition.py tests/test_orc_bench02_cohorts.py tests/test_orc_bench02_capture_r3.py tests/test_orc_bench02_r4_pretest.py tests/test_orc_bench02_r4r2_pretest.py tests/test_orc_bench02_r4r2r3_pretest.py tests/test_orc_bench02_r5_prospective.py tests/test_orc_bench02_r5_historical.py tests/test_orc_bench02_r5_prospective01.py --junitxml=r5-prospective01-junit.xml
+      - name: Preserve exact original scientific and new operator source admission Git identities
+        shell: bash
+        run: |
+          git rev-parse HEAD > r5-prospective01-source-sha.txt
+          git hash-object docs/research/orcgraph/ORCH01E_BENCH02_R5_PREREG.json docs/research/orcgraph/ORCH01E_BENCH02_R5_PROSPECTIVE01_PREREG.json docs/research/orcgraph/ORCH01E_BENCH02_R5_HISTORICAL_AUDIT.json docs/research/orcgraph/ORCH01E_BENCH02_R5_NATIVE_ARTIFACTS.json docs/research/orcgraph/ORCH01E_BENCH02_R4.md tools/orcbench02/prospective_r5.py tools/orcbench02/prospective_r5_durable.py tools/orcbench02/prospective_r5_custody.py tests/test_orc_bench02_r5_prospective01.py > r5-prospective01-source-blobs.txt
+          test "$(git hash-object docs/research/orcgraph/ORCH01E_BENCH02_R5_PREREG.json)" = "02828d09afaf584a9b5cc8a66e0f2de917b48429"
+          test "$(git hash-object docs/research/orcgraph/ORCH01E_BENCH02_R5_PROSPECTIVE01_PREREG.json)" = "4329f1e3281c7a7590cec5720dbca6a0c77c6e7f"
+          test "$(git hash-object docs/research/orcgraph/ORCH01E_BENCH02_R5_HISTORICAL_AUDIT.json)" = "3f85c7cf1c09d8221fe21a26b9db27e70c13bb22"
+          test "$(git hash-object docs/research/orcgraph/ORCH01E_BENCH02_R5_NATIVE_ARTIFACTS.json)" = "f81413068cbb6b62a6c9677e2a0ef2843eecb16b"
+          test "$(git hash-object docs/research/orcgraph/ORCH01E_BENCH02_R4.md)" = "5dc4fa1f980fc7678371cba78dbfdbdfe09fb651"
+          for file in docs/research/orcgraph/ORCH01E_BENCH02_R5_PREREG.json docs/research/orcgraph/ORCH01E_BENCH02_R5_PROSPECTIVE01_PREREG.json docs/research/orcgraph/ORCH01E_BENCH02_R5_HISTORICAL_AUDIT.json docs/research/orcgraph/ORCH01E_BENCH02_R5_NATIVE_ARTIFACTS.json docs/research/orcgraph/ORCH01E_BENCH02_R4.md tools/orcbench02/prospective_r5.py tools/orcbench02/prospective_r5_durable.py tools/orcbench02/prospective_r5_custody.py tests/test_orc_bench02_r5_prospective01.py; do
+            test "$(git hash-object "$file")" = "$(git rev-parse "HEAD:$file")" || { echo "Noncanonical previous science/qualification checkout: $file"; exit 1; }
+          done
+      - name: Archive authentic native source SHA and JUnit receipts (no NOAA network collection)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: orcbench02-r5-prospective01-${{ matrix.os }}-py${{ matrix.python }}
+          path: |
+            r5-prospective01-junit.xml
+            r5-prospective01-source-sha.txt
+            r5-prospective01-source-blobs.txt
+          if-no-files-found: warn
+
+  independent-original-native-comparison:
+    name: Independent four-native source SHA and test inventory replay
+    needs: [native-durable]
+    if: ${{ always() && needs.native-durable.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: orcbench02-r5-prospective01-*
+          path: native-archive
+          merge-multiple: false
+      - name: Independent exact-SHA original native JUnit and source-lock parity
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import os,json,xml.etree.ElementTree as ET
+          root=Path('native-archive')
+          expected={f'orcbench02-r5-prospective01-{os}-py{v}'
+                    for os in ('ubuntu-latest','windows-latest') for v in ('3.11','3.13')}
+          actual={p.name for p in root.iterdir() if p.is_dir()}
+          assert actual==expected,(actual,expected)
+          suites=[]
+          identities=[]
+          for d in sorted(root.iterdir()):
+              assert (d/'r5-prospective01-source-sha.txt').read_text().strip()==os.environ['SOURCE_SHA']
+              hashes=(d/'r5-prospective01-source-blobs.txt').read_text().splitlines()
+              assert len(hashes)==9
+              identities.append(hashes)
+              tree=ET.parse(d/'r5-prospective01-junit.xml')
+              checks=list(tree.getroot().iter('testcase'))
+              assert len(checks)>300
+              assert not any(c.find(s) is not None for c in checks
+                             for s in ('failure','error','skipped'))
+              suites.append((d.name,len(checks),
+                         sorted((c.get('classname'),c.get('name')) for c in checks)))
+          assert all(x==identities[0] for x in identities)
+          assert all(x[2]==suites[0][2] for x in suites)
+          evidence={'schema':'cognitum.r5.prospective01.independent.native.v1',
+                    'accepted_scientific_source_sha':os.environ['SOURCE_SHA'],
+                    'native_passed':4,
+                    'native_test_counts':{name:count for name,count,_ in suites},
+                    'source_git_blobs_exactly_equal':True,
+                    'original_JUnit_inventories_equal':True,
+                    'NOAA_prospective_observations_collected':0,
+                    'real_two_lane_external_artifact_publication_qualified':False,
+                    'actual_operator_grant_installed':False}
+          Path('r5-prospective01-independent-native.json').write_text(
+              json.dumps(evidence,sort_keys=True,indent=2)+'\n')
+          print(json.dumps(evidence))
+          PY
+      - name: Preserve independent four-native acceptance
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: orcbench02-r5-prospective01-independent-native
+          path: r5-prospective01-independent-native.json
+          if-no-files-found: warn
