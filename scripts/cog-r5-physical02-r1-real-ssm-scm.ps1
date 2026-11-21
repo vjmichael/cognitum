@@ -146,6 +146,13 @@ public static class CognitumR1JobObserve {
     throw 'Numerical fixed child survived SCM Job termination'
   }
   $stopSha=(Get-FileHash -LiteralPath $stop -Algorithm SHA256).Hash.ToLowerInvariant()
+  $signedStopSha=$null
+  if($env:COG_R2_CI_SIGNED_STOP){
+    if(!(Test-Path -LiteralPath $env:COG_R2_CI_SIGNED_STOP -PathType Leaf)){
+      throw 'R2 independently provisioned CNG signed stop missing before restart'
+    }
+    $signedStopSha=(Get-FileHash -LiteralPath $env:COG_R2_CI_SIGNED_STOP -Algorithm SHA256).Hash.ToLowerInvariant()
+  }
   $verifyOutput=& python scripts/cog_r5_r1_scm_ssm_fixture.py verify --root "$root"
   if($LASTEXITCODE -ne 0){throw 'Independently recalculated SSM math differs'}
   $verified=$verifyOutput | ConvertFrom-Json
@@ -172,6 +179,10 @@ public static class CognitumR1JobObserve {
   if((Get-FileHash -LiteralPath $output -Algorithm SHA256).Hash.ToLowerInvariant() -cne $outputSha -or
      (Get-FileHash -LiteralPath $stop -Algorithm SHA256).Hash.ToLowerInvariant() -cne $stopSha){
     throw 'Original durable output/terminal record changed after restart'
+  }
+  if($signedStopSha -and
+     (Get-FileHash -LiteralPath $env:COG_R2_CI_SIGNED_STOP -Algorithm SHA256).Hash.ToLowerInvariant() -cne $signedStopSha){
+    throw 'Original OS-machine-signed stop receipt altered or replayed after service restart'
   }
   $report=[ordered]@{
     schema='cognitum.ssm.r1.actual_scm_fixed_ssm_ci.v1'
