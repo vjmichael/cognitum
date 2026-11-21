@@ -14,7 +14,7 @@ from cognitum.mel import admission as a, cooperation as g, native as n
 from cognitum.mel import engines as e, engines_pb2 as ep
 from cognitum.mel import model_engines as m, verified_graph as vg
 from cognitum.mel.engine_limits import KanLimits
-from cognitum.orc_handoff import Handoff, compile_kalman, compile_mel, check_source_current
+from cognitum.orc_handoff import Handoff, compile_kalman, compile_mel, check_source_current, execute_bound_mel
 from cognitum.orc_science_data import Units, Clock, Provenance, CandidateContract
 from cognitum.registry import Registry
 from cognitum.runtime import Runtime
@@ -431,3 +431,85 @@ def test_cpu_unsupported_model_horizon_and_source_type_rejected():
              provenance=provenance(raw_source()),workspace_id="workspace",
              subject_id="owner",build_sha=BUILD,horizon_ms=0,
              model=TemporalModel("local_level",0.01,0.1,1.,3.,STEP))
+
+
+def guarded_execution(p,host,grants,*,source_current=None,raw=None,
+                      tolerances=(("evaluate",(0.00001,)),),cancellation=None):
+    raw=raw if raw is not None else raw_source()
+    return execute_bound_mel(host,p,grants,tolerances,raw=raw,
+             site_id="station1",units=UNITS,clock=CLOCK,
+             provenance=provenance(raw),
+             source_current=source_current if source_current is not None
+             else lambda handoff,series:True,cancellation=cancellation)
+
+
+def test_bound_host_gate_permits_fresh_vfa_after_source_recheck():
+    p=mel_plan()
+    h,tokens=issued_vfa()
+    seen=[]
+    def fresh(handoff,series):
+        seen.append((handoff.plan_sha256,series.identity))
+        return True
+    out=guarded_execution(p,h,tokens,source_current=fresh)
+    assert out.status=="verified" and out.witness is not None
+    assert len(seen)==2 and seen[0]==seen[1]
+
+
+def test_bound_host_preflight_staleness_never_dispatches():
+    p=mel_plan()
+    h,tokens=issued_vfa()
+    out=guarded_execution(p,h,tokens,
+         source_current=lambda handoff,series:False)
+    assert out.status=="stale_source" and out.outcome is None and out.witness is None
+    assert len(h._seen)==0 and h._grants[tokens[0][1]].calls_left==1
+
+
+def test_bound_host_postflight_staleness_discards_verified_result():
+    p=mel_plan()
+    h,tokens=issued_vfa()
+    observed=[]
+    def expiry(handoff,series):
+        observed.append(series.identity)
+        return len(observed)==1
+    out=guarded_execution(p,h,tokens,source_current=expiry)
+    assert out.status=="stale_source" and out.outcome is None and out.witness is None
+    assert out.reserved_calls==1 and len(observed)==2
+    assert h._grants[tokens[0][1]].calls_left==0
+
+
+def test_bound_host_rejects_substituted_source_before_grant():
+    p=mel_plan()
+    h,tokens=issued_vfa()
+    out=guarded_execution(p,h,tokens,raw=raw_source(shift=0.5))
+    assert out.status=="stale_source" and out.outcome is None
+    assert len(h._seen)==0
+
+
+def test_bound_host_respects_original_mel_revocation_and_cancel():
+    p=mel_plan()
+    h,tokens=issued_vfa()
+    assert h.revoke(S,tokens[0][1])
+    out=guarded_execution(p,h,tokens)
+    assert out.status!="verified" and out.outcome is None and out.witness is None
+    h,tokens=issued_vfa()
+    stop=g.Cancellation();stop.cancel()
+    out=guarded_execution(p,h,tokens,cancellation=stop)
+    assert out.status=="cancelled" and out.outcome is None and out.witness is None
+
+
+def test_bound_host_kan_verified_guard_only_with_checkpoint_approval():
+    h,tokens,selected=issued_kan()
+    p=mel_plan(operation="kan.evaluate",approved=selected,
+               max_binary32_error=1e-5)
+    out=guarded_execution(p,h,tokens,tolerances=(("evaluate",(0.001,)),))
+    assert out.status=="verified" and out.outcome is not None
+    assert p.conversion_kind=="binary32_explicit"
+
+
+def test_bound_host_refuses_tampered_handoff_and_wrong_target():
+    p=mel_plan()
+    h,tokens=issued_vfa()
+    out=guarded_execution(replace(p,plan_sha256="0"*64),h,tokens)
+    assert out.status=="stale_source" and out.outcome is None
+    with pytest.raises(ValueError):
+        guarded_execution(cpu_plan(),h,tokens)

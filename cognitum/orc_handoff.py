@@ -20,7 +20,7 @@ from . import orc_science_data as d
 from .cooperative import (Plan as CpuPlan, Step, SourceStamp, plan_digest)
 from .cooperative_cpu import ROUTES, type_url, wire
 from .mel import admission as a, cooperation as g, native as n
-from .mel import model_engines as m
+from .mel import model_engines as m, verified_graph as vg
 from .proto import temporal_practical_pb2 as temporal
 from .temporal_statespace import TemporalModel, TemporalSample, TemporalSequence, validate
 
@@ -316,3 +316,41 @@ def compile_kalman(
                    "train", _fingerprint(tuple(
                        (s.timestamp_ms, s.available_ms, s.observed) for s in subset)),
                    plan_digest(plan), plan, tuple())
+
+
+def execute_bound_mel(
+    host: a.Admission, handoff: Handoff, grants: tuple,
+    tolerances: tuple, *, raw: bytes, site_id: str, units: d.Units,
+    clock: d.Clock, provenance: d.Provenance, source_current,
+    cancellation: g.Cancellation | None = None,
+) -> vg.Guarded:
+    """Trusted host publication gate around the SAME verified MEL executor.
+
+    Preflight and *postflight* independently recheck original scientific
+    source identity and host-supplied freshness. A stale/replaced source must
+    never make a verified worker payload visible to callers. All actual
+    admission, resource limits, cancellation and computation are delegated
+    unchanged to MEL. This wrapper neither watches sources asynchronously
+    nor interrupts a worker; host can use original Cancellation/revoke.
+    """
+    if type(host) is not a.Admission or type(handoff) is not Handoff or (
+        type(handoff.plan) is not g.Plan
+    ):
+        raise ValueError("original authorized MEL host and graph required")
+    arguments = dict(site_id=site_id,units=units,clock=clock,
+                     provenance=provenance,source_current=source_current)
+    try:
+        check_source_current(handoff, raw, **arguments)
+    except Exception:
+        return vg.Guarded("stale_source")
+    result = vg.execute_verified(host, handoff.plan, grants, tolerances,
+                                 cancellation=cancellation)
+    if result.status != "verified":
+        return result  # MEL already suppresses failed/revoked/cancelled data.
+    try:
+        check_source_current(handoff, raw, **arguments)
+    except Exception:
+        # Worker grants and consumed work stay charged, but nothing publishes.
+        return vg.Guarded("stale_source", None, None, result.charged_work,
+                          result.reserved_bytes, result.reserved_calls)
+    return result
