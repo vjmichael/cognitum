@@ -1,6 +1,6 @@
 //! CI-only bounded Windows SCM R2 diagnostic refusal receipt. This never
 //! represents a service stop, security attestation, Core grant or API result.
-#![cfg(all(windows,feature="r2-restricted-fixture"))]
+#![cfg(all(windows,any(feature="r2-restricted-fixture",feature="r3-appcontainer-fixture")))]
 use std::{fs::OpenOptions,io::Write,path::Path};
 pub fn refused(stage:&str,reason:&str){
     // Caller uses only fixed internal stage literals; sanitize OS error text
@@ -17,6 +17,9 @@ pub fn refused(stage:&str,reason:&str){
         }else{'_'}).collect::<String>();
     let folder=Path::new(env!("COG_R1_CI_PRELAUNCH"));
     let Some(root)=folder.parent() else{return;};
+    #[cfg(feature="r3-appcontainer-fixture")]
+    let file=root.join("r3-appcontainer-refusal.json");
+    #[cfg(not(feature="r3-appcontainer-fixture"))]
     let file=root.join("r2-native-refusal.json");
     let json=format!(
         "{{\"schema\":\"cognitum.ssm.r2.CI_native_diagnostic.v1\",\"stage\":\"{}\",\"reason\":\"{}\",\"production_approved\":false,\"output_release_authorized\":false}}\n",

@@ -14,7 +14,8 @@ mod ssm_fixture;
 mod r2_restricted;
 #[cfg(all(windows, feature = "r2-cng-fixture"))]
 mod r2_signer;
-#[cfg(all(windows, feature = "r2-restricted-fixture"))]
+#[cfg(all(windows, any(feature = "r2-restricted-fixture",
+                       feature = "r3-appcontainer-fixture")))]
 mod r2_diagnostic;
 #[cfg(all(windows, feature = "r3-signed-recovery"))]
 mod r3_recovery;
@@ -385,9 +386,11 @@ mod win {
         let keeper = match Keeper::start() {
             Ok(k) => k,
             Err(e) => {
-                #[cfg(feature = "r2-restricted-fixture")]
+                #[cfg(any(feature = "r2-restricted-fixture",
+                           feature = "r3-appcontainer-fixture"))]
                 crate::r2_diagnostic::refused("keeper_start",&e.to_string());
-                #[cfg(not(feature = "r2-restricted-fixture"))]
+                #[cfg(not(any(feature = "r2-restricted-fixture",
+                               feature = "r3-appcontainer-fixture")))]
                 let _ = e;
                 let _ = report(handle, SERVICE_STOPPED, 2);
                 return;
@@ -416,7 +419,8 @@ mod win {
                     } != 0 && code == 0
                     && std::path::Path::new(env!("COG_R1_CI_OUTPUT")).is_file();
                     if !clean {
-                        #[cfg(feature = "r2-restricted-fixture")]
+                        #[cfg(any(feature = "r2-restricted-fixture",
+                                   feature = "r3-appcontainer-fixture"))]
                         crate::r2_diagnostic::refused("worker_exit",
                             &format!("fixed Python SSM exit code {}",code));
                         abnormal = true;

@@ -11,8 +11,8 @@
 //! CI's ephemeral peer is NOT an authenticated Core publisher/enrollment.
 #![cfg(all(windows,feature="r3-appcontainer-fixture"))]
 use std::{
-    ffi::{c_void,OsStr},fs,io,mem,
-    os::windows::ffi::OsStrExt,ptr,
+    ffi::{c_void,OsStr},fs::{self,OpenOptions},io::{self,Write},mem,
+    os::windows::ffi::OsStrExt,ptr,path::Path,
 };
 type Handle=*mut c_void;
 const PROCESS_QUERY_LIMITED_INFORMATION:u32=0x1000;
@@ -216,6 +216,30 @@ fn pinned_peer()->io::Result<(Owned,Owned,u64)>{
     }
     Ok((process,token,birth))
 }
+
+fn witness_original_appcontainer(child:Handle,profile_sid:&str,
+                                 source_birth:u64)->io::Result<()>{
+    let destination=Path::new(env!("COG_R3_CI_APP_WITNESS"));
+    if !destination.is_absolute()||destination.exists()||destination.is_symlink(){
+        return Err(denied("original AppContainer kernel witness path reused or unsafe"));
+    }
+    let worker_pid=unsafe{GetProcessId(child)};
+    let child_birth=process_birth(child)?;
+    if worker_pid==0||worker_pid==env!("COG_R3_CI_PEER_PID").parse::<u32>().unwrap_or(0)
+        ||child_birth==0||child_birth==source_birth{
+        return Err(denied("original OS AppContainer worker process not distinct"));
+    }
+    let record=format!(
+      "{{\"schema\":\"cognitum.ssm.r3.original_appcontainer_kernel_witness.v1\",\"source_user_sid\":\"{}\",\"appcontainer_sid\":\"{}\",\"original_peer_birth\":{},\"worker_pid\":{},\"worker_birth\":{},\"native_TokenIsAppContainer\":true,\"native_TokenUser_is_SYSTEM\":false,\"checked_before_worker_resume\":true,\"installed_Core_enrollment\":false,\"production_publisher_approved\":false,\"output_release_authorized\":false}}\n",
+      env!("COG_R3_CI_PEER_SID"),profile_sid,source_birth,worker_pid,child_birth
+    );
+    if record.len()>2048{return Err(denied("bounded OS AppContainer witness overflow"));}
+    let mut writer=OpenOptions::new().create_new(true).write(true).open(destination)?;
+    writer.write_all(record.as_bytes())?;
+    writer.sync_all()?;
+    Ok(())
+}
+
 fn windows_environment()->io::Result<Vec<u16>>{
     let mut buff=[0u16;260];
     let count=unsafe{GetWindowsDirectoryW(buff.as_mut_ptr(),buff.len() as u32)};
@@ -286,7 +310,10 @@ pub fn launch(application:&[u16],command:&mut[u16],
             CREATE_UNICODE_ENVIRONMENT,
         env.as_mut_ptr().cast(),ptr::null(),&startup.base,
         output)}==0{
-        return Err(denied("native non-System AppContainer CreateProcessAsUserW refused"));
+        return Err(denied(&format!(
+            "native non-System AppContainer CreateProcessAsUserW refused OS {}",
+            io::Error::last_os_error()
+        )));
     }
     // Caller owns process+thread HANDLEs, original PID and Job after success.
     let child=unsafe{*(output as *const Handle)};
@@ -312,6 +339,7 @@ pub fn launch(application:&[u16],command:&mut[u16],
         if process_birth(peer.0)?!=birth{
             return Err(denied("source peer changed while opening original process"));
         }
+        witness_original_appcontainer(child,&string_sid(sid.0)?,birth)?;
         Ok(())
     })();
     if checked.is_err(){
