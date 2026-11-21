@@ -162,7 +162,7 @@ class HostSSMJournal:
 
     def __init__(self, admission, scope, *, stream_id, approved_model_context,
                  credential_broker, revision_anchor, allow, sqlite_path,
-                 initial_engine=None):
+                 initial_engine=None, supervised_math=None):
         _need(type(admission) is mel_admission.Admission and
               type(scope) is mel_admission.Scope and callable(allow),
               "trusted host MEL Admission, Scope and policy required")
@@ -174,6 +174,11 @@ class HostSSMJournal:
         self._broker = credential_broker
         self._anchor = revision_anchor
         self._allow = allow
+        if supervised_math is not None:
+            from .ssm_supervisor import SupervisedSSMCompute
+            _need(type(supervised_math) is SupervisedSSMCompute,
+                  "reviewed supervised math handler only")
+        self._supervised_math = supervised_math
         self._stalled = False
         self._closed = False
         p = _root_path(sqlite_path)
@@ -359,7 +364,12 @@ class HostSSMJournal:
                 revision = row["revision"] + 1
                 _int(revision, 2, min(2**63-2, MAX_EVENTS+1),
                      "bounded monotonic checkpoint revision")
-                if kind == "increment":
+                if self._supervised_math is not None:
+                    # Worker receives unkeyed numeric state only. The trusted
+                    # parent owns all HMAC sealing and durable SQLite effects.
+                    engine, releases = self._supervised_math.apply(
+                        engine,kind,timestamp,observation)
+                elif kind == "increment":
                     releases = engine.push(timestamp, observation)
                 else:
                     releases = engine.advance_watermark(timestamp)
@@ -493,6 +503,8 @@ class HostSSMJournal:
                             pending_outputs=pending,
                             pending_states=engine.status()["pending_count"],
                             admitted_by_existing_mel_scope=True,
+                            disposable_native_worker_used=self._supervised_math is not None,
+                            os_sandbox_supervision_qualified=False,
                             installed_os_broker_qualified=False,
                             installed_MEL_route_authorized=False,
                             external_exactly_once_qualified=False)
