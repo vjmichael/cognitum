@@ -1,0 +1,50 @@
+syntax = "proto3";
+package cognitum.mel.ssm.v1;
+
+// Cognitum-owned domain payload. Lu workspace v0 CapabilityInvoke.origin
+// remains the ONLY host-owned user-turn/operation reference, outside this
+// TypedValue. This file does not amend any Lu Core protocol.
+enum AdvanceKind {
+  ADVANCE_KIND_UNSPECIFIED = 0;
+  ADVANCE_KIND_INCREMENT = 1;
+  ADVANCE_KIND_WATERMARK = 2;
+}
+enum AdvanceDisposition {
+  ADVANCE_DISPOSITION_UNSPECIFIED = 0;
+  ADVANCE_DISPOSITION_COMMITTED = 1;
+  ADVANCE_DISPOSITION_DUPLICATE = 2;
+  ADVANCE_DISPOSITION_REFUSED = 3;
+  ADVANCE_DISPOSITION_FAILED = 4;
+  ADVANCE_DISPOSITION_CANCELLED = 5;
+  ADVANCE_DISPOSITION_UNCERTAIN = 6;
+}
+
+// Exactly one durable source event, not a credential, filesystem locator,
+// numerical model, user authorization, or authenticated checkpoint bytes.
+// Initial journal revision is 1; revisions above 1 name prior durable state.
+message SsmAdvanceRequest {
+  string stream_id = 1;
+  string event_id = 2;
+  uint64 expected_revision = 3;
+  bytes expected_checkpoint_sha256 = 4;
+  bytes approved_model_context_sha256 = 5;
+  string expected_source_cursor = 6;
+  AdvanceKind kind = 7;
+  double end_time = 8;
+  repeated double increment = 9;
+  bool missing_increment = 10;
+}
+
+// An unpublishable domain receipt candidate. The LU host independently
+// authenticates source, turn grant, revision, result and delivery before
+// publishing any result. Even COMMITTED is not a Lu grant.
+message SsmAdvanceResult {
+  string stream_id = 1;
+  string event_id = 2;
+  AdvanceDisposition disposition = 3;
+  uint64 observed_revision = 4;
+  bytes observed_checkpoint_sha256 = 5;
+  bytes request_sha256 = 6;
+  uint32 pending_release_count = 7;
+  string reason_code = 8;
+}
