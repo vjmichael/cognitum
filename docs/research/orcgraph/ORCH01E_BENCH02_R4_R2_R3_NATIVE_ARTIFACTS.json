@@ -1,0 +1,123 @@
+{
+  "schema": "cognitum.orc.bench02.r4r2r3.accepted_native_portable_evidence.v1",
+  "status": "ACCEPTED_SCOPE_PORTABLE_ORIGINAL_ORC_SOURCE_BOUND_NEAR_TIE_REFUSAL_ONLY",
+  "exact_accepted_source_sha": "06eb4ff9f40fd437992842f6cd7e4d9c3db1cc7f",
+  "five_job_original_run": 44875900382,
+  "url": "https://github.com/vjmichael/cognitum/actions/runs/44875900382",
+  "original_precommit_sha": "003f6598ca4d85d5fda306708b55844259f5becf",
+  "original_prereg_git_blob": "dcfc11361bee51507cbdbe99f73652755023eb27",
+  "separate_pre_execution_decimal_receipt_amendment_git_blob": "d62a05fabbbe5aa7490d046f20382f24d7973d0f",
+  "original_source_git_locked": {
+    "R4_negative_report": "5dc4fa1f980fc7678371cba78dbfdbdfe09fb651",
+    "R4_R2_prior_original_full_native_receipts": "194275093e91a96909abe7efd61b951d057099f1"
+  },
+  "portable_four_way_source_bound_sha256": "703f13885bb81db5b63f718cf0c6a7beebb180d5d56f189bfbdf222a649a0789",
+  "native_original_ZIP_evidence": [
+    {
+      "os": "ubuntu-latest",
+      "python": "3.11",
+      "artifact_id": 14695638527,
+      "zip_sha256": "5534c2a764c5a64f71a06bb5dc7d0d3a62c609ea8d488da2939798f670418f73",
+      "pretests": 315,
+      "replay_tests": 7,
+      "fail": 0,
+      "skip": 0
+    },
+    {
+      "os": "ubuntu-latest",
+      "python": "3.13",
+      "artifact_id": 14695223848,
+      "zip_sha256": "1c07d0c74215003ebef893ee82538d182813141d79d0a0a9ec2983d057d0121f",
+      "pretests": 315,
+      "replay_tests": 7,
+      "fail": 0,
+      "skip": 0
+    },
+    {
+      "os": "windows-latest",
+      "python": "3.11",
+      "artifact_id": 14695773244,
+      "zip_sha256": "402941b728dd75a06a11859482628a3c0f31917328e8ce55e83708cd7a93358d",
+      "pretests": 315,
+      "replay_tests": 7,
+      "fail": 0,
+      "skip": 0
+    },
+    {
+      "os": "windows-latest",
+      "python": "3.13",
+      "artifact_id": 14695368459,
+      "zip_sha256": "3390d2362a3bae703b1ac2bc1017b47a337d5b1c1df4704dddc448d6f2c5ed77",
+      "pretests": 315,
+      "replay_tests": 7,
+      "fail": 0,
+      "skip": 0
+    }
+  ],
+  "independent_cross_native_ZIP": {
+    "artifact_id": 14696066746,
+    "zip_sha256": "a73ad4b4656e0d003af80555debb29108b5e51b6dac51fcf8cea659479fef72a",
+    "result": "PASS_PORTABLE_ABSTENTION_AND_ORIGINAL_SOURCE_REPLAY"
+  },
+  "native_test_total": 1288,
+  "original_frozen_original_R3_cohorts": 9,
+  "original_matched_heldout_forecasts_per_target": 265,
+  "original_strict_first_capture_origin_count": 0,
+  "cross_platform_max_calibration_MAE_RMSE_diff_kelvin": 9.325873406851315e-15,
+  "cross_platform_max_identical_native_method_prediction_diff_kelvin": 1.1368683772161603e-13,
+  "precommitted_calibration_allowed_drift_kelvin": 1e-10,
+  "precommitted_prediction_allowed_drift_kelvin": 1e-9,
+  "KATL_1h_research_policy_status": "ABSTAIN_AMBIGUOUS_NATIVE_KAN_VS_KAN_HDC",
+  "old_research_policy_selected_method_mismatched_across_platforms": true,
+  "new_original_selector_abstained": [
+    "KATL_1h",
+    "KSEA_6h",
+    "KDEN_6h"
+  ],
+  "new_original_selector_research_reported_cases": 6,
+  "new_original_selector_research_reported_wins": 3,
+  "new_original_selector_research_reported_losses": 3,
+  "new_original_selector_research_reported_only_macro_fractional_RMSE_vs_R4_ridge": -0.0041999767564666,
+  "full_nine_task_selector_performance": null,
+  "original_native_KAN_HDC_model_predictions_unchanged_by_refusal": true,
+  "existing_native_full_9_case_macros": {
+    "SSM_KAN": {
+      "win": 6,
+      "loss": 3,
+      "relative_RMSE": 0.0353790032484963
+    },
+    "SSM_HDC": {
+      "win": 6,
+      "loss": 3,
+      "relative_RMSE": 0.014213714653547156
+    },
+    "SSM_KAN_HDC": {
+      "win": 6,
+      "loss": 3,
+      "relative_RMSE": 0.032853846521084716
+    }
+  },
+  "original_failed_run": {
+    "id": 44875550581,
+    "sha": "19a37b8695fbfa70ecc864b9c5a60bef7ad65d19",
+    "result": "FAIL",
+    "problems": [
+      "Windows checkout translated previous R4R2 JSON receipt LF to CRLF, correctly refused SHA",
+      "portable identity erroneously included KAN snapshot serialized model byte size varying 1-3B with float string formatting, even though raw source/eligibility unchanged"
+    ]
+  },
+  "repairs": [
+    "append single .gitattributes LF pin for prior original R4R2 receipt; preserve canonical Git blob",
+    "portable certificate excludes volatile serialized model size but full-precision raw Decision still records memory proxy",
+    "regression asserts original raw resource sizes retained, and all eligibility/reasons included in portable identity"
+  ],
+  "limitations": [
+    "tested same already-viewed R3 retrospective sources and R4 heldout observations, NOT blind validation",
+    "original 0 strict first-capture-bounded eligible test origins, no publisher-signed past publication clock",
+    "portable source/selector identity does NOT require bitwise identical HDC/KAN trained float coefficients",
+    "portable near-tie refusal intentionally reduces research selector coverage; no accuracy superiority inferred",
+    "no original MEL/COG-06 production authorization or GPU/FPGA validation",
+    "new KAN/HDC training/architecture/capacity experiments not performed"
+  ],
+  "next": "BENCH-02-R5 independent scientific reproduction plus separate prospective source-first-availability study; model-quality learning curve and HDC noise/capacity separately; FIN-01 installed custody"
+}

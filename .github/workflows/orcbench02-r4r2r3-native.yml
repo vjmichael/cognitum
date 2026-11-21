@@ -1,9 +1,6 @@
 name: Cognitum BENCH-02 R4-R2-R3 portable original Orc refusal qualification
 
 on:
-  push:
-    branches:
-      - research/orc-bench02-r4-r2-r3-portable-20261120
   workflow_dispatch:
 
 permissions:

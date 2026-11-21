@@ -89,3 +89,6 @@
 
 # Original source-locked R4-R2 artifact metadata must not undergo Windows CRLF translation.
 /docs/research/orcgraph/ORCH01E_BENCH02_R4_R2_NATIVE_ARTIFACTS.json text eol=lf
+
+# R4-R2-R3 accepted native evidence manifest portable checkout.
+/docs/research/orcgraph/ORCH01E_BENCH02_R4_R2_R3_NATIVE_ARTIFACTS.json text eol=lf
