@@ -1,0 +1,108 @@
+{
+  "schema": "cognitum.ssm04r3.independent_native_acceptance.v1",
+  "task": "COG-05-SSM-04-R3",
+  "status": "ACCEPTED_EXACT_UNCHANGED_SOURCE_FIVE_OF_FIVE",
+  "source_sha": "1b29d6376a22308235f69de4706fafdd01af2490",
+  "source_branch": "research/ssm04r3-stochastic-increments-20261121",
+  "original_run_id": 44881781321,
+  "run_url": "https://github.com/vjmichael/cognitum/actions/runs/44881781321",
+  "jobs_successful": 5,
+  "original_native_target_count": 4,
+  "tests_per_native_platform": 130,
+  "original_native_tests_total": 520,
+  "original_failures": 0,
+  "original_errors": 0,
+  "original_skips": 0,
+  "fifth_independent_original_source_replay": "PASS_EXACT_SOURCE_STOCHASTIC_INCREMENT_QR_AND_LEGACY_REGRESSION",
+  "original_GitHub_actions_artifacts": [
+    {
+      "label": "ubuntu_py311",
+      "id": 14698128395,
+      "zip_sha256": "94562c57844e87c6efea41eec22c726a1372ba675d11ac2724e6f75ce035751f",
+      "tests": 130
+    },
+    {
+      "label": "ubuntu_py313",
+      "id": 14698497031,
+      "zip_sha256": "0b6b1541958127f8bcd42c38469e6c38bd45affc2ac764ff419ea6dc1f72f001",
+      "tests": 130
+    },
+    {
+      "label": "windows_py311",
+      "id": 14698271782,
+      "zip_sha256": "cd17e5ac675163d0bb5563767b8de5dce2daf30db43df26c9df69d5746ad32fa",
+      "tests": 130
+    },
+    {
+      "label": "windows_py313",
+      "id": 14698191805,
+      "zip_sha256": "9806acd61b998e7bddc667cc60468bfd6aeae6e39c41ac40fee532c7bd48bfe0",
+      "tests": 130
+    },
+    {
+      "label": "independent_fourway",
+      "id": 14698387666,
+      "zip_sha256": "4897140b8d94f47fff0be141497bbedc963f77ed3a594b2399e857539f53636d",
+      "status": "PASS"
+    }
+  ],
+  "independently_downloaded_and_verified_originals": {
+    "all_five_ZIP_SHA256_match_GitHub_metadata": true,
+    "all_five_ZIP_CRC_valid": true,
+    "all_four_exact_source_sha_identical": true,
+    "all_four_original_test_inventory_identical": true,
+    "all_four_original_source_blob_inventory_identical": true,
+    "all_original_JUnit_failures_errors_skips_zero": true
+  },
+  "source_git_blobs": {
+    "original_stochastic_unchanged": "e6616d14f4b02bd447f872f2a67a444d83bc7df6",
+    "original_stochastic_extended_unchanged": "19aefcc2c01ff629f6da5778b12fa0d495a3b610",
+    "original_R2_continuous_unchanged": "026ee4e3b9e4e8be7d0158b9e8771bb691809293",
+    "new_R3_stochastic_increments": "3eebcec1da8bae1cb3a65d33aab389c584cff89b",
+    "original_R2_tests_unchanged": "8b8b16a9f3a3355cadd8ac7b19bf05af097e737a",
+    "new_R3_tests": "ee311ead4b017e0e080f41cf412d22bfff0139b3"
+  },
+  "local_prepublication": {
+    "original_R2_plus_new_R3_focused_tests": 71,
+    "r2_focused_test_executions": 18,
+    "r3_focused_test_executions": 53,
+    "passed": true,
+    "source_and_test_Git_blob_matched_GitHub": true,
+    "earliest_disclosed_test_issue": "finite-bin Kalman–Bucy Riccati convergence tolerance at 20 intervals was too strict for 1e-4; tightened to 40 subintervals and reran, no source modification",
+    "last_local_focused_run": "71/71 passed"
+  },
+  "mathematical_public_APIs": {
+    "kalman_bucy_increments": {
+      "semantics": "Actual integrated Itô sensor increments dY over each finite interval; exact conditional Gaussian endpoint moments given interval aggregates; process/measurement cross-covariance included; independent Wiener drivers",
+      "not": "continuous full-path exact filtering, held observed rate, instantaneous sensor sample, model calibration",
+      "covariance": "QR factor of conditioned joint random states/noise, no dense subtractive posterior update"
+    },
+    "square_root_sampled_filter": {
+      "semantics": "Irregular instantaneous sampled Gaussian observations; exact Van Loan transition and QR square-root Joseph-style conditioning",
+      "compatibility": "Accepted R2 fixed_lag_smooth causal history permitted with sampled filtering only"
+    }
+  },
+  "bounded_safety": {
+    "state_dimension_max": 8,
+    "measurement_dimension_max": 8,
+    "observation_steps_max": 256,
+    "single_interval_model_time_max": 16,
+    "total_model_time_max": 256,
+    "missing_observation_imputed": false,
+    "certified_numerical_covariance_enclosure": false,
+    "future_sensor_values_automatically_used": false,
+    "execution_authority_granted": false,
+    "installed_MEL_acceptance": false,
+    "new_Orc_or_weather_forecast_benchmark": false,
+    "no_mistaken_increments_RTS_smoothing": true
+  },
+  "genuine_source_failures": 0,
+  "remaining_work": [
+    "Construct correct correlated-noise backward smoothing for integrated increments instead of misusing sampled RTS",
+    "True continuous observation-path assimilation when densely time-resolved increments exist",
+    "Better conditioned rank-aware innovation strategies and certified covariance bounds",
+    "Fixed-duration irregular-clock smoothing and protected typed MEL execution",
+    "Independent CPU numerical accuracy across ill-conditioned high-dimensional regimes under separately scoped tests"
+  ],
+  "recommended_next": "COG-05-SSM-04-R4 — Mathematically correct correlated-process/measurement-noise fixed-lag smoothing for integrated stochastic increments, retaining separately scoped causal disclosure and bounded covariance factors."
+}

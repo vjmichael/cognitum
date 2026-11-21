@@ -1,9 +1,6 @@
 name: Cognitum SSM-04-R3 genuine Ito increment and square-root native qualification
 
 on:
-  push:
-    branches:
-      - research/ssm04r3-stochastic-increments-20261121
   workflow_dispatch:
 
 permissions:

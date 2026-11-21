@@ -1,6 +1,6 @@
 # COG-05-SSM-04-R3 — Stochastic measurement increments and QR square-root covariance
 
-**Scope:** new native CPU mathematical engine implementation and exact-source acceptance, not an Orc Graph benchmark or a claim of installed MEL authority. R2's original three APIs and accepted source are unchanged.
+**Status: ACCEPTED exact native mathematical source (5/5 jobs) — original SHA `1b29d6376a22308235f69de4706fafdd01af2490`.** A new native CPU mathematical engine, not an Orc Graph benchmark or installed MEL authority. R2's original three APIs and accepted source are unchanged.
 
 ## Mathematical model and precise observation contract
 
@@ -55,3 +55,17 @@ One candidate branch `research/ssm04r3-stochastic-increments-20261121`. Four nat
 ## Remaining mathematical work
 
 A discrete-time **backward smoother for integrated observations** correctly carrying correlated transition/measurement innovations, verified under joint Gaussian conditioning; direct continuous-path stochastic innovation filtering when genuinely time-resolved measurement increments are available; rank-aware/ill-conditioned information or square-root backends; fixed-duration smoothing; typed Mathematical Execution Layer/host-protected authorization; and extended nonlinear stochastic SSM. No Orc performance benchmark is necessary for R3 itself.
+
+
+## R3 original exact-source native closeout (2026-11-21)
+
+[Original five-job GitHub Actions run #44881781321](https://github.com/vjmichael/cognitum/actions/runs/44881781321) **PASS** at unchanged native source `1b29d6376a22308235f69de4706fafdd01af2490`. Windows/Linux Python 3.11/3.13 each **130/130 tests**, **520/520 total** with zero genuine failures, errors or skips; the fifth separate source/JUnit verification passed. All **five original GitHub Actions ZIP files independently downloaded and SHA-256 compared to official GitHub artifact digest**, ZIP CRCs passed, all four original JUnit test names and counts identical, and original six source/test Git blobs byte-identical across all native targets. [Accepted native original artifact manifest](SSM04_R3_NATIVE_ARTIFACTS.json). Local additional verification receipt: `ssm04r3_independent_native_evidence.json` (five ZIP digests + all test name/source identities). **No source repair was necessary**, and all accepted original SSM-04/R1/R2 code/tests remain unchanged.
+
+The first local *test-only* finite-partition convergence expectation demanded an error below `1e-4` on a 20-bin integration when observed error was `1.23e-4`. It was resolved by evaluating 40 bins against the same unchanged analytically known `tanh(t)` limit, not by changing the stochastic source, observation model or broadening a score threshold. The final 71/71 local focused tests and source-matched 520/520 genuine native tests pass. This was an explicitly accounted local test precision issue, **not a native platform failure**.
+
+Finalized interfaces:
+
+- `kalman_bucy_increments(...)`: exact finite-interval **aggregated stochastic observation increment** conditional model, including process–sensor covariance, with QR-factor posterior and honest absence of full continuous-path claim.
+- `square_root_sampled_filter(...)`: independently qualified irregularly timestamped **instantaneous measurement** Gaussian sampled filter, with QR-root noise propagation and R2 causal fixed-lag smoother compatibility, explicitly distinct from the increment API.
+
+The one-time R3 automatic CI trigger was retired after acceptance; original workflow remains manually runnable. Numerical covariance/likelihood receipts are not independently certified interval-arithmetic proofs. Installed MEL custody and actual physical sensor provenance remain open. **Next engineering R4:** derive and qualify the missing **integrated-increment correlated-noise backward smoothing**, with exact finite-interval conditional references, rather than using the independent-noise endpoint RTS recursion.
