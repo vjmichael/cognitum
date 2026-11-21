@@ -85,7 +85,7 @@ jobs:
         shell: pwsh
         run: |
           (git rev-parse HEAD) | Out-File r2-source-sha.txt -Encoding ascii
-          (git hash-object native/windows_scm_fixture/src/main.rs native/windows_scm_fixture/src/ssm_fixture.rs native/windows_scm_fixture/src/r2_restricted.rs native/windows_scm_fixture/src/r2_signer.rs native/windows_scm_fixture/Cargo.toml native/windows_scm_fixture/Cargo.lock scripts/cog-r5-physical02-r2-cng-provision.ps1 scripts/cog-r5-physical02-r2-signed-host-preflight.ps1 scripts/cog-r5-physical02-r2-restricted-cng-test.ps1 scripts/cog-r5-physical02-r1-real-ssm-scm.ps1 scripts/cog_r5_r2_verify_signed_stop.py research_tests/mel_lu_ipc01e_r5/test_scm_r2_signed_stop.py) | Out-File r2-source-blobs.txt -Encoding ascii
+          (git hash-object native/windows_scm_fixture/src/main.rs native/windows_scm_fixture/src/ssm_fixture.rs native/windows_scm_fixture/src/r2_restricted.rs native/windows_scm_fixture/src/r2_signer.rs native/windows_scm_fixture/src/r2_diagnostic.rs native/windows_scm_fixture/Cargo.toml native/windows_scm_fixture/Cargo.lock scripts/cog-r5-physical02-r2-cng-provision.ps1 scripts/cog-r5-physical02-r2-signed-host-preflight.ps1 scripts/cog-r5-physical02-r2-restricted-cng-test.ps1 scripts/cog-r5-physical02-r1-real-ssm-scm.ps1 scripts/cog_r5_r2_verify_signed_stop.py scripts/cog_r5_r1_scm_ssm_fixture.py cognitum/mel/ssm_r5_fixed_child.py research_tests/mel_lu_ipc01e_r5/test_scm_r2_signed_stop.py) | Out-File r2-source-blobs.txt -Encoding ascii
           $bin='native/windows_scm_fixture/target/release/cognitum-scm-supervisor.exe'
           if(Test-Path $bin){(Get-FileHash $bin -Algorithm SHA256).Hash.ToLowerInvariant() | Out-File r2-binary-sha.txt -Encoding ascii}
       - uses: actions/upload-artifact@v4
@@ -165,7 +165,7 @@ jobs:
           from cognitum.mel.ssm_supervisor import OP
           a=Path('original')
           assert (a/'r2-source-sha.txt').read_text().strip()==os.environ['SHA']
-          files=['native/windows_scm_fixture/src/main.rs','native/windows_scm_fixture/src/ssm_fixture.rs','native/windows_scm_fixture/src/r2_restricted.rs','native/windows_scm_fixture/src/r2_signer.rs','native/windows_scm_fixture/Cargo.toml','native/windows_scm_fixture/Cargo.lock','scripts/cog-r5-physical02-r2-cng-provision.ps1','scripts/cog-r5-physical02-r2-signed-host-preflight.ps1','scripts/cog-r5-physical02-r2-restricted-cng-test.ps1','scripts/cog-r5-physical02-r1-real-ssm-scm.ps1','scripts/cog_r5_r2_verify_signed_stop.py','research_tests/mel_lu_ipc01e_r5/test_scm_r2_signed_stop.py']
+          files=['native/windows_scm_fixture/src/main.rs','native/windows_scm_fixture/src/ssm_fixture.rs','native/windows_scm_fixture/src/r2_restricted.rs','native/windows_scm_fixture/src/r2_signer.rs','native/windows_scm_fixture/src/r2_diagnostic.rs','native/windows_scm_fixture/Cargo.toml','native/windows_scm_fixture/Cargo.lock','scripts/cog-r5-physical02-r2-cng-provision.ps1','scripts/cog-r5-physical02-r2-signed-host-preflight.ps1','scripts/cog-r5-physical02-r2-restricted-cng-test.ps1','scripts/cog-r5-physical02-r1-real-ssm-scm.ps1','scripts/cog_r5_r2_verify_signed_stop.py','scripts/cog_r5_r1_scm_ssm_fixture.py','cognitum/mel/ssm_r5_fixed_child.py','research_tests/mel_lu_ipc01e_r5/test_scm_r2_signed_stop.py']
           pins=[]
           for name in files:
               raw=Path(name).read_bytes()
