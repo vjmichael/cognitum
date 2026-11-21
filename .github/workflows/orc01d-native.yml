@@ -37,7 +37,7 @@ jobs:
         run: |
           import hashlib, importlib.metadata as md, json, pathlib, platform, subprocess, sys
           paths = ("tools/orc01d/synthetic_evidence.py",
-          paths = ("cognitum/orc_comparison.py", "tests/test_orc_comparison.py",
+                   "cognitum/orc_comparison.py", "tests/test_orc_comparison.py",
                    "cognitum/orc_handoff.py", "tests/test_orc_handoff.py",
                    "cognitum/orc_science_data.py", "tests/test_orc_science_data.py",
                    "cognitum/orc_graph.py", "tests/test_orc_graph.py",

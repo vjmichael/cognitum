@@ -94,6 +94,8 @@ Orc Graph 01C binds 01B-qualified source/train-only observations to existing COG
 
 **ORCH-01D-R1 repair:** First four-native-target scientific run 44859363391 had **339/340 pass** on the checked Linux 3.11 cell, with one out-of-range altered-calibration *test fixture*, correctly refused by the scientific feature bound. R1 adjusts only the synthetic fixture inside the bound; no safety limit is loosened. Adds explicit synthetic heldout row-by-row artifact to test the scientific evaluation, signed ridge gains and refusal. **Same-source R1 acceptance pending**; original R4 observational benchmarks remain independent and unchanged.
 
+**ORCH-01D-R2 receipt repair:** [run 44859624778](https://github.com/vjmichael/cognitum/actions/runs/44859624778) had **340/340 mathematical/inherited tests passing on every Windows/Linux Python 3.11/3.13 target** and both synthetic evidence generators succeeding, but **4/4 jobs failed** because the source-receipt step contained a duplicate `paths = (` assignment, leaving an unclosed Python tuple. R2 fixes only the receipt script; 01D remains **ACTIVE** until all four new native artifacts are independently reconciled, without stacking runs or relaxing science gates.
+
 **Sequencing / blockers:** ORCH-01A/B may proceed as architecture/data work independently of COG-05-SSM-POST-NATIVE-05-R4-R1; no model-specific performance promotion before reproducible KAN checkpoints, sensor custody, held-out transfer and meaningful mechanistic baselines. Do not equate this **design promotion** with native/scientific acceptance; source-locked R4 `cf78900c4fcec3981b93c842144c53b15cc0d411` and historical receipts remain unchanged. No new CI or Lu integration authorized by this ledger update.
 
 
