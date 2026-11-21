@@ -1,4 +1,4 @@
-name: Cognitum R3-R1 native frozen standard-user AppContainer SSM installed-style qualification
+name: Cognitum R3-R1 native standard-user AppContainer account description repair
 on:
   push:
     branches: [integration/cog-lu-ipc01e-r2-custody-20261121]
