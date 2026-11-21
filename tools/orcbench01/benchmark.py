@@ -1,7 +1,7 @@
 """BENCH-01: preregistered real-observation Orc vs direct/strong ridge evaluation.
 
 UCI 501 raw excerpts already source-pinned in Cognitum's R4 research tree.
-This is historical measured TEMP, *not* a new blinded external acquisition.
+Historical measured TEMP and USGS daily river discharge, not freshly blind source retrieval.
 Original publication availability and original time-zone metadata are absent;
 same-event availability and UTC+08 are identified surrogate assumptions.
 No calibration/test labels select a model after the test cohort is exposed.
@@ -30,8 +30,9 @@ from cognitum.research.ssm_timeaware import ridge_fit, ridge_predict
 
 ROOT=Path(__file__).resolve().parents[2]
 DATA=ROOT/"research_tests/ssm_postnative04/data"
-SITES=("Changping","Dingling","Guanyuan")
-HOURS=(1,6,24)
+USGS=ROOT/"research_tests/ssm_postnative05r4/data"
+SITES=("Changping","Rac","Musk")
+STEPS=(1,6,24)
 N_ROWS=1920
 HOUR_MS=3_600_000
 TZ=timezone(timedelta(hours=8))
@@ -42,7 +43,7 @@ POLICY_RESEARCH=choice.SelectionPolicy(
     max_evaluation_work_proxy=200_000,
     max_research_abstention_fraction=1.0)
 CLASSICAL=("direct_ridge","persistence","train_mean",
-           "timeaware_ssm","seasonal_naive24","ridge_AR24")
+           "timeaware_ssm","lag24_persistence","ridge_AR24")
 
 
 def require(ok,why):
@@ -57,6 +58,8 @@ def digest(raw):
 def acquire_site(site: str):
     """Only source-locked original bytes; Kelvin and UTC conversion are explicit."""
     require(site in SITES,"fixed site preregistration")
+    if site in ("Rac","Musk"):
+        return acquire_usgs(site)
     manifest=json.loads((DATA/"sources.json").read_text(encoding="utf-8"))
     custody=json.loads((DATA/"acquisition.json").read_text(encoding="utf-8"))
     entry=next(e for e in manifest["entries"] if e["site"]==site)
@@ -124,22 +127,89 @@ def acquire_site(site: str):
     return raw,series,prov,provenance
 
 
+def acquire_usgs(site):
+    """Previously Git-blob-pinned EGRET-derived river daily means in m3/s."""
+    from cognitum.research import ssm_timeaware as prior
+    require(site in ("Rac","Musk"),"registered river study only")
+    original=(USGS/(site+"_daily_Q.csv")).read_bytes()
+    metadata=(USGS/"USGS_siteInfo.csv").read_bytes()
+    def blob_sha(raw):
+        from hashlib import sha1
+        return sha1(b"blob "+str(len(raw)).encode("ascii")+
+                    b"\x00"+raw).hexdigest()
+    require(blob_sha(original)==prior.USGS_BLOBS[site] and
+            blob_sha(metadata)==prior.META_BLOB,
+            "original publisher-hosted derived USGS data or unit metadata changed")
+    info=list(csv.DictReader(StringIO(metadata.decode("utf-8"))))
+    found=[r for r in info if r["site.id"]==site and
+           r["constituent"]=="Q" and r["units"]=="cms" and
+           "Discharge" in r["consti.name"]]
+    require(len(found)==1,"original USGS m3/s site declaration missing")
+    samples=list(csv.DictReader(StringIO(original.decode("utf-8"))))
+    require(len(samples)>=3000 and tuple(samples[0])==("date","Q"),
+            "original USGS daily discharge schema changed")
+    out=StringIO(newline="")
+    writer=csv.writer(out,lineterminator="\n")
+    writer.writerow(("timestamp_ms","available_ms","value","observed","observation_id"))
+    timestamps=[]
+    for i,row in enumerate(samples[:N_ROWS]):
+        # Daily means are only complete AFTER the named day. Next midnight
+        # is a conservative modeling convention, NOT true publication audit.
+        stamp=datetime.strptime(row["date"],"%Y-%m-%d").replace(
+              tzinfo=timezone.utc)+timedelta(days=1)
+        tick=int(stamp.timestamp()*1000)
+        value=float(row["Q"])
+        require(math.isfinite(value) and value>=0,
+                "original USGS discharge measurement invalid")
+        writer.writerow((tick,tick,format(value,".15g"),1,"obs"+str(i)))
+        timestamps.append(tick)
+    DAY=86_400_000
+    require(len(timestamps)==N_ROWS and all(
+            b-a==DAY for a,b in zip(timestamps,timestamps[1:])),
+            "original USGS continuous daily chronology changed")
+    raw=out.getvalue().encode("utf-8")
+    prov=source.Provenance("USGS",prior.UPSTREAM[site],digest(raw),
+                           rights_status="publisher_reported",
+                           unit_evidence="publisher_documented")
+    series=source.qualify(raw,site_id=site,units=source.Units("discharge","m3/s"),
+                          clock=source.Clock(nominal_interval_ms=DAY),
+                          provenance=prov)
+    publisher={
+        "dataset":"USGS EGRET-derived river daily discharge excerpts",
+        "source":"DOI-USGS/loadflexBatch; see original R4 source pins",
+        "license":"USGS government data generally public domain; specific derivative rights not signed",
+        "original_excerpt_sha256":digest(original),
+        "original_git_blob":prior.USGS_BLOBS[site],
+        "original_raw_bytes":len(original),
+        "site":site,
+        "site_name":found[0]["site.name"],
+        "time_interpretation":"Daily labelled date moved to next midnight UTC as completed interval",
+        "observation_availability":"ASSUMED next-day midnight, NOT actual publisher timestamp",
+        "units":"USGS documented discharge m3/s",
+        "upstream_sensor_signature_verified":False,
+        "previously_used_in_cognitum_ssm_research":True,
+    }
+    return raw,series,prov,publisher
+
+
 def same_source(trusted):
     return lambda proposed: proposed.identity==trusted.identity
 
 
-def prepared(s,model,fold,hours):
-    return comp._matched(s,model.scaler,fold,hours*HOUR_MS,HOUR_MS,
+def prepared(s,model,fold,steps):
+    interval=s.clock.nominal_interval_ms
+    return comp._matched(s,model.scaler,fold,steps*interval,interval,
                          ("statistical.ridge","research.ssm",
                           "research.kan","research.hdc"))
 
 
 def _history(s, origins, history=25):
     by_time={r.timestamp_ms:r for r in s.rows}
+    interval=s.clock.nominal_interval_ms
     features=[];good=[];miss=0
     for row in origins:
         t=row.origin_ms
-        source_rows=[by_time.get(t-k*HOUR_MS) for k in range(history)]
+        source_rows=[by_time.get(t-k*interval) for k in range(history)]
         if any(a is None or not a.observed or a.available_ms>t
                for a in source_rows):
             miss+=1
@@ -166,7 +236,7 @@ def strong_predictions(s,fit,batch,fold):
                                np.asarray([e.origin_ms for e in batch.examples])),
                 "strong baselines cannot silently intersect evaluation cohort")
     return {
-        "seasonal_naive24":x[:,24].copy(),
+        "lag24_persistence":x[:,24].copy(),
         "ridge_AR24":ridge_predict(fit,np.column_stack((x[:,:24],np.ones(len(x)))))
     },missing
 
@@ -184,22 +254,23 @@ def cal_classical(cal_truth,cal_preds):
     return frozen,scores
 
 
-def case(site,hours,*,research_kan=True,research_hdc=True):
+def case(site,steps,*,research_kan=True,research_hdc=True):
     """Exactly nine preregistered fixed site/horizon tasks; no cherry-picking."""
-    require(site in SITES and hours in HOURS,"unreviewed task")
+    require(site in SITES and steps in STEPS,"unreviewed task")
     tracemalloc.start()
     start=perf_counter()
     raw,s,provenance,publisher=acquire_site(site)
     source_seconds=perf_counter()-start
+    interval=s.clock.nominal_interval_ms
     work=perf_counter()
-    fitted=comp.fit_train(s,horizon_ms=hours*HOUR_MS,
-                          lag_ms=HOUR_MS,
+    fitted=comp.fit_train(s,horizon_ms=steps*interval,
+                          lag_ms=interval,
                           research_kan=research_kan,
                           research_hdc=research_hdc)
     calibration=comp.calibrate(s,fitted)
-    train=prepared(s,fitted,"train",hours)
-    cal=prepared(s,fitted,"cal",hours)
-    test=prepared(s,fitted,"test",hours)
+    train=prepared(s,fitted,"train",steps)
+    cal=prepared(s,fitted,"cal",steps)
+    test=prepared(s,fitted,"test",steps)
     ar_model,ar_dropped,ar_train=train_strong(s,fitted,train)
     train_seconds=perf_counter()-work
     # Original mathematically coupled candidates computed only from fitted train.
@@ -257,7 +328,7 @@ def case(site,hours,*,research_kan=True,research_hdc=True):
         paired=comp._bootstrap(truth,test_preds["direct_ridge"],
                                test_preds[p.selected],
                                np.asarray([v.origin_ms for v in test.examples]),
-                               HOUR_MS,24)
+                               interval,24)
         chosen_results[name]={
             "status":p.status,"selected":p.selected,
             "signed_mae_gain_vs_ridge":checked.signed_mae_gain_vs_ridge,
@@ -267,29 +338,32 @@ def case(site,hours,*,research_kan=True,research_hdc=True):
     classical_paired=comp._bootstrap(truth,test_preds["direct_ridge"],
                                     test_preds[frozen_strong],
                                     np.asarray([v.origin_ms for v in test.examples]),
-                                    HOUR_MS,24)
+                                    interval,24)
     original_cal=comp._cal_internal(s,fitted)
     cal_times=np.asarray([v.origin_ms for v in cal.examples],dtype=np.int64)
     test_times=np.asarray([v.origin_ms for v in test.examples],dtype=np.int64)
     selected=proposals["default"].selected
     dep=(asdict(comp._interval(cal_truth,cal_preds[selected],
-        cal_times,truth,test_preds[selected],test_times,HOUR_MS,24))
+        cal_times,truth,test_preds[selected],test_times,interval,24))
         if selected is not None else {"status":"ABSTAIN"})
     score_seconds=perf_counter()-trial_t
     rows=[]
     for i,v in enumerate(test.examples):
         rows.append({
             "origin_ms":v.origin_ms,"target_ms":v.target_ms,
-            "observed_temperature_K":v.target,
-            "predictions_K":{name:float(y[i]) for name,y in test_preds.items()}
+            "observed_target":v.target,
+            "predictions":{name:float(y[i]) for name,y in test_preds.items()}
         })
     _,tracemalloc_peak=tracemalloc.get_traced_memory()
     tracemalloc.stop()
     require(all(v["n"]==len(rows) for v in test_metrics.values()),
             "unmatched sample count")
     return {
-        "task":site+"_"+str(hours)+"h",
-        "site":site,"horizon_hours":hours,
+        "task":site+"_"+str(steps)+("h" if site=="Changping" else "d"),
+        "site":site,"horizon_steps":steps,
+        "interval_ms":interval,
+        "horizon_seconds":steps*interval/1000,
+        "physical_unit":s.units.symbol,
         "source":publisher,
         "source_identity":s.identity,
         "source_sha256":provenance.raw_sha256,
@@ -336,30 +410,32 @@ def case(site,hours,*,research_kan=True,research_hdc=True):
 
 def run():
     """Frozen order, all nine tasks; a failed task refuses all result promotion."""
-    cases=[case(site,h) for site in SITES for h in HOURS]
+    cases=[case(site,h) for site in SITES for h in STEPS]
     require(len(cases)==9 and len({v["task"] for v in cases})==9,
             "all original preregistered site/horizons mandatory")
     arms=("default","research_opt_in")
     summaries={}
     for arm in arms:
-        vals=[row["orc_frozen_heldout"][arm]["signed_rmse_gain_vs_ridge"]
+        vals=[row["orc_frozen_heldout"][arm]["signed_rmse_gain_vs_ridge"] /
+              max(row["all_heldout_metrics"]["direct_ridge"]["rmse"],1e-12)
               for row in cases]
         summaries[arm]={
             "case_count":len(vals),
             "positive":sum(v>1e-12 for v in vals),
             "negative":sum(v< -1e-12 for v in vals),
             "ties":sum(abs(v)<=1e-12 for v in vals),
-            "macro_mean_signed_rmse_gain_K":float(np.mean(vals)),
+            "macro_mean_fractional_rmse_gain_relative_to_site_ridge":float(np.mean(vals)),
             "no_test_based_model_selection":True,
         }
     return {
-        "schema":"orc.bench01.real_observations.v1",
+        "schema":"orc.bench01.amended_real_multidomain.v2",
         "source_class":"REAL HISTORICAL ORIGINAL EXCERPTS, not newly blind/acquired",
-        "physical_quantity":"hourly air temperature converted Celsius to Kelvin",
-        "sites":SITES,"horizon_hours":HOURS,
+        "physical_quantity":"UCI air temperature K plus two USGS daily river discharges m3/s",
+        "sites":SITES,"horizon_steps":STEPS,
+        "cross_site_summary_is_dimensionless":True,
         "preregistered_protocol":
             "docs/research/orcgraph/ORCH01E_BENCH01_PREREG.md",
-        "same_time_availability_is_an_unverified_historical_assumption":True,
+        "source_availability_is_unverified_historical_assumption":True,
         "timezone_fixed_UTC_plus_08_is_an_assumption":True,
         "owner_required_benchmark_not_claimed_to_prove_superiority":True,
         "results":cases,
@@ -386,19 +462,20 @@ def main():
         "n":v["test_origin_examples"],
         "chosen_default":v["orc_frozen_heldout"]["default"]["selected"],
         "chosen_research":v["orc_frozen_heldout"]["research_opt_in"]["selected"],
-        "default_rmse_gain_K":v["orc_frozen_heldout"]["default"]["signed_rmse_gain_vs_ridge"],
-        "research_rmse_gain_K":v["orc_frozen_heldout"]["research_opt_in"]["signed_rmse_gain_vs_ridge"],
-        "ridge_rmse_K":v["all_heldout_metrics"]["direct_ridge"]["rmse"],
+        "default_rmse_gain_native_units":v["orc_frozen_heldout"]["default"]["signed_rmse_gain_vs_ridge"],
+        "research_rmse_gain_native_units":v["orc_frozen_heldout"]["research_opt_in"]["signed_rmse_gain_vs_ridge"],
+        "ridge_rmse_native_units":v["all_heldout_metrics"]["direct_ridge"]["rmse"],
+        "physical_unit":v["physical_unit"],
         "strongest_cal_classical":v["classical_selected_cal_only"],
-        "strongest_classical_rmse_K":v["all_heldout_metrics"][v["classical_selected_cal_only"]]["rmse"],
+        "strongest_classical_rmse_native_units":v["all_heldout_metrics"][v["classical_selected_cal_only"]]["rmse"],
     } for v in payload["results"]]
     Path(opts.summary).write_text(json.dumps(brief,indent=2,sort_keys=True,
                                             allow_nan=False)+"\n",
                                   encoding="utf-8",newline="\n")
     for v in brief["case_summary"]:
-        print(v["task"],"n",v["n"],"direct Ridge",v["ridge_rmse_K"],
+        print(v["task"],"n",v["n"],"direct Ridge",v["ridge_rmse_native_units"],v["physical_unit"],
               "Orc",v["chosen_default"],"signed RMSE improvement",
-              v["default_rmse_gain_K"],"research",v["research_rmse_gain_K"])
+              v["default_rmse_gain_native_units"],"research",v["research_rmse_gain_native_units"])
 
 
 if __name__=="__main__":
