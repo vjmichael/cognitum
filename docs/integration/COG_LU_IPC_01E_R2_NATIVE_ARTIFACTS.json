@@ -1,0 +1,83 @@
+{
+  "schema": "cognitum.lu_ipc01e_r2.outside_CI_original_5_artifacts.v1",
+  "scope": "PASS_SOURCE_ONLY_NATIVE_OS_CUSTODY_ED25519_VERIFIER_NOT_INSTALLED_LU",
+  "original_qualified_sha": "b74f07df64496aec68ebede855ca82d214b4700b",
+  "original_run_id": 44928333271,
+  "original_jobs_passed": 5,
+  "original_native_cases": {
+    "platforms": 4,
+    "cases_per_platform": 196,
+    "total": 784,
+    "errors": 0,
+    "failures": 0,
+    "skips": 0,
+    "new_r2_per_platform": 27,
+    "original_r6_native_host_cases_per_platform": 12
+  },
+  "original_artifacts": [
+    {
+      "id": 14716826224,
+      "platform": "ubuntu-latest-py3.11",
+      "official_original_zip_sha256": "sha256:9496f27b410bcbce58bbce07edae71b4bced5b909bc26de43afe13044f893e75",
+      "independent_sha256_confirmed": true,
+      "zip_CRC_confirmed": true,
+      "original_native_JUnit_passed": 196
+    },
+    {
+      "id": 14716633229,
+      "platform": "independent",
+      "official_original_zip_sha256": "sha256:c634d5ad4d0e86e57a8b3d88abe84cba157b3d2cee53f063255cf3d10a854045",
+      "independent_sha256_confirmed": true,
+      "zip_CRC_confirmed": true,
+      "original_native_JUnit_passed": null
+    },
+    {
+      "id": 14716407473,
+      "platform": "windows-latest-py3.13",
+      "official_original_zip_sha256": "sha256:279532b2e8778116fb3426c4f463db402aff3bb1aab3e2cde123897ded868c3f",
+      "independent_sha256_confirmed": true,
+      "zip_CRC_confirmed": true,
+      "original_native_JUnit_passed": 196
+    },
+    {
+      "id": 14716364157,
+      "platform": "ubuntu-latest-py3.13",
+      "official_original_zip_sha256": "sha256:944f94fc4099f5f6817d8a30533b505e9b4e03cfa1ad6268b5b0708aa35b90f7",
+      "independent_sha256_confirmed": true,
+      "zip_CRC_confirmed": true,
+      "original_native_JUnit_passed": 196
+    },
+    {
+      "id": 14715619469,
+      "platform": "windows-latest-py3.11",
+      "official_original_zip_sha256": "sha256:3f7f2288277a75498d2b898c5c06785b647b88fd45f1e0c8be5d68c7d7b15275",
+      "independent_sha256_confirmed": true,
+      "zip_CRC_confirmed": true,
+      "original_native_JUnit_passed": 196
+    }
+  ],
+  "independent_checks": {
+    "four_196_JUnit_original_case_IDs_identical": true,
+    "all_27_original_Git_source_blobs_matched": true,
+    "all_native_protoc_outputs_identical": true,
+    "original_fifth_independent_receipt_valid": true
+  },
+  "native_protoc": {
+    "lu_proto_blob": "4e01d921197fb1c58c99958479b1cede36e13c9a",
+    "ssm_proto_blob": "755562254afdbea686ee33b95567c505f2f85e49",
+    "descriptor_sha256": "d2cf48e33c80837ac99f2a080ba16996617020c84482f690b8ea1e5f089e79f0",
+    "lu_generated_sha256": "3757c3adcd357d57a353a29490c60e687eedb32f6a4d78ea8759378a15e2d22b",
+    "ssm_generated_sha256": "4aa6463da1775f93ada551f172ac3a69f5f2e261ca0955089fd4d345b51cef40"
+  },
+  "trust_limits": {
+    "genuine_installed_Lu_Core_peer_verified": false,
+    "approved_Lu_Core_issuer_receipt_format": false,
+    "installer_pubkey_enrollment_verified": false,
+    "real_Lu_per_turn_PURE_compute_grant": false,
+    "hardware_remote_monotonic_revision_root": false,
+    "installed_OS_worker_custody_verified": false,
+    "external_output_delivery_or_ACK_authorized": false,
+    "model_tool_execution_allowed": false
+  },
+  "closeout_only_docs_evidence_manual_CI": true
+}
