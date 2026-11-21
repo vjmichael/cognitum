@@ -17,6 +17,7 @@ from __future__ import annotations
 import ctypes
 import ctypes.util
 import hashlib
+import hmac
 import os
 from pathlib import Path
 import sys
@@ -27,6 +28,7 @@ from cognitum.research import ssm_stochastic_checkpoints as cp
 DOMAIN=b"cognitum.ssm.os_credential_broker.v1\x00"
 MAX_SECRET=128
 MAX_CIPHERTEXT=8192
+DPAPI_MAGIC=b"cognitum.ssm.dpapi.credential.v1\x00"
 USER_KEYRING=-4
 
 
@@ -156,12 +158,15 @@ class OSCredentialBroker:
         if sys.platform=="win32":
             path=self._path(scope,stream_id)
             ciphertext=_dpapi(secret,self._description(scope,stream_id).encode("ascii"))
+            # Versioned whole-file integrity check; Windows DPAPI itself
+            # protects the secret's confidentiality and authenticity.
+            envelope=DPAPI_MAGIC+hashlib.sha256(ciphertext).digest()+ciphertext
             fd=None
             try:
                 fd=os.open(path,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)
                 with os.fdopen(fd,"wb") as file:
                     fd=None
-                    file.write(ciphertext)
+                    file.write(envelope)
                     file.flush()
                     os.fsync(file.fileno())
             except FileExistsError as exc:
@@ -177,6 +182,16 @@ class OSCredentialBroker:
             data=ctypes.create_string_buffer(secret)
             serial=library.add_key(b"user",desc,data,len(secret),USER_KEYRING)
             if serial<0:_native_error("kernel user keyring add refused")
+            # An accepted add_key is not enough: keyctl_read can still be
+            # refused by a runner's kernel/LSM. No unusable key provision.
+            try:
+                recovered=self.borrow_key(scope,stream_id)
+                if not hmac.compare_digest(recovered,secret):
+                    raise CredentialUnavailable("kernel keyring provision mismatch")
+            except BaseException:
+                try:library.keyctl_revoke(serial)
+                except Exception:pass
+                raise
         return True
 
     def borrow_key(self,scope,stream_id):
@@ -189,15 +204,22 @@ class OSCredentialBroker:
                     ciphertext=file.read(MAX_CIPHERTEXT+1)
             except OSError as exc:
                 raise CredentialUnavailable("OS DPAPI credential absent/inaccessible") from exc
-            if not 0<len(ciphertext)<=MAX_CIPHERTEXT:
-                raise CredentialUnavailable("DPAPI credential size")
-            return cp._auth_key(_dpapi(ciphertext,
+            prefix=len(DPAPI_MAGIC)
+            if not (prefix+32<len(ciphertext)<=MAX_CIPHERTEXT and
+                    ciphertext.startswith(DPAPI_MAGIC)):
+                raise CredentialUnavailable("DPAPI credential envelope version/size")
+            digest=ciphertext[prefix:prefix+32]
+            raw=ciphertext[prefix+32:]
+            if not hmac.compare_digest(digest,hashlib.sha256(raw).digest()):
+                raise CredentialUnavailable("DPAPI credential file integrity refused")
+            return cp._auth_key(_dpapi(raw,
                   self._description(scope,stream_id).encode("ascii"),decrypt=True))
         library=_keyutils()
         serial=library.keyctl_search(USER_KEYRING,b"user",
                         self._description(scope,stream_id).encode("ascii"),0)
         if serial<0:_native_error("kernel keyring secret unavailable")
         size=library.keyctl_read(serial,None,0)
+        if size<0:_native_error("kernel keyring read refused")
         if not 32<=size<=MAX_SECRET:
             raise CredentialUnavailable("kernel credential size")
         buf=ctypes.create_string_buffer(size)
