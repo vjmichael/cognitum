@@ -1,11 +1,6 @@
 name: Cognitum SSM R6-INT-02 native OS custody and supervised MEL research qualification
 
 on:
-  push:
-    branches:
-      - research/ssm04r6-int02-native-custody-20261121
-    paths:
-      - '.github/workflows/ssm04r6-int02-native.yml'
   workflow_dispatch:
 
 permissions:

@@ -1,0 +1,127 @@
+{
+  "schema": "cognitum.ssm04r6int02.external_original_native_artifact_verification.v1",
+  "original_qualified_source_sha": "d4afcf43257c919c216be7e3cce5c072140d1679",
+  "original_run_id": 44916524626,
+  "original_run_url": "https://github.com/vjmichael/cognitum/actions/runs/44916524626",
+  "original_run_attempt": 1,
+  "original_jobs_passed": 5,
+  "original_jobs_total": 5,
+  "original_native_cases": {
+    "per_platform": 286,
+    "aggregate_passed": 1144,
+    "aggregate_failed": 0,
+    "aggregate_errors": 0,
+    "aggregate_skipped": 0,
+    "new_int02_cases_per_platform": 12,
+    "prior_mel_ssm_cases_per_platform": 274
+  },
+  "original_22_source_blob_hashes": {
+    "cognitum/research/ssm_stochastic.py": "e6616d14f4b02bd447f872f2a67a444d83bc7df6",
+    "cognitum/research/ssm_stochastic_extended.py": "19aefcc2c01ff629f6da5778b12fa0d495a3b610",
+    "cognitum/research/ssm_stochastic_continuous.py": "026ee4e3b9e4e8be7d0158b9e8771bb691809293",
+    "cognitum/research/ssm_stochastic_increments.py": "3eebcec1da8bae1cb3a65d33aab389c584cff89b",
+    "research_tests/ssm04r2/test_continuous.py": "8b8b16a9f3a3355cadd8ac7b19bf05af097e737a",
+    "research_tests/ssm04r3/test_increments.py": "ee311ead4b017e0e080f41cf412d22bfff0139b3",
+    "cognitum/research/ssm_stochastic_smoothing.py": "bc657af3ba28474c72bbb34376739f6bdef82106",
+    "research_tests/ssm04r4/test_correlated_smoothing.py": "f9cc09a3a54308135d6f25f63904d18d0d3ff6f8",
+    "cognitum/research/ssm_stochastic_streaming.py": "731208b392d3a948ee7677c2e24f1117e2c8df79",
+    "research_tests/ssm04r5/test_streaming.py": "826e1a7402cf89ae5c8855cbe52fd8280617c73a",
+    "cognitum/research/ssm_stochastic_checkpoints.py": "30773bfaf4871bf686df0690419e3244c380be03",
+    "research_tests/ssm04r6/test_checkpoints.py": "23ae54dc6a8c47e2230df98af58d4eba3808ba77",
+    "cognitum/mel/admission.py": "405fa91935f62226ab0d1a2f0d8b7313e2327116",
+    "cognitum/mel/ssm_recovery.py": "d9ca61ce225e90855b2bfba42f98abf78a7d3276",
+    "research_tests/mel_ssm_r6int01/test_journal.py": "ba7cb4a29908e433d26840d7d5f8b51738d3bb1d",
+    "cognitum/worker.py": "8246e955525655414c2da95d7153a794f011a0ef",
+    "cognitum/runtime.py": "885c4bf56114c7cab98252539e5900113ae3418b",
+    "cognitum/mel/ssm_os_credentials.py": "4492b855dd39dd972c13adde4434a13b3d9bb5a3",
+    "cognitum/mel/ssm_revision_cas.py": "96c0bd869eaf732f750b44fc4f3fa612cb94f964",
+    "cognitum/mel/ssm_supervisor.py": "7f5322f671ebccd3d142b1e3222185728d9627dd",
+    "research_tests/mel_ssm_r6int02/test_native_host.py": "a5decb9fff612ce7aa2996a7404503bd15167cfb",
+    "research_tests/mel_ssm_r6int02/native_probe.py": "8f5b17a924e38a91050851ca4dfbbf64dadcbdaa"
+  },
+  "artifacts": [
+    {
+      "artifact_id": 14712376122,
+      "name": "cognitum-ssm04r6-int02-ubuntu-latest-py3.11",
+      "authoritative_github_sha256": "sha256:cf58d6de93dead24b73a10254e28a902197b79911abaa965596f9583640b1c27",
+      "externally_downloaded_SHA256_match": true,
+      "verified_original_zip_CRC": true,
+      "original_junit_passed": 286,
+      "os_custody_disposition": "OS_KERNEL_KEYRING_UNAVAILABLE_FAIL_CLOSED"
+    },
+    {
+      "artifact_id": 14712197100,
+      "name": "cognitum-ssm04r6-int02-ubuntu-latest-py3.13",
+      "authoritative_github_sha256": "sha256:304a92fe91a57d3d16b54b3b52195678b93912b3bd109aa3a855b5da40c7ece5",
+      "externally_downloaded_SHA256_match": true,
+      "verified_original_zip_CRC": true,
+      "original_junit_passed": 286,
+      "os_custody_disposition": "OS_KERNEL_KEYRING_UNAVAILABLE_FAIL_CLOSED"
+    },
+    {
+      "artifact_id": 14711817081,
+      "name": "cognitum-ssm04r6-int02-independent",
+      "authoritative_github_sha256": "sha256:15514257ae65b653823103fe8b1749f30b083254d5416b0135c08529535c306e",
+      "externally_downloaded_SHA256_match": true,
+      "verified_original_zip_CRC": true,
+      "original_junit_passed": null,
+      "os_custody_disposition": "PASS_ORIGINAL_FIFTH_EVIDENCE_JOB"
+    },
+    {
+      "artifact_id": 14711609011,
+      "name": "cognitum-ssm04r6-int02-windows-latest-py3.11",
+      "authoritative_github_sha256": "sha256:1c25254805d6233b57041002d69ad1f050cb354fdf26fffcaf0ee6eac30577a2",
+      "externally_downloaded_SHA256_match": true,
+      "verified_original_zip_CRC": true,
+      "original_junit_passed": 286,
+      "os_custody_disposition": "PASS_OS_NATIVE_CUSTODY_AND_LOCAL_CAS"
+    },
+    {
+      "artifact_id": 14711383312,
+      "name": "cognitum-ssm04r6-int02-windows-latest-py3.13",
+      "authoritative_github_sha256": "sha256:2f728e3dcb78aac394978a14b0745c0d94c327f0df49e38b8c4c931f4b9bf2ef",
+      "externally_downloaded_SHA256_match": true,
+      "verified_original_zip_CRC": true,
+      "original_junit_passed": 286,
+      "os_custody_disposition": "PASS_OS_NATIVE_CUSTODY_AND_LOCAL_CAS"
+    }
+  ],
+  "original_evidence_checks": {
+    "all_four_original_junit_case_identity_lists_identical": true,
+    "all_original_test_ids_unique": true,
+    "all_original_commit_sha_receipts_match": true,
+    "all_22_Git_blob_IDs_match_original_qualified_sha": true,
+    "all_actual_original_OS_probe_records_verified": true,
+    "original_fifth_job_json_receipt_verified": true,
+    "original_zip_SHA256_and_CRC_verified_independently": true
+  },
+  "windows_native_current_user_DPAPI": {
+    "tested_on_native_windows_311_and_313": true,
+    "provision_borrow_revoke_pass": true,
+    "local_independent_HMAC_revision_CAS_pass": true,
+    "installed_service_token_and_ACL_not_tested": true
+  },
+  "linux_native_kernel_keyring": {
+    "tested_on_native_ubuntu_311_and_313": true,
+    "keyring_usable_on_hosted_runner": false,
+    "disposition": "OS_KERNEL_KEYRING_UNAVAILABLE_FAIL_CLOSED",
+    "fallback_to_plaintext": false
+  },
+  "limits": {
+    "installed_OS_protected_service_credential_custody": false,
+    "protected_Windows_Job_AppContainer_or_linux_cgroup": false,
+    "hardware_or_remote_authoritative_monotonic_revision": false,
+    "installed_MEL_SSM_protobuf_route": false,
+    "Lu_host_grants": false,
+    "external_exactly_once_published_outputs": false,
+    "physical_windows_power_loss_test": false
+  },
+  "first_original_failure": {
+    "run_id": 44916310428,
+    "source_sha": "03bf0a754ac89d4438b0588e4a9f83d65bb03f4f",
+    "linux": "key add succeeded but key read refused; provision had not checked read-back",
+    "windows": "modified DPAPI bytes were not semantically authenticated by test; versioned whole-file digest envelope added",
+    "source_correction": "one consolidated OS credential source repair and one pinned Git hash update, no changes to accepted SSM mathematics"
+  },
+  "closeout_policy": "This manifest and branch-only manual trigger retirement are documentation/CI-control-only. Original SHA above, not later closeout, is the qualified exact source."
+}

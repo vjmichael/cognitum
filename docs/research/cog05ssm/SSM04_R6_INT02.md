@@ -1,6 +1,6 @@
 # COG-05-SSM-04-R6-INT-02 — Native OS custody, host revision CAS and supervised SSM
 
-**2026-11-21 status: research source candidate; exact-source native Windows/Linux acceptance pending.** Accepted R3–R6 mathematical source and original test blobs remain unchanged. This is not installed privileged Lu/MEL authorization.
+**2026-11-21 native research qualification: ACCEPTED for Windows current-user DPAPI, local revision CAS and disposable supervised SSM mathematics; 5/5 native/evidence jobs PASS, 286 tests × 4 OS/Python platforms = 1,144/1,144 passed.** The accepted original tested source is d4afcf43257c919c216be7e3cce5c072140d1679; do not confuse with the later source-unchanged closeout commit. Linux GitHub kernel-keyring protection remains **UNAVAILABLE_FAIL_CLOSED** (not qualified), and full installed privileged Lu/MEL authorization/hardware anti-rollback is not claimed.
 
 ## Native credential custody
 
@@ -40,4 +40,18 @@ New tests verify actual subprocess execution and deterministic R5 result agreeme
 4. Reviewed typed SSM MEL Protobuf route under existing Runtime and installed Lu authorization; no model-facing authority before genuine admission.
 5. Verified protected installed cancellation, revocation, recovery and output custody.
 
-**Next:** COG-05-SSM-04-R6-INT-02-R1 exact-source CI reconciliation and native OS evidence closeout, then installed protected custody gates.
+## Accepted original exact-source native and independent evidence — 2026-11-21
+
+- **Original fully passing GitHub Actions run:** [#44916524626](https://github.com/vjmichael/cognitum/actions/runs/44916524626), head SHA d4afcf43257c919c216be7e3cce5c072140d1679, attempt 1; **five original jobs succeeded**.
+- Ubuntu Python 3.11 **286/286**, Ubuntu Python 3.13 **286/286**, Windows Python 3.11 **286/286**, Windows Python 3.13 **286/286**; aggregate **1,144 passing tests**. Original R3/R4/R5/R6 and R6-INT-01 regressions were retained. Every native JUnit includes exactly **12 new R6-INT-02 cases**, zero failed/errored/skipped.
+- **Real OS credential native evidence:** BOTH original Windows jobs actually provisioned/decrypted/revoked secrets via the Windows DPAPI current-user API, then round-tripped the HMAC-authenticated independent local revision CAS. BOTH Ubuntu jobs observed a Linux kernel keyring read/provision refusal: no usable kernel-held key or native CAS; explicit OS_KERNEL_KEYRING_UNAVAILABLE_FAIL_CLOSED with no software fallback. This is a known **partial OS custody** result, not a Linux security PASS.
+- **Original fifth CI job:** independently compared four exact original commit SHA receipts, all 22 pinned prior/new source/test/worker Git blobs, 286 identical original (classname,testname) pairs and native OS probe identities; it emitted PASS_SUPERVISED_SSM_AND_OS_NATIVE_CUSTODY_DISPOSITIONS.
+- **Further separate outside-CI audit:** downloaded all five original GitHub Actions artifact ZIPs through the connector; independently checked their ZIP SHA-256 against original GitHub metadata, ZIP CRCs, four JUnit contents and unique case IDs, original source Git blob and commit identity, the Windows/Linux native OS disposition records and original independent job JSON. Evidence inventory: [SSM04_R6_INT02_NATIVE_ARTIFACTS.json](SSM04_R6_INT02_NATIVE_ARTIFACTS.json).
+- **First unsuccessful run #44916310428:** original Ubuntu key creation could succeed while key reading was refused, but provisioning had not yet enforced a read-back check; original Windows DPAPI ciphertext test mutated ignored/noncritical bytes. Corrected in ONE consolidated successor by requiring Linux provision/read verification with revocation/refusal on failure, adding a versioned SHA-256 whole-file integrity envelope around protected DPAPI ciphertext, and updating the exact source hash. No Python mathematics or accepted MEL admission/grant code changed.
+- **Retired one-time CI:** the R6-INT-02 branch-scoped push trigger was converted to manual-only workflow_dispatch in a single documentation/evidence/CI-control-only [skip ci] closeout commit. The green accepted source remains the immutable exact SHA above. No automatic replacement workflow or branch merge.
+
+### Acceptance limit
+
+The host integration is only qualified for actual Windows DPAPI current-user OS protection and authenticated local revision CAS, and for research disposable subprocess computation on Windows/Linux. **Not accepted:** protected installed Windows service/SCM/AppContainer/Job custody; Linux kernel-keyring custody on those CI runners; physical Linux kernel-policy provisioning; independently authoritative hardware/remote monotonic anti-rollback; full SQLite deletion/restore resistance; external exactly-once delivery; installed typed MEL Protobuf route; Lu broker grants or production authorization.
+
+**Next engineering task:** COG-05-SSM-04-R6-INT-03 — qualify installed OS service custody and independent trusted revision authority; finish Windows protected worker and provision/qualify Linux keyring on a real installed host; then implement a reviewed MEL SSM Protobuf route under Lu-owned authorization.
