@@ -231,7 +231,8 @@ def ridge_design(s,o,h):
     ys=[s["state"][o]]
     for lag in LAGS[s["name"]]:
         ys.append(s["state"][[lut[int(x)-lag] for x in t]])
-    return np.column_stack((*ys,*[harmonics(s["name"],t+h)[:,j] for j in range(1,1+2*len(PERIODS[s["name"]])),],np.ones(len(o))))
+    calendar=harmonics(s["name"],t+h)
+    return np.column_stack((*ys,*[calendar[:,j] for j in range(1,calendar.shape[1])],np.ones(len(o))))
 
 
 def ridge_fit(x,y):
