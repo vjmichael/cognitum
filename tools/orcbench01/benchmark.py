@@ -134,7 +134,7 @@ def prepared(s,model,fold,hours):
                           "research.kan","research.hdc"))
 
 
-def _history(s, origins, history=24):
+def _history(s, origins, history=25):
     by_time={r.timestamp_ms:r for r in s.rows}
     features=[];good=[];miss=0
     for row in origins:
@@ -151,10 +151,10 @@ def _history(s, origins, history=24):
 
 def train_strong(s,model,train):
     x,examples,excluded=_history(s,train.examples)
-    require(x.ndim==2 and x.shape[1]==25 and len(examples)>=300,
+    require(x.ndim==2 and x.shape[1]==26 and len(examples)>=300,
             "training-only seasonal/AR24 history insufficient")
     values=np.asarray([e.target for e in examples],dtype=float)
-    learned=ridge_fit(x,values)
+    learned=ridge_fit(np.column_stack((x[:,:24],np.ones(len(x)))),values)
     return learned,excluded,len(examples)
 
 
@@ -166,8 +166,8 @@ def strong_predictions(s,fit,batch,fold):
                                np.asarray([e.origin_ms for e in batch.examples])),
                 "strong baselines cannot silently intersect evaluation cohort")
     return {
-        "seasonal_naive24":x[:,24-1].copy(),
-        "ridge_AR24":ridge_predict(fit,x)
+        "seasonal_naive24":x[:,24].copy(),
+        "ridge_AR24":ridge_predict(fit,np.column_stack((x[:,:24],np.ones(len(x)))))
     },missing
 
 
