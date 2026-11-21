@@ -295,11 +295,14 @@ fn witness_original_appcontainer(child:Handle,profile_sid:&str,
 /// process must not construct a four-variable pseudo-environment: Windows
 /// AppContainer creation depends on the real user's profile variables and
 /// package namespace setup. bInherit=FALSE forbids leaking SCM credentials.
-struct TargetProfileEnvironment(Handle);
+struct TargetProfileEnvironment{
+    original:Handle,
+    filtered:Vec<u16>,
+}
 impl Drop for TargetProfileEnvironment{
     fn drop(&mut self){
-        if !self.0.is_null(){
-            unsafe{DestroyEnvironmentBlock(self.0);}
+        if !self.original.is_null(){
+            unsafe{DestroyEnvironmentBlock(self.original);}
         }
     }
 }
@@ -308,9 +311,14 @@ fn windows_environment(user:Handle)->io::Result<TargetProfileEnvironment>{
     if unsafe{CreateEnvironmentBlock(&mut raw,user,0)}==0||raw.is_null(){
         return Err(denied("Windows refused noninherited profile environment for original user"));
     }
-    let target=TargetProfileEnvironment(raw);
-    // Inspect only bounded variable NAMES; neither log nor serialize values.
-    // Reject mistakenly inherited SCM/GitHub/workflow secret variable names.
+    let mut target=TargetProfileEnvironment{
+        original:raw,
+        filtered:Vec::with_capacity(4096),
+    };
+    // Use the genuine target user's OS profile block, not a four-field
+    // pseudo-environment. Never hand its privileged CI/SCM-like names to the
+    // lowbox: copy only bounded, vetted entries into a second private block.
+    // Neither log nor serialize any environment VALUE.
     let wchar=raw as *const u16;
     let mut offset=0usize;
     let mut seen=std::collections::BTreeSet::new();
@@ -332,17 +340,33 @@ fn windows_environment(user:Handle)->io::Result<TargetProfileEnvironment>{
         // not authorize filesystem access and are not required for this run.
         if !name.is_empty(){
             let key=name.to_ascii_uppercase();
-            if key.starts_with("COG_")||
-               key.starts_with("GITHUB_")||
-               key.starts_with("GH_")||
-               key.starts_with("ACTIONS_")||
-               key.contains("PASSWORD")||
-               key.contains("SECRET")||
-               key.contains("TOKEN"){
-                return Err(denied("untrusted privileged environment field in original user profile"));
+            // Cognitum's own host-owned fields are NEVER permitted in a
+            // separately enrolled user profile, even if we could omit them.
+            if key.starts_with("COG_"){
+                return Err(denied("SCM Cognitum field escaped into original user profile"));
             }
-            seen.insert(key);
+            // On hosted Windows, genuine machine/user profile blocks can
+            // include CI variables. Do not copy these, nor any password,
+            // token or secret-bearing names, to the nonadmin AppContainer.
+            let forbidden=key.starts_with("GITHUB_")||
+                key.starts_with("GH_")||key.starts_with("ACTIONS_")||
+                key.contains("PASSWORD")||key.contains("SECRET")||
+                key.contains("TOKEN");
+            if !forbidden{
+                if !seen.insert(key){
+                    return Err(denied("duplicate target user environment variable"));
+                }
+                target.filtered.extend_from_slice(unsafe{
+                    std::slice::from_raw_parts(wchar.add(start),offset-start)
+                });
+                target.filtered.push(0);
+                if target.filtered.len()>=32768{
+                    return Err(denied("sanitized user environment exceeds bound"));
+                }
+            }
         }
+        // Ignore drive-current-directory =C: pseudo-entries: absolute
+        // application, script and CWD pins are mandatory for this worker.
         offset+=1;
     }
     if !ended{
@@ -353,6 +377,9 @@ fn windows_environment(user:Handle)->io::Result<TargetProfileEnvironment>{
             return Err(denied("native original AppContainer user profile variable missing"));
         }
     }
+    // Every retained entry already has one NUL. A final NUL terminates
+    // the Windows Unicode environment block without copying excluded values.
+    target.filtered.push(0);
     Ok(target)
 }
 /// Must be called while worker is still SUSPENDED; caller must attach
@@ -429,7 +456,7 @@ pub fn launch(application:&[u16],command:&mut[u16],
         command.as_mut_ptr(),ptr::null_mut(),ptr::null_mut(),0,
         CREATE_SUSPENDED|CREATE_NO_WINDOW|EXTENDED_STARTUPINFO_PRESENT|
             CREATE_UNICODE_ENVIRONMENT,
-        env.0,wide_cwd.as_ptr(),&startup.base,
+        env.filtered.as_ptr().cast_mut().cast(),wide_cwd.as_ptr(),&startup.base,
         output)};
     let launch_error=if launched==0{Some(io::Error::last_os_error())}else{None};
     if impersonated.end().is_err(){
@@ -456,7 +483,7 @@ pub fn launch(application:&[u16],command:&mut[u16],
             reduced.0,application.as_ptr(),probe_command.as_mut_ptr(),
             ptr::null_mut(),ptr::null_mut(),0,
             CREATE_SUSPENDED|CREATE_NO_WINDOW|CREATE_UNICODE_ENVIRONMENT,
-            env.0,wide_cwd.as_ptr(),
+            env.filtered.as_ptr().cast_mut().cast(),wide_cwd.as_ptr(),
             &baseline_startup,(&mut probe as *mut ProbeProcessInfo).cast()
         )}!=0;
         let base_error=if base_created{0}else{
