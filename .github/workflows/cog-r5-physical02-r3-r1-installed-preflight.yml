@@ -7,6 +7,10 @@ on:
       - scripts/cog-r5-physical02-r3-r1-runtime-audit.ps1
       - scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1
       - scripts/cog-r5-physical02-r3-r1-signed-installer.ps1
+      - scripts/cog-r5-physical02-r3-r1-enroll-production.ps1
+      - native/windows_scm_production/src/main.rs
+      - native/windows_scm_production/Cargo.toml
+      - native/windows_scm_production/Cargo.lock
   workflow_dispatch:
 permissions:
   contents: read
@@ -22,12 +26,29 @@ jobs:
       - name: Verify syntax and read-only admission code
         shell: pwsh
         run: |
-          foreach($p in @('scripts/cog-r5-physical02-r3-r1-runtime-audit.ps1','scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1','scripts/cog-r5-physical02-r3-r1-signed-installer.ps1')){
+          foreach($p in @('scripts/cog-r5-physical02-r3-r1-runtime-audit.ps1','scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1','scripts/cog-r5-physical02-r3-r1-signed-installer.ps1','scripts/cog-r5-physical02-r3-r1-enroll-production.ps1')){
             $tokens=$null
             $errors=$null
             [void][Management.Automation.Language.Parser]::ParseFile((Resolve-Path $p).Path,[ref]$tokens,[ref]$errors)
             if(@($errors).Count -ne 0){throw 'Read-only installed script has syntax error'}
           }
+      - name: Compile distinct genuine no-worker production SCM bootstrap
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          $root='native/windows_scm_production'
+          cargo build --manifest-path "$root/Cargo.toml" --release --locked --offline
+          if($LASTEXITCODE -ne 0){throw 'Distinct genuine production SCM bootstrap compile failed'}
+          $exe=Join-Path "$root/target/release" 'cognitum-scm-production.exe'
+          if(!(Test-Path -LiteralPath $exe -PathType Leaf)){throw 'Original separately compiled production image unavailable'}
+          $fixture=Join-Path 'native/windows_scm_fixture/target/release' 'cognitum-scm-supervisor.exe'
+          if(Test-Path $fixture){throw 'Production bootstrap workflow compiled a CI fixture unexpectedly'}
+          $text=Get-Content -LiteralPath "$root/src/main.rs" -Raw
+          foreach($s in @('COG_R1_CI_MAC_KEY_HEX','CognitumSsmNativeFixtureV1','--cognitum-fixed-custody-child','COG_R3_CI_PEER_PID')){
+            if($text.Contains($s)){throw 'Production SCM bootstrap includes CI-only credential/worker'}
+          }
+          if(-not $text.Contains('CognitumSsmSupervisorV1')){throw 'Production SCM service identity absent'}
+          Write-Host 'PASS_NATIVE_SEPARATE_PRODUCTION_NO_WORKER_SCM_SOURCE_BUILD_ONLY'
       - name: Native pre-staged protected file integrity and negative cases
         shell: pwsh
         run: |
