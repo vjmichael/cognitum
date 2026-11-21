@@ -292,7 +292,8 @@ class ProtectedFixedSSMExecutor:
                 status, reply, pid, verified = self._windows(request, timeout_ms)
             mechanism = "windows_job"
         elif sys.platform.startswith("linux"):
-            status, reply, pid, verified = self._linux(request, timeout_ms)
+            status, reply, pid, verified = self._linux(
+                request, timeout_ms, original_nonce=nonce)
             mechanism = "linux_cgroup2"
         else:
             raise NativeSSMCustodyRefused("unsupported protected worker OS")
@@ -386,7 +387,7 @@ class ProtectedFixedSSMExecutor:
                 k.CloseHandle(job)
         return (*result, pid, kernel_empty)
 
-    def _linux(self, request, timeout_ms):
+    def _linux(self, request, timeout_ms, *, original_nonce):
         _need(type(self._delegated) is str and
               self._delegated.startswith("/"),
               "independently delegated Linux cgroup-v2 root required")
@@ -414,6 +415,14 @@ class ProtectedFixedSSMExecutor:
             record_before_worker_release(
                 root, scope.root, scope.path,
                 watcher.jobid, os.getpid(), watcher.proc.pid)
+            # R5: prove that this exact kernel cgroup job belongs to the
+            # original HMAC-bound Lu operation before spawning any worker.
+            from .ssm_r5_linux_recovery import OriginalLinuxCgroupRecovery
+            original_recovery = OriginalLinuxCgroupRecovery(
+                claim=self.claim, delegated_root=self._delegated)
+            original_recovery.bind_before_worker(
+                original_nonce=original_nonce,
+                watchkeeper_job_id=watcher.jobid)
             process.start()
             child.close()
             pid = process.pid
