@@ -562,7 +562,7 @@
       ],
       "acceptance": "Recover bounded polynomial equations; derivative noise, collinearity, wrong library controls; KAN cross-check.",
       "status": "PARTIAL",
-      "evidence": "Polynomial derivative SINDy plus compact-window weak SINDy on uniform trajectories, held-out controls; actual KAN represented-field polynomial bridge staged, two integration cases unexecuted; nonlinear/PDE/general symbolic discovery open; SSM-05-R1 local pass for tested scope, bounded native qualification PASS at c382da2e; broader capability PARTIAL; POST-NATIVE-02: two KAN represented-function wrong-sign dynamical hypotheses native-only staged; no new native evidence; POST-NATIVE-02 native 44/63 passed on 4 targets: two genuine KAN-represented nonlinear vector-field hypotheses numerically falsified by independent ODE endpoint oracle; no general symbolic discovery, physical equation inference or trained KAN.; POST-NATIVE-03 actual measured temperature traces used as held-out numerical forecasting hypothesis controls, wrong-sign null falsified; no new symbolic SINDy discovery or physical governing equation identified.",
+      "evidence": "Polynomial derivative SINDy plus compact-window weak SINDy on uniform trajectories, held-out controls; actual KAN represented-field polynomial bridge staged, two integration cases unexecuted; nonlinear/PDE/general symbolic discovery open; SSM-05-R1 local pass for tested scope, bounded native qualification PASS at c382da2e; broader capability PARTIAL; POST-NATIVE-02: two KAN represented-function wrong-sign dynamical hypotheses native-only staged; no new native evidence; POST-NATIVE-02 native 44/63 passed on 4 targets: two genuine KAN-represented nonlinear vector-field hypotheses numerically falsified by independent ODE endpoint oracle; no general symbolic discovery, physical equation inference or trained KAN.; POST-NATIVE-03 actual measured temperature traces used as held-out numerical forecasting hypothesis controls, wrong-sign null falsified; no new symbolic SINDy discovery or physical governing equation identified.; POST-NATIVE-04-R1: Measured-site real multi-horizon model comparisons and wrong-hypothesis controls passed in native POST-NATIVE-04-R1, but no governing equation identified.",
       "post_native_priority": "P0B",
       "post_native01_status": "NOT_RETESTED"
     },
@@ -626,7 +626,7 @@
       ],
       "acceptance": "Known shifts, outliers and outages; false alarms, detection delay, coverage/abstention across seeds.",
       "status": "PARTIAL",
-      "evidence": "Two-sided clipped block CUSUM, split-calibrated rank threshold, conditional exchangeability assumption and marginal false-alarm level only; seeded null/shift/outlier tests; dependent/missing/OOD calibration open; SSM-05-R1 local pass for tested scope, bounded native qualification PASS at c382da2e; broader capability PARTIAL; POST-NATIVE-02: IID-to-shift conformal failure negative control local pass; real dependence/change detection open; Native 44/63 passes include empirical distribution-shift/coverage refusal controls; dependence, outage and real-world OOD false-alarm guarantees remain OPEN.; POST-NATIVE-03 Beijing chronological coverage weakens from 89.25% first held-out half to 83.06% second half; no robust calibrated shift alarm or missing-data guarantees.",
+      "evidence": "Two-sided clipped block CUSUM, split-calibrated rank threshold, conditional exchangeability assumption and marginal false-alarm level only; seeded null/shift/outlier tests; dependent/missing/OOD calibration open; SSM-05-R1 local pass for tested scope, bounded native qualification PASS at c382da2e; broader capability PARTIAL; POST-NATIVE-02: IID-to-shift conformal failure negative control local pass; real dependence/change detection open; Native 44/63 passes include empirical distribution-shift/coverage refusal controls; dependence, outage and real-world OOD false-alarm guarantees remain OPEN.; POST-NATIVE-03 Beijing chronological coverage weakens from 89.25% first held-out half to 83.06% second half; no robust calibrated shift alarm or missing-data guarantees.; POST-NATIVE-04-R1: Real-site NA window refusal and shift stress passed; reliable conditional detection delay, dependence coverage, and systematic missingness remain unresolved.",
       "post_native_priority": "P0C",
       "post_native01_status": "NOT_RETESTED"
     },
@@ -704,7 +704,7 @@
       ],
       "acceptance": "Bounded uncertainty and explicit risk; independent reachability or independent sample coverage as distinct evidence.",
       "status": "PARTIAL",
-      "evidence": "Exact fixed-feedback invariant-box witness and finite-horizon bounded-disturbance envelope or Gaussian union-bound chance constraint tightening; corner and Monte Carlo checks; parameter uncertainty/tube feedback open; SSM-06-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL; Native suite retains Gaussian-tail risk and heavy-tailed counterexamples: no automatic chance bounds for non-Gaussian shifted disturbances or universal risk certification.; POST-NATIVE-03 dependent sensor forecasting and block bootstrap do not certify chance-constrained control, robustness or automatic external execution.",
+      "evidence": "Exact fixed-feedback invariant-box witness and finite-horizon bounded-disturbance envelope or Gaussian union-bound chance constraint tightening; corner and Monte Carlo checks; parameter uncertainty/tube feedback open; SSM-06-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL; Native suite retains Gaussian-tail risk and heavy-tailed counterexamples: no automatic chance bounds for non-Gaussian shifted disturbances or universal risk certification.; POST-NATIVE-03 dependent sensor forecasting and block bootstrap do not certify chance-constrained control, robustness or automatic external execution.; POST-NATIVE-04-R1: Empirical block calibration does not establish chance constraints or robust physical-control feasibility, despite bounded native acceptance.",
       "post_native_priority": "P0C",
       "post_native01_status": "LOCAL_SUBSET_PASS",
       "post_native01_bounded_evidence": "Independent Gaussian marginal tail at 3 risk thresholds and matched-variance heavy-tailed counterexample; accepted 391-case source code unchanged; broader capability PARTIAL"
@@ -934,7 +934,7 @@
       ],
       "acceptance": "Conservation and dissipation contract; compare black-box learner, KAN vector field and standard simulator.",
       "status": "PARTIAL",
-      "evidence": "Unit-mass quartic Hamiltonian and positive damping fit with nonnegative coefficients, Verlet/Strang and independent simulation energy balance; general neural PINN/KAN comparison open; SSM-08 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL; POST-NATIVE-02: two-system genuine KAN checkpoint vs independent IVP native-only staged; physical system validation open; Two native KAN mathematical vector-field variants match independent numerical ODE trajectory endpoints within declared tolerance; real physical dynamics/energy law learning not qualified.; POST-NATIVE-03 real recorded building/air temperature dynamics assessed; no independently established Hamiltonian, energy balance or learned causal physical field.",
+      "evidence": "Unit-mass quartic Hamiltonian and positive damping fit with nonnegative coefficients, Verlet/Strang and independent simulation energy balance; general neural PINN/KAN comparison open; SSM-08 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL; POST-NATIVE-02: two-system genuine KAN checkpoint vs independent IVP native-only staged; physical system validation open; Two native KAN mathematical vector-field variants match independent numerical ODE trajectory endpoints within declared tolerance; real physical dynamics/energy law learning not qualified.; POST-NATIVE-03 real recorded building/air temperature dynamics assessed; no independently established Hamiltonian, energy balance or learned causal physical field.; POST-NATIVE-04-R1: Observed real PM2.5 trajectories and phenomenological attenuation baselines assessed; no independent mass/energy conservation or causal PDE verified.",
       "post_native_priority": "P0B",
       "post_native01_status": "NOT_RETESTED"
     },
@@ -980,7 +980,7 @@
       ],
       "acceptance": "Time-split multiple datasets, proper scoring/coverage, regime ablation, leakage and distribution shift.",
       "status": "PARTIAL",
-      "evidence": "Labeled HMM regime fit and causal mixture forecast, proper log score and empirical PIT coverage on chronological synthetic splits, regime ablation/OOD diagnostic; real/unlabeled/calibrated abstention open; SSM-08-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL; POST-NATIVE-02: IID split-conformal and shifted-noise counterexample local pass; real time-regime forecasting open; NIST calibration fits and simulated conformal coverage/shift controls pass native tests; these are not chronological dynamical observations or real regime-calibrated forecasts.; POST-NATIVE-03 strictly chronological observed temperature forecasting; empirical 90% interval coverage building 91.61%, Beijing 86.16%; no general regime calibration or conditional guarantee.",
+      "evidence": "Labeled HMM regime fit and causal mixture forecast, proper log score and empirical PIT coverage on chronological synthetic splits, regime ablation/OOD diagnostic; real/unlabeled/calibrated abstention open; SSM-08-R1 local pass, bounded native qualification PASS at c382da2e; broader capability PARTIAL; POST-NATIVE-02: IID split-conformal and shifted-noise counterexample local pass; real time-regime forecasting open; NIST calibration fits and simulated conformal coverage/shift controls pass native tests; these are not chronological dynamical observations or real regime-calibrated forecasts.; POST-NATIVE-03 strictly chronological observed temperature forecasting; empirical 90% interval coverage building 91.61%, Beijing 86.16%; no general regime calibration or conditional guarantee.; POST-NATIVE-04-R1: Three-site 1/6/24h chronological forecasts native-qualified; 24h nominal 90% intervals cover only 87.8%, 82.5%, 75.8%; no conditional calibration.",
       "post_native_priority": "P0C",
       "post_native01_status": "NOT_RETESTED"
     },
@@ -1047,7 +1047,7 @@
       ],
       "acceptance": "Match state IDs and timestamps against canonical records; HDC candidates not facts; compare exact search.",
       "status": "PARTIAL",
-      "evidence": "Native-path adapter now uses genuine HDC research Spec('MAP') and Cleanup, exact bipolar-dot cross-check, past-state cutoff, abstention; 4 genuine composition tests passed in native gate, HDC runtime qualification open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL; POST-NATIVE-02: real HDC Spec/Cleanup candidate/abstention native-only test staged, not executed; Actual HDC cleanup/associative candidate retrieval and explicit ambiguity abstention pass genuine native tests, not an autonomous inference of true regimes.; POST-NATIVE-03 genuine MAP Spec/Cleanup HDC candidates on real held-out sensor observations with 8/1228 explicit abstentions per dataset; candidate similarity not scientifically verified regime truth.",
+      "evidence": "Native-path adapter now uses genuine HDC research Spec('MAP') and Cleanup, exact bipolar-dot cross-check, past-state cutoff, abstention; 4 genuine composition tests passed in native gate, HDC runtime qualification open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL; POST-NATIVE-02: real HDC Spec/Cleanup candidate/abstention native-only test staged, not executed; Actual HDC cleanup/associative candidate retrieval and explicit ambiguity abstention pass genuine native tests, not an autonomous inference of true regimes.; POST-NATIVE-03 genuine MAP Spec/Cleanup HDC candidates on real held-out sensor observations with 8/1228 explicit abstentions per dataset; candidate similarity not scientifically verified regime truth.; POST-NATIVE-04-R1: Actual HDC MAP/Cleanup candidate and abstention native checked in multi-step HDC/KAN/SSM with ablations; association not verified physical regime.",
       "post_native_priority": "P0B",
       "post_native01_status": "NOT_RETESTED"
     },
@@ -1063,7 +1063,7 @@
       ],
       "acceptance": "Pure KAN f/g or field operator, derivatives/Jacobians, numerical integration comparison; propagate model uncertainty.",
       "status": "PARTIAL",
-      "evidence": "Genuine MEL/KAN field/checkpoint functions composed through normalized-domain RK4 and local EKF with real HDC candidate and source-pinned dataset; 4 KAN composition tests passed in native gate, general nonlinear/uncertainty still open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL; POST-NATIVE-02: genuine MEL/KAN cooperative/antagonistic field test at two initial conditions, checkpoint tamper refusal native-only staged, unexecuted; Genuine MEL/KAN checkpoint computations in two independent vector-field fixtures pass 4-platform native tests, explicit checkpoint mismatch refusal; physically observed dynamics and uncertainty propagation remain OPEN.; POST-NATIVE-03 actual one-layer trainable KAN nonlinear residual fits to two observed physical series, gradient/serialized model checks across four native platforms; models are not bit-identical across BLAS/OS and do not establish physical law.",
+      "evidence": "Genuine MEL/KAN field/checkpoint functions composed through normalized-domain RK4 and local EKF with real HDC candidate and source-pinned dataset; 4 KAN composition tests passed in native gate, general nonlinear/uncertainty still open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL; POST-NATIVE-02: genuine MEL/KAN cooperative/antagonistic field test at two initial conditions, checkpoint tamper refusal native-only staged, unexecuted; Genuine MEL/KAN checkpoint computations in two independent vector-field fixtures pass 4-platform native tests, explicit checkpoint mismatch refusal; physically observed dynamics and uncertainty propagation remain OPEN.; POST-NATIVE-03 actual one-layer trainable KAN nonlinear residual fits to two observed physical series, gradient/serialized model checks across four native platforms; models are not bit-identical across BLAS/OS and do not establish physical law.; POST-NATIVE-04-R1: Genuine trainable KAN Chebyshev corrections and no-KAN ablations native checked for measured sites; no physical-law identification or OS-bit-exact model guarantee.",
       "post_native_priority": "P0B",
       "post_native01_status": "NOT_RETESTED"
     },
@@ -1080,7 +1080,7 @@
       ],
       "acceptance": "Separate exact algebra, floating residual, empirical calibration and certificate assumptions; coverage and falsification.",
       "status": "PARTIAL",
-      "evidence": "Typed unverified numerical-residual evidence for full candidate trace, source/checkpoint/dataset digests and explicit assumptions; scientific verification/calibration/authenticity open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL; POST-NATIVE-02: out-of-band NIST transcription/protocol/evidence SHA pin and replay/refusal local pass; authenticity and original upstream bytes not verified; Frozen evidence replay, signed-by-hash scope and receipt/negative classification tests pass; NIST 50 numeric pairs matched public tables but original .dat byte provenance and statistical calibration not verified.; POST-NATIVE-03 two real UCI source archives SHA-pinned, row-frozen with UCI374 author blob parity; one-step residual/empirical coverage evidence across four platforms; no general independent signed source authentication or dependable exchangeability.",
+      "evidence": "Typed unverified numerical-residual evidence for full candidate trace, source/checkpoint/dataset digests and explicit assumptions; scientific verification/calibration/authenticity open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL; POST-NATIVE-02: out-of-band NIST transcription/protocol/evidence SHA pin and replay/refusal local pass; authenticity and original upstream bytes not verified; Frozen evidence replay, signed-by-hash scope and receipt/negative classification tests pass; NIST 50 numeric pairs matched public tables but original .dat byte provenance and statistical calibration not verified.; POST-NATIVE-03 two real UCI source archives SHA-pinned, row-frozen with UCI374 author blob parity; one-step residual/empirical coverage evidence across four platforms; no general independent signed source authentication or dependable exchangeability.; POST-NATIVE-04-R1: Original UCI ZIP, nested and member digests reproducibly regenerated 18,432 observations; digest integrity is not an original publisher signature or conditional uncertainty proof.",
       "post_native_priority": "P0A",
       "post_native01_status": "LOCAL_SUBSET_PASS",
       "post_native01_bounded_evidence": "All four typed evidence classifications reject authority and lack verifier status; accepted 391-case source code unchanged; broader capability PARTIAL"
@@ -1098,7 +1098,7 @@
       ],
       "acceptance": "Known simulators plus licensed real traces with frozen splits and unit/reference provenance; independent domain controls.",
       "status": "PARTIAL",
-      "evidence": "Bounded strict CSV scientific dataset validation, digest/provenance and declared-but-unverified licensing, frozen hash-pinned chronological train/val/test ARX experiment, 3 seeded synthetic recovery and falsification/leakage controls; real licensed traces open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL; POST-NATIVE-02: NIST Norris (36) and Misra1a (14) real calibration observations fit externally certified coefficients and SSE; 12 frozen split experiments with 6 deliberate false hypothesis rejection local pass; license-specific review and actual time series open; Norris (36) and Misra1a (14) NIST published numeric pairs matched frozen CSV; certified numerical regression tests pass on four platforms. SRD140 dataset-specific reuse/redistribution rights and upstream .dat hash/authenticity not established; not a measured dynamic trajectory.; POST-NATIVE-03 UCI374/501 CC BY 4.0 real measured time series (6144 rows each), exact original ZIP/excerpt hashes and 50-row NIST earlier contrast; strict chronological splits; only single window/station per dataset and no general scientific discovery.",
+      "evidence": "Bounded strict CSV scientific dataset validation, digest/provenance and declared-but-unverified licensing, frozen hash-pinned chronological train/val/test ARX experiment, 3 seeded synthetic recovery and falsification/leakage controls; real licensed traces open; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL; POST-NATIVE-02: NIST Norris (36) and Misra1a (14) real calibration observations fit externally certified coefficients and SSE; 12 frozen split experiments with 6 deliberate false hypothesis rejection local pass; license-specific review and actual time series open; Norris (36) and Misra1a (14) NIST published numeric pairs matched frozen CSV; certified numerical regression tests pass on four platforms. SRD140 dataset-specific reuse/redistribution rights and upstream .dat hash/authenticity not established; not a measured dynamic trajectory.; POST-NATIVE-03 UCI374/501 CC BY 4.0 real measured time series (6144 rows each), exact original ZIP/excerpt hashes and 50-row NIST earlier contrast; strict chronological splits; only single window/station per dataset and no general scientific discovery.; POST-NATIVE-04-R1: Three distinct measured station PM2.5 target series and prior building accepted under CC BY4, but sites share UCI501 publisher/network; fully independent publisher replication open.",
       "post_native_priority": "P0A",
       "post_native01_status": "LOCAL_SUBSET_PASS",
       "post_native01_bounded_evidence": "Shift falsification, withheld-data leakage check, pinned protocol and unverified licensing refusal; accepted 391-case source code unchanged; broader capability PARTIAL"
@@ -1134,7 +1134,7 @@
       ],
       "acceptance": "Cross-platform pinned source, refusal tests, proof replay where possible, isolated workers, no control authority or production promotion.",
       "status": "PARTIAL",
-      "evidence": "Same-head SSM09B gate with inherited receipt/pin/artifact verification, 37 dedicated and 391 consolidated native tests passed in each of four targets; 33 new and 377 isolated local passed; now 37 dedicated and 391 consolidated each of four native targets passed, 14 previously excluded KAN/HDC cases executed in the native 391-test gate, no production rights; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL; POST-NATIVE-02: new 38/38 local and 434/434 combined local passed, six genuine runtime tests staged; native 44-case/63-case chain not executed; old c382da2e 391-case native PASS unchanged; Bounded source-locked POST-NATIVE-02 44 dedicated + 63 combined passed on Ubuntu/Windows Python3.11/3.13 at bd2b332a (81 pins, artifact receipts independently audited); original 391 native baseline inherited. No production or external actuation authority.; POST-NATIVE-03 source-locked 29/29 real-data HDC/KAN/SSM tests each on four GitHub-hosted Ubuntu/Windows Python 3.11/3.13 targets (run 44837589141, SHA 9c02f020), six cumulative source/test/data blobs and JUnit receipt digests independently verified. Not full 391-case rerun, no physical workstation deployment, 72 broad scopes PARTIAL.",
+      "evidence": "Same-head SSM09B gate with inherited receipt/pin/artifact verification, 37 dedicated and 391 consolidated native tests passed in each of four targets; 33 new and 377 isolated local passed; now 37 dedicated and 391 consolidated each of four native targets passed, 14 previously excluded KAN/HDC cases executed in the native 391-test gate, no production rights; COG-05-SSM-09B evidence, bounded native qualification PASS at c382da2e; broader capability PARTIAL; POST-NATIVE-02: new 38/38 local and 434/434 combined local passed, six genuine runtime tests staged; native 44-case/63-case chain not executed; old c382da2e 391-case native PASS unchanged; Bounded source-locked POST-NATIVE-02 44 dedicated + 63 combined passed on Ubuntu/Windows Python3.11/3.13 at bd2b332a (81 pins, artifact receipts independently audited); original 391 native baseline inherited. No production or external actuation authority.; POST-NATIVE-03 source-locked 29/29 real-data HDC/KAN/SSM tests each on four GitHub-hosted Ubuntu/Windows Python 3.11/3.13 targets (run 44837589141, SHA 9c02f020), six cumulative source/test/data blobs and JUnit receipt digests independently verified. Not full 391-case rerun, no physical workstation deployment, 72 broad scopes PARTIAL.; POST-NATIVE-04-R1: Four Ubuntu/Windows Python 3.11/3.13 POST-NATIVE-04-R1 same-SHA 38/67 native pass, 16 combined source/data pins and independently verified JUnit/receipt ZIP digests; physical workstation and broad production excluded.",
       "post_native_priority": "P0A",
       "post_native01_status": "LOCAL_SUBSET_PASS",
       "post_native01_bounded_evidence": "No actuation authority, distinct 391-case unchanged-source native baseline, 19 new local tests unexecuted natively; accepted 391-case source code unchanged; broader capability PARTIAL"
@@ -1623,5 +1623,59 @@
     "physical_law_discovered": false,
     "all_broad_capabilities_complete": false,
     "external_actuation_authorized": false
+  },
+  "latest_postnative04": {
+    "task": "COG-05-SSM-POST-NATIVE-04-R1",
+    "status": "BOUNDED_FOUR_TARGET_NATIVE_PASS",
+    "qualification_sha": "6160e322ba24f8ec4d8f4a7d90ad885daeb32c92",
+    "run_id": 44842101661,
+    "native_targets": [
+      "ubuntu-latest/3.11",
+      "ubuntu-latest/3.13",
+      "windows-latest/3.11",
+      "windows-latest/3.13"
+    ],
+    "dedicated_tests_each": 38,
+    "combined_tests_each": 67,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "exact_git_blobs_new": 10,
+    "exact_git_blobs_inherited": 6,
+    "source_archive_sha256": "b04da438b2f331ac0ffd45aebdfec0d20d2367feb5f6948c4b1f7ce1191e33c4",
+    "rows_reproduced": 18432,
+    "sites": [
+      "Changping",
+      "Dingling",
+      "Guanyuan"
+    ],
+    "forecast_horizons_hours": [
+      1,
+      6,
+      24
+    ],
+    "observed_24h_ridge_rmse": [
+      81.568,
+      78.719,
+      88.701
+    ],
+    "observed_24h_persistence_rmse": [
+      100.263,
+      96.587,
+      102.646
+    ],
+    "nominal_90_percent_interval_empirical_coverage": [
+      0.878,
+      0.825,
+      0.758
+    ],
+    "prior_postnative03_sha": "9c02f020136744930e3708a2b00f5a1db6d34dd8",
+    "artifact_manifest": "docs/research/cog05ssm/POST_NATIVE04_R1_NATIVE_ARTIFACTS.json",
+    "same_publisher_multi_site": true,
+    "original_publisher_cryptographic_signature_verified": false,
+    "true_physically_verified_law": false,
+    "general_dependence_coverage_guaranteed": false,
+    "full_scope_qualifications_complete": false,
+    "execution_authorized": false
   }
 }
