@@ -1,4 +1,4 @@
-name: Cognitum R3-R1 frozen nonadministrator Windows AppContainer SSM native
+name: Cognitum R3-R1 native frozen standard-user AppContainer SSM installed-style qualification
 on:
   push:
     branches: [integration/cog-lu-ipc01e-r2-custody-20261121]
@@ -35,6 +35,8 @@ jobs:
           @('r3r1-host','r3r1-io','r3r1-provision','r3r1-runtime-parent') | ForEach-Object {New-Item -ItemType Directory -Path (Join-Path $parent $_) -Force | Out-Null}
           python -m research_tests.mel_lu_ipc01c.compile_pinned_lu_ssm --root "$PWD/cognitum/mel/vendor" --descriptor-out "$PWD/r3r1-lu-ssm.desc" --receipt "$PWD/r3r1-proto.json"
           if($LASTEXITCODE -ne 0){throw 'Original Lu/Cognitum Protobuf compilation failed'}
+          python -m pytest -q research_tests/mel_lu_ipc01e_r5/test_scm_r3_recovery.py research_tests/mel_lu_ipc01e_r5/test_scm_r2_signed_stop.py --junitxml=r3r1-source-negative-tests.xml
+          if($LASTEXITCODE -ne 0){throw 'Original signed recovery/foreign signer refusal cases failed'}
       - name: Externally create standard local nonadmin user and that user's real no-network AppContainer profile
         id: nonadmin
         shell: pwsh
@@ -118,6 +120,7 @@ jobs:
             r3r1-frozen-builder.json
             r3r1-frozen-smoke.json
             r3r1-proto.json
+            r3r1-source-negative-tests.xml
             r3r1-public-nonadmin.json
             r3r1-public-cng.json
             r3r1-user-cleanup.json
