@@ -19,3 +19,7 @@ No signing certificate, approved publisher, genuine signed installer, original
 production CNG credential or physical Windows acceptance is presently proven.
 No transactional updater or uninstaller is claimed; those remain open.
 The legacy native Windows SCM fixture must never be renamed/signed as production.
+
+## Protected installer source qualification
+
+The NSIS carrier pins its install directory under 64-bit Program Files, rejects an existing directory, and seals all installed file ownership/ACLs before reporting success. A separate unsigned CI test now builds and actually installs the NSIS carrier with CI-only synthetic runtime provenance, verifies the sealed installed bytes and runs the real hosted Windows SCM service from that installed image. Reinstallation must refuse without changing existing bytes, and teardown is limited to the synthetic CI tree. This is NOT a production publisher-signature test, NOT an independently signed package, and NOT physical Windows installed acceptance.
