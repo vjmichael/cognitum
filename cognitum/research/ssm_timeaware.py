@@ -118,7 +118,7 @@ def base_prediction(model,s,origins,h):
     y=s["state"][origins]
     phase=harmonics(s["name"],tm+h)@model["harmonic"]
     origin_phase=harmonics(s["name"],tm)@model["harmonic"]
-    F=np.exp(-h/model["tau"])
+    F=ssm_zoh_rate(model["tau"],h)
     return phase+F*(y-origin_phase)
 
 
