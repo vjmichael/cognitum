@@ -27,7 +27,7 @@ def test_two_independent_publisher_organizations_are_preserved():
 def test_original_upstream_bytes_are_unchanged(real_series):
     raw = (HERE / FILES[real_series["name"]]).read_bytes()
     assert m.git_blob(raw) == real_series["source_git_blob"]
-    assert real_series["admitted_observations"] > 100
+    assert real_series["observations"] > 100
     assert np.isfinite(real_series["values"]).all()
     assert np.all(np.diff(real_series["times"]) > 0)
     assert not np.shares_memory(real_series["values"], real_series["times"])
