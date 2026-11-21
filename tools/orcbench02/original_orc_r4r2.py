@@ -210,7 +210,8 @@ def metric(y,p):
 
 def score(original_freeze):
     original=freeze()
-    require(original_freeze==original,
+    require(hashed(original_freeze)==hashed(original) and
+            original_freeze.get("decision_sha256")==original["decision_sha256"],
             "original HDC/KAN fit or calibration proposals changed after freeze")
     rows=[];cases=[]
     for site in SITES:

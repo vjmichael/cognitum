@@ -19,7 +19,7 @@ def files():
     assert DECISIONS.exists() and RESULTS.exists()
     d=json.loads(DECISIONS.read_bytes())
     p=json.loads(RESULTS.read_bytes())
-    assert d==r.freeze()
+    assert r.hashed(d)==r.hashed(r.freeze())
     assert p["frozen_calibration_decision_sha256"]==d["decision_sha256"]
     return d,p
 
