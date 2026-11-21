@@ -1,0 +1,73 @@
+{
+  "schema": "cognitum.lu_ipc01e_r5_physical_01.native_source_evidence.v1",
+  "task": "COG-LU-IPC-01E-R2-INSTALLED-R5-PHYSICAL-01",
+  "disposition": "PASS_NATIVE_OS_PHYSICAL_INSPECTOR_SOURCE_ONLY_BLOCKED_INSTALLED",
+  "exact_original_qualified_source_sha": "4e8889e8a080dbca2ef79fedf57d37799d6d72f2",
+  "native_run": {
+    "id": 44935373238,
+    "url": "https://github.com/vjmichael/cognitum/actions/runs/44935373238",
+    "status": "success",
+    "jobs": 5,
+    "tests_per_native_platform": 254,
+    "total_tests": 1016,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "original_git_source_blobs_verified": 5,
+    "cross_os_junit_case_ids_identical": true,
+    "os_python": [
+      "ubuntu-latest py3.11",
+      "ubuntu-latest py3.13",
+      "windows-latest py3.11",
+      "windows-latest py3.13"
+    ]
+  },
+  "integration_run": {
+    "id": 44935373210,
+    "url": "https://github.com/vjmichael/cognitum/actions/runs/44935373210",
+    "status": "success",
+    "jobs": 8
+  },
+  "artifacts": [
+    {
+      "id": 14719661642,
+      "name": "r5-physical01-windows-latest-py3.11",
+      "sha256": "3a653f80ada0aa9e9b9267b371e3d3c44a79ee518b3d83ac8e9817ac9f510154"
+    },
+    {
+      "id": 14719621915,
+      "name": "r5-physical01-independent",
+      "sha256": "923999533901caa04c8706c2fd43e960a1fbf33c27ca0265195ffff3e8fa240b"
+    },
+    {
+      "id": 14719561882,
+      "name": "r5-physical01-ubuntu-latest-py3.11",
+      "sha256": "b8789f2f6be78ceec1423d8e772a90dca2f14a7fac5facf767bea0d58a460da6"
+    },
+    {
+      "id": 14719128484,
+      "name": "r5-physical01-windows-latest-py3.13",
+      "sha256": "d416c9526d93c47811412458717601654adc0f16cf2140361e8d93f7edcf3e04"
+    },
+    {
+      "id": 14719068615,
+      "name": "r5-physical01-ubuntu-latest-py3.13",
+      "sha256": "c2c5aebf0ded5bd46b58a8218aa4afc06f2f62bf242f2a6659873d5a0c76dc22"
+    }
+  ],
+  "read_only_windows_scm_inspector_compiled_and_refusal_verified": true,
+  "read_only_linux_kernel_delegation_inspector_compiled_and_refusal_verified": true,
+  "windows_real_installed_signed_cognitum_scm_service_observed": false,
+  "windows_scm_owned_job_worker_lifecycle_installed_proven": false,
+  "windows_authenticode_publisher_installed_verified": false,
+  "independent_production_signed_stop_issuer_custody": false,
+  "hardware_remote_monotonic_antirollback_anchor": false,
+  "linux_genuinely_delegated_cgroup_positive_restart": false,
+  "linux_separately_installed_supervisor_and_watchkeeper": false,
+  "core_owned_real_installed_health_authenticated": false,
+  "core_approved_cognitum_signed_enrollment": false,
+  "core_original_pure_compute_grant_verified": false,
+  "external_output_delivery_authorized": false,
+  "recipient_acknowledgment_authorized": false,
+  "installed_service_acceptance": false
+}
