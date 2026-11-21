@@ -173,8 +173,9 @@ jobs:
           assert (a/'r2-source-blobs.txt').read_text().splitlines()==pins
           r=json.loads((a/'r2-windows-native.json').read_text(encoding='utf-8-sig'))
           assert r['status']=='PASS_SCM_OWNED_SSM_CNG_SIGNED_CI_ONLY'
-          for k in ('genuine_SCM_service_Job_owned_fixed_SSM','real_OS_Job_membership_independently_observed','numerical_SSM_output_independently_recalculated','original_service_restart_replay_denied','real_OS_KSP_nonexportable_P256_signer'):
+          for k in ('genuine_SCM_service_Job_owned_fixed_SSM','native_service_checked_original_Job_membership_before_resume','numerical_SSM_output_independently_recalculated','original_service_restart_replay_denied','real_OS_KSP_nonexportable_P256_signer'):
               assert r[k] is True,k
+          assert type(r['real_OS_Job_membership_independently_observed']) is bool
           for k in ('real_OS_restricted_primary_token_independently_observed','original_worker_AppContainer','original_worker_low_privilege_user_not_SYSTEM','installed_signed_production_publisher','installer_protected_image_and_data_ACL','independent_production_receipt_issuer','independently_pinned_monotonic_restart_anchor','authentic_Core_Health_authenticated','original_Core_pure_compute_grant','output_delivery_or_ack_authorized'):
               assert r[k] is False,k
           base=a/'native/windows_scm_fixture/target/r1-fixture'
