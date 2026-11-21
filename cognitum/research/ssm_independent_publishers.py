@@ -205,7 +205,10 @@ def block_diagnostics(cal_error: np.ndarray, cal_times: np.ndarray,
 def missingness_sensitivity(actual: np.ndarray, prediction: np.ndarray) -> dict:
     """Counterfactual observation-selection audit, not forecasting with future targets."""
     n = len(actual)
-    require(n > 20, "missing observation sensitivity budget")
+    if n <= 20:
+        return {"status": "REFUSED_INSUFFICIENT_TEST_OBSERVATIONS",
+                "test_origins": n, "full_case": metrics(actual, prediction),
+                "missingness_mechanisms_are_counterfactual": True}
     full = metrics(actual, prediction)
     # Simulated repeated sensor outages; explicit nonrandom high-target censoring.
     periodic = np.arange(n) % 101 >= 24
