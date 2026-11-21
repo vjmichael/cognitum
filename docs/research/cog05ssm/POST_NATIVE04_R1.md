@@ -1,6 +1,8 @@
 # COG-05-SSM-POST-NATIVE-04-R1 — Exact-source integration and native qualification
 
 ## Scope and status
+
+**Final disposition: PASS for bounded native Windows/Linux qualification.** [Run 44842101661](https://github.com/vjmichael/cognitum/actions/runs/44842101661) completed SUCCESS on Ubuntu/Windows Python 3.11/3.13, fixed source SHA `6160e322ba24f8ec4d8f4a7d90ad885daeb32c92`; all four environments report 38/38 dedicated and 67/67 combined tests, zero failures/errors/skips. See [independently verified per-target artifact SHA-256 manifest](POST_NATIVE04_R1_NATIVE_ARTIFACTS.json). The native tests include the seven previously unexecuted true HDC/KAN/SSM integrated multihorizon cases.
 The research candidate has been published as exact original-tested Python/source/observational bytes. The prior POST-NATIVE-03 and POST-NATIVE-02 source-locked accepted native baselines are **unchanged**.
 
 This is bounded multihorizon observational benchmarking, **not autonomous discovery of a physical law**. Research-only; no external actuation rights.
@@ -26,7 +28,7 @@ From the exact ZIP source version, Python 3.13.5 / NumPy 2.3.5 / SciPy 1.17.0 / 
 - 7 new genuine HDC/KAN/SSM integrated tests require the full installed Cognitum repository and native runners.
 - Source ZIP contains a later bounded PM2.5 nonnegative-baseline output adjustment than an earlier loose local working copy; this exact ZIP version was retested before publication. No weaker tolerances or changed assertions.
 
-### Required native acceptance
+### Required native acceptance — completed
 The dedicated `.github/workflows/ssm-postnative04-native.yml` workflow targets Ubuntu/Windows, Python 3.11/3.13, and installs fixed NumPy/SciPy/pytest. The `tools.ssm_postnative04.acceptance` gate requires a clean exact SHA, **10 new source/data pins plus 6 inherited POST-NATIVE-03 pins**, matching publisher-derived manifest, 3 × 6,144 preserved observations, **38/38 new cases** and **67/67 combined P03+P04 cases**, no failures/errors/skips. Preserve dedicated and combined JUnit/log SHA-256 with non-authorizing receipt. Do not assert acceptance from a workflow start; verify archived evidence and final four-job conclusions.
 
 ### Independent research and falsification
@@ -39,3 +41,9 @@ The dedicated `.github/workflows/ssm-postnative04-native.yml` workflow targets U
 
 ### Scientific validity residual
 All 72 broad mathematical capability groups remain PARTIAL. Real monitored PM2.5 observations prove measured trajectories, not physical-law identification, interventional causality, reliable per-site dependent confidence coverage, source signing, or general autonomous mathematical science. Do not merge this with production or Maj Vaj control.
+
+## Native receipt and reproducibility closeout
+
+The four JUnit inventories are identical, every recorded test log/XML SHA-256 matches the downloaded artifact, all 10 newly introduced mathematical/test/data source Git blobs and all 6 inherited POST-NATIVE-03 source blobs agree across the four environments, and the original fixed UCI archive reproducibly yields byte-identical Changping/Dingling/Guanyuan excerpts. Each job completed SUCCESS. This is 152 dedicated and 268 combined scoped test executions (38 and 67 distinct test cases repeated on four systems). The native qualification branch is a metadata-only identical-tree successor of the research candidate; the accepted 391-case, POST-NATIVE-02 44/63 and POST-NATIVE-03 29-case source locks remain unchanged. **There are no remaining failing tests in this bounded qualification.**
+
+**Still open:** Bayesian/dependence-valid conditional coverage, uncertainty under changing pollutants, missing-window selection bias, independent publishers/interventional physical observations, trained HDC/KAN/SSM generalization, measured physical causal laws and actual workstation hardware. The imperfect 24h 90% coverage (87.8%, 82.5%, 75.8%) and confidence intervals that include zero are retained unchanged. The method is non-authorizing; all 72 comprehensive mathematical capability entries remain PARTIAL.
