@@ -14,6 +14,8 @@ mod ssm_fixture;
 mod r2_restricted;
 #[cfg(all(windows, feature = "r2-restricted-fixture"))]
 mod r2_signer;
+#[cfg(all(windows, feature = "r2-restricted-fixture"))]
+mod r2_diagnostic;
 #[cfg(all(windows, feature = "acceptance-fixture"))]
 mod win {
     use std::{
@@ -336,10 +338,19 @@ mod win {
             let owned_stopped = wrote && waited && empty && self.pid > 0;
             #[cfg(feature = "ssm-fixture")]
             {
-                if !owned_stopped { return false; }
-                return crate::ssm_fixture::record_stop(
+                if !owned_stopped {
+                    #[cfg(feature = "r2-restricted-fixture")]
+                    crate::r2_diagnostic::refused("stop_receipt","kernel job not empty");
+                    return false;
+                }
+                let result=crate::ssm_fixture::record_stop(
                     &self.original_fixture,self.pid,
-                    unsafe { GetCurrentProcessId() },empty).is_ok();
+                    unsafe { GetCurrentProcessId() },empty);
+                #[cfg(feature = "r2-restricted-fixture")]
+                if let Err(ref e)=result {
+                    crate::r2_diagnostic::refused("stop_receipt",&e.to_string());
+                }
+                return result.is_ok();
             }
             #[cfg(not(feature = "ssm-fixture"))]
             { owned_stopped }
@@ -359,7 +370,11 @@ mod win {
         }
         let keeper = match Keeper::start() {
             Ok(k) => k,
-            Err(_) => {
+            Err(e) => {
+                #[cfg(feature = "r2-restricted-fixture")]
+                crate::r2_diagnostic::refused("keeper_start",&e.to_string());
+                #[cfg(not(feature = "r2-restricted-fixture"))]
+                let _ = e;
                 let _ = report(handle, SERVICE_STOPPED, 2);
                 return;
             }
@@ -386,7 +401,13 @@ mod win {
                         GetExitCodeProcess(keeper.child.0,&mut code)
                     } != 0 && code == 0
                     && std::path::Path::new(env!("COG_R1_CI_OUTPUT")).is_file();
-                    if !clean {abnormal = true; break;}
+                    if !clean {
+                        #[cfg(feature = "r2-restricted-fixture")]
+                        crate::r2_diagnostic::refused("worker_exit",
+                            &format!("fixed Python SSM exit code {}",code));
+                        abnormal = true;
+                        break;
+                    }
                 }
             }
             thread::sleep(Duration::from_millis(50));
