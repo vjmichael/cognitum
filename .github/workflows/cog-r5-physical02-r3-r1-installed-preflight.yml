@@ -10,6 +10,10 @@ on:
       - scripts/cog-r5-physical02-r3-r1-enroll-production.ps1
       - scripts/cog-r5-physical02-r3-r1-ci-scm-lifecycle.ps1
       - scripts/cog-r5-physical02-r3-r1-ci-nsis-package.ps1
+      - scripts/cog-r5-physical02-r3-r1-verify-detached-approval.ps1
+      - scripts/cog-r5-physical02-r3-r1-admit-signed-release.ps1
+      - scripts/cog-r5-physical02-r3-r1-deploy-approved-release.ps1
+      - scripts/cog-r5-physical02-r3-r1-ci-approval-signature.ps1
       - scripts/cog-r5-physical02-r3-r1-build-signed-release.ps1
       - scripts/cog-r5-physical02-r3-r1-physical-scm-observe.ps1
       - deployment/windows/cognitum-ssm-bootstrap.nsi
@@ -31,7 +35,7 @@ jobs:
       - name: Verify syntax and read-only admission code
         shell: pwsh
         run: |
-          foreach($p in @('scripts/cog-r5-physical02-r3-r1-runtime-audit.ps1','scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1','scripts/cog-r5-physical02-r3-r1-signed-installer.ps1','scripts/cog-r5-physical02-r3-r1-enroll-production.ps1','scripts/cog-r5-physical02-r3-r1-ci-scm-lifecycle.ps1','scripts/cog-r5-physical02-r3-r1-ci-nsis-package.ps1','scripts/cog-r5-physical02-r3-r1-build-signed-release.ps1','scripts/cog-r5-physical02-r3-r1-physical-scm-observe.ps1')){
+          foreach($p in @('scripts/cog-r5-physical02-r3-r1-runtime-audit.ps1','scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1','scripts/cog-r5-physical02-r3-r1-signed-installer.ps1','scripts/cog-r5-physical02-r3-r1-enroll-production.ps1','scripts/cog-r5-physical02-r3-r1-ci-scm-lifecycle.ps1','scripts/cog-r5-physical02-r3-r1-ci-nsis-package.ps1','scripts/cog-r5-physical02-r3-r1-verify-detached-approval.ps1','scripts/cog-r5-physical02-r3-r1-admit-signed-release.ps1','scripts/cog-r5-physical02-r3-r1-deploy-approved-release.ps1','scripts/cog-r5-physical02-r3-r1-ci-approval-signature.ps1','scripts/cog-r5-physical02-r3-r1-build-signed-release.ps1','scripts/cog-r5-physical02-r3-r1-physical-scm-observe.ps1')){
             $tokens=$null
             $errors=$null
             [void][Management.Automation.Language.Parser]::ParseFile((Resolve-Path $p).Path,[ref]$tokens,[ref]$errors)
@@ -54,6 +58,26 @@ jobs:
           }
           if(-not $denied){throw 'Unapproved release was permitted to sign'}
           Write-Host 'PASS_CI_NO_APPROVED_SIGNER_NO_SIGNED_PACKAGE'
+      - name: Verify disposable detached CMS signature and production admission refusal
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          & ./scripts/cog-r5-physical02-r3-r1-ci-approval-signature.ps1 -ExactSourceSha $env:GITHUB_SHA
+          foreach($path in @(
+            'scripts/cog-r5-physical02-r3-r1-admit-signed-release.ps1',
+            'scripts/cog-r5-physical02-r3-r1-deploy-approved-release.ps1'
+          )){
+            $denied=$false
+            try{
+              & "./$path" -ReleaseRoot $env:RUNNER_TEMP -ApprovalJson (Join-Path $env:RUNNER_TEMP 'missing.json') -DetachedSignatureP7s (Join-Path $env:RUNNER_TEMP 'missing.p7s') -ApprovedReleaseAuthorityCertificateSha256 ('7'*64) -ApprovedPublisherCertificateSha256 ('2'*64) -ExpectedSourceSha $env:GITHUB_SHA |Out-Null
+            }catch{
+              if($_.Exception.Message -match 'COG_R3R1_(SIGNED_ADMISSION|PHYSICAL_DEPLOY)_REFUSED'){
+                $denied=$true
+              }else{throw 'Unexpected release admission error or unverified hosted boundary'}
+            }
+            if(-not $denied){throw 'Hosted CI was allowed to promote release into production'}
+          }
+          Write-Host 'PASS_CI_ONLY_NO_PHYSICAL_ADMISSION_OR_OUTPUT_RELEASE'
       - name: Compile distinct genuine no-worker production SCM bootstrap
         shell: pwsh
         run: |
