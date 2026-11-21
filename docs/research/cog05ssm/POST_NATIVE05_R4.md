@@ -1,6 +1,6 @@
 # COG-05-SSM-POST-NATIVE-05-R4 — Genuine elapsed-time HDC/KAN/SSM and physical-system OOD falsification
 
-**Status: SOURCE-PINNED RESEARCH CANDIDATE, NATIVE QUALIFICATION PENDING.** The original POST-NATIVE-05-R3 exact 4-target accepted SHA `127672af94fb126163efd51057dfd5adf0f9bb4e`, 15 tests/target, is unchanged. This R4 source is an independent branch. The full scientific scope is not considered complete by writing code or seeing one successful platform.
+**Status: BOUNDED FOUR-PLATFORM NATIVE PASS FOR TRUE ELAPSED-TIME SCIENTIFIC BENCHMARKING; FALSIFICATION AND REPRODUCIBILITY LIMITS PRESERVED.** The original POST-NATIVE-05-R3 exact 4-target accepted SHA `127672af94fb126163efd51057dfd5adf0f9bb4e`, 15 tests/target, is unchanged. This R4 source is an independent branch. The full scientific scope is not considered complete by writing code or seeing one successful platform.
 
 ## Independent observational custody
 
@@ -31,3 +31,41 @@
 - Exact exponential ZOH and KAN/HDC tools demonstrate valid *algorithmic integration*, not a correct river/tide physical causal law.
 - Dependent-block calibration is descriptive and can miss strong drift or regime shift; bootstrap gains are not physical confidence guarantees.
 - If native hybrid underperforms calibrated baselines, retain and report it as **falsification** rather than retune on held-out outcomes.
+
+
+## R4 final bounded native qualification (2026-11-20)
+
+[Run 44848932899](https://github.com/vjmichael/cognitum/actions/runs/44848932899) completed **SUCCESS** on a single unchanged source SHA `cf78900c4fcec3981b93c842144c53b15cc0d411`; four Ubuntu/Windows Python 3.11/3.13 targets, **25/25 genuine test cases each**, zero failures/errors/skips. This is **100 executions of 25 distinct scoped source tests**, not 100 independent scientific datasets or inferred laws. [Four independently downloaded artifact SHA-256 receipts](POST_NATIVE05_R4_NATIVE_ARTIFACTS.json) preserve verified JUnit/log/science/receipt integrity and 27 unchanged source/test/data Git blob pins (6 R4, 5 inherited R3, 10 inherited P04, 6 inherited P03). All four native JUnit identities match; all three observed datasets' heldout MAE/RMSE agree across targets with absolute difference at most **5.69×10⁻¹⁴**. The Windows data bytes are identical to their DOI-USGS publisher-hosted blob IDs.
+
+**Critical cross-platform limitation:** KAN research checkpoint SHA-256 digests **differ** across Linux/Windows, despite numerical forecast agreement to tolerance. Never claim bit-for-bit KAN parameter checkpoint identity or proven serialized checkpoint interchange; cross-platform canonical checkpoint replay remains open.
+
+### Predeclared held-out scientific falsification
+
+All USGS discharge RMSE below is cubic meters/second (cms), source-traced EGRET-derived daily research data; NOAA water-level values remain in **unverified partner source units**. Hybrid is genuine train-fitted continuous-time SSM with native KAN/HDC residual prototypes, not prompt inference. Baselines use exactly the same held-out origin timestamps, and the strongest comparator for bootstrap is selected only on calibration MAE.
+
+| Source / target | Elapsed horizon | HDC+KAN+SSM RMSE | Direct ridge RMSE | Diagnostic nominal-90% hybrid origin coverage |
+|---|---:|---:|---:|---:|
+| Raccoon River Q (cms) | 1 day | 53.8334 | **51.4305** | 92.53% |
+| Raccoon River Q (cms) | 7 days | 152.0045 | **139.5542** | **85.63%** |
+| Raccoon River Q (cms) | 30 days | 181.3872 | **164.1432** | **81.84%** |
+| Muskingum River Q (cms) | 1 day | 49.3442 | **45.5123** | 99.59% |
+| Muskingum River Q (cms) | 7 days | 159.4129 | **155.7376** | 98.33% |
+| NOAA partner water level | 5 minutes | 0.0099 | **0.0088** | 99.53% |
+| NOAA partner water level | 30 minutes | 0.0366 | **0.0335** | 97.77% |
+| NOAA partner water level | 120 minutes | **0.1173** | 0.1599 | **89.08%** |
+
+**Paired dependence-aware falsification (descriptive, not guaranteed inference):**
+- At Muskingum 1 day, the bootstrap 95% interval for hybrid MAE improvement over **calibration-selected direct ridge** is **[−4.2141, −0.3511] cms**. This is a measured negative result and does not establish hybrid advantage.
+- At NOAA 5 minutes, corresponding hybrid MAE gain vs calibration-selected direct ridge is **[−0.00104, −0.00069]** in unverified units: again, negative.
+- At NOAA 120 minutes, corresponding gain vs calibration-selected direct ridge is **[+0.03446, +0.05986]**, but hybrid nominal 90% interval has only **89.08% origin** and **69.57% simultaneous 24-origin block** coverage, and first/second-half coverage differs (91.41% vs 86.76%). This is evidence of improvement on this held-out regime, **not transfer-proof or coverage certification**.
+- At Raccoon 7/30 days, intervals show gains vs the *calibration-selected persistence or SSM controls*, but direct ridge still has smaller RMSE. Do **not** relabel bootstrap comparison as against the strongest post hoc test-set method. Raccoon long-horizon 85.63/81.84% nominal-90% empirical coverage is an explicit calibration failure.
+
+**Missingness sensitivity:** Synthetic held-out sensor outages retain about 84–92% of eligible forecast origins depending on source/horizon, with no hidden interpolation, and change measured RMSE. Retrospective upper-decile target censoring uses held-out targets only for scientific sensitivity diagnostics, never fitting or prediction. Dependence-aware block quantiles do not guarantee conditional time-series coverage under changing hydrology, tides, missingness or nonstationarity.
+
+### Acceptance and residual scientific limitations
+
+**Engineering R4 scoped native task: PASS**, completing genuine `Δt` scientific model integration, source-backed independently documented physical observational domains, native KAN/HDC ablation execution, matched heldout strong statistical and phenomenological scientific baselines, explicit missing-observation sensitivity, block-bootstrap and interval-shift falsification on four native environments.
+
+**Not established:** independent cryptographically signed original instrument data or NOAA partner units; true parameterized river conservation/transport equations; universal across-site or cross-publisher zero-shot model superiority; conditionally valid dependent 90% uncertainty; identical portable KAN checkpoint bytes across operating systems; physical workstation qualification; autonomous law discovery; external actuation rights. No Lu/Maj Vaj production modifications. **All 72 mathematical capability groups remain PARTIAL**.
+
+**Next bounded independent task: COG-05-SSM-POST-NATIVE-05-R4-R1 — Resolve KAN checkpoint determinism/replay, independently attest original sensor metadata and data reuse terms, perform untouched-site zero-shot forecasts with actual source-independent physical process comparators and dependence-valid drift/missingness uncertainty checks.** Keep negative numerical findings intact and require same-source multi-OS acceptance.
