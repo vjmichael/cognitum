@@ -1726,5 +1726,51 @@
     "observed_noaa_120min_second_half_coverage": 0.6977025392986699,
     "usgs_dependent_coverage_status": "REFUSED_INSUFFICIENT_BLOCKS",
     "next_task": "COG-05-SSM-POST-NATIVE-05-R4"
+  },
+  "latest_postnative05_r4": {
+    "task": "COG-05-SSM-POST-NATIVE-05-R4",
+    "status": "PASS_BOUNDED_NATIVE_TRUE_ELAPSED_TIME_PHYSICAL_HDC_KAN_SSM_FALSE_SUPERIORITY_RESULTS_RETAINED",
+    "qualified_sha": "cf78900c4fcec3981b93c842144c53b15cc0d411",
+    "run_id": 44848932899,
+    "run_url": "https://github.com/vjmichael/cognitum/actions/runs/44848932899",
+    "native_targets": [
+      "ubuntu-latest/3.11",
+      "ubuntu-latest/3.13",
+      "windows-latest/3.11",
+      "windows-latest/3.13"
+    ],
+    "native_success": 4,
+    "native_failed": 0,
+    "native_skipped": 0,
+    "dedicated_tests_per_target": 25,
+    "preserved_source_data_git_pins_total": 27,
+    "usgs_observed_egret_derived_records": {
+      "rac": 3653,
+      "musk": 3652,
+      "unit": "cms"
+    },
+    "noaa_partner_records": 34081,
+    "original_sensor_signatures_verified": false,
+    "new_timeaware_ssm_integrated": true,
+    "native_kan_hdc_train_fitted_and_ablated": true,
+    "physical_law_discovered": false,
+    "stable_cross_platform_numeric_metrics": true,
+    "max_abs_heldout_metric_delta": 5.684341886080802e-14,
+    "identical_kan_checkpoint_hash_across_os": false,
+    "canonical_cross_platform_checkpoint_replay_qualified": false,
+    "independent_out_of_domain_model_superiority_established": false,
+    "nominal_90pct_noaa_two_hour_hybrid_coverage": 0.8908376171756879,
+    "nominal_90pct_rac_thirty_day_hybrid_coverage": 0.8184438040345822,
+    "noaa_two_hour_hybrid_rmse": 0.1173,
+    "noaa_two_hour_direct_ridge_rmse": 0.1599,
+    "musk_one_day_hybrid_rmse": 49.3442,
+    "musk_one_day_direct_ridge_rmse": 45.5123,
+    "conditional_dependent_coverage_proven": false,
+    "zero_shot_unseen_site_transfer_qualified": false,
+    "execution_authorized": false,
+    "all_72_broad_capabilities_complete": false,
+    "evidence_document": "docs/research/cog05ssm/POST_NATIVE05_R4.md",
+    "native_evidence_manifest": "docs/research/cog05ssm/POST_NATIVE05_R4_NATIVE_ARTIFACTS.json",
+    "next_task": "COG-05-SSM-POST-NATIVE-05-R4-R1"
   }
 }
