@@ -1,0 +1,38 @@
+name: Cognitum POST-NATIVE-04 multisite dynamical acceptance
+on:
+  push:
+    branches:
+      - 'research/ssm-postnative04-native-*'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native:
+    name: "Multisite science / ${{ matrix.os }} / Python ${{ matrix.python-version }}"
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 27
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11','3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install frozen scientific and HDC/KAN runtime dependencies
+        run: python -m pip install -e ".[scientific]" "numpy==2.3.5" "scipy==1.17.0" "pytest==9.0.2"
+      - name: POST-NATIVE-04 source-locked multisite HDC/KAN/SSM acceptance
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+          OMP_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+        run: python -m tools.ssm_postnative04.acceptance postnative04-evidence
+      - name: Preserve dedicated/combined JUnit and source-pin receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: postnative04-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: postnative04-evidence/
+          if-no-files-found: warn
