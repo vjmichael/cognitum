@@ -1,0 +1,131 @@
+name: Cognitum SSM-04-R2 native continuous and irregular-time estimator qualification
+
+on:
+  push:
+    branches:
+      - research/ssm04r2-continuous-estimation-20261121
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cognitum-ssm04r2-native-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  native:
+    name: SSM original native stochastic and continuous estimator / ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.11', '3.13']
+    env:
+      PYTHONHASHSEED: '0'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - name: Checkout unchanged SSM research candidate
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Native Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Pin known native scientific dependencies
+        run: python -m pip install numpy==2.2.6 scipy==1.15.3 pytest==9.0.2 protobuf==6.33.1
+      - name: Original stochastic engine and R2 continuous estimator mathematical acceptance
+        run: python -m pytest -q research_tests/ssm04 research_tests/ssm04r1 research_tests/ssm04r2 --junitxml=ssm04r2-native.xml
+      - name: Record exact source SHA and prior immutable stochastic modules
+        shell: bash
+        run: |
+          git rev-parse HEAD > ssm04r2-source-sha.txt
+          git hash-object cognitum/research/ssm_stochastic.py cognitum/research/ssm_stochastic_extended.py cognitum/research/ssm_stochastic_continuous.py research_tests/ssm04r2/test_continuous.py research_tests/ssm04/test_stochastic.py research_tests/ssm04r1/test_extended_stochastic.py > ssm04r2-source-blobs.txt
+          for file in cognitum/research/ssm_stochastic.py cognitum/research/ssm_stochastic_extended.py cognitum/research/ssm_stochastic_continuous.py research_tests/ssm04r2/test_continuous.py research_tests/ssm04/test_stochastic.py research_tests/ssm04r1/test_extended_stochastic.py; do
+            test "$(git hash-object "$file")" = "$(git rev-parse "HEAD:$file")" || { echo "Source checkout mutation: $file"; exit 1; }
+          done
+      - name: Retain original native JUnit and source evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cog05-ssm04r2-${{ matrix.os }}-py${{ matrix.python }}
+          path: |
+            ssm04r2-native.xml
+            ssm04r2-source-sha.txt
+            ssm04r2-source-blobs.txt
+          if-no-files-found: warn
+
+  independent:
+    name: Four native target original source/JUnit identity verification
+    needs: [native]
+    if: ${{ always() && needs.native.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout the exact candidate, no code execution authority
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: cog05-ssm04r2-*
+          path: native-artifacts
+          merge-multiple: false
+      - name: Independently verify exact native original source and matching test outcomes
+        shell: bash
+        env:
+          LOCK_SHA: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import os,json,xml.etree.ElementTree as ET
+          root=Path('native-artifacts')
+          required={f'cog05-ssm04r2-{platform}-py{version}'
+                    for platform in ('ubuntu-latest','windows-latest')
+                    for version in ('3.11','3.13')}
+          actual={x.name for x in root.iterdir() if x.is_dir()}
+          assert actual==required, (actual,required)
+          records=[];blobs=[]
+          for f in sorted(root.iterdir()):
+              assert (f/'ssm04r2-source-sha.txt').read_text().strip()==os.environ['LOCK_SHA']
+              h=(f/'ssm04r2-source-blobs.txt').read_text().splitlines()
+              assert len(h)==6
+              blobs.append(h)
+              tests=list(ET.parse(f/'ssm04r2-native.xml').getroot().iter('testcase'))
+              assert len(tests)>=18
+              assert not any(c.find(tag) is not None for c in tests
+                             for tag in ('failure','error','skipped'))
+              records.append((f.name,len(tests),sorted(
+                  (v.get('classname'),v.get('name')) for v in tests)))
+          assert all(p==blobs[0] for p in blobs)
+          assert all(r[2]==records[0][2] for r in records)
+          receipt={
+             'schema':'cognitum.ssm04r2.four_native_math_replay.v1',
+             'source_SHA':os.environ['LOCK_SHA'],
+             'all_native_targets':4,
+             'per_target_test_counts':{name:count for name,count,_ in records},
+             'all_original_legacy_and_new_test_names_equal':True,
+             'original_stochastic_modules_and_new_code_blobs_equal':True,
+             'native_source_checks_pass':True,
+             'scientific_model_accuracy_benchmark_performed':False,
+             'installed_MEL_actuation_authorized':False
+          }
+          Path('ssm04r2-independent-native.json').write_text(
+             json.dumps(receipt,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(receipt))
+          PY
+      - name: Archive independent source-bound native result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cog05-ssm04r2-four-native-independent
+          path: ssm04r2-independent-native.json
+          if-no-files-found: warn

@@ -117,3 +117,9 @@
 
 # Accepted R5-PROSPECTIVE-01 qualified native evidence.
 /docs/research/orcgraph/ORCH01E_BENCH02_R5_PROSPECTIVE01_NATIVE_ARTIFACTS.json text eol=lf
+
+# Isolated new SSM-04-R2 continuous estimator and native evidence.
+/cognitum/research/ssm_stochastic_continuous.py text eol=lf
+/research_tests/ssm04r2/test_continuous.py text eol=lf
+/docs/research/cog05ssm/SSM04_R2.md text eol=lf
+/.github/workflows/ssm04r2-native.yml text eol=lf
