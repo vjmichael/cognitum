@@ -23,3 +23,8 @@ Only claim Orc Graph improves **heldout predictive accuracy over ridge** when a 
 ## Post-ORCH-01E independent benchmark readiness
 
 The five bounded Orc Graph architecture stages passed source-locked native tests, most recently https://github.com/vjmichael/cognitum/actions/runs/44863332744. This is NOT the independent scientific result: its two synthetic selected methods were persistence and the data were generated. BENCH-01 must source and lock real independently observed datasets with original publisher/licensing/unit evidence, preserve as-of observations and honest missingness, select only on calibration, compare frozen direct ridge, physical/statistical baselines and Orc-selected eligible methods on identical untouched observations and report negatives and dependence-aware uncertainty with actual compute budgets. Original KAN bitwise snapshot differences remain unresolved.
+
+
+## BENCH-01 locked real observation study
+
+The specific site/feature/cohort/baseline/metric contract is recorded [before any test outcome](ORCH01E_BENCH01_PREREG.md). This new study uses already archived real UCI air-temperature data for three sites with explicit CC BY 4.0 attribution. It is not an unseen-source or original-sensor-attested experiment. Any failures or losses must be preserved in result tables, with no future-label selection.
