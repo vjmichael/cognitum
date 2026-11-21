@@ -1,0 +1,89 @@
+name: Cognitum R3-R1 installed custody negative preflight
+on:
+  push:
+    branches: [integration/cog-lu-ipc01e-r2-custody-20261121]
+    paths:
+      - .github/workflows/cog-r5-physical02-r3-r1-installed-preflight.yml
+      - scripts/cog-r5-physical02-r3-r1-runtime-audit.ps1
+      - scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  windows-deny:
+    name: Protected manifest and unsigned production refusal
+    runs-on: windows-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify syntax and read-only admission code
+        shell: pwsh
+        run: |
+          foreach($p in @('scripts/cog-r5-physical02-r3-r1-runtime-audit.ps1','scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1')){
+            $tokens=$null
+            $errors=$null
+            [void][Management.Automation.Language.Parser]::ParseFile((Resolve-Path $p).Path,[ref]$tokens,[ref]$errors)
+            if(@($errors).Count -ne 0){throw 'Read-only installed script has syntax error'}
+          }
+      - name: Native synthetic protected file admission and negative cases
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          $base=Join-Path $env:RUNNER_TEMP ('cog-r3r1-readonly-'+$env:GITHUB_RUN_ID)
+          $runtime=Join-Path $base 'runtime'
+          New-Item -ItemType Directory -Path $runtime -Force|Out-Null
+          $audit='./scripts/cog-r5-physical02-r3-r1-runtime-audit.ps1'
+          function Denied([scriptblock]$code){
+            $refused=$false
+            try{& $code|Out-Null}catch{
+              if($_.Exception.Message -match 'COG_R3R1_INSTALLED_RUNTIME_REFUSED|COG_R2_INSTALLED_REFUSED'){
+                $refused=$true
+              }else{throw}
+            }
+            if(-not $refused){throw 'Unapproved physical package accepted'}
+          }
+          try{
+            $empty=Join-Path $runtime '__init__.py'
+            $code=Join-Path $runtime 'a.py'
+            [IO.File]::WriteAllBytes($empty,[byte[]]@())
+            [IO.File]::WriteAllText($code,'print(1)',[Text.Encoding]::ASCII)
+            $h0=(Get-FileHash $empty -Algorithm SHA256).Hash.ToLowerInvariant()
+            $h1=(Get-FileHash $code -Algorithm SHA256).Hash.ToLowerInvariant()
+            $tab=[string][char]9
+            $lf=[string][char]10
+            $manifest=Join-Path $runtime 'r3-r1-runtime.manifest'
+            [IO.File]::WriteAllText($manifest,($h0+$tab+'__init__.py'+$lf+$h1+$tab+'a.py'+$lf),[Text.Encoding]::ASCII)
+            $pin=(Get-FileHash $manifest -Algorithm SHA256).Hash.ToLowerInvariant()
+            $provenance=Join-Path $runtime 'r3-r1-runtime-provenance.json'
+            $record=[ordered]@{schema='cognitum.ssm.r3r1.production_installer_runtime.v1';runtime_manifest_sha256=$pin}
+            [IO.File]::WriteAllText($provenance,($record|ConvertTo-Json -Compress),[Text.Encoding]::ASCII)
+            $ppin=(Get-FileHash $provenance -Algorithm SHA256).Hash.ToLowerInvariant()
+            & icacls.exe $base /inheritance:r /grant:r '*S-1-5-18:(OI)(CI)F' '*S-1-5-32-544:(OI)(CI)F' /T /Q |Out-Null
+            if($LASTEXITCODE -ne 0){throw 'Synthetic protected ACL setup failed'}
+            & icacls.exe $base /setowner '*S-1-5-32-544' /T /C /Q |Out-Null
+            if($LASTEXITCODE -ne 0){throw 'Synthetic protected owner setup failed'}
+            $observed=& $audit -ApprovedInstallRoot $base -RuntimeRoot $runtime -ApprovedManifestSha256 $pin -ApprovedProvenanceSha256 $ppin|ConvertFrom-Json
+            if($observed.status -cne 'PASS_INSTALLED_RUNTIME_DIGEST_ACL_OBSERVATION_ONLY' -or
+               $observed.original_file_count -ne 2 -or $observed.output_release_authorized -ne $false){
+              throw 'Synthetic protected manifest audit not read-only'
+            }
+            Denied {& $audit -ApprovedInstallRoot $base -RuntimeRoot $runtime -ApprovedManifestSha256 ('0'*64) -ApprovedProvenanceSha256 $ppin}
+            Denied {& $audit -ApprovedInstallRoot $base -RuntimeRoot $runtime -ApprovedManifestSha256 $ppin -ApprovedProvenanceSha256 $ppin}
+            [IO.File]::WriteAllText($code,'print(2)',[Text.Encoding]::ASCII)
+            Denied {& $audit -ApprovedInstallRoot $base -RuntimeRoot $runtime -ApprovedManifestSha256 $pin -ApprovedProvenanceSha256 $ppin}
+            [IO.File]::WriteAllText($code,'print(1)',[Text.Encoding]::ASCII)
+            $extra=Join-Path $runtime 'rogue.py'
+            [IO.File]::WriteAllText($extra,'pass',[Text.Encoding]::ASCII)
+            Denied {& $audit -ApprovedInstallRoot $base -RuntimeRoot $runtime -ApprovedManifestSha256 $pin -ApprovedProvenanceSha256 $ppin}
+            Remove-Item $extra -Force
+            $denied=$false
+            try{
+              & ./scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1 -InstalledExecutable (Join-Path $base 'CognitumSsmNativeFixtureV1.exe') -ApprovedInstallRoot $base -ApprovedImageSha256 $pin -ApprovedSignerCertificateSha256 $pin -RuntimeRoot $runtime -ApprovedRuntimeManifestSha256 $pin -ApprovedRuntimeProvenanceSha256 $ppin |Out-Null
+            }catch{$denied=$true}
+            if(-not $denied){throw 'Unsigned/uninstalled SCM fixture promoted'}
+            Write-Host 'PASS_CI_SYNTHETIC_PROTECTED_RUNTIME_AND_UNSIGNED_HOST_REFUSAL_ONLY'
+          }finally{
+            if(Test-Path -LiteralPath $base){Remove-Item -LiteralPath $base -Recurse -Force -ErrorAction Stop}
+          }
