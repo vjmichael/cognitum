@@ -24,8 +24,25 @@ if($approved.schema -cne 'cognitum.ssm.r2.CI_external_KSP_enrollment.v1' -or
    $approved.name -cne $env:COG_R2_CI_KEY_NAME){
  throw 'Foreign test-only signer key or missing independently provided pin'
 }
-# BUILTIN Users restricting SID needs read/write access to the disposable
-# test fixture. NEVER grant this ACL to production signed code/image/data.
+# The genuine Windows restricted primary token has BUILTIN Users as
+# a *restricting SID*. Grant READ/EXECUTE, NOT write, on Python and reviewed
+# Cognitum source strictly inside this disposable CI runner.
+# Production must use an installer-controlled dedicated SID/AppContainer and
+# immutable verified file handles; never use Users for production image ACL.
+$readOnlyRoots=@(
+  [IO.Path]::GetDirectoryName($env:COG_R1_CI_PYTHON),
+  (Join-Path $PWD 'cognitum')
+)
+foreach($item in $readOnlyRoots){
+  if(!(Test-Path -LiteralPath $item -PathType Container) -or
+     ((Get-Item -LiteralPath $item -Force).Attributes -band [IO.FileAttributes]::ReparsePoint)){
+    throw 'Original restricted worker exact read-only source directory refused'
+  }
+  & icacls.exe $item /grant '*S-1-5-32-545:(OI)(CI)RX' /T
+  if($LASTEXITCODE -ne 0){throw 'Cannot grant restricted test SID source read/execute'}
+}
+# BUILTIN Users WRITE is limited to the disposable numerical input/output
+# staging directory (never to the source tree or Python executable).
 & icacls.exe $root /grant '*S-1-5-32-545:(OI)(CI)M' /T
 if($LASTEXITCODE -ne 0){throw 'Windows temporary restricted SID fixture ACL unavailable'}
 & ./scripts/cog-r5-physical02-r1-real-ssm-scm.ps1 -Executable $Executable -FixtureRoot $root -EvidencePath "$PWD/r2-r1-windows.json"
