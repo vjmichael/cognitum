@@ -1,0 +1,17 @@
+{
+  "schema": "cognitum.orc.bench02.r4r2r3.portable_receipt_decimal_precision_amendment.v1",
+  "supersedes_only": "portable_numerical_identity.score_round_decimal_places and candidate_score_quantum_kelvin for separate display/receipt hash; NOT candidate training, selection tolerance, near-tie refusal, source cohort, calibr model fit, uncertainty, or any test results",
+  "original_immutable_prereg_git_blob": "dcfc11361bee51507cbdbe99f73652755023eb27",
+  "why_before_successor_execution": "a pre-existing calibration MAE lies within 1e-12 K of 9-decimal nearest rounding midpoint; even correct cross-platform sources could be refused. 8 decimals avoids this false source identity refusal while remaining 1e6 times smaller than existing .01 K calibration improvement threshold; no heldout scoring used to choose precision",
+  "superseding_scores_decimals": 8,
+  "superseding_quantum_kelvin": 1e-8,
+  "unchanged_boundary_refusal_margin_kelvin": 1e-12,
+  "unchanged_selector_near_tie_threshold_kelvin": 1e-10,
+  "unchanged_candidate_numerical_cross_platform_bound_kelvin": 1e-10,
+  "unchanged_prediction_cross_platform_bound_kelvin": 1e-9,
+  "still_preserve_full_original_unrounded_calibration_values_and_SHA_per_platform": true,
+  "still_prove_original_original_noaa_and_fold_identity_bit_exact": true,
+  "no_scientific_model_accuracy_comparison_tuning": true,
+  "prior_R4_heldout_already_seen": true,
+  "acceptance_requires_four_platform_zip_cross_check": true
+}
