@@ -63,12 +63,18 @@ class SSMComputeFactory:
 class SupervisedSSMCompute:
     """Use existing bounded disposable subprocess; verify return before commit."""
 
-    def __init__(self,*,timeout_ms=8000):
+    def __init__(self,*,timeout_ms=8000,protected_executor=None):
         _need(type(timeout_ms) is int and 100<=timeout_ms<=10000,
               "supervisor timeout budget")
+        if protected_executor is not None:
+            from .ssm_r4_protected import ProtectedFixedSSMExecutor
+            _need(type(protected_executor) is ProtectedFixedSSMExecutor,
+                  "reviewed original-operation-bound native executor only")
         self.timeout_ms=timeout_ms
+        self._protected_executor=protected_executor
 
-    def apply(self,engine,kind,end_time,increment):
+    def apply(self,engine,kind,end_time,increment,*,
+              scope=None,stream_id=None,event_id=None):
         _need(type(engine) is ssm.FixedDurationIncrementSmoother,
               "trusted R5 engine required")
         # Do not give the child a signed checkpoint, authorization token or key.
@@ -77,7 +83,12 @@ class SupervisedSSMCompute:
                  "end_time":end_time,"increment":increment}
         _need(len(json.dumps(payload,allow_nan=False))<=MAX_WIRE,
               "bounded worker request")
-        status,reply=worker.execute(SSMComputeFactory,OP,payload,self.timeout_ms)
+        if self._protected_executor is None:
+            status,reply=worker.execute(SSMComputeFactory,OP,payload,self.timeout_ms)
+        else:
+            status,reply=self._protected_executor.execute(
+                SSMComputeFactory,OP,payload,self.timeout_ms,
+                scope=scope,stream_id=stream_id,event_id=event_id)
         _need(status=="ok" and type(reply) is dict
               and set(reply)=={"state","releases"},
               "child failed, timed out or malformed response: "+str(status))

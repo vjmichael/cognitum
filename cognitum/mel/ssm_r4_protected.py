@@ -132,14 +132,17 @@ class DurableOriginalWorkerClaim:
     replacement/rollback by privileged attacker remains an installed blocker.
     """
 
-    def __init__(self, directory, broker, scope, original, event_id, stream_id):
+    def __init__(self, directory, broker, scope, original, core_session_ref,
+                 event_id, stream_id):
         _need(type(broker) is OSCredentialBroker, "genuine OS key provider")
         _need(type(scope) is mel.Scope, "trusted MEL scope")
         self.origin = typed._origin(original)
         _need(self.origin[0] == scope.workspace and
               self.origin[2] == scope.turn and
-              scope.session and scope.session != "untrusted",
-              "exact original Lu user-turn MEL identity")
+              type(core_session_ref) is str and
+              core_session_ref == scope.session and
+              len(core_session_ref) <= 128,
+              "exact original Lu Core session/user-turn MEL identity")
         _need(type(event_id) is str and
               typed.IDENTIFIER.fullmatch(event_id) is not None and
               type(stream_id) is str and
@@ -241,12 +244,12 @@ class ProtectedFixedSSMExecutor:
     host, never offered to a user/model as a runnable endpoint.
     """
 
-    def __init__(self, *, original, mel_scope, expected_stream_id,
-                 expected_event_id, credential_broker, durable_directory,
-                 delegated_cgroup_root=None):
+    def __init__(self, *, original, core_session_ref, mel_scope,
+                 expected_stream_id, expected_event_id, credential_broker,
+                 durable_directory, delegated_cgroup_root=None):
         self.claim = DurableOriginalWorkerClaim(
             durable_directory, credential_broker, mel_scope, original,
-            expected_event_id, expected_stream_id)
+            core_session_ref, expected_event_id, expected_stream_id)
         self._scope = mel_scope
         self._stream = expected_stream_id
         self._event = expected_event_id
@@ -369,7 +372,7 @@ class ProtectedFixedSSMExecutor:
               self._delegated.startswith("/"),
               "independently delegated Linux cgroup-v2 root required")
         from cognitum.cgroup2_contract import FixtureCgroupScope, ContainmentUnavailable
-        from cognitum.cgroup2_fixed_runner import _birth_ticks, _require_same_attached_worker
+        from cognitum.cgroup2_fixed_runner import _birth_ticks, _pidfd_exited
         from cognitum.host_survivor_arm import arm_watchkeeper
         from cognitum.host_recovery import (
             record_before_worker_release, mark_closed_after_verified_cleanup,
@@ -398,7 +401,9 @@ class ProtectedFixedSSMExecutor:
             pidfd = os.pidfd_open(pid)
             born = _birth_ticks(pid)
             scope.attach_before_release(pid)
-            _require_same_attached_worker(process, pidfd, born, scope)
+            _need(pid in scope.members() and _birth_ticks(pid) == born and
+                  not _pidfd_exited(pidfd) and process.is_alive(),
+                  "Linux kernel cgroup identity before numerical release")
             _need(watcher.proc.poll() is None,
                   "Linux watchkeeper died before numerical release")
             parent.send_bytes(request)

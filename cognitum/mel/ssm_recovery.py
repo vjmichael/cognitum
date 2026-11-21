@@ -368,7 +368,8 @@ class HostSSMJournal:
                     # Worker receives unkeyed numeric state only. The trusted
                     # parent owns all HMAC sealing and durable SQLite effects.
                     engine, releases = self._supervised_math.apply(
-                        engine,kind,timestamp,observation)
+                        engine,kind,timestamp,observation,
+                        scope=self._scope,stream_id=self._sid,event_id=event_id)
                 elif kind == "increment":
                     releases = engine.push(timestamp, observation)
                 else:
