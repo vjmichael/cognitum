@@ -1,0 +1,50 @@
+name: Cognitum BENCH-02 R1 external-source admission
+
+on:
+  push:
+    branches:
+      - research/orc-bench02-source-gate-20261120
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cognitum-orcbench02-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  native-source-qualification:
+    name: Source gate / ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.11', '3.13']
+    steps:
+      - name: Checkout exact reviewed branch
+        uses: actions/checkout@v4
+      - name: Install native Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install test dependency
+        run: python -m pip install pytest==9.0.2
+      - name: Run complete BENCH-02-R1 refusal and scientific source tests
+        run: python -m pytest -q tests/test_orc_bench02_availability.py --junitxml=orcbench02-junit.xml
+      - name: Record original Git commit and science source blob identities
+        shell: bash
+        run: |
+          git rev-parse HEAD > accepted-sha.txt
+          git hash-object tools/orcbench02/availability_gate.py tests/test_orc_bench02_availability.py docs/research/orcgraph/ORCH01E_BENCH02_R1.md docs/MASTER_TASK_LEDGER.md > exact-source-blobs.txt
+      - name: Archive native JUnit and canonical original Git source identities
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: orcbench02-${{ matrix.os }}-py${{ matrix.python }}
+          path: |
+            orcbench02-junit.xml
+            accepted-sha.txt
+            exact-source-blobs.txt
+          if-no-files-found: warn
