@@ -1,0 +1,84 @@
+name: Cognitum BENCH-01 real-site Orc versus Ridge
+on:
+  push:
+    branches: ['research/orc-bench01-native-*']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  scientific-comparison:
+    name: "Orc benchmark actual observations / ${{ matrix.os }} / Python ${{ matrix.python-version }}"
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11','3.13']
+    env:
+      PYTHONHASHSEED: '0'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install exact reviewed scientific and cooperative dependencies
+        run: python -m pip install -e ".[scientific,planning-graph,optimization-schedule]" "pytest==9.0.2" "numpy==2.3.5" "scipy==1.17.0" "networkx==3.5"
+      - name: Run genuine scientific, inherited MEL, Orc and physical-source R4 qualification
+        run: python -m pytest -q tests/test_orc_real_benchmark.py tests/test_orc_selection.py tests/test_orc_comparison.py tests/test_orc_handoff.py tests/test_orc_science_data.py tests/test_orc_graph.py tests/test_cooperative.py tests/test_cooperative_compositions.py research_tests/mel04b/test_cooperation.py research_tests/mel05b/test_graph_acceptance.py research_tests/mel05b/test_inline_enforcement.py research_tests/ssm_postnative05r4/test_timeaware.py research_tests/ssm_postnative04/test_multisite.py --junitxml=orcbench01.xml
+      - name: Run registered real-site benchmark and preserve all heldout predictions
+        run: python -m tools.orcbench01.benchmark --output orcbench01-predictions.json --summary orcbench01-summary.json
+      - name: Preserve exact scientific and worker source lock
+        if: always()
+        shell: python
+        run: |
+          import hashlib, importlib.metadata as md, json, pathlib, platform, subprocess, sys
+          paths = ("tools/orcbench01/benchmark.py", "tests/test_orc_real_benchmark.py",
+                   "docs/research/orcgraph/ORCH01E_BENCH01_PREREG.md",
+                   "research_tests/ssm_postnative04/data/Changping.csv",
+                   "research_tests/ssm_postnative04/data/Dingling.csv",
+                   "research_tests/ssm_postnative04/data/Guanyuan.csv",
+                   "research_tests/ssm_postnative04/data/sources.json",
+                   "research_tests/ssm_postnative04/data/acquisition.json",
+                   "research_tests/ssm_postnative04/test_multisite.py",
+                   "tools/orc01e/selection_evidence.py", "cognitum/orc_selection.py",
+                   "tests/test_orc_selection.py", "tools/orc01d/synthetic_evidence.py",
+                   "cognitum/orc_comparison.py", "tests/test_orc_comparison.py",
+                   "cognitum/orc_handoff.py", "tests/test_orc_handoff.py",
+                   "cognitum/orc_science_data.py", "tests/test_orc_science_data.py",
+                   "cognitum/orc_graph.py", "tests/test_orc_graph.py",
+                   "cognitum/cooperative.py", "cognitum/cooperative_cpu.py",
+                   "cognitum/mel/cooperation.py", "cognitum/mel/admission.py",
+                   "cognitum/mel/verified_graph.py", "cognitum/mel/engines.py",
+                   "cognitum/mel/native.py", "cognitum/runtime.py",
+                   "cognitum/research/ssm_timeaware.py",
+                   "cognitum/research/kan_trainable.py",
+                   "cognitum/research/hdc_algebra.py",
+                   "cognitum/research/hdc_associative.py",
+                   "research_tests/ssm_postnative05r4/test_timeaware.py",
+                   "tests/test_cooperative.py", "tests/test_cooperative_compositions.py",
+                   "research_tests/mel04b/test_cooperation.py",
+                   "research_tests/mel05b/test_graph_acceptance.py",
+                   "research_tests/mel05b/test_inline_enforcement.py")
+          receipt = {"git_sha": subprocess.check_output(["git","rev-parse","HEAD"], text=True).strip(),
+                     "platform": platform.platform(), "python": sys.version,
+                     "dependencies": {x: md.version(x) for x in ("pytest","numpy","scipy","networkx","ortools","protobuf")},
+                     "sources": {p: {"git_blob": subprocess.check_output(
+                         ["git","hash-object",p], text=True).strip(),
+                         "sha256": hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()}
+                         for p in paths}}
+          pathlib.Path("orcbench01-source.json").write_text(json.dumps(receipt, indent=2, sort_keys=True))
+      - name: Archive full native JUnit and source identities
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: orcbench01-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: |
+            orcbench01.xml
+            orcbench01-source.json
+            orcbench01-predictions.json
+            orcbench01-summary.json
+          if-no-files-found: warn
