@@ -10,6 +10,10 @@
 #![deny(unsafe_op_in_unsafe_fn)]
 #[cfg(all(windows, feature = "ssm-fixture"))]
 mod ssm_fixture;
+#[cfg(all(windows, feature = "r2-restricted-fixture"))]
+mod r2_restricted;
+#[cfg(all(windows, feature = "r2-restricted-fixture"))]
+mod r2_signer;
 #[cfg(all(windows, feature = "acceptance-fixture"))]
 mod win {
     use std::{
@@ -239,6 +243,8 @@ mod win {
             } == 0 {
                 return Err(denied("SCM-owned Job limit configuration refused"));
             }
+            #[cfg(feature = "r2-restricted-fixture")]
+            crate::r2_signer::require_preprovisioned()?;
             #[cfg(feature = "ssm-fixture")]
             let (app, mut cmd, original_fixture) = crate::ssm_fixture::prepare()?;
             #[cfg(not(feature = "ssm-fixture"))]
@@ -251,6 +257,11 @@ mod win {
             let mut si = StartupInfo { cb: mem::size_of::<StartupInfo>() as u32,
                                       ..Default::default() };
             let mut pi = ProcessInfo::default();
+            #[cfg(feature = "r2-restricted-fixture")]
+            crate::r2_restricted::launch(&app,&mut cmd,
+                (&si as *const StartupInfo).cast(),
+                (&mut pi as *mut ProcessInfo).cast())?;
+            #[cfg(not(feature = "r2-restricted-fixture"))]
             if unsafe {
                 CreateProcessW(app.as_ptr(), cmd.as_mut_ptr(), ptr::null_mut(),
                                ptr::null_mut(), 0, CREATE_SUSPENDED | CREATE_NO_WINDOW,
@@ -260,6 +271,14 @@ mod win {
             }
             let child = Owned(pi.process);
             let thread = Owned(pi.thread);
+            #[cfg(feature = "r2-restricted-fixture")]
+            if crate::r2_restricted::require_original_worker_restricted(child.0).is_err(){
+                unsafe {
+                    TerminateProcess(child.0,0xE4);
+                    WaitForSingleObject(child.0,5000);
+                }
+                return Err(denied("SCM original numerical worker token not kernel-restricted"));
+            }
             // If any subsequent step fails, the suspended child is terminated
             // directly because it may not yet belong to our kernel Job.
             let accepted = unsafe {

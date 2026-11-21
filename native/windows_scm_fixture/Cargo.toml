@@ -8,6 +8,7 @@ publish = false
 default = []
 acceptance-fixture = []
 ssm-fixture = ["acceptance-fixture"]
+r2-restricted-fixture = ["ssm-fixture"]
 
 [[bin]]
 name = "cognitum-scm-supervisor"

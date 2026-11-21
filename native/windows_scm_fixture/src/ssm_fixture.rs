@@ -212,5 +212,8 @@ pub fn record_stop(proof:&Prepared,worker_pid:u32,service_pid:u32,
         "{{\"schema\":\"cognitum.ssm.r1.scm_local_stop.v1\",\"original_nonce\":\"{}\",\"request_sha256\":\"{}\",\"result_sha256\":\"{}\",\"service_pid\":{},\"worker_pid\":{},\"kernel_job_empty\":true,\"independently_signed\":false,\"installed_core_authenticated\":false,\"production_authority\":false,\"output_release_authorized\":false}}\n",
         proof.nonce,proof.request_sha256,hex(&bytes),service_pid,worker_pid,
     );
-    write_once(Path::new(p[6]),record.as_bytes())
+    write_once(Path::new(p[6]),record.as_bytes())?;
+    #[cfg(feature = "r2-restricted-fixture")]
+    crate::r2_signer::sign_local_stopped_original(Path::new(p[6]))?;
+    Ok(())
 }
