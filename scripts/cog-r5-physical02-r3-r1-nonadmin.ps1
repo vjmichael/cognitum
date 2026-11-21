@@ -6,6 +6,7 @@ param(
  [Parameter(Mandatory=$true)][string]$FixtureRoot,
  [Parameter(Mandatory=$true)][string]$RuntimeParent,
  [Parameter(Mandatory=$true)][string]$WorkerRoot,
+ [string]$HostRoot,
  [string]$PeerPython,
  [string]$EnvFile
 )
@@ -87,6 +88,16 @@ if($Mode -eq 'provision'){
  if(-not $EnvFile -or -not [IO.Path]::IsPathRooted($EnvFile) -or
     (Test-Path $credentialFile) -or (Test-Path $manifest)){
    throw 'Fresh exact external provisioning inputs missing'
+ }
+ if(-not $HostRoot -or -not [IO.Path]::IsPathRooted($HostRoot)){
+   throw 'SCM-protected original AppContainer witness custody root required'
+ }
+ $host=[IO.Path]::GetFullPath($HostRoot)
+ if($host -in @($root,$runtime,$worker) -or
+    !(Test-Path -LiteralPath $host -PathType Container) -or
+    ((Get-Item -LiteralPath $host -Force).Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0 -or
+    (Test-Path -LiteralPath (Join-Path $host 'r3-original-appcontainer-witness.json'))){
+   throw 'Refuse reused, redirected or nonindependent protected SCM witness custody'
  }
  $name='CogR3Ci'+[Guid]::NewGuid().ToString('N').Substring(0,12)
  $user=$null
@@ -190,7 +201,7 @@ if($Mode -eq 'provision'){
      "COG_R3_CI_PEER_IMAGE_SHA256=$image",
      "COG_R3_CI_PROFILE=$profileName",
      "COG_R3_CI_APP_SID=$package",
-     ("COG_R3_CI_APP_WITNESS="+(Join-Path $root 'r3-original-appcontainer-witness.json'))
+     ("COG_R3_CI_APP_WITNESS="+(Join-Path $host 'r3-original-appcontainer-witness.json'))
    )
    [IO.File]::AppendAllText($EnvFile,[string]::Join([Environment]::NewLine,$values)+[Environment]::NewLine)
    Write-Host 'PASS_CI_DEDICATED_NONADMIN_USER_OWNS_NATIVE_APP_CONTAINER_PROFILE'

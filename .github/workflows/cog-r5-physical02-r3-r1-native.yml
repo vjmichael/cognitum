@@ -43,7 +43,7 @@ jobs:
         run: |
           $p=Join-Path $PWD 'native/windows_scm_fixture/target'
           $python=(& python -c 'import sys;print(sys.executable)').Trim()
-          & ./scripts/cog-r5-physical02-r3-r1-nonadmin.ps1 -Mode provision -FixtureRoot (Join-Path $p 'r3r1-provision') -WorkerRoot (Join-Path $p 'r3r1-io') -RuntimeParent (Join-Path $p 'r3r1-runtime-parent') -PeerPython $python -EnvFile "$env:GITHUB_ENV"
+          & ./scripts/cog-r5-physical02-r3-r1-nonadmin.ps1 -Mode provision -FixtureRoot (Join-Path $p 'r3r1-provision') -WorkerRoot (Join-Path $p 'r3r1-io') -RuntimeParent (Join-Path $p 'r3r1-runtime-parent') -HostRoot (Join-Path $p 'r3r1-host') -PeerPython $python -EnvFile "$env:GITHUB_ENV"
       - name: Assemble immutable-in-test CPython + NumPy + SciPy + original Cognitum source
         shell: pwsh
         run: |
