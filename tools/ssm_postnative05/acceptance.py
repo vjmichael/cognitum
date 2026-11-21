@@ -11,8 +11,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 PINS = {
-    "cognitum/research/ssm_independent_publishers.py": "4ef01dfe846d752c96b60c3f1e5b1ed529b5b4bb",
-    "research_tests/ssm_postnative05/test_publishers.py": "def71e4564d7080471d9b59c96a3f3064b45dc81",
+    "cognitum/research/ssm_independent_publishers.py": "ffbc2c0f14ec8f8e46c97ee2f1e0bfa9adeef7d7",
+    "research_tests/ssm_postnative05/test_publishers.py": "d9a721b91b9ea5ca589873ec13cb9e973a12f6f6",
     "research_tests/ssm_postnative05/data/NOAA_RA_station_2025.csv": "8421af63a839c767555a53af74b71106ee68241e",
     "research_tests/ssm_postnative05/data/USGS_NaturalFlow_1906_2015.csv": "2f986df07dce96b800829856e751b247e4179aaf",
 }
