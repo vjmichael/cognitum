@@ -1,0 +1,210 @@
+name: Cognitum R3-R1 frozen nonadministrator Windows AppContainer SSM native
+on:
+  push:
+    branches: [integration/cog-lu-ipc01e-r2-custody-20261121]
+    paths: [.github/workflows/cog-r5-physical02-r3-r1-native.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cognitum-r3r1-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  windows-native:
+    name: Native nonadmin-owned lowbox profile and frozen SSM SCM Job
+    runs-on: windows-latest
+    timeout-minutes: 45
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Pin exact Python math and receipt test dependencies
+        run: python -m pip install numpy==2.2.6 scipy==1.15.3 protobuf==6.33.1 grpcio-tools==1.76.0 cryptography==46.0.3 pytest==9.0.2
+      - name: Make separated original host, numerical I/O, nonadmin provision and frozen-runtime roots
+        shell: pwsh
+        run: |
+          $parent=Join-Path $PWD 'native/windows_scm_fixture/target'
+          @('r3r1-host','r3r1-io','r3r1-provision','r3r1-runtime-parent') | ForEach-Object {New-Item -ItemType Directory -Path (Join-Path $parent $_) -Force | Out-Null}
+          python -m research_tests.mel_lu_ipc01c.compile_pinned_lu_ssm --root "$PWD/cognitum/mel/vendor" --descriptor-out "$PWD/r3r1-lu-ssm.desc" --receipt "$PWD/r3r1-proto.json"
+          if($LASTEXITCODE -ne 0){throw 'Original Lu/Cognitum Protobuf compilation failed'}
+      - name: Externally create standard local nonadmin user and that user's real no-network AppContainer profile
+        id: nonadmin
+        shell: pwsh
+        run: |
+          $p=Join-Path $PWD 'native/windows_scm_fixture/target'
+          $python=(& python -c 'import sys;print(sys.executable)').Trim()
+          & ./scripts/cog-r5-physical02-r3-r1-nonadmin.ps1 -Mode provision -FixtureRoot (Join-Path $p 'r3r1-provision') -WorkerRoot (Join-Path $p 'r3r1-io') -RuntimeParent (Join-Path $p 'r3r1-runtime-parent') -PeerPython $python -EnvFile "$env:GITHUB_ENV"
+      - name: Assemble immutable-in-test CPython + NumPy + SciPy + original Cognitum source
+        shell: pwsh
+        run: |
+          $p=Join-Path $PWD 'native/windows_scm_fixture/target'
+          $runtime=Join-Path $p 'r3r1-runtime-parent/runtime'
+          python scripts/cog_r5_r3_r1_bundle.py prepare --root "$runtime" --repo "$PWD" | Set-Content "$PWD/r3r1-frozen-builder.json"
+          if($LASTEXITCODE -ne 0){throw 'Bounded frozen runtime source/dependency assembly refused'}
+      - name: Prepare exact original HMAC fixed SSM and independently smoke the frozen numerical runtime
+        shell: pwsh
+        run: |
+          $p=Join-Path $PWD 'native/windows_scm_fixture/target'
+          $hostRoot=Join-Path $p 'r3r1-host'
+          $work=Join-Path $p 'r3r1-io'
+          $runtime=Join-Path $p 'r3r1-runtime-parent/runtime'
+          python scripts/cog_r5_r1_scm_ssm_fixture.py prepare --root "$hostRoot" --worker-root "$work" --runtime-root "$runtime" --env-file "$env:GITHUB_ENV"
+          if($LASTEXITCODE -ne 0){throw 'Reviewed original operation/nonce/runtime digest refusal'}
+          python scripts/cog_r5_r3_r1_bundle.py smoke --root "$runtime" --request (Join-Path $work 'input.frame') | Set-Content "$PWD/r3r1-frozen-smoke.json"
+          if($LASTEXITCODE -ne 0){throw 'Frozen Python NumPy SciPy actual numerical calculation refused'}
+          [IO.File]::AppendAllText($env:GITHUB_ENV,("COG_R3_CI_PRELAUNCH_SIGNED="+(Join-Path $hostRoot 'r3-signed-prelaunch.json')+[Environment]::NewLine+"COG_R3_CI_RESTART_SIGNED="+(Join-Path $hostRoot 'r3-signed-restart.json')+[Environment]::NewLine))
+      - name: Provision CI-only machine-held nonexportable CNG signing key outside SCM
+        id: signer
+        shell: pwsh
+        run: |
+          $hostRoot=Join-Path $PWD 'native/windows_scm_fixture/target/r3r1-host'
+          & ./scripts/cog-r5-physical02-r2-cng-provision.ps1 -Mode provision -FixtureRoot $hostRoot -EnvFile "$env:GITHUB_ENV"
+      - name: Native MSVC compile exact original image, 2-sided token, all-import manifest, signed restart
+        shell: pwsh
+        run: |
+          cargo build --manifest-path native/windows_scm_fixture/Cargo.toml --release --locked --offline --features r3-r1-frozen-fixture
+          if($LASTEXITCODE -ne 0){throw 'Native original frozen AppContainer SCM binary compile failed'}
+      - name: Real OS SCM full pinned Python SSM, nonadmin/AppContainer SID, Job and machine CNG receipts
+        shell: pwsh
+        run: |
+          $p=Join-Path $PWD 'native/windows_scm_fixture/target'
+          & ./scripts/cog-r5-physical02-r3-r1-accept.ps1 -Executable "$PWD/native/windows_scm_fixture/target/release/cognitum-scm-supervisor.exe" -HostRoot (Join-Path $p 'r3r1-host') -WorkerRoot (Join-Path $p 'r3r1-io') -ProvisionRoot (Join-Path $p 'r3r1-provision') -RuntimeRoot (Join-Path $p 'r3r1-runtime-parent/runtime') -EvidencePath "$PWD/r3r1-windows-native.json"
+      - name: Retain only independently readable public manifest and user SID evidence
+        shell: pwsh
+        if: always()
+        run: |
+          $p=Join-Path $PWD 'native/windows_scm_fixture/target'
+          $a=Join-Path $p 'r3r1-provision/r3-r1-external-nonadmin.json'
+          $b=Join-Path $p 'r3r1-host/r2-external-provision.json'
+          if(Test-Path $a -PathType Leaf){Copy-Item $a "$PWD/r3r1-public-nonadmin.json"}
+          if(Test-Path $b -PathType Leaf){Copy-Item $b "$PWD/r3r1-public-cng.json"}
+      - name: Revoke original nonadmin account, source peer, profile and DPAPI credential
+        if: always() && steps.nonadmin.outcome == 'success'
+        shell: pwsh
+        run: |
+          $p=Join-Path $PWD 'native/windows_scm_fixture/target'
+          & ./scripts/cog-r5-physical02-r3-r1-nonadmin.ps1 -Mode remove -FixtureRoot (Join-Path $p 'r3r1-provision') -WorkerRoot (Join-Path $p 'r3r1-io') -RuntimeParent (Join-Path $p 'r3r1-runtime-parent')
+          '{"schema":"cognitum.ssm.r3r1.user_cleanup.v1","real_user_peer_profile_DPAPI_revoked":true,"production_issuer":false}' | Set-Content r3r1-user-cleanup.json -Encoding ascii
+      - name: Revoke separately provisioned original machine signing key
+        if: always() && steps.signer.outcome == 'success'
+        shell: pwsh
+        run: |
+          $hostRoot=Join-Path $PWD 'native/windows_scm_fixture/target/r3r1-host'
+          & ./scripts/cog-r5-physical02-r2-cng-provision.ps1 -Mode remove -FixtureRoot $hostRoot
+          '{"schema":"cognitum.ssm.r3r1.CNG_cleanup.v1","machine_key_revoked":true,"production_issuer":false}' | Set-Content r3r1-CNG-cleanup.json -Encoding ascii
+      - name: Record exact SHA, native binary and fixed original source blobs
+        if: always()
+        shell: pwsh
+        run: |
+          (git rev-parse HEAD)|Out-File r3r1-sha.txt -Encoding ascii
+          (git hash-object native/windows_scm_fixture/src/main.rs native/windows_scm_fixture/src/r3_appcontainer.rs native/windows_scm_fixture/src/r3_r1_runtime.rs native/windows_scm_fixture/src/r3_recovery.rs native/windows_scm_fixture/src/ssm_fixture.rs native/windows_scm_fixture/src/r2_signer.rs native/windows_scm_fixture/Cargo.toml native/windows_scm_fixture/Cargo.lock scripts/cog_r5_r3_r1_bundle.py scripts/cog_r5_r1_scm_ssm_fixture.py scripts/cog-r5-physical02-r3-r1-nonadmin.ps1 scripts/cog-r5-physical02-r3-r1-user-profile.ps1 scripts/cog-r5-physical02-r3-r1-accept.ps1 scripts/cog-r5-physical02-r1-real-ssm-scm.ps1)|Out-File r3r1-blobs.txt -Encoding ascii
+          $binary='native/windows_scm_fixture/target/release/cognitum-scm-supervisor.exe'
+          if(Test-Path $binary){(Get-FileHash $binary -Algorithm SHA256).Hash.ToLowerInvariant()|Out-File r3r1-binary.txt -Encoding ascii}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: r3r1-public-original-windows
+          path: |
+            r3r1-windows-native.json
+            r3-r1-original-scm.json
+            r3r1-frozen-builder.json
+            r3r1-frozen-smoke.json
+            r3r1-proto.json
+            r3r1-public-nonadmin.json
+            r3r1-public-cng.json
+            r3r1-user-cleanup.json
+            r3r1-CNG-cleanup.json
+            r3r1-sha.txt
+            r3r1-blobs.txt
+            r3r1-binary.txt
+            native/windows_scm_fixture/target/r3r1-runtime-parent/runtime/r3-r1-runtime-provenance.json
+            native/windows_scm_fixture/target/r3r1-host/prelaunch.json
+            native/windows_scm_fixture/target/r3r1-host/stop.json
+            native/windows_scm_fixture/target/r3r1-host/r3-signed-prelaunch.json
+            native/windows_scm_fixture/target/r3r1-host/r3-signed-restart.json
+            native/windows_scm_fixture/target/r3r1-host/r2-signed-stop.json
+            native/windows_scm_fixture/target/r3r1-host/r2-public-p256.blob
+            native/windows_scm_fixture/target/r3r1-host/r3-original-appcontainer-witness.json
+            native/windows_scm_fixture/target/r3r1-io/input.frame
+            native/windows_scm_fixture/target/r3r1-io/output.frame
+          if-no-files-found: warn
+  independent:
+    name: Independently recompute numerical SSM and verify real nonadmin OS-signed receipts
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    needs: [windows-native]
+    if: ${{ always() && needs.windows-native.result == 'success' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy==2.2.6 scipy==1.15.3 cryptography==46.0.3 protobuf==6.33.1
+      - uses: actions/download-artifact@v4
+        with:
+          name: r3r1-public-original-windows
+          path: evidence
+      - name: Independent exact-source original numeric and CNG no-output audit
+        shell: bash
+        env:
+          SHA: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          from cognitum.mel.ssm_supervisor import SSMComputeFactory,OP
+          from scripts.cog_r5_r2_verify_signed_stop import verify_raw
+          from scripts.cog_r5_r3_verify_recovery import verify_original_chain_bytes
+          root=Path('evidence')
+          assert (root/'r3r1-sha.txt').read_text().strip()==os.environ['SHA']
+          paths=['native/windows_scm_fixture/src/main.rs','native/windows_scm_fixture/src/r3_appcontainer.rs','native/windows_scm_fixture/src/r3_r1_runtime.rs','native/windows_scm_fixture/src/r3_recovery.rs','native/windows_scm_fixture/src/ssm_fixture.rs','native/windows_scm_fixture/src/r2_signer.rs','native/windows_scm_fixture/Cargo.toml','native/windows_scm_fixture/Cargo.lock','scripts/cog_r5_r3_r1_bundle.py','scripts/cog_r5_r1_scm_ssm_fixture.py','scripts/cog-r5-physical02-r3-r1-nonadmin.ps1','scripts/cog-r5-physical02-r3-r1-user-profile.ps1','scripts/cog-r5-physical02-r3-r1-accept.ps1','scripts/cog-r5-physical02-r1-real-ssm-scm.ps1']
+          blobs=[]
+          for f in paths:
+              data=Path(f).read_bytes()
+              blobs.append(hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest())
+          assert blobs==(root/'r3r1-blobs.txt').read_text().splitlines()
+          status=json.loads((root/'r3r1-windows-native.json').read_text(encoding='utf-8-sig'))
+          assert status['status']=='PASS_NATIVE_NONADMIN_APP_CONTAINER_FULL_SSM_AND_CNG_STOP_REPLAY_CI_ONLY'
+          for k in ('actual_TokenElevation_zero','actual_TokenIsAppContainer_one','actual_frozen_Python_NumPy_SciPy_result_independently_recomputed','host_signer_directory_not_writable_by_worker','runtime_imports_not_writable_by_worker'):
+              assert status[k] is True,k
+          for k in ('installer_publisher_independently_approved','separate_production_signer_approved','physical_installed_signed_package_accepted','Lu_Core_Health_authenticated','original_Core_PURE_COMPUTE_grant','output_release_or_ACK_authorized'):
+              assert status[k] is False,k
+          user=json.loads((root/'r3r1-public-nonadmin.json').read_text(encoding='utf-8-sig'))
+          signer=json.loads((root/'r3r1-public-cng.json').read_text(encoding='utf-8-sig'))
+          host=root/'native/windows_scm_fixture/target/r3r1-host'
+          worker=root/'native/windows_scm_fixture/target/r3r1-io'
+          witness=json.loads((host/'r3-original-appcontainer-witness.json').read_text())
+          assert witness['native_TokenIsAppContainer'] is True
+          assert witness['native_TokenElevation_is_zero'] is True
+          assert witness['source_user_sid']==user['user_sid']
+          assert witness['appcontainer_sid']==user['profile_sid']
+          pre=json.loads((host/'prelaunch.json').read_text())
+          stop=(host/'stop.json').read_bytes()
+          terminal=json.loads(stop)
+          sig=json.loads((host/'r2-signed-stop.json').read_text())
+          pub=(host/'r2-public-p256.blob').read_bytes()
+          verified=verify_raw(local_stop=stop,signed=sig,public_blob=pub,approved_public_sha256=signer['public_blob_sha256'],original_request_sha256=pre['request_sha256'],original_nonce=pre['nonce'],expected_service_pid=terminal['service_pid'],expected_worker_pid=terminal['worker_pid'])
+          assert verified['real_native_CNG_signature_valid'] is True
+          replay=verify_original_chain_bytes(prelaunch=(host/'prelaunch.json').read_bytes(),signed_pre_bytes=(host/'r3-signed-prelaunch.json').read_bytes(),signed_restart_bytes=(host/'r3-signed-restart.json').read_bytes(),public_blob=pub,external_pin=signer['public_blob_sha256'],expected_kind='replay_refused')
+          assert replay['external_output_release_authorized'] is False
+          request=json.loads((worker/'input.frame').read_bytes())
+          output=json.loads((worker/'output.frame').read_bytes())
+          assert request['operation']==OP and output['status']=='ok'
+          assert output['reply']==SSMComputeFactory().handle(OP,request['payload'])
+          assert json.loads((root/'r3r1-user-cleanup.json').read_text())['real_user_peer_profile_DPAPI_revoked'] is True
+          assert json.loads((root/'r3r1-CNG-cleanup.json').read_text())['machine_key_revoked'] is True
+          provenance=json.loads((root/'native/windows_scm_fixture/target/r3r1-runtime-parent/runtime/r3-r1-runtime-provenance.json').read_text())
+          assert provenance['runtime_manifest_sha256']==status['runtime_manifest_SHA256']
+          assert len((root/'r3r1-binary.txt').read_text().strip())==64
+          print(json.dumps({'schema':'cognitum.ssm.r3r1.independent_real_nonadmin_native.v1','exact_git_blob_count':len(blobs),'nonadmin_AppContainer_full_numerical':True,'production_issuer':False,'Core_Health':False,'output_release':False},sort_keys=True))
+          PY
