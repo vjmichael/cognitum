@@ -164,7 +164,8 @@ def test_real_case_frozen_calibration_before_holdout_and_source_pins():
 def test_historical_data_not_passed_off_as_verifiable_source_availability():
     _,s,_,p=b.acquire_site("Musk")
     assert all(v.available_ms==v.timestamp_ms for v in s.rows)
-    assert "NOT historically attested" in p["observation_availability"]
+    assert p["observation_availability"].startswith("ASSUMED")
+    assert "NOT actual publisher timestamp" in p["observation_availability"]
     assert p["previously_used_in_cognitum_ssm_research"]
 
 
