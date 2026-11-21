@@ -62,7 +62,7 @@ def test_original_source_record_round_trip_does_not_grant_publisher_or_execution
                       started=origin+60000,ended=origin+62000)
     rows=p.verify_capture(rec)
     assert len(rows)==1 and rows[0]["site"]=="KBOS"
-    assert rows[0]["hour_end_ms"]==origin
+    assert rows[0]["bucket_end_ms"]==origin
     assert not rec["global_publisher_first_available_proven"]
     assert not rec["execution_authorized"]
     assert rec["source_sha256"]==p.sha(raw)
@@ -76,7 +76,7 @@ def test_original_source_tamper_and_backdated_utc_clock_refused():
     with pytest.raises(p.Refusal):p.verify_capture(tampered)
     forged=deepcopy(rec);forged["global_publisher_first_available_proven"]=True
     with pytest.raises(p.Refusal):p.verify_capture(forged)
-    with pytest.raises(p.Refusal,match="capture"):
+    with pytest.raises(p.Refusal,match="source collection"):
         p.new_capture(raw,lane="A",seq=0,prev=p.GENESIS,
             started=p.epoch_ms("2026-11-22T00:00:00Z"),
             ended=p.epoch_ms("2026-11-22T00:00:01Z"))
@@ -92,7 +92,7 @@ def test_unsupported_provider_duplicate_or_error_refused():
 def test_real_external_anchor_cannot_be_replaced_with_local_self_reporting():
     origin=p.epoch_ms("2026-11-26T12:00:00Z")
     e=fake_capture("A",0,origin+30000,metar("KBOS",origin-7*60000))
-    with pytest.raises(p.Refusal,match="two original"):
+    with pytest.raises(p.Refusal,match="independent"):
         p.verify_lanes([e],synthetic_fixture=True)
     forged=deepcopy(e);forged["anchor"].pop("independently_downloaded_from_GitHub")
     with pytest.raises(p.Refusal,match="authenticated"):
@@ -124,12 +124,12 @@ def test_first_seen_after_forecast_issue_is_not_historically_eligible():
     for e in later:
         e["anchor"]["created_ms"]+=24*p.HOUR
     by=p.verify_lanes(later,synthetic_fixture=True)
-    with pytest.raises(p.Refusal,match="AFTER forecast issue"):
+    with pytest.raises(p.Refusal,match="before forecast issue"):
         p.admit_features(by,station="KBOS",origin_hour_end_ms=origin,horizon_hours=1)
 
 def test_missing_second_lane_missing_poll_or_source_chain_refused():
     _,entries=source_profile()
-    with pytest.raises(p.Refusal,match="two original"):
+    with pytest.raises(p.Refusal,match="independent"):
         p.verify_lanes([e for e in entries if e["record"]["lane"]=="A"],synthetic_fixture=True)
     lost=[e for e in entries if not
           (e["record"]["lane"]=="B" and e["record"]["seq"]==7)]
