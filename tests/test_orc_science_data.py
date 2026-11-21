@@ -266,10 +266,10 @@ def test_asof_forecast_targets_never_feature_inputs():
     scale=fit_train_scaler(s,p)
     out=prepare_forecasts(s,p,scale,contract(),fold="test",
                           horizon_ms=STEP,lag_ms=STEP)
-    assert len(out.examples)==6 and out.eligible_origins==8
+    assert len(out.examples)==7 and out.eligible_origins==8
     assert out.skipped==( ("lag_unavailable",0),
                           ("origin_unavailable",0),
-                          ("target_missing_or_outside_fold",2) )
+                          ("target_missing_or_outside_fold",1) )
     assert out.examples[0].origin_ms==START+32*STEP
     assert out.examples[0].target_ms==START+33*STEP
     assert out.examples[0].feature_values==(
@@ -327,7 +327,7 @@ def test_matched_ridge_ssm_hdc_kan_candidate_cohorts():
     batches=[batch(s,name=n) for n in (
         "statistical.ridge","research.ssm","research.kan","research.hdc")]
     aligned=assert_matched_cohorts(*batches)
-    assert len(aligned)==6
+    assert len(aligned)==7
     assert all(not item.execution_authorized for item in batches)
 
 

@@ -1,0 +1,57 @@
+name: Cognitum ORCH-01B native scientific data pipeline qualification
+on:
+  push:
+    branches: ['research/orc-01b-native-*']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  data:
+    name: "Orc Graph science data / ${{ matrix.os }} / Python ${{ matrix.python-version }}"
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11', '3.13']
+    env:
+      PYTHONHASHSEED: '0'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install exact inherited deterministic and scientific dependencies
+        run: python -m pip install -e ".[scientific,planning-graph,optimization-schedule]" "pytest==9.0.2" "numpy==2.3.5" "scipy==1.17.0" "networkx==3.5"
+      - name: Exercise Orc data pipeline and untouched prior Orc/COG-06 regression
+        run: python -m pytest -q tests/test_orc_science_data.py tests/test_orc_graph.py tests/test_cooperative.py tests/test_cooperative_compositions.py --junitxml=orc01b.xml
+      - name: Exact source identity, dependency and platform receipts
+        if: always()
+        shell: python
+        run: |
+          import hashlib, importlib.metadata as md, json, pathlib, platform, subprocess, sys
+          paths = ("cognitum/orc_science_data.py", "tests/test_orc_science_data.py",
+                   "cognitum/orc_graph.py", "tests/test_orc_graph.py",
+                   "cognitum/cooperative.py", "cognitum/cooperative_cpu.py",
+                   "cognitum/mel/cooperation.py", "tests/test_cooperative.py",
+                   "tests/test_cooperative_compositions.py")
+          receipt = {"git_sha": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
+                     "platform": platform.platform(), "python": sys.version,
+                     "dependencies": {x: md.version(x) for x in ("pytest","numpy","scipy","networkx","ortools","protobuf")},
+                     "sources": {p: {"git_blob": subprocess.check_output(
+                         ["git", "hash-object", p], text=True).strip(),
+                         "sha256": hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()}
+                         for p in paths}}
+          pathlib.Path("orc01b-source.json").write_text(json.dumps(receipt, indent=2, sort_keys=True))
+      - name: Preserve native JUnit and exact source receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: orc01b-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: |
+            orc01b.xml
+            orc01b-source.json
+          if-no-files-found: warn
