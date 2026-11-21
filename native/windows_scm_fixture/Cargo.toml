@@ -1,0 +1,13 @@
+[package]
+name = "cognitum-scm-supervisor"
+version = "0.0.1"
+edition = "2021"
+publish = false
+
+[features]
+default = []
+acceptance-fixture = []
+
+[[bin]]
+name = "cognitum-scm-supervisor"
+path = "src/main.rs"
