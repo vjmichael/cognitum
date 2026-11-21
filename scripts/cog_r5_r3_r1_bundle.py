@@ -101,6 +101,15 @@ def prepare(destination:Path, repo:Path):
             need(src.is_dir(),"required pinned original package missing: "+name)
         if src.is_dir():
             copytree(src,copied_site/name)
+        if name=="numpy":
+            # numpy.testing is a public runtime-importable subpackage of
+            # NumPy (and an indirect import on its normal import graph),
+            # not an arbitrary research test suite. Restore this exact
+            # upstream package, but still exclude its nested tests.
+            required_testing=src/"testing"
+            need((required_testing/"__init__.py").is_file(),
+                 "required pinned numpy.testing import package missing")
+            copytree(required_testing,copied_site/name/"testing")
     # Native extension/PE DLL modules that NumPy/SciPy/cryptography import.
     for pattern in ("_cffi_backend*.pyd","_cffi_backend*.dll"):
         for src in site.glob(pattern):
