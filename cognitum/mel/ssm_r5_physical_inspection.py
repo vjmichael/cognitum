@@ -272,3 +272,61 @@ def inspect_original_linux_restart(*, exact_original_recovery):
           result["output_delivery_authorized"] is False,
           "untrusted original recovery observation")
     return result
+
+
+def main(argv=None):
+    """Operator read-only check. Exit 0 means OBSERVATION, never installed PASS.
+
+    No automatic enrollment or key provisioning is performed. Command-line
+    pins MUST be approved independently; this CLI cannot attest their origin.
+    """
+    import argparse
+    import json
+
+    parser = argparse.ArgumentParser(
+        description="Cognitum R5 read-only native preflight (NOT installed acceptance)")
+    sub = parser.add_subparsers(dest="mode", required=True)
+    windows = sub.add_parser("windows-scm")
+    windows.add_argument("--service", required=True)
+    windows.add_argument("--image", required=True)
+    windows.add_argument("--sha256", required=True)
+    windows.add_argument("--binary-command", required=True)
+    windows.add_argument("--account", required=True)
+    windows.add_argument("--sid-type", type=int, required=True)
+    linux = sub.add_parser("linux-cgroup")
+    linux.add_argument("--delegated-root", required=True)
+    opts = parser.parse_args(argv)
+    try:
+        if opts.mode == "windows-scm":
+            report = inspect_running_windows_scm(
+                trusted_service_name=opts.service,
+                trusted_image_path=opts.image,
+                trusted_image_sha256=opts.sha256,
+                trusted_binary_command=opts.binary_command,
+                trusted_service_account=opts.account,
+                trusted_service_sid_type=opts.sid_type,
+            )
+        else:
+            report = inspect_existing_linux_delegation(
+                trusted_delegated_root=opts.delegated_root)
+    except (NativeSSMCustodyRefused, OSError) as exc:
+        print(json.dumps({
+            "schema": "cognitum.ssm_r5.physical_readiness_cli.v1",
+            "status": "BLOCKED_PHYSICAL_PREREQUISITE",
+            "reason": str(exc)[:1024],
+            "genuine_installed_core_health_verified": False,
+            "independent_stop_custody_verified": False,
+            "output_delivery_authorized": False,
+        }, sort_keys=True))
+        return 2
+    print(json.dumps(report, sort_keys=True))
+    # Success only for a bounded read-only prerequisite observation; never
+    # interpreted as a production service/signature/Core acceptance grant.
+    return 0 if report["status"] in (
+        "PASS_SCM_KERNEL_OBSERVATION_ONLY",
+        "DELEGATED_FIXTURE_SCOPE_POSSIBLE_NOT_INSTALLED",
+    ) else 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
