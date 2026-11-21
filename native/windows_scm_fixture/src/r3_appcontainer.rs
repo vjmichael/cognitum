@@ -187,6 +187,20 @@ fn user_sid(token:Handle)->io::Result<String>{
     let sid=unsafe{*(buffer.as_ptr() as *const Handle)};
     string_sid(sid)
 }
+fn require_nonadmin_token(token:Handle)->io::Result<()>{
+    // TokenElevation comes from actual Windows TOKEN_ELEVATION, never a
+    // caller-provided enrollment JSON flag or unverified account name.
+    let body=token_data(token,20)?;
+    let elevation=unsafe{*(body.as_ptr() as *const u32)};
+    if elevation!=0{
+        return Err(denied("original peer or child remains an elevated administrator"));
+    }
+    let sid=user_sid(token)?;
+    if !sid.starts_with("S-1-5-21-"){
+        return Err(denied("only separately provisioned local user token admitted"));
+    }
+    Ok(())
+}
 fn process_birth(process:Handle)->io::Result<u64>{
     let mut creation=FileTime::default();
     let mut exit=FileTime::default();
@@ -242,6 +256,7 @@ fn pinned_peer()->io::Result<(Owned,Owned,u64)>{
         return Err(denied("approved original user OS primary token unavailable"));
     }
     let token=Owned(rawtoken);
+    require_nonadmin_token(token.0)?;
     let sid=user_sid(token.0)?;
     if sid=="S-1-5-18"||sid=="S-1-5-7"||
        sid!=env!("COG_R3_CI_PEER_SID"){
@@ -263,7 +278,7 @@ fn witness_original_appcontainer(child:Handle,profile_sid:&str,
         return Err(denied("original OS AppContainer worker process not distinct"));
     }
     let record=format!(
-      "{{\"schema\":\"cognitum.ssm.r3.original_appcontainer_kernel_witness.v1\",\"source_user_sid\":\"{}\",\"appcontainer_sid\":\"{}\",\"original_peer_birth\":{},\"worker_pid\":{},\"worker_birth\":{},\"native_TokenIsAppContainer\":true,\"native_TokenUser_is_SYSTEM\":false,\"checked_before_worker_resume\":true,\"installed_Core_enrollment\":false,\"production_publisher_approved\":false,\"output_release_authorized\":false}}\n",
+      "{{\"schema\":\"cognitum.ssm.r3.original_appcontainer_kernel_witness.v1\",\"source_user_sid\":\"{}\",\"appcontainer_sid\":\"{}\",\"original_peer_birth\":{},\"worker_pid\":{},\"worker_birth\":{},\"native_TokenIsAppContainer\":true,\"native_TokenUser_is_SYSTEM\":false,\"native_TokenElevation_is_zero\":true,\"checked_before_worker_resume\":true,\"installed_Core_enrollment\":false,\"production_publisher_approved\":false,\"output_release_authorized\":false}}\n",
       env!("COG_R3_CI_PEER_SID"),profile_sid,source_birth,worker_pid,child_birth
     );
     if record.len()>2048{return Err(denied("bounded OS AppContainer witness overflow"));}
@@ -308,6 +323,7 @@ pub fn launch(application:&[u16],command:&mut[u16],
         return Err(denied("AppContainer caller token not reduced from approved user"));
     }
     let reduced=Owned(reduced);
+    require_nonadmin_token(reduced.0)?;
     if user_sid(reduced.0)?!=env!("COG_R3_CI_PEER_SID"){
         return Err(denied("reduced AppContainer caller user identity differs"));
     }
@@ -415,6 +431,7 @@ pub fn launch(application:&[u16],command:&mut[u16],
         }
         let tok=Owned(token);
         token=ptr::null_mut();
+        require_nonadmin_token(tok.0)?;
         if user_sid(tok.0)?!=env!("COG_R3_CI_PEER_SID"){
             return Err(denied("AppContainer child did not retain non-System original user"));
         }
