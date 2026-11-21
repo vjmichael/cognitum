@@ -1,0 +1,106 @@
+{
+  "schema": "cognitum.orc.bench02.r4r2r3.portable_refusal.precommitted.v1",
+  "scientific_status": "source-locked portability regression on already viewed calibration/heldout data; NOT new independent performance test",
+  "precommit_scope": "fix numerical decision ambiguity and audit cross-platform source-bound numerical tolerance; no KAN/HDC refits, new tuning, new dataset, additional original site, or test-score selection",
+  "based_on_native_parent_sha": "06d292f67d367a03cd646fb4d021624a43c7941a",
+  "based_on_documented_parent_sha": "8877d47530c801b1880ce5bc5a7cea98dd593b28",
+  "original_R3_prereg_sha256": "fd0b6a372ee5cd9ee8870ad20c475261460a069daf4fd52f56e8dcc2961a5104",
+  "original_R4_protocol_git_blob": "1cf7c2ae11e09130ef036f3812ebfb849235f26b",
+  "original_R4_negative_report_blob": "5dc4fa1f980fc7678371cba78dbfdbdfe09fb651",
+  "original_R4R2_protocol_blob": "2a746c1737627183fab924466dffb5bf4b034014",
+  "original_R4R2_native_receipt_file_blob": "194275093e91a96909abe7efd61b951d057099f1",
+  "original_sites": [
+    "KSEA",
+    "KDEN",
+    "KATL"
+  ],
+  "hours": [
+    1,
+    3,
+    6
+  ],
+  "train_cal_test_hours": [
+    115,
+    38,
+    39
+  ],
+  "original_total_retrospective_test_pairs": 265,
+  "original_raw_sha256": {
+    "KSEA": "2b2772ea7ad91d76f22e1be82269c0b41e86294392241a42bae9d81f061a6205",
+    "KDEN": "dd72f4e2b9dde753c2a9c0f964ca86eb2b8091eeaf9b7b807c3b8d7a98618645",
+    "KATL": "ac0b69ce3b4755e56e9273310af94be638dd240d9857a98a719812f1dd441622"
+  },
+  "selection_policy": {
+    "mode": "explicit opt-in optional original SelectionPolicy field; default zero retains old raw-float decision semantics; portable workflow opts in for both original default and original research policy",
+    "field": "portable_near_tie_mae_kelvin",
+    "opt_in_value": 1e-10,
+    "legacy_default": 0,
+    "unit": "K",
+    "justification": "float64 cross-platform noise observed 1e-15 K, 1e-10 K is far below original 0.01K minimum absolute candidate improvement and weather observation resolution; choose refusal rather than favorable winner; not tuned using heldout RMSE",
+    "bounded_max": 0.000001,
+    "strict_type": "float, finite, inclusive between zero and 1e-6",
+    "trigger": "among eligible calibration-improving competitors, if at least two lie within 1e-10K of lowest MAE, and either one is a research KAN/HDC method, ABSTAIN the entire method proposal (do not choose fallback)",
+    "expected_basis": "portable_near_tie_abstention",
+    "expected_reason": "ambiguous_near_tied_research_calibration",
+    "override": "policy never permits an unverified override to bypass safety/source refusal; any separately authenticated operator intent remains non-execution as in original",
+    "nonambiguous_behavior": "unchanged exact original precedence, thresholds, cost proxy ranking and opt-in semantics",
+    "native_methods": "original cognitum.orc_comparison.fit_train with unmodified HDC+KAN+SSM and original cognitum.orc_selection.propose_forecast/evaluate_frozen_proposal; no adapter selection algorithm"
+  },
+  "portable_numerical_identity": {
+    "score_round_decimal_places": 9,
+    "score_representation": "fixed 9 fractional decimal places as decimal strings for original seven calibration MAE and RMSE",
+    "candidate_score_quantum_kelvin": 1e-9,
+    "boundary_refusal_margin_kelvin": 1e-12,
+    "native_same_method_per_prediction_allowed_max_delta_kelvin": 1e-9,
+    "candidate_MAE_RMSE_per_platform_allowed_max_delta_kelvin": 1e-10,
+    "portable_selection_identity_material": [
+      "original NOAA raw SHA-256",
+      "derived CSV SHA-256",
+      "original original R3 site/horizon train/cal/test cohort pair SHA-256",
+      "original R3 and R4R2 preregistration bytes",
+      "original candidate inventory, policy threshold and eligibility/reason vocabulary",
+      "original original selected method, basis, status and source-refusal reason codes",
+      "original seven bounded 9-decimal calibration MAE/RMSE values",
+      "train and calibration case counts"
+    ],
+    "native_raw_identity_material": "exact run-local original Decision.decision_sha256, Fitted.identity, HDC prototypes and KAN snapshot SHA preserved unmodified separately; these may legitimately differ by float last bits",
+    "do_not_conflate_raw_with_portable": true,
+    "rounding_boundary_rule": "refuse portable receipt if calibration numeric is within 1e-12 K of any 9-decimal half-way boundary, not silently choose alternative round",
+    "cross_platform_certificate": "must be byte-identical across 4 Windows/Linux x Python 3.11/3.13; no single-platform self-certification",
+    "prediction_audit": "recompute every actual original native 265 heldout source/target/prediction pair and signed RMSE/MAE, enforce no drifting same-method prediction >1e-9 K across platforms; selector may abstain and its output must not be fabricated"
+  },
+  "comparison_limits": {
+    "original_R4_negative_results_preserved": true,
+    "no_train_on_existing_test": true,
+    "no_new_KAN_HDC_weights_or_architecture": true,
+    "no_change_original_R3_missing_or_correction_policy": true,
+    "first_capture_bounded_test_eligibility": 0,
+    "no_original_publication_attestation": true,
+    "no_COG_06_MEL_authorization": true,
+    "not_new_blind_generalization": true,
+    "no_claim_orig_orc_native_raw_SHA_portable": true,
+    "KATL_1h_tie_was_previously_viewed": true
+  },
+  "native_acceptance": {
+    "targets": [
+      "ubuntu-latest Python 3.11",
+      "ubuntu-latest Python 3.13",
+      "windows-latest Python 3.11",
+      "windows-latest Python 3.13"
+    ],
+    "no_stacked_CI": true,
+    "run_original_legacy_Orc_R3_R4_R4R2_tests": true,
+    "run_pretest_policy_refusal_tests": true,
+    "run_original_native_fit_selection_freeze_and_holdout_independent_replay": true,
+    "run_separate_cross_platform_aggregator_after_four_success": true,
+    "require_9_site_horizon_cases": true,
+    "require_265_matched_holdout_origins": true,
+    "retain_negative_results_and_all_refusals": true,
+    "retire_automatic_CI_after_acceptance": true
+  },
+  "separate_scientific_improvement_roadmap": [
+    "KAN train/cal learning curves on newly collected prospective cohorts; basis degree/regularization selection locked before new test, never old 265 targets",
+    "HDC independent capacity/noise and regime-separation tests, prototypes and quantization alternatives selected on new training data",
+    "native mathematical identity/gradient/snapshot/cleanup adversarial tests; provenance and actual MEL installed permission separately"
+  ]
+}
