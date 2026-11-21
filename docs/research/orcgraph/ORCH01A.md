@@ -1,6 +1,6 @@
 # COG-ORCH-01A — First typed deterministic Orc Graph candidate
 
-**Status: SOURCE CANDIDATE / FOUR-PLATFORM NATIVE ACCEPTANCE PENDING.** Owner-adopted design; not production eligibility, Lu integration or a new scheduler.
+**Status: BOUNDED FOUR-PLATFORM NATIVE PASS at exact SHA 5345c998ddd84b22063a7a5b865ff586644b424a.** Owner-adopted design; not production eligibility, Lu integration or a new scheduler.
 
 ## Reconciled first-party infrastructure
 
@@ -35,3 +35,15 @@ Initial native run [44854337433](https://github.com/vjmichael/cognitum/actions/r
 ## ORCH-01A-R2 second bounded dependency reconciliation
 
 The fully terminal [R1 run 44854526729](https://github.com/vjmichael/cognitum/actions/runs/44854526729) restored real C12 NetworkX planning, improving each Linux matrix cell from 60/63 to **61/63**. The two remaining inherited failures are C11 schedule routes: the optional **OR-Tools CP-SAT** backend was likewise missing, so C11 correctly returned UNSUPPORTED rather than fabricating an optimal schedule. Reconcile by adding the existing optimization-schedule extra to the exact same full regression workflow; do not delete/skip tests or change proof/feasibility assertions. Native receipt now also records actual installed versions of Python, pytest, NumPy, SciPy, NetworkX, OR-Tools, and Protobuf. First and R1 runs are complete; R2 test status pending, no stacked CI.
+
+## Final ORCH-01A-R2 source-locked native acceptance (2026-11-20)
+
+**Scoped verdict: PASS.** [Workflow run #44854713221](https://github.com/vjmichael/cognitum/actions/runs/44854713221) completed SUCCESS at unchanged commit 5345c998ddd84b22063a7a5b865ff586644b424a. Ubuntu 3.11, Ubuntu 3.13, Windows 3.11 and Windows 3.13 all passed **63 of 63 actual cases**, without failure, error or skipped test. Precisely **31 dedicated Orc Graph** and **32 inherited COG-06** test identities executed per platform; 252 total executions of only 63 distinct cases. Do not reinterpret those as 252 independent scientific discoveries.
+
+All four archived ZIP artifacts were **independently downloaded and rehashed**, ZIP CRC checked, JUnit case identities and test outcomes parsed and reconciled, source commit matched, and the **same seven Git blob pins** independently verified across all four native cells. See [source-locked evidence manifest](ORCH01A_NATIVE_ARTIFACTS.json) for artifact IDs, archive digests, recorded dependency versions and exact file pins. The actual installed conventional backends were NetworkX 3.5 and OR-Tools 9.15.6755 (with pinned NumPy 2.3.5 and SciPy 1.17.0); no inherited planner or scheduling test was skipped or weakened.
+
+**Byte-identity qualification:** Six Python source/test working-tree SHA-256 values differ on both Windows runners from Linux, while the canonical Git blob identity of each of seven files is identical. No assertion of identical raw checked-out bytes or proven EOL mechanism is made. Canonical Git source identity and native functional results are verified, but platform-specific filesystem byte equality is not established.
+
+ORCH-01A closes **only** the inert typed catalog, existing DAG route compatibility and bounded deterministic execution qualification. The method catalog is not a universal solution selector. Research HDC/KAN/SSM/ridge remain unwired in this Orc Graph executor; unit/clock/provenance/chronological data contracts, true independent scientific comparison, model adaptation and release-level real user/model integration remain ORCH-01B–E. Historical R4 accepted source cf78900c4fcec3981b93c842144c53b15cc0d411 and all 72 partial broader DS items are unchanged. No Lu or physical actuator integration authorized.
+
+**Next engineering task:** COG-ORCH-01B — a source-locked scientific data qualification and feature pipeline with strict typed units, real timestamp/missingness semantics, immutable provenance, train-only preprocessing, and independently checked leakage/misuse refusal.

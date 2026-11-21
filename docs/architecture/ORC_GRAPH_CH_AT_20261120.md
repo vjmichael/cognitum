@@ -1,6 +1,6 @@
 # ADR — Cognitum's Orc Graph and CH⊕aT (owner decision, 2026-11-20)
 
-**Decision:** ADOPTED AS NORMATIVE PRODUCT ARCHITECTURE AND COLLABORATION PRINCIPLE. **Engineering:** QUEUED, not implemented or native-accepted by this document. **Authority:** User-owned product decision. **Relationship:** Extends [MEL ADR-001](../research/mel/ADR-001.md), the [R1.6 architecture](../Cognitum_Comprehensive_AI_Architecture_R1_6.md) and the [master task ledger](../MASTER_TASK_LEDGER.md); no replacement of accepted source or research evidence.
+**Decision:** ADOPTED AS NORMATIVE PRODUCT ARCHITECTURE AND COLLABORATION PRINCIPLE. **Engineering:** ORCH-01A bounded native PASS; ORCH-01B–E QUEUED, no general integration or production promotion. **Authority:** User-owned product decision. **Relationship:** Extends [MEL ADR-001](../research/mel/ADR-001.md), the [R1.6 architecture](../Cognitum_Comprehensive_AI_Architecture_R1_6.md) and the [master task ledger](../MASTER_TASK_LEDGER.md); no replacement of accepted source or research evidence.
 
 ## Names and meaning
 
@@ -57,3 +57,7 @@ Candidate evaluation distinguishes numerical residual/certification from holdout
 ## Design acceptance versus scientific or release acceptance
 
 This ADR **accepts the name and architectural direction only**. It neither promotes the 72 partial DS capability groups nor reclassifies any HDC/KAN/SSM scientific result or release route. Accepted R4 native SHA `cf78900c4fcec3981b93c842144c53b15cc0d411`, four-platform 25/25 per target remains untouched; its negative ridge comparisons, KAN checkpoint bitwise nonidentity, dependence-calibration failures and upstream sensor provenance gaps remain open. Prove cross-platform graph execution and independent end-to-end user–AI benefit before product promotion. No Lu source is modified, and installed Lu interoperability remains deferred to its separate authorized gate.
+
+## Evidence-bearing implementation amendment — ORCH-01A (November 20)
+
+**First bounded architecture stage accepted, not whole architecture.** Existing COG-06 native reviewed CPU graph is the execution target; the new Orc Graph module merely constructs typed source-stamped inert plans for two selected deterministic scientific goals. Same-source four-platform native pass at 5345c998ddd84b22063a7a5b865ff586644b424a: 63/63 test identities on each OS/Python cell, 31 Orc-specific and 32 inherited. [Source and test analysis](../research/orcgraph/ORCH01A.md), [four independently inspected native artifacts](../research/orcgraph/ORCH01A_NATIVE_ARTIFACTS.json) and [run 44854713221](https://github.com/vjmichael/cognitum/actions/runs/44854713221). Every original R4 physical science/source hold and 72 partial DS capabilities remain unchanged. The remaining orchestration work is still staged and not production.

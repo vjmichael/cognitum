@@ -1,0 +1,115 @@
+{
+  "task": "COG-ORCH-01A",
+  "status": "BOUNDED_NATIVE_PASS",
+  "run_id": 44854713221,
+  "run_url": "https://github.com/vjmichael/cognitum/actions/runs/44854713221",
+  "accepted_exact_source_sha": "5345c998ddd84b22063a7a5b865ff586644b424a",
+  "review": "All four ZIPs independently downloaded; archive SHA-256 and ZIP CRC verified, JUnit cases and identities independently parsed, per-target receipt source SHA and seven Git blobs checked.",
+  "case_identity_sha256": "d6cadfabb97f4ad666f47caedb8383fa1e6334bc549e76b17af712b7ea58f9d0",
+  "distinct_case_counts": {
+    "orc_graph": 31,
+    "inherited_cooperative": 12,
+    "inherited_cooperative_compositions": 20,
+    "total": 63
+  },
+  "all_platforms_identical_case_identities": true,
+  "all_platforms_identical_git_blobs": true,
+  "all_platforms_raw_file_sha256_identical": false,
+  "raw_file_sha256_observation": "Both Windows targets differ from Linux for six of seven text source/test files. Actual source Git blob identities match all platforms. Do not assert identical working-tree bytes or proven cause; newline checkout conversion is plausible.",
+  "raw_different_paths_windows_vs_linux": [
+    "cognitum/cooperative.py",
+    "cognitum/cooperative_cpu.py",
+    "cognitum/orc_graph.py",
+    "tests/test_cooperative.py",
+    "tests/test_cooperative_compositions.py",
+    "tests/test_orc_graph.py"
+  ],
+  "git_blob_pins": {
+    "cognitum/cooperative.py": "eaa5952f2b25a15e35d9ae4ec2216c4bb6e8cc69",
+    "cognitum/cooperative_cpu.py": "8c090ff024eee7cd1dbad40f076a4a5a0e06f0de",
+    "cognitum/mel/cooperation.py": "e1a64c6dd4a9233d7f79199554f0119fca12d721",
+    "cognitum/orc_graph.py": "c513557f2131cfeec907a9d0a6a5eb2b636a4db6",
+    "tests/test_cooperative.py": "cd3084748e8ac44cd3b67ca70510bd11da7093d8",
+    "tests/test_cooperative_compositions.py": "5d1b615d56b31167147f3943b255ceb374de3450",
+    "tests/test_orc_graph.py": "f3ed00866df2481b53eefb12d8cb87e422960edb"
+  },
+  "dependencies_all_platforms": {
+    "networkx": "3.5",
+    "numpy": "2.3.5",
+    "ortools": "9.15.6755",
+    "protobuf": "6.33.6",
+    "pytest": "9.0.2",
+    "scipy": "1.17.0"
+  },
+  "artifacts": [
+    {
+      "target": "ubuntu-py3.11",
+      "id": 14686882972,
+      "sha256": "8c41a2885e9bad8a0a2384f83e085c6c3a5e2b790e1342d7a1c519ca6390dfe2",
+      "bytes": 2555,
+      "python": "3.11.18",
+      "raw_sha256_matches_linux_reference": true,
+      "junit": {
+        "tests": 63,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0
+      },
+      "artifact_url": "https://github.com/vjmichael/cognitum/actions/runs/44854713221/artifacts/14686882972"
+    },
+    {
+      "target": "ubuntu-py3.13",
+      "id": 14687012633,
+      "sha256": "5b27e8259b86aa99dbe49f48791d33fea835a0eea098ef137a133e0b7f9ddceb",
+      "bytes": 2567,
+      "python": "3.13.18",
+      "raw_sha256_matches_linux_reference": true,
+      "junit": {
+        "tests": 63,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0
+      },
+      "artifact_url": "https://github.com/vjmichael/cognitum/actions/runs/44854713221/artifacts/14687012633"
+    },
+    {
+      "target": "windows-py3.11",
+      "id": 14687475120,
+      "sha256": "eb0e739c3ba1f7283f3379817eb8bfc35215e76169656ce30e7b8d54b563c1bf",
+      "bytes": 2586,
+      "python": "3.11.9",
+      "raw_sha256_matches_linux_reference": false,
+      "junit": {
+        "tests": 63,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0
+      },
+      "artifact_url": "https://github.com/vjmichael/cognitum/actions/runs/44854713221/artifacts/14687475120"
+    },
+    {
+      "target": "windows-py3.13",
+      "id": 14686753079,
+      "sha256": "9b33763920a7a77cd5b8d132f7f17d5f3d47f930e537e2fb765b912b6b9c45ee",
+      "bytes": 2594,
+      "python": "3.13.17",
+      "raw_sha256_matches_linux_reference": false,
+      "junit": {
+        "tests": 63,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0
+      },
+      "artifact_url": "https://github.com/vjmichael/cognitum/actions/runs/44854713221/artifacts/14686753079"
+    }
+  ],
+  "scope_holds": [
+    "Research-only inert plan compiler; no second executor/host grants",
+    "HDC/KAN/SSM/Ridge source entries are not authorized Orc Graph routes",
+    "Physical units/clock compatibility and scientific pipeline remain ORCH-01B",
+    "No HDC/KAN/SSM independent forecasting accuracy gain claimed",
+    "Existing R4-KAN bitwise checkpoint and independent raw sensor scientific holds remain",
+    "All 72 SSM DS comprehensive groups remain PARTIAL",
+    "No installed Lu/physical Windows workstation acceptance or actuator authorization"
+  ]
+}
