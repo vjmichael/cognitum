@@ -2,7 +2,7 @@ name: Cognitum R3-R1 native standard-user own-profile admission diagnosis
 on:
   push:
     branches: [integration/cog-lu-ipc01e-r2-custody-20261121]
-    paths: [.github/workflows/cog-r5-physical02-r3-r1-native.yml, scripts/cog-r5-physical02-r3-r1-user-profile.ps1, scripts/cog_r5_r3_r1_bundle.py, scripts/cog-r5-physical02-r1-real-ssm-scm.ps1, native/windows_scm_fixture/src/r2_signer.rs, native/windows_scm_fixture/src/r3_r1_runtime.rs, native/windows_scm_fixture/src/r3_appcontainer.rs]
+    paths: [.github/workflows/cog-r5-physical02-r3-r1-native.yml, scripts/cog-r5-physical02-r3-r1-user-profile.ps1, scripts/cog-r5-physical02-r3-r1-nonadmin.ps1, scripts/cog_r5_r3_r1_bundle.py, scripts/cog-r5-physical02-r1-real-ssm-scm.ps1, native/windows_scm_fixture/src/r2_signer.rs, native/windows_scm_fixture/src/r3_r1_runtime.rs, native/windows_scm_fixture/src/r3_appcontainer.rs]
   workflow_dispatch:
 permissions:
   contents: read
