@@ -8,6 +8,10 @@ on:
       - scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1
       - scripts/cog-r5-physical02-r3-r1-signed-installer.ps1
       - scripts/cog-r5-physical02-r3-r1-enroll-production.ps1
+      - scripts/cog-r5-physical02-r3-r1-ci-scm-lifecycle.ps1
+      - scripts/cog-r5-physical02-r3-r1-build-signed-release.ps1
+      - scripts/cog-r5-physical02-r3-r1-physical-scm-observe.ps1
+      - deployment/windows/cognitum-ssm-bootstrap.nsi
       - native/windows_scm_production/src/main.rs
       - native/windows_scm_production/Cargo.toml
       - native/windows_scm_production/Cargo.lock
@@ -26,7 +30,7 @@ jobs:
       - name: Verify syntax and read-only admission code
         shell: pwsh
         run: |
-          foreach($p in @('scripts/cog-r5-physical02-r3-r1-runtime-audit.ps1','scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1','scripts/cog-r5-physical02-r3-r1-signed-installer.ps1','scripts/cog-r5-physical02-r3-r1-enroll-production.ps1')){
+          foreach($p in @('scripts/cog-r5-physical02-r3-r1-runtime-audit.ps1','scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1','scripts/cog-r5-physical02-r3-r1-signed-installer.ps1','scripts/cog-r5-physical02-r3-r1-enroll-production.ps1','scripts/cog-r5-physical02-r3-r1-ci-scm-lifecycle.ps1','scripts/cog-r5-physical02-r3-r1-build-signed-release.ps1','scripts/cog-r5-physical02-r3-r1-physical-scm-observe.ps1')){
             $tokens=$null
             $errors=$null
             [void][Management.Automation.Language.Parser]::ParseFile((Resolve-Path $p).Path,[ref]$tokens,[ref]$errors)
@@ -35,6 +39,20 @@ jobs:
               throw 'PowerShell protected automatic variable assignment in production preflight'
             }
           }
+      - name: Refuse release signing without independently provisioned publisher
+        shell: pwsh
+        run: |
+          $denied=$false
+          try{
+            & ./scripts/cog-r5-physical02-r3-r1-build-signed-release.ps1 -ExactSourceSha $env:GITHUB_SHA -RuntimeSourceRoot $env:RUNNER_TEMP -ApprovedRuntimeManifestSha256 ('0'*64) -ApprovedRuntimeProvenanceSha256 ('0'*64) -ApprovedSignerCertificateSha256 ('0'*64) -ApprovedSignerThumbprint ('0'*40) -SignerStore CurrentUser -ProtectedStageRoot $env:RUNNER_TEMP -MakensisExecutable 'C:\unavailable\makensis.exe' -SignToolExecutable 'C:\unavailable\signtool.exe' |Out-Null
+          }catch{
+            if($_.Exception.Message -notmatch 'COG_R3R1_SIGNED_BUILD_REFUSED'){
+              throw 'Unexpected code-signing error instead of fail-closed independent approval'
+            }
+            $denied=$true
+          }
+          if(-not $denied){throw 'Unapproved release was permitted to sign'}
+          Write-Host 'PASS_CI_NO_APPROVED_SIGNER_NO_SIGNED_PACKAGE'
       - name: Compile distinct genuine no-worker production SCM bootstrap
         shell: pwsh
         run: |
@@ -52,6 +70,11 @@ jobs:
           }
           if(-not $text.Contains('CognitumSsmSupervisorV1')){throw 'Production SCM service identity absent'}
           Write-Host 'PASS_NATIVE_SEPARATE_PRODUCTION_NO_WORKER_SCM_SOURCE_BUILD_ONLY'
+      - name: Genuine native Windows SCM start stop restart (unsigned CI only)
+        shell: pwsh
+        run: |
+          $exe=(Resolve-Path -LiteralPath 'native/windows_scm_production/target/release/cognitum-scm-production.exe').Path
+          & ./scripts/cog-r5-physical02-r3-r1-ci-scm-lifecycle.ps1 -CompiledBootstrap $exe
       - name: Native pre-staged protected file integrity and negative cases
         shell: pwsh
         run: |
