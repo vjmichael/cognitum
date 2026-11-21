@@ -1,0 +1,60 @@
+{
+  "schema": "cognitum.lu_ipc_r5_physical02_r2.native_source_partial_acceptance.v1",
+  "task": "COG-LU-IPC-01E-R2-INSTALLED-R5-PHYSICAL-02-R2",
+  "original_qualified_sha": "849b4989381f3f961532b0de8254b6dafa8dea6e",
+  "disposition": "PASS_NATIVE_WINDOWS_CNG_SIGNED_STOP_CI_BLOCKED_RESTRICTED_AND_INSTALLED",
+  "native_run": {
+    "id": 44941860447,
+    "url": "https://github.com/vjmichael/cognitum/actions/runs/44941860447",
+    "jobs": 3,
+    "conclusion": "success",
+    "source_blobs_verified": 15,
+    "native_windows_p256_negative_tests_passed": 21
+  },
+  "integration_run": {
+    "id": 44941860446,
+    "url": "https://github.com/vjmichael/cognitum/actions/runs/44941860446",
+    "jobs": 8,
+    "conclusion": "success"
+  },
+  "unsigned_native_windows_binary_sha256": "7699a4bf1974332eacb7f1c145753342bff909ec35e9103274f0d9a21f3425f3",
+  "artifacts": [
+    {
+      "id": 14721134928,
+      "name": "r2-windows-restricted-CNG-public",
+      "sha256": "e95051f2e7c2f7d9c96bffc008c21935880e89435b7fa871f37e8523b6f07f5b"
+    },
+    {
+      "id": 14722092322,
+      "name": "r2-independent",
+      "sha256": "aad2dbc8a76015074c8fb86feb985da6e4b667b3fc83664ff06fc9630d4c0d9c"
+    }
+  ],
+  "real_scm_owned_fixed_SSM_math_under_native_job": true,
+  "service_original_job_attached_before_resume_source_verified": true,
+  "external_short_lived_child_membership_observation_may_be_absent": true,
+  "native_stop_kernel_empty": true,
+  "exact_original_one_use_replay_denied": true,
+  "signed_stop_from_preprovisioned_localmachine_P256_CNG_test_key": true,
+  "CNG_key_export_policy_nonexportable_checked": true,
+  "CNG_test_key_revocation_independently_verified": true,
+  "CNG_signature_verified_with_public_blob_by_independent_python": true,
+  "signed_stop_original_nonce_request_service_pid_worker_pid_verified": true,
+  "signed_host_preflight_refused_unsigned_CI_service": true,
+  "restricted_windows_fixed_SSM_native_success": false,
+  "strict_restricted_child_pre_start_access_denied": "0xC0000022",
+  "original_worker_AppContainer": false,
+  "original_worker_low_privilege_user_sid_verified": false,
+  "source_restricted_token_no_localSystem_fallback_implemented": true,
+  "signed_cold_restart_uncertain_outcome_receipt": false,
+  "externally_anchored_monotonic_antirollback": false,
+  "independently_approved_production_signer_key": false,
+  "signed_installed_Cognitum_production_publisher": false,
+  "genuine_physical_signed_windows_installer_and_service": false,
+  "installed_immutable_image_and_data_handle_ACL_positive": false,
+  "genuine_delegated_linux_cgroup_restart": false,
+  "actual_enrolled_core_health_authenticated": false,
+  "Core_original_per_turn_pure_compute_grant": false,
+  "model_or_tool_execution_authorized": false,
+  "original_SSM_output_delivery_or_ACK_authorized": false
+}
