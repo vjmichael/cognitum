@@ -128,8 +128,12 @@ class SyntheticCoreStream:
         elif kind=="health":
             self.last_health_id=message.request_id
             assert message.session_ref==SESSION
-            response=pb.HealthReport(module_id="lu.core",
-                    connected=True,status_code="READY",
+            response=pb.HealthReport(
+                    module_id="foreign.core" if self.fault=="health_foreign_module"
+                    else "lu.core",
+                    connected=self.fault!="health_disconnected",
+                    status_code="DOWN" if self.fault=="health_disconnected"
+                    else "READY",
                     epoch=0 if self.fault=="health_zero_epoch" else 7)
             reply=_frame(
                 "different-request" if self.fault=="health_id"
@@ -231,12 +235,25 @@ def test_forged_handshakes_fail_closed(fault,pattern):
     ("health_id","health request correlation mismatch"),
     ("health_zero_epoch","invalid health report"),
     ("health_wrong_kind","unexpected frame kind"),
+    ("health_foreign_module","health responder must be lu.core"),
 ])
 def test_forged_health_report_fails_closed(fault,pattern):
     client,_=_client(fault)
     client.handshake(client_nonce=b"\x33"*32)
     with pytest.raises(c.LuClientRefused,match=pattern):
         client.health()
+    assert not client.authenticated, "a rejected health frame poisons the session"
+
+
+def test_disconnected_core_health_is_not_exchanged_for_execution_authority():
+    client, _ = _client("health_disconnected")
+    client.handshake(client_nonce=b"\\x33"*32)
+    report = client.health()
+    assert report["module_id"] == "lu.core"
+    assert report["connected"] is False
+    assert report["status_code"] == "DOWN"
+    assert not report["tool_invocation_authorized"]
+    client.close()
 
 
 def test_handshake_is_one_time_and_replay_does_not_create_second_session():
