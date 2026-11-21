@@ -1,0 +1,3 @@
+# Original observed publisher CSVs: disable Git checkout EOL translation.
+# Byte identity must match upstream Git blob on Linux and Windows.
+*.csv -text
