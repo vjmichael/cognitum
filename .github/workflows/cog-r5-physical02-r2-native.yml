@@ -1,4 +1,4 @@
-name: Cognitum PHYSICAL-02-R2 restricted SSM SCM and provisioned CNG
+name: Cognitum PHYSICAL-02-R2 SCM machine CNG stop and restricted-token refusal
 on:
   push:
     branches: [integration/cog-lu-ipc01e-r2-custody-20261121]
@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   windows-restricted-cng:
-    name: Real SCM restricted token and external machine P256 receipt, CI only
+    name: Real SCM fixed SSM and OS-held P256 receipt, restricted token pending
     runs-on: windows-latest
     timeout-minutes: 40
     env:
@@ -48,10 +48,10 @@ jobs:
         run: |
           $root=Join-Path $PWD 'native/windows_scm_fixture/target/r1-fixture'
           & ./scripts/cog-r5-physical02-r2-cng-provision.ps1 -Mode provision -FixtureRoot $root -EnvFile "$env:GITHUB_ENV"
-      - name: Build exact native restricted-token service with no Cargo registry dependencies
+      - name: Build externally signed SCM-owned SSM test path, strict token disabled
         shell: pwsh
         run: |
-          cargo build --manifest-path native/windows_scm_fixture/Cargo.toml --release --locked --offline --features r2-restricted-fixture
+          cargo build --manifest-path native/windows_scm_fixture/Cargo.toml --release --locked --offline --features r2-cng-fixture
           if($LASTEXITCODE -ne 0){throw 'Genuine Windows restricted SSM SCM build failed'}
       - name: Require unsigned/unpinned fixture refusal by production signed-host preflight
         shell: pwsh
@@ -68,7 +68,7 @@ jobs:
           }
           if(-not $refused){throw 'Unsigned ephemeral CI fixture passed signed installer gate'}
           Write-Host 'PASS_UNSIGNED_SCM_NOT_PRODUCTION_APPROVED'
-      - name: Real Windows restricted SSM, SCM kernel Job, signed original stop and restart refusal
+      - name: Real Windows SCM SSM, OS machine-signed stop and restart refusal
         shell: pwsh
         run: |
           $root=Join-Path $PWD 'native/windows_scm_fixture/target/r1-fixture'
@@ -172,10 +172,10 @@ jobs:
               pins.append(hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest())
           assert (a/'r2-source-blobs.txt').read_text().splitlines()==pins
           r=json.loads((a/'r2-windows-native.json').read_text(encoding='utf-8-sig'))
-          assert r['status']=='PASS_REAL_RESTRICTED_SSM_CNG_SIGNED_CI_ONLY'
-          for k in ('genuine_SCM_service_Job_owned_fixed_SSM','real_OS_restricted_primary_token_independently_observed','real_OS_Job_membership_independently_observed','numerical_SSM_output_independently_recalculated','original_service_restart_replay_denied','real_OS_KSP_nonexportable_P256_signer'):
+          assert r['status']=='PASS_SCM_OWNED_SSM_CNG_SIGNED_CI_ONLY'
+          for k in ('genuine_SCM_service_Job_owned_fixed_SSM','real_OS_Job_membership_independently_observed','numerical_SSM_output_independently_recalculated','original_service_restart_replay_denied','real_OS_KSP_nonexportable_P256_signer'):
               assert r[k] is True,k
-          for k in ('original_worker_AppContainer','original_worker_low_privilege_user_not_SYSTEM','installed_signed_production_publisher','installer_protected_image_and_data_ACL','independent_production_receipt_issuer','independently_pinned_monotonic_restart_anchor','authentic_Core_Health_authenticated','original_Core_pure_compute_grant','output_delivery_or_ack_authorized'):
+          for k in ('real_OS_restricted_primary_token_independently_observed','original_worker_AppContainer','original_worker_low_privilege_user_not_SYSTEM','installed_signed_production_publisher','installer_protected_image_and_data_ACL','independent_production_receipt_issuer','independently_pinned_monotonic_restart_anchor','authentic_Core_Health_authenticated','original_Core_pure_compute_grant','output_delivery_or_ack_authorized'):
               assert r[k] is False,k
           base=a/'native/windows_scm_fixture/target/r1-fixture'
           pub=(base/'r2-public-p256.blob').read_bytes()
@@ -197,7 +197,7 @@ jobs:
           assert p['exact_lu_workspace_proto_preserved'] is True and p['genuine_installed_lu_core_connected'] is False
           bin_sha=(a/'r2-binary-sha.txt').read_text().strip()
           assert len(bin_sha)==64
-          report={'schema':'cognitum.ssm.r2.native_restricted_CNG_exact_source.v1','qualified_sha':os.environ['SHA'],'exact_git_blob_pins':len(pins),'unsigned_service_bin_sha256':bin_sha,'true_restricted_token_under_SCM_Job':True,'independent_CNG_P256_machine_test_signature':True,'ephemeral_CNG_key_revocation':True,'real_fixed_SSM_math':True,'AppContainer':False,'independently_installed_signer':False,'approved_signed_publisher':False,'genuine_Core_Health':False,'Linux_delegated_positive':False,'output_release':False}
+          report={'schema':'cognitum.ssm.r2.native_restricted_CNG_exact_source.v1','qualified_sha':os.environ['SHA'],'exact_git_blob_pins':len(pins),'unsigned_service_bin_sha256':bin_sha,'restricted_primary_token_real_SSM_execution':False,'independent_CNG_P256_machine_test_signature':True,'ephemeral_CNG_key_revocation':True,'real_fixed_SSM_math':True,'AppContainer':False,'independently_installed_signer':False,'approved_signed_publisher':False,'genuine_Core_Health':False,'Linux_delegated_positive':False,'output_release':False}
           Path('r2-independent.json').write_text(json.dumps(report,sort_keys=True,indent=2)+'\n')
           print(json.dumps(report,sort_keys=True))
           PY
