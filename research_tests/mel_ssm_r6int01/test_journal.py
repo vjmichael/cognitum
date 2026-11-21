@@ -200,7 +200,7 @@ def test_host_revocation_and_mel_session_close_refused(env):
 def test_mel_scope_and_approved_model_bind_across_reopen(env):
     host=_new(env);host.close()
     wrong=mel.Scope(S.session,S.workspace,"other",S.turn)
-    with pytest.raises(ValueError,match="binding"):
+    with pytest.raises(ValueError,match="unauthorized"):
         env["open"](scope=wrong)
     with pytest.raises(ValueError,match="binding"):
         env["open"](context=b"other approved model version 2")
