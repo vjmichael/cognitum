@@ -1,0 +1,69 @@
+{
+  "task": "COG-05-SSM-POST-NATIVE-05-R3",
+  "status": "PASS_BOUNDED_OBSERVATIONAL_NATIVE_4_OF_4",
+  "run_id": 44844570161,
+  "run_url": "https://github.com/vjmichael/cognitum/actions/runs/44844570161",
+  "qualified_source_sha": "127672af94fb126163efd51057dfd5adf0f9bb4e",
+  "dedicated_tests_per_target": 15,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "publisher_original_git_blobs": {
+    "NOAA-CO-OPS": "8421af63a839c767555a53af74b71106ee68241e",
+    "DOI-USGS": "2f986df07dce96b800829856e751b247e4179aaf"
+  },
+  "new_source_pins": {
+    "cognitum/research/ssm_independent_publishers.py": "ffbc2c0f14ec8f8e46c97ee2f1e0bfa9adeef7d7",
+    "research_tests/ssm_postnative05/test_publishers.py": "adc71996bda0cfec0e01e580b981b236bd533d3b",
+    "research_tests/ssm_postnative05/data/.gitattributes": "07826903c67f6eb9bd58aa2d84bf200a88659251"
+  },
+  "inherited_new_postnative04_pins": 10,
+  "inherited_postnative03_pins": 6,
+  "all_pins_identical": true,
+  "identical_case_inventories": true,
+  "per_target_file_digests_verified": true,
+  "cross_platform_metrics_compatible": true,
+  "no_unconditional_coverage_claim": true,
+  "native_hdc_kan_ssm_ood_performance_qualified": false,
+  "true_physical_law_discovered": false,
+  "external_execution_authorized": false,
+  "all_72_broad_capabilities_complete": false,
+  "artifacts": [
+    {
+      "target": "ubuntu-latest/3.11",
+      "id": 14681957909,
+      "zip_sha256": "7474f998bcc7e8296b97258904d44bb817b71fa020c445e1b8ffee7772ee9144",
+      "receipt_sha256": "9bd3a17b8fbb5e4bf051171cfdc14cd5a6924779d670c1c9ef8c1dbea8178d37",
+      "science_sha256": "7f3bcc9d6e5439d51922dbeeb97ac6b428b8a5bbd32235efa4e4ac4d94c6d812",
+      "tests_log_sha256": "9b711f331345bb0e450dd96e000e8942592c0b961eb89935ab908fc5eefac083",
+      "tests_xml_sha256": "b8f3655faf4d65db2b5a94a5116ce152c1f94afb10acc7bee911c11ddfaa43a5"
+    },
+    {
+      "target": "ubuntu-latest/3.13",
+      "id": 14682845643,
+      "zip_sha256": "bebfffe849e244ef5faa8d87f3a735b1dc45d8942e6475caa786699c6978775a",
+      "receipt_sha256": "9d6c5ed20042f7a442ce45f4fbd58c79f7353b6efa43679e85bba8fea4f9c49f",
+      "science_sha256": "7f3bcc9d6e5439d51922dbeeb97ac6b428b8a5bbd32235efa4e4ac4d94c6d812",
+      "tests_log_sha256": "87c2331d88b8848258d2c53c9e9b8ac255f98c22292931b48694d1fc3fbf542a",
+      "tests_xml_sha256": "6d6012f03273081d28964b91da5ceb471a98b806cd154dafe09d767b38957ca8"
+    },
+    {
+      "target": "windows-latest/3.11",
+      "id": 14681803116,
+      "zip_sha256": "6e4b86242fe813894a7ca7258de8cfb489c80e98550083a2181195b9b0c94a2d",
+      "receipt_sha256": "3bb9a3ea94179696fda5d8d300acfc3789533f0e080fd8605edc7b8e933280fe",
+      "science_sha256": "19d7d220c2d734f0f692c8bbff038ce2492ce027feec2055fbf4b12724a3f96f",
+      "tests_log_sha256": "6664f00b02d7e0e01aed59ba0f5c82bff666bc131eef682cc419d9892f754a04",
+      "tests_xml_sha256": "747222821c5137d6e9407bfa14b3f00d936b3ed8e39947ad789d7b5bbbdcb811"
+    },
+    {
+      "target": "windows-latest/3.13",
+      "id": 14681694918,
+      "zip_sha256": "c278ceff53f3e3ea23fec258249b4308a1ea76736be1ee24861e8bc7f0333562",
+      "receipt_sha256": "f4f858e455f02a59c9e991de7cb3dd8c8eb7d4ed81aa20539bf326afdeda0d70",
+      "science_sha256": "19d7d220c2d734f0f692c8bbff038ce2492ce027feec2055fbf4b12724a3f96f",
+      "tests_log_sha256": "30c43ca6d598f9b300caaa42cdf4ee6c1c500e4a9c78a038f352dca8bc83605c",
+      "tests_xml_sha256": "79c7725941b589db55be47b38feb7e051a97f967dc6dbf8506c0e5c3cdc5ca99"
+    }
+  ]
+}
