@@ -14,6 +14,10 @@ from pathlib import Path
 import secrets
 import sys
 
+# CI runs the script by filename; resolve the reviewed project tree explicitly.
+PROJECT_ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(PROJECT_ROOT))
+
 from cognitum.mel.ssm_supervisor import OP
 from cognitum.research import ssm_stochastic_checkpoints as cp
 from cognitum.research import ssm_stochastic_streaming as streaming
