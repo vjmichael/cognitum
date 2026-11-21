@@ -64,10 +64,13 @@ unsafe extern "system"{
     fn WaitForSingleObject(process:Handle,millis:u32)->u32;
     fn GetWindowsDirectoryW(buffer:*mut u16,size:u32)->u32;
     fn LocalFree(ptr:Handle)->Handle;
+    fn GetFileAttributesW(filename:*const u16)->u32;
 }
 #[link(name="advapi32")]
 unsafe extern "system"{
     fn OpenProcessToken(process:Handle,access:u32,token:*mut Handle)->i32;
+    fn ImpersonateLoggedOnUser(token:Handle)->i32;
+    fn RevertToSelf()->i32;
     fn DuplicateTokenEx(token:Handle,access:u32,security:Handle,
         level:u32,kind:u32,out:*mut Handle)->i32;
     fn CreateRestrictedToken(token:Handle,flags:u32,disable_count:u32,
@@ -111,6 +114,30 @@ struct OwnedLocal(Handle);
 impl Drop for OwnedLocal{fn drop(&mut self){if !self.0.is_null(){
     unsafe{LocalFree(self.0);}
 }}}
+/// Resolve the image/CWD as its user, then ALWAYS revert to SCM identity.
+struct UserImpersonation{ active:bool }
+impl UserImpersonation{
+    fn begin(token:Handle)->io::Result<Self>{
+        if unsafe{ImpersonateLoggedOnUser(token)}==0{
+            return Err(denied("pinned non-SYSTEM user impersonation refused"));
+        }
+        Ok(Self{active:true})
+    }
+    fn end(mut self)->io::Result<()>{
+        if unsafe{RevertToSelf()}==0{
+            return Err(denied("SCM failed to revert original-user impersonation"));
+        }
+        self.active=false;
+        Ok(())
+    }
+}
+impl Drop for UserImpersonation{
+    fn drop(&mut self){
+        if self.active && unsafe{RevertToSelf()}==0{
+            std::process::abort();
+        }
+    }
+}
 struct Attr{bytes:Vec<usize>,ready:bool}
 impl Attr{
     fn new()->io::Result<Self>{
@@ -307,15 +334,39 @@ pub fn launch(application:&[u16],command:&mut[u16],
     startup.base.cb=mem::size_of::<StartupInfoEx>() as u32;
     startup.attributes=attrs.raw();
     let mut env=windows_environment()?;
-    if unsafe{CreateProcessAsUserW(reduced.0,application.as_ptr(),
+    // Never inherit SCM's working directory or drive-relative mappings.
+    let image=Path::new(env!("COG_R1_CI_PYTHON"));
+    let cwd=image.parent().ok_or_else(||denied("pinned image parent missing"))?;
+    if !image.is_absolute()||!image.is_file()||image.is_symlink()||
+       !cwd.is_dir()||cwd.is_symlink(){
+        return Err(denied("original pinned image/CWD unavailable"));
+    }
+    let wide_cwd=wide(cwd.as_os_str());
+    let impersonated=UserImpersonation::begin(reduced.0)?;
+    // Visibility under the original user is only a diagnostic, NOT a lowbox
+    // AppContainer proof or permission to run an unrestricted child.
+    let user_image_visible=unsafe{GetFileAttributesW(application.as_ptr())}!=u32::MAX;
+    let launched=unsafe{CreateProcessAsUserW(reduced.0,application.as_ptr(),
         command.as_mut_ptr(),ptr::null_mut(),ptr::null_mut(),0,
         CREATE_SUSPENDED|CREATE_NO_WINDOW|EXTENDED_STARTUPINFO_PRESENT|
             CREATE_UNICODE_ENVIRONMENT,
-        env.as_mut_ptr().cast(),ptr::null(),&startup.base,
-        output)}==0{
+        env.as_mut_ptr().cast(),wide_cwd.as_ptr(),&startup.base,
+        output)};
+    let launch_error=if launched==0{Some(io::Error::last_os_error())}else{None};
+    if impersonated.end().is_err(){
+        if launched!=0{
+            let unsafe_child=unsafe{*(output as *const Handle)};
+            if !unsafe_child.is_null(){
+                unsafe{TerminateProcess(unsafe_child,0xE7);
+                       WaitForSingleObject(unsafe_child,5000);}
+            }
+        }
+        return Err(denied("SCM failed closed when restoring its SYSTEM identity"));
+    }
+    if let Some(err)=launch_error{
         return Err(denied(&format!(
-            "native non-System AppContainer CreateProcessAsUserW refused OS {}",
-            io::Error::last_os_error()
+            "native non-System AppContainer CreateProcessAsUserW OS {}; user_image_visible={}",
+            err,user_image_visible
         )));
     }
     // Caller owns process+thread HANDLEs, original PID and Job after success.
