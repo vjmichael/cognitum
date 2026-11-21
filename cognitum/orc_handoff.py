@@ -46,6 +46,8 @@ class Handoff:
     plan: object
     origin_target_keys: tuple[tuple[int, int], ...]
     execution_authorized: bool = False
+    conversion_kind: str = "none"
+    max_quantization_error: float = 0.0
 
 
 def _source(raw, *, site_id, units, clock, provenance):
@@ -83,6 +85,7 @@ def compile_mel(
     fold: str, horizon_ms: int, lag_ms: int,
     function: n.NativeObject | None = None, approval: m.Approval | None = None,
     budget: g.Budget | None = None,
+    max_binary32_error: float | None = None,
 ) -> Handoff:
     """Compile source-verified features into existing MEL Seed + VFA/KAN graph.
 
@@ -97,6 +100,8 @@ def compile_mel(
     if type(budget) is not g.Budget:
         raise ValueError("explicit reviewed MEL budget required")
     if operation == "vfa.evaluate":
+        if max_binary32_error is not None:
+            raise ValueError("VFA binary32 conversion is unreviewed")
         if type(function) is not n.NativeObject or approval is not None:
             raise ValueError("reviewed VFA function required; checkpoint forbidden")
         body = function.message().body
@@ -105,6 +110,11 @@ def compile_mel(
         if tuple((x.name, x.unit) for x in body.axes) != _FEATURE_AXES:
             raise ValueError("VFA axes must be standardized dimensionless features")
     else:
+        if max_binary32_error is not None and (
+            type(max_binary32_error) is not float or
+            not 0.0 <= max_binary32_error <= 1e-4
+        ):
+            raise ValueError("invalid explicit binary32 rounding budget")
         if function is not None or type(approval) is not m.Approval:
             raise ValueError("trusted reviewed KAN checkpoint required")
         ck = approval.checkpoint.message()
@@ -128,6 +138,29 @@ def compile_mel(
         series, operation=operation, fold=fold,
         horizon_ms=horizon_ms, lag_ms=lag_ms)
     coords = [list(item.feature_values) for item in batch.examples]
+    conversion_error = 0.0
+    if operation == "kan.evaluate":
+        # The existing MEL transfer rejects lossy binary64->binary32 values.
+        # Only an explicit host-approved numeric tolerance permits this
+        # conversion; the exact measured loss is recorded and plan-bound.
+        from struct import pack, unpack
+        converted = []
+        for row in coords:
+            new_row = []
+            for value in row:
+                try:
+                    binary32 = unpack("<f", pack("<f", value))[0]
+                except (OverflowError, ValueError):
+                    raise ValueError("KAN binary32 conversion overflow") from None
+                if not isfinite(binary32):
+                    raise ValueError("KAN binary32 conversion nonfinite")
+                error = abs(value - binary32)
+                if error and (max_binary32_error is None or error > max_binary32_error):
+                    raise ValueError("unapproved or excessive binary32 conversion loss")
+                conversion_error = max(conversion_error, error)
+                new_row.append(binary32)
+            converted.append(new_row)
+        coords = converted
     points = n.points(function, coords)  # Original typed MEL binary64 object.
     node = (g.Vfa("evaluate", "seed", function)
             if operation == "vfa.evaluate" else
@@ -142,10 +175,15 @@ def compile_mel(
             (scope.session, scope.workspace, scope.subject, scope.turn)),
         "checkpoint": approval.checkpoint.identity if approval else None,
         "function": function.identity,
+        "rounding_budget": max_binary32_error,
+        "observed_rounding_error": conversion_error,
     })
     plan = g.Plan("orc" + anchor[:32], scope, (g.Seed("seed", points), node), budget)
     return Handoff(operation, provenance.raw_sha256, series.identity, fold,
-                   batch_sha, plan.identity, plan, cohort)
+                   batch_sha, plan.identity, plan, cohort,
+                   conversion_kind=("binary32_explicit" if operation == "kan.evaluate" and
+                                    max_binary32_error is not None else "none"),
+                   max_quantization_error=conversion_error)
 
 
 def check_source_current(
@@ -186,6 +224,15 @@ def check_source_current(
             raise ValueError("unexpected deterministic graph")
     else:
         raise ValueError("unreviewed handoff plan")
+    if (handoff.conversion_kind not in ("none", "binary32_explicit") or
+        type(handoff.max_quantization_error) is not float or
+        handoff.max_quantization_error < 0 or
+        handoff.max_quantization_error > 1e-4 or
+        (handoff.conversion_kind == "none" and
+         handoff.max_quantization_error != 0.0) or
+        (handoff.conversion_kind == "binary32_explicit" and
+         handoff.operation != "kan.evaluate")):
+        raise ValueError("unreviewed handoff precision declaration")
     if actual != handoff.plan_sha256 or handoff.execution_authorized is not False:
         raise ValueError("tampered handoff identity or authority")
     if source_current(handoff, series) is not True:

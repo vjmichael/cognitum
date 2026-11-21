@@ -173,8 +173,10 @@ def test_native_vfa_handoff_verified_from_real_source_and_worker():
 
 def test_actual_kan_checkpoint_handoff_runs_with_host_grant():
     h,tokens,selected=issued_kan()
-    p=mel_plan(operation="kan.evaluate",approved=selected)
+    p=mel_plan(operation="kan.evaluate",approved=selected,
+               max_binary32_error=1e-5)
     assert p.plan.nodes[-1].approval.checkpoint.identity==selected.checkpoint.identity
+    assert p.conversion_kind=="binary32_explicit" and 0 < p.max_quantization_error < 1e-5
     out=vg.execute_verified(h,p.plan,tokens,(("evaluate",(0.001,)),))
     assert out.status=="verified",out
     assert out.outcome.plan_sha256==p.plan.identity
@@ -239,7 +241,7 @@ def test_tampered_plan_and_fake_authorization_refused_by_host_preflight():
 def test_altered_fold_or_source_produces_distinct_mel_plan_identity():
     a=mel_plan(fold="test")
     b=mel_plan(fold="cal")
-    c=mel_plan(raw=raw_source(shift=90.))
+    c=mel_plan(raw=raw_source(shift=0.5))
     assert len({a.plan_sha256,b.plan_sha256,c.plan_sha256})==3
     assert a.cohort_sha256!=b.cohort_sha256
 
@@ -266,9 +268,28 @@ def test_rejects_missing_reviews_and_unapproved_checkpoint():
                 model_codec=True,checkpoint_sha256=selected.checkpoint.identity)
 
 
+def test_kan_refuses_implicit_float32_conversion():
+    with pytest.raises(ValueError,match="unapproved or excessive binary32"):
+        mel_plan(operation="kan.evaluate",approved=approval())
+
+
+def test_kan_refuses_insufficient_declared_error_budget():
+    with pytest.raises(ValueError,match="unapproved or excessive binary32"):
+        mel_plan(operation="kan.evaluate",approved=approval(),
+                 max_binary32_error=1e-15)
+
+
+def test_kan_rejects_unbounded_or_wrong_type_precision_authority():
+    for value in (float("nan"),float("inf"),-1.,1.,True,"0.1"):
+        with pytest.raises(ValueError,match="rounding budget"):
+            mel_plan(operation="kan.evaluate",approved=approval(),
+                     max_binary32_error=value)
+
+
 def test_grants_cannot_be_substituted_across_routes():
     h,token=issued_vfa()
-    p=mel_plan(operation="kan.evaluate",approved=approval())
+    p=mel_plan(operation="kan.evaluate",approved=approval(),
+               max_binary32_error=1e-5)
     out=vg.execute_verified(h,p.plan,token,(("evaluate",(0.001,)),))
     assert out.status!="verified" and out.outcome is None and out.witness is None
 
@@ -283,7 +304,8 @@ def test_vfa_host_revocation_blocks_worker_and_publication():
 
 def test_kan_checkpoint_revocation_blocks_worker():
     h,tokens,selected=issued_kan()
-    p=mel_plan(operation="kan.evaluate",approved=selected)
+    p=mel_plan(operation="kan.evaluate",approved=selected,
+               max_binary32_error=1e-5)
     assert h.revoke_checkpoint(S,selected.checkpoint.identity)
     out=vg.execute_verified(h,p.plan,tokens,(("evaluate",(0.001,)),))
     assert out.status!="verified" and out.outcome is None and out.witness is None
@@ -341,9 +363,15 @@ def test_cpu_cancellation_denied_admission_and_verify_phase_refusal():
 
 def test_cpu_tampered_worker_result_suppresses_publication(monkeypatch):
     p=cpu_plan()
-    def reject(name,request,result):
-        raise ValueError("independent replay mismatch")
-    monkeypatch.setattr(cpu,"verify",reject)
+    original = Runtime.call
+    def forge(self,request,context):
+        response = original(self,request,context)
+        if (request.operation=="cooperative.temporal.kalman.verify" and
+            response.execution_status=="completed"):
+            response.result={"receipt":"0"*64,
+                             "assurance":response.result["assurance"]}
+        return response
+    monkeypatch.setattr(Runtime,"call",forge)
     out=run_cpu(p)
     assert out.status=="verification_failed" and not out.receipts
 
