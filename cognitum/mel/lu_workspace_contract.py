@@ -18,7 +18,7 @@ from . import lu_adapter
 
 PROFILE = "cognitum.mel.lu_workspace.v0.provider_proposal.v1"
 LU_REPOSITORY = "vjmichael/Lu-AI-GUI"
-LU_REVIEWED_SOURCE_SHA = "9f43d078aa5e979de0ff72ca4c19e8c5829572af"
+LU_REVIEWED_SOURCE_SHA = "ea6e35e6a10a0754e166eb4c34a794eb0c9b5551"
 LU_WORKSPACE_PROTO_GIT_BLOB = "4e01d921197fb1c58c99958479b1cede36e13c9a"
 LU_PROTO_PATH = "src-tauri/lu-core/proto/lu/workspace/v0/workspace.proto"
 MODULE_ID = "cognitum.mel"
