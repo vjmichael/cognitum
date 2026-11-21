@@ -1,0 +1,39 @@
+name: Cognitum POST-NATIVE-05 independent observational science acceptance
+on:
+  push:
+    branches:
+      - 'research/ssm-postnative05-native-*'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-locked:
+    name: "Two-publisher observations / ${{ matrix.os }} / Python ${{ matrix.python-version }}"
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install scientific runtime (not a release or actuation host)
+        run: python -m pip install -e ".[scientific]" "numpy==2.3.5" "scipy==1.17.0" "pytest==9.0.2"
+      - name: Bound observational source and real-time falsification
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+          OMP_NUM_THREADS: '1'
+          MKL_NUM_THREADS: '1'
+          PYTHONHASHSEED: '0'
+        run: python -m tools.ssm_postnative05.acceptance postnative05-evidence
+      - name: Preserve publisher pins, science, JUnit and logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: postnative05-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: postnative05-evidence/
+          if-no-files-found: warn
