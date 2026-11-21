@@ -1,0 +1,137 @@
+name: Cognitum PHYSICAL-02-R1 real fixed SSM SCM numerical custody
+on:
+  push:
+    branches: [integration/cog-lu-ipc01e-r2-custody-20261121]
+    paths: [.github/workflows/cog-r5-physical02-r1-ssm.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cognitum-r5-r1-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  windows-real-ssm:
+    runs-on: windows-latest
+    timeout-minutes: 35
+    env:
+      PYTHONHASHSEED: '0'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned math and Protobuf
+        run: python -m pip install numpy==2.2.6 scipy==1.15.3 protobuf==6.33.1 grpcio-tools==1.76.0 pytest==9.0.2 cryptography==46.0.3
+      - name: Compile exact Lu workspace Protobuf
+        shell: bash
+        run: |
+          python -m research_tests.mel_lu_ipc01c.compile_pinned_lu_ssm --root "$GITHUB_WORKSPACE/cognitum/mel/vendor" --descriptor-out "$GITHUB_WORKSPACE/r5-r1-proto.desc" --receipt "$GITHUB_WORKSPACE/r5-r1-proto.json"
+      - name: Test one-use fixture staging
+        run: python -m pytest -q research_tests/mel_lu_ipc01e_r5/test_scm_r1_fixed_intent.py --junitxml=r5-r1-tests.xml
+      - name: Create ephemeral keyed original SSM fixture
+        shell: pwsh
+        run: |
+          $root=Join-Path $PWD "native/windows_scm_fixture/target/r1-fixture"
+          New-Item -ItemType Directory -Path $root -Force | Out-Null
+          python scripts/cog_r5_r1_scm_ssm_fixture.py prepare --root "$root" --env-file "$env:GITHUB_ENV"
+          if($LASTEXITCODE -ne 0){throw 'Original HMAC SSM intent preparation failed'}
+      - name: Build source-pinned SCM fixed SSM with zero Cargo dependencies
+        shell: pwsh
+        run: |
+          cargo build --manifest-path native/windows_scm_fixture/Cargo.toml --release --locked --offline --features ssm-fixture
+          if($LASTEXITCODE -ne 0){throw 'Native SCM real SSM worker build failed'}
+      - name: Run actual SCM service fixed SSM, kernel stop, one-use restart refusal
+        shell: pwsh
+        run: |
+          $root=Join-Path $PWD "native/windows_scm_fixture/target/r1-fixture"
+          & ./scripts/cog-r5-physical02-r1-real-ssm-scm.ps1 -Executable "$PWD/native/windows_scm_fixture/target/release/cognitum-scm-supervisor.exe" -FixtureRoot $root -EvidencePath "$PWD/r5-r1-windows.json"
+          if($LASTEXITCODE -ne 0){throw 'Actual SCM-owned SSM native acceptance refused'}
+      - name: Preserve exact source, independent numeric candidate, local stop
+        if: always()
+        shell: pwsh
+        run: |
+          (git rev-parse HEAD) | Out-File r5-r1-source-sha.txt -Encoding ascii
+          (git hash-object native/windows_scm_fixture/src/main.rs native/windows_scm_fixture/src/ssm_fixture.rs native/windows_scm_fixture/Cargo.toml native/windows_scm_fixture/Cargo.lock scripts/cog_r5_r1_scm_ssm_fixture.py scripts/cog-r5-physical02-r1-real-ssm-scm.ps1 cognitum/mel/ssm_r5_fixed_child.py research_tests/mel_lu_ipc01e_r5/test_scm_r1_fixed_intent.py) | Out-File r5-r1-source-blobs.txt -Encoding ascii
+          $binary="native/windows_scm_fixture/target/release/cognitum-scm-supervisor.exe"
+          if(Test-Path $binary){(Get-FileHash $binary -Algorithm SHA256).Hash.ToLowerInvariant() | Out-File r5-r1-binary-sha.txt -Encoding ascii}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: r5-r1-windows-real-ssm
+          path: |
+            r5-r1-windows.json
+            r5-r1-source-sha.txt
+            r5-r1-source-blobs.txt
+            r5-r1-binary-sha.txt
+            r5-r1-tests.xml
+            r5-r1-proto.json
+            native/windows_scm_fixture/target/r1-fixture/prelaunch.json
+            native/windows_scm_fixture/target/r1-fixture/stop.json
+            native/windows_scm_fixture/target/r1-fixture/output.frame
+  linux-negative:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Linux SCM must fail closed
+        shell: bash
+        run: |
+          cargo build --manifest-path native/windows_scm_fixture/Cargo.toml --release --locked --offline
+          if native/windows_scm_fixture/target/release/cognitum-scm-supervisor; then exit 1; fi
+          echo PASS_LINUX_SCM_REFUSAL
+  independent:
+    runs-on: ubuntu-latest
+    needs: [windows-real-ssm,linux-negative]
+    if: ${{ always() && needs.windows-real-ssm.result == 'success' && needs.linux-negative.result == 'success' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: r5-r1-windows-real-ssm
+          path: original
+      - name: Verify source, original kernel receipts, numerical and false authority
+        shell: bash
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          p=Path('original')
+          assert (p/'r5-r1-source-sha.txt').read_text().strip()==os.environ['SOURCE_SHA']
+          paths=['native/windows_scm_fixture/src/main.rs','native/windows_scm_fixture/src/ssm_fixture.rs','native/windows_scm_fixture/Cargo.toml','native/windows_scm_fixture/Cargo.lock','scripts/cog_r5_r1_scm_ssm_fixture.py','scripts/cog-r5-physical02-r1-real-ssm-scm.ps1','cognitum/mel/ssm_r5_fixed_child.py','research_tests/mel_lu_ipc01e_r5/test_scm_r1_fixed_intent.py']
+          pins=[]
+          for f in paths:
+              raw=Path(f).read_bytes()
+              pins.append(hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest())
+          assert (p/'r5-r1-source-blobs.txt').read_text().splitlines()==pins
+          r=json.loads((p/'r5-r1-windows.json').read_text(encoding='utf-8-sig'))
+          assert r['status']=='PASS_REAL_FIXED_SSM_UNDER_SCM_FIXTURE_ONLY'
+          for k in ('original_mac_verified_by_service_before_worker','real_SSM_output_matches_independent_factory','original_one_use_restart_replay_denied','kernel_job_empty_after_stop','local_service_owned_stop_record_verified'):
+              assert r[k] is True,k
+          for k in ('signed_installed_production_service','restricted_worker_token_verified','independent_production_stop_signer_verified','installed_core_health_verified','external_output_delivery_authorized'):
+              assert r[k] is False,k
+          root=p/'native/windows_scm_fixture/target/r1-fixture'
+          stop=json.loads((root/'stop.json').read_text())
+          pending=json.loads((root/'prelaunch.json').read_text())
+          result=(root/'output.frame').read_bytes()
+          assert stop['original_nonce']==pending['nonce'] and stop['request_sha256']==pending['request_sha256']
+          assert stop['result_sha256']==hashlib.sha256(result).hexdigest() and stop['kernel_job_empty'] is True
+          assert stop['independently_signed'] is False and stop['output_release_authorized'] is False
+          assert stop['service_pid']==r['service_pid'] and stop['worker_pid']==r['numerical_worker_pid']
+          cases=list(ET.parse(p/'r5-r1-tests.xml').getroot().iter('testcase'))
+          assert len(cases)>=3 and all(t.find('failure') is None and t.find('error') is None for t in cases)
+          binary=(p/'r5-r1-binary-sha.txt').read_text().strip()
+          assert len(binary)==64
+          print(json.dumps({'schema':'cognitum.r1.scm_same_source_audit.v1','source':os.environ['SOURCE_SHA'],'verified_blobs':len(pins),'binary':binary,'native_SCM_fixed_SSM_verified':True,'production_signing':False,'Core_authentication':False,'Linux_delegated':False}))
+          PY
