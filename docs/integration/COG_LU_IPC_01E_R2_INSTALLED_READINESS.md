@@ -54,3 +54,17 @@ Required evidence manifest is a *reference/index of independently verifiable rec
 These are regression tests **added in source**, not claimed passing on native runners. The current container did not have a full exact Cognitum checkout or installed Lu Core and therefore did not run genuine native or installed acceptance. No CI dispatched. **The R2 original immutable native receipt remains historical evidence only.** Requalification must inspect the exact new branch head and run a single bounded native matrix once dependencies and prepared source are ready.
 
 Lu Core #245 and #248 remain open. The accepted Core issuer/publisher enrollment, endpoint, and per-turn receipt contract do not yet exist for this integration; no provisional Ed25519 envelope is promoted to production. No Lu repository changes. This task cannot be closed as an installed qualification or a production IPC exchange.
+
+## R2 exact-source native acceptance closeout (2026-11-21)
+
+**Status: PASS_NATIVE_SOURCE_ONLY; genuine installed Core ↔ Cognitum acceptance remains BLOCKED_CORE_CONTRACT.**
+
+- Original qualified R2/R1 source commit: `bec19cd5f5fba01498891f9940b7104bf7fc07e4`. Original [native CI run 44930674292](https://github.com/vjmichael/cognitum/actions/runs/44930674292): **five of five jobs passed** (Windows 3.11/3.13 and Ubuntu 3.11/3.13 plus independent audit); four platforms x 200 = **800/800 passed, zero failures or skips**. All 27 pinned Git source blobs, descriptor/codegen evidence, original case IDs and absence of production authority checked.
+- Original [C01-C19 regression run 44930674353](https://github.com/vjmichael/cognitum/actions/runs/44930674353): **eight of eight jobs passed**, including optional extras and combined-tree tests on Windows/Ubuntu Python 3.11/3.13.
+- One original candidate `818eb34ed68580cb241be9f22d32fdaffa1f3548` passed 800 native tests, but its post-test evidence pin failed because the R2 documentation Git blob had changed in the prior R2 closeout. The single stale docs pin was corrected after all that cohort's jobs terminated; the corrected exact candidate above has all five jobs passing. No security bypass or source-code repair was necessary.
+- The native workflow's temporary exact-branch push trigger is removed in this docs/evidence closeout and retained as manual dispatch only. The **later documentation/CI-only commit is not the original tested SHA**. Do not promote it as an independently requalified source binary.
+- This is *not* installed positive acceptance: Core #245 and #248 remain OPEN; no independently provisioned Core Health dispatcher, signed Cognitum enrollment, approved issuer wire format, original per-turn PURE_COMPUTE grant, independently protected monotonic authority, physical installed pair, OS worker termination proof or output release/ACK qualified. Signed fixture receipts are source-only, no delivery or publication was enabled.
+
+Manifest: `COG_LU_IPC_01E_R2_INSTALLED_R2_NATIVE_EVIDENCE.json` lists the exact source SHA, original run IDs, native artifact SHA-256 values, and false production authority claims.
+
+**Next:** wait for the accepted Core-maintained enrollment and issuer contracts on Core #245/#248, complete Cognitum installed OS service/worker and independent revision custody, then run real pinned Health and signed operation/outbox exchange. Never substitute the test fixture for installed Core.

@@ -1,9 +1,6 @@
 name: Cognitum Lu IPC-01E-R2-R1 exact source native client gate
 
 on:
-  push:
-    branches:
-      - integration/cog-lu-ipc01e-r2-custody-20261121
   workflow_dispatch:
 
 permissions:

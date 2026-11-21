@@ -1,0 +1,69 @@
+{
+  "schema": "cognitum.lu_ipc01e_r2_installed_r2.exact_source_native_closeout.v1",
+  "task": "COG-LU-IPC-01E-R2-INSTALLED-R2",
+  "status": "PASS_NATIVE_SOURCE_ONLY_BLOCKED_REAL_INSTALLED_CORE",
+  "original_qualified_source_sha": "bec19cd5f5fba01498891f9940b7104bf7fc07e4",
+  "native_run": {
+    "id": 44930674292,
+    "url": "https://github.com/vjmichael/cognitum/actions/runs/44930674292",
+    "result": "success",
+    "jobs": 5,
+    "platforms": [
+      "ubuntu-latest-py3.11",
+      "ubuntu-latest-py3.13",
+      "windows-latest-py3.11",
+      "windows-latest-py3.13"
+    ],
+    "cases_per_platform": 200,
+    "total_cases": 800,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "independent_blob_pins_matched": 27,
+    "junit_identical": true
+  },
+  "integration_run": {
+    "id": 44930674353,
+    "url": "https://github.com/vjmichael/cognitum/actions/runs/44930674353",
+    "result": "success",
+    "jobs": 8
+  },
+  "artifacts": [
+    {
+      "id": 14717767019,
+      "platform": "windows-latest-py3.13",
+      "sha256": "686b48b1ef759cd55e0dec24541c60e8d38311d834aa26e77a7687c239a18c4f"
+    },
+    {
+      "id": 14717552602,
+      "platform": "windows-latest-py3.11",
+      "sha256": "ee5d29124fde067f43c706ed0fe45b2ee4e510dea0adfe80449aa9551c77165d"
+    },
+    {
+      "id": 14717311965,
+      "platform": "ubuntu-latest-py3.11",
+      "sha256": "ff094310a07d46ec07ec3c6dc01175f2e62b50731ed158f2935e641b9d5c916c"
+    },
+    {
+      "id": 14717148567,
+      "platform": "ubuntu-latest-py3.13",
+      "sha256": "049da8d6cd7fd0ca90a09657e4fbad717b019121a55028243480b7df4c4079b2"
+    },
+    {
+      "id": 14717133716,
+      "platform": "independent",
+      "sha256": "b198e89b2fd32087fd58ef7c0b46746b1e1ddeed06be1fe3a585cdc43b1a6670"
+    }
+  ],
+  "trusted_installed_core_health": false,
+  "accepted_cognitum_issuer_contract": false,
+  "production_publisher_enrollment": false,
+  "verified_real_per_turn_pure_compute_grant": false,
+  "installed_host_supervisor_worker_custody": false,
+  "external_monotonic_antirollback_authority": false,
+  "external_outbox_delivery_or_ack_authorized": false,
+  "real_core_to_cognitum_exchange": false,
+  "model_tool_execution_authorized": false,
+  "source_only_provisional_ed25519_envelope": true,
+  "note": "Original CI independent witness checks exact source+protocol and refuses installed trust; no production keys/credential contents stored."
+}
