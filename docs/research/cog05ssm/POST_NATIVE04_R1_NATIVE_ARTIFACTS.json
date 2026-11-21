@@ -1,0 +1,54 @@
+{
+  "task": "COG-05-SSM-POST-NATIVE-04-R1",
+  "status": "BOUNDED_NATIVE_PASS_4_OF_4",
+  "run_id": 44842101661,
+  "run_url": "https://github.com/vjmichael/cognitum/actions/runs/44842101661",
+  "qualification_sha": "6160e322ba24f8ec4d8f4a7d90ad885daeb32c92",
+  "source_tree_unchanged_for_trigger": true,
+  "dedicated_tests_per_target": 38,
+  "combined_tests_per_target": 67,
+  "new_source_data_git_pins": 10,
+  "inherited_postnative03_source_data_git_pins": 6,
+  "execution_authorized": false,
+  "all_72_broad_capabilities_complete": false,
+  "independently_verified_original_archive_sha": "b04da438b2f331ac0ffd45aebdfec0d20d2367feb5f6948c4b1f7ce1191e33c4",
+  "extracted_observations_matched": 18432,
+  "publisher_signed_provenance_verified": false,
+  "conditional_dependent_series_coverage_verified": false,
+  "observational_physical_law_discovered": false,
+  "actual_physical_windows_workstation_qualified": false,
+  "artifacts": [
+    {
+      "target": "ubuntu-latest/3.11",
+      "id": 14681641470,
+      "zip_sha256": "3a43a22d4fc5bbafa9d6442174df402546d6d3d855325c227729aff1690a58b8",
+      "receipt_sha256": "c05c9bdfb798a688f4f09b1b76ae6f0861700ffab1c0e320cda4f944cd7ba98b"
+    },
+    {
+      "target": "ubuntu-latest/3.13",
+      "id": 14681022741,
+      "zip_sha256": "f491b459920ca70f2ce927df6de8241c3f5df7a90ce47933b84e2fb72b869bd2",
+      "receipt_sha256": "826f1b75da2d21f3edf1d2db689a7011649664d5432a73a9ddf693dd1ff1776c"
+    },
+    {
+      "target": "windows-latest/3.11",
+      "id": 14680993766,
+      "zip_sha256": "d3e31621c6242d707b702ba5976364b3b69e89328584451f5264daedfa39ef3d",
+      "receipt_sha256": "33abbdd5b5324133d1881f7ad4a6be91d7aa5c0731bd887e8ec0e41b0b540d36"
+    },
+    {
+      "target": "windows-latest/3.13",
+      "id": 14680603371,
+      "zip_sha256": "af403cd9f973e307f1bba66ea266c27652144cf80a17440b9199425a6ce340f6",
+      "receipt_sha256": "6a52568b19428671e3499c0e285b4cf5549143986ea5a3aa2c5d81025a576fad"
+    }
+  ],
+  "all_receipts_match_sha": true,
+  "all_attached_JUnit_and_log_sha256_verified": true,
+  "identical_native_testcase_inventories": true,
+  "all_16_pinned_git_blobs_identical": true,
+  "native_jobs_successful": 4,
+  "native_jobs_failed": 0,
+  "native_jobs_skipped": 0,
+  "interpreting_scope": "bounded empirical multi-site multi-horizon HDC/KAN/SSM; prior P03 regression acceptance preserved; no causal physical law or general dependency calibration"
+}
