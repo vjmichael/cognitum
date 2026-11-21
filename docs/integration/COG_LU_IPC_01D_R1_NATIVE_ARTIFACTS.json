@@ -1,0 +1,74 @@
+{
+  "schema": "cognitum.lu_ipc01d_r1.external_original_native_verification.v1",
+  "status": "PASS_5_ORIGINAL_ARCHIVES_CRC_SHA256_AND_4X135_MATCHED_JUNIT",
+  "original_qualified_sha": "01e327791aef09d36150b4b50470a753177a2b73",
+  "original_run_url": "https://github.com/vjmichael/cognitum/actions/runs/44925223484",
+  "original_five_jobs_passed": 5,
+  "native_cases": {
+    "platforms": 4,
+    "each": 135,
+    "total": 540,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "original_artifacts": [
+    {
+      "artifact_id": 14715516982,
+      "name": "cog-lu-ipc01d-r1-windows-latest-py3.11",
+      "original_github_zip_sha256": "sha256:e15a9b3a25c7e53adfeded17ac3fcc75733294d93acacb9897531716da4affeb",
+      "original_junit_passed": 135,
+      "externally_verified_sha256": true,
+      "zip_crc_verified": true
+    },
+    {
+      "artifact_id": 14715407696,
+      "name": "cog-lu-ipc01d-r1-windows-latest-py3.13",
+      "original_github_zip_sha256": "sha256:e0f65b34e5ba36ae98daed75014bf54c3f03788dd7e8368c05199c1a1cce2708",
+      "original_junit_passed": 135,
+      "externally_verified_sha256": true,
+      "zip_crc_verified": true
+    },
+    {
+      "artifact_id": 14715347919,
+      "name": "cog-lu-ipc01d-r1-independent",
+      "original_github_zip_sha256": "sha256:ecc7a81a8989efa909dd225eae3a0e034de0ad09f51382e5c641e7bdcf355b08",
+      "original_junit_passed": null,
+      "externally_verified_sha256": true,
+      "zip_crc_verified": true
+    },
+    {
+      "artifact_id": 14715297952,
+      "name": "cog-lu-ipc01d-r1-ubuntu-latest-py3.11",
+      "original_github_zip_sha256": "sha256:48015eb125e51d99f1e5d6f14124e7652b7c1f8b8c827cc6106c121e89beca43",
+      "original_junit_passed": 135,
+      "externally_verified_sha256": true,
+      "zip_crc_verified": true
+    },
+    {
+      "artifact_id": 14714984538,
+      "name": "cog-lu-ipc01d-r1-ubuntu-latest-py3.13",
+      "original_github_zip_sha256": "sha256:e35dc7dbaf15d8771e66e2ad9334a085e9d4327dc81b548160ecdb0fb362ddfa",
+      "original_junit_passed": 135,
+      "externally_verified_sha256": true,
+      "zip_crc_verified": true
+    }
+  ],
+  "protobuf": {
+    "original_lu_proto_git_blob": "4e01d921197fb1c58c99958479b1cede36e13c9a",
+    "original_ssm_proto_git_blob": "755562254afdbea686ee33b95567c505f2f85e49",
+    "composite_descriptor_sha256": "d2cf48e33c80837ac99f2a080ba16996617020c84482f690b8ea1e5f089e79f0",
+    "lu_generated_python_sha256": "3757c3adcd357d57a353a29490c60e687eedb32f6a4d78ea8759378a15e2d22b",
+    "ssm_generated_python_sha256": "4aa6463da1775f93ada551f172ac3a69f5f2e261ca0955089fd4d345b51cef40"
+  },
+  "externally_verified_original_18_git_blob_hashes": true,
+  "externally_verified_original_four_135_JUnit_classname_name_sets": true,
+  "externally_verified_original_independent_fifth_receipt": true,
+  "verified_real_installed_Lu_Core": false,
+  "verified_installed_OS_key_broker": false,
+  "verified_authoritative_external_revision_anchor": false,
+  "verified_worker_termination": false,
+  "authorized_execution_or_publication": false,
+  "no_changes_to_Lu_Core_repo": true,
+  "source_unchanged_in_closeout": true
+}
