@@ -53,7 +53,7 @@ def hashfile(p: Path):
 def excluded(directory, names):
     return {name for name in names if name in (
         "__pycache__", "tests", "test", "testing", ".git", ".github",
-        "benchmarks", "docs", "examples", "include", "lib2to3",
+        "benchmarks", "docs", "examples", "include", "lib2to3", "site-packages",
         "turtledemo", "tkinter", "idlelib", "ensurepip", "pip",
     ) or name.endswith(".pyc") or name.endswith(".pyo")}
 
