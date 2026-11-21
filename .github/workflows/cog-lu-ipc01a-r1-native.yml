@@ -1,11 +1,6 @@
 name: Cognitum Lu IPC-01A-R1 pinned native protoc and authenticated health-only source gate
 
 on:
-  push:
-    branches:
-      - integration/cog-lu-ipc01a-r1-20261121
-    paths:
-      - '.github/workflows/cog-lu-ipc01a-r1-native.yml'
   workflow_dispatch:
 
 permissions:

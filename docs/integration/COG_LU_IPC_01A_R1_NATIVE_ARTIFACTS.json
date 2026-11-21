@@ -1,0 +1,109 @@
+{
+  "schema": "cognitum.lu_ipc01a_r1.external_original_native_artifact_verification.v1",
+  "qualification": "PASS_COMPILED_LU_PROTO_FIVE_CAPABILITY_MAP_SYNTHETIC_READ_ONLY_AUTH",
+  "original_qualified_sha": "28ce3d99f8d92c5225d080593d86bd40c2a41186",
+  "original_run_id": 44918670002,
+  "original_run_url": "https://github.com/vjmichael/cognitum/actions/runs/44918670002",
+  "original_jobs_passed": 5,
+  "original_jobs_total": 5,
+  "platform_test_cases": {
+    "per_platform": 30,
+    "total_passed": 120,
+    "total_failed": 0,
+    "total_errors": 0,
+    "total_skipped": 0
+  },
+  "lu_source": {
+    "owner": "vjmichael/Lu-AI-GUI",
+    "inspected_head": "ea6e35e6a10a0754e166eb4c34a794eb0c9b5551",
+    "original_workspace_proto_git_sha": "4e01d921197fb1c58c99958479b1cede36e13c9a",
+    "version": "lu.workspace.v0 major1 minor0",
+    "lu_repo_source_modified": false
+  },
+  "cross_native_protoc": {
+    "python_codegen_compiled": true,
+    "descriptor_file_sha256": "96c0990039adfff5539b67429393e59999f6b1151f3eaf68f1affec3f266fa2d",
+    "generated_python_sha256": "3757c3adcd357d57a353a29490c60e687eedb32f6a4d78ea8759378a15e2d22b",
+    "identical_across_four_platforms": true
+  },
+  "source_blob_identities": {
+    "cognitum/mel/vendor/lu/workspace/v0/workspace.proto": "4e01d921197fb1c58c99958479b1cede36e13c9a",
+    "cognitum/mel/lu_workspace_contract.py": "ac57eb0afc4b2f0630531470e067461d8e2268ea",
+    "cognitum/mel/lu_ipc_readonly.py": "b21612457c3763dab8233d0eced5e5fffca968ad",
+    "cognitum/mel/lu_adapter.py": "300300b9f63f417afcc0ec650697e3012b7bdab0",
+    "cognitum/mel/admission.py": "405fa91935f62226ab0d1a2f0d8b7313e2327116",
+    "cognitum/mel/native.py": "2f8ccf40e7f1ead28edd3a1ffaee767b6e63b9a7",
+    "research_tests/mel_lu_ipc01a/compile_pinned_proto.py": "8db687bd4912f92af3b505088e7683ca0df2a9b2",
+    "research_tests/mel_lu_ipc01a/test_workspace_contract.py": "05e40e09c7a3e9bfdf838d38f4e971682ec8cfd2",
+    "research_tests/mel_lu_ipc01a/test_proto_client.py": "64ca56b974d8b0d0b5e3d566e8c0c5bab36ee474",
+    ".gitattributes": "11b7f7072328ff6a1ba8636c44eb1843d212e3d3",
+    "docs/integration/COG_LU_IPC_01A_R1_NATIVE.md": "1c1d1c6c6d225457c188c705b5ce716fd20d870c"
+  },
+  "original_artifacts": [
+    {
+      "artifact_id": 14712631504,
+      "name": "cognitum-lu-ipc01a-r1-windows-latest-py3.13",
+      "original_github_zip_sha256": "sha256:31cc92c8c7a10b530087fdf06047c1ef9fe34f79bc56115e06883c9c28a1b6a4",
+      "independent_download_sha256_verified": true,
+      "zip_crc_verified": true,
+      "original_junit_passed_cases": 30
+    },
+    {
+      "artifact_id": 14712567546,
+      "name": "cognitum-lu-ipc01a-r1-ubuntu-latest-py3.11",
+      "original_github_zip_sha256": "sha256:3cba0c37b646d8050321654809041d297c518124dc6776f4d968ef72e573f2d5",
+      "independent_download_sha256_verified": true,
+      "zip_crc_verified": true,
+      "original_junit_passed_cases": 30
+    },
+    {
+      "artifact_id": 14712522935,
+      "name": "cognitum-lu-ipc01a-r1-windows-latest-py3.11",
+      "original_github_zip_sha256": "sha256:c8605c3ee47fadc83e1bd135a6226e4fc180c66047558775b8d35046dc842c18",
+      "independent_download_sha256_verified": true,
+      "zip_crc_verified": true,
+      "original_junit_passed_cases": 30
+    },
+    {
+      "artifact_id": 14711994221,
+      "name": "cognitum-lu-ipc01a-r1-ubuntu-latest-py3.13",
+      "original_github_zip_sha256": "sha256:1c3f61b56027018c644bca88198c19f6df3f9f791140202d933aeebe4b43f8c9",
+      "independent_download_sha256_verified": true,
+      "zip_crc_verified": true,
+      "original_junit_passed_cases": 30
+    },
+    {
+      "artifact_id": 14711744963,
+      "name": "cognitum-lu-ipc01a-r1-independent",
+      "original_github_zip_sha256": "sha256:436071b347d87c2e42332d095e75d8f1a9566c6c47ceb71472878371308be551",
+      "independent_download_sha256_verified": true,
+      "zip_crc_verified": true,
+      "original_junit_passed_cases": null
+    }
+  ],
+  "independent_external_checks": {
+    "all_original_zip_sha256_match": true,
+    "all_original_zip_crc_pass": true,
+    "all_four_original_junits_identical": true,
+    "all_original_case_ids_unique": true,
+    "all_original_commit_and_11_blob_ids_match": true,
+    "generated_binary_descriptor_sha256_identical": true,
+    "generated_python_sha256_identical": true,
+    "original_fifth_job_receipt_verified": true
+  },
+  "security_qualifiers": {
+    "real_core_health_endpoint_invoked": false,
+    "windows_named_pipe_installed_verified": false,
+    "linux_uds_installed_core_peer_verified": false,
+    "synthetic_handshake_fixture": true,
+    "signed_installer_enrollment": false,
+    "model_tool_invocation": false,
+    "lu_effect_PURE_COMPUTE_native_admission": false,
+    "independent_broker_key_provisioning": false
+  },
+  "lu_core_dependency_issues": [
+    "https://github.com/vjmichael/Lu-AI-GUI/issues/248",
+    "https://github.com/vjmichael/Lu-AI-GUI/issues/245"
+  ],
+  "closeout_sha_is_not_qualified_sha": true
+}
