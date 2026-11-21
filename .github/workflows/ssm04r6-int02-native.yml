@@ -67,7 +67,7 @@ jobs:
           test "$(git hash-object research_tests/mel_ssm_r6int01/test_journal.py)" = "ba7cb4a29908e433d26840d7d5f8b51738d3bb1d"
           test "$(git hash-object cognitum/worker.py)" = "8246e955525655414c2da95d7153a794f011a0ef"
           test "$(git hash-object cognitum/runtime.py)" = "885c4bf56114c7cab98252539e5900113ae3418b"
-          test "$(git hash-object cognitum/mel/ssm_os_credentials.py)" = "fc49e373fdfdeda2c7359a33768dd0dfb5c5e52f"
+          test "$(git hash-object cognitum/mel/ssm_os_credentials.py)" = "4492b855dd39dd972c13adde4434a13b3d9bb5a3"
           test "$(git hash-object cognitum/mel/ssm_revision_cas.py)" = "96c0bd869eaf732f750b44fc4f3fa612cb94f964"
           test "$(git hash-object cognitum/mel/ssm_supervisor.py)" = "7f5322f671ebccd3d142b1e3222185728d9627dd"
           test "$(git hash-object research_tests/mel_ssm_r6int02/test_native_host.py)" = "a5decb9fff612ce7aa2996a7404503bd15167cfb"
@@ -137,7 +137,7 @@ jobs:
                     for osname in ('ubuntu-latest','windows-latest')
                     for ver in ('3.11','3.13')}
           assert {p.name for p in root.iterdir() if p.is_dir()}==expected
-          blobs=["e6616d14f4b02bd447f872f2a67a444d83bc7df6","19aefcc2c01ff629f6da5778b12fa0d495a3b610","026ee4e3b9e4e8be7d0158b9e8771bb691809293","3eebcec1da8bae1cb3a65d33aab389c584cff89b","8b8b16a9f3a3355cadd8ac7b19bf05af097e737a","ee311ead4b017e0e080f41cf412d22bfff0139b3","bc657af3ba28474c72bbb34376739f6bdef82106","f9cc09a3a54308135d6f25f63904d18d0d3ff6f8","731208b392d3a948ee7677c2e24f1117e2c8df79","826e1a7402cf89ae5c8855cbe52fd8280617c73a","30773bfaf4871bf686df0690419e3244c380be03","23ae54dc6a8c47e2230df98af58d4eba3808ba77","405fa91935f62226ab0d1a2f0d8b7313e2327116","d9ca61ce225e90855b2bfba42f98abf78a7d3276","ba7cb4a29908e433d26840d7d5f8b51738d3bb1d","8246e955525655414c2da95d7153a794f011a0ef","885c4bf56114c7cab98252539e5900113ae3418b","fc49e373fdfdeda2c7359a33768dd0dfb5c5e52f","96c0bd869eaf732f750b44fc4f3fa612cb94f964","7f5322f671ebccd3d142b1e3222185728d9627dd","a5decb9fff612ce7aa2996a7404503bd15167cfb","8f5b17a924e38a91050851ca4dfbbf64dadcbdaa"]
+          blobs=["e6616d14f4b02bd447f872f2a67a444d83bc7df6","19aefcc2c01ff629f6da5778b12fa0d495a3b610","026ee4e3b9e4e8be7d0158b9e8771bb691809293","3eebcec1da8bae1cb3a65d33aab389c584cff89b","8b8b16a9f3a3355cadd8ac7b19bf05af097e737a","ee311ead4b017e0e080f41cf412d22bfff0139b3","bc657af3ba28474c72bbb34376739f6bdef82106","f9cc09a3a54308135d6f25f63904d18d0d3ff6f8","731208b392d3a948ee7677c2e24f1117e2c8df79","826e1a7402cf89ae5c8855cbe52fd8280617c73a","30773bfaf4871bf686df0690419e3244c380be03","23ae54dc6a8c47e2230df98af58d4eba3808ba77","405fa91935f62226ab0d1a2f0d8b7313e2327116","d9ca61ce225e90855b2bfba42f98abf78a7d3276","ba7cb4a29908e433d26840d7d5f8b51738d3bb1d","8246e955525655414c2da95d7153a794f011a0ef","885c4bf56114c7cab98252539e5900113ae3418b","4492b855dd39dd972c13adde4434a13b3d9bb5a3","96c0bd869eaf732f750b44fc4f3fa612cb94f964","7f5322f671ebccd3d142b1e3222185728d9627dd","a5decb9fff612ce7aa2996a7404503bd15167cfb","8f5b17a924e38a91050851ca4dfbbf64dadcbdaa"]
           ids=None
           counts={};probe={}
           for folder in sorted(root.iterdir()):
