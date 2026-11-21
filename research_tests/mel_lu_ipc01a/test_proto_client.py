@@ -247,7 +247,7 @@ def test_forged_health_report_fails_closed(fault,pattern):
 
 def test_disconnected_core_health_is_not_exchanged_for_execution_authority():
     client, _ = _client("health_disconnected")
-    client.handshake(client_nonce=b"\\x33"*32)
+    client.handshake(client_nonce=b"\x33"*32)
     report = client.health()
     assert report["module_id"] == "lu.core"
     assert report["connected"] is False
