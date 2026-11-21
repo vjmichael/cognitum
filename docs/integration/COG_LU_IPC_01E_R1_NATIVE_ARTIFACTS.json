@@ -1,0 +1,75 @@
+{
+  "schema": "cognitum.lu_ipc01e_r1.outside_ci_original_native_evidence.v1",
+  "original_qualified_sha": "73b374e201bb300e26d517dec4af95c0a93f1674",
+  "original_run_id": 44926901295,
+  "original_five_jobs_passed": 5,
+  "original_native_tests": {
+    "per_platform": 157,
+    "platforms": 4,
+    "total_passed": 628,
+    "total_failed": 0,
+    "skipped": 0,
+    "new_01E_per_platform": 22
+  },
+  "original_artifacts": [
+    {
+      "artifact_id": 14716550890,
+      "platform": "ubuntu-latest-py3.13",
+      "authoritative_sha256": "sha256:0547debd58d845f4912c5bb9dda2f515ad8694a2fa1fe9e397593dae7749781c",
+      "external_sha256_and_crc_verified": true,
+      "original_junit_passed": 157
+    },
+    {
+      "artifact_id": 14716405658,
+      "platform": "windows-latest-py3.11",
+      "authoritative_sha256": "sha256:26a0ce7b3eaf0ef669eac9c61ed820faf4c74710f634a6b15b0ba3c62bd28c77",
+      "external_sha256_and_crc_verified": true,
+      "original_junit_passed": 157
+    },
+    {
+      "artifact_id": 14716266602,
+      "platform": "ubuntu-latest-py3.11",
+      "authoritative_sha256": "sha256:99e4d4e60855db283e4e9842e12c950f7d8f448e38b055111080dfb10a3ebfa2",
+      "external_sha256_and_crc_verified": true,
+      "original_junit_passed": 157
+    },
+    {
+      "artifact_id": 14715866875,
+      "platform": "independent",
+      "authoritative_sha256": "sha256:e6267e309a14445ed84988d2382efd17c4f77a4db9541b3f1edeca1c7c80ac1e",
+      "external_sha256_and_crc_verified": true,
+      "original_junit_passed": null
+    },
+    {
+      "artifact_id": 14715587974,
+      "platform": "windows-latest-py3.13",
+      "authoritative_sha256": "sha256:23d7098ead3638fabb3b18ed0a0499853bedefb8a3b98b05c117f7ddbe188af1",
+      "external_sha256_and_crc_verified": true,
+      "original_junit_passed": 157
+    }
+  ],
+  "original_protobuf": {
+    "lu_git_blob": "4e01d921197fb1c58c99958479b1cede36e13c9a",
+    "ssm_git_blob": "755562254afdbea686ee33b95567c505f2f85e49",
+    "descriptor_sha256": "d2cf48e33c80837ac99f2a080ba16996617020c84482f690b8ea1e5f089e79f0",
+    "lu_python_sha256": "3757c3adcd357d57a353a29490c60e687eedb32f6a4d78ea8759378a15e2d22b",
+    "ssm_python_sha256": "4aa6463da1775f93ada551f172ac3a69f5f2e261ca0955089fd4d345b51cef40"
+  },
+  "outside_CI": {
+    "all_5_original_zip_sha256_and_crc_verified": true,
+    "all_4_original_157_JUnit_identities_match": true,
+    "all_20_original_Git_source_blobs_match": true,
+    "original_fifth_independent_receipt_verified": true,
+    "original_generated_code_match": true
+  },
+  "limits": {
+    "installed_lu_core_signed_origin_verified": false,
+    "installed_os_key_broker_qualified": false,
+    "independent_hardware_or_remote_revision_anchor": false,
+    "worker_kill_custody_verified": false,
+    "external_output_delivery_authorized": false,
+    "external_acknowledgment_authorized": false,
+    "model_tool_execution_granted": false
+  },
+  "source_unchanged_after_native_acceptance": true
+}
