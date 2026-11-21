@@ -1,0 +1,218 @@
+name: Cognitum R5 PHYSICAL-02-R3 signed original uncertain SCM recovery
+on:
+  push:
+    branches: [integration/cog-lu-ipc01e-r2-custody-20261121]
+    paths: [.github/workflows/cog-r5-physical02-r3-native.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cog-physical02-r3-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  windows-forced-uncertain:
+    name: Genuine Windows SCM process kill, signed original admission and uncertain refusal
+    runs-on: windows-latest
+    timeout-minutes: 35
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned real SSM and signature verifier dependencies
+        run: python -m pip install numpy==2.2.6 scipy==1.15.3 protobuf==6.33.1 grpcio-tools==1.76.0 cryptography==46.0.3 pytest==9.0.2
+      - name: Verify source-original numerical Protobuf and R2/R3 refusal tests
+        shell: pwsh
+        run: |
+          python -m research_tests.mel_lu_ipc01c.compile_pinned_lu_ssm --root "$PWD/cognitum/mel/vendor" --descriptor-out "$PWD/r3-lu-ssm.desc" --receipt "$PWD/r3-lu-ssm-receipt.json"
+          if($LASTEXITCODE -ne 0){throw 'Original Lu/Cognitum IPC Protobuf cannot compile'}
+          python -m pytest -q research_tests/mel_lu_ipc01e_r5/test_scm_r2_signed_stop.py research_tests/mel_lu_ipc01e_r5/test_scm_r3_recovery.py --junitxml=r3-native-tests.xml
+          if($LASTEXITCODE -ne 0){throw 'R3 original signed restart verifier refusal tests failed'}
+      - name: Stage original one-use HMAC-bound fixed real SSM input
+        shell: pwsh
+        run: |
+          $root=Join-Path $PWD 'native/windows_scm_fixture/target/r3-fixture'
+          New-Item -ItemType Directory -Path $root -Force | Out-Null
+          python scripts/cog_r5_r1_scm_ssm_fixture.py prepare --root "$root" --env-file "$env:GITHUB_ENV"
+          if($LASTEXITCODE -ne 0){throw 'Original one-use SSM prelaunch intent failed'}
+          [IO.File]::AppendAllText($env:GITHUB_ENV,("COG_R3_CI_PRELAUNCH_SIGNED="+(Join-Path $root 'r3-signed-prelaunch.json')+[Environment]::NewLine+"COG_R3_CI_RESTART_SIGNED="+(Join-Path $root 'r3-signed-restart.json')+[Environment]::NewLine))
+      - name: Provision separate nonexportable LocalMachine test-only CNG signer
+        id: provision
+        shell: pwsh
+        run: |
+          $root=Join-Path $PWD 'native/windows_scm_fixture/target/r3-fixture'
+          & ./scripts/cog-r5-physical02-r2-cng-provision.ps1 -Mode provision -FixtureRoot $root -EnvFile "$env:GITHUB_ENV"
+      - name: Compile exact offline native SCM/CNG signed R3 original-recovery source
+        shell: pwsh
+        run: |
+          cargo build --manifest-path native/windows_scm_fixture/Cargo.toml --release --locked --offline --features r3-signed-recovery
+          if($LASTEXITCODE -ne 0){throw 'Native Windows R3 SCM original-recovery compiler refused'}
+      - name: Force genuine SCM process death then verify CNG signed uncertain original restart
+        shell: pwsh
+        run: |
+          $root=Join-Path $PWD 'native/windows_scm_fixture/target/r3-fixture'
+          & ./scripts/cog-r5-physical02-r3-crash-recovery.ps1 -Executable "$PWD/native/windows_scm_fixture/target/release/cognitum-scm-supervisor.exe" -FixtureRoot $root -EvidencePath "$PWD/r3-windows-forced-uncertain.json"
+      - name: Independently remove test LocalMachine signing key and confirm no key remains
+        if: always() && steps.provision.outcome == 'success'
+        shell: pwsh
+        run: |
+          $root=Join-Path $PWD 'native/windows_scm_fixture/target/r3-fixture'
+          & ./scripts/cog-r5-physical02-r2-cng-provision.ps1 -Mode remove -FixtureRoot $root
+          '{"schema":"cognitum.ssm.r3.CI_machine_key_revocation.v1","machine_CNG_key_absent_after_deletion":true,"production_authority":false}' | Set-Content -LiteralPath r3-machine-key-revoked.json -Encoding ascii
+      - name: Preserve exact qualified source SHA and native SCM service hash
+        if: always()
+        shell: pwsh
+        run: |
+          (git rev-parse HEAD) | Out-File r3-source-sha.txt -Encoding ascii
+          (git hash-object native/windows_scm_fixture/src/main.rs native/windows_scm_fixture/src/r3_recovery.rs native/windows_scm_fixture/src/r3_appcontainer.rs native/windows_scm_fixture/src/r2_signer.rs native/windows_scm_fixture/src/ssm_fixture.rs native/windows_scm_fixture/Cargo.toml native/windows_scm_fixture/Cargo.lock scripts/cog-r5-physical02-r3-crash-recovery.ps1 scripts/cog_r5_r3_verify_recovery.py research_tests/mel_lu_ipc01e_r5/test_scm_r3_recovery.py scripts/cog-r5-physical02-r2-cng-provision.ps1) | Out-File r3-git-source-blobs.txt -Encoding ascii
+          $bin='native/windows_scm_fixture/target/release/cognitum-scm-supervisor.exe'
+          if(Test-Path $bin){(Get-FileHash $bin -Algorithm SHA256).Hash.ToLowerInvariant() | Out-File r3-native-binary-sha256.txt -Encoding ascii}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: r3-windows-forced-signed-uncertain-public
+          path: |
+            r3-windows-forced-uncertain.json
+            r3-machine-key-revoked.json
+            r3-source-sha.txt
+            r3-git-source-blobs.txt
+            r3-native-binary-sha256.txt
+            r3-native-tests.xml
+            r3-lu-ssm-receipt.json
+            native/windows_scm_fixture/target/r3-fixture/prelaunch.json
+            native/windows_scm_fixture/target/r3-fixture/r3-signed-prelaunch.json
+            native/windows_scm_fixture/target/r3-fixture/r3-signed-restart.json
+            native/windows_scm_fixture/target/r3-fixture/r2-public-p256.blob
+            native/windows_scm_fixture/target/r3-fixture/r2-external-provision.json
+            native/windows_scm_fixture/target/r3-fixture/output.frame
+          if-no-files-found: warn
+  windows-appcontainer-compile-refusal:
+    name: Genuine Windows/MSVC AppContainer source compile and no default service admission
+    runs-on: windows-latest
+    timeout-minutes: 17
+    env:
+      COG_R1_CI_PYTHON: 'C:\Windows\System32\cmd.exe'
+      COG_R1_CI_SCRIPT: 'C:\Missing\ssm.py'
+      COG_R1_CI_REQUEST: 'C:\Missing\input.frame'
+      COG_R1_CI_OUTPUT: 'C:\Missing\output.frame'
+      COG_R1_CI_INTENT: 'C:\Missing\intent.frame'
+      COG_R1_CI_PRELAUNCH: 'C:\Missing\prelaunch.json'
+      COG_R1_CI_STOP: 'C:\Missing\stop.json'
+      COG_R1_CI_PYTHON_SHA256: '0000000000000000000000000000000000000000000000000000000000000000'
+      COG_R1_CI_SCRIPT_SHA256: '0000000000000000000000000000000000000000000000000000000000000000'
+      COG_R1_CI_REQUEST_SHA256: '0000000000000000000000000000000000000000000000000000000000000000'
+      COG_R1_CI_MAC_KEY_HEX: '0000000000000000000000000000000000000000000000000000000000a000'
+      COG_R2_CI_KEY_NAME: 'CognitumR3NoInstalledKeyFixtureV1'
+      COG_R2_CI_PUBLIC_SHA256: '0000000000000000000000000000000000000000000000000000000000000000'
+      COG_R2_CI_SIGNED_STOP: 'C:\Missing\r2-stop.json'
+      COG_R3_CI_PRELAUNCH_SIGNED: 'C:\Missing\r3-prelaunch.json'
+      COG_R3_CI_RESTART_SIGNED: 'C:\Missing\r3-restart.json'
+      COG_R3_CI_PEER_PID: '0'
+      COG_R3_CI_PEER_BIRTH: '0'
+      COG_R3_CI_PEER_SID: 'S-1-5-18'
+      COG_R3_CI_PEER_IMAGE_SHA256: '0000000000000000000000000000000000000000000000000000000000000000'
+      COG_R3_CI_PROFILE: 'CognitumSsmR3CiSandboxV1'
+      COG_R3_CI_APP_SID: 'S-1-15-2-0'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Compile strict AppContainer with original Windows/MSVC ABI
+        shell: pwsh
+        run: |
+          cargo build --manifest-path native/windows_scm_fixture/Cargo.toml --release --locked --offline --features r3-appcontainer-fixture
+          if($LASTEXITCODE -ne 0){throw 'R3 AppContainer native Rust ABI compilation failed'}
+          $binary='native/windows_scm_fixture/target/release/cognitum-scm-supervisor.exe'
+          & $binary
+          if($LASTEXITCODE -eq 0){throw 'Direct launch without installed SCM admitted AppContainer service'}
+          Write-Host 'PASS_NATIVE_APP_CONTAINER_SOURCE_COMPILED_AND_UNENROLLED_DIRECT_RUN_REFUSED'
+  linux-refusal:
+    name: Linux CNG/AppContainer denial and signed uncertain tamper tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install cryptography==46.0.3 pytest==9.0.2
+      - name: R3 independent signed original restart fraud/refusal
+        shell: bash
+        run: |
+          python -m pytest -q research_tests/mel_lu_ipc01e_r5/test_scm_r3_recovery.py research_tests/mel_lu_ipc01e_r5/test_scm_r2_signed_stop.py
+          cargo build --manifest-path native/windows_scm_fixture/Cargo.toml --locked --offline --release
+          if native/windows_scm_fixture/target/release/cognitum-scm-supervisor;then
+            echo "Linux incorrectly admitted Windows SCM service";exit 1
+          fi
+          echo 'PASS_R3_LINUX_SCM_CNG_APP_CONTAINER_REFUSAL'
+  independent:
+    name: Exact-source native original crash and P256 signed uncertain independent audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    needs: [windows-forced-uncertain,windows-appcontainer-compile-refusal,linux-refusal]
+    if: ${{ always() && needs.windows-forced-uncertain.result == 'success' && needs.windows-appcontainer-compile-refusal.result == 'success' && needs.linux-refusal.result == 'success' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install cryptography==46.0.3
+      - uses: actions/download-artifact@v4
+        with:
+          name: r3-windows-forced-signed-uncertain-public
+          path: original
+      - name: Verify exact Git source, native signed original, new service generation and no release
+        shell: bash
+        env:
+          ORIGINAL_SHA: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          from scripts.cog_r5_r3_verify_recovery import verify_original_chain_bytes
+          root=Path('original')
+          assert (root/'r3-source-sha.txt').read_text().strip()==os.environ['ORIGINAL_SHA']
+          paths=['native/windows_scm_fixture/src/main.rs','native/windows_scm_fixture/src/r3_recovery.rs','native/windows_scm_fixture/src/r3_appcontainer.rs','native/windows_scm_fixture/src/r2_signer.rs','native/windows_scm_fixture/src/ssm_fixture.rs','native/windows_scm_fixture/Cargo.toml','native/windows_scm_fixture/Cargo.lock','scripts/cog-r5-physical02-r3-crash-recovery.ps1','scripts/cog_r5_r3_verify_recovery.py','research_tests/mel_lu_ipc01e_r5/test_scm_r3_recovery.py','scripts/cog-r5-physical02-r2-cng-provision.ps1']
+          pins=[]
+          for p in paths:
+              raw=Path(p).read_bytes()
+              pins.append(hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest())
+          assert pins==(root/'r3-git-source-blobs.txt').read_text().splitlines()
+          evidence=json.loads((root/'r3-windows-forced-uncertain.json').read_text(encoding='utf-8-sig'))
+          assert evidence['status']=='PASS_REAL_WINDOWS_SCM_FORCED_DEATH_SIGNED_UNCERTAIN_REFUSAL_CI_ONLY'
+          assert evidence['native_SCM_hard_termination_observed'] is True
+          assert evidence['original_terminal_kernel_empty_claimed'] is False
+          assert evidence['original_output_released'] is False
+          p=root/'native/windows_scm_fixture/target/r3-fixture'
+          manifest=json.loads((p/'r2-external-provision.json').read_text(encoding='utf-8-sig'))
+          outcome=verify_original_chain_bytes(prelaunch=(p/'prelaunch.json').read_bytes(),signed_pre_bytes=(p/'r3-signed-prelaunch.json').read_bytes(),signed_restart_bytes=(p/'r3-signed-restart.json').read_bytes(),public_blob=(p/'r2-public-p256.blob').read_bytes(),external_pin=manifest['public_blob_sha256'],expected_kind='uncertain_restart')
+          assert outcome['signed_original_prelaunch'] is True and outcome['signed_original_restart'] is True
+          assert outcome['original_status_success'] is False
+          assert outcome['external_output_release_authorized'] is False
+          assert json.loads((root/'r3-machine-key-revoked.json').read_text())['machine_CNG_key_absent_after_deletion'] is True
+          protobuf=json.loads((root/'r3-lu-ssm-receipt.json').read_text())
+          assert protobuf['exact_lu_workspace_proto_preserved'] is True
+          assert protobuf['genuine_installed_lu_core_connected'] is False
+          binary=(root/'r3-native-binary-sha256.txt').read_text().strip()
+          assert len(binary)==64 and all(x in '0123456789abcdef' for x in binary)
+          report={'schema':'cognitum.ssm.r3.original_termination_and_uncertain_CI.v1','original_source_sha':os.environ['ORIGINAL_SHA'],'exact_git_blobs':len(pins),'unsigned_service_binary_sha256':binary,'actual_windows_scm_forced_death_and_cold_process_restart':True,'external_CNG_machine_P256_signed_admission_uncertain':True,'native_rust_appcontainer_compiled':True,'full_python_SSM_in_AppContainer_executed':False,'independent_physical_installed_publisher_accepted':False,'independent_Core_enrollment':False,'original_effect_or_output_released':False}
+          Path('r3-independent-audit.json').write_text(json.dumps(report,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(report,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: r3-independent-original-source
+          path: r3-independent-audit.json
+          if-no-files-found: warn
