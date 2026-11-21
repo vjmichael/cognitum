@@ -40,3 +40,7 @@
 /research_tests/ssm_postnative03/data/uci374.csv text eol=lf
 /research_tests/ssm_postnative03/data/uci501.csv text eol=lf
 /research_tests/ssm_postnative03/data/sources.json text eol=lf
+
+# Frozen UCI 501 multisite PM2.5 excerpts, licensing and acquisition receipts.
+/research_tests/ssm_postnative04/data/*.csv text eol=lf
+/research_tests/ssm_postnative04/data/*.json text eol=lf
