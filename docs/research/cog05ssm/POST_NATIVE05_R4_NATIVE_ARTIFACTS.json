@@ -45,7 +45,7 @@
   "max_abs_cross_platform_heldout_metric_delta": 5.684341886080802e-14,
   "max_relative_cross_platform_heldout_metric_delta": 1.671795693118804e-13,
   "bitwise_KAN_checkpoint_SHA_match": false,
-  "KAN_checkpoint_replay_numerically_qualified": true,
+  "KAN_checkpoint_replay_numerically_qualified": false,
   "original_instrument_signatures_verified": false,
   "unconditional_dependent_coverage_proven": false,
   "physical_law_discovered": false,
@@ -86,5 +86,7 @@
       "science_sha256": "c0daadcc2dcffed85701d0ce976f8ee001ff781594913b3dccc126ea51558098",
       "junit_sha256": "54be50311987fc15d5639bec5207f95baa75f457f94de34ce790d0eac01d4c4b"
     }
-  ]
+  ],
+  "cross_platform_heldout_metric_agreement_verified": true,
+  "snapshot_replay_requires_new_cross_platform_byte_stability_work": true
 }
