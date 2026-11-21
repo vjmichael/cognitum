@@ -154,10 +154,11 @@ class HoldoutAudit:
     independent_physical_benchmark: bool = False
 
 
-def _qualified(raw, *, site_id, units, clock, provenance, source_current):
+def _qualified(raw, *, site_id, units, clock, provenance, source_current,
+               fixed_research=None):
     _guard(callable(source_current), "trusted source freshness callback required")
     series = science.qualify(raw, site_id=site_id, units=units, clock=clock,
-                             provenance=provenance)
+                             provenance=provenance, fixed_research=fixed_research)
     _guard(source_current(series) is True, "stale scientific source refused")
     return series
 
@@ -178,6 +179,7 @@ def propose_forecast(
     clock: science.Clock, provenance: science.Provenance,
     source_current, model: compare.Fitted, calibration: compare.Calibration,
     policy: SelectionPolicy, override: UserOverride | None = None,
+    fixed_research: science.ResearchCohort | None = None,
 ) -> Decision:
     """An evidence-backed, host-reviewable proposal; not a prediction call.
 
@@ -189,7 +191,8 @@ def propose_forecast(
            (override is None or type(override) is UserOverride),
            "typed policy and optional operator request required")
     series = _qualified(raw, site_id=site_id, units=units, clock=clock,
-                        provenance=provenance, source_current=source_current)
+                        provenance=provenance, source_current=source_current,
+                        fixed_research=fixed_research)
     compare._fit_check(model, series)
     independent, cohort, predictions = compare._cal_internal(series, model)
     _guard(type(calibration) is compare.Calibration and
@@ -343,6 +346,7 @@ def evaluate_frozen_proposal(
     clock: science.Clock, provenance: science.Provenance, source_current,
     model: compare.Fitted, calibration: compare.Calibration,
     policy: SelectionPolicy,
+    fixed_research: science.ResearchCohort | None = None,
 ) -> HoldoutAudit:
     """Evaluate a pre-frozen proposal without selecting from held-out labels.
 
@@ -354,14 +358,15 @@ def evaluate_frozen_proposal(
         raw,site_id=site_id,units=units,clock=clock,
         provenance=provenance,source_current=source_current,
         model=model,calibration=calibration,policy=policy,
-        override=decision.override)
+        override=decision.override,fixed_research=fixed_research)
     _guard(decision == trusted and
            decision.execution_authorized is False and
            decision.status=="PROPOSED_OFFLINE" and
            decision.selected is not None,
            "tampered, abstained or source-expired decision refused")
     series = _qualified(raw,site_id=site_id,units=units,clock=clock,
-                        provenance=provenance,source_current=source_current)
+                        provenance=provenance,source_current=source_current,
+                        fixed_research=fixed_research)
     # The input task's original source/target matching and train-only
     # transforms are independently rechecked by ORCH-01D at test time.
     names = ("statistical.ridge","research.ssm") + (

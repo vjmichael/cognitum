@@ -1,0 +1,73 @@
+name: Cognitum BENCH-02 R4-R2 original native Orc SSM KAN HDC
+
+on:
+  push:
+    branches:
+      - research/orc-bench02-r4-r2-original-orc-20261120
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cognitum-orc-bench02-r4-r2-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  original-orc-native:
+    name: Native original selection and specialists / ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.11', '3.13']
+    env:
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      PYTHONHASHSEED: '0'
+    steps:
+      - name: Checkout unchanged original R3 sources, R4 negatives and R4-R2
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install native Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Exact scientific and existing cooperative protobuf dependencies
+        run: python -m pip install numpy==2.2.6 scipy==1.15.3 protobuf==6.33.1 pytest==9.0.2
+      - name: Original legacy Orc source selection comparison and frozen R3 / R4 regression
+        run: python -m pytest -q tests/test_orc_science_data.py tests/test_orc_comparison.py tests/test_orc_selection.py tests/test_orc_real_benchmark.py tests/test_orc_bench02_availability.py tests/test_orc_bench02_acquisition.py tests/test_orc_bench02_cohorts.py tests/test_orc_bench02_capture_r3.py tests/test_orc_bench02_r4_pretest.py tests/test_orc_bench02_r4r2_pretest.py --junitxml=bench02-r4r2-pretest.xml
+      - name: Original fit/calibrate/propose for every original R3 site and horizon — no heldout score
+        run: python -m tools.orcbench02.original_orc_r4r2 --phase freeze --decisions bench02-r4r2-decisions.json
+      - name: Independently rederive calibration decisions before heldout scoring
+        run: python -m tools.orcbench02.original_orc_r4r2 --phase score --decisions bench02-r4r2-decisions.json --output bench02-r4r2-results.json
+      - name: Replay all original matched heldout forecasts, abstentions and native specialist identities
+        run: python -m pytest -q tests/test_orc_bench02_r4r2_results.py --junitxml=bench02-r4r2-verified.xml
+      - name: Lock exact preregistration and all canonical original source Git blobs
+        shell: bash
+        run: |
+          git rev-parse HEAD > source-sha.txt
+          git hash-object docs/research/orcgraph/ORCH01E_BENCH02_R4_R2_PREREG.json cognitum/orc_r3_frozen.py cognitum/orc_science_data.py cognitum/orc_selection.py tools/orcbench02/original_orc_r4r2.py tests/test_orc_bench02_r4r2_pretest.py tests/test_orc_bench02_r4r2_results.py tools/orcbench02/benchmark_r4.py docs/research/orcgraph/ORCH01E_BENCH02_R4.md > source-blobs.txt
+          test "$(git hash-object docs/research/orcgraph/ORCH01E_BENCH02_R4_R2_PREREG.json)" = "2a746c1737627183fab924466dffb5bf4b034014"
+          test "$(git hash-object docs/research/orcgraph/ORCH01E_BENCH02_R4.md)" = "5dc4fa1f980fc7678371cba78dbfdbdfe09fb651"
+          test "$(git hash-object tools/orcbench02/benchmark_r4.py)" = "5ad4c5967ac4c0b44df5cf400bea970054941c73"
+          for file in docs/research/orcgraph/ORCH01E_BENCH02_R4_R2_PREREG.json cognitum/orc_r3_frozen.py cognitum/orc_science_data.py cognitum/orc_selection.py tools/orcbench02/original_orc_r4r2.py tests/test_orc_bench02_r4r2_pretest.py tests/test_orc_bench02_r4r2_results.py tools/orcbench02/benchmark_r4.py docs/research/orcgraph/ORCH01E_BENCH02_R4.md; do
+            test "$(git hash-object "$file")" = "$(git rev-parse "HEAD:$file")" || { echo "Noncanonical source: $file"; exit 1; }
+          done
+      - name: Preserve original two-phase native evidence including failed partial runs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: orcbench02-r4r2-${{ matrix.os }}-py${{ matrix.python }}
+          if-no-files-found: warn
+          path: |
+            bench02-r4r2-pretest.xml
+            bench02-r4r2-verified.xml
+            bench02-r4r2-decisions.json
+            bench02-r4r2-results.json
+            source-sha.txt
+            source-blobs.txt

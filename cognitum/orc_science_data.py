@@ -17,6 +17,7 @@ from hashlib import sha256
 from io import StringIO
 from math import fsum, isfinite, sqrt
 from types import MappingProxyType
+from .orc_r3_frozen import ResearchCohort, HOUR
 import json
 import re
 
@@ -131,6 +132,7 @@ class QualifiedSeries:
     provenance: Provenance
     rows: tuple[Observation, ...]
     identity: str
+    fixed_research: ResearchCohort | None = None
 
     @property
     def has_missing(self):
@@ -138,7 +140,8 @@ class QualifiedSeries:
 
 
 def qualify(raw: bytes, *, site_id: str, units: Units, clock: Clock,
-            provenance: Provenance) -> QualifiedSeries:
+            provenance: Provenance,
+            fixed_research: ResearchCohort | None = None) -> QualifiedSeries:
     """Read exact custody-verified UTF-8 CSV bytes, never files or URLs."""
     _identifier(site_id)
     if type(units) is not Units or type(clock) is not Clock or type(provenance) is not Provenance:
@@ -147,6 +150,12 @@ def qualify(raw: bytes, *, site_id: str, units: Units, clock: Clock,
         raise ValueError("scientific source byte bound")
     if sha256(raw).hexdigest() != provenance.raw_sha256:
         raise ValueError("source content SHA256 mismatch")
+    if fixed_research is not None and (
+        type(fixed_research) is not ResearchCohort or
+        fixed_research.station != site_id or
+        fixed_research.derived_csv_sha256 != provenance.raw_sha256 or
+        units != Units("temperature","K") or clock.nominal_interval_ms != HOUR):
+        raise ValueError("original R3 source, units or hourly clock changed")
     try:
         decoded = raw.decode("utf-8")
         parsed = csv.reader(StringIO(decoded, newline=""), strict=True)
@@ -185,15 +194,23 @@ def qualify(raw: bytes, *, site_id: str, units: Units, clock: Clock,
         raise ValueError("invalid scientific CSV source") from exc
     if len(records) < 15:
         raise ValueError("insufficient chronological observations")
-    identity = _digest({
+    if fixed_research is not None and (len(records)!=fixed_research.row_count or
+        any(row.timestamp_ms != records[0].timestamp_ms+i*HOUR
+            for i,row in enumerate(records))):
+        raise ValueError("original R3 192-hour calendar changed")
+    identity_material = {
         "schema": "orc.science.source.v1", "site": site_id,
         "quantity": units.quantity, "unit": units.symbol,
         "clock": (clock.representation, clock.nominal_interval_ms),
         "publisher": provenance.publisher, "source": provenance.source_reference,
         "raw": provenance.raw_sha256, "unit_evidence": provenance.unit_evidence,
         "rights": provenance.rights_status,
-    })
-    return QualifiedSeries(site_id, units, clock, provenance, tuple(records), identity)
+    }
+    if fixed_research is not None:
+        identity_material["frozen_source_and_original_cohort"] = fixed_research.identity
+    identity = _digest(identity_material)
+    return QualifiedSeries(site_id, units, clock, provenance, tuple(records), identity,
+                           fixed_research)
 
 
 @dataclass(frozen=True, slots=True)
@@ -216,19 +233,29 @@ def split_chronological(series: QualifiedSeries) -> ChronologicalSplit:
     if type(series) is not QualifiedSeries:
         raise ValueError("qualified source required")
     count = len(series.rows)
-    a, b = (3 * count) // 5, (4 * count) // 5
+    if series.fixed_research is not None:
+        if count != series.fixed_research.row_count:
+            raise ValueError("frozen R3 hourly row count drift")
+        a, b = series.fixed_research.train_stop, series.fixed_research.cal_stop
+    else:
+        a, b = (3 * count) // 5, (4 * count) // 5
     if a < 6 or b <= a or b >= count:
         raise ValueError("insufficient chronological folds")
     return ChronologicalSplit(series.identity, a, b, count, series.rows[a - 1].timestamp_ms)
 
 
 def _check_split(series, split):
-    if (type(series) is not QualifiedSeries or type(split) is not ChronologicalSplit or
+    if type(series) is not QualifiedSeries or type(split) is not ChronologicalSplit:
+        raise ValueError("qualified R3 source or chronological split required")
+    a, b = ((series.fixed_research.train_stop, series.fixed_research.cal_stop)
+            if series.fixed_research is not None else
+            ((3*len(series.rows))//5,(4*len(series.rows))//5))
+    if (
         split.series_identity != series.identity or split.row_count != len(series.rows) or
         split.train_until_ms != series.rows[split.train_stop - 1].timestamp_ms or
         not 6 <= split.train_stop < split.cal_stop < split.row_count or
-        split.train_stop != (3 * split.row_count) // 5 or
-        split.cal_stop != (4 * split.row_count) // 5):
+        split.train_stop != a or
+        split.cal_stop != b):
         raise ValueError("stale or incompatible chronological split")
 
 
@@ -365,6 +392,13 @@ def prepare_forecasts(series: QualifiedSeries, split: ChronologicalSplit,
     at_time = {row.timestamp_ms: (i, row) for i, row in enumerate(observations)}
     skip = {"origin_unavailable": 0, "lag_unavailable": 0,
             "target_missing_or_outside_fold": 0}
+    frozen = series.fixed_research
+    if frozen is not None:
+        if horizon_ms != frozen.horizon_ms or lag_ms != HOUR:
+            raise ValueError("original R3 horizon/lag proposal mismatch")
+        allowed = frozen.fold_pairs[_FOLDS.index(fold)]
+        allowed_set = set(allowed)
+        skip["not_in_original_R3_frozen_cohort"] = 0
     selected = []
     for origin in observations[left:right]:
         if not origin.observed or origin.available_ms > origin.timestamp_ms:
@@ -379,11 +413,22 @@ def prepare_forecasts(series: QualifiedSeries, split: ChronologicalSplit,
         if (future is None or not left <= future[0] < right or not future[1].observed):
             skip["target_missing_or_outside_fold"] += 1
             continue
+        if frozen is not None:
+            if (origin.timestamp_ms, future[1].timestamp_ms) not in allowed_set:
+                skip["not_in_original_R3_frozen_cohort"] += 1
+                continue
+            for k in (3,6,24):
+                older = at_time.get(origin.timestamp_ms-k*HOUR)
+                if (older is None or not older[1].observed or
+                    older[1].available_ms > origin.timestamp_ms):
+                    raise ValueError("R3 original five-lag availability was relaxed")
         selected.append(ForecastExample(
             origin.timestamp_ms, future[1].timestamp_ms,
             ((origin.value - scaler.mean) / scaler.standard_deviation,
              (prev[1].value - scaler.mean) / scaler.standard_deviation),
             future[1].value))
+    if frozen is not None and tuple((q.origin_ms,q.target_ms) for q in selected) != allowed:
+        raise ValueError("original R3 fixed source/cohort mismatch")
     return PreparedBatch(series.identity, contract.operation, fold,
                          horizon_ms, lag_ms, right - left,
                          tuple(sorted(skip.items())), tuple(selected))

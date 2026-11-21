@@ -64,3 +64,14 @@
 /tests/test_orc_bench02_r4_pretest.py text eol=lf
 /tests/test_orc_bench02_r4_results.py text eol=lf
 /.github/workflows/orcbench02-r4-native.yml text eol=lf
+
+# BENCH-02-R4-R2 original specialist source and immutable pre-result protocol.
+/docs/research/orcgraph/ORCH01E_BENCH02_R4_R2_PREREG.json text eol=lf
+/docs/research/orcgraph/ORCH01E_BENCH02_R4_R2.md text eol=lf
+/cognitum/orc_r3_frozen.py text eol=lf
+/cognitum/orc_science_data.py text eol=lf
+/cognitum/orc_selection.py text eol=lf
+/tools/orcbench02/original_orc_r4r2.py text eol=lf
+/tests/test_orc_bench02_r4r2_pretest.py text eol=lf
+/tests/test_orc_bench02_r4r2_results.py text eol=lf
+/.github/workflows/orcbench02-r4r2-native.yml text eol=lf
