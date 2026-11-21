@@ -229,8 +229,8 @@ def propose_forecast(
     _guard(all_methods == calibration.methods and
            len(set(all_methods)) == len(all_methods) and
            all(name in _STEPS for name in all_methods) and
-           tuple(name for name in _STEPS if name in all_methods) ==
-           tuple(name for name in _STEPS if name in all_methods),
+           all_methods ==
+           tuple(name for name in compare.METHODS if name in all_methods),
            "unrecognized calibrated method inventory")
     score_map = dict(calibration.scores)
     _guard(tuple(score_map) == all_methods, "calibration score order changed")
