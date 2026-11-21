@@ -246,7 +246,12 @@ class ProtectedFixedSSMExecutor:
 
     def __init__(self, *, original, core_session_ref, mel_scope,
                  expected_stream_id, expected_event_id, credential_broker,
-                 durable_directory, delegated_cgroup_root=None):
+                 durable_directory, delegated_cgroup_root=None,
+                 windows_suspended_runner=None):
+        if windows_suspended_runner is not None:
+            from .ssm_r5_windows_job import WindowsSuspendedFixedSSMJob
+            _need(type(windows_suspended_runner) is WindowsSuspendedFixedSSMJob,
+                  "reviewed pinned suspended Windows SSM runner required")
         self.claim = DurableOriginalWorkerClaim(
             durable_directory, credential_broker, mel_scope, original,
             core_session_ref, expected_event_id, expected_stream_id)
@@ -254,6 +259,10 @@ class ProtectedFixedSSMExecutor:
         self._stream = expected_stream_id
         self._event = expected_event_id
         self._delegated = delegated_cgroup_root
+        self._windows_suspended = windows_suspended_runner
+        if windows_suspended_runner is not None:
+            _need(windows_suspended_runner.root == self.claim._root,
+                  "pinned Windows host directory must match original durable custody")
         self._attempted = False
         self.last_evidence = None
 
@@ -276,7 +285,11 @@ class ProtectedFixedSSMExecutor:
         pid = 0
         verified = False
         if sys.platform == "win32":
-            status, reply, pid, verified = self._windows(request, timeout_ms)
+            if self._windows_suspended is not None:
+                status, reply, pid, verified = self._windows_suspended.run(
+                    request, timeout_ms)
+            else:
+                status, reply, pid, verified = self._windows(request, timeout_ms)
             mechanism = "windows_job"
         elif sys.platform.startswith("linux"):
             status, reply, pid, verified = self._linux(request, timeout_ms)
@@ -290,6 +303,12 @@ class ProtectedFixedSSMExecutor:
             "original_operation_bound": True,
             "fixed_ssm_math_under_native_kernel_custody": True,
             "native_stop_locally_observed": True,
+            "windows_worker_suspended_from_birth": (
+                sys.platform == "win32" and self._windows_suspended is not None
+                and self._windows_suspended.last_evidence is not None
+                and self._windows_suspended.last_evidence[
+                    "kernel_job_assigned_before_resume"] is True),
+
             "installed_core_grant_verified": False,
             "independent_signed_executor_stop_receipt": False,
             "installed_production_service_verified": False,
