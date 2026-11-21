@@ -1,0 +1,155 @@
+{
+  "schema": "cognitum.orc.bench02.r5.native_acceptance_and_independent_original_science.v1",
+  "scope": "R5 historical scientific consolidation + future first-seen source protocol and SYNTHETIC source refusal qualification, not live prospective NOAA collection or prospective forecasting",
+  "acceptance": "PASS_R5_SOURCE_PREREG_SCIENCE_ARCHIVE_AND_SYNTHETIC_WITNESS_ONLY",
+  "accepted_native_scientific_source": "dadfc1e9639dd7927e6621902ac35123db51e53d",
+  "accepted_workflow_run_id": 44877514671,
+  "run_url": "https://github.com/vjmichael/cognitum/actions/runs/44877514671",
+  "original_R5_preregistered_before_source_work_commit": "d7f8bbc90f105c82f89305c984659e8057a4227e",
+  "original_R5_prereg_git_blob": "02828d09afaf584a9b5cc8a66e0f2de917b48429",
+  "original_R5_prereg_method_unchanged": true,
+  "original_R4_source_candidate": "11ed7697defd2a6df1c75360ddf2e7aca6a890ae",
+  "original_R4R2R3_native_candidate": "06eb4ff9f40fd437992842f6cd7e4d9c3db1cc7f",
+  "original_source_prereg_and_historical_results_unmodified": true,
+  "four_native_original_archives": [
+    {
+      "os": "ubuntu-latest",
+      "python": "3.11",
+      "artifact_id": 14696004876,
+      "sha256": "2425b82f523f0fa252fb2e7fbd6eb16d7d9c4926ebaf807435d0c5b763c997ad",
+      "tests": 316,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "os": "ubuntu-latest",
+      "python": "3.13",
+      "artifact_id": 14696626768,
+      "sha256": "278b17fbc3812c34bb62bc2a363a29bac1f62ecbefc7257f784308cd32f60d4a",
+      "tests": 316,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "os": "windows-latest",
+      "python": "3.11",
+      "artifact_id": 14696114260,
+      "sha256": "560a6c5c19a5c86d5521a8fef1cd81cdab1d298e9904d561d7ab5f880405dd5d",
+      "tests": 316,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "os": "windows-latest",
+      "python": "3.13",
+      "artifact_id": 14696321975,
+      "sha256": "de9fea36a0730dda8246b34f244f40a874e4af52f51315461e359a040729ef61",
+      "tests": 316,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "native_tests_total": 1264,
+  "all_original_4_native_SHA256_CRC_JUnit_and_exact_source_verified": true,
+  "independent_historical_audit_original_artifact": {
+    "id": 14697070472,
+    "zip_sha256": "c2ece4ebf926def9bada1f78ca238e3a74262efea58911ab34005a94230877a3",
+    "result": "PASS"
+  },
+  "historical_original_studies": [
+    {
+      "study": "R4",
+      "run_id": 44873223743,
+      "source_sha": "11ed7697defd2a6df1c75360ddf2e7aca6a890ae",
+      "original_archives": 4
+    },
+    {
+      "study": "R4-R2-R3",
+      "run_id": 44875900382,
+      "source_sha": "06eb4ff9f40fd437992842f6cd7e4d9c3db1cc7f",
+      "original_archives": 5
+    }
+  ],
+  "original_nine_acceptance_archives_independently_verifiable": true,
+  "historical_replay": {
+    "original_R4_archives_sha256_verified": 4,
+    "original_R4R2R3_archives_sha256_verified": 4,
+    "original_original_four_platform_portability_archive_verified": true,
+    "source_matched_9_site_horizon_cases": 9,
+    "matched_origin_target_pairs_per_platform": 265,
+    "all_4_native_cross_version_observation_rows_compared": 1060,
+    "original_R4_R4R2R3_max_target_roundoff_K": 5.684341886080802e-14,
+    "original_R4_R4R2R3_max_reference_ridge_roundoff_K": 5.684341886080802e-14,
+    "original_4way_portable_decision_SHA256": "703f13885bb81db5b63f718cf0c6a7beebb180d5d56f189bfbdf222a649a0789",
+    "original_R3_strict_first_capture_eligible_test_origins": 0,
+    "historical_publisher_publication_proven": false,
+    "original_KAN_SSM_retrospective_gain_percent": 3.53790032484963,
+    "original_HDC_SSM_retrospective_gain_percent": 1.4213714653547156,
+    "original_KAN_HDC_SSM_retrospective_gain_percent": 3.28538465210847,
+    "original_Orc_research_portable_no_complete_nine_case_macro": true,
+    "original_Orc_research_portable_abstained": [
+      "KSEA_6h",
+      "KDEN_6h",
+      "KATL_1h"
+    ],
+    "original_Orc_research_reported_only_gain_percent": -0.4199976756466615
+  },
+  "prospective_plan": {
+    "source": "NOAA Aviation Weather Center official JSON API",
+    "sites": [
+      "KBOS",
+      "KMSP",
+      "KPHX"
+    ],
+    "two_distinct_external_GitHub_native_capture_lanes": [
+      "A",
+      "B"
+    ],
+    "nominal_poll_minutes": 10,
+    "days": 28,
+    "hourly_folds": [
+      336,
+      168,
+      168
+    ],
+    "forecast_horizons_hours": [
+      1,
+      3,
+      6
+    ],
+    "future_source_capture_routine": "manual workflow only, not activated",
+    "future_source_observation_count": 0,
+    "real_first_seen_archived_witnesses_acquired": 0,
+    "global_publisher_first_publication_proved": false,
+    "only_synthetic_adversarial_first_seen_tests_qualified": true,
+    "not_prospective_forecast_model_evaluation": true,
+    "external_rest_artifact_and_zip_source_verifier_implemented": true,
+    "no_automated_network_job_started": true
+  },
+  "original_failed_successor_runs_retained": [
+    {
+      "run": 44877237345,
+      "sha": "54854179ca173fe1ba3a2abe916d219a1f1e4a14",
+      "reason": "five synthetic test expectations used incompatible field/error names; 311 original native tests passed each Linux"
+    },
+    {
+      "run": 44877337844,
+      "sha": "19e0f8270aae262e6ea00d2ecee7bd34c148a608",
+      "reason": "four platforms passed native synthetic source requirements; fifth job direct GitHub artifact ZIP redirect returned HTTP 401"
+    }
+  ],
+  "last_source_only_repair": "supported GitHub cross-run artifact downloader plus individually authenticated original GitHub metadata SHA256 and source run ID; independent method/heldout replay unchanged",
+  "what_did_not_pass_or_was_not_attempted": [
+    "no actual future NOAA observation is first-seen verified or anchored",
+    "no pre-signed original publisher first public availability and no signed original raw sensor",
+    "no real full 28-day prospective source cohort",
+    "no newly blind KAN/HDC model superiority",
+    "no installed COG-06/MEL authorization",
+    "continuous independent two-lane 10-minute collection would require separately authorized and economical durable host; no scheduled collection started"
+  ],
+  "recommended_next": "COG-ORCH-01E-BENCH-02-R5-PROSPECTIVE-01 independently qualify durable two-lane original NOAA acquisition, externally authenticated GitHub artifact time receipts, error/gap continuity and missingness with operator-approved network schedule; then prospective 28-day source and original locked model evaluation"
+}

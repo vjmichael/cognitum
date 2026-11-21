@@ -103,3 +103,6 @@
 /tests/test_orc_bench02_r5_historical.py text eol=lf
 /.github/workflows/orcbench02-r5-native.yml text eol=lf
 /.github/workflows/orcbench02-r5-manual-capture.yml text eol=lf
+
+# Preserve accepted source-only R5 ZIP/digest and JUnit evidence across Windows checkouts.
+/docs/research/orcgraph/ORCH01E_BENCH02_R5_NATIVE_ARTIFACTS.json text eol=lf
