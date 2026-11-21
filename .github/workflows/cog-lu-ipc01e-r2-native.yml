@@ -78,7 +78,7 @@ jobs:
           test "$(git hash-object research_tests/mel_lu_ipc01e_r2/test_native_custody_signed_receipt.py)" = "a5c42e3f6f66b4a5b896395461314ccc21de4ef2"
           test "$(git hash-object research_tests/mel_ssm_r6int02/test_native_host.py)" = "a5decb9fff612ce7aa2996a7404503bd15167cfb"
           test "$(git hash-object .gitattributes)" = "f475ae5dffefa219891604df8acae665de8c102a"
-          test "$(git hash-object docs/integration/COG_LU_IPC_01E_R2_CUSTODY.md)" = "fd47062fd3744569b8051ff7d56cb903825a37a8"
+          test "$(git hash-object docs/integration/COG_LU_IPC_01E_R2_CUSTODY.md)" = "47a2c48bd2a06f5c95029139e1ca74bc69b03230"
       - name: Preserve original source, compiled descriptor and native OS test receipts
         if: always()
         uses: actions/upload-artifact@v4
@@ -124,7 +124,7 @@ jobs:
           wanted={f"cog-lu-ipc01e-r2-{platform}-py{py}" for platform in
                   ("ubuntu-latest","windows-latest") for py in ("3.11","3.13")}
           assert {p.name for p in root.iterdir() if p.is_dir()}==wanted
-          pinned=["4e01d921197fb1c58c99958479b1cede36e13c9a","755562254afdbea686ee33b95567c505f2f85e49","ac57eb0afc4b2f0630531470e067461d8e2268ea","300300b9f63f417afcc0ec650697e3012b7bdab0","3c0ee30ba75d1c8e33c40b987d5df02f154bbdc2","12951e788a052b9c2f21d51c4bd36de886d4ed92","01ec228aa1ac1417c77d7a444f3c27a32b632e1c","6c9faa951e37aa671fd61d49565a2f1a294ce400","14fa22acd34f72e2df080d23b52e18a289a1cd1a","ccd183f01238ec72f6161a819b4005e7d1c49507","e098cc14b719c02d1cd0b678a9ae8fee4d0b04b7","4492b855dd39dd972c13adde4434a13b3d9bb5a3","96c0bd869eaf732f750b44fc4f3fa612cb94f964","7f5322f671ebccd3d142b1e3222185728d9627dd","d9ca61ce225e90855b2bfba42f98abf78a7d3276","405fa91935f62226ab0d1a2f0d8b7313e2327116","05e40e09c7a3e9bfdf838d38f4e971682ec8cfd2","b071a2b06e8c4148effa8bde7b21ebd4cb61662f","86801c4629e254c12e569793cc57ddcfa9384a9d","dc1af1130a6d5f37cf18c6a20b44ad09be251fc0","c4a50016415af98509ac9fe7d0283b2c513ee29a","65b3470a4e7622b2e7c057a059009c66f730f181","139a2307ab96d47bba9a4d6b080b0aec2d0a9732","a5c42e3f6f66b4a5b896395461314ccc21de4ef2","a5decb9fff612ce7aa2996a7404503bd15167cfb","f475ae5dffefa219891604df8acae665de8c102a","fd47062fd3744569b8051ff7d56cb903825a37a8"]
+          pinned=["4e01d921197fb1c58c99958479b1cede36e13c9a","755562254afdbea686ee33b95567c505f2f85e49","ac57eb0afc4b2f0630531470e067461d8e2268ea","300300b9f63f417afcc0ec650697e3012b7bdab0","3c0ee30ba75d1c8e33c40b987d5df02f154bbdc2","12951e788a052b9c2f21d51c4bd36de886d4ed92","01ec228aa1ac1417c77d7a444f3c27a32b632e1c","6c9faa951e37aa671fd61d49565a2f1a294ce400","14fa22acd34f72e2df080d23b52e18a289a1cd1a","ccd183f01238ec72f6161a819b4005e7d1c49507","e098cc14b719c02d1cd0b678a9ae8fee4d0b04b7","4492b855dd39dd972c13adde4434a13b3d9bb5a3","96c0bd869eaf732f750b44fc4f3fa612cb94f964","7f5322f671ebccd3d142b1e3222185728d9627dd","d9ca61ce225e90855b2bfba42f98abf78a7d3276","405fa91935f62226ab0d1a2f0d8b7313e2327116","05e40e09c7a3e9bfdf838d38f4e971682ec8cfd2","b071a2b06e8c4148effa8bde7b21ebd4cb61662f","86801c4629e254c12e569793cc57ddcfa9384a9d","dc1af1130a6d5f37cf18c6a20b44ad09be251fc0","c4a50016415af98509ac9fe7d0283b2c513ee29a","65b3470a4e7622b2e7c057a059009c66f730f181","139a2307ab96d47bba9a4d6b080b0aec2d0a9732","a5c42e3f6f66b4a5b896395461314ccc21de4ef2","a5decb9fff612ce7aa2996a7404503bd15167cfb","f475ae5dffefa219891604df8acae665de8c102a","47a2c48bd2a06f5c95029139e1ca74bc69b03230"]
           reference=None
           receipts={}
           for folder in sorted(root.iterdir()):
