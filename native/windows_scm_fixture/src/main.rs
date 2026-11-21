@@ -12,7 +12,7 @@
 mod ssm_fixture;
 #[cfg(all(windows, feature = "r2-restricted-fixture"))]
 mod r2_restricted;
-#[cfg(all(windows, feature = "r2-restricted-fixture"))]
+#[cfg(all(windows, feature = "r2-cng-fixture"))]
 mod r2_signer;
 #[cfg(all(windows, feature = "r2-restricted-fixture"))]
 mod r2_diagnostic;
@@ -245,7 +245,7 @@ mod win {
             } == 0 {
                 return Err(denied("SCM-owned Job limit configuration refused"));
             }
-            #[cfg(feature = "r2-restricted-fixture")]
+            #[cfg(feature = "r2-cng-fixture")]
             crate::r2_signer::require_preprovisioned()?;
             #[cfg(feature = "ssm-fixture")]
             let (app, mut cmd, original_fixture) = crate::ssm_fixture::prepare()?;

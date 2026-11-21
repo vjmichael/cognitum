@@ -213,7 +213,7 @@ pub fn record_stop(proof:&Prepared,worker_pid:u32,service_pid:u32,
         proof.nonce,proof.request_sha256,hex(&bytes),service_pid,worker_pid,
     );
     write_once(Path::new(p[6]),record.as_bytes())?;
-    #[cfg(feature = "r2-restricted-fixture")]
+    #[cfg(feature = "r2-cng-fixture")]
     crate::r2_signer::sign_local_stopped_original(Path::new(p[6]))?;
     Ok(())
 }

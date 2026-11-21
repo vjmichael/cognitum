@@ -6,7 +6,7 @@
 //! A genuine OS CNG ECDSA signature can be verified by an independent host,
 //! but self-generated CI installer inputs do not constitute independent
 //! approved publisher/enrollment/antirollback. Never release output on receipt.
-#![cfg(all(windows,feature="r2-restricted-fixture"))]
+#![cfg(all(windows,feature="r2-cng-fixture"))]
 use std::{ffi::{c_void,OsStr},io,os::windows::ffi::OsStrExt,ptr,
           fs::{self,OpenOptions},io::Write,path::Path};
 type Handle=*mut c_void;
