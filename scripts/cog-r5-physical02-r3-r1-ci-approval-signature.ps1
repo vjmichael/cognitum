@@ -33,7 +33,7 @@ try{
  }
  $json=Join-Path $dir 'disposable-approval.json'
  $sig=Join-Path $dir 'disposable-approval.p7s'
- $data=[Text.Encoding]::UTF8.GetBytes($a|ConvertTo-Json -Compress)
+ $data=[Text.Encoding]::UTF8.GetBytes(($a|ConvertTo-Json -Compress))
  [IO.File]::WriteAllBytes($json,$data)
  $cms=[Security.Cryptography.Pkcs.SignedCms]::new(
    [Security.Cryptography.Pkcs.ContentInfo]::new([byte[]]$data),$true)
@@ -75,7 +75,7 @@ try{
  Must-Refuse { & $gate @args }
  # A signer approving output release must be rejected even if signed.
  $a.permits_output_release=$true
- $wrong=[Text.Encoding]::UTF8.GetBytes($a|ConvertTo-Json -Compress)
+ $wrong=[Text.Encoding]::UTF8.GetBytes(($a|ConvertTo-Json -Compress))
  [IO.File]::WriteAllBytes($json,$wrong)
  $wrongCms=[Security.Cryptography.Pkcs.SignedCms]::new(
    [Security.Cryptography.Pkcs.ContentInfo]::new([byte[]]$wrong),$true)
