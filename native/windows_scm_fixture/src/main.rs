@@ -56,7 +56,6 @@ mod win {
         main: Option<unsafe extern "system" fn(u32, *mut *mut u16)>,
     }
     #[repr(C)]
-    #[derive(Default)]
     struct StartupInfo {
         cb: u32,
         reserved: *mut u16,
@@ -68,9 +67,16 @@ mod win {
         stdin: Handle, stdout: Handle, stderr: Handle,
     }
     #[repr(C)]
-    #[derive(Default)]
     struct ProcessInfo {
         process: Handle, thread: Handle, pid: u32, tid: u32,
+    }
+    // Win32 ABI zero initialization; raw pointer fields do not implement
+    // Default on all supported Rust compiler versions.
+    impl Default for StartupInfo {
+        fn default() -> Self { unsafe { mem::zeroed() } }
+    }
+    impl Default for ProcessInfo {
+        fn default() -> Self { unsafe { mem::zeroed() } }
     }
     #[repr(C)]
     #[derive(Default)]
@@ -116,6 +122,7 @@ mod win {
     }
     #[link(name = "kernel32")]
     unsafe extern "system" {
+        fn TerminateProcess(process: Handle, exit_code: u32) -> i32;
         fn GetCurrentProcess() -> Handle;
         fn GetCurrentProcessId() -> u32;
         fn ProcessIdToSessionId(pid: u32, session: *mut u32) -> i32;
@@ -256,10 +263,6 @@ mod win {
                 // A pending suspended child not yet adopted by the Job must
                 // be directly terminated and reaped before returning.
                 unsafe {
-                    #[link(name="kernel32")]
-                    unsafe extern "system" {
-                        fn TerminateProcess(process: Handle, exit_code: u32) -> i32;
-                    }
                     TerminateProcess(child.0, 0xE1);
                     WaitForSingleObject(child.0, 5000);
                 }
