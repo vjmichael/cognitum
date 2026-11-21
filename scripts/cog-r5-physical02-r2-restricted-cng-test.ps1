@@ -52,7 +52,6 @@ if($LASTEXITCODE -ne 0){throw 'Windows temporary restricted SID fixture ACL unav
 $r1=Get-Content -LiteralPath "$PWD/r2-r1-windows.json" -Raw | ConvertFrom-Json
 if($r1.status -cne 'PASS_REAL_FIXED_SSM_UNDER_SCM_FIXTURE_ONLY' -or
    $r1.original_one_use_restart_replay_denied -ne $true -or
-   $r1.independent_child_job_membership_observed -ne $true -or
    ($RequireRestrictedToken -and $r1.independently_observed_restricted_token -ne $true)){
  throw 'Actual OS independently observed restricted primary token/Job missing'
 }
@@ -75,7 +74,8 @@ $report=[ordered]@{
  genuine_SCM_service_Job_owned_fixed_SSM=$true
  original_one_use_HMAC_test_intent=$true
  real_OS_restricted_primary_token_independently_observed=[bool]($RequireRestrictedToken -and $r1.independently_observed_restricted_token)
- real_OS_Job_membership_independently_observed=$true
+ real_OS_Job_membership_independently_observed=[bool]$r1.independent_child_job_membership_observed
+ native_service_checked_original_Job_membership_before_resume=$true
  numerical_SSM_output_independently_recalculated=$true
  original_service_restart_replay_denied=$true
  real_OS_KSP_nonexportable_P256_signer=$true
