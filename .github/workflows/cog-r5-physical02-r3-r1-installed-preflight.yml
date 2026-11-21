@@ -9,6 +9,7 @@ on:
       - scripts/cog-r5-physical02-r3-r1-signed-installer.ps1
       - scripts/cog-r5-physical02-r3-r1-enroll-production.ps1
       - scripts/cog-r5-physical02-r3-r1-ci-scm-lifecycle.ps1
+      - scripts/cog-r5-physical02-r3-r1-ci-nsis-package.ps1
       - scripts/cog-r5-physical02-r3-r1-build-signed-release.ps1
       - scripts/cog-r5-physical02-r3-r1-physical-scm-observe.ps1
       - deployment/windows/cognitum-ssm-bootstrap.nsi
@@ -30,7 +31,7 @@ jobs:
       - name: Verify syntax and read-only admission code
         shell: pwsh
         run: |
-          foreach($p in @('scripts/cog-r5-physical02-r3-r1-runtime-audit.ps1','scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1','scripts/cog-r5-physical02-r3-r1-signed-installer.ps1','scripts/cog-r5-physical02-r3-r1-enroll-production.ps1','scripts/cog-r5-physical02-r3-r1-ci-scm-lifecycle.ps1','scripts/cog-r5-physical02-r3-r1-build-signed-release.ps1','scripts/cog-r5-physical02-r3-r1-physical-scm-observe.ps1')){
+          foreach($p in @('scripts/cog-r5-physical02-r3-r1-runtime-audit.ps1','scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1','scripts/cog-r5-physical02-r3-r1-signed-installer.ps1','scripts/cog-r5-physical02-r3-r1-enroll-production.ps1','scripts/cog-r5-physical02-r3-r1-ci-scm-lifecycle.ps1','scripts/cog-r5-physical02-r3-r1-ci-nsis-package.ps1','scripts/cog-r5-physical02-r3-r1-build-signed-release.ps1','scripts/cog-r5-physical02-r3-r1-physical-scm-observe.ps1')){
             $tokens=$null
             $errors=$null
             [void][Management.Automation.Language.Parser]::ParseFile((Resolve-Path $p).Path,[ref]$tokens,[ref]$errors)
@@ -75,6 +76,25 @@ jobs:
         run: |
           $exe=(Resolve-Path -LiteralPath 'native/windows_scm_production/target/release/cognitum-scm-production.exe').Path
           & ./scripts/cog-r5-physical02-r3-r1-ci-scm-lifecycle.ps1 -CompiledBootstrap $exe
+      - name: Native unsigned NSIS installation and packaged SCM custody
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          $nsis=@(
+            'C:\Program Files (x86)\NSIS\makensis.exe',
+            'C:\Program Files\NSIS\makensis.exe'
+          ) | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf } | Select-Object -First 1
+          if(-not $nsis){
+            & choco.exe install nsis --version=3.12.0 --no-progress --yes --limit-output
+            if($LASTEXITCODE -ne 0){throw 'Pinned CI-only NSIS toolchain installation failed'}
+            $nsis=@(
+              'C:\Program Files (x86)\NSIS\makensis.exe',
+              'C:\Program Files\NSIS\makensis.exe'
+            ) | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf } | Select-Object -First 1
+          }
+          if(-not $nsis){throw 'Original fixed NSIS compiler unavailable'}
+          $exe=(Resolve-Path -LiteralPath 'native/windows_scm_production/target/release/cognitum-scm-production.exe').Path
+          & ./scripts/cog-r5-physical02-r3-r1-ci-nsis-package.ps1 -CompiledBootstrap $exe -MakeNsis $nsis
       - name: Native pre-staged protected file integrity and negative cases
         shell: pwsh
         run: |
