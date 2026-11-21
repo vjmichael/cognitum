@@ -92,6 +92,9 @@ unsafe extern "system"{
 unsafe extern "system"{
     fn DeriveAppContainerSidFromAppContainerName(name:*const u16,
         sid:*mut Handle)->i32;
+    fn CreateEnvironmentBlock(env:*mut Handle,user_token:Handle,
+        inherit_current:i32)->i32;
+    fn DestroyEnvironmentBlock(env:Handle)->i32;
 }
 fn denied(why:&str)->io::Error{
     io::Error::new(io::ErrorKind::PermissionDenied,why.to_owned())
@@ -288,20 +291,69 @@ fn witness_original_appcontainer(child:Handle,profile_sid:&str,
     Ok(())
 }
 
-fn windows_environment()->io::Result<Vec<u16>>{
-    let mut buff=[0u16;260];
-    let count=unsafe{GetWindowsDirectoryW(buff.as_mut_ptr(),buff.len() as u32)};
-    if count==0||count as usize>=buff.len(){
-        return Err(denied("Windows system directory unavailable"));
+/// Windows userenv owns the target *user's* profile environment. An SCM
+/// process must not construct a four-variable pseudo-environment: Windows
+/// AppContainer creation depends on the real user's profile variables and
+/// package namespace setup. bInherit=FALSE forbids leaking SCM credentials.
+struct TargetProfileEnvironment(Handle);
+impl Drop for TargetProfileEnvironment{
+    fn drop(&mut self){
+        if !self.0.is_null(){
+            unsafe{DestroyEnvironmentBlock(self.0);}
+        }
     }
-    let dir=String::from_utf16_lossy(&buff[..count as usize]);
-    let root=dir.trim_end_matches("\\System32").trim_end_matches("\\Windows");
-    let windir=if dir.ends_with("\\Windows"){dir}else{format!("{}\\Windows",root)};
-    let tempfile=std::path::Path::new(env!("COG_R1_CI_OUTPUT"))
-        .parent().ok_or_else(||denied("SSM fixed output parent missing"))?;
-    let tmp=tempfile.to_str().ok_or_else(||denied("SSM sandbox output path invalid"))?;
-    let block=format!("SystemRoot={0}\0TEMP={1}\0TMP={1}\0WINDIR={0}\0\0",windir,tmp);
-    Ok(block.encode_utf16().collect())
+}
+fn windows_environment(user:Handle)->io::Result<TargetProfileEnvironment>{
+    let mut raw=ptr::null_mut();
+    if unsafe{CreateEnvironmentBlock(&mut raw,user,0)}==0||raw.is_null(){
+        return Err(denied("Windows refused noninherited profile environment for original user"));
+    }
+    let target=TargetProfileEnvironment(raw);
+    // Inspect only bounded variable NAMES; neither log nor serialize values.
+    // Reject mistakenly inherited SCM/GitHub/workflow secret variable names.
+    let wchar=raw as *const u16;
+    let mut offset=0usize;
+    let mut seen=std::collections::BTreeSet::new();
+    let mut ended=false;
+    while offset<32768{
+        let start=offset;
+        while offset<32768&&unsafe{*wchar.add(offset)}!=0{offset+=1;}
+        if offset>=32768{return Err(denied("unbounded OS user profile environment"));}
+        if offset==start{
+            ended=true;
+            break;
+        }
+        let line=String::from_utf16(unsafe{
+            std::slice::from_raw_parts(wchar.add(start),offset-start)
+        }).map_err(|_|denied("profile environment variable malformed"))?;
+        let (name,_value)=line.split_once('=')
+            .ok_or_else(||denied("malformed original user environment entry"))?;
+        // Windows allows drive-working-directory =C: pseudo-entries. They do
+        // not authorize filesystem access and are not required for this run.
+        if !name.is_empty(){
+            let key=name.to_ascii_uppercase();
+            if key.starts_with("COG_")||
+               key.starts_with("GITHUB_")||
+               key.starts_with("GH_")||
+               key.starts_with("ACTIONS_")||
+               key.contains("PASSWORD")||
+               key.contains("SECRET")||
+               key.contains("TOKEN"){
+                return Err(denied("untrusted privileged environment field in original user profile"));
+            }
+            seen.insert(key);
+        }
+        offset+=1;
+    }
+    if !ended{
+        return Err(denied("unterminated target user profile environment"));
+    }
+    for required in ["SYSTEMROOT","USERPROFILE","LOCALAPPDATA","APPDATA"]{
+        if !seen.contains(required){
+            return Err(denied("native original AppContainer user profile variable missing"));
+        }
+    }
+    Ok(target)
 }
 /// Must be called while worker is still SUSPENDED; caller must attach
 /// to SCM's original kill-on-close Job BEFORE primary thread resume.
@@ -360,7 +412,7 @@ pub fn launch(application:&[u16],command:&mut[u16],
     let mut startup:StartupInfoEx=unsafe{mem::zeroed()};
     startup.base.cb=mem::size_of::<StartupInfoEx>() as u32;
     startup.attributes=attrs.raw();
-    let mut env=windows_environment()?;
+    let env=windows_environment(orig.0)?;
     // Never inherit SCM's working directory or drive-relative mappings.
     let image=Path::new(env!("COG_R1_CI_PYTHON"));
     let cwd=image.parent().ok_or_else(||denied("pinned image parent missing"))?;
@@ -377,7 +429,7 @@ pub fn launch(application:&[u16],command:&mut[u16],
         command.as_mut_ptr(),ptr::null_mut(),ptr::null_mut(),0,
         CREATE_SUSPENDED|CREATE_NO_WINDOW|EXTENDED_STARTUPINFO_PRESENT|
             CREATE_UNICODE_ENVIRONMENT,
-        env.as_mut_ptr().cast(),wide_cwd.as_ptr(),&startup.base,
+        env.0,wide_cwd.as_ptr(),&startup.base,
         output)};
     let launch_error=if launched==0{Some(io::Error::last_os_error())}else{None};
     if impersonated.end().is_err(){
@@ -404,7 +456,7 @@ pub fn launch(application:&[u16],command:&mut[u16],
             reduced.0,application.as_ptr(),probe_command.as_mut_ptr(),
             ptr::null_mut(),ptr::null_mut(),0,
             CREATE_SUSPENDED|CREATE_NO_WINDOW|CREATE_UNICODE_ENVIRONMENT,
-            env.as_mut_ptr().cast(),wide_cwd.as_ptr(),
+            env.0,wide_cwd.as_ptr(),
             &baseline_startup,(&mut probe as *mut ProbeProcessInfo).cast()
         )}!=0;
         let base_error=if base_created{0}else{
