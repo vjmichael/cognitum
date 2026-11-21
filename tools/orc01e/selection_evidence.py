@@ -8,7 +8,13 @@ import json
 
 from cognitum import orc_comparison as comparison, orc_selection as selector
 from cognitum import orc_science_data as science
-from tools.orc01d.synthetic_evidence import raw_synthetic
+from runpy import run_path
+
+# Load the already-accepted repository-local 01D synthetic generator by its
+# exact path. The standalone tools/ directory is not a Python package.
+raw_synthetic = run_path(
+    str(Path(__file__).resolve().parent.parent / "orc01d" / "synthetic_evidence.py"),
+    run_name="orc01e_shared_fixture")["raw_synthetic"]
 
 STEP=60_000
 
