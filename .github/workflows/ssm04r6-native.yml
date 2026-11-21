@@ -127,7 +127,7 @@ jobs:
               assert len(set(names))==len(names)
               if cases0 is None:cases0=names
               else:assert names==cases0
-              assert sum('ssm04r6' in name for cls,name in names)>=6
+              assert sum('ssm04r6' in cls for cls,name in names)==22
               counts[folder.name]=len(cases)
           result={
               'schema':'cognitum.ssm04r6.independent.four_native_original_receipt.v1',
