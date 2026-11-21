@@ -12,7 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 PINS = {
     "cognitum/research/ssm_independent_publishers.py": "ffbc2c0f14ec8f8e46c97ee2f1e0bfa9adeef7d7",
-    "research_tests/ssm_postnative05/test_publishers.py": "d9a721b91b9ea5ca589873ec13cb9e973a12f6f6",
+    "research_tests/ssm_postnative05/test_publishers.py": "adc71996bda0cfec0e01e580b981b236bd533d3b",
     "research_tests/ssm_postnative05/data/NOAA_RA_station_2025.csv": "8421af63a839c767555a53af74b71106ee68241e",
     "research_tests/ssm_postnative05/data/USGS_NaturalFlow_1906_2015.csv": "2f986df07dce96b800829856e751b247e4179aaf",
 }
