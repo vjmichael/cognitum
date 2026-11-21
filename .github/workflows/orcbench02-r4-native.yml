@@ -38,7 +38,7 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Exact local numerical and test dependencies
-        run: python -m pip install numpy==2.2.6 scipy==1.15.3 pytest==9.0.2
+        run: python -m pip install numpy==2.2.6 scipy==1.15.3 protobuf==6.33.1 pytest==9.0.2
       - name: Source-locked unchanged R1 R2 R3 and R4 pretest tests
         run: python -m pytest -q tests/test_orc_bench02_availability.py tests/test_orc_bench02_acquisition.py tests/test_orc_bench02_cohorts.py tests/test_orc_bench02_capture_r3.py tests/test_orc_bench02_r4_pretest.py --junitxml=bench02-r4-pretest.xml
       - name: Create calibration-only original method decision before test scoring
