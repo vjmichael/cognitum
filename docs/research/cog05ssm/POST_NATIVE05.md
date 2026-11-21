@@ -1,6 +1,6 @@
 # COG-05-SSM-POST-NATIVE-05 — Publisher-separated observational dynamics, dependent uncertainty, missingness and falsification
 
-**Disposition: SOURCE-PINNED RESEARCH CANDIDATE; NOT YET NATIVE QUALIFIED.** No claim of causal physical-law identification, guaranteed conditional coverage, approved scientific truth, external execution authority, or universal HDC/KAN/SSM superiority.
+**Disposition: BOUNDED NATIVE OBSERVATIONAL PASS (POST-NATIVE-05-R3); full native HDC/KAN/SSM out-of-domain scientific task remains OPEN.** No claim of causal physical-law identification, guaranteed conditional coverage, approved scientific truth, external execution authority, or universal HDC/KAN/SSM superiority.
 
 ## Immutable independent upstream custody
 
@@ -37,3 +37,11 @@ To close the full task, add an independently traceable long, regular *measured* 
 
 ### Acceptance status
 Native Windows/Linux four-platform POST-NATIVE-05 acceptance is not asserted until terminal workflow conclusions and downloaded source-pinned JUnit/log receipt integrity have been checked. Do not equate research-only baseline passing with full task closure.
+
+## Verified bounded native outcome — POST-NATIVE-05-R3
+
+**PASS for bounded source-locked independent-publisher observational benchmarks, NOT for the full scientific hypothesis task.** [Native workflow 44844570161](https://github.com/vjmichael/cognitum/actions/runs/44844570161) completed SUCCESS at unchanged SHA `127672af94fb126163efd51057dfd5adf0f9bb4e`: four Ubuntu/Windows Python 3.11/3.13 targets, each **15/15 tests, zero failures/errors/skips**. Downloaded archives were independently checked against the exact source Git blobs, identical JUnit case inventories, SHA256 of receipt/log/JUnit/science, and cross-platform numeric results. The original source data were protected against Windows CRLF conversion with a nested `data/.gitattributes`; the original shared `.gitattributes` and previous scientific source pins did not change. [Scientific closeout and falsifications](POST_NATIVE05_R3.md); [per-target evidence hashes](POST_NATIVE05_R3_NATIVE_ARTIFACTS.json).
+
+**Critical empirical result:** NOAA 120-minute nominal 90% interval empirical coverage was only **80.98%**, falling from **92.20%** to **69.77%** across the test halves; complete-block coverage **59.78%**. USGS's 110-year reconstruction has only 3–4 calibration blocks and 15–19 test origins; qualified dependent uncertainty and missingness stress are explicitly refused for insufficient observations. The fixed-step HDC/KAN/SSM native path remains unqualified on irregular NOAA observations; the USGS record is insufficient for trained KAN/HDC. Only prerequisite/applicability falsification, **not out-of-domain model superiority falsification**, was achieved. Missing original sensor signatures, data-specific reuse rights, and unverified physical units remain residual.
+
+**Next independent task: POST-NATIVE-05-R4** — qualify independently traceable, longer directly measured physical source(s) and a genuine time-aware HDC/KAN/SSM model or compatible uniformly sampled physics system; test preregistered native ablations against stronger science baselines with explicit dependent drift/missingness coverage and unbiased holdouts. Preserve 72/72 PARTIAL and no external actuation.
