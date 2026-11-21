@@ -12,7 +12,7 @@ from xml.etree import ElementTree as ET
 ROOT=Path(__file__).resolve().parents[2]
 NEW={
  "cognitum/research/ssm_timeaware.py":"25d790981424a9546863d802848f3887d8c92975",
- "research_tests/ssm_postnative05r4/test_timeaware.py":"0065b73830d5ab06ccccc46be9c6f73a4e72f9c4",
+ "research_tests/ssm_postnative05r4/test_timeaware.py":"13202566fc069188864ac94e803c7e54be21cd11",
  "research_tests/ssm_postnative05r4/data/Rac_daily_Q.csv":"0277bb41d84dc49d85b9a016fbfbce4f4ac59ed7",
  "research_tests/ssm_postnative05r4/data/Musk_daily_Q.csv":"964a615050252f4a05ebca9d69caffed847444d1",
  "research_tests/ssm_postnative05r4/data/USGS_siteInfo.csv":"174a59d509ceb3a56d6b7c44f38cb687ed24648d",
