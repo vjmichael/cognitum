@@ -364,7 +364,12 @@ def installed_core_health_preflight(*, endpoint, enrolled_key, package_hash,
     fallback to user-controlled certificate, or unpinned connection. Fail
     closed if genuine host contract is not available.
     """
-    from .lu_ipc_readonly import AuthenticatedReadOnlyLuClient
+    from .lu_ipc_readonly import (
+        AuthenticatedReadOnlyLuClient, _key, _package_digest,
+    )
+    # Reject unenrolled material before connecting to any OS endpoint.
+    _key(enrolled_key)
+    _package_digest(package_hash)
     if sys.platform == "win32":
         carrier = connect_windows_named_pipe(
             endpoint, trusted_core_process_pin=windows_process_pin)
@@ -381,12 +386,24 @@ def installed_core_health_preflight(*, endpoint, enrolled_key, package_hash,
         _need(handshake["authenticated"] and
               health["authenticated_transport_session"],
               "missing original Lu authenticated health session")
-        return dict(handshake=handshake, health=health,
-                    source_fixture=False,
-                    os_transport_genuine=True,
-                    real_installed_core_evidence_supplied_by_host=True,
-                    installed_signed_publisher_verified_by_client=False,
-                    model_tool_execution_authorized=False)
+        return dict(
+            handshake=handshake, health=health,
+            native_os_transport_path_selected=True,
+            core_health_module_verified=health["module_id"] == "lu.core",
+            core_service_connected=health["connected"],
+            # The native peer and HMAC transcript alone cannot distinguish
+            # fixture credentials from independently installed Core custody.
+            source_fixture_excluded=False,
+            real_installed_core_evidence_supplied_by_host=False,
+            installed_signed_publisher_verified_by_client=False,
+            accepted_lu_core_issuer_receipt_contract=False,
+            genuine_per_turn_pure_compute_grant_verified=False,
+            independent_revision_authority_verified=False,
+            installed_acceptance="BLOCKED_CORE_ISSUER_AND_ENROLLMENT",
+            model_tool_execution_authorized=False,
+            output_delivery_authorized=False,
+            output_acknowledgment_authorized=False,
+        )
     finally:
         if client is not None:
             client.close()
