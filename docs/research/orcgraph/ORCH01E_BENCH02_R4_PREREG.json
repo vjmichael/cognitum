@@ -1,0 +1,162 @@
+{
+  "schema": "cognitum.orc.bench02.r4.frozen.20261120.v1",
+  "purpose": "Independent, fixed-recipe retrospective original R3 weather-site comparison; no operational availability claims",
+  "preregistered_before_R4_target_read_or_model_fit": true,
+  "prereg_site_order": [
+    "KSEA",
+    "KDEN",
+    "KATL"
+  ],
+  "R3_frozen_protocol_sha256": "fd0b6a372ee5cd9ee8870ad20c475261460a069daf4fd52f56e8dcc2961a5104",
+  "R3_native_source_sha": "d6ec165ee7dfbe6af08bb2f428c328869fefa3b0",
+  "R3_original_archive_prefix": "research_tests/orcbench02/r3_20261121",
+  "R3_capture_run_id": 44872224722,
+  "R3_raw_sha256": {
+    "KSEA": "2b2772ea7ad91d76f22e1be82269c0b41e86294392241a42bae9d81f061a6205",
+    "KDEN": "dd72f4e2b9dde753c2a9c0f964ca86eb2b8091eeaf9b7b807c3b8d7a98618645",
+    "KATL": "ac0b69ce3b4755e56e9273310af94be638dd240d9857a98a719812f1dd441622"
+  },
+  "R3_cohort_sha256": {
+    "KSEA": "61e73936c5a79139d59de847fc542fa20399fb6d9817f181d3ffdd3bc741cf7a",
+    "KDEN": "4057e4f76528d0e58696684e9acfb8d678b41151ad3b049bee16014cff841384",
+    "KATL": "4db676db1494ae0d98425f4aede5962da24429d2c5405da6c97e592eab15ce92"
+  },
+  "all_cases": "3 frozen sites x 3 horizons, no replacement even when empty",
+  "horizons_hours": [
+    1,
+    3,
+    6
+  ],
+  "fold_hours": [
+    115,
+    38,
+    39
+  ],
+  "lag_hour_indices": [
+    0,
+    1,
+    3,
+    6,
+    24
+  ],
+  "target_metric_unit": "K",
+  "primary_metric": "RMSE",
+  "secondary_metric": "MAE",
+  "relative_macro": "mean((ridge_rmse-method_rmse)/ridge_rmse), dimensionless across 9 fixed cases",
+  "tie_epsilon": 1e-10,
+  "models": {
+    "direct_ridge": {
+      "features_lags": [
+        0,
+        1
+      ],
+      "intercept": true,
+      "l2_alpha": 1,
+      "train_only_standardization": true,
+      "intercept_unpenalized": true
+    },
+    "ridge_AR24": {
+      "features_lags": [
+        0,
+        1,
+        3,
+        6,
+        24
+      ],
+      "intercept": true,
+      "l2_alpha": 1,
+      "train_only_standardization": true,
+      "intercept_unpenalized": true
+    },
+    "persistence": {
+      "uses_lag": 0
+    },
+    "lag24_persistence": {
+      "uses_lag": 24
+    },
+    "train_mean": {
+      "mean_of_training_fold_target_values_only": true
+    },
+    "timeaware_ssm": {
+      "formula": "train_target_mean + exp(-horizon_hours/tau_hours)*(origin_temperature - train_target_mean)",
+      "tau_grid_hours": [
+        1,
+        4,
+        16,
+        64
+      ],
+      "tau_train_only_select": "minimum train MAE at same horizon, tie by order"
+    },
+    "orc_default": {
+      "source": "cognitum.orc_selection.SelectionPolicy semantics through fixed R3 cohort adapter; NOT actual propose_forecast or full MEL execution",
+      "candidate_order": [
+        "direct_ridge",
+        "persistence",
+        "train_mean",
+        "timeaware_ssm"
+      ],
+      "min_calibration_examples": 20,
+      "max_calibration_skipped_fraction": 0.25,
+      "min_absolute_mae_improvement_K": 0.01,
+      "min_relative_mae_improvement": 0.01,
+      "tiebreak": "MAE, static work-proxy, original candidate order",
+      "fallback": "direct_ridge",
+      "abstain_if_policy_fail": true
+    },
+    "orc_expanded_classical": {
+      "source": "R3-specific expanded candidate policy, NOT HDC/KAN research opt-in",
+      "candidate_order": [
+        "direct_ridge",
+        "persistence",
+        "train_mean",
+        "timeaware_ssm",
+        "lag24_persistence",
+        "ridge_AR24"
+      ],
+      "min_calibration_examples": 20,
+      "max_calibration_skipped_fraction": 0.25,
+      "min_absolute_mae_improvement_K": 0.01,
+      "min_relative_mae_improvement": 0.01,
+      "tiebreak": "MAE, static work-proxy, original candidate order",
+      "fallback": "direct_ridge",
+      "abstain_if_policy_fail": true
+    }
+  },
+  "static_work_proxy": {
+    "persistence": 1,
+    "train_mean": 1,
+    "direct_ridge": 8,
+    "timeaware_ssm": 6,
+    "lag24_persistence": 1,
+    "ridge_AR24": 26
+  },
+  "guardrails": {
+    "R3_cohort_pairs_must_match_byte_exact": true,
+    "all_methods_must_use_exact_same_heldout_origin_target_pairs": true,
+    "train_fold_only_for_all_model_fit": true,
+    "calibration_fold_only_for_selector_selection": true,
+    "test_fold_only_for_metrics_after_decision_frozen": true,
+    "no_missing_imputation": true,
+    "no_target_cross_fold": true,
+    "no_holdout_based_method_choice": true,
+    "no_site_or_horizon_selection": true,
+    "all_9_case_reports_required": true,
+    "any_abort_keeps_failure_in_evidence": true,
+    "strict_asof_first_capture_eligible_test_total": 0,
+    "no_claim_of_original_publisher_historical_availability": true,
+    "no_claim_of_full_Orc_KAN_HDC_specialists": true,
+    "no_production_authorization": true
+  },
+  "paired_dependence": {
+    "block_width_hourly_contiguous_origins": 6,
+    "minimum_nonoverlapping_blocks": 4,
+    "bootstrap_repetitions": 256,
+    "seed": 5506,
+    "descriptive_only": true,
+    "refuse_interval_when_insufficient": true
+  },
+  "R4_full_specialist_HDC_KAN_scope": "NOT_QUALIFIED; requires separate R4 successor source-bound adaptor satisfying frozen folds",
+  "calibration_selection_freeze_artifact_before_test_scores": true,
+  "allow_calibration_select_stronger_classical_separately": true,
+  "negative_and_tied_results_must_be_retained": true
+}
