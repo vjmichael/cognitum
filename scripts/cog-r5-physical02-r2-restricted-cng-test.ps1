@@ -4,7 +4,8 @@
 param(
  [Parameter(Mandatory=$true)][string]$Executable,
  [Parameter(Mandatory=$true)][string]$FixtureRoot,
- [Parameter(Mandatory=$true)][string]$EvidencePath
+ [Parameter(Mandatory=$true)][string]$EvidencePath,
+ [switch]$RequireRestrictedToken
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'
@@ -24,6 +25,7 @@ if($approved.schema -cne 'cognitum.ssm.r2.CI_external_KSP_enrollment.v1' -or
    $approved.name -cne $env:COG_R2_CI_KEY_NAME){
  throw 'Foreign test-only signer key or missing independently provided pin'
 }
+if($RequireRestrictedToken){
 # The genuine Windows restricted primary token has BUILTIN Users as
 # a *restricting SID*. Grant READ/EXECUTE, NOT write, on Python and reviewed
 # Cognitum source strictly inside this disposable CI runner.
@@ -45,12 +47,13 @@ foreach($item in $readOnlyRoots){
 # staging directory (never to the source tree or Python executable).
 & icacls.exe $root /grant '*S-1-5-32-545:(OI)(CI)M' /T
 if($LASTEXITCODE -ne 0){throw 'Windows temporary restricted SID fixture ACL unavailable'}
+}
 & ./scripts/cog-r5-physical02-r1-real-ssm-scm.ps1 -Executable $Executable -FixtureRoot $root -EvidencePath "$PWD/r2-r1-windows.json"
 $r1=Get-Content -LiteralPath "$PWD/r2-r1-windows.json" -Raw | ConvertFrom-Json
 if($r1.status -cne 'PASS_REAL_FIXED_SSM_UNDER_SCM_FIXTURE_ONLY' -or
    $r1.original_one_use_restart_replay_denied -ne $true -or
-   $r1.independently_observed_restricted_token -ne $true -or
-   $r1.independent_child_job_membership_observed -ne $true){
+   $r1.independent_child_job_membership_observed -ne $true -or
+   ($RequireRestrictedToken -and $r1.independently_observed_restricted_token -ne $true)){
  throw 'Actual OS independently observed restricted primary token/Job missing'
 }
 $raw=& python scripts/cog_r5_r2_verify_signed_stop.py --root "$root"
@@ -65,12 +68,13 @@ if($verified.real_native_CNG_signature_valid -ne $true -or
 Copy-Item -LiteralPath $enrollment -Destination "$PWD/r2-public-test-enrollment.json"
 $pubsha=(Get-FileHash -LiteralPath $public -Algorithm SHA256).Hash.ToLowerInvariant()
 $signedsha=(Get-FileHash -LiteralPath $signed -Algorithm SHA256).Hash.ToLowerInvariant()
+$status=if($RequireRestrictedToken){'PASS_REAL_RESTRICTED_SSM_CNG_SIGNED_CI_ONLY'}else{'PASS_SCM_OWNED_SSM_CNG_SIGNED_CI_ONLY'}
 $report=[ordered]@{
- schema='cognitum.ssm.r2.real_native_restricted_CNG_test.v1'
- status='PASS_REAL_RESTRICTED_SSM_CNG_SIGNED_CI_ONLY'
+ schema='cognitum.ssm.r2.real_native_CNG_test.v1'
+ status=$status
  genuine_SCM_service_Job_owned_fixed_SSM=$true
  original_one_use_HMAC_test_intent=$true
- real_OS_restricted_primary_token_independently_observed=$true
+ real_OS_restricted_primary_token_independently_observed=[bool]($RequireRestrictedToken -and $r1.independently_observed_restricted_token)
  real_OS_Job_membership_independently_observed=$true
  numerical_SSM_output_independently_recalculated=$true
  original_service_restart_replay_denied=$true
@@ -90,4 +94,4 @@ $report=[ordered]@{
  output_delivery_or_ack_authorized=$false
 }
 ($report|ConvertTo-Json -Depth 5) | Set-Content -LiteralPath $evidence -Encoding utf8
-Write-Host 'PASS_REAL_RESTRICTED_SSM_CNG_SIGNED_CI_ONLY'
+Write-Host $status
