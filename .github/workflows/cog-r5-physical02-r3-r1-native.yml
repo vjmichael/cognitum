@@ -164,7 +164,7 @@ jobs:
           SHA: ${{ github.sha }}
         run: |
           python - <<'PY'
-          import hashlib,json,os
+          import hashlib,json,math,os
           from pathlib import Path
           from cognitum.mel.ssm_supervisor import SSMComputeFactory,OP
           from scripts.cog_r5_r2_verify_signed_stop import verify_raw
@@ -204,11 +204,70 @@ jobs:
           request=json.loads((worker/'input.frame').read_bytes())
           output=json.loads((worker/'output.frame').read_bytes())
           assert request['operation']==OP and output['status']=='ok'
-          assert output['reply']==SSMComputeFactory().handle(OP,request['payload'])
+          # Linux and Windows NumPy/SciPy can differ in last-bit BLAS rounding.
+          # Exact field sets, shapes, counters and booleans remain mandatory.
+          # Only finite floating-point leaves get a fixed tight tolerance.
+          def check_numeric(actual,expected):
+              visited=0
+              float_count=0
+              max_delta=0.0
+              def visit(a,b,depth):
+                  nonlocal visited,float_count,max_delta
+                  visited+=1
+                  if visited>8192 or depth>32:
+                      raise ValueError('bounded numerical audit exceeded')
+                  if type(b) is dict:
+                      if type(a) is not dict or set(a)!=set(b):
+                          raise ValueError('numerical structure differs')
+                      for key in sorted(b):
+                          if type(key) is not str:
+                              raise ValueError('nonstring numerical field')
+                          visit(a[key],b[key],depth+1)
+                  elif type(b) is list:
+                      if type(a) is not list or len(a)!=len(b):
+                          raise ValueError('numerical shape differs')
+                      for av,bv in zip(a,b):
+                          visit(av,bv,depth+1)
+                  elif type(b) is float:
+                      if type(a) is not float or not (math.isfinite(a) and math.isfinite(b)):
+                          raise ValueError('nonfinite or nonfloat numerical state')
+                      float_count+=1
+                      max_delta=max(max_delta,abs(a-b))
+                      if not math.isclose(a,b,rel_tol=1e-11,abs_tol=1e-12):
+                          raise ValueError('cross-OS numerical result outside fixed tolerance')
+                  elif type(b) in (int,bool,str,type(None)):
+                      if type(a) is not type(b) or a!=b:
+                          raise ValueError('exact categorical/counter state differs')
+                  else:
+                      raise ValueError('unsupported numerical result type')
+              if type(actual) is not dict or type(expected) is not dict:
+                  raise ValueError('closed numerical reply required')
+              visit(actual,expected,0)
+              if not float_count:
+                  raise ValueError('missing floating-point evidence')
+              return {'floats_verified':float_count,'maximum_absolute_delta':max_delta}
+          # Adversarial cases must fail closed before accepting the original candidate.
+          baseline={'state':{'mean':[0.125,0.0],'count':1,'ok':True},'releases':[]}
+          assert check_numeric(baseline,baseline)['floats_verified']==2
+          check_numeric({'state':{'mean':[0.125+1e-13,0.0],'count':1,'ok':True},'releases':[]},baseline)
+          rejected=[
+            {'state':{'mean':[0.125+1e-5,0.0],'count':1,'ok':True},'releases':[]},
+            {'state':{'mean':[0.125,float('nan')],'count':1,'ok':True},'releases':[]},
+            {'state':{'mean':[0.125,0.0],'count':True,'ok':True},'releases':[]},
+            {'state':{'mean':[0.125,0.0],'count':1,'ok':False},'releases':[]},
+            {'state':{'mean':[0.125,0.0],'count':1,'ok':True},'releases':[],'unapproved':1},
+          ]
+          for forged in rejected:
+              try:
+                  check_numeric(forged,baseline)
+              except ValueError:
+                  continue
+              raise AssertionError('independent numerical negative case incorrectly admitted')
+          numerical=check_numeric(output['reply'],SSMComputeFactory().handle(OP,request['payload']))
           assert json.loads((root/'r3r1-user-cleanup.json').read_text())['real_user_peer_profile_DPAPI_revoked'] is True
           assert json.loads((root/'r3r1-CNG-cleanup.json').read_text())['machine_key_revoked'] is True
           provenance=json.loads((root/'native/windows_scm_fixture/target/r3r1-runtime-parent/runtime/r3-r1-runtime-provenance.json').read_text())
           assert provenance['runtime_manifest_sha256']==status['runtime_manifest_SHA256']
           assert len((root/'r3r1-binary.txt').read_text().strip())==64
-          print(json.dumps({'schema':'cognitum.ssm.r3r1.independent_real_nonadmin_native.v1','exact_git_blob_count':len(blobs),'nonadmin_AppContainer_full_numerical':True,'production_issuer':False,'Core_Health':False,'output_release':False},sort_keys=True))
+          print(json.dumps({'schema':'cognitum.ssm.r3r1.independent_real_nonadmin_native.v1','exact_git_blob_count':len(blobs),'nonadmin_AppContainer_full_numerical':True,'cross_os_float_leaves_verified':numerical['floats_verified'],'maximum_absolute_delta':numerical['maximum_absolute_delta'],'production_issuer':False,'Core_Health':False,'output_release':False},sort_keys=True))
           PY
