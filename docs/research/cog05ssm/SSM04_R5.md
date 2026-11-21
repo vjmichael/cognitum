@@ -1,6 +1,6 @@
 # COG-05-SSM-04-R5 — fixed-duration bounded-memory streaming of integrated Ito observations
 
-**Candidate status (2026-11-21): new streaming implementation and 21 focused synthetic tests written; exact-source native Windows/Linux acceptance pending.** Research-only CPU linear-Gaussian mathematics. This is not full continuous-path sensing, a formal covariance enclosure, nor authorized Lu/MEL execution.
+**ACCEPTED exact-source native mathematical R5-R1 qualification (2026-11-21): 5/5 original GitHub Actions jobs passed; 177 tests per native target × four genuine Windows/Linux Python 3.11/3.13 environments = 708/708 passed, 0 failures/errors/skips.** The original accepted source SHA is `ea49aad581eecc346eddf7f3abcdbee5add5e444` (not the later documentation-only closeout commit). Research-only CPU linear-Gaussian mathematics. This is not full continuous-path sensing, a formal covariance enclosure, nor authorized Lu/MEL execution.
 
 ## Scientific contract
 
@@ -39,8 +39,16 @@ Local development harness passed **21/21** focused tests; it used source-equival
 - `cognitum/research/ssm_stochastic_streaming.py`: `731208b392d3a948ee7677c2e24f1117e2c8df79`
 - `research_tests/ssm04r5/test_streaming.py`: `826e1a7402cf89ae5c8855cbe52fd8280617c73a`
 
-## Native acceptance plan
+## R5-R1 exact-source native acceptance — 2026-11-21
 
-One **branch-scoped workflow push** after the implementation, tests, and this document are settled. The workflow runs previous original `ssm04`, `ssm04r1`, `ssm04r2`, `ssm04r3`, `ssm04r4`, and new `ssm04r5` on actual Windows and Ubuntu Python 3.11/3.13. A fifth independent job compares original native XML test lists, Git blob identities and immutable SHA across four artifacts. After successful exact-source acceptance, retire that one-time push trigger in a separate source-unchanged documentation/CI-control commit; preserve the immutable original tested SHA rather than falsely asserting the closeout commit was tested.
+- **Original immutable qualifying GitHub Actions run:** [#44910714525](https://github.com/vjmichael/cognitum/actions/runs/44910714525), attempt 1, original HEAD `ea49aad581eecc346eddf7f3abcdbee5add5e444`, conclusion **SUCCESS**.
+- **Five original jobs: 5/5 success.** Four native mathematical regression jobs each passed **177 tests**, covering original `ssm04`, `ssm04r1`, `ssm04r2`, `ssm04r3`, `ssm04r4`, and new `ssm04r5`; no failures, errors or skips. Native environments: Ubuntu Python 3.11, Ubuntu Python 3.13, Windows Python 3.11, Windows Python 3.13; total **708/708** passed.
+- **Fifth independent GitHub CI job:** downloaded the original four native evidence artifacts and verified four exact commit identities, 10 Git blob hashes each, 177 original JUnit test case identities per environment and zero failed/errored/skipped cases. Its original JSON receipt status was `PASS_FIXED_DURATION_CORRELATED_STREAMING_AND_LEGACY_SOURCE`.
+- **Separate external evidence verification (outside CI):** downloaded all five original GitHub artifact ZIPs again through the GitHub connector, compared the ZIP SHA-256 checksums to authoritative GitHub Actions artifact digests, independently checked each archive's ZIP CRC, parsed all original JUnit files, verified 177 **identical** case IDs and 21 new R5 cases in every environment, original SHA and 10 matching original Git blob IDs, and checked the original fifth-job receipt. Independent manifest: [SSM04_R5_NATIVE_ARTIFACTS.json](SSM04_R5_NATIVE_ARTIFACTS.json).
+- **No genuine source failures, no repairs.** Previous accepted R3/R4 source/test Git blobs and the two new R5 Git blobs are intact. Exact qualifying source remains the original `ea49aad581eecc346eddf7f3abcdbee5add5e444`; no new R5 mathematical implementation/test revisions were needed.
+- **One-time trigger retirement:** the branch-scoped automatic `push` trigger in `.github/workflows/ssm04r5-native.yml` was replaced by `workflow_dispatch` only in the same **[skip ci] docs/CI-control-only** closeout commit. No second qualifying run was created, no force-push and no mainline merge. Manual dispatch for a workflow that lives only on a research branch may require default-branch registration.
+- **Scientific scope limitations remain:** no certified enclosure of roundoff or covariance eigenvalues, no physically calibrated or authenticated external sensor path, no durable checkpoint format and no installed protected MEL execution authorization.
+
+**R5-R1 closeout status: ACCEPTED for exact-source native mathematical qualification only.**
 
 **Remaining beyond R5:** physical sensor source custody; durable checkpoint recovery/serialization of streaming state; installed protected MEL admission and authorization; independent high-condition-number and roundoff stress; nonlinear/filter mismatch and true continuous-path sensing.

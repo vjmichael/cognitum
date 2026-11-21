@@ -1,0 +1,89 @@
+{
+  "schema": "cognitum.ssm04r5.external_original_native_artifact_verification.v1",
+  "qualified_source_sha": "ea49aad581eecc346eddf7f3abcdbee5add5e444",
+  "original_run_id": 44910714525,
+  "original_run_url": "https://github.com/vjmichael/cognitum/actions/runs/44910714525",
+  "original_run_attempt": 1,
+  "original_run_conclusion": "success",
+  "original_jobs": {
+    "native_platforms": 4,
+    "independent_checks": 1,
+    "successful_jobs": 5
+  },
+  "original_test_counts": {
+    "per_native_platform": 177,
+    "aggregate_passed": 708,
+    "aggregate_failed": 0,
+    "aggregate_errors": 0,
+    "aggregate_skipped": 0,
+    "r5_case_count_per_platform": 21
+  },
+  "original_source_blob_hashes_ordered": [
+    "e6616d14f4b02bd447f872f2a67a444d83bc7df6",
+    "19aefcc2c01ff629f6da5778b12fa0d495a3b610",
+    "026ee4e3b9e4e8be7d0158b9e8771bb691809293",
+    "3eebcec1da8bae1cb3a65d33aab389c584cff89b",
+    "8b8b16a9f3a3355cadd8ac7b19bf05af097e737a",
+    "ee311ead4b017e0e080f41cf412d22bfff0139b3",
+    "bc657af3ba28474c72bbb34376739f6bdef82106",
+    "f9cc09a3a54308135d6f25f63904d18d0d3ff6f8",
+    "731208b392d3a948ee7677c2e24f1117e2c8df79",
+    "826e1a7402cf89ae5c8855cbe52fd8280617c73a"
+  ],
+  "artifact_integrity": [
+    {
+      "artifact_id": 14710221596,
+      "name": "cog05-ssm04r5-ubuntu-latest-py3.11",
+      "github_sha256_digest": "sha256:8f55513cb979793560755bd185993a982dd35b6bbaa0c082cd45413ef0290ebc",
+      "external_sha256_match": true,
+      "zip_crc_verified": true,
+      "original_junit_passed_cases": 177
+    },
+    {
+      "artifact_id": 14710197977,
+      "name": "cog05-ssm04r5-windows-latest-py3.13",
+      "github_sha256_digest": "sha256:620053bee605d53f5c9d10f7c9a67ab5380e06d2389585206f533627ab086085",
+      "external_sha256_match": true,
+      "zip_crc_verified": true,
+      "original_junit_passed_cases": 177
+    },
+    {
+      "artifact_id": 14710098268,
+      "name": "cog05-ssm04r5-windows-latest-py3.11",
+      "github_sha256_digest": "sha256:196b1a46b725b3f8a0e3a138dd597fb441131972371ce9107872f1ea2a69a552",
+      "external_sha256_match": true,
+      "zip_crc_verified": true,
+      "original_junit_passed_cases": 177
+    },
+    {
+      "artifact_id": 14709998642,
+      "name": "cog05-ssm04r5-independent-native",
+      "github_sha256_digest": "sha256:776690d2910fcb5e85847d5ba0b7fbc1826b258252ece8f6f803d3d423c4c0c6",
+      "external_sha256_match": true,
+      "zip_crc_verified": true,
+      "original_junit_passed_cases": null
+    },
+    {
+      "artifact_id": 14709774173,
+      "name": "cog05-ssm04r5-ubuntu-latest-py3.13",
+      "github_sha256_digest": "sha256:b20ccacc1cdab65c90ca52b06a6a689bb92d0ef8947aa8fd7997804042feca59",
+      "external_sha256_match": true,
+      "zip_crc_verified": true,
+      "original_junit_passed_cases": 177
+    }
+  ],
+  "independent_junit_crosscheck": {
+    "all_four_case_name_and_classname_lists_identical": true,
+    "all_177_case_names_unique": true,
+    "all_four_original_shas_identical": true,
+    "all_four_original_ten_git_blob_manifests_identical": true,
+    "all_four_no_error_failure_skip": true
+  },
+  "independent_ci_receipt_status": "PASS_FIXED_DURATION_CORRELATED_STREAMING_AND_LEGACY_SOURCE",
+  "limitations": {
+    "certified_covariance_enclosure": false,
+    "installed_MEL_execution_authorized": false,
+    "physical_sensor_noise_calibration_verified": false
+  },
+  "closeout_policy": "Only documentation, evidence manifest, CI trigger changed after qualification. Qualified source sha above must not be replaced with closeout commit sha."
+}

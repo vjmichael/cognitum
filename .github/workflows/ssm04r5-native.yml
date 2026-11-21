@@ -1,11 +1,6 @@
 name: Cognitum SSM-04-R5 fixed-duration correlated streaming native qualification
 
 on:
-  push:
-    branches:
-      - research/ssm04r5-duration-streaming-20261121
-    paths:
-      - '.github/workflows/ssm04r5-native.yml'
   workflow_dispatch:
 
 permissions:
