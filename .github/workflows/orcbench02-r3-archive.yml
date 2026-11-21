@@ -1,9 +1,7 @@
 name: Cognitum BENCH-02 R3-R1 pin exact accepted NOAA originals
 
 on:
-  push:
-    branches:
-      - research/orc-bench02-r3-preregister-20261120
+  workflow_dispatch:
 
 permissions:
   contents: write
