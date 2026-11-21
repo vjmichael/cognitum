@@ -1,0 +1,147 @@
+name: Cognitum SSM-04-R5 fixed-duration correlated streaming native qualification
+
+on:
+  push:
+    branches:
+      - research/ssm04r5-duration-streaming-20261121
+    paths:
+      - '.github/workflows/ssm04r5-native.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cognitum-ssm04r5-native-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  native:
+    name: SSM-04-R5 / ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.11', '3.13']
+    env:
+      PYTHONHASHSEED: '0'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Pin native numerical dependencies
+        run: python -m pip install numpy==2.2.6 scipy==1.15.3 pytest==9.0.2 protobuf==6.33.1
+      - name: Original SSM-04/R1/R2/R3/R4 and R5 exact-source native mathematical regression
+        run: python -m pytest -q research_tests/ssm04 research_tests/ssm04r1 research_tests/ssm04r2 research_tests/ssm04r3 research_tests/ssm04r4 research_tests/ssm04r5 --junitxml=ssm04r5-native.xml
+      - name: Pin all accepted R3/R4 and new R5 Git source blobs
+        shell: bash
+        run: |
+          git rev-parse HEAD > ssm04r5-source-sha.txt
+          git hash-object cognitum/research/ssm_stochastic.py cognitum/research/ssm_stochastic_extended.py cognitum/research/ssm_stochastic_continuous.py cognitum/research/ssm_stochastic_increments.py research_tests/ssm04r2/test_continuous.py research_tests/ssm04r3/test_increments.py cognitum/research/ssm_stochastic_smoothing.py research_tests/ssm04r4/test_correlated_smoothing.py cognitum/research/ssm_stochastic_streaming.py research_tests/ssm04r5/test_streaming.py > ssm04r5-source-blobs.txt
+          test "$(git hash-object cognitum/research/ssm_stochastic.py)" = "e6616d14f4b02bd447f872f2a67a444d83bc7df6"
+          test "$(git hash-object cognitum/research/ssm_stochastic_extended.py)" = "19aefcc2c01ff629f6da5778b12fa0d495a3b610"
+          test "$(git hash-object cognitum/research/ssm_stochastic_continuous.py)" = "026ee4e3b9e4e8be7d0158b9e8771bb691809293"
+          test "$(git hash-object cognitum/research/ssm_stochastic_increments.py)" = "3eebcec1da8bae1cb3a65d33aab389c584cff89b"
+          test "$(git hash-object research_tests/ssm04r2/test_continuous.py)" = "8b8b16a9f3a3355cadd8ac7b19bf05af097e737a"
+          test "$(git hash-object research_tests/ssm04r3/test_increments.py)" = "ee311ead4b017e0e080f41cf412d22bfff0139b3"
+          test "$(git hash-object cognitum/research/ssm_stochastic_smoothing.py)" = "bc657af3ba28474c72bbb34376739f6bdef82106"
+          test "$(git hash-object research_tests/ssm04r4/test_correlated_smoothing.py)" = "f9cc09a3a54308135d6f25f63904d18d0d3ff6f8"
+          test "$(git hash-object cognitum/research/ssm_stochastic_streaming.py)" = "731208b392d3a948ee7677c2e24f1117e2c8df79"
+          test "$(git hash-object research_tests/ssm04r5/test_streaming.py)" = "826e1a7402cf89ae5c8855cbe52fd8280617c73a"
+          for f in cognitum/research/ssm_stochastic.py cognitum/research/ssm_stochastic_extended.py cognitum/research/ssm_stochastic_continuous.py cognitum/research/ssm_stochastic_increments.py research_tests/ssm04r2/test_continuous.py research_tests/ssm04r3/test_increments.py cognitum/research/ssm_stochastic_smoothing.py research_tests/ssm04r4/test_correlated_smoothing.py cognitum/research/ssm_stochastic_streaming.py research_tests/ssm04r5/test_streaming.py; do
+            test "$(git hash-object "$f")" = "$(git rev-parse "HEAD:$f")" || { echo "Noncanonical source bytes $f"; exit 1; }
+          done
+      - name: Preserve original native JUnit and exact-source identity
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cog05-ssm04r5-${{ matrix.os }}-py${{ matrix.python }}
+          path: |
+            ssm04r5-native.xml
+            ssm04r5-source-sha.txt
+            ssm04r5-source-blobs.txt
+          if-no-files-found: warn
+
+  independent:
+    name: Independently verify four original native JUnits and R3/R4/R5 sources
+    needs: [native]
+    if: ${{ always() && needs.native.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: cog05-ssm04r5-*
+          path: original-native-evidence
+          merge-multiple: false
+      - name: Verify JUnit test identity and exact original Git blob manifest
+        shell: bash
+        env:
+          LOCK_SHA: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          import os,json,xml.etree.ElementTree as ET
+          from pathlib import Path
+          root=Path('original-native-evidence')
+          expected={f'cog05-ssm04r5-{os}-py{py}' for os in ('ubuntu-latest','windows-latest') for py in ('3.11','3.13')}
+          assert {p.name for p in root.iterdir() if p.is_dir()}==expected
+          blobs=[
+            'e6616d14f4b02bd447f872f2a67a444d83bc7df6',
+            '19aefcc2c01ff629f6da5778b12fa0d495a3b610',
+            '026ee4e3b9e4e8be7d0158b9e8771bb691809293',
+            '3eebcec1da8bae1cb3a65d33aab389c584cff89b',
+            '8b8b16a9f3a3355cadd8ac7b19bf05af097e737a',
+            'ee311ead4b017e0e080f41cf412d22bfff0139b3',
+            'bc657af3ba28474c72bbb34376739f6bdef82106',
+            'f9cc09a3a54308135d6f25f63904d18d0d3ff6f8',
+            '731208b392d3a948ee7677c2e24f1117e2c8df79',
+            '826e1a7402cf89ae5c8855cbe52fd8280617c73a',
+          ]
+          names=None;counts={}
+          for p in sorted(root.iterdir()):
+            assert p.is_dir()
+            assert (p/'ssm04r5-source-sha.txt').read_text().strip()==os.environ['LOCK_SHA']
+            assert (p/'ssm04r5-source-blobs.txt').read_text().splitlines()==blobs
+            cases=list(ET.parse(p/'ssm04r5-native.xml').getroot().iter('testcase'))
+            assert len(cases)>=177,(p,len(cases))
+            assert not any(c.find(tag) is not None for c in cases for tag in ('failure','error','skipped'))
+            actual=sorted((c.get('classname'),c.get('name')) for c in cases)
+            if names is None:names=actual
+            else:assert names==actual
+            counts[p.name]=len(cases)
+          receipt={
+            'schema':'cognitum.ssm04r5.independent.four_native_original_receipt.v1',
+            'status':'PASS_FIXED_DURATION_CORRELATED_STREAMING_AND_LEGACY_SOURCE',
+            'source_sha':os.environ['LOCK_SHA'],
+            'native_platform_count':len(counts),
+            'tests_per_platform':counts,
+            'original_R3_R4_git_blobs_unchanged':True,
+            'new_R5_git_blobs_identical':True,
+            'independent_JUnit_names_identical':True,
+            'certified_covariance_enclosure':False,
+            'installed_MEL_execution_authorized':False,
+          }
+          Path('ssm04r5-independent-native.json').write_text(json.dumps(receipt,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(receipt))
+          PY
+      - name: Preserve independent original evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cog05-ssm04r5-independent-native
+          path: ssm04r5-independent-native.json
+          if-no-files-found: warn
