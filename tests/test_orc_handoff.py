@@ -357,7 +357,7 @@ def test_mel_input_scoping_and_feature_numeric_bounds():
     with pytest.raises(ValueError):
         mel_plan(budget="unbounded")
     with pytest.raises(ValueError):
-        mel_plan(raw=raw_source(missing=tuple(range(34,40))),fold="test")
+        mel_plan(raw=raw_source(missing=tuple(range(32,40))),fold="test")
 
 
 def test_kan_approval_shape_and_checkpoint_mismatch_refused():

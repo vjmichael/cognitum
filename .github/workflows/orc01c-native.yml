@@ -1,0 +1,63 @@
+name: Cognitum ORCH-01C native authorized scientific handoff
+on:
+  push:
+    branches: ['research/orc-01c-native-*']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  handoff:
+    name: "Orc scientific MEL / ${{ matrix.os }} / Python ${{ matrix.python-version }}"
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 32
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.11','3.13']
+    env:
+      PYTHONHASHSEED: '0'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install reviewed scientific mathematical planning and scheduling dependencies
+        run: python -m pip install -e ".[scientific,planning-graph,optimization-schedule]" "pytest==9.0.2" "numpy==2.3.5" "scipy==1.17.0" "networkx==3.5"
+      - name: Run native Orc, CPU/MEL worker and inherited refusal tests
+        run: python -m pytest -q tests/test_orc_handoff.py tests/test_orc_science_data.py tests/test_orc_graph.py tests/test_cooperative.py tests/test_cooperative_compositions.py research_tests/mel04b/test_cooperation.py research_tests/mel05b/test_graph_acceptance.py research_tests/mel05b/test_inline_enforcement.py --junitxml=orc01c.xml
+      - name: Exact scientific source, worker, dependencies and platform receipt
+        if: always()
+        shell: python
+        run: |
+          import hashlib, importlib.metadata as md, json, pathlib, platform, subprocess, sys
+          paths = ("cognitum/orc_handoff.py", "tests/test_orc_handoff.py",
+                   "cognitum/orc_science_data.py", "tests/test_orc_science_data.py",
+                   "cognitum/orc_graph.py", "tests/test_orc_graph.py",
+                   "cognitum/cooperative.py", "cognitum/cooperative_cpu.py",
+                   "cognitum/mel/cooperation.py", "cognitum/mel/admission.py",
+                   "cognitum/mel/verified_graph.py", "cognitum/mel/engines.py",
+                   "cognitum/mel/native.py", "cognitum/runtime.py",
+                   "tests/test_cooperative.py", "tests/test_cooperative_compositions.py",
+                   "research_tests/mel04b/test_cooperation.py",
+                   "research_tests/mel05b/test_graph_acceptance.py",
+                   "research_tests/mel05b/test_inline_enforcement.py")
+          receipt = {"git_sha": subprocess.check_output(["git","rev-parse","HEAD"], text=True).strip(),
+                     "platform": platform.platform(), "python": sys.version,
+                     "dependencies": {x: md.version(x) for x in ("pytest","numpy","scipy","networkx","ortools","protobuf")},
+                     "sources": {p: {"git_blob": subprocess.check_output(
+                         ["git","hash-object",p], text=True).strip(),
+                         "sha256": hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()}
+                         for p in paths}}
+          pathlib.Path("orc01c-source.json").write_text(json.dumps(receipt, indent=2, sort_keys=True))
+      - name: Archive native test identities and original-byte receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: orc01c-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: |
+            orc01c.xml
+            orc01c-source.json
+          if-no-files-found: warn
