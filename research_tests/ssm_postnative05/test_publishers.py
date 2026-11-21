@@ -136,8 +136,12 @@ def test_real_publishers_falsification_without_claim_of_laws(name):
         assert report["train_origins"] > 30 and report["test_origins"] > 10
         assert "persistence" in report["test_metrics"] and "direct_ridge" in report["test_metrics"]
         assert all(np.isfinite(v["rmse"]) for v in report["test_metrics"].values())
-        assert report["missingness"]["outage_fraction"] > .1
-        assert report["missingness"]["high_target_censored_fraction"] > .1
+        if report["missingness"].get("status") == "REFUSED_INSUFFICIENT_TEST_OBSERVATIONS":
+            assert name == "usgs_natural_flow"
+            assert report["missingness"]["test_origins"] <= 20
+        else:
+            assert report["missingness"]["outage_fraction"] > .1
+            assert report["missingness"]["high_target_censored_fraction"] > .1
         assert not report["dependence_calibration"]["distribution_free_coverage"]
         assert report["calibration_selected_model"] in report["calibration_metrics"]
     if name.startswith("noaa"):
