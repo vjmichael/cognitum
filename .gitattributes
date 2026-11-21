@@ -56,3 +56,11 @@
 
 # Preserve original externally acquired R3 evidence byte-for-byte across native checkouts.
 /research_tests/orcbench02/r3_20261121/* -text
+
+# BENCH-02 R4 original pre-result protocol and native cross-host exact source.
+/docs/research/orcgraph/ORCH01E_BENCH02_R4_PREREG.json text eol=lf
+/docs/research/orcgraph/ORCH01E_BENCH02_R4.md text eol=lf
+/tools/orcbench02/benchmark_r4.py text eol=lf
+/tests/test_orc_bench02_r4_pretest.py text eol=lf
+/tests/test_orc_bench02_r4_results.py text eol=lf
+/.github/workflows/orcbench02-r4-native.yml text eol=lf
