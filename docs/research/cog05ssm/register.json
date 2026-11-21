@@ -1677,5 +1677,31 @@
     "general_dependence_coverage_guaranteed": false,
     "full_scope_qualifications_complete": false,
     "execution_authorized": false
+  },
+  "latest_postnative05": {
+    "task": "COG-05-SSM-POST-NATIVE-05",
+    "status": "PUBLISHER_LOCKED_RESEARCH_CANDIDATE_NOT_NATIVE_QUALIFIED",
+    "research_branch": "research/ssm-postnative05-20261120",
+    "source_publishers": [
+      "NOAA-CO-OPS",
+      "DOI-USGS"
+    ],
+    "source_blobs": [
+      "8421af63a839c767555a53af74b71106ee68241e",
+      "2f986df07dce96b800829856e751b247e4179aaf"
+    ],
+    "noaa_raw_records": 34099,
+    "noaa_conflicting_timestamps_quarantined": 9,
+    "noaa_quarantined_rows": 18,
+    "usgs_natural_flow_reconstructed_annual_years": 110,
+    "empirical_physical_law_discovered": false,
+    "independent_original_instrument_attestation": false,
+    "native_hdc_kan_ssm_out_of_domain_tested": false,
+    "conditional_time_series_coverage_guaranteed": false,
+    "source_locked_native_accepted": false,
+    "all_scientific_capabilities_complete": false,
+    "execution_authorized": false,
+    "design": "docs/research/cog05ssm/POST_NATIVE05.md",
+    "preserved_prior_acceptance_sha": "6160e322ba24f8ec4d8f4a7d90ad885daeb32c92"
   }
 }
