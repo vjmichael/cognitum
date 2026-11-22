@@ -28,7 +28,7 @@ def sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def closure(runtime: Path, expected_manifest: str, expected_prov: str) -> int:
+def closure(runtime: Path, expected_manifest: str, expected_prov: str, expected_source: str) -> int:
     manifest = runtime / "r3-r1-runtime.manifest"
     provenance = runtime / "r3-r1-runtime-provenance.json"
     refuse(sha(manifest) == expected_manifest and sha(provenance) == expected_prov,
@@ -64,8 +64,17 @@ def closure(runtime: Path, expected_manifest: str, expected_prov: str) -> int:
     p = json.loads(provenance.read_text(encoding="ascii"))
     refuse(p.get("schema") == "cognitum.ssm.r3r1.production_installer_runtime.v1"
            and p.get("runtime_manifest_sha256") == expected_manifest
-           and p.get("external_manifest_approved_for_production") is True,
-           "original independent production runtime approval missing")
+           and p.get("external_manifest_approved_for_production") is True
+           and p.get("original_production_source_sha") == expected_source
+           and p.get("python_sha256") == sha(runtime / "python.exe")
+           and p.get("external_python_image_sha256") == sha(runtime / "python.exe")
+           and type(p.get("runtime_file_count")) is int
+           and p["runtime_file_count"] == len(entries)
+           and p.get("actual_Core_grant") is False
+           and p.get("external_output_release_authorized") is False
+           and p.get("production_release_signer_approved") is False
+           and p.get("independent_release_authority_approved") is False,
+           "original runtime provenance/source, Python image or authority flags invalid")
     return len(entries)
 
 
@@ -87,7 +96,7 @@ def candidate(args: argparse.Namespace) -> None:
     for name in ("runtime_manifest", "runtime_provenance", "cng_public",
                  "antirollback_public", "lu_issuer_public"):
         refuse(contract.is_sha(getattr(args, name)), "externally pinned "+name)
-    count = closure(runtime, args.runtime_manifest, args.runtime_provenance)
+    count = closure(runtime, args.runtime_manifest, args.runtime_provenance, args.source_sha)
     child = runtime / "cognitum/mel/ssm_r5_production_child.py"
     image_digest = sha(exe)
     nsis_digest = sha(installer)
@@ -157,7 +166,8 @@ def inspect(args: argparse.Namespace) -> None:
     runtime = stage / "payload/runtime"
     count = closure(
         runtime, claim["frozen_runtime_manifest_sha256"],
-        claim["frozen_runtime_provenance_sha256"])
+        claim["frozen_runtime_provenance_sha256"],
+        claim["source_sha"])
     checks = (
         ("protected_service_image_sha256",
          stage / "payload/cognitum-scm-production.exe"),
