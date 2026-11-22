@@ -24,6 +24,8 @@ on:
       - scripts/cog-r5-physical02-r3-r1-physical-scm-observe.ps1
       - deployment/windows/cognitum-ssm-bootstrap.nsi
       - native/windows_scm_production/src/main.rs
+      - cognitum/mel/ssm_r5_production_child.py
+      - research_tests/mel_lu_ipc01e_r5/test_production_ssm_child_gate.py
       - native/windows_scm_production/Cargo.toml
       - native/windows_scm_production/Cargo.lock
   workflow_dispatch:
@@ -53,6 +55,12 @@ jobs:
               throw 'PowerShell protected automatic variable assignment in production preflight'
             }
           }
+      - name: Refuse uncontained production SSM before any request parsing
+        shell: pwsh
+        run: |
+          python -m unittest -q research_tests.mel_lu_ipc01e_r5.test_production_ssm_child_gate
+          if($LASTEXITCODE -ne 0){throw 'Production AppContainer child token refusal test failed'}
+          Write-Host 'PASS_SOURCE_STAGE_SSM_WORKER_DENIES_UNCONTAINED_EXECUTION'
       - name: Refuse private owner release driver on hosted CI
         shell: pwsh
         run: |
