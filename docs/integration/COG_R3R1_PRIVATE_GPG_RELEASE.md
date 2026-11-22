@@ -153,3 +153,18 @@ operation path. The GPG signature does not provide Windows Authenticode
 publisher trust, grant Core PURE_COMPUTE, or authorize output/ACK. On CI,
 all driver phases REFUSE, including Check, to avoid treating hosted state
 as genuine original host evidence.
+
+
+## Preflight dependency/key closure follow-up
+
+The Check phase now reports python_runtime_inventory for the installed 64-bit
+CPython prefix layout, importability and installed distribution versions of
+NumPy, SciPy, Protobuf and cryptography. These observations are not a wheel-lock,
+license review or independent production-source approval. Candidate/Production
+refuse an unsuitable layout or missing imports; no network or pip mutation.
+The Check phase also separately parses the exported GPG public key and reports
+whether its ONLY primary fingerprint matches the selected primary ECC key.
+Sign/Verify refuse a mismatched public identity before mutating/signing.
+The NSIS discovery additionally checks both native Program Files paths for
+a locally installed makensis.exe. On the owner's PC, run Check again after
+NSIS installation; use the observed Python SHA256 only after review/approval.

@@ -70,10 +70,11 @@ $gpg=Tool 'gpg.exe' $GpgExecutable
 $cargo=Tool 'cargo.exe'
 $nsis=Tool 'makensis.exe' $MakeNsisExecutable
 if(-not $nsis){
- $p86=[Environment]::GetEnvironmentVariable('ProgramFiles(x86)')
- if($p86){
-  $candidate=Join-Path $p86 'NSIS\makensis.exe'
-  if(Test-Path -LiteralPath $candidate -PathType Leaf){$nsis=$candidate}
+ foreach($rootName in @('ProgramFiles(x86)','ProgramFiles')){
+  $programFiles=[Environment]::GetEnvironmentVariable($rootName)
+  if(-not $programFiles){continue}
+  $candidate=Join-Path $programFiles 'NSIS\makensis.exe'
+  if(Test-Path -LiteralPath $candidate -PathType Leaf){$nsis=$candidate;break}
  }
 }
 if(-not $PublicKeyFile){
@@ -86,11 +87,69 @@ $tracked=@(& $git -C $repo status --porcelain --untracked-files=no)
 if($LASTEXITCODE -ne 0){Refuse 'Original Git tracked-source state unavailable'}
 $localPythonHash=if($python){Digest $python}else{''}
 $keyAvailable=$false
+$publicKeyMatched=$false
 if($gpg){
  $secretLines=@(& $gpg --batch --with-colons --fingerprint --list-secret-keys $fp 2>&1)
  $keyAvailable=($LASTEXITCODE -eq 0 -and
      ($secretLines -join [char]10).ToUpperInvariant().Contains($fp))
+ if(Test-Path -LiteralPath $PublicKeyFile -PathType Leaf){
+  $publicLines=@(& $gpg --batch --no-tty --with-colons --fingerprint --show-keys $PublicKeyFile 2>&1)
+  if($LASTEXITCODE -eq 0){
+   $primaryFollowing=$false
+   $identities=@()
+   foreach($line in $publicLines){
+    $columns=([string]$line).Split(':')
+    if($columns[0] -eq 'pub'){$primaryFollowing=$true;continue}
+    if($columns[0] -eq 'sub'){$primaryFollowing=$false;continue}
+    if($columns[0] -eq 'fpr' -and $primaryFollowing){
+     $identities+=([string]$columns[9]).ToUpperInvariant()
+     $primaryFollowing=$false
+    }
+   }
+   $publicKeyMatched=($identities.Count -eq 1 -and $identities[0] -ceq $fp)
+  }
+ }
 }
+# Read-only interpreter inventory; no dependency installation or download.
+$pythonInventory=[pscustomobject]@{
+ status='PYTHON_NOT_FOUND'
+ runtime_layout_valid=$false
+ packages_imported=$false
+ packages=@{}
+}
+if($python){
+ $probe=@'
+import sys, json, struct, importlib, importlib.metadata as metadata
+from pathlib import Path
+mods=(("numpy","numpy"),("scipy","scipy"),
+      ("google.protobuf","protobuf"),("cryptography","cryptography"))
+packages={}
+for module,distribution in mods:
+    try:
+        importlib.import_module(module)
+        packages[distribution]={"imported":True,"version":metadata.version(distribution)}
+    except Exception as exc:
+        packages[distribution]={"imported":False,"error_type":type(exc).__name__}
+prefix=Path(sys.prefix).resolve()
+executable=Path(sys.executable).resolve()
+layout=(executable.parent==prefix and (prefix/"DLLs").is_dir()
+        and (prefix/"Lib").is_dir() and (prefix/"Lib"/"site-packages").is_dir())
+print(json.dumps({"status":"READ_ONLY_INTERPRETER_INVENTORY",
+ "python_version":sys.version.split()[0],"python_bits":struct.calcsize("P")*8,
+ "runtime_layout_valid":layout,
+ "packages_imported":all(item["imported"] for item in packages.values()),
+ "packages":packages},separators=(",",":")))
+'@
+ try{
+  $probeLines=@(& $python -c $probe 2>$null)
+  if($LASTEXITCODE -eq 0 -and $probeLines.Count -eq 1){
+   $pythonInventory=$probeLines[0]|ConvertFrom-Json
+  }else{
+   $pythonInventory.status='PYTHON_IMPORT_PROBE_FAILED'
+  }
+ }catch{$pythonInventory.status='PYTHON_IMPORT_PROBE_FAILED'}
+}
+
 if($Phase -eq 'Check'){
  [pscustomobject]@{
   schema='cognitum.ssm.r3r1.personal_tool_preflight.v1'
@@ -106,6 +165,8 @@ if($Phase -eq 'Check'){
   gpg_primary_fingerprint=$fp
   gpg_secret_key_listed=$keyAvailable
   public_key_file_present=(Test-Path -LiteralPath $PublicKeyFile -PathType Leaf)
+  public_key_matches_selected_primary_fingerprint=$publicKeyMatched
+  python_runtime_inventory=$pythonInventory
   approved_runtime=$false
   signed_release=$false
   physical_installed_accepted=$false
@@ -119,6 +180,11 @@ if($ExactSourceSha -cnotmatch '^[a-f0-9]{40}$' -or $head[0] -cne $ExactSourceSha
 if($tracked.Count -ne 0){Refuse 'Tracked original source has local edits'}
 if($Phase -eq 'Candidate' -or $Phase -eq 'Production'){
  if(-not $python){Refuse 'Original x64 Python executable unavailable'}
+ if($pythonInventory.python_bits -ne 64 -or
+    $pythonInventory.runtime_layout_valid -ne $true -or
+    $pythonInventory.packages_imported -ne $true){
+  Refuse 'Original 64-bit CPython layout or NumPy/SciPy/Protobuf/cryptography imports missing'
+ }
  Need-Hash $ApprovedPythonSha256 'Python source image'
  if($localPythonHash -cne $ApprovedPythonSha256){
   Refuse 'Original Python image does not match independently selected source pin'
@@ -159,6 +225,7 @@ if($Phase -eq 'Candidate' -or $Phase -eq 'Production'){
 if(-not $gpg){Refuse 'GnuPG executable unavailable'}
 if(-not $keyAvailable){Refuse 'Original selected ECC secret signing key unavailable'}
 Need-File $PublicKeyFile 'trusted exported public key'
+if(-not $publicKeyMatched){Refuse 'Exported public key does not match selected primary fingerprint'}
 if($Phase -eq 'Sign'){
  if(-not $cargo -or -not $nsis){Refuse 'Cargo and NSIS compiler are required for original native build'}
  Need-Hash $ApprovedManifestSha256 'production runtime manifest'
