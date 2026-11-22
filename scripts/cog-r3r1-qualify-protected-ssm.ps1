@@ -102,6 +102,41 @@ try{
  if(!$svc -or $svc.State -ne 'Stopped'){
   throw 'Qualified SCM could not be stopped'
  }
+ # Exercise a genuine SECOND SCM start on the same pinned operation and
+ # prelaunch journal, after the successful AppContainer + CNG terminal run.
+ # The native service must fail CLOSED before creating any second worker.
+ $prelaunch=Join-Path $hostRoot 'production-prelaunch.json'
+ $terminal=Join-Path $hostRoot 'production-terminal.json'
+ $signature=Join-Path $hostRoot 'production-terminal-signed.json'
+ foreach($p in @($prelaunch,$terminal,$signature,$original,$qualification,$answer)){
+  if(!(Test-Path -LiteralPath $p -PathType Leaf)){
+   throw 'Original durable prelaunch/terminal/candidate evidence missing before restart'
+  }
+ }
+ $lockedFiles=@($prelaunch,$terminal,$signature,$original,$qualification,$answer)
+ $lockedHashes=@($lockedFiles|ForEach-Object {
+  (Get-FileHash -LiteralPath $_ -Algorithm SHA256).Hash.ToLowerInvariant()
+ })
+ & sc.exe start $service |Out-Null
+ if($LASTEXITCODE -ne 0){throw 'Genuine second SCM start was not admitted for replay-refusal qualification'}
+ $deadline=[DateTime]::UtcNow.AddSeconds(25)
+ $stoppedAgain=$false
+ while([DateTime]::UtcNow -lt $deadline){
+  $second=Get-CimInstance Win32_Service -Filter "Name='$service'"
+  if($second -and $second.State -eq 'Stopped'){
+   $stoppedAgain=$true
+   break
+  }
+  Start-Sleep -Milliseconds 100
+ }
+ if(-not $stoppedAgain){throw 'Original SCM replay restart was not stopped fail-closed'}
+ for($i=0;$i -lt $lockedFiles.Count;$i++){
+  if((Get-FileHash -LiteralPath $lockedFiles[$i] -Algorithm SHA256).Hash.ToLowerInvariant() -cne
+     $lockedHashes[$i]){
+   throw 'Restart replay modified original prelaunch, signed terminal or mathematical result'
+  }
+ }
+ Write-Host 'PASS_CI_SCM_RESTART_SAME_ORIGINAL_PRELAUNCH_REPLAY_HELD'
  [ordered]@{
   schema='cognitum.ssm.r3r1.production_lineage_qualification.v1'
   status='PASS_CI_PRODUCTION_LINEAGE_NATIVE_APP_CONTAINER_SSM_JOB'
@@ -113,6 +148,9 @@ try{
   actual_kernel_job_empty=$true
   output_sha256=$resultHash
   mathematical_candidate_created=$true
+  second_SCM_start_same_original_replay_denied=$true
+  exact_durable_prelaunch_and_signed_terminal_unchanged_on_restart=$true
+  independent_antirollback_accepted=$false
   actual_owner_installed_service_changed=$false
   installed_Core_authorized=$false
   production_CNG_signed_receipts=$false
