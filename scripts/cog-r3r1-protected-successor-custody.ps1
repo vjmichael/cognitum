@@ -35,6 +35,13 @@ $manifest=Join-Path $stageRoot 'protected-successor.json'
 $signature=Join-Path $stageRoot 'protected-successor.json.asc'
 $installer=Join-Path $stageRoot 'Cognitum-SSM-R3R1-Protected.exe'
 $exe=Join-Path $installed 'cognitum-scm-production.exe'
+# The installed successor is an elevated SCM production service. Refuse a
+# user-writable local checkout or portable folder even if it has the expected
+# SHA-256 today: parent replacement after verification would be unsafe.
+$programFiles=[IO.Path]::GetFullPath($env:ProgramFiles).TrimEnd('\')
+if(-not $installed.StartsWith(($programFiles+'\'),[StringComparison]::OrdinalIgnoreCase)){
+ Refuse 'Protected successor must reside under native Program Files'
+}
 $runtime=Join-Path $installed 'runtime'
 $python=Join-Path $runtime 'python.exe'
 $child=Join-Path $runtime 'cognitum\mel\ssm_r5_production_child.py'
@@ -97,6 +104,39 @@ function Pin([string]$file,[string]$approved) {
     (Get-FileHash -LiteralPath $file -Algorithm SHA256).Hash.ToLowerInvariant() -cne $approved){
   Refuse 'Actual protected successor artifact differs from approved bytes'
  }
+}
+# Protect the native SCM binary from replacement after owner-GPG hash
+# observation. Evaluate the executable AND every ancestor to Program Files.
+# TrustedInstaller is a legitimate default Windows directory owner.
+$trustedOwners=@(
+ 'S-1-5-18',
+ 'S-1-5-32-544',
+ 'S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464'
+)
+$writeMask=[int64]0x500D0156L
+$cursor=$exe
+while($true){
+ $obj=Get-Item -LiteralPath $cursor -Force -ErrorAction Stop
+ if(($obj.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0){
+  Refuse 'Redirected service binary or Program Files ancestry refused'
+ }
+ $acl=Get-Acl -LiteralPath $cursor -ErrorAction Stop
+ try{$owner=$acl.GetOwner([Security.Principal.SecurityIdentifier]).Value}
+ catch{Refuse 'Native protected executable owner unavailable'}
+ if($trustedOwners -cnotcontains $owner){
+  Refuse 'Untrusted native SCM image or ancestor ownership'
+ }
+ foreach($ace in $acl.GetAccessRules($true,$true,[Security.Principal.SecurityIdentifier])){
+  if($ace.AccessControlType -eq [Security.AccessControl.AccessControlType]::Allow -and
+     ([int64]$ace.FileSystemRights -band $writeMask) -ne 0 -and
+     $trustedOwners -cnotcontains $ace.IdentityReference.Value){
+   Refuse 'Untrusted native SCM image/ancestor mutation rights'
+  }
+ }
+ if($cursor.Equals($programFiles,[StringComparison]::OrdinalIgnoreCase)){break}
+ $parent=[IO.Directory]::GetParent($cursor)
+ if($null -eq $parent){Refuse 'Native SCM image escaped approved Program Files root'}
+ $cursor=$parent.FullName.TrimEnd('\')
 }
 Pin $installer ([string]$claim.protected_nsis_installer_sha256)
 Pin $exe ([string]$claim.protected_service_image_sha256)
