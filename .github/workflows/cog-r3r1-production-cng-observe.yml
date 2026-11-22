@@ -28,7 +28,7 @@ jobs:
           if(Test-Path $root){throw 'Refuse reused CNG test store'}
           New-Item -ItemType Directory -Path $root -ErrorAction Stop | Out-Null
           & ./scripts/cog-r5-physical02-r2-cng-provision.ps1 -Mode provision -FixtureRoot $root -EnvFile "$env:GITHUB_ENV"
-          if($LASTEXITCODE -ne 0){throw 'Independent CI-only CNG provisioning failed'}
+          # Native PowerShell script throws on failure; LASTEXITCODE may contain a prior unrelated command.
           Add-Content "$env:GITHUB_ENV" "COG_R3_CNG_CI_ROOT=$root"
       - name: Observe native existing key without creating or exporting private bytes
         shell: pwsh
@@ -77,10 +77,13 @@ jobs:
           if(-not $caught){throw 'Hosted CI key falsely passed genuine production mode'}
           'PASS_CI_CNG_MISSING_KEY_WRONG_DIGEST_PRODUCTION_REFUSAL' |Set-Content r3r1-cng-negative.txt
       - name: Revoke original CI-only signer key
-        if: always() && steps.provision.outcome == 'success'
+        if: always()
         shell: pwsh
         run: |
-          & ./scripts/cog-r5-physical02-r2-cng-provision.ps1 -Mode remove -FixtureRoot $env:COG_R3_CNG_CI_ROOT
+          $root=Join-Path $env:RUNNER_TEMP 'cog-r3r1-cng-observe'
+          if(Test-Path -LiteralPath (Join-Path $root 'r2-external-provision.json') -PathType Leaf){
+            & ./scripts/cog-r5-physical02-r2-cng-provision.ps1 -Mode remove -FixtureRoot $root
+          }
       - uses: actions/upload-artifact@v4
         if: always()
         with:
