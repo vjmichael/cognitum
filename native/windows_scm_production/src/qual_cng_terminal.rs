@@ -129,8 +129,9 @@ fn write_new(path:&Path,data:&[u8])->io::Result<()>{
 /// Call ONLY after OS observed the actual original child exited, the Job
 /// has zero live processes and cancellation was reconciled. This function
 /// authenticates the signer key, NOT those OS facts independently.
-pub fn seal_original_terminal(pid:u32,request_sha:&str,output_sha:&[u8;32])->io::Result<()>{
- if pid==0||!pin(request_sha)||!output_sha.iter().any(|b|*b!=0){
+pub fn seal_original_terminal(pid:u32,request_sha:&str,output_sha:&[u8;32],prelaunch_sha:&[u8;32])->io::Result<()>{
+ if pid==0||!pin(request_sha)||!output_sha.iter().any(|b|*b!=0)||
+    !prelaunch_sha.iter().any(|b|*b!=0){
   return Err(refuse("bounded nonzero exact original terminal identity required"));
  }
  let body_path=terminal_path(env!("COG_PROD_QUAL_TERMINAL"))?;
@@ -140,8 +141,8 @@ pub fn seal_original_terminal(pid:u32,request_sha:&str,output_sha:&[u8;32])->io:
  // come from separately approved OS key custody, not a self-declared output.
  let (_provider,signer,pubkey)=key()?;
  let body=format!(
-  "{{\"schema\":\"cognitum.ssm.r3r1.ci_protected_terminal.v1\",\"scm_pid\":{},\"worker_pid\":{},\"original_request_sha256\":\"{}\",\"candidate_output_sha256\":\"{}\",\"kernel_job_empty_after_child_exit\":true,\"original_lu_core_grant_verified\":false,\"installed_signer_approved\":false,\"output_or_ACK_authorized\":false}}\n",
-  unsafe{GetCurrentProcessId()},pid,request_sha,hex(output_sha),
+  "{{\"schema\":\"cognitum.ssm.r3r1.ci_protected_terminal.v1\",\"scm_pid\":{},\"worker_pid\":{},\"original_request_sha256\":\"{}\",\"candidate_output_sha256\":\"{}\",\"original_prelaunch_sha256\":\"{}\",\"kernel_job_empty_after_child_exit\":true,\"original_lu_core_grant_verified\":false,\"installed_signer_approved\":false,\"output_or_ACK_authorized\":false}}\n",
+  unsafe{GetCurrentProcessId()},pid,request_sha,hex(output_sha),hex(prelaunch_sha),
  );
  if body.len()>2048{return Err(refuse("terminal frame exceeds immutable bound"));}
  let body_bytes=body.as_bytes();
