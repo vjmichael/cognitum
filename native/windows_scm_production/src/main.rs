@@ -11,6 +11,8 @@ mod qual_appcontainer;
 mod qual_ssm;
 #[cfg(all(windows,feature="protected-ssm-qualification"))]
 mod qual_cng_terminal;
+#[cfg(all(windows,feature="protected-ssm-qualification"))]
+mod qual_recovery;
 #[cfg(windows)]
 mod service {
     use std::{ffi::{c_void,OsStr},io,mem,os::windows::ffi::OsStrExt,
