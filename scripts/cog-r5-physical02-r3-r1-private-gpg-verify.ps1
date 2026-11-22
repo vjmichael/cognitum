@@ -65,7 +65,10 @@ $gpgHomeArg=Gpg-Path $verifyHome
 $publicArg=Gpg-Path $TrustedPublicKeyFile
 $sigArg=Gpg-Path $sig
 $releaseArg=Gpg-Path $release
-New-Item -ItemType Directory -Path $verifyHome -ErrorAction Stop|Out-Null
+# Even when the caller previews SCM mutation with -WhatIf, GPG verification
+# must create its disposable isolated keyring to actually validate the signature.
+# This opt-out is scoped only to scratch-directory creation and cleanup.
+New-Item -ItemType Directory -Path $verifyHome -ErrorAction Stop -WhatIf:$false|Out-Null
 try{
  $oldExit=$null
  $importLines=@(& $GpgExecutable --homedir $gpgHomeArg --batch --no-tty --no-auto-key-retrieve --import $publicArg 2>&1)
@@ -97,7 +100,7 @@ try{
  $primaryFp=if($tokens.Count -ge 12 -and $tokens[-1] -match '^([0-9A-Fa-f]{40}|[0-9A-Fa-f]{64})$'){$tokens[-1].ToUpperInvariant()}else{$signingFp}
  if($primaryFp -cne $expectedFp){Refuse 'Original GPG signer differs from externally approved primary key'}
 }finally{
- Remove-Item -LiteralPath $verifyHome -Force -Recurse -ErrorAction Stop
+ Remove-Item -LiteralPath $verifyHome -Force -Recurse -ErrorAction Stop -WhatIf:$false
 }
 try{$r=Get-Content -LiteralPath $release -Raw|ConvertFrom-Json -AsHashtable}
 catch{Refuse 'Signed personal release manifest JSON invalid'}

@@ -101,6 +101,19 @@ try{
     $claim.output_release_or_ACK_authorized -ne $false){
   throw 'Original ephemeral GPG signature did not remain observation only'
  }
+ # Regression: an outer installation preview must not suppress the short-lived,
+ # isolated GPG keyring creation or its cleanup.
+ $whatIfResult=& {
+  $WhatIfPreference=$true
+  & $verify @inputs
+ }
+ $whatIfClaim=($whatIfResult|Out-String)|ConvertFrom-Json
+ if($whatIfClaim.status -cne 'PASS_PRIVATE_GPG_PACKAGE_DIGESTS_OBSERVATION_ONLY' -or
+    $whatIfClaim.output_release_or_ACK_authorized -ne $false){
+  throw 'WhatIf incorrectly bypassed detached signature verification'
+ }
+ Write-Host 'PASS_WHATIF_DOES_NOT_SUPPRESS_PRIVATE_GPG_VERIFICATION'
+
  function Must-Refuse([scriptblock]$assertion,[string]$expected='COG_R3R1_PRIVATE_GPG_REFUSED'){
   $denied=$false
   try{& $assertion|Out-Null}catch{
