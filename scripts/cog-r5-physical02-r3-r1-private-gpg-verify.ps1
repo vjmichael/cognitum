@@ -78,7 +78,7 @@ try{
  if($tokens.Count -lt 3){Refuse 'Original GPG verified identity unparseable'}
  $signingFp=$tokens[2].ToUpperInvariant()
  # GnuPG provides the primary fingerprint at the end when a subkey signs.
- $primaryFp=if($tokens.Count -ge 13 -and $tokens[-1] -match '^([0-9A-Fa-f]{40}|[0-9A-Fa-f]{64})$'){$tokens[-1].ToUpperInvariant()}else{$signingFp}
+ $primaryFp=if($tokens.Count -ge 12 -and $tokens[-1] -match '^([0-9A-Fa-f]{40}|[0-9A-Fa-f]{64})$'){$tokens[-1].ToUpperInvariant()}else{$signingFp}
  if($primaryFp -cne $expectedFp){Refuse 'Original GPG signer differs from externally approved primary key'}
 }finally{
  Remove-Item -LiteralPath $verifyHome -Force -Recurse -ErrorAction Stop
