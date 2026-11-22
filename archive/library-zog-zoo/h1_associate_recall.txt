@@ -1,0 +1,66 @@
+"""
+H1 — Associative recall (Test Rig doc §3.1).
+Goal (starting target): recall ≥ 90% at N=10k, noise=20% → proves core store/retrieve.
+
+Mechanisms under test:
+  NN   — nearest-key index (the practical external-memory side-channel)
+  XOR  — pure superposition CAM with elementwise binding
+  CONV — pure superposition CAM with circular-convolution binding
+"""
+from __future__ import annotations
+import numpy as np
+import hdc_reference as H
+
+PASS_ACC = 0.90
+
+def _evaluate(mech, D, N, alpha, trials, keys, values, bank, value_matrix, nn, rng):
+    correct = 0
+    sims = 0.0
+    margins = 0.0
+    for _ in range(trials):
+        i = int(rng.integers(N))
+        q = H.noisy(keys[i], alpha, rng) if alpha > 0 else keys[i].copy()
+        if mech == "NN":
+            idx, margin, top1, _ = nn.recall(q)
+        else:
+            idx, margin, top1, _ = H.recall_from_bank(bank, q, mech, value_matrix)
+        correct += int(idx == i)
+        sims += top1
+        margins += margin
+    return {
+        "mechanism": mech, "alpha": alpha, "N": N,
+        "top1_accuracy": correct / trials,
+        "mean_top1_sim": sims / trials,
+        "mean_margin": margins / trials,
+        "pass": (correct / trials) >= PASS_ACC,
+    }
+
+def run(D=10_000, N=10_000, alphas=(0.0, 0.2), trials=200, seed=7):
+    rng = np.random.default_rng(seed)
+    keys = H.random_sign_matrix(N, D, rng)
+    values = H.random_sign_matrix(N, D, rng)
+    value_matrix = values
+    banks = {"xor": H.build_bank(keys, values, "xor"),
+             "conv": H.build_bank(keys, values, "conv")}
+    nn = H.NNMemory(keys, values)
+    rows = []
+    for alpha in alphas:
+        for mech in ("NN", "xor", "conv"):
+            rows.append(_evaluate(mech, D, N, alpha, trials, keys, values,
+                                  banks.get(mech.lower()), value_matrix, nn, rng))
+    best = max(rows, key=lambda r: r["top1_accuracy"])
+    target_ok = any(r["N"] == N and r["alpha"] == 0.2 and r["top1_accuracy"] >= PASS_ACC for r in rows)
+    return {
+        "test": "H1", "D": D, "N": N, "trials_per_cell": trials,
+        "rows": rows,
+        "best_mechanism": best["mechanism"],
+        "best_accuracy": best["top1_accuracy"],
+        "pass": target_ok,
+        "summary": (f"best={best['mechanism']} acc={best['top1_accuracy']:.3f} at "
+                    f"N={N} α=0.2 → {'PASS' if target_ok else 'BELOW 0.90 target'}"),
+    }
+
+if __name__ == "__main__":
+    import json
+    res = run()
+    print(json.dumps(res, indent=2))
