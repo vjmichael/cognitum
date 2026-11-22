@@ -11,6 +11,11 @@ import os
 from pathlib import Path
 import sys
 
+# This file is invoked by path from scripts/, which Python places on
+# sys.path instead of the Git checkout root. This is a source-only CI helper;
+# the protected production child still enters its own pinned source ONLY
+# after native token+Job verification.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from cognitum.mel.ssm_supervisor import SSMComputeFactory, OP
 
 
