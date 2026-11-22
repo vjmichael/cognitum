@@ -1,0 +1,3131 @@
+{
+  "purpose": "Library archival inventory, not proof of binary preservation",
+  "created_utc": "2026-11-22",
+  "source_folders": [
+    "/Cognitum",
+    "/Zog Zoo"
+  ],
+  "total_files": 520,
+  "files": [
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Datasets/CORe50/dataset_dims.zip",
+      "size": 2578,
+      "modified": "2026-11-18T17:57:34.962557+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Datasets/CORe50/core50_label_map.pbtxt",
+      "size": 1822,
+      "modified": "2026-11-18T17:57:22.156163+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Datasets/CORe50/bbox.zip",
+      "size": 1390289,
+      "modified": "2026-11-18T17:45:42.268487+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Datasets/CORe50/CORe50-samples.tar",
+      "size": 104919040,
+      "modified": "2026-11-18T17:42:20.645710+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Datasets/CORe50/core50_train.csv",
+      "size": 5043450,
+      "modified": "2026-11-18T17:39:47.189315+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Datasets/CORe50/core50_test.csv",
+      "size": 1882929,
+      "modified": "2026-11-18T17:39:39.176619+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/cifar-10-python.tar.gz",
+      "size": 170498071,
+      "modified": "2026-11-18T09:41:09.591202+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/hdlib-2.1.0-py3-none-any.whl",
+      "size": 62794,
+      "modified": "2026-11-17T20:24:34.096529+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/torch_hd-5.8.4-py3-none-any.whl",
+      "size": 360997,
+      "modified": "2026-11-17T20:08:54.812816+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/sparsediffpy-0.6.1-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "size": 12127460,
+      "modified": "2026-11-17T18:58:21.974376+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/highspy-1.16.0-cp313-cp313-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl",
+      "size": 3238926,
+      "modified": "2026-11-17T18:58:17.337264+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/qdldl-0.1.9.post1-cp313-cp313-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl",
+      "size": 1476075,
+      "modified": "2026-11-17T18:58:14.927907+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/scs-3.3.2-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "size": 43271732,
+      "modified": "2026-11-17T18:52:45.112912+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/clarabel-0.11.1-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "size": 1164345,
+      "modified": "2026-11-17T18:52:14.031175+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/osqp-1.1.3-cp313-cp313-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl",
+      "size": 354138,
+      "modified": "2026-11-17T18:52:10.329646+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/dowhy-0.14-py3-none-any.whl",
+      "size": 403110,
+      "modified": "2026-11-17T18:48:33.128984+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/econml-0.17.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "size": 5595397,
+      "modified": "2026-11-17T18:47:53.236913+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/cvxpy-1.9.3-cp313-cp313-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl",
+      "size": 4456120,
+      "modified": "2026-11-17T18:47:52.055439+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/dowhy-0.14.tar.gz",
+      "size": 13225280,
+      "modified": "2026-11-17T18:44:38.456992+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/sparse-0.19.3-py2.py3-none-any.whl",
+      "size": 166315,
+      "modified": "2026-11-17T18:44:22.662363+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/causal_learn-0.1.4.8-py3-none-any.whl",
+      "size": 245877,
+      "modified": "2026-11-17T18:44:21.698919+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/momentchi2-0.1.8-py3-none-any.whl",
+      "size": 11315,
+      "modified": "2026-11-17T18:44:20.089453+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Datasets/MOT17-09-FRCNN/det.txt",
+      "size": 100965,
+      "modified": "2026-11-17T18:36:15.455808+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Datasets/MOT17-05-FRCNN/det.txt",
+      "size": 121432,
+      "modified": "2026-11-17T18:35:37.556616+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Datasets/MOT17-02-FRCNN/det.txt",
+      "size": 267111,
+      "modified": "2026-11-17T18:35:04.490942+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/manifest.json",
+      "size": 752,
+      "modified": "2026-11-04T03:24:51.289493+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/Cognitum_IBEX_Flex_Bison_Debian13_Offline.zip.sha256",
+      "size": 113,
+      "modified": "2026-11-04T03:24:51.150704+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/Cognitum_IBEX_Source_Repair_20261103.zip",
+      "size": 16731696,
+      "modified": "2026-11-04T02:52:46.985593+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/Cognitum_IBEX_Source_Repair_20261103.zip.sha256",
+      "size": 108,
+      "modified": "2026-11-04T02:52:33.032332+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/Cognitum_SCIP_20261103.zip",
+      "size": 135053146,
+      "modified": "2026-11-04T02:40:51.404646+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/Cognitum_SCIP_20261103.zip.sha256",
+      "size": 94,
+      "modified": "2026-11-04T02:39:34.492670+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/Cognitum_Ipopt_20261103.zip",
+      "size": 47515711,
+      "modified": "2026-11-04T02:38:58.356133+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/Cognitum_FLINT_Arb_20261103.zip",
+      "size": 20364634,
+      "modified": "2026-11-04T02:38:39.790287+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/Cognitum_Ipopt_20261103.zip.sha256",
+      "size": 95,
+      "modified": "2026-11-04T02:38:12.603631+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/Cognitum_Index_20261103.zip",
+      "size": 3874,
+      "modified": "2026-11-04T02:38:10.751612+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/Cognitum_FLINT_Arb_20261103.zip.sha256",
+      "size": 99,
+      "modified": "2026-11-04T02:38:10.360582+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Packages/Cognitum_Index_20261103.zip.sha256",
+      "size": 95,
+      "modified": "2026-11-04T02:38:09.915330+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_G/accepted_results/public/revisions/00000000_d13c90130bbdda4746677bb62fe65b31af3738dfa826a30de1e27df8d3b3cc82.json",
+      "size": 3236,
+      "modified": "2026-11-03T21:25:30.705534+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_G/accepted_results/public/attestor_public.ed25519.pem",
+      "size": 113,
+      "modified": "2026-11-03T21:25:27.055535+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_G/accepted_results/public/public.ed25519.pem",
+      "size": 113,
+      "modified": "2026-11-03T21:25:26.594915+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_G/accepted_results/public/frozen_pins.json",
+      "size": 4600,
+      "modified": "2026-11-03T21:25:26.333388+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_G/accepted_results/public/HEAD",
+      "size": 3236,
+      "modified": "2026-11-03T21:25:25.661721+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_G/source/CAP_TRACE_PINS.json",
+      "size": 4661,
+      "modified": "2026-11-03T21:24:54.454590+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_G/Cognitum_CH_C14_40_G_Five_UID_Live_Attestation_Original_CH23_2026-11-03.zip",
+      "size": 10280592,
+      "modified": "2026-11-03T21:24:14.521820+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_G/Cognitum_CH_C14_40_G_Source_Protocol_Tests_2026-11-03.zip",
+      "size": 57047,
+      "modified": "2026-11-03T21:24:14.287097+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_G/accepted_results/CH40G_interrupted_checker_results.json",
+      "size": 996,
+      "modified": "2026-11-03T21:24:12.689228+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_G/accepted_results/protocol_tests.log",
+      "size": 99,
+      "modified": "2026-11-03T21:24:11.890362+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_G/accepted_results/CH40G_PUBLIC_AUDIT.json",
+      "size": 868,
+      "modified": "2026-11-03T21:24:11.713528+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_G/accepted_results/CH40G_forged_worker_results.json",
+      "size": 985,
+      "modified": "2026-11-03T21:24:11.573602+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_G/accepted_results/CH40G_valid_results.json",
+      "size": 5930,
+      "modified": "2026-11-03T21:24:07.654140+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_G/accepted_results/CH40G_tampered_trace_results.json",
+      "size": 986,
+      "modified": "2026-11-03T21:24:06.982245+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_G/accepted_results/CH40G_missing_checker_results.json",
+      "size": 988,
+      "modified": "2026-11-03T21:24:06.885885+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_G/CH40G_PACKAGING_RESULTS.json",
+      "size": 437,
+      "modified": "2026-11-03T21:24:06.122024+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_G/CH40G_FILE_MANIFEST_SHA256.json",
+      "size": 4763,
+      "modified": "2026-11-03T21:24:02.358542+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_G/CH40G_FINAL_ACCEPTANCE.json",
+      "size": 2843,
+      "modified": "2026-11-03T21:24:01.844223+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_F/extracted_smoke/CH40F_EXTRACTED_QUICK_AUDIT.json",
+      "size": 619,
+      "modified": "2026-11-03T20:27:09.268062+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_F/extracted_smoke/extracted_smoke40f.log",
+      "size": 148,
+      "modified": "2026-11-03T20:27:08.589442+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_F/Cognitum_CH_C14_40_F_All_15_Original_MPFR_Producer_Certificates_2026-11-03.zip",
+      "size": 101868937,
+      "modified": "2026-11-03T20:26:36.834565+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_F/CH40F_PACKAGE_RESULTS.json",
+      "size": 431,
+      "modified": "2026-11-03T20:26:33.319436+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_F/CH40F_MANIFEST_SHA256.json",
+      "size": 17034,
+      "modified": "2026-11-03T20:26:33.219784+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_F/Cognitum_CH_C14_40_F_Source_Tests_2026-11-03.zip",
+      "size": 55534,
+      "modified": "2026-11-03T20:26:32.852332+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_F/verifier_tail_progress.json",
+      "size": 3241,
+      "modified": "2026-11-03T20:24:36.856968+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_F/baseline_progress.json",
+      "size": 2878,
+      "modified": "2026-11-03T20:24:36.470934+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_F/verifier_progress.json",
+      "size": 4287,
+      "modified": "2026-11-03T20:24:36.294950+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_F/logs/live_receipt_replay.log",
+      "size": 366,
+      "modified": "2026-11-03T20:24:33.527140+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_F/producer_progress.json",
+      "size": 3672,
+      "modified": "2026-11-03T20:24:33.127937+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_F/logs/ch40e_inherited_adversarial17.log",
+      "size": 1953,
+      "modified": "2026-11-03T20:24:33.027097+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_F/logs/research_receipt_tests.log",
+      "size": 1703,
+      "modified": "2026-11-03T20:24:32.803073+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_F/CH40F_SOURCE_SHA256.json",
+      "size": 1606,
+      "modified": "2026-11-03T20:24:29.384658+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_F/CH40F_RESEARCH_RECEIPT_SCOPE_TEST.json",
+      "size": 297,
+      "modified": "2026-11-03T20:24:29.284561+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_F/Engineering_Report_CH_C14_40_F.md",
+      "size": 4193,
+      "modified": "2026-11-03T20:24:29.087040+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_F/CH40F_FULL_15_ACCEPTANCE.json",
+      "size": 14405,
+      "modified": "2026-11-03T20:24:28.955772+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_F/README.md",
+      "size": 2465,
+      "modified": "2026-11-03T20:20:13.716845+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_F/RUN_CH40F_WINDOWS_READONLY.cmd",
+      "size": 724,
+      "modified": "2026-11-03T20:20:10.322048+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_E/Cognitum_CH_C14_40_E_Source_And_Adversarial_Tests_2026-11-03.zip",
+      "size": 33459,
+      "modified": "2026-11-03T19:31:03.303528+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_E/CH40E_READONLY_RESULTS/CH40E_READONLY_AUDIT.json",
+      "size": 5771,
+      "modified": "2026-11-03T19:31:01.391088+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_E/Cognitum_CH_C14_40_E_Actual_MPFR_Producer_Traces_2026-11-03.zip",
+      "size": 11975963,
+      "modified": "2026-11-03T19:31:00.643884+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_E/results/test_trace40e_final.log",
+      "size": 98,
+      "modified": "2026-11-03T19:31:00.331807+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_E/results/full127_unchanged_baseline.log",
+      "size": 132,
+      "modified": "2026-11-03T19:30:59.917419+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_E/results/one_event_n80_i00_127_checked.json",
+      "size": 944,
+      "modified": "2026-11-03T19:30:56.606715+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_E/results/batch_1/SUMMARY.json",
+      "size": 5714,
+      "modified": "2026-11-03T19:30:56.373882+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_E/CH40E_MANIFEST_SHA256.json",
+      "size": 4575,
+      "modified": "2026-11-03T19:30:56.078505+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_E/CH40E_PACKAGE_RESULTS.json",
+      "size": 717,
+      "modified": "2026-11-03T19:30:55.921820+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_E/CH40E_FINAL_ACCEPTANCE.json",
+      "size": 8452,
+      "modified": "2026-11-03T19:30:51.743163+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_E/RUN_CH40E_WINDOWS_READONLY.cmd",
+      "size": 461,
+      "modified": "2026-11-03T19:30:47.960483+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_D/Cognitum_CH_C14_40_D_Source_And_Math_Tests_2026-11-03.zip",
+      "size": 46444,
+      "modified": "2026-11-03T18:49:16.678809+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_D/final_audit_recheck_current_turn.log",
+      "size": 988,
+      "modified": "2026-11-03T18:49:13.564152+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_D/Cognitum_CH_C14_40_D_Checkable_Local_Proof_Witnesses_Original_CH23_2026-11-03.zip",
+      "size": 6682510,
+      "modified": "2026-11-03T18:49:13.389151+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_D/independent_final_audit.log",
+      "size": 988,
+      "modified": "2026-11-03T18:49:12.572441+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_D/ch40d_tests.log",
+      "size": 99,
+      "modified": "2026-11-03T18:49:12.257944+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_D/CH40D_PACKAGE_RESULTS.json",
+      "size": 447,
+      "modified": "2026-11-03T18:49:09.070581+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_D/CH40D_PACKAGE_MANIFEST_SHA256.json",
+      "size": 4629,
+      "modified": "2026-11-03T18:49:08.768120+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_D/CH40D_RESULTS/CH40D_FINAL_ACCEPTANCE.json",
+      "size": 5729,
+      "modified": "2026-11-03T18:49:08.752957+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_D/RUN_CH40D_WINDOWS.cmd",
+      "size": 1286,
+      "modified": "2026-11-03T18:49:01.795199+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_C/Cognitum_CH_C14_40_C_Producer_Rule_Replay_Original_CH23_2026-11-03.zip",
+      "size": 6093440,
+      "modified": "2026-11-03T17:58:33.545632+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_C/Cognitum_CH_C14_40_C_Source_And_Tests_2026-11-03.zip",
+      "size": 158825,
+      "modified": "2026-11-03T17:58:33.491114+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/zero_imbalanced_n80_i00.json",
+      "size": 47289,
+      "modified": "2026-11-03T17:58:32.928888+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/zero_imbalanced_n160_i07.json",
+      "size": 46738,
+      "modified": "2026-11-03T17:58:29.491410+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/zero_imbalanced_n160_i05.json",
+      "size": 47022,
+      "modified": "2026-11-03T17:58:28.805681+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/zero_balanced_n80_i00.json",
+      "size": 47101,
+      "modified": "2026-11-03T17:58:25.559331+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/zero_imbalanced_n160_i00.json",
+      "size": 46917,
+      "modified": "2026-11-03T17:58:24.920402+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/zero_balanced_n160_i00.json",
+      "size": 46978,
+      "modified": "2026-11-03T17:58:24.536012+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/rare_5pct_n80_i00.json",
+      "size": 47043,
+      "modified": "2026-11-03T17:58:24.230753+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/rare_1pct_n160_i00.json",
+      "size": 46995,
+      "modified": "2026-11-03T17:58:20.368580+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/rare_1pct_n80_i00.json",
+      "size": 47092,
+      "modified": "2026-11-03T17:58:20.235650+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/rare_5pct_n160_i00.json",
+      "size": 46865,
+      "modified": "2026-11-03T17:58:20.137882+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/rare_1pct_n160_i13.json",
+      "size": 46936,
+      "modified": "2026-11-03T17:58:20.114088+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/quasi_separated_n160_i00.json",
+      "size": 46970,
+      "modified": "2026-11-03T17:58:16.027412+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/quasi_separated_n80_i00.json",
+      "size": 46572,
+      "modified": "2026-11-03T17:58:14.662902+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/one_event_n80_i00.json",
+      "size": 47175,
+      "modified": "2026-11-03T17:58:14.379702+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/one_event_n160_i00.json",
+      "size": 47165,
+      "modified": "2026-11-03T17:58:14.066389+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_C/CH40C_PACKAGE_RESULTS.json",
+      "size": 556,
+      "modified": "2026-11-03T17:58:10.051557+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_C/CH40C_SOURCE_MANIFEST_SHA256.json",
+      "size": 3658,
+      "modified": "2026-11-03T17:58:09.731298+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/CH40C_SUMMARY.json",
+      "size": 317,
+      "modified": "2026-11-03T17:58:09.427960+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_C/CH40C_batch_verified.log",
+      "size": 2978,
+      "modified": "2026-11-03T17:58:05.719396+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_C/ch40c_tests.log",
+      "size": 2956,
+      "modified": "2026-11-03T17:58:05.430053+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_C/RUN_CH40C_WINDOWS.cmd",
+      "size": 1087,
+      "modified": "2026-11-03T17:58:02.106706+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_B/Cognitum_CH_C14_40_B_Source_Tests_2026-11-03.zip",
+      "size": 30259,
+      "modified": "2026-11-03T17:42:24.407899+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_B/Cognitum_CH_C14_40_B_Independent_Coupled_Taylor_Newton_Original_CH23_2026-11-03.zip",
+      "size": 5964955,
+      "modified": "2026-11-03T17:42:23.657699+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_B/CH40B_MANIFEST_SHA256.json",
+      "size": 1580,
+      "modified": "2026-11-03T17:42:21.161146+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_B/CH40B_original15_results.json",
+      "size": 14430,
+      "modified": "2026-11-03T17:42:21.142591+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_B/batch40b.log",
+      "size": 1148,
+      "modified": "2026-11-03T17:42:20.707430+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_B/ch40b_tests.log",
+      "size": 2149,
+      "modified": "2026-11-03T17:39:56.716335+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40_B/RUN_CH40B_INDEPENDENT_WINDOWS.cmd",
+      "size": 1048,
+      "modified": "2026-11-03T17:39:51.199452+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/Windows_Acceptance_2026_11_03/WINDOWS_FULL_C14_MATH_BENCH_ACCEPTANCE_REDACTED.json",
+      "size": 4532,
+      "modified": "2026-11-03T17:23:30.601808+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/Windows_Acceptance_2026_11_03/README.md",
+      "size": 2353,
+      "modified": "2026-11-03T17:23:30.520913+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40/Cognitum_CH_C14_40_A_Independent_Mathematical_Checker_Original_CH23_2026-11-03.zip",
+      "size": 6166755,
+      "modified": "2026-11-03T16:42:43.431857+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40/Cognitum_CH_C14_40_A_Independent_Math_Source_And_Tests_2026-11-03.zip",
+      "size": 22582,
+      "modified": "2026-11-03T16:42:42.628459+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40/CH40_SOURCE_MANIFEST_SHA256.json",
+      "size": 1178,
+      "modified": "2026-11-03T16:42:40.686195+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40/CH40A_tests.log",
+      "size": 1935,
+      "modified": "2026-11-03T16:42:40.666382+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40/CH40A_batch.log",
+      "size": 1206,
+      "modified": "2026-11-03T16:42:40.529473+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40/CH40A_original15_results.json",
+      "size": 20899,
+      "modified": "2026-11-03T16:42:40.520577+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_40/RUN_CH40_INDEPENDENT.cmd",
+      "size": 813,
+      "modified": "2026-11-03T16:42:35.842359+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/Cognitum_C14_All_Past_Math_Benchmark_Windows_v1_2_2026-11-03.zip",
+      "size": 5955687,
+      "modified": "2026-11-03T16:05:46.424162+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/Cognitum_C14_Bench_MPFR_Path_Fix_v1_2_2026-11-03.zip",
+      "size": 13838,
+      "modified": "2026-11-03T16:05:46.197056+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/BENCH_FILES_SHA256.json",
+      "size": 1303,
+      "modified": "2026-11-03T16:05:43.681089+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/README_FIRST.txt",
+      "size": 5521,
+      "modified": "2026-11-03T16:05:39.992073+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/README_MPFR_DISCOVERY_v1_2.txt",
+      "size": 2342,
+      "modified": "2026-11-03T16:05:35.541897+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/test_mpfr_discovery.py",
+      "size": 3012,
+      "modified": "2026-11-03T16:05:31.895597+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/C14_MATH_BENCH.py",
+      "size": 18587,
+      "modified": "2026-11-03T16:05:28.308451+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/Cognitum_C14_All_Past_Math_Benchmark_Windows_v1_1_2026-11-03.zip",
+      "size": 5952220,
+      "modified": "2026-11-03T15:58:10.401151+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/Cognitum_C14_Bench_Scratch_Repair_v1_1_2026-11-03.zip",
+      "size": 9017,
+      "modified": "2026-11-03T15:58:10.342694+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/README_REPAIR_v1_1.txt",
+      "size": 2097,
+      "modified": "2026-11-03T15:57:51.676691+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/test_cache_recovery.py",
+      "size": 2566,
+      "modified": "2026-11-03T15:57:48.160218+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/Cognitum_C14_All_Past_Math_Benchmark_Windows_2026-11-03.zip",
+      "size": 5948560,
+      "modified": "2026-11-03T15:41:28.894434+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/DEVELOPMENT_SMOKE_REDACTED.json",
+      "size": 881,
+      "modified": "2026-11-03T15:41:24.857682+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/MATH_COVERAGE_PLAN.json",
+      "size": 2140,
+      "modified": "2026-11-03T15:41:24.737865+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/SETUP_DEPENDENCIES.cmd",
+      "size": 349,
+      "modified": "2026-11-03T15:41:24.490625+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/RUN_C14_FULL_MATH_BENCH.cmd",
+      "size": 650,
+      "modified": "2026-11-03T15:41:20.628921+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/sitecustomize.py",
+      "size": 632,
+      "modified": "2026-11-03T15:41:20.436129+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/c14_case_worker.py",
+      "size": 4677,
+      "modified": "2026-11-03T15:41:20.266212+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_Consolidated_CH23_CH39_2026_11_03/MPFR_Runtime_Bootstrap_V2/Cognitum_CH39_MPFR_Windows_Runtime_Fix_v2_2026-11-03.zip",
+      "size": 5722,
+      "modified": "2026-11-03T15:16:57.504109+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_Consolidated_CH23_CH39_2026_11_03/MPFR_Runtime_Bootstrap_V2/REPAIR_MPFR_AND_RUN.cmd",
+      "size": 1544,
+      "modified": "2026-11-03T15:16:57.365224+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_Consolidated_CH23_CH39_2026_11_03/MPFR_Runtime_Bootstrap_V2/README_MPFR_FIX_V2.txt",
+      "size": 2229,
+      "modified": "2026-11-03T15:16:57.361165+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_Consolidated_CH23_CH39_2026_11_03/MPFR_Runtime_Bootstrap/Cognitum_CH39_MPFR_Windows_Runtime_Helper_2026-11-03.zip",
+      "size": 5168,
+      "modified": "2026-11-03T15:09:27.222332+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_Consolidated_CH23_CH39_2026_11_03/MPFR_Runtime_Bootstrap/README_MPFR.txt",
+      "size": 2407,
+      "modified": "2026-11-03T15:09:27.029399+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_Consolidated_CH23_CH39_2026_11_03/MPFR_Runtime_Bootstrap/GET_MPFR_AND_RUN_TEST.cmd",
+      "size": 1708,
+      "modified": "2026-11-03T15:09:27.027582+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_Consolidated_CH23_CH39_2026_11_03/Cognitum_CH23_CH39_All_History_Windows_Regression_2026-11-03.zip",
+      "size": 6156101,
+      "modified": "2026-11-03T14:49:20.824299+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_Consolidated_CH23_CH39_2026_11_03/SELF_TEST_RESULTS_REDACTED.json",
+      "size": 1196,
+      "modified": "2026-11-03T14:49:17.726645+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_Consolidated_CH23_CH39_2026_11_03/TESTKIT_FILES_SHA256.json",
+      "size": 772,
+      "modified": "2026-11-03T14:49:14.022749+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_Consolidated_CH23_CH39_2026_11_03/README_FIRST.txt",
+      "size": 3815,
+      "modified": "2026-11-03T14:49:13.633931+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_Consolidated_CH23_CH39_2026_11_03/RUN_ALL_COGNITUM_TESTS.cmd",
+      "size": 1252,
+      "modified": "2026-11-03T14:49:13.630689+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_Test_Acceptance_2026_11_03/CH39_WINDOWS_ACCEPTANCE_REDACTED.json",
+      "size": 2296,
+      "modified": "2026-11-03T14:40:34.860115+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_TestKit_v3/Cognitum_CH39_Windows_TestKit_v3_2026-11-03.zip",
+      "size": 5946718,
+      "modified": "2026-11-03T14:27:57.810782+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_TestKit_v3/VERIFY_KIT_SHA256.txt",
+      "size": 189,
+      "modified": "2026-11-03T14:27:47.532721+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_TestKit_v3/README_Windows.txt",
+      "size": 1688,
+      "modified": "2026-11-03T14:27:47.220153+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_TestKit_v3/PACKAGE_SHA256.json",
+      "size": 721,
+      "modified": "2026-11-03T14:27:46.988568+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_TestKit_v3/RUN_CH39_WINDOWS_TEST.cmd",
+      "size": 1837,
+      "modified": "2026-11-03T14:27:46.196755+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_TestKit_v2/README_Windows.txt",
+      "size": 2507,
+      "modified": "2026-11-03T14:13:45.904209+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_TestKit_v2/VERIFY_KIT_SHA256.txt",
+      "size": 342,
+      "modified": "2026-11-03T14:13:45.462987+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_TestKit_v2/Cognitum_CH39_Windows_TestKit_v2_2026-11-03.zip",
+      "size": 5946792,
+      "modified": "2026-11-03T14:13:45.379776+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_TestKit_v2/PACKAGE_SHA256.json",
+      "size": 721,
+      "modified": "2026-11-03T14:13:45.246770+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_TestKit_v2/RUN_CH39_WINDOWS_TEST.cmd",
+      "size": 687,
+      "modified": "2026-11-03T14:13:40.425111+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_TestKit/VERIFY_KIT_SHA256.txt",
+      "size": 338,
+      "modified": "2026-11-03T05:31:45.148162+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_TestKit/Cognitum_CH39_Windows_TestKit_2026-11-02.zip",
+      "size": 6155154,
+      "modified": "2026-11-03T05:31:44.965195+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_TestKit/README_Windows.txt",
+      "size": 2617,
+      "modified": "2026-11-03T05:31:44.419924+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_TestKit/Test-CH39-Windows.ps1",
+      "size": 9133,
+      "modified": "2026-11-03T05:31:41.303926+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Windows_TestKit/RUN_CH39_WINDOWS_TEST.cmd",
+      "size": 315,
+      "modified": "2026-11-03T05:31:41.194909+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000014_112980038c992461c0eaf43c2d3f066191e4c7404b058ba434c1ba1352af68c5.json",
+      "size": 2078,
+      "modified": "2026-11-03T05:00:30.469801+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000013_f4bb0065c6875d3d1e13315cf47884cfda94df1bc3c8def81e34407cd0982d25.json",
+      "size": 2074,
+      "modified": "2026-11-03T05:00:30.125022+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000012_47a0759cb69426c1a29e98a14d97c72c11409d76c83fb5d45ad038fc2225b608.json",
+      "size": 2078,
+      "modified": "2026-11-03T05:00:28.420651+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000011_61d3219ed5c2c6a7c7a281a6a50962ef861b3a75e9524b6d05a3ff18f7fb8b57.json",
+      "size": 2078,
+      "modified": "2026-11-03T05:00:24.842786+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000010_73468bc047399ee5d82edc8ba102ccc59a2734539d0a076ed315a30f4990e97e.json",
+      "size": 2070,
+      "modified": "2026-11-03T05:00:24.658027+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000009_a7f55e53d6642e9f277fa54fe4e185409e4354ff0c94dd2b6e12d0e584694822.json",
+      "size": 2065,
+      "modified": "2026-11-03T05:00:24.553420+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000008_f5503adcb09a5c58fa1e9d5c6d6923caceba2434a8637b268713a6c280404245.json",
+      "size": 2049,
+      "modified": "2026-11-03T05:00:24.006881+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000007_16f96030f3739d7514bb53bfe307850f2d36b7713674779e1014f111ac7a897d.json",
+      "size": 2053,
+      "modified": "2026-11-03T05:00:21.011486+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000006_6e3f0c1aebd3611603aab1b2346e328bb0c1ea837c172b8436619c1d3db75a61.json",
+      "size": 2053,
+      "modified": "2026-11-03T05:00:20.892602+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000004_6a70587658af7ee4edb76e3c8667930a4e3e356d08cc32824f41ce95f7187a85.json",
+      "size": 2049,
+      "modified": "2026-11-03T05:00:20.772923+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000005_59f77e9da642175209f8c696f8873f514b19528971d1db13425ed5e666a24a05.json",
+      "size": 2053,
+      "modified": "2026-11-03T05:00:20.400059+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000003_b023665de9929b369a018139884073161b069faa7500a7345054887dbe3ce6af.json",
+      "size": 2053,
+      "modified": "2026-11-03T05:00:16.981926+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000002_225401622c49a2831f855826063d8d1d635239de1172764bdd59b4df7fe58a53.json",
+      "size": 2077,
+      "modified": "2026-11-03T05:00:16.584716+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000001_c2d377a93d038382fe057c06ca70c8b79dc413b00fe0eeb052697e9930e96299.json",
+      "size": 2073,
+      "modified": "2026-11-03T05:00:16.470522+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000000_a9950b71883f72e5fb0b2a0b2411aca421f9de1e8a46050c1cf045740d4e6cde.json",
+      "size": 2049,
+      "modified": "2026-11-03T05:00:16.315707+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/attestor_public.ed25519.pem",
+      "size": 113,
+      "modified": "2026-11-03T05:00:12.711259+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/public.ed25519.pem",
+      "size": 113,
+      "modified": "2026-11-03T05:00:12.372156+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/frozen_pins.json",
+      "size": 4600,
+      "modified": "2026-11-03T05:00:12.145635+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/HEAD",
+      "size": 2078,
+      "modified": "2026-11-03T05:00:12.058836+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Cognitum_CH_C14_39_Independent_MPFR_Checker_Original_CH23_2026-11-02.zip",
+      "size": 6143953,
+      "modified": "2026-11-03T04:59:58.639691+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/Cognitum_CH_C14_39_Independent_MPFR_Checker_Evidence_2026-11-02.zip",
+      "size": 74704,
+      "modified": "2026-11-03T04:59:58.342865+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/all15_run.log",
+      "size": 1947,
+      "modified": "2026-11-03T04:59:55.177651+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/forged_bound_regression.log",
+      "size": 98,
+      "modified": "2026-11-03T04:59:52.711306+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/ch39_tests.log",
+      "size": 99,
+      "modified": "2026-11-03T04:59:50.362698+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/package_results.json",
+      "size": 381,
+      "modified": "2026-11-03T04:59:47.991501+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/one_case_public_audit.json",
+      "size": 639,
+      "modified": "2026-11-03T04:59:45.597927+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/one_case_results.json",
+      "size": 5061,
+      "modified": "2026-11-03T04:59:42.359520+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/no_checker_results.json",
+      "size": 270,
+      "modified": "2026-11-03T04:59:39.864571+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/forgery_results.json",
+      "size": 355,
+      "modified": "2026-11-03T04:59:36.727477+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/executed_source_sha256.json",
+      "size": 1283,
+      "modified": "2026-11-03T04:59:33.996464+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/public_audit.json",
+      "size": 1045,
+      "modified": "2026-11-03T04:59:30.226306+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/original15_results.json",
+      "size": 49275,
+      "modified": "2026-11-03T04:59:27.596555+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_39/frozen_protocol.json",
+      "size": 5444,
+      "modified": "2026-11-03T04:59:21.900254+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000014_c8b2123d02a3da1a8e24cd2f1a631db0434e7ec89219c4059affe0bab364637e.json",
+      "size": 1555,
+      "modified": "2026-11-03T02:52:56.667180+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000013_8280ed1bac9a65831196b018beacc7b6c5ca8612d0a5a750da1207131833cb5a.json",
+      "size": 1555,
+      "modified": "2026-11-03T02:52:56.240249+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000012_f0860452fb0d5ae124aeda48a765d55d2ebfa8d6594fd17b60e8564995fcc298.json",
+      "size": 1552,
+      "modified": "2026-11-03T02:52:56.098353+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000011_e6cf127e8993ff758034cbc5cc21713357705887b94f79933dfd55c5ddabf808.json",
+      "size": 1555,
+      "modified": "2026-11-03T02:52:52.178013+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000009_d26e6c850fb5b53e83abfda5206fd391e33fbf0c3afb50deb25bdac49a781b01.json",
+      "size": 1545,
+      "modified": "2026-11-03T02:52:52.048445+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000010_6a1f241a4db0f1ac9bfb21e734710836ba496cfb1916c24a23bd0cc29e49fda9.json",
+      "size": 1549,
+      "modified": "2026-11-03T02:52:51.825620+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000008_d59ad82200b0edd3a4b9212a7cc25f71b7aa2c4198084f87bd76d5d1547c790e.json",
+      "size": 1536,
+      "modified": "2026-11-03T02:52:51.678962+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000007_ad5a7f9849b576d45a85981a18130a9c260ee367f54ce6e2c4838643dfe76ef3.json",
+      "size": 1533,
+      "modified": "2026-11-03T02:52:48.324623+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000006_6070f849a65a4d307409afd9598d4028af4c7f064bfc1e57884184572586cd64.json",
+      "size": 1536,
+      "modified": "2026-11-03T02:52:48.234409+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000005_e508d36bb8371898f39a428760b2782d6da4f4c76c19005ce1d8de0fe923335e.json",
+      "size": 1536,
+      "modified": "2026-11-03T02:52:47.950395+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000004_9d5c8f17ba092e3d9c7b694c2bfbf3ab4a77bd6a117919dba509ed3379e7fa21.json",
+      "size": 1533,
+      "modified": "2026-11-03T02:52:47.728352+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000002_54da257e980dcebf1fe95afbf9b6e0b3166f1eabfd331024e5434354ab7dd3a6.json",
+      "size": 1554,
+      "modified": "2026-11-03T02:52:44.282257+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000001_900e5e871cbc764d35f1947eb5aae0569f07091e181920205417b5e879c2d201.json",
+      "size": 1533,
+      "modified": "2026-11-03T02:52:44.181226+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000003_07a4dc51147dc904124e69017540153df509a158fdaf9ecc601a2fc7eb487926.json",
+      "size": 1536,
+      "modified": "2026-11-03T02:52:44.110141+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000000_87878c0cf9088c2be2caa378b2e8f35783e952f80ff746e888a42106f1b22c1c.json",
+      "size": 1551,
+      "modified": "2026-11-03T02:52:43.675924+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/public.ed25519.pem",
+      "size": 113,
+      "modified": "2026-11-03T02:52:39.631414+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/frozen_pins.json",
+      "size": 4600,
+      "modified": "2026-11-03T02:52:39.163002+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/HEAD",
+      "size": 1555,
+      "modified": "2026-11-03T02:52:39.107480+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/attestor_public.ed25519.pem",
+      "size": 113,
+      "modified": "2026-11-03T02:52:38.974547+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/Cognitum_CH_C14_38_Four_UID_Evidence_2026-11-02.zip",
+      "size": 64931,
+      "modified": "2026-11-03T02:52:12.598932+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/Cognitum_CH_C14_38_Four_UID_Attestor_Original_CH23_2026-11-02.zip",
+      "size": 6016395,
+      "modified": "2026-11-03T02:52:09.965028+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/package_results.json",
+      "size": 436,
+      "modified": "2026-11-03T02:52:09.730244+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/all15_run.log",
+      "size": 1686,
+      "modified": "2026-11-03T02:52:09.634927+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/public_audit.json",
+      "size": 1045,
+      "modified": "2026-11-03T02:52:06.991514+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/ch38_tests.log",
+      "size": 99,
+      "modified": "2026-11-03T02:52:06.852387+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/frozen_protocol.json",
+      "size": 3270,
+      "modified": "2026-11-03T02:52:06.745108+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_38/original15_results.json",
+      "size": 38631,
+      "modified": "2026-11-03T02:52:06.567306+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000012_3dfd001b72328ba4d2aa88efacbcb374ff70c46a0c0b6f5b4880cda5e73220aa.json",
+      "size": 1552,
+      "modified": "2026-11-03T02:22:52.825429+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000014_1b417529b8f13a4b0e248921cc9aa6d30fd0a9008c5c2f99873182570f626bf3.json",
+      "size": 1555,
+      "modified": "2026-11-03T02:22:51.847921+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000013_2f8d06eb90b81979cd71e6838198cd6b5bbe041e7a3704ac9e6c050cf4b12c97.json",
+      "size": 1555,
+      "modified": "2026-11-03T02:22:51.716660+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000009_8fccd509203bbf70fbab8bc63687ca18041e97b99831ea35a9f4349059fd90f8.json",
+      "size": 1536,
+      "modified": "2026-11-03T02:22:48.738623+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000011_173d4f09e161d4aeb8c676c2643737f83da10cedb777cc2ee7dda3f56d9c297a.json",
+      "size": 1555,
+      "modified": "2026-11-03T02:22:48.703054+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000010_0be40a9a3c6a64199369c4a6242e7a3ed24968dbe90abb704710af0aa2c271e6.json",
+      "size": 1549,
+      "modified": "2026-11-03T02:22:48.632810+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000008_766a001c838c2e16886cad855ca769aae6649a1fce774f11e94707f7a15d7002.json",
+      "size": 1545,
+      "modified": "2026-11-03T02:22:48.363214+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000006_97e3165067871ef2fb4f9fa31628132f353437ae82553391ec28c8e613c64c00.json",
+      "size": 1536,
+      "modified": "2026-11-03T02:22:45.704811+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000005_b3433304eb43743db5996cf807600aa707283f3afd2242cecd21c7879f1c161d.json",
+      "size": 1536,
+      "modified": "2026-11-03T02:22:45.544020+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000007_4f659b713701ce6b62bfdbede53245758e83f1b1f83231c4f56e78927e150233.json",
+      "size": 1533,
+      "modified": "2026-11-03T02:22:44.622993+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000004_ae4230921a23e06f1b8ff0468ab049974c7bde77a4e4f1d7bde5977411690640.json",
+      "size": 1533,
+      "modified": "2026-11-03T02:22:43.975346+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000000_3d463f1b20a1906b52b11179758731b7b6efc626c4c676569faa7c27049aca18.json",
+      "size": 1551,
+      "modified": "2026-11-03T02:22:41.271129+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000002_3487900da3f7e1b065e4233e71dd3206322668b59d56e41ed44b3f3caed6f5a1.json",
+      "size": 1554,
+      "modified": "2026-11-03T02:22:40.540597+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000003_882b68f5b4d306a600305846fad54b6154ef6dc6a5e252c3bcf77b9d792da0f3.json",
+      "size": 1536,
+      "modified": "2026-11-03T02:22:40.371267+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000001_401b21701b8776357181784dec9c1e0f4ba752f4d790ea8fd1572715c8cc8088.json",
+      "size": 1533,
+      "modified": "2026-11-03T02:22:40.146256+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/public.ed25519.pem",
+      "size": 113,
+      "modified": "2026-11-03T02:22:37.154943+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/verifier_public.ed25519.pem",
+      "size": 113,
+      "modified": "2026-11-03T02:22:36.282898+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/frozen_pins.json",
+      "size": 4600,
+      "modified": "2026-11-03T02:22:35.645188+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/HEAD",
+      "size": 1555,
+      "modified": "2026-11-03T02:22:35.034564+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/Cognitum_CH_C14_37_Three_UID_Dual_Signed_Original_CH23_2026-11-02.zip",
+      "size": 5903040,
+      "modified": "2026-11-03T02:22:01.284695+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/Cognitum_CH_C14_37_Independent_Account_Evidence_2026-11-02.zip",
+      "size": 63807,
+      "modified": "2026-11-03T02:22:01.236856+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/package_results.json",
+      "size": 598,
+      "modified": "2026-11-03T02:21:49.203517+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/all15_run.log",
+      "size": 1299,
+      "modified": "2026-11-03T02:21:46.912198+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/live_fail_closed_test.log",
+      "size": 98,
+      "modified": "2026-11-03T02:21:43.143198+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/ch37_tests.log",
+      "size": 99,
+      "modified": "2026-11-03T02:21:40.733660+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/public_audit.json",
+      "size": 1045,
+      "modified": "2026-11-03T02:21:37.562780+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/original15_results.json",
+      "size": 39232,
+      "modified": "2026-11-03T02:21:35.281117+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_37/frozen_protocol.json",
+      "size": 3307,
+      "modified": "2026-11-03T02:21:32.300292+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_36/Cognitum_CH_C14_36_Independent_Witness_Evidence_2026-11-02.zip",
+      "size": 30211,
+      "modified": "2026-11-03T02:04:35.000684+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_36/Cognitum_CH_C14_36_All_Original_Witness_Real_ENOSPC_2026-11-02.zip",
+      "size": 5794910,
+      "modified": "2026-11-03T02:04:34.873072+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_36/witness_public_key.pem",
+      "size": 113,
+      "modified": "2026-11-03T02:04:27.541578+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_36/duplicate_restart_results.json",
+      "size": 253,
+      "modified": "2026-11-03T02:04:24.911791+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_36/syscall_fsync_results.json",
+      "size": 735,
+      "modified": "2026-11-03T02:04:22.721320+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_36/real_enospc_results.json",
+      "size": 1631,
+      "modified": "2026-11-03T02:04:20.643489+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_36/package_results.json",
+      "size": 605,
+      "modified": "2026-11-03T02:04:18.197509+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_36/audit_results.json",
+      "size": 382,
+      "modified": "2026-11-03T02:04:15.361789+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_36/SOURCE_SHA256.json",
+      "size": 595,
+      "modified": "2026-11-03T02:04:13.373214+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_36/original15_results.json",
+      "size": 21308,
+      "modified": "2026-11-03T02:04:10.852151+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_36/frozen_protocol.json",
+      "size": 1439,
+      "modified": "2026-11-03T02:04:08.964859+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_36/fsync_fault36.c",
+      "size": 1461,
+      "modified": "2026-11-03T01:55:37.447083+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_35/Cognitum_CH_C14_35_Independent_Witness_Original_CH23_2026-11-02.zip",
+      "size": 5701987,
+      "modified": "2026-11-03T01:44:55.871364+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_35/Cognitum_CH_C14_35_Witness_Evidence_2026-11-02.zip",
+      "size": 25238,
+      "modified": "2026-11-03T01:44:55.461879+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_35/CH35_GitHub_Source_Part_3.json",
+      "size": 15357,
+      "modified": "2026-11-03T01:44:11.705250+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_35/CH35_GitHub_Source_Part_2.json",
+      "size": 18795,
+      "modified": "2026-11-03T01:44:11.665747+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_35/CH35_GitHub_Source_Part_1.json",
+      "size": 26767,
+      "modified": "2026-11-03T01:44:06.458237+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_34/Cognitum_CH_C14_34_Anchor_Source_and_Tests.zip",
+      "size": 9584,
+      "modified": "2026-11-03T01:15:27.573135+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_33/chaos_verify2.log",
+      "size": 985,
+      "modified": "2026-11-03T00:57:23.654413+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_33/clean_audit.log",
+      "size": 283,
+      "modified": "2026-11-03T00:57:23.294010+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_33/chaos.log",
+      "size": 1525,
+      "modified": "2026-11-03T00:57:20.915748+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_33/benchmark.log",
+      "size": 1126,
+      "modified": "2026-11-03T00:57:20.842657+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_33/tests_final.log",
+      "size": 110,
+      "modified": "2026-11-03T00:57:20.815925+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_33/evidence_package_summary.json",
+      "size": 234,
+      "modified": "2026-11-03T00:57:20.646379+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_33/package_summary.json",
+      "size": 349,
+      "modified": "2026-11-03T00:57:17.255668+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_33/checkpoint_heads.json",
+      "size": 1421,
+      "modified": "2026-11-03T00:57:17.225837+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_33/chaos_results.json",
+      "size": 3523,
+      "modified": "2026-11-03T00:57:17.069139+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_33/benchmark_results.json",
+      "size": 62165,
+      "modified": "2026-11-03T00:57:17.014786+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_33/Cognitum_CH_C14_33_Compacted_Journal_Original_CH23_2026-11-02.zip",
+      "size": 5588729,
+      "modified": "2026-11-03T00:56:56.555074+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_33/GITHUB_EXPECTED_SHAS.json",
+      "size": 650,
+      "modified": "2026-11-03T00:47:40.327268+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_33/frozen_protocol.sha256",
+      "size": 87,
+      "modified": "2026-11-03T00:47:36.313607+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_33/frozen_protocol.json",
+      "size": 4504,
+      "modified": "2026-11-03T00:47:36.214540+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_32/Cognitum_CH_C14_32_Durable_Proof_Journal_Original_CH23_2026-11-02.zip",
+      "size": 4478034,
+      "modified": "2026-11-02T23:58:07.181909+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_32/benchmark.log",
+      "size": 1222,
+      "modified": "2026-11-02T23:58:05.690267+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_32/hard_exit.log",
+      "size": 480,
+      "modified": "2026-11-02T23:58:03.561348+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_32/pytest.log",
+      "size": 111,
+      "modified": "2026-11-02T23:58:01.358997+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_32/package_results.json",
+      "size": 418,
+      "modified": "2026-11-02T23:57:59.091891+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_32/hard_exit_results.json",
+      "size": 512,
+      "modified": "2026-11-02T23:57:56.991439+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_32/SHA256SUMS_CH32_PACKAGE.json",
+      "size": 95158,
+      "modified": "2026-11-02T23:57:54.761592+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_32/heads.json",
+      "size": 1421,
+      "modified": "2026-11-02T23:57:52.484605+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_32/benchmark_results.json",
+      "size": 55989,
+      "modified": "2026-11-02T23:57:49.338761+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_32/frozen_protocol.json",
+      "size": 3159,
+      "modified": "2026-11-02T23:49:42.188750+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_32/frozen_protocol.sha256",
+      "size": 87,
+      "modified": "2026-11-02T23:49:41.786190+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_31/pytest.log",
+      "size": 2737,
+      "modified": "2026-11-02T23:27:20.554260+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_31/benchmark.log",
+      "size": 1218,
+      "modified": "2026-11-02T23:27:20.374172+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_31/SHA256SUMS_FULL_CH31.json",
+      "size": 64304,
+      "modified": "2026-11-02T23:27:20.327075+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_31/benchmark_results.json",
+      "size": 57074,
+      "modified": "2026-11-02T23:27:17.719455+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_31/Cognitum_CH_C14_31_Progressive_Verification_Cold_Restart_Original_CH23_2026-11-02.zip",
+      "size": 2023085,
+      "modified": "2026-11-02T23:27:17.036653+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_31/CH31_frozen_protocol_transfer.json",
+      "size": 3178,
+      "modified": "2026-11-02T23:25:12.239608+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_31/frozen_protocol.sha256",
+      "size": 87,
+      "modified": "2026-11-02T23:23:51.274217+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_31/frozen_protocol.json",
+      "size": 3178,
+      "modified": "2026-11-02T23:23:51.175890+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_30/CH30_Benchmark_Final_Results.json",
+      "size": 10837,
+      "modified": "2026-11-02T23:10:59.187008+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_30/Cognitum_CH_C14_30_Incremental_Verifier_Original_CH23_2026-11-02.zip",
+      "size": 1967430,
+      "modified": "2026-11-02T23:10:20.850425+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_30/bench_all.log",
+      "size": 1091,
+      "modified": "2026-11-02T23:10:20.721926+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_30/DELIVERY_ATTESTATION.json",
+      "size": 2059,
+      "modified": "2026-11-02T23:10:20.608740+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_30/package_manifest_summary.json",
+      "size": 301,
+      "modified": "2026-11-02T23:10:18.141415+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_30/benchmark_results.json",
+      "size": 10837,
+      "modified": "2026-11-02T23:10:17.861869+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_30/SOURCE_SHA256.json",
+      "size": 1247,
+      "modified": "2026-11-02T23:04:30.244556+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_30/frozen_protocol.sha256",
+      "size": 107,
+      "modified": "2026-11-02T23:04:29.974324+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_30/frozen_protocol.json",
+      "size": 1454,
+      "modified": "2026-11-02T23:04:29.839799+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_29/study_summary.json",
+      "size": 81962,
+      "modified": "2026-11-02T22:38:28.249539+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_29/SHA256SUMS_CH29.json",
+      "size": 31357,
+      "modified": "2026-11-02T22:38:27.815698+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_29/CH_C14_29_Evidence_Original_15_Fixed_And_CPU.zip",
+      "size": 945754,
+      "modified": "2026-11-02T22:38:23.924211+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_29/Cognitum_CH_C14_29_Parent_Inheritance_63_127_Equal_CPU_Original_CH23_2026-11-02.zip",
+      "size": 1921604,
+      "modified": "2026-11-02T22:38:23.844940+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_28/SHA256SUMS_CH28.json",
+      "size": 13347,
+      "modified": "2026-11-02T21:50:34.494349+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_28/study_summary.json",
+      "size": 22852,
+      "modified": "2026-11-02T21:50:31.276969+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_28/Cognitum_CH_C14_28_Selective_MPFR_Cache_63_127_OriginalCH23_2026-11-02.zip",
+      "size": 968595,
+      "modified": "2026-11-02T21:50:30.756288+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_28/frozen_protocol.sha256",
+      "size": 87,
+      "modified": "2026-11-02T21:43:22.735080+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_28/frozen_protocol.json",
+      "size": 3547,
+      "modified": "2026-11-02T21:43:16.829001+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_27/Cognitum_CH_C14_27_Coupled_Fisher_Interval_Newton_Original_CH23_2026-11-02.zip",
+      "size": 525099,
+      "modified": "2026-11-02T21:17:03.476086+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_25/study_summary.json",
+      "size": 14334,
+      "modified": "2026-11-02T19:52:28.541522+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_25/SHA256SUMS.json",
+      "size": 8937,
+      "modified": "2026-11-02T19:52:27.227537+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_25/frozen_protocol_B.sha256",
+      "size": 89,
+      "modified": "2026-11-02T19:52:19.600001+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_25/frozen_protocol_B.json",
+      "size": 8108,
+      "modified": "2026-11-02T19:52:19.136942+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_25/frozen_protocol.sha256",
+      "size": 87,
+      "modified": "2026-11-02T19:52:18.970480+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/CH_C14_25/frozen_protocol.json",
+      "size": 7553,
+      "modified": "2026-11-02T19:52:15.987741+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_VM_Readiness_Check_2026-10-29.zip",
+      "size": 4506,
+      "modified": "2026-10-29T16:00:02.872425+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_T3_VM_Reboot_Rollback_Witness_2026-10-29.zip",
+      "size": 3975572,
+      "modified": "2026-10-29T15:44:24.994154+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_T3_VM_Recovery_Validation_Backlog_2026-10-29.json",
+      "size": 1287,
+      "modified": "2026-10-29T15:44:22.779385+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_T3_Windows_x64_Native_Test_Kit_ACL_Order_Fix_2026-10-29.zip",
+      "size": 3858895,
+      "modified": "2026-10-29T15:24:15.725958+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_T3_Windows_ACL_Diagnostic_Order_Evidence_2026-10-29.json",
+      "size": 1657,
+      "modified": "2026-10-29T15:24:14.982268+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_T3_Windows_ACL_Fix_Verification_2026-10-29.json",
+      "size": 1500,
+      "modified": "2026-10-29T15:12:22.173852+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_T3_Windows_x64_Native_Test_Kit_ACL_Fix_2026-10-29.zip",
+      "size": 3793189,
+      "modified": "2026-10-29T15:12:21.504768+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_T3_Windows_x64_Native_Test_Kit_Python_Fix_2026-10-29.zip",
+      "size": 3790008,
+      "modified": "2026-10-29T15:00:19.139540+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_T3_Windows_Python_Fix_Validation_Evidence_2026-10-29.json",
+      "size": 537,
+      "modified": "2026-10-29T15:00:18.630880+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_T3_Windows_x64_Native_Test_Kit_2026-10-29.zip",
+      "size": 3788043,
+      "modified": "2026-10-29T14:49:38.097821+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_T3_Windows_Native_Test_Kit_Manifest_2026-10-29.json",
+      "size": 615,
+      "modified": "2026-10-29T14:49:37.427062+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_T3_Windows_Native_Gate_Candidate_2026-10-29.zip",
+      "size": 3881613,
+      "modified": "2026-10-29T14:38:31.895366+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_T3_Windows_Native_Gate_Change_Inventory_2026-10-29.json",
+      "size": 1151,
+      "modified": "2026-10-29T14:38:31.110590+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_T3_Windows_Host_Validation_Harness_2026-10-29.zip",
+      "size": 3860906,
+      "modified": "2026-10-29T14:24:44.912741+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_WinHost_Change_Inventory_2026-10-29.json",
+      "size": 1908,
+      "modified": "2026-10-29T14:24:44.066180+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_WinHost_Test_Evidence_2026-10-29.json",
+      "size": 3059,
+      "modified": "2026-10-29T14:24:43.915001+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_T3_P2Z_Host_Recovery_Readiness_2026-10-29.zip",
+      "size": 3843838,
+      "modified": "2026-10-29T14:03:38.280203+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_T3_P2Y_Change_Inventory_2026-10-29.json",
+      "size": 536,
+      "modified": "2026-10-29T06:53:58.805590+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_T3_P2Y_Local_Profile_2026-10-29.json",
+      "size": 992,
+      "modified": "2026-10-29T06:53:55.941101+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_T3_P2Y_Test_Evidence_2026-10-29.json",
+      "size": 1294,
+      "modified": "2026-10-29T06:53:55.784804+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_T3_P2Y_Durable_Recovery_2026-10-29.zip",
+      "size": 3787729,
+      "modified": "2026-10-29T06:53:55.066780+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_T3_P2X_Benchmark_Backlog_2026-10-29.json",
+      "size": 4967,
+      "modified": "2026-10-29T06:35:28.812705+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_T3_P2X_Test_Evidence_2026-10-29.json",
+      "size": 620,
+      "modified": "2026-10-29T06:35:25.748730+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_T3_P2X_Local_Profile_2026-10-29.json",
+      "size": 2385,
+      "modified": "2026-10-29T06:35:25.678934+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_T3_P2X_Incremental_Volume_2026-10-29.zip",
+      "size": 3763092,
+      "modified": "2026-10-29T06:35:24.047386+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2W_Changes_2026-10-29.patch",
+      "size": 140329,
+      "modified": "2026-10-29T06:18:45.625659+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2W_Local_Profile_2026-10-29.json",
+      "size": 1229,
+      "modified": "2026-10-29T06:18:45.413593+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_T3_P2W_Volumetric_Lifecycle_2026-10-29.zip",
+      "size": 3679524,
+      "modified": "2026-10-29T06:18:42.879605+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2W_Test_Evidence_2026-10-29.json",
+      "size": 1899,
+      "modified": "2026-10-29T06:18:42.366765+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2W_Benchmark_Backlog_2026-10-29.json",
+      "size": 2833,
+      "modified": "2026-10-29T06:18:42.002268+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2V_Test_Evidence_2026-10-29.json",
+      "size": 1201,
+      "modified": "2026-10-29T06:05:11.945453+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2V_Synthetic_Study_2026-10-29.json",
+      "size": 2794,
+      "modified": "2026-10-29T06:05:08.111458+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2V_Benchmark_Backlog_2026-10-29.json",
+      "size": 2976,
+      "modified": "2026-10-29T06:05:07.767426+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_T3_P2V_Dynamic_Scene_Robustness_2026-10-29.zip",
+      "size": 3623728,
+      "modified": "2026-10-29T06:05:06.658426+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2U_Test_Evidence_2026-10-29.json",
+      "size": 2124,
+      "modified": "2026-10-29T05:51:55.303005+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2U_Benchmark_Backlog_2026-10-29.json",
+      "size": 2309,
+      "modified": "2026-10-29T05:51:52.791434+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2U_Synthetic_Demo_2026-10-29.json",
+      "size": 1216,
+      "modified": "2026-10-29T05:51:52.746956+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_T3_P2U_Dynamic_Scene_Mapping_2026-10-29.zip",
+      "size": 3601924,
+      "modified": "2026-10-29T05:51:51.262303+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2T_Test_Evidence_2026-10-29.json",
+      "size": 729,
+      "modified": "2026-10-29T05:40:28.819682+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/P2T_Synthetic_Object_Motion_Evidence_2026-10-29.json",
+      "size": 1232,
+      "modified": "2026-10-29T05:40:26.124244+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_T3_P2T_Benchmark_Backlog_2026-10-29.json",
+      "size": 4328,
+      "modified": "2026-10-29T05:40:26.026227+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_T3_P2T_Object_Aware_Volume_2026-10-29.zip",
+      "size": 3547729,
+      "modified": "2026-10-29T05:40:25.060360+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2T_Milestone_Report_2026-10-29.md",
+      "size": 3229,
+      "modified": "2026-10-29T05:40:24.929337+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2S_Synthetic_Study_2026-10-29.json",
+      "size": 3523,
+      "modified": "2026-10-29T05:21:24.491227+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2S_Changes_2026-10-29.patch",
+      "size": 44953,
+      "modified": "2026-10-29T05:21:24.486230+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2S_Test_Evidence_2026-10-29.json",
+      "size": 1215,
+      "modified": "2026-10-29T05:21:21.740088+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2S_Benchmark_Backlog_2026-10-29.json",
+      "size": 3117,
+      "modified": "2026-10-29T05:21:21.613605+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_T3_P2S_Temporal_Volume_2026-10-29.zip",
+      "size": 3491199,
+      "modified": "2026-10-29T05:21:20.627479+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2S_Milestone_Report_2026-10-29.md",
+      "size": 3687,
+      "modified": "2026-10-29T05:21:20.253246+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_R2_1_Changes_2026-10-29.patch",
+      "size": 9092,
+      "modified": "2026-10-29T05:01:57.369457+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_R2_1_Test_Evidence_2026-10-29.json",
+      "size": 2994,
+      "modified": "2026-10-29T05:01:57.157579+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_R2_1_Reliability_Research_2026-10-29.zip",
+      "size": 5098522,
+      "modified": "2026-10-29T05:01:54.336149+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_Benchmark_Backlog_v5.json",
+      "size": 18383,
+      "modified": "2026-10-29T05:01:54.004492+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_R2_1_Official_Metrics_2026-10-29.csv",
+      "size": 1134,
+      "modified": "2026-10-29T05:01:53.914590+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_R2_1_Milestone_Report_2026-10-29.md",
+      "size": 3976,
+      "modified": "2026-10-29T05:01:53.451085+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_Benchmark_Backlog_v4.json",
+      "size": 14367,
+      "modified": "2026-10-29T04:50:41.830190+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_R2_Switch_Ablation_Pilot_2026-10-29.zip",
+      "size": 4333257,
+      "modified": "2026-10-29T04:50:40.933894+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_R2_Switch_Ablation_Pilot_Metrics_2026-10-29.csv",
+      "size": 2751,
+      "modified": "2026-10-29T04:50:40.741353+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_R2_Switch_Ablation_Pilot_Report_2026-10-29.md",
+      "size": 4125,
+      "modified": "2026-10-29T04:50:40.623072+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_Benchmark_Backlog_v3.json",
+      "size": 11480,
+      "modified": "2026-10-29T04:40:20.520074+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_R2_Incremental_Changes_2026-10-29.patch",
+      "size": 51270,
+      "modified": "2026-10-29T04:40:20.478292+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_Appearance_Association_R2_2026-10-29.zip",
+      "size": 5872189,
+      "modified": "2026-10-29T04:40:17.717436+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_R2_Official_Per_Sequence_2026-10-29.csv",
+      "size": 1089,
+      "modified": "2026-10-29T04:40:16.909245+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_R2_Official_Aggregate_Metrics_2026-10-29.csv",
+      "size": 412,
+      "modified": "2026-10-29T04:40:16.837073+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15_R2_Milestone_Report_2026-10-29.md",
+      "size": 3481,
+      "modified": "2026-10-29T04:40:16.779806+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_Real_Image_Appearance_Changes_2026-10-28.patch",
+      "size": 20003,
+      "modified": "2026-10-29T04:17:55.611993+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15-benchmark-backlog-v2.json",
+      "size": 8849,
+      "modified": "2026-10-29T04:17:55.435910+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_Real_Image_Appearance_Repeat_Evidence_2026-10-28.json",
+      "size": 694,
+      "modified": "2026-10-29T04:17:55.390890+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_Real_Image_Appearance_Official_Evidence_2026-10-28.json",
+      "size": 1359223,
+      "modified": "2026-10-29T04:17:53.005186+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_Real_Image_Appearance_Benchmark_2026-10-28.zip",
+      "size": 4821326,
+      "modified": "2026-10-29T04:17:51.910332+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_Real_Image_Appearance_Official_Per_Sequence_2026-10-28.csv",
+      "size": 1838,
+      "modified": "2026-10-29T04:17:51.554194+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_Real_Image_Appearance_Milestone_Report_2026-10-28.md",
+      "size": 5602,
+      "modified": "2026-10-29T04:17:51.496339+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2R_Changes_2026-10-28.patch",
+      "size": 36843,
+      "modified": "2026-10-29T03:35:10.559817+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2R_Test_Evidence_2026-10-28.json",
+      "size": 1379,
+      "modified": "2026-10-29T03:35:10.528826+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_T3_P2R_Correlated_Volume_2026-10-28.zip",
+      "size": 3410359,
+      "modified": "2026-10-29T03:35:07.998013+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2R_Synthetic_Study_2026-10-28.json",
+      "size": 1993,
+      "modified": "2026-10-29T03:35:07.284912+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2R_Benchmark_Backlog_2026-10-28.json",
+      "size": 2382,
+      "modified": "2026-10-29T03:35:07.253937+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2R_Milestone_Report_2026-10-28.md",
+      "size": 4741,
+      "modified": "2026-10-29T03:35:07.193125+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2Q_Changes_2026-10-28.patch",
+      "size": 44842,
+      "modified": "2026-10-29T03:27:31.456585+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_T3_P2Q_Calibrated_Depth_2026-10-28.zip",
+      "size": 3359348,
+      "modified": "2026-10-29T03:27:28.819658+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2Q_Benchmark_Backlog_2026-10-28.json",
+      "size": 3375,
+      "modified": "2026-10-29T03:27:28.205365+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2Q_Test_Evidence_2026-10-28.json",
+      "size": 2821,
+      "modified": "2026-10-29T03:27:28.172222+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T3_P2Q_Milestone_Report_2026-10-28.md",
+      "size": 3822,
+      "modified": "2026-10-29T03:27:28.006514+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T2_P2P_Changes_2026-10-28.patch",
+      "size": 62468,
+      "modified": "2026-10-29T03:17:00.268083+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_T2_P2P_C07_Structural_Belief_Bridge_2026-10-28.zip",
+      "size": 3274605,
+      "modified": "2026-10-29T03:16:57.593350+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T2_P2P_Test_Evidence_2026-10-28.json",
+      "size": 1328,
+      "modified": "2026-10-29T03:16:57.012978+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T2_P2P_Benchmark_Backlog_2026-10-28.json",
+      "size": 2601,
+      "modified": "2026-10-29T03:16:56.843440+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T2_P2P_Milestone_Report_2026-10-28.md",
+      "size": 4292,
+      "modified": "2026-10-29T03:16:56.600373+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T2_P2O_Changes_2026-10-28.patch",
+      "size": 57483,
+      "modified": "2026-10-29T03:03:54.213449+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T2_P2O_Test_Evidence_2026-10-28.json",
+      "size": 1515,
+      "modified": "2026-10-29T03:03:51.601110+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T2_P2O_Benchmark_Backlog_2026-10-28.json",
+      "size": 2456,
+      "modified": "2026-10-29T03:03:51.485280+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T2_P2O_Milestone_Report_2026-10-28.md",
+      "size": 4987,
+      "modified": "2026-10-29T03:03:50.053934+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_T2_P2O_Reconciliation_2026-10-28.zip",
+      "size": 3215922,
+      "modified": "2026-10-29T03:03:49.866207+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T2_P2N_Test_Evidence_2026-10-28.json",
+      "size": 1192,
+      "modified": "2026-10-29T02:53:55.786198+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T2_P2N_Benchmark_Backlog_2026-10-28.json",
+      "size": 2736,
+      "modified": "2026-10-29T02:53:55.685468+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_T2_P2N_Structural_Ontology_2026-10-28.zip",
+      "size": 3217493,
+      "modified": "2026-10-29T02:53:54.691285+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_T2_P2N_Milestone_Report_2026-10-28.md",
+      "size": 1857,
+      "modified": "2026-10-29T02:53:54.462362+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/C15-benchmark-backlog-v1.json",
+      "size": 5927,
+      "modified": "2026-10-29T02:37:22.203298+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C15_P2M_Milestone_Report_2026-10-28.md",
+      "size": 4279,
+      "modified": "2026-10-29T02:37:21.865601+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Checkpoints/Cognitum_C15_P2M_Interface_Integration_2026-10-28.zip",
+      "size": 3106939,
+      "modified": "2026-10-29T02:37:21.450182+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Datasets/TrackEval/TrackEval-master.zip",
+      "size": 261136,
+      "modified": "2026-10-29T01:23:44.889281+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Datasets/TrackEval/data.zip",
+      "size": 149957160,
+      "modified": "2026-10-29T01:05:14.892007+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/START_HERE.md",
+      "size": 3922,
+      "modified": "2026-10-28T03:54:20.220588+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C14_P1_Structural_Causal_Counterfactual_2026-10-27.zip",
+      "size": 905583,
+      "modified": "2026-10-28T03:54:16.791904+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C13_P4_Conjugate_ArviZ_Diagnostics_2026-10-27.zip",
+      "size": 888002,
+      "modified": "2026-10-28T03:37:02.975479+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C13_P3_Continuous_Hierarchical_Inference_2026-10-27.zip",
+      "size": 867388,
+      "modified": "2026-10-28T03:19:02.238495+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C13_P2_pgmpy_Adapter_MAP_2026-10-27.zip",
+      "size": 849155,
+      "modified": "2026-10-28T03:07:45.046057+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C13_P1_Discrete_Bayesian_Inference_2026-10-27.zip",
+      "size": 831255,
+      "modified": "2026-10-28T02:54:02.855433+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C12_P4_Experimental_Guided_Search_2026-10-27.zip",
+      "size": 814690,
+      "modified": "2026-10-28T02:44:25.499702+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C12_P3_Advanced_Planning_Search_2026-10-27.zip",
+      "size": 799155,
+      "modified": "2026-10-28T02:31:55.587203+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C12_P2_External_Planner_Adapters_2026-10-27.zip",
+      "size": 774331,
+      "modified": "2026-10-28T02:16:16.944325+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C12_P1_Classical_Planning_Search_2026-10-27.zip",
+      "size": 758083,
+      "modified": "2026-10-28T01:58:16.828860+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C11_P3_Worker_Manifests_Audit_Hooks_2026-10-27.zip",
+      "size": 740757,
+      "modified": "2026-10-28T01:42:30.961213+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C11_P2_Combinatorial_Workflows_2026-10-27.zip",
+      "size": 725255,
+      "modified": "2026-10-28T01:16:35.660365+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C11_P1_HiGHS_Optimization_2026-10-27.zip",
+      "size": 706479,
+      "modified": "2026-10-28T00:54:41.889629+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C10_P3_Incremental_Verification_2026-10-27.zip",
+      "size": 688626,
+      "modified": "2026-10-28T00:36:45.843906+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C10_P2_Mature_SMT_Backends_2026-10-27.zip",
+      "size": 671942,
+      "modified": "2026-10-28T00:14:05.428209+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_Engineering_Standard_2026-10-27.md",
+      "size": 11401,
+      "modified": "2026-10-28T00:00:11.495082+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C10_P1_Bounded_SMT_Proofs_2026-10-27.zip",
+      "size": 648162,
+      "modified": "2026-10-27T23:50:37.455408+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C07_P9_C08_C09_Deferred_C10_Next_2026-10-27.zip",
+      "size": 632634,
+      "modified": "2026-10-27T23:38:58.205501+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C07_P9_Host_Bound_Context_2026-10-27.zip",
+      "size": 629780,
+      "modified": "2026-10-27T23:32:13.551235+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C07_P8_Conversational_Language_Evaluation_2026-10-27.zip",
+      "size": 620740,
+      "modified": "2026-10-27T23:02:11.476157+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C07_P7_MultiConversation_Evaluation_2026-10-27.zip",
+      "size": 598874,
+      "modified": "2026-10-27T22:36:49.929533+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C07_P6_Comparative_Evaluation_2026-10-27.zip",
+      "size": 582510,
+      "modified": "2026-10-27T22:13:13.321423+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C07_P5_Bitemporal_Uncertainty_2026-10-27.zip",
+      "size": 566999,
+      "modified": "2026-10-27T21:52:57.367282+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C07_P4_Temporal_Deletion_Rebuild_2026-10-27.zip",
+      "size": 555009,
+      "modified": "2026-10-27T21:05:56.233037+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C07_P3_Persistent_Replay_Reconciliation_2026-10-27.zip",
+      "size": 545651,
+      "modified": "2026-10-27T20:25:21.371226+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C07_P2_Adversarial_Source_Consistency_2026-10-27.zip",
+      "size": 530279,
+      "modified": "2026-10-27T20:09:41.523554+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C06_P11_C07_P1_Checkpoint_2026-10-27.zip",
+      "size": 519867,
+      "modified": "2026-10-27T19:57:00.965529+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C06_P10_Scoped_Mutation_Security_2026-10-27.zip",
+      "size": 503042,
+      "modified": "2026-10-27T19:30:50.807958+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C06_P9_Windows_Native_Test_Preparation_2026-10-27.zip",
+      "size": 497570,
+      "modified": "2026-10-27T19:16:36.848261+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C06_P8_Native_Test_Gate_2026-10-27.zip",
+      "size": 486768,
+      "modified": "2026-10-27T18:58:50.229689+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C06_P7_Protobuf_Lu_Overlay_2026-10-27.zip",
+      "size": 477619,
+      "modified": "2026-10-27T18:40:56.764325+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C06_P6_Lu_Rust_Overlay_2026-10-27.zip",
+      "size": 461986,
+      "modified": "2026-10-27T18:00:17.402848+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C06_P5_Library_Checkpoint_2026-10-27.zip",
+      "size": 446933,
+      "modified": "2026-10-27T17:24:22.893594+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C06_P3_Library_Checkpoint_2026-10-27.zip",
+      "size": 435914,
+      "modified": "2026-10-27T16:54:02.167362+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C06_P2_Library_Checkpoint_2026-10-27.zip",
+      "size": 423588,
+      "modified": "2026-10-27T16:29:35.207476+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_C06_P1_Library_Checkpoint_2026-10-27.zip",
+      "size": 407452,
+      "modified": "2026-10-27T16:04:29.993629+00:00"
+    },
+    {
+      "folder": "Cognitum",
+      "path": "/Cognitum/Development/Cognitum_Source_2026-10-27_8e625eb.zip",
+      "size": 394118,
+      "modified": "2026-10-27T15:38:21.599036+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/Zog Zoo Dev.zip",
+      "size": 13776779,
+      "modified": "2026-11-17T19:49:27.653025+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/Zog_Zoo_Validation_Handoff_for_Claude.md",
+      "size": 10201,
+      "modified": "2026-11-17T19:48:47.043625+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/RESONATOR_NETWORK_VALIDATION_FOR_CLAUDE.md",
+      "size": 8813,
+      "modified": "2026-11-17T19:48:47.012476+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/Zog_Zoo_Claude_Handoff_2026-10-24.md",
+      "size": 14261,
+      "modified": "2026-11-17T19:48:46.956135+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/EXPERIMENTAL_REPAIRS_REPORT_2026-10-24.md",
+      "size": 10413,
+      "modified": "2026-11-17T19:48:46.853481+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/Zog_Zoo_Qwen_Test_Plan_v2.md",
+      "size": 26131,
+      "modified": "2026-11-17T19:48:17.533047+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/Zog_Zoo_Qwen_Audit_and_BSC_Test_Plan.md",
+      "size": 17864,
+      "modified": "2026-11-17T19:48:16.414024+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/Zog_Zoo_HDC_Strengths_Test_Matrix_v0.2.md",
+      "size": 34589,
+      "modified": "2026-11-17T19:48:16.089981+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/Zog_Zoo_HDC_Strengths_Test_Matrix.md",
+      "size": 13138,
+      "modified": "2026-11-17T19:48:16.036660+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/Zog_Zoo_Current_Codebase_2026-10-25.zip",
+      "size": 283121,
+      "modified": "2026-11-17T19:48:15.975117+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/Zog Zoo Data Extraction Guide.md",
+      "size": 7482,
+      "modified": "2026-11-17T19:48:13.828218+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/Zog Zoo - Test Rig and Validation Ladder.md",
+      "size": 13220,
+      "modified": "2026-11-17T19:48:13.697876+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/Zog Zoo - Strengths Benchmark Execution Plan.md",
+      "size": 23343,
+      "modified": "2026-11-17T19:48:13.290317+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/Zog Zo DHRA Design Doc.pdf",
+      "size": 5019955,
+      "modified": "2026-11-17T19:48:12.643984+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/Zog Zoo - Progress Report.md",
+      "size": 66117,
+      "modified": "2026-11-17T19:48:12.111232+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/Zog Zoo - Phase B Execution Plan.md",
+      "size": 4078,
+      "modified": "2026-11-17T19:48:11.788085+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/Zog Zoo — HDC reference implementation.txt",
+      "size": 6174,
+      "modified": "2026-11-17T19:48:10.942561+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/Zog Zoo - HDC Boundary Push + KAN Transition Plan.md",
+      "size": 22492,
+      "modified": "2026-11-17T19:48:10.910435+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/Zog Zoo - HDC Benchmark Progress Log.md",
+      "size": 11219,
+      "modified": "2026-11-17T19:48:09.658229+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/Zog Zoo - External Review Report (HDC + KAN vs Baseline).md",
+      "size": 16830,
+      "modified": "2026-11-17T19:48:09.371505+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/run_zz.py",
+      "size": 1020,
+      "modified": "2026-11-17T19:48:08.351145+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/run_phase_b.bat",
+      "size": 121,
+      "modified": "2026-11-17T19:48:07.726978+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/response_hdc_representation_types.md",
+      "size": 8795,
+      "modified": "2026-11-17T19:48:07.723064+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/probe_pipes.py",
+      "size": 1197,
+      "modified": "2026-11-17T19:48:07.068212+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/probe_hrr.py",
+      "size": 556,
+      "modified": "2026-11-17T19:48:06.110818+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/probe_b.txt",
+      "size": 479,
+      "modified": "2026-11-17T19:48:05.409238+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/probe_a.txt",
+      "size": 479,
+      "modified": "2026-11-17T19:48:05.088001+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/New Test Methodology-10232026.txt",
+      "size": 3283,
+      "modified": "2026-11-17T19:48:05.082661+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/h3_interference_ceiling.txt",
+      "size": 9274,
+      "modified": "2026-11-17T19:48:04.482838+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/h2_binding_invertibility.txt",
+      "size": 2944,
+      "modified": "2026-11-17T19:48:03.097150+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/h1_associate_recall.txt",
+      "size": 2559,
+      "modified": "2026-11-17T19:48:02.735597+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/Groks-response-1022206.md",
+      "size": 23348,
+      "modified": "2026-11-17T19:48:02.645577+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/Geminis-response-10202026-2100.md",
+      "size": 8932,
+      "modified": "2026-11-17T19:48:02.087417+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/equiv_check.py",
+      "size": 2083,
+      "modified": "2026-11-17T19:48:01.893714+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/CLaudes-response-10202026-2100.md",
+      "size": 7731,
+      "modified": "2026-11-17T19:48:00.347455+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/debug_order.py",
+      "size": 1120,
+      "modified": "2026-11-17T19:47:59.874452+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/debug_order3.py",
+      "size": 1683,
+      "modified": "2026-11-17T19:47:59.872848+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/debug_order2.py",
+      "size": 1170,
+      "modified": "2026-11-17T19:47:59.817068+00:00"
+    },
+    {
+      "folder": "Zog Zoo",
+      "path": "/Zog Zoo/Claudes-response-to-progress-report-10242026.txt",
+      "size": 4403,
+      "modified": "2026-11-17T19:47:59.771938+00:00"
+    }
+  ]
+}
