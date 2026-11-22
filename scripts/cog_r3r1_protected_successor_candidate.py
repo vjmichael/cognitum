@@ -143,20 +143,65 @@ def candidate(args: argparse.Namespace) -> None:
     }, sort_keys=True))
 
 
+
+def inspect(args: argparse.Namespace) -> None:
+    """Check candidate exact staged bytes before external approval or GPG sign."""
+    stage = args.stage.resolve(strict=True)
+    raw = (stage / "protected-successor.json").read_bytes()
+    manifest_pin = args.approved_candidate
+    claim = contract.parse_exact(raw)
+    outcome = contract.validate(
+        raw, externally_approved_manifest_sha256=manifest_pin,
+        externally_approved_source_sha=args.source_sha,
+        externally_approved_gpg_primary_fingerprint=args.owner_fingerprint)
+    runtime = stage / "payload/runtime"
+    count = closure(
+        runtime, claim["frozen_runtime_manifest_sha256"],
+        claim["frozen_runtime_provenance_sha256"])
+    checks = (
+        ("protected_service_image_sha256",
+         stage / "payload/cognitum-scm-production.exe"),
+        ("protected_nsis_installer_sha256",
+         stage / "Cognitum-SSM-R3R1-Protected.exe"),
+        ("frozen_python_image_sha256", runtime / "python.exe"),
+        ("protected_ssm_child_sha256",
+         runtime / "cognitum/mel/ssm_r5_production_child.py"),
+    )
+    for key, path in checks:
+        refuse(sha(path) == claim[key], "staged original protected bytes: " + key)
+    refuse(count == claim["protected_runtime_file_count"],
+           "closed original import count changed since review")
+    refuse(outcome["output_or_ACK_authorized"] is False,
+           "staged original candidate cannot authorize output")
+    print(json.dumps({
+        "status": "PASS_CANDIDATE_EXACT_STAGED_BYTES_RECHECKED_NOT_APPROVED",
+        "manifest_sha256": manifest_pin,
+        "all_staged_code_hashes_match": True,
+        "complete_frozen_runtime_count": count,
+        "independent_approver_identity_verified": False,
+        "owner_gpg_signed": False,
+        "installed_protected_worker_accepted": False,
+        "output_or_ACK_authorized": False,
+    },sort_keys=True))
+
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("action", choices=["candidate"])
+    p.add_argument("action", choices=["candidate","inspect"])
     p.add_argument("--stage", type=Path, required=True)
     p.add_argument("--source-sha", required=True)
     p.add_argument("--owner-fingerprint", required=True)
-    p.add_argument("--runtime-manifest", required=True)
-    p.add_argument("--runtime-provenance", required=True)
-    p.add_argument("--cng-key-name", required=True)
-    p.add_argument("--cng-public", required=True)
-    p.add_argument("--antirollback-public", required=True)
-    p.add_argument("--lu-issuer-public", required=True)
+    p.add_argument("--runtime-manifest")
+    p.add_argument("--runtime-provenance")
+    p.add_argument("--cng-key-name")
+    p.add_argument("--cng-public")
+    p.add_argument("--antirollback-public")
+    p.add_argument("--lu-issuer-public")
+    p.add_argument("--approved-candidate")
     args = p.parse_args()
-    candidate(args)
+    if args.action=="inspect":
+        inspect(args)
+    else:
+        candidate(args)
 
 
 if __name__ == "__main__":
