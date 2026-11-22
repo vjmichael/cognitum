@@ -6,11 +6,13 @@ on:
       - .github/workflows/cog-r3r1-protected-ssm-qualification.yml
       - native/windows_scm_production/src/qual_appcontainer.rs
       - native/windows_scm_production/src/qual_ssm.rs
+      - native/windows_scm_production/src/qual_cng_terminal.rs
       - native/windows_scm_production/src/main.rs
       - native/windows_scm_production/Cargo.toml
       - cognitum/mel/ssm_r5_production_child.py
       - scripts/cog-r3r1-qualify-protected-ssm.ps1
       - scripts/cog_r3r1_qualifier_pins.py
+      - scripts/cog_r3r1_qualifier_cng_verify.py
       - scripts/cog-r5-physical02-r3-r1-nonadmin.ps1
       - scripts/cog-r5-physical02-r3-r1-user-profile.ps1
   workflow_dispatch:
@@ -83,6 +85,26 @@ jobs:
           if($LASTEXITCODE -ne 0){throw 'Original real mathematical smoke failed'}
           python scripts/cog_r3r1_qualifier_pins.py prepare
           if($LASTEXITCODE -ne 0){throw 'Independent numerical SHA unavailable'}
+      - name: Provision disposable external nonexportable CNG key and pin immutable terminal paths
+        id: cng
+        shell: pwsh
+        run: |
+          $p=Join-Path $PWD 'native/windows_scm_production/target'
+          $h=Join-Path $p 'q-host'
+          & ./scripts/cog-r5-physical02-r2-cng-provision.ps1 -Mode provision -FixtureRoot $h -EnvFile "$env:GITHUB_ENV"
+          $original=Get-Content -LiteralPath (Join-Path $h 'r2-external-provision.json') -Raw|ConvertFrom-Json
+          if($original.schema -cne 'cognitum.ssm.r2.CI_external_KSP_enrollment.v1' -or
+             $original.nonexportable_key_policy -ne $true -or
+             $original.independent_production_publisher_approved -ne $false){
+            throw 'No independent disposable original machine signer'
+          }
+          $values=@(
+           "COG_PROD_QUAL_KSP_NAME=$($original.name)",
+           "COG_PROD_QUAL_KSP_PUBLIC_SHA256=$($original.public_blob_sha256)",
+           ("COG_PROD_QUAL_TERMINAL="+(Join-Path $h 'production-terminal.json')),
+           ("COG_PROD_QUAL_TERMINAL_SIGNED="+(Join-Path $h 'production-terminal-signed.json'))
+          )
+          [IO.File]::AppendAllText($env:GITHUB_ENV,($values -join [Environment]::NewLine)+[Environment]::NewLine)
       - name: Native SCM AppContainer qualifier compile, no installer mutation
         shell: pwsh
         run: |
@@ -99,12 +121,25 @@ jobs:
         run: |
           python scripts/cog_r3r1_qualifier_pins.py verify
           if($LASTEXITCODE -ne 0){throw 'Numerical result recomputation failed'}
+      - name: Independently verify externally signed terminal bytes and reject tampering
+        shell: pwsh
+        run: |
+          python scripts/cog_r3r1_qualifier_cng_verify.py | Set-Content q-cng-audit.json
+          if($LASTEXITCODE -ne 0){throw 'External CNG terminal signature/Job receipt audit refused'}
       - name: Revoke disposable peer, profile and DPAPI account
         if: always() && steps.user.outcome == 'success'
         shell: pwsh
         run: |
           $p=Join-Path $PWD 'native/windows_scm_production/target'
           & ./scripts/cog-r5-physical02-r3-r1-nonadmin.ps1 -Mode remove -ProductionQualifier -FixtureRoot (Join-Path $p 'q-profile') -WorkerRoot (Join-Path $p 'q-io') -RuntimeParent (Join-Path $p 'q-runtime-parent')
+      - name: Revoke original disposable machine CNG signing key
+        if: always()
+        shell: pwsh
+        run: |
+          $h=Join-Path $PWD 'native/windows_scm_production/target/q-host'
+          if(Test-Path -LiteralPath (Join-Path $h 'r2-external-provision.json') -PathType Leaf){
+            & ./scripts/cog-r5-physical02-r2-cng-provision.ps1 -Mode remove -FixtureRoot $h
+          }
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -114,9 +149,13 @@ jobs:
             q-exe-sha.txt
             q-frozen-smoke.json
             q-scm-receipt.json
+            q-cng-audit.json
             native/windows_scm_production/target/q-expected.json
             native/windows_scm_production/target/q-host/r3-original-appcontainer-witness.json
             native/windows_scm_production/target/q-host/production-qualification.json
+            native/windows_scm_production/target/q-host/production-terminal.json
+            native/windows_scm_production/target/q-host/production-terminal-signed.json
+            native/windows_scm_production/target/q-host/r2-public-p256.blob
             native/windows_scm_production/target/q-io/input.frame
             native/windows_scm_production/target/q-io/output.frame
           if-no-files-found: warn
