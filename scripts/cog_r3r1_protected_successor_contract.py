@@ -16,6 +16,9 @@ import re
 from typing import Any, Mapping
 
 CURRENT_NO_WORKER_SOURCE = "8c45869214255fc91af53e88e0bfaff6b943696c"
+CURRENT_NO_WORKER_INSTALLER_SHA256 = "7fe8165b50e34398bdf44f994382800498af5f0a1c2cbb591fce198fd640e14"
+CURRENT_NO_WORKER_SERVICE_SHA256 = "cb4793cb0bb6b27d4a47e2d4e06380849580f3fedad9b5a8e97a0b989a91e"
+CURRENT_NO_WORKER_RUNTIME_MANIFEST_SHA256 = "765f81d3fcf8c5974324bcaacbe994b2a24d2f8cc0d7243beafa4e445c897f28"
 CURRENT_NO_WORKER_SERVICE = "CognitumSsmSupervisorV1"
 CI_QUALIFIER_SERVICE = "CognitumSsmProductionQualifierV1"
 REQUIRED_SUCCESSOR_SERVICE = "CognitumSsmProtectedV1"
@@ -134,6 +137,10 @@ def validate(
          "complete bounded original runtime file count required")
     for key in PIN_FIELDS:
         need(is_sha(claim[key]), "nonzero independently observed digest missing: " + key)
+    need(claim["protected_nsis_installer_sha256"] != CURRENT_NO_WORKER_INSTALLER_SHA256
+         and claim["protected_service_image_sha256"] != CURRENT_NO_WORKER_SERVICE_SHA256
+         and claim["frozen_runtime_manifest_sha256"] != CURRENT_NO_WORKER_RUNTIME_MANIFEST_SHA256,
+         "accepted no-worker installer/image/runtime bytes cannot be relabeled a protected successor")
     # This is admission CANDIDATE metadata. Setting any of these booleans
     # to True claims authority not established by owner GPG or local CNG.
     for key in REFUSAL_FIELDS:
