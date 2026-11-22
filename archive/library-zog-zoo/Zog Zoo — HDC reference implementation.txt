@@ -1,0 +1,153 @@
+"""
+Zog Zoo — HDC reference implementation (Stage 1 / Tier A)
+=========================================================
+A compact pure-NumPy hypervector toolkit for the component-isolation tests (doc §3.1).
+
+Conventions
+-----------
+- Bundled ±1 sign vectors, dimension D (the starting point is 10_000).
+- Similarity: cosine. Superposition: mean.
+- Two binding algebras, tested side by side:
+    * XOR  — elementwise product. Its own inverse for sign operands.
+             Tolerates real-valued (noisy) queries; attenuates superposed operands.
+    * CONV — circular convolution (FFT). Invertible for any real vector via
+             deconvolution; the standard PDP/HRR binding.
+- Two retrieval mechanisms:
+    * NNMemory — nearest-key index (the practical external-memory side-channel).
+    * CAM      — pure superposition memory: bank = (1/N) Σ bind(k_i, v_i).
+
+This module is intentionally ~150 lines and dependency-free (numpy only),
+per the "reference implementation" note in the Test Rig doc §8.
+"""
+from __future__ import annotations
+
+import numpy as np
+
+# --------------------------------------------------------------------------- vectors
+def random_sign(dim: int, rng: np.random.Generator) -> np.ndarray:
+    """One bundled ±1 hypervector."""
+    return (rng.integers(0, 2, size=dim) * 2 - 1).astype(np.float32)
+
+
+def random_sign_matrix(n: int, dim: int, rng: np.random.Generator,
+                       chunk: int = 2048) -> np.ndarray:
+    """n bundled ±1 hypervectors, generated in chunks to bound temporary memory."""
+    out = np.empty((n, dim), dtype=np.float32)
+    for s in range(0, n, chunk):
+        m = min(chunk, n - s)
+        out[s:s + m] = (rng.integers(0, 2, size=(m, dim)) * 2 - 1).astype(np.float32)
+    return out
+
+
+def unit(v: np.ndarray) -> np.ndarray:
+    v = np.asarray(v, dtype=np.float64)
+    return v / (np.linalg.norm(v) + 1e-12)
+
+
+def cosine(a: np.ndarray, b: np.ndarray) -> float:
+    a = np.asarray(a, dtype=np.float64)
+    b = np.asarray(b, dtype=np.float64)
+    return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b) + 1e-12))
+
+
+def superpose(vectors: list, weights=None) -> np.ndarray:
+    """Mean superposition of hypervectors (optionally weighted)."""
+    if weights is None:
+        return np.mean(np.stack(vectors), axis=0)
+    return np.average(np.stack(vectors), axis=0, weights=weights)
+
+
+def noisy(a: np.ndarray, alpha: float, rng: np.random.Generator) -> np.ndarray:
+    """a' = (1-α)·a + α·z, with a fresh random sign vector z (same dim)."""
+    z = random_sign(a.size, rng)
+    return ((1.0 - alpha) * a.astype(np.float64) + alpha * z).astype(np.float32)
+
+
+# --------------------------------------------------------------------------- binding
+def bind_xor(a, b):
+    """Elementwise product binding (sign-algebra)."""
+    return (np.asarray(a) * np.asarray(b)).astype(np.float32)
+
+
+def unbind_xor(a, b):
+    """XOR unbinding: multiply again (the inverse of a sign vector is itself)."""
+    return (np.asarray(a) * np.asarray(b)).astype(np.float32)
+
+
+def bind_conv(a, b):
+    """Circular convolution binding (PDP/HRR)."""
+    a64 = np.asarray(a, dtype=np.float64)
+    b64 = np.asarray(b, dtype=np.float64)
+    n = len(a64)
+    return np.fft.irfft(np.fft.rfft(a64) * np.fft.rfft(b64), n=n).astype(np.float32)
+
+
+def unbind_conv(a, b):
+    """a ⊗ b⁻¹ via deconvolution in the Fourier domain."""
+    a64 = np.asarray(a, dtype=np.float64)
+    b64 = np.asarray(b, dtype=np.float64)
+    n = len(a64)
+    Fa = np.fft.rfft(a64)
+    Fb = np.fft.rfft(b64)
+    return np.fft.irfft(Fa / (Fb + 1e-30), n=n).astype(np.float32)
+
+
+BINDINGS = {
+    "xor": (bind_xor, unbind_xor),
+    "conv": (bind_conv, unbind_conv),
+}
+
+# --------------------------------------------------------------------------- memory
+def build_bank(keys: np.ndarray, values: np.ndarray, binding: str,
+               chunk: int = 512) -> np.ndarray:
+    """bank = (1/N) Σ bind(key_i, value_i), built in chunks to bound memory."""
+    n, d = keys.shape
+    bind_fn, _ = BINDINGS[binding]
+    bank = np.zeros(d, dtype=np.float64)
+    for s in range(0, n, chunk):
+        kc = np.ascontiguousarray(keys[s:s + chunk], dtype=np.float64)
+        vc = np.ascontiguousarray(values[s:s + chunk], dtype=np.float64)
+        if binding == "xor":
+            bank += (kc * vc).sum(axis=0)
+        else:  # conv — batched FFT
+            F = np.fft.rfft(kc, axis=1) * np.fft.rfft(vc, axis=1)
+            bank += np.fft.irfft(F, n=d, axis=1).sum(axis=0)
+    return (bank / n).astype(np.float32)
+
+
+def recall_from_bank(bank: np.ndarray, query: np.ndarray, binding: str,
+                     value_matrix: np.ndarray):
+    """Recall from a superposition bank; decode to the nearest stored value.
+
+    Returns (decoded_index, margin, top1_sim, target_cos).
+    """
+    if binding == "xor":
+        r = (bank.astype(np.float64) * query.astype(np.float64)).astype(np.float64)
+    else:
+        r = np.asarray(unbind_conv(bank.astype(np.float64), query), dtype=np.float64)
+    if not np.isfinite(r).all():
+        return -1, 0.0, 0.0, 0.0
+    rn = unit(r)
+    sims = value_matrix.astype(np.float32) @ rn.astype(np.float32)
+    i = int(np.argmax(sims))
+    second = float(np.partition(sims, -2)[-2])
+    return i, float(sims[i] - second), float(sims[i]), float(cosine(r, value_matrix[i]))
+
+
+class NNMemory:
+    """Nearest-key content-addressable index — the practical side-channel.
+
+    recall(query) = the value of the stored key with the largest cosine similarity.
+    """
+
+    def __init__(self, keys: np.ndarray, values: np.ndarray):
+        self.values = np.ascontiguousarray(values, dtype=np.float32)
+        K = np.asarray(keys, dtype=np.float32)
+        self._K = K / (np.linalg.norm(K, axis=1, keepdims=True) + 1e-12)
+
+    def recall(self, query: np.ndarray):
+        q = unit(query).astype(np.float32)
+        sims = self._K @ q
+        i = int(np.argmax(sims))
+        second = float(np.partition(sims, -2)[-2])
+        return i, float(sims[i] - second), float(sims[i]), float(sims[i])
