@@ -109,7 +109,7 @@ unsafe extern "system" {
                data:*const u8,data_len:u32,digest:*mut u8,digest_len:u32)->i32;
  fn BCryptCloseAlgorithmProvider(handle:Handle,flags:u32)->i32;
 }
-fn sha256(bytes:&[u8])->io::Result<[u8;32]> {
+pub(crate) fn sha256(bytes:&[u8])->io::Result<[u8;32]> {
  if bytes.is_empty()||bytes.len()>MAX_IMAGE {
   return Err(denied("bounded executable image required"));
  }
