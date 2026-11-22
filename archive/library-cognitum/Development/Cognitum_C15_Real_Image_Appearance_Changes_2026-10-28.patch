@@ -1,0 +1,325 @@
+--- a/cognitum/spatial_p2l_appearance.py
++++ b/cognitum/spatial_p2l_appearance.py
+@@ -54,8 +54,12 @@
+ 
+ def histogram_vector(image_bytes: bytes, d: Detection) -> tuple[float, ...]:
+     """Deterministic 4x4-grid, 8-bin grayscale descriptor (not learned ReID)."""
++    return histogram_vector_from_decoded(_image(image_bytes), d)
++
++
++def histogram_vector_from_decoded(im, d: Detection) -> tuple[float, ...]:
++    """Same P2L descriptor, reusing a decoded frame for batch extraction."""
+     import numpy as np
+-    im = _image(image_bytes)
+     if not isinstance(d, Detection) or not all(math.isfinite(v) for v in (d.x,d.y,d.w,d.h)) or d.w <= 0 or d.h <= 0:
+         raise P2LRejected('INVALID_CROP_BOX')
+     left = max(0, math.floor(d.x)); top = max(0, math.floor(d.y))
+@@ -96,11 +100,31 @@
+ 
+ def descriptors_from_frames(frames: Mapping[int,list[Detection]], image_bytes: Mapping[int,bytes],
+                              *, sequence: str, conversation_id: str=CONVERSATION) -> dict[tuple[int,int],pb.AppearanceDescriptor]:
+-    """Extract strictly image-derived baseline features, never GT or source IDs."""
++    """Frame-batched baseline features; exact parity with per-box P2L descriptors.
++
++    A complete byte/box binding is made for each descriptor, while one image
++    decode is shared by all detections in that frame. No source identity or GT
++    data enter this extractor. Empty frames do not need image bytes.
++    """
+     if set(image_bytes) != {f for f,dets in frames.items() if dets}:
+         raise P2LRejected('IMAGE_FRAME_SET_MISMATCH')
+-    return {(frame,i):descriptor_from_frame(image_bytes=image_bytes[frame],detection=d,index=i,sequence=sequence,conversation_id=conversation_id)
+-            for frame,dets in frames.items() for i,d in enumerate(dets)}
++    result={}
++    for frame in sorted(frames):
++        dets=frames[frame]
++        if not dets:continue
++        encoded=image_bytes[frame]
++        decoded=_image(encoded)
++        digest=hashlib.sha256(encoded).digest()
++        for i,d in enumerate(dets):
++            vec=histogram_vector_from_decoded(decoded,d)
++            spec=pb.AppearanceDescriptor(schema_version=1, model_id=ENCODER_ID,
++                image_source_id=sequence, detection_id=observation_id(sequence,d,i),
++                conversation_id=conversation_id, frame=d.frame,
++                encoder_sha256=ENCODER_DIGEST, frame_sha256=digest,
++                vector=vec, research_only=True, grants_authority=False)
++            assess(spec)
++            result[frame,i]=spec
++    return result
+ 
+ 
+ @dataclass(frozen=True)
+--- /dev/null
++++ b/docs/components/spatial/C15-real-MOT17-appearance-benchmark.md
+@@ -0,0 +1,56 @@
++# Cognitum C15 — Real MOT17 Appearance Benchmark (P2M-R1)
++
++Date: 2026-10-28 (America/Phoenix) / 2026-10-29 UTC
++
++## Outcome
++
++**Official matched-box 3-sequence experiment completed**. The research-only 128-dimensional grayscale image histogram is an improvement over the P2K position/velocity-only association rules in the three-sequence aggregate, **but remains worse than the MPNTrack original identity baseline**. Sequence-by-sequence results are heterogeneous, including degradation on `MOT17-02-DPM`.
++
++## Protocol / data provenance
++
++* Full sequences preselected in P2K: `MOT17-02-DPM`, `MOT17-05-DPM`, `MOT17-13-DPM`; 2,187 elapsed frame slots, 2,186 frames with tracker boxes, 18,512 original MPNTrack prediction bounding boxes.
++* Input frames: reconstructed byte-verified MOT17 training JPGs in `Cognitum/Datasets/MOT17`; matching annotations independently verified from `MOT17Labels.zip` in earlier dataset checkpoint.
++* All five arms share exactly identical frame IDs, box coordinates, widths, heights, confidences, and metadata. Each proposed arm changes only the tracker ID column. 18,510 processed detections counted by TrackEval after official preprocessing; source rows total 18,512.
++* Arms: MPNTrack source ID control; Cognitum P2K position; Cognitum P2K velocity; Cognitum P2L grayscale histogram + position; Cognitum P2L grayscale histogram + velocity.
++* Associators never receive MPNTrack's identity labels or ground truth. Only the evaluation stage sees GT. Frames are hashed individually and bound in Protobuf descriptors to specific box, frame, sequence, and model digest. Those hashes are **integrity references, not independent authenticity attestations**.
++* P2L defaults frozen prior to this real-image result: `appearance_weight=8.0, max_cosine_distance=0.85, momentum=0.6, near_tie_margin=0.75`; P2K default motion capacities unchanged. No post-hoc hyperparameter tuning.
++* Official TrackEval pinned commit `12c8791b303e0a0b50f753af204249e622d0281a`, Git tree `ce583e59d96b33aad5f8f62149d96bc6bc4d8f96`, all 86 source files verified; `--DO_PREPROC True`, metrics HOTA/CLEAR/Identity; NumPy compatibility shim does not modify TrackEval sources.
++
++## Aggregate metrics (0–100 except ID switches)
++
++| Arm | HOTA | DetA | AssA | MOTA | IDF1 | ID switches |
++| --- | ---: | ---: | ---: | ---: | ---: | ---: |
++| MPNTrackOriginal | 47.590 | 42.312 | 53.586 | 45.945 | 54.976 | 60 |
++| CognitumP2KPosition | 41.365 | 41.471 | 41.342 | 45.536 | 45.563 | 186 |
++| CognitumP2KVelocity | 41.996 | 41.691 | 42.373 | 45.600 | 46.203 | 186 |
++| CognitumRealAppearancePosition | 44.122 | 42.257 | 46.137 | 45.794 | 48.726 | 96 |
++| CognitumRealAppearanceVelocity | 44.173 | 42.302 | 46.194 | 45.786 | 48.952 | 99 |
++
++## Sequence-level appearance + velocity, compared to velocity-only
++
++| Sequence | velocity IDF1 | histogram+velocity IDF1 | delta | histogram+velocity HOTA | histogram+velocity switches |
++| --- | ---: | ---: | ---: | ---: | ---: |
++| MOT17-02-DPM | 45.790 | 44.200 | -1.590 | 40.854 | 25 |
++| MOT17-05-DPM | 41.369 | 49.767 | +8.398 | 42.827 | 45 |
++| MOT17-13-DPM | 49.903 | 55.294 | +5.391 | 49.456 | 29 |
++
++## Reproducibility and test gates
++
++* Original baseline and both P2K arms match all nine recorded published P2K metric fields per sequence and combined (12 rows) within 0.001 units.
++* Official evaluator rerun on an independently copied score-free input tree: all 5 aggregate metric objects and all 5 summary-file SHA-256 hashes identical to first run.
++* Source-geometry equivalence checked for every output tracker line (only column two changed); unchanged stage hashes validated before and after scoring.
++* 1,258 selected C13/C14/C15 tests passed, 39 skipped, 567 additional subtests passed; all 67 independent Protobuf schema checks passed. This does not claim an unrestricted repository, cross-device, Windows-native, or deployed Lu validation.
++* Batched PIL decoder retains *byte-identical Protobuf appearance descriptors* versus the original one-image-decode-per-box API on comparison fixtures.
++
++## Scientific and security limitations
++
++1. This is an identity-relabeling ablation on MPNTrack output, **not** an independent tracker or detector. Tracker boxes and identities originate in the same provided conventional tracking result.
++2. Grayscale image histograms are a CPU reference, **not trained OSNet/Torchreid/FastReID**. Learned ReID remains deferred for pinned licensed weights and authorized worker.
++3. 3 preselected sequences from MOT17 train are not a held-out benchmark of generalizable tracking. No published-accuracy or statistically significant improvement claim.
++4. TrackEval's preprocessing can cause slight changes in detection-side metrics even when raw boxes are identical. We preserve exact source rows other than IDs and attribute that difference to evaluator semantics, not independent detection improvements.
++5. All forced top-1 associations are **research-only, not authority**, even when official identity metrics increase. Lu, GitHub and host policy were not changed.
++6. Timings are incidental on one CPU/Linux environment; the two appearance arms repeat feature extraction, so timing here is not a fair throughput comparison against a trained model or optimized tracker. No energy/VRAM measurements.
++
++## Next experiments
++
++Preserve `benchmark_backlog_v2.json`. Learned person-ReID and independent detector comparisons remain deferred, now pending pinned weights, security-approved execution, known preprocessing and fair evaluation. More MOT17 sequences can be added as a prespecified separate experiment rather than opportunistic cherry-picking.
+--- /dev/null
++++ b/tests/test_c15_real_mot17_appearance_benchmark.py
+@@ -0,0 +1,52 @@
++"""Offline C15 P2M real-data benchmark integrity guards (does not ship MOT17 images)."""
++from __future__ import annotations
++import hashlib
++from pathlib import Path
++import tempfile
++import unittest
++from PIL import Image
++from cognitum.spatial_p2k_dense_identity import Detection
++from cognitum import spatial_p2l_appearance as app
++from tools.run_c15_mot17_real_appearance import ARMS, OUTPUT_BY_MODE, SEQUENCES
++
++
++class RealAppearanceBenchTests(unittest.TestCase):
++    def test_predeclared_arms_and_seqs_immutable(self):
++        self.assertEqual(SEQUENCES,('MOT17-02-DPM','MOT17-05-DPM','MOT17-13-DPM'))
++        self.assertEqual(ARMS,('MPNTrackOriginal','CognitumP2KPosition','CognitumP2KVelocity',
++              'CognitumRealAppearancePosition','CognitumRealAppearanceVelocity'))
++        self.assertEqual(OUTPUT_BY_MODE['velocity'],ARMS[-1])
++    def test_frame_batch_descriptor_matches_individual_encoding_byte_for_byte(self):
++        import io
++        im=Image.new('RGB',(144,128),(70,150,210))
++        for x in range(24,60):
++            for y in range(20,98):im.putpixel((x,y),(x*2,y*2,255-x))
++        out=io.BytesIO();im.save(out,format='JPEG',quality=92)
++        jpeg=out.getvalue()
++        frames={5:[Detection(5,10,15,60,90),Detection(5,23,19,35,70)],6:[]}
++        specs=app.descriptors_from_frames(frames,{5:jpeg},sequence='CANONICAL-IMAGE-ONLY')
++        self.assertEqual(len(specs),2)
++        for i,d in enumerate(frames[5]):
++            direct=app.descriptor_from_frame(image_bytes=jpeg,detection=d,index=i,
++                  sequence='CANONICAL-IMAGE-ONLY')
++            self.assertEqual(specs[5,i].SerializeToString(deterministic=True),
++                             direct.SerializeToString(deterministic=True))
++            self.assertEqual(specs[5,i].frame_sha256,hashlib.sha256(jpeg).digest())
++            self.assertFalse(specs[5,i].grants_authority)
++    def test_wrong_source_image_binding_refused(self):
++        import io
++        im=Image.new('L',(24,24),80)
++        out=io.BytesIO();im.save(out,format='PNG');jpeg=out.getvalue()
++        frames={1:[Detection(1,0,0,20,20)]}
++        specs=app.descriptors_from_frames(frames,{1:jpeg},sequence='S')
++        bad={1:jpeg+b'changed'}
++        with self.assertRaisesRegex(app.P2LRejected,'DESCRIPTOR_BINDING_MISMATCH'):
++            app.assign_with_appearance(frames,num_frames=1,sequence='S',image_bytes=bad,descriptors=specs)
++    def test_batch_rejects_missing_and_extra_images(self):
++        import io
++        im=Image.new('L',(24,24),80);out=io.BytesIO();im.save(out,format='PNG')
++        frames={1:[Detection(1,0,0,20,20)],2:[]}
++        with self.assertRaisesRegex(app.P2LRejected,'IMAGE_FRAME_SET_MISMATCH'):
++            app.descriptors_from_frames(frames,{1:out.getvalue(),2:out.getvalue()},sequence='S')
++
++if __name__=='__main__':unittest.main()
+--- /dev/null
++++ b/tools/run_c15_mot17_real_appearance.py
+@@ -0,0 +1,157 @@
++"""C15 real MOT17 pixel appearance ID-only benchmark; offline, no host authority.
++
++Predeclared: P2K's 3 sequences, original MPNTrack boxes, original and
++position/velocity comparison arms, P2L v1 grayscale 128D descriptor, P2L
++default appearance settings, unchanged native TrackEval MOT17 preprocessing.
++This is not a learned person-ReID benchmark or an independent detector.
++"""
++from __future__ import annotations
++import argparse
++from dataclasses import asdict
++import hashlib
++import json
++from pathlib import Path
++import shutil
++import subprocess
++import sys
++import time
++from cognitum import spatial_p2k_challenge_gate as p2k
++from cognitum import spatial_p2k_dense_identity as dense
++from cognitum import spatial_p2l_appearance as app
++from cognitum import spatial_mot17_realdata_gate as rd
++from cognitum.spatial_trackeval_bridge import read_summary
++
++SEQUENCES=p2k.SEQUENCES
++ARMS=p2k.TRACKERS+('CognitumRealAppearancePosition','CognitumRealAppearanceVelocity')
++OUTPUT_BY_MODE=dict(position=ARMS[-2],velocity=ARMS[-1])
++
++
++def digest(path:Path)->str:
++    h=hashlib.sha256()
++    with path.open('rb') as fp:
++        for chunk in iter(lambda:fp.read(1024*1024),b''):h.update(chunk)
++    return h.hexdigest()
++
++
++def make_candidate(*, seq:str, mode:str, stage:Path, train:Path,
++                   params:dense.Params=dense.Params(), config:app.AppearanceConfig=app.AppearanceConfig()):
++    rawpath=stage/'trackers'/'MOT17-train'/'MPNTrackOriginal'/'data'/f'{seq}.txt'
++    cpath=train/seq/'seqinfo.ini'
++    import configparser
++    cfg=configparser.ConfigParser();cfg.read(cpath)
++    number=int(cfg['Sequence']['seqLength'])
++    obs,rows=dense.parse_id_blind(rawpath.read_bytes(),num_frames=number,max_boxes=params.max_boxes)
++    images={}
++    frame_hashes={}
++    for f in sorted(obs):
++        path=train/seq/'img1'/f'{f:06d}.jpg'
++        if path.is_symlink() or not path.is_file() or not 0<path.stat().st_size<=app.MAX_FRAME_BYTES:
++            raise RuntimeError('MISSING_OR_UNSAFE_IMAGE:'+str(path))
++        payload=path.read_bytes();images[f]=payload
++        frame_hashes[f'{f:06d}.jpg']=hashlib.sha256(payload).hexdigest()
++    start=time.monotonic()
++    descriptor=app.descriptors_from_frames(obs,images,sequence=seq)
++    featurization_seconds=time.monotonic()-start
++    # Every descriptor is typed, bound to original image bytes, frame, and box.
++    start=time.monotonic()
++    labels,counts=app.assign_with_appearance(obs,num_frames=number,
++                sequence=seq,image_bytes=images,descriptors=descriptor,
++                mode=mode,params=params,config=config)
++    association_seconds=time.monotonic()-start
++    emitted=[]
++    for frame in range(1,number+1):
++        original=rows.get(frame,[])
++        new_ids=labels.get(frame,[])
++        if len(new_ids)!=len(original):raise RuntimeError('DROPPED_OR_ADDED_DETECTIONS')
++        for source,tid in zip(original,new_ids):
++            if not 0<tid<=1000000:raise RuntimeError('INVALID_LABEL')
++            altered=source.copy();altered[1]=str(tid)
++            assert altered[0]==source[0] and altered[2:]==source[2:]
++            emitted.append(','.join(altered))
++    if sum(len(v) for v in rows.values())!=len(emitted):
++        raise RuntimeError('ROW_COUNT_MISMATCH')
++    path=stage/'trackers'/'MOT17-train'/OUTPUT_BY_MODE[mode]/'data'/f'{seq}.txt'
++    path.parent.mkdir(parents=True,exist_ok=True)
++    if path.exists():raise RuntimeError('CANDIDATE_ALREADY_EXISTS')
++    path.write_bytes(('\n'.join(emitted)+'\n').encode('utf8'))
++    # Verify all source prediction fields other than identity are retained.
++    compare=path.read_text().splitlines()
++    before=rawpath.read_text().splitlines()
++    if len(compare)!=len(before) or any(a.split(',')[0]!=b.split(',')[0] or
++          a.split(',')[2:]!=b.split(',')[2:] for a,b in zip(compare,before)):
++        raise RuntimeError('BOX_PROVENANCE_CHANGED')
++    return {'source_prediction_sha256':digest(rawpath),'output_sha256':digest(path),
++       'image_sha256':frame_hashes,'image_count':len(images),
++       'descriptor_count':len(descriptor),'source_bbox_count':len(emitted),
++       'frozen_params':asdict(params),'frozen_appearance_config':asdict(config),
++       'feature_seconds':round(featurization_seconds,3),
++       'association_seconds':round(association_seconds,3),'counts':counts,
++       'research_only':True,'uses_original_or_gt_identity_for_assignment':False}
++
++
++def evaluate(*, stage:Path, evidence:dict, trackeval:Path, source_zip:Path):
++    pin=rd.verify_pinned_trackeval_source(source_zip=source_zip,checkout=trackeval)
++    summaries=[stage/'trackers'/'MOT17-train'/a/'pedestrian_summary.txt' for a in ARMS]
++    if any(x.exists() for x in summaries):raise RuntimeError('STALE_METRICS')
++    script=trackeval/'scripts'/'run_mot_challenge.py'
++    shim=Path(__file__).parent/'c15_trackeval_legacy_numpy_compat.py'
++    command=[sys.executable,str(shim),str(script),
++       '--GT_FOLDER',str(stage/'gt'),'--TRACKERS_FOLDER',str(stage/'trackers'),
++       '--BENCHMARK','MOT17','--SPLIT_TO_EVAL','train','--TRACKERS_TO_EVAL',*ARMS,
++       '--CLASSES_TO_EVAL','pedestrian','--METRICS','HOTA','CLEAR','Identity',
++       '--DO_PREPROC','True','--PLOT_CURVES','False',
++       '--PRINT_CONFIG','False','--TIME_PROGRESS','False','--USE_PARALLEL','False']
++    ran=subprocess.run(command,cwd=trackeval,capture_output=True,text=True,timeout=400,check=False)
++    if ran.returncode:raise RuntimeError('OFFICIAL_EVALUATION_FAILED:'+ran.stdout[-3000:]+ran.stderr[-1500:])
++    if rd.verify_pinned_trackeval_source(source_zip=source_zip,checkout=trackeval)!=pin:
++        raise RuntimeError('EVALUATOR_SOURCE_CHANGED')
++    for key,sha in evidence['stage_sha256'].items():
++        if digest(stage/key)!=sha:raise RuntimeError('INPUTS_CHANGED_DURING_EVAL:'+key)
++    scores={a:read_summary(p) for a,p in zip(ARMS,summaries)}
++    return {'status':'completed_official','source_pin':pin,'metrics':scores,
++      'summary_sha256':{a:digest(p) for a,p in zip(ARMS,summaries)},
++      'stdout_tail':ran.stdout[-1900:],'do_preproc':True}
++
++
++def main():
++    parser=argparse.ArgumentParser()
++    parser.add_argument('--stage',type=Path,required=True)
++    parser.add_argument('--train',type=Path,required=True)
++    parser.add_argument('--labels-zip',type=Path,required=True)
++    parser.add_argument('--data-zip',type=Path,required=True)
++    parser.add_argument('--trackeval',type=Path,required=True)
++    parser.add_argument('--trackeval-zip',type=Path,required=True)
++    parser.add_argument('--evidence',type=Path,required=True)
++    a=parser.parse_args()
++    start=time.monotonic()
++    baseline=p2k.stage(data_zip=a.data_zip,labels_zip=a.labels_zip,out_dir=a.stage)
++    evidence={'milestone':'C15_REAL_IMAGE_APPEARANCE_R1','research_only':True,
++       'matched_original_tracker_boxes':True,
++       'model':'C15 P2L original grayscale 4x4 x 8-bin histogram (not ReID)',
++       'appearance_version':app.ENCODER_ID,
++       'appearance_digest':app.ENCODER_DIGEST.hex(),
++       'configuration_frozen_before_evaluation':True,
++       'gt_ids_exposed_to_associator':False,'mpntrack_ids_exposed_to_associator':False,
++       'sequences':{},'baseline':baseline,'external_eval':None}
++    # Stage both new arms; extract appearance features per mode separately,
++    # since the public P2L API revalidates full source bindings each invocation.
++    for seq in SEQUENCES:
++        evidence['sequences'][seq]={}
++        for mode in ('position','velocity'):
++            print('RUN',seq,mode,flush=True)
++            evidence['sequences'][seq][mode]=make_candidate(seq=seq,mode=mode,stage=a.stage,train=a.train)
++            print('DONE',seq,mode,'features',evidence['sequences'][seq][mode]['descriptor_count'],flush=True)
++    evidence['stage_sha256']=dict(baseline['staged_sha256'])
++    for seq in SEQUENCES:
++        for mode in ('position','velocity'):
++            key=f'trackers/MOT17-train/{OUTPUT_BY_MODE[mode]}/data/{seq}.txt'
++            evidence['stage_sha256'][key]=digest(a.stage/key)
++    print('OFFICIAL_EVAL',flush=True)
++    evidence['external_eval']=evaluate(stage=a.stage,evidence=evidence,trackeval=a.trackeval,source_zip=a.trackeval_zip)
++    evidence['wall_seconds']=round(time.monotonic()-start,3)
++    a.evidence.write_text(json.dumps(evidence,indent=2,sort_keys=True)+'\n')
++    for name,v in evidence['external_eval']['metrics'].items():
++        print('RESULT',name,{key:v[key] for key in ('HOTA','DetA','AssA','MOTA','IDF1','IDSW')},flush=True)
++    print('EVIDENCE',str(a.evidence),flush=True)
++
++if __name__=='__main__': main()
