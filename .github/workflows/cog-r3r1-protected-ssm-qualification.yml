@@ -72,6 +72,8 @@ jobs:
           $runtime=Join-Path $p 'q-runtime-parent/runtime'
           python scripts/cog_r5_r1_scm_ssm_fixture.py prepare --root "$hostRoot" --worker-root "$io" --runtime-root "$runtime" --env-file "$env:GITHUB_ENV"
           if($LASTEXITCODE -ne 0){throw 'Original SSM vector missing'}
+          python scripts/cog_r3r1_qualifier_pins.py probe
+          if($LASTEXITCODE -ne 0){throw 'Frozen SSM import symbol diagnostic refused'}
           python scripts/cog_r5_r3_r1_bundle.py smoke --root "$runtime" --request (Join-Path $io 'input.frame') | Set-Content q-frozen-smoke.json
           if($LASTEXITCODE -ne 0){throw 'Original real mathematical smoke failed'}
           python scripts/cog_r3r1_qualifier_pins.py prepare
