@@ -35,6 +35,60 @@ def _expected(data):
                       ensure_ascii=True, allow_nan=False).encode("ascii")
 
 
+def probe():
+    """Diagnostic-only duplicate of the reference frozen smoke environment.
+
+    This reports only the import symbol/module category (no paths, credentials,
+    environment dump, or raw traceback), and never authorizes output.
+    """
+    import re
+    import shutil
+    import subprocess
+    import tempfile
+
+    base = _fixed()
+    runtime = base / "q-runtime-parent/runtime"
+    parent = runtime.parent
+    child = runtime / "cognitum/mel/ssm_r5_fixed_child.py"
+    request = base / "q-io/input.frame"
+    with tempfile.TemporaryDirectory(prefix="q-import-probe-", dir=parent) as td:
+        root = Path(td)
+        source = root / "input.frame"
+        output = root / "output.frame"
+        shutil.copy2(request, source)
+        outcome = subprocess.run(
+            [str(runtime / "python.exe"), "-I", "-B",
+             str(child), str(source), str(output)],
+            cwd=runtime,
+            timeout=40,
+            env={"SystemRoot": os.environ["SystemRoot"],
+                 "TEMP": td, "TMP": td, "WINDIR": os.environ["SystemRoot"]},
+            capture_output=True,
+            check=False,
+        )
+    if outcome.returncode == 0:
+        print("PASS_FROZEN_SSM_PROBE")
+        return
+    stderr = outcome.stderr[:8192].decode("utf-8", errors="replace")
+    match = re.search(
+        r"ImportError: cannot import name ['\"]([A-Za-z_][A-Za-z0-9_]*)['\"]"
+        r" from ['\"]([A-Za-z_][A-Za-z0-9_.]*)['\"]", stderr)
+    if match:
+        print("FROZEN_IMPORT_REFUSED_SYMBOL=" + match.group(1)
+              + " MODULE=" + match.group(2))
+    else:
+        match = re.search(
+            r"ModuleNotFoundError: No module named ['\"]([A-Za-z_][A-Za-z0-9_.]*)['\"]",
+            stderr)
+        if match:
+            print("FROZEN_IMPORT_MISSING_MODULE=" + match.group(1))
+        elif "DLL load failed" in stderr:
+            print("FROZEN_IMPORT_DLL_LOAD_FAILURE")
+        else:
+            print("FROZEN_IMPORT_OTHER_ERROR")
+    raise SystemExit(3)
+
+
 def prepare():
     base = _fixed()
     runtime = base / "q-runtime-parent/runtime"
@@ -87,5 +141,7 @@ if __name__ == "__main__":
         prepare()
     elif sys.argv[1:] == ["verify"]:
         verify()
+    elif sys.argv[1:] == ["probe"]:
+        probe()
     else:
         raise SystemExit(2)
