@@ -117,7 +117,7 @@ pub(crate) fn sha256(bytes:&[u8])->io::Result<[u8;32]> {
  let mut raw=ptr::null_mut();
  if unsafe {BCryptOpenAlgorithmProvider(&mut raw,name.as_ptr(),ptr::null(),0)}!=0
     ||raw.is_null(){return Err(denied("Windows SHA256 provider unavailable"));}
- let provider=Owned(raw);
+ let provider=OwnedAlg(raw);
  let mut digest=[0u8;32];
  if unsafe {BCryptHash(provider.0,ptr::null(),0,bytes.as_ptr(),
             bytes.len() as u32,digest.as_mut_ptr(),32)}!=0 {
@@ -142,6 +142,10 @@ struct Owned(Handle);
 impl Drop for Owned{fn drop(&mut self){if !self.0.is_null(){
     unsafe{CloseHandle(self.0);}
 }}}
+struct OwnedAlg(Handle);
+impl Drop for OwnedAlg{
+ fn drop(&mut self){if !self.0.is_null(){unsafe{BCryptCloseAlgorithmProvider(self.0,0);}}}
+}
 struct OwnedSid(Handle);
 impl Drop for OwnedSid{fn drop(&mut self){if !self.0.is_null(){
     unsafe{FreeSid(self.0);}
@@ -488,11 +492,13 @@ pub fn launch(application:&[u16],command:&mut[u16],
     let launch_error=if launched==0{Some(io::Error::last_os_error())}else{None};
     if impersonated.end().is_err(){
         if launched!=0{
-            let unsafe_child=unsafe{*(output as *const Handle)};
-            if !unsafe_child.is_null(){
-                unsafe{TerminateProcess(unsafe_child,0xE7);
-                       WaitForSingleObject(unsafe_child,5000);}
+            let handles=unsafe{&*(output as *const ProbeProcessInfo)};
+            if !handles.process.is_null(){
+                unsafe{TerminateProcess(handles.process,0xE7);
+                       WaitForSingleObject(handles.process,5000);}
             }
+            if !handles.thread.is_null(){unsafe{CloseHandle(handles.thread);}}
+            if !handles.process.is_null(){unsafe{CloseHandle(handles.process);}}
         }
         return Err(denied("SCM failed closed when restoring its SYSTEM identity"));
     }
@@ -529,10 +535,15 @@ pub fn launch(application:&[u16],command:&mut[u16],
         Ok(())
     })();
     if checked.is_err(){
-        unsafe{
-            TerminateProcess(child,0xE5);
-            WaitForSingleObject(child,5000);
+        let handles=unsafe{&*(output as *const ProbeProcessInfo)};
+        if !child.is_null(){
+            unsafe{
+                TerminateProcess(child,0xE5);
+                WaitForSingleObject(child,5000);
+            }
         }
+        if !handles.thread.is_null(){unsafe{CloseHandle(handles.thread);}}
+        if !handles.process.is_null(){unsafe{CloseHandle(handles.process);}}
     }
     checked
 }
