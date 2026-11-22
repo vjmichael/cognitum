@@ -165,3 +165,38 @@ Windows Authenticode publisher trust, authenticate Lu operations or permit
 output ACK. Real physical installation and persistent signer custody remain
 separate explicit future acceptance gates. Until then output_or_ACK_authorized
 must stay false.
+
+
+## Separate full-byte pre-signing review
+
+scripts/cog_r3r1_independent_byte_review.py is deliberately implemented
+separately from the candidate emitter and its policy module. It recomputes
+each of the staged frozen Python, NumPy, SciPy, cryptography, Protobuf and
+Cognitum files, their runtime manifest and provenance, native SCM image,
+and NSIS SHA-256. It separately checks the new source SHA and existing
+owner-GPG primary fingerprint and refuses a reused no-worker release.
+The CLI additionally requires a clean Git checkout at that exact source
+SHA on the reviewing machine, and can compare an independently supplied
+candidate manifest digest using --expected-candidate-sha256.
+
+This independent IMPLEMENTATION is not itself an independent HUMAN review
+or a license-approval record. Its output always retains
+independent_reviewer_approved=false and
+original_owner_GPG_signature_verified=false. In particular it does NOT
+extract every embedded file from the NSIS installer and compare them with
+the staged runtime on an independently administered Windows machine;
+that separate package install-and-compare review remains mandatory before
+external approval and owner signing.
+
+The reviewing party should run this read-only reviewer on the exact fresh
+candidate after the owner has prepared the full frozen production runtime.
+An approval must identify the exact source SHA, reviewed candidate manifest
+SHA-256, frozen runtime and NSIS bytes, the independent reviewer's authority
+and dependency/license decisions. It must originate outside the candidate
+generator and must not be inferred from this tool's PASS status.
+
+A local owner ECC-GPG signature is NOT available in this chat: the signing
+script requires the existing private key on the physical owner Windows host.
+No CI-only key or user secret may be substituted. The personal signing
+step may only run after independent approval, and the detached signature
+must be reverified before any physical installation.

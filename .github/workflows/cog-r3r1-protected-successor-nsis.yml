@@ -10,8 +10,10 @@ on:
       - scripts/cog-r3r1-protected-successor-build-candidate.ps1
       - scripts/cog-r3r1-protected-successor-sign.ps1
       - scripts/cog_r3r1_protected_successor_candidate.py
+      - scripts/cog_r3r1_independent_byte_review.py
       - scripts/cog_r3r1_protected_successor_contract.py
       - research_tests/mel_lu_ipc01e_r5/test_protected_successor_candidate.py
+      - research_tests/mel_lu_ipc01e_r5/test_independent_successor_byte_review.py
       - .github/workflows/cog-r3r1-protected-successor-nsis.yml
   workflow_dispatch:
 permissions:
@@ -34,6 +36,7 @@ jobs:
         run: |
           python -m unittest -q research_tests.mel_lu_ipc01e_r5.test_protected_successor_contract
           python -m unittest -q research_tests.mel_lu_ipc01e_r5.test_protected_successor_candidate
+          python -m unittest -q research_tests.mel_lu_ipc01e_r5.test_independent_successor_byte_review
   windows-nsis:
     runs-on: windows-latest
     timeout-minutes: 30
@@ -50,7 +53,10 @@ jobs:
           python -m unittest -q research_tests.mel_lu_ipc01e_r5.test_protected_successor_contract
           if($LASTEXITCODE -ne 0){throw 'Closed GPG successor source contract failed'}
           python -m unittest -q research_tests.mel_lu_ipc01e_r5.test_protected_successor_candidate
+          python -m unittest -q research_tests.mel_lu_ipc01e_r5.test_independent_successor_byte_review
           if($LASTEXITCODE -ne 0){throw 'Exact unsigned candidate payload tests failed'}
+          python -m unittest -q research_tests.mel_lu_ipc01e_r5.test_independent_successor_byte_review
+          if($LASTEXITCODE -ne 0){throw 'Separate full-file runtime/NSIS reviewer tests failed'}
       - name: Protected owner build/sign scripts parse and CI cannot use local GPG
         shell: pwsh
         run: |
