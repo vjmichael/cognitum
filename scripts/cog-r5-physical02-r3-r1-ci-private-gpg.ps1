@@ -110,6 +110,15 @@ try{
  }
  Must-Refuse {& $verify @inputs -ExpectedPrimaryFingerprint ('A'*40)}
  Must-Refuse {& $verify @inputs -ExpectedSourceSha ('b'*40)}
+ # Signed manifest SHA alone is insufficient: verify every payload import
+ # and reject an extra import even if the GPG signature remains valid.
+ [IO.File]::WriteAllText($file,'TAMPERED_RUNTIME_IMPORT',[Text.Encoding]::ASCII)
+ Must-Refuse {& $verify @inputs}
+ [IO.File]::WriteAllText($file,'# CI-only ephemeral runtime',[Text.Encoding]::ASCII)
+ $extra=Join-Path $runtime 'unlisted.py'
+ [IO.File]::WriteAllText($extra,'# CI-only unlisted import',[Text.Encoding]::ASCII)
+ Must-Refuse {& $verify @inputs}
+ Remove-Item -LiteralPath $extra -Force -ErrorAction Stop
  [IO.File]::WriteAllText($installer,'TAMPERED_UNSIGNED_CI_ONLY',[Text.Encoding]::ASCII)
  Must-Refuse {& $verify @inputs}
  [IO.File]::WriteAllText($installer,'CI_ONLY_NO_PRODUCTION_WINDOWS_INSTALLER',[Text.Encoding]::ASCII)

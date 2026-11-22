@@ -133,6 +133,90 @@ if($prov.schema -cne 'cognitum.ssm.r3r1.production_installer_runtime.v1' -or
    $prov.external_manifest_approved_for_production -ne $true){
  Refuse 'Test-only runtime or original source pin cannot enter private release'
 }
+# A detached signature over the runtime manifest does not itself authenticate
+# staged import bytes. Close the actual shipped runtime over the signed
+# manifest before allowing the package to be accepted for physical use.
+$manifestBytes=[IO.File]::ReadAllBytes($manifest)
+if($manifestBytes.Length -lt 1 -or $manifestBytes.Length -gt 3145728){
+ Refuse 'Original runtime manifest exceeds the bounded release inventory'
+}
+foreach($byte in $manifestBytes){
+ if($byte -gt 126 -or ($byte -lt 32 -and $byte -ne 9 -and $byte -ne 10)){
+  Refuse 'Noncanonical original runtime manifest encoding'
+ }
+}
+$manifestText=[Text.Encoding]::ASCII.GetString($manifestBytes)
+if(-not $manifestText.EndsWith([string][char]10)){Refuse 'Original runtime manifest lacks canonical LF termination'}
+$manifestLines=@($manifestText.Substring(0,$manifestText.Length-1).Split([char]10))
+if($manifestLines.Count -lt 1 -or $manifestLines.Count -gt 12000){
+ Refuse 'Original runtime manifest entry count outside release bounds'
+}
+$expectedImports=[Collections.Generic.Dictionary[string,string]]::new([StringComparer]::OrdinalIgnoreCase)
+$previous=''
+foreach($line in $manifestLines){
+ $match=[regex]::Match($line,'^([0-9a-f]{64})\t([ -~]+)
+ status='PASS_PRIVATE_GPG_PACKAGE_DIGESTS_OBSERVATION_ONLY'
+ exact_source_sha=$ExpectedSourceSha
+ gpg_primary_fingerprint=$expectedFp
+ installer_sha256=$actual.installer_sha256
+ service_sha256=$actual.service_sha256
+ runtime_manifest_sha256=$actual.runtime_manifest_sha256
+ runtime_provenance_sha256=$actual.runtime_provenance_sha256
+ windows_authenticode_required=$false
+ physical_windows_installed_accepted=$false
+ protected_worker_verified=$false
+ core_grant_verified=$false
+ output_release_or_ACK_authorized=$false
+}|ConvertTo-Json -Compress
+)
+ if(-not $match.Success){Refuse 'Noncanonical original runtime manifest entry'}
+ $relative=$match.Groups[2].Value
+ $segments=@($relative.Split('/'))
+ $badParts=@($segments|Where-Object{$_ -eq '' -or $_ -eq '.' -or $_ -eq '..'})
+ if([string]::CompareOrdinal($relative,$previous) -le 0 -or
+    $relative.StartsWith('/') -or $relative.Contains('\') -or
+    $relative.IndexOfAny([char[]]@(':','*','?','"','<','>','|')) -ge 0 -or
+    $badParts.Count -ne 0 -or
+    $relative -in @('r3-r1-runtime.manifest','r3-r1-runtime-provenance.json') -or
+    $expectedImports.ContainsKey($relative)){
+  Refuse 'Unsafe, duplicate or out-of-order original runtime import path'
+ }
+ $expectedImports.Add($relative,$match.Groups[1].Value)
+ $previous=$relative
+}
+foreach($dir in @($root,(Join-Path $root 'payload'),$runtime)){
+ $directory=Get-Item -LiteralPath $dir -Force
+ if(-not $directory.PSIsContainer -or
+    ($directory.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0){
+  Refuse 'Redirecting release or runtime root'
+ }
+}
+$children=@(Get-ChildItem -LiteralPath $runtime -Recurse -Force -ErrorAction Stop)
+if($children.Count -gt 24000){Refuse 'Unbounded shipped runtime directory inventory'}
+$shippedFiles=@($children|Where-Object{-not $_.PSIsContainer})
+if($shippedFiles.Count -ne $expectedImports.Count+2){
+ Refuse 'Missing or unlisted files in shipped original runtime'
+}
+foreach($entry in $children){
+ if(($entry.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0){
+  Refuse 'Redirecting staged original runtime import or directory'
+ }
+ if($entry.PSIsContainer){continue}
+ if(-not $entry.FullName.StartsWith($runtime+'\',[StringComparison]::OrdinalIgnoreCase)){
+  Refuse 'Staged original runtime escaped package root'
+ }
+ $relative=$entry.FullName.Substring($runtime.Length+1).Replace('\','/')
+ if($relative -in @('r3-r1-runtime.manifest','r3-r1-runtime-provenance.json')){
+  continue
+ }
+ if(-not $expectedImports.ContainsKey($relative)){
+  Refuse 'Unlisted staged original runtime import'
+ }
+ $actualImportSha=(Get-FileHash -LiteralPath $entry.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+ if($actualImportSha -cne $expectedImports[$relative]){
+  Refuse 'Tampered staged original runtime import'
+ }
+}
 [pscustomobject]@{
  schema='cognitum.ssm.r3r1.private_gpg_release_verified.v1'
  status='PASS_PRIVATE_GPG_PACKAGE_DIGESTS_OBSERVATION_ONLY'
