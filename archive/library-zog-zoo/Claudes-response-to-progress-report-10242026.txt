@@ -1,0 +1,49 @@
+HDC CLOSURE FIXES — v0.3
+
+RULES
+- Do not change any pass criteria or thresholds after seeing results. Report numbers only. Do NOT write verdicts or PASS/FAIL labels; the owner writes them.
+- Do not delete any file. Git-commit after each step. Save every run with a timestamp.
+- Do NOT start C7.
+
+STEP 0 — FREEZE
+Copy results/ to results_pilot_v0.2/ (read-only). Record SHA-256 hashes in a README. Commit.
+
+STEP 1 — FIX AND RE-RUN BSC
+The pilot excluded BSC with the note "XOR bundling destroys signal." That is a bug. In BSC, XOR is BINDING and UNBINDING. BUNDLING must be element-wise MAJORITY VOTE, with a seeded deterministic random tie-break for even counts.
+- Unit test: bundling 3 random vectors by majority must give about 0.75 similarity to each input. XOR-bundling gives about 0.5, which is the bug.
+- Cross-check BSC against torchhd BSC on identical samples (same method as C1.6).
+- Re-run C1, C2, C3, C6 for BSC. Include BSC in all later steps.
+
+STEP 2 — BASELINES AT MATCHED BYTES (decisive step)
+For C2, C3, C6, add these baselines and compare ALL HDC models (BSC, MAP, FHRR, HRR) at EQUAL TOTAL BYTES, not equal D.
+- B1: exact dictionary (role id to value id). Bytes = N x (ceil(log2 R) + ceil(log2 V)) bits.
+- B2: fixed-size hash table with the same total bits as the HDC memory (fingerprint bits + ceil(log2 V) value bits per slot). Report recovery vs N.
+- B3: dictionary + error-correcting code at the same total bits. Use the strongest simple code that fits the HDC byte budget (repetition-k with majority vote, k odd). Apply the same corruption p to its stored bits.
+- C6: also compare against an SQLite key-value store (exact), reporting per-operation latency and bytes touched.
+HDC byte accounting: BSC/MAP = D bits packed (final form). Separately report accumulator mode (integer counters per dimension) for updates. FHRR/HRR = report both float32-per-component and 8-bit-quantized. Report codebook cost two ways: stored, and regenerated from a seed.
+Metrics: top-1 recovery vs N at equal bytes; bits per recoverable pair at 99%; accuracy vs corruption p at equal bytes.
+
+STEP 3 — AUDIT C5
+C5.2 scored 100% on every config, including D=512 with N=200, while C2 shows 26-82% at D=512 and N=50, and C5.1 (direct fact) is only about 59%. Multi-hop cannot beat single-hop at the same load, so something is likely wrong. Check and report:
+(a) Candidate set size at each hop. The decode must use the full entity codebook (V=1000), not a shortlist.
+(b) The memory is ONE bundled vector. The query has no access to the answer from any other source (no shared state with the generator).
+(c) Negative controls: query a relation never stored; shuffle the memory; drop D to 64. All must collapse to about chance.
+(d) Reconcile C5.2 with C5.1 at identical N, D, V.
+
+STEP 4 — FIX C6
+- 6.2 "untouched" accuracy: compute only over items that were NOT replaced. If that set is empty, record NaN and exclude it. Do NOT record 0. Replace only 10-50% of N, so n_ops < N.
+- 6.4 churn: run the planned test. 100,000 mixed operations (50% insert, 25% update, 25% delete) at a working set of 0.5 x N99 for that model and D, then again at 1.0 x N99. Report untouched-item accuracy every 10,000 ops, update latency, and bytes touched. Run compact and full-accumulator modes.
+
+STEP 5 — SCOPE
+D in {512, 1024, 4096, 10000}. At least 10 seeds. N grid: 25, 50, 75, 100, 150, 200, 300, 500, so N90 and N99 are resolved. V=1000.
+
+STEP 6 — REPORTING
+Remove the OK/Warn/Censored labels. For C3 report accuracy curves, the p at 90% accuracy, and 95% bootstrap CIs. Output to results_v0.3/ using JSONL schema v0.3, plus one summary table per category and one equal-bytes ranking table. List any anomalies found. Update the manifest.
+
+PRE-REGISTERED CLAIMS (set before the runs; do not change)
+- Capacity: HDC bits per recoverable pair at 99% must be <= the hash-table baseline (B2), or the capacity claim is dropped.
+- Noise: HDC accuracy at p=10% must be >= dictionary+ECC (B3) at equal bytes, or the robustness claim is dropped.
+- Continual updates: >= 95% accuracy on untouched items after 100k ops at 0.5 x N99, with update cost no worse than SQLite, or the claim is dropped.
+If a baseline beats HDC on a claim, record it. Do NOT tune HDC settings to rescue it.
+
+OPTIONAL: audit the torchhd HRR unbind convention (C1.1 error 0.41 vs 0.29 in zogzoo).
