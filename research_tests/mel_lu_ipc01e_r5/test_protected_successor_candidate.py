@@ -43,6 +43,13 @@ def fixture(root:Path):
           "runtime_manifest_sha256":sha(manifest),
           "external_manifest_approved_for_production":True,
           "original_production_source_sha":SOURCE,
+          "python_sha256":sha((runtime/"python.exe").read_bytes()),
+          "external_python_image_sha256":sha((runtime/"python.exe").read_bytes()),
+          "runtime_file_count":len(entries),
+          "actual_Core_grant":False,
+          "external_output_release_authorized":False,
+          "production_release_signer_approved":False,
+          "independent_release_authority_approved":False,
           "test_fixture_not_real":True}
     (runtime/"r3-r1-runtime-provenance.json").write_text(json.dumps(prov)+"\n",encoding="ascii")
     args=Namespace(stage=stage,source_sha=SOURCE,owner_fingerprint=OWNER,
@@ -89,6 +96,35 @@ class CandidateSourceOnly(unittest.TestCase):
             args.approved_candidate=sha((args.stage/"protected-successor.json").read_bytes())
             (args.stage/"Cognitum-SSM-R3R1-Protected.exe").write_bytes(b"DIFFERENT UNSIGNED TEST CARRIER")
             with self.assertRaises(ValueError):b.inspect(args)
+
+    def test_wrong_source_sha_in_frozen_provenance_refused(self):
+        with TemporaryDirectory() as t:
+            args,runtime=fixture(Path(t))
+            prov=runtime/"r3-r1-runtime-provenance.json"
+            body=json.loads(prov.read_text())
+            body["original_production_source_sha"]="a"*40
+            prov.write_text(json.dumps(body)+"\n")
+            args.runtime_provenance=sha(prov.read_bytes())
+            with self.assertRaises(ValueError):
+                b.candidate(args)
+
+    def test_provenance_python_pin_or_approval_flags_refused(self):
+        for key,value in (
+            ("external_python_image_sha256","a"*64),
+            ("runtime_file_count",0),
+            ("actual_Core_grant",True),
+            ("external_output_release_authorized",True),
+            ("production_release_signer_approved",True),
+        ):
+            with self.subTest(key=key), TemporaryDirectory() as t:
+                args,runtime=fixture(Path(t))
+                prov=runtime/"r3-r1-runtime-provenance.json"
+                body=json.loads(prov.read_text())
+                body[key]=value
+                prov.write_text(json.dumps(body)+"\n")
+                args.runtime_provenance=sha(prov.read_bytes())
+                with self.assertRaises(ValueError):
+                    b.candidate(args)
 
     def test_added_runtime_file_refused(self):
         with TemporaryDirectory() as t:
