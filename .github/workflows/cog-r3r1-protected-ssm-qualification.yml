@@ -37,7 +37,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Pinned NumPy SciPy and protocol libraries
-        run: python -m pip install numpy==2.2.6 scipy==1.15.3 protobuf==6.33.1 cryptography==46.0.3 pytest==9.0.2
+        run: python -m pip install numpy==2.2.6 scipy==1.15.3 protobuf==6.33.1 grpcio-tools==1.76.0 cryptography==46.0.3 pytest==9.0.2
       - name: Uncontained process must refuse original request before parsing
         shell: pwsh
         run: |
