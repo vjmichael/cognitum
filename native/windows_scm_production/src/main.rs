@@ -5,6 +5,9 @@
 //! genuine SCM lifecycle ownership and fail-closed stop handling.
 //! Signing, installer, grants and physical acceptance are separate gates.
 #![deny(unsafe_op_in_unsafe_fn)]
+#[cfg(all(feature="protected-ssm-qualification",feature="protected-ssm-production"))]
+compile_error!("CI-only numerical qualifier cannot be combined with protected production installer");
+
 #[cfg(all(windows,feature="protected-ssm-qualification"))]
 mod qual_appcontainer;
 #[cfg(all(windows,feature="protected-ssm-qualification"))]
@@ -24,7 +27,9 @@ mod service {
     // retains its own identity and bytes. No test image is installable as R3-R1.
     #[cfg(feature="protected-ssm-qualification")]
     const SERVICE:&str="CognitumSsmProductionQualifierV1";
-    #[cfg(not(feature="protected-ssm-qualification"))]
+    #[cfg(feature="protected-ssm-production")]
+    const SERVICE:&str="CognitumSsmProtectedV1";
+    #[cfg(not(any(feature="protected-ssm-qualification",feature="protected-ssm-production")))]
     const SERVICE:&str="CognitumSsmSupervisorV1";
     const OWN_PROCESS:u32=0x10;
     const STOPPED:u32=1;
@@ -224,9 +229,13 @@ mod service {
             }
         };
         if report(handle,RUNNING,0).is_err(){return;}
-        // NO Core operations are admitted here. The feature-gated successor
+        // NO Core operations are admitted here. The feature-gated CI successor
         // proves one independently pinned, sealed numerical vector only.
-        // It is never compiled into the accepted private owner installer.
+        // The protected-ssm-production build has a DISTINCT SCM identity but
+        // deliberately launches NO workers until an independently approved
+        // real Lu Core operation-authority broker is implemented. It never
+        // links the CI-only hardcoded peer/profile/test-vector launcher.
+        // It is a staging-capable, grant-denying production candidate only.
         #[cfg(feature="protected-ssm-qualification")]
         if crate::qual_ssm::execute(job.0,&STOP).is_err(){
             let _=report(handle,STOP_PENDING,0);
