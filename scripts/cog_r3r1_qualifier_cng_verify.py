@@ -22,9 +22,16 @@ DOMAIN=b"Cognitum.R3R1.CI.PROTECTED_TERMINAL.v1\x00"
 HEX="0123456789abcdef"
 REQUIRED_BODY={
     "schema", "scm_pid", "worker_pid", "original_request_sha256",
-    "candidate_output_sha256", "kernel_job_empty_after_child_exit",
+    "candidate_output_sha256", "original_prelaunch_sha256",
+    "kernel_job_empty_after_child_exit",
     "original_lu_core_grant_verified", "installed_signer_approved",
     "output_or_ACK_authorized"
+}
+REQUIRED_PRELAUNCH={
+    "schema", "original_request_sha256", "pinned_python_sha256",
+    "pinned_child_sha256", "worker_may_have_started",
+    "replay_after_restart_permitted", "independent_antirollback_verified",
+    "original_Lu_Core_grant_verified", "output_or_ACK_authorized",
 }
 REQUIRED_ENVELOPE={
     "schema", "terminal_sha256", "public_blob_sha256", "signature_p256_raw",
@@ -60,7 +67,7 @@ def valid_sha(value):
 
 def verify_exact(body:bytes,envelope:bytes,blob:bytes,
                  original_request:bytes,output:bytes,
-                 independently_pinned_public_sha:str):
+                 independently_pinned_public_sha:str,prelaunch:bytes):
     need(len(blob)==72 and blob[:8]==b"ECS1\x20\x00\x00\x00",
          "actual Windows ECCPUBLICBLOB P256 public key")
     need(valid_sha(independently_pinned_public_sha),"independent pin format")
@@ -68,6 +75,19 @@ def verify_exact(body:bytes,envelope:bytes,blob:bytes,
          "external signer public key identity mismatch")
     local=parse(body,REQUIRED_BODY)
     claim=parse(envelope,REQUIRED_ENVELOPE)
+    prior=parse(prelaunch,REQUIRED_PRELAUNCH)
+    need(prior["schema"]=="cognitum.ssm.r3r1.ci_prelaunch_uncertain_v1"
+         and prior["worker_may_have_started"] is True
+         and prior["replay_after_restart_permitted"] is False
+         and prior["independent_antirollback_verified"] is False
+         and prior["original_Lu_Core_grant_verified"] is False
+         and prior["output_or_ACK_authorized"] is False,
+         "durable prelaunch MUST conservatively hold any interrupted original")
+    need(valid_sha(prior["pinned_python_sha256"])
+         and valid_sha(prior["pinned_child_sha256"])
+         and prior["original_request_sha256"]==hash_bytes(original_request)
+         and local["original_prelaunch_sha256"]==hash_bytes(prelaunch),
+         "terminal signature MUST bind exact original prelaunch record")
     need(local["schema"]=="cognitum.ssm.r3r1.ci_protected_terminal.v1"
          and claim["schema"]=="cognitum.ssm.r3r1.ci_p256_terminal_signature.v1",
          "terminal or signer frame schema")
@@ -119,12 +139,13 @@ def main():
     host=base/"q-host"
     io=base/"q-io"
     body=(host/"production-terminal.json").read_bytes()
+    prelaunch=(host/"production-prelaunch.json").read_bytes()
     envelope=(host/"production-terminal-signed.json").read_bytes()
     blob=(host/"r2-public-p256.blob").read_bytes()
     data=(io/"input.frame").read_bytes()
     answer=(io/"output.frame").read_bytes()
     pin=os.environ["COG_R2_CI_PUBLIC_SHA256"]
-    verified=verify_exact(body,envelope,blob,data,answer,pin)
+    verified=verify_exact(body,envelope,blob,data,answer,pin,prelaunch)
     original_claim=parse(body,REQUIRED_BODY)
     receipt=json.loads(Path("q-scm-receipt.json").read_text())
     need(original_claim["worker_pid"]==receipt["original_non_SYSTEM_worker_pid"]
@@ -134,16 +155,19 @@ def main():
     attacks=[
       (body.replace(b'"kernel_job_empty_after_child_exit":true',
                     b'"kernel_job_empty_after_child_exit":false'),
-       envelope,blob,data,answer,pin),
-      (body,envelope,blob,data+b"x",answer,pin),
-      (body,envelope,blob,data,answer+b"x",pin),
-      (body,envelope,blob,data,answer,("b" if pin[0]!="b" else "a")+pin[1:]),
+       envelope,blob,data,answer,pin,prelaunch),
+      (body,envelope,blob,data+b"x",answer,pin,prelaunch),
+      (body,envelope,blob,data,answer+b"x",pin,prelaunch),
+      (body,envelope,blob,data,answer,("b" if pin[0]!="b" else "a")+pin[1:],prelaunch),
       (body,envelope.replace(b'"Core_grant_verified":false',
                               b'"Core_grant_verified":true'),
-       blob,data,answer,pin),
+       blob,data,answer,pin,prelaunch),
+      (body,envelope,blob,data,answer,pin,prelaunch.replace(b'"worker_may_have_started":true',
+                              b'"worker_may_have_started":false')),
+      (body,envelope,blob,data,answer,pin,prelaunch+b"x"),
     ]
     for index,params in enumerate(attacks):
-        need(params!=(body,envelope,blob,data,answer,pin),
+        need(params!=(body,envelope,blob,data,answer,pin,prelaunch),
              "adversarial mutation did not change original bytes")
         try:
             verify_exact(*params)
