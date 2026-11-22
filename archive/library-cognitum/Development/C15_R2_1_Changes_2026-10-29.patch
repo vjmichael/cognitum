@@ -1,0 +1,147 @@
+--- a/cognitum/spatial_appearance_r2.py
++++ b/cognitum/spatial_appearance_r2.py
+@@ -50,20 +50,30 @@
+     measurement_sigma: float = 10.0
+     mahalanobis_gate: float = 16.0
+     reentry_feature_threshold: float = 0.3
++    # R2.1 research opt-ins; legacy R2 behavior is the default.
++    reliability_updates: bool = False
++    coherent_gallery: bool = False
++    reliable_update_margin: float = 0.75
++    reliable_update_max_gap: int = 2
++    reliable_update_max_appearance: float = 0.38
+ 
+ 
+ def check_config(c:R2Config):
+     if not isinstance(c,R2Config): raise R2Rejected('INVALID_CONFIG')
+     bool_fields=('adaptive_appearance','guarded_updates','color_features','kalman_motion',
+-        'long_gap_gallery','ambiguous_abstention','size_geometry')
++        'long_gap_gallery','ambiguous_abstention','size_geometry','reliability_updates','coherent_gallery')
+     if any(type(getattr(c,k)) is not bool for k in bool_fields):raise R2Rejected('INVALID_SWITCH')
+     if type(c.max_reentry_gap)!=int or not 13<=c.max_reentry_gap<=240 or type(c.gallery_limit)!=int or not 1<=c.gallery_limit<=16:
+         raise R2Rejected('INVALID_CAPACITY')
+     fields=('match_margin','feature_update_rate','appearance_weight','color_weight',
++        'reliable_update_margin','reliable_update_max_appearance',
+         'max_appearance_distance','max_color_distance','max_size_log_ratio',
+         'kalman_process_sigma','measurement_sigma','mahalanobis_gate','reentry_feature_threshold')
+     if any(not math.isfinite(getattr(c,k)) for k in fields):raise R2Rejected('NONFINITE_CONFIG')
+-    if not (0<=c.match_margin<=10 and 0<=c.feature_update_rate<=1 and
++    if (type(c.reliable_update_max_gap) is not int or not 1<=c.reliable_update_max_gap<=12):
++        raise R2Rejected('INVALID_RELIABILITY_GAP')
++    if not (0<=c.reliable_update_margin<=10 and 0<=c.reliable_update_max_appearance<=2 and
++            0<=c.match_margin<=10 and 0<=c.feature_update_rate<=1 and
+             0<=c.appearance_weight<=100 and 0<=c.color_weight<=1 and
+             0<c.max_appearance_distance<=2 and 0<c.max_color_distance<=2 and
+             0.1<=c.max_size_log_ratio<=5 and 0.01<=c.kalman_process_sigma<=200 and
+@@ -125,6 +135,25 @@
+ 
+ 
+ def _cos(a,b):return float(max(0,min(2,1-np.dot(a,b))))
++
++
++def _coherent_gallery_distance(gray, color, template_gray, template_color,
++                               gallery, config):
++    """Find one jointly compatible historical snapshot, never mix two snapshots.
++
++    A match must satisfy each available modality's individual gate before
++    ranking by the weighted distance. Returns None for unsupported matches.
++    """
++    pairs=[(_cos(gray,template_gray),
++            _cos(color,template_color) if color is not None and template_color is not None else 0)]
++    for oldg,oldc in gallery:
++        if color is not None and oldc is None:continue
++        pairs.append((_cos(gray,oldg), _cos(color,oldc) if color is not None else 0))
++    valid=[(g,c) for g,c in pairs if g<=config.max_appearance_distance and
++           (color is None or c<=config.max_color_distance)]
++    if not valid:return None
++    return min(valid,key=lambda pair:(1-config.color_weight)*pair[0]
++        +config.color_weight*pair[1] if color is not None else pair[0])
+ 
+ 
+ @dataclass
+@@ -263,11 +292,18 @@
+                     geometry_cost=0.35*(1-iou)
+                 else:ratio_cost=geometry_cost=0
+                 dg=_cos(gray,s.gray)
++                dc=_cos(color,s.color) if color is not None and s.color is not None else 0
+                 if config.long_gap_gallery and s.gallery:
+-                    dg=min([dg]+[_cos(gray,oldg) for oldg,_ in s.gallery])
+-                dc=_cos(color,s.color) if color is not None and s.color is not None else 0
+-                if config.long_gap_gallery and color is not None and s.gallery:
+-                    dc=min([dc]+[_cos(color,oldc) for _,oldc in s.gallery if oldc is not None])
++                    if config.coherent_gallery:
++                        # Never fabricate a candidate from grayscale of one person
++                        # and color of another historical snapshot.
++                        matched=_coherent_gallery_distance(gray,color,s.gray,s.color,s.gallery,config)
++                        if matched is None:continue
++                        dg,dc=matched
++                    else:
++                        dg=min([dg]+[_cos(gray,oldg) for oldg,_ in s.gallery])
++                        if color is not None:
++                            dc=min([dc]+[_cos(color,oldc) for _,oldc in s.gallery if oldc is not None])
+                 if dg>config.max_appearance_distance or (color is not None and dc>config.max_color_distance):continue
+                 appearance=(1-config.color_weight)*dg+config.color_weight*dc if color is not None else dg
+                 appdist[i,j]=appearance
+@@ -294,9 +330,12 @@
+             if is_match:
+                 # Both sides: nearest competing track and next-best detection
+                 # for this track, plus explicit unmatched option.
+-                alternative=min(float(np.min(np.delete(scores[i,:t],j))) if t>1 else 1e10,
+-                                float(np.min(np.delete(scores[:,j],i))) if n>1 else 1e10,
+-                                params.unmatched_cost)
++                # Slice minima avoid repeatedly allocating np.delete() arrays.
++                other_tracks=min(float(np.min(scores[i,:j])) if j else 1e10,
++                                 float(np.min(scores[i,j+1:t])) if j+1<t else 1e10)
++                other_detections=min(float(np.min(scores[:i,j])) if i else 1e10,
++                                     float(np.min(scores[i+1:,j])) if i+1<n else 1e10)
++                alternative=min(other_tracks,other_detections,params.unmatched_cost)
+                 margin=alternative-scores[i,j]
+                 ambiguous=margin<=config.match_margin
+                 candidates=[active[k].tid for k in np.argsort(scores[i,:t])[:min(t,3)] if scores[i,k]<1e9]
+@@ -310,17 +349,26 @@
+                 else:
+                     vx=(cx-s.x[0])/dt;vy=(cy-s.x[1])/dt
+                     s.x=np.array([cx,cy,vx,vy]);s.P=np.diag([params.sigma_px**2]*4)
++                previous_hits=s.hits
+                 s.frame=frame;s.w=d.w;s.h=d.h;s.hits+=1;s.uncertain=False
+-                # Never update a questionable template; maintain bounded
+-                # gallery with old reliable observations for re-entry.
+-                if not (config.guarded_updates and ambiguous):
++                # R2.1: require a confident match across consecutive frames
++                # and sufficiently compatible appearance BEFORE mutating identity.
++                reliability_blocked=(config.reliability_updates and
++                    (ambiguous or margin<config.reliable_update_margin or
++                     dt>config.reliable_update_max_gap or
++                     previous_hits<2 or appdist[i,j]>config.reliable_update_max_appearance))
++                # Never update a questionable template; retain bounded reliable
++                # historical observations for coherent re-entry.
++                if not reliability_blocked and not (config.guarded_updates and ambiguous):
+                     rate=config.feature_update_rate if config.guarded_updates else 0.4
+                     if config.long_gap_gallery:
+                         s.gallery.append((s.gray.copy(),s.color.copy() if s.color is not None else None))
+                     s.gray=_unit((1-rate)*s.gray+rate*gray)
+                     if color is not None and s.color is not None:s.color=_unit((1-rate)*s.color+rate*color)
+                     counts['template_updates']+=1
+-                else:counts['template_updates_blocked']+=1
++                else:
++                    counts['template_updates_blocked']+=1
++                    if reliability_blocked:counts['reliability_updates_blocked']+=1
+                 if dt>params.max_gap_frames:counts['gallery_reentries']+=1
+                 counts['matched_boxes']+=1;result[i]=s.tid
+                 if ambiguous:counts['forced_ambiguous_research_matches']+=1
+@@ -354,7 +402,14 @@
+     check_config(config)
+     if not sequence or not conversation_id or not labels:
+         raise R2Rejected('INVALID_REPORT_INPUT')
+-    digest=hashlib.sha256(json.dumps(asdict(config),sort_keys=True,allow_nan=False).encode()).digest()
++    payload=asdict(config)
++    legacy_fields=('reliability_updates','coherent_gallery','reliable_update_margin',
++        'reliable_update_max_gap','reliable_update_max_appearance')
++    defaults=R2Config()
++    if all(payload[k]==getattr(defaults,k) for k in legacy_fields):
++        # Preserve exact old R2 configuration digests for prior checkpoints.
++        for k in legacy_fields:payload.pop(k)
++    digest=hashlib.sha256(json.dumps(payload,sort_keys=True,allow_nan=False).encode()).digest()
+     result=msg.R2ResearchReport(schema_version=1,conversation_id=conversation_id,
+             sequence_id=sequence,model_id=MODEL_ID,configuration_sha256=digest,
+             research_only=True,grants_authority=False,
