@@ -1,0 +1,691 @@
+--- /dev/null
++++ b/P2R_START_HERE.md
+@@ -0,0 +1,25 @@
++# Cognitum C15 T3 P2R — Correlation-aware sparse occupancy (research checkpoint)
++
++Baseline: P2Q + P2P preserved. Additive research component:
++
++- `proto/cognitum/spatial/v1/correlated_fusion.proto`
++- `cognitum/proto/spatial_correlated_fusion_pb2.py` (compiler-produced descriptor)
++- `cognitum/spatial_correlated_fusion.py`
++- `tests/test_c15_t3_p2r_correlated_fusion.py`
++- `tools/run_c15_t3_p2r_demo.py`
++- `docs/components/spatial/P2R-T3-correlation-aware-occupancy.md`
++- `docs/components/spatial/C15-T3-P2R-deferred-validation-backlog-v1.json`
++
++To run:
++```
++PYTHONPATH=. python -m pytest -q tests/test_c15_t3_p2r_correlated_fusion.py
++PYTHONPATH=. python tools/run_c15_t3_p2r_demo.py
++PYTHONPATH=. python -m pytest -q tests/test_c13* tests/test_c14* tests/test_c15*
++PYTHONPATH=. python -m pytest -q tests/test_c07*
++PYTHONPATH=. python tools/verify_protobuf_schemas.py --require
++```
++
++`P2R_SHA256SUMS.json` is a **source hash manifest**, not an authenticated
++signature. Previous milestone manifests are historical, not updated attestations.
++No Lu/Jan/GitHub code was modified. Host authority, real sensor calibration,
++and external engine/physical accuracy benchmarks remain deferred.
+--- /dev/null
++++ b/cognitum/proto/spatial_correlated_fusion_pb2.py
+@@ -0,0 +1,7 @@
++"""Independently protoc-compiled C15 T3 P2R descriptor."""
++from cognitum.proto import spatial_calibrated_depth_pb2 as _p2q
++from google.protobuf import descriptor_pool as pool
++from google.protobuf.internal import builder
++DESCRIPTOR=pool.Default().AddSerializedFile(bytes.fromhex('0a2b636f676e6974756d2f7370617469616c2f76312f636f7272656c617465645f667573696f6e2e70726f746f1213636f676e6974756d2e7370617469616c2e76311a2a636f676e6974756d2f7370617469616c2f76312f63616c696272617465645f64657074682e70726f746f1a20636f676e6974756d2f7370617469616c2f76312f766f6c756d652e70726f746f2282020a10503252467573696f6e5265717565737412250a0e736368656d615f76657273696f6e18012001280d520d736368656d6156657273696f6e123a0a05646570746818022001280b32242e636f676e6974756d2e7370617469616c2e76312e50325144657074685265717565737452056465707468123b0a1a617373756d65645f77697468696e5f636170747572655f72686f1803200128015217617373756d656457697468696e4361707475726552686f12230a0d72657365617263685f6f6e6c79180420012808520c72657365617263684f6e6c7912290a106772616e74735f617574686f72697479180520012808520f6772616e7473417574686f7269747922e4040a0d503252467573696f6e43656c6c120c0a0178180120012811520178120c0a0179180220012811520179120c0a017a18032001281152017a12300a14696e646570656e64656e745f6c6f675f6f6464731804200128015212696e646570656e64656e744c6f674f64647312370a17696e646570656e64656e745f70726f626162696c6974791805200128015216696e646570656e64656e7450726f626162696c697479122a0a1161646a75737465645f6c6f675f6f646473180620012801520f61646a75737465644c6f674f64647312310a1461646a75737465645f70726f626162696c697479180720012801521361646a757374656450726f626162696c697479121b0a096869745f636f756e7418082001280d5208686974436f756e74121d0a0a667265655f636f756e7418092001280d520966726565436f756e74122e0a13636170747572655f67726f75705f636f756e74180a2001280d52116361707475726547726f7570436f756e7412380a186c6172676573745f636f7272656c617465645f67726f7570180b2001280d52166c617267657374436f7272656c6174656447726f7570123e0a1b73656e73697469766974795f6d696e5f70726f626162696c697479180c20012801521973656e73697469766974794d696e50726f626162696c697479123e0a1b73656e73697469766974795f6d61785f70726f626162696c697479180d20012801521973656e73697469766974794d617850726f626162696c69747912390a18636f6e666c696374696e675f6f62736572766174696f6e73180e200128085217636f6e666c696374696e674f62736572766174696f6e7322e2040a0f503252467573696f6e526573756c7412250a0e736368656d615f76657273696f6e18012001280d520d736368656d6156657273696f6e12270a0f636f6e766572736174696f6e5f6964180220012809520e636f6e766572736174696f6e4964121b0a09766f6c756d655f69641803200128095208766f6c756d65496412250a0e726571756573745f73686132353618042001280c520d72657175657374536861323536122e0a13626173656c696e655f7032715f73686132353618052001280c5211626173656c696e6550327153686132353612560a14696e646570656e64656e745f626173656c696e6518062001280b32232e636f676e6974756d2e7370617469616c2e76312e5032514465707468526573756c745213696e646570656e64656e74426173656c696e6512380a0563656c6c7318072003280b32222e636f676e6974756d2e7370617469616c2e76312e503252467573696f6e43656c6c520563656c6c7312500a136879706f746865746963616c5f766f6c756d6518082001280b321f2e636f676e6974756d2e7370617469616c2e76312e566f6c756d654772696452126879706f746865746963616c566f6c756d65121a0a087761726e696e677318092003280952087761726e696e677312230a0d72657365617263685f6f6e6c79180a20012808520c72657365617263684f6e6c7912290a106772616e74735f617574686f72697479180b20012808520f6772616e7473417574686f72697479123b0a1a617373756d65645f77697468696e5f636170747572655f72686f180c200128015217617373756d656457697468696e4361707475726552686f620670726f746f33'))
++builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
++builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'cognitum.proto.spatial_correlated_fusion_pb2', globals())
+--- /dev/null
++++ b/cognitum/spatial_correlated_fusion.py
+@@ -0,0 +1,183 @@
++"""C15 T3 P2R: research-only bounded, correlation-aware sparse fusion.
++
++Uses P2Q validated frame-to-ray projection without changing the existing P2C
++independent-ray engine. Caller-declared per-frame correlation is *not* learned,
++verified or valid across arbitrary physical sensors. No output grants authority.
++"""
++from __future__ import annotations
++
++from collections import defaultdict
++import hashlib
++import math
++
++from cognitum.proto import spatial_correlated_fusion_pb2 as pb
++from cognitum.proto import spatial_volume_pb2 as vp
++from cognitum.spatial_calibrated_depth import project as project_depth, CalibratedDepthRejected
++from cognitum.spatial_ray_occupancy import _dda
++from cognitum.spatial_temporal_occupancy import _rotate
++from cognitum.spatial_volume import classify as classify_volume, VolumeRejected
++
++MAX_BYTES = 130_000
++SENSITIVITY_RHOS = (0., .25, .5, .75, 1.)
++
++
++class CorrelatedFusionRejected(ValueError):
++    pass
++
++
++def _require(ok, reason):
++    if not ok:
++        raise CorrelatedFusionRejected(reason)
++
++
++def _sha(message):
++    return hashlib.sha256(message.SerializeToString(deterministic=True)).digest()
++
++
++def _known(message):
++    other = type(message)()
++    other.CopyFrom(message)
++    other.DiscardUnknownFields()
++    return _sha(other) == _sha(message)
++
++
++def _xyz(p):
++    return p.x, p.y, p.z
++
++
++def _logistic(v):
++    return 1. / (1. + math.exp(-v))
++
++
++def _clamp(v):
++    return max(-8., min(8., v))
++
++
++def _model(groups, rho):
++    # Standard equicorrelation n_eff = n/(1+(n-1)*rho), applied to
++    # temporal-weighted signed observations. NOT a calibrated sensor model.
++    return _clamp(math.fsum(
++        math.fsum(values) / (1. + (len(values)-1) * rho)
++        for _, values in sorted(groups.items())
++    ))
++
++
++def fuse(req: pb.P2RFusionRequest) -> pb.P2RFusionResult:
++    _require(isinstance(req, pb.P2RFusionRequest) and req.schema_version == 1
++             and req.research_only and not req.grants_authority
++             and req.HasField('depth') and _known(req)
++             and req.ByteSize() <= MAX_BYTES,
++             'INVALID_RESEARCH_FUSION_CONTRACT')
++    rho = req.assumed_within_capture_rho
++    _require(math.isfinite(rho) and 0. <= rho <= 1., 'INVALID_CORRELATION_ASSUMPTION')
++    try:
++        baseline = project_depth(req.depth)
++    except CalibratedDepthRejected as exc:
++        raise CorrelatedFusionRejected('INVALID_P2Q_DEPTH:' + str(exc)) from exc
++    temporal = baseline.temporal_request
++    _require(len(temporal.frames) == 1 and len(temporal.rays) == len(baseline.projections),
++             'INCONSISTENT_PROJECTION_COUNT')
++    camera = temporal.frames[0]
++    q = (camera.qw, camera.qx, camera.qy, camera.qz)
++    translate = _xyz(camera.translation)
++    maxworld = temporal.max_axis * temporal.voxel_size_m
++    provenance = {p.derived_ray_source_ref: p for p in baseline.projections}
++    _require(len(provenance) == len(baseline.projections), 'DUPLICATE_DERIVED_RAY')
++    evidence = defaultdict(lambda: defaultdict(list))
++    counters = defaultdict(lambda: [0, 0])
++    for ray in temporal.rays:
++        mapping = provenance.pop(ray.source_ref, None)
++        _require(mapping is not None and ray.tick == mapping.tick and
++                 mapping.endpoint_hit == ray.endpoint_hit, 'RAY_PROVENANCE_MISMATCH')
++        start = tuple(a+b for a,b in zip(_rotate(q, _xyz(ray.start)), translate))
++        end = tuple(a+b for a,b in zip(_rotate(q, _xyz(ray.end)), translate))
++        _require(all(math.isfinite(t) and 0 <= t < maxworld for t in start+end),
++                 'INVALID_WORLD_RAY')
++        try:
++            cells = _dda(start, end, temporal.voxel_size_m, temporal.max_axis,
++                         include_endpoint_cell=ray.endpoint_hit)
++        except (ValueError, OverflowError) as exc:
++            raise CorrelatedFusionRejected('INVALID_VOXEL_TRAVERSAL') from exc
++        # Group by raw input source + same claimed frame payload, ignoring tick;
++        # exact replay of the same frame cannot create new independent evidence.
++        # Distinct sources/hashes are NOT asserted independent in the real world.
++        cluster = (mapping.source_ref, bytes(mapping.depth_frame_sha256))
++        time_weight = 2. ** (-(temporal.evaluation_tick-ray.tick)/temporal.half_life_ticks)
++        for i, cell in enumerate(cells):
++            hit = bool(ray.endpoint_hit and i == len(cells)-1)
++            p = ray.hit_probability if hit else ray.free_probability
++            evidence[cell][cluster].append(math.log(p/(1.-p)) * time_weight)
++            counters[cell][0 if hit else 1] += 1
++    _require(not provenance and len(evidence) <= 16384, 'UNMATCHED_RAYS_OR_CAPACITY')
++    original = {(c.x,c.y,c.z):c for c in baseline.temporal_result.cells}
++    _require(set(evidence) == set(original), 'INDEPENDENT_CELL_SET_MISMATCH')
++    out = pb.P2RFusionResult(
++        schema_version=1, conversation_id=req.depth.conversation_id,
++        volume_id=req.depth.volume_id, request_sha256=_sha(req),
++        baseline_p2q_sha256=_sha(baseline), research_only=True,
++        grants_authority=False, assumed_within_capture_rho=rho)
++    out.independent_baseline.CopyFrom(baseline)
++    volume = vp.VolumeGrid(schema_version=1, conversation_id=req.depth.conversation_id,
++                            volume_id=req.depth.volume_id,
++                            voxel_size_m=req.depth.voxel_size_m,
++                            max_axis=req.depth.max_axis,
++                            research_only=True, grants_authority=False)
++    source_id = 'p2r.' + out.request_sha256.hex()[:32]
++    for cell, clusters in sorted(evidence.items()):
++        raw = _model(clusters, 0.)
++        old = original[cell]
++        _require(math.isclose(raw, old.log_odds, abs_tol=1e-10, rel_tol=1e-10),
++                 'RHO_ZERO_BASELINE_DISAGREEMENT')
++        adjusted = _model(clusters, rho)
++        sensitivity = [_logistic(_model(clusters, k)) for k in SENSITIVITY_RHOS]
++        hits, frees = counters[cell]
++        _require(hits == old.hit_count and frees == old.free_count,
++                 'BASELINE_COUNT_DISAGREEMENT')
++        out.cells.add(
++            x=cell[0],y=cell[1],z=cell[2],
++            independent_log_odds=old.log_odds,
++            independent_probability=old.probability,
++            adjusted_log_odds=adjusted,adjusted_probability=_logistic(adjusted),
++            hit_count=hits,free_count=frees,
++            capture_group_count=len(clusters),
++            largest_correlated_group=max(map(len,clusters.values())),
++            sensitivity_min_probability=min(sensitivity),
++            sensitivity_max_probability=max(sensitivity),
++            conflicting_observations=bool(hits and frees))
++        # Strictly hypothetical output. Source ids are digests, not signatures.
++        if hits and frees or .35 < _logistic(adjusted) < .65:
++            continue
++        occupied = adjusted >= 0
++        prob = _logistic(adjusted)
++        volume.evidence.add(x=cell[0],y=cell[1],z=cell[2],
++            kind=vp.VOLUME_PREDICTED_OCCUPIED if occupied else vp.VOLUME_PREDICTED_FREE,
++            source_id=source_id, tick=req.depth.evaluation_tick,
++            reliability=max(.5, min(.999, prob if occupied else 1.-prob)))
++    _require(len(volume.evidence) <= 8192, 'HYPOTHETICAL_VOLUME_CAPACITY')
++    try:
++        result = classify_volume(volume)
++    except VolumeRejected as exc:
++        raise CorrelatedFusionRejected('VOLUME_HANDOFF_REJECTED:' + str(exc)) from exc
++    _require(all(c.state == vp.CELL_UNKNOWN for c in result.cells),
++             'ILLEGAL_HYPOTHESIS_PROMOTION')
++    out.hypothetical_volume.CopyFrom(volume)
++    out.warnings.extend([
++        'P2Q_INDEPENDENT_BASELINE_UNCHANGED_FOR_COMPARISON_ONLY',
++        'EQUICORRELATION_RHO_CALLER_SUPPLIED_NOT_CALIBRATED',
++        'SOURCE_AND_FRAME_DIGESTS_UNAUTHENTICATED_GROUP_IDENTITIES',
++        'DISTINCT_FRAMES_AND_SENSORS_MAY_ALSO_BE_CORRELATED',
++        'SENSITIVITY_GRID_NOT_CONFIDENCE_INTERVAL',
++        'NO_REAL_WORLD_OCCUPANCY_OR_HOST_PERMISSION_CLAIMS',
++        'T2_HANDOFF_PREDICTED_ONLY_NO_CANONICAL_MUTATION',
++    ])
++    return out
++
++
++def verify(req: pb.P2RFusionRequest, result: pb.P2RFusionResult) -> bool:
++    _require(isinstance(result, pb.P2RFusionResult) and _known(result),
++             'INVALID_FUSION_RESULT')
++    computed = fuse(req)
++    _require(result.SerializeToString(deterministic=True) ==
++             computed.SerializeToString(deterministic=True),
++             'FUSION_EVIDENCE_MISMATCH')
++    return True
+--- /dev/null
++++ b/docs/components/spatial/C15-T3-P2R-deferred-validation-backlog-v1.json
+@@ -0,0 +1,74 @@
++{
++  "experiments": [
++    {
++      "acceptance": "pre-register correlation selection; evaluate across independent held-out scenes; report failures and intervals",
++      "comparators": [
++        "P2Q independent log-odds",
++        "P2R rho sweep",
++        "pinned OctoMap under matched geometry"
++      ],
++      "id": "T3-P2R-CORRELATION-15",
++      "inputs": [
++        "authenticated correlated depth frames with repeated capture provenance",
++        "held-out real 3D occupancy labels",
++        "documented sensor covariance/correlation"
++      ],
++      "metrics": [
++        "Brier score",
++        "ECE",
++        "false high-confidence free/occupied claims",
++        "memory and runtime"
++      ],
++      "status": "deferred_independent_real_depth_noise_model"
++    },
++    {
++      "acceptance": "zero unauthorized promotions, verified host authority and replay isolation",
++      "comparators": [
++        "claimed digest grouping",
++        "authenticated capture grouping"
++      ],
++      "id": "T3-P2R-DUPLICATE-PROVENANCE-16",
++      "inputs": [
++        "host-verified frame digests",
++        "source registry",
++        "revocation events"
++      ],
++      "metrics": [
++        "unauthorized evidence amplification",
++        "cross-conversation source confusion",
++        "replay susceptibility"
++      ],
++      "status": "deferred_host_attested_capture_custody"
++    },
++    {
++      "acceptance": "document independence violations and validation of any new covariance kernel",
++      "comparators": [
++        "equicorrelation P2R",
++        "spatial covariance model",
++        "OctoMap baseline"
++      ],
++      "id": "T3-P2R-SPATIAL-CORRELATION-17",
++      "inputs": [
++        "3D ground-truth surfaces",
++        "sensor correlations across nearby voxels and timestamps"
++      ],
++      "metrics": [
++        "probability calibration",
++        "occupancy IoU",
++        "correlated-cell confidence inflation"
++      ],
++      "status": "deferred_model_research"
++    }
++  ],
++  "milestone": "C15 T3 P2R",
++  "preserved_backlogs": [
++    "C15-benchmark-backlog-v1.json",
++    "C15-T2-P2N-deferred-validation-backlog-v1.json",
++    "C15-T2-P2O-deferred-validation-backlog-v1.json",
++    "C15-T2-P2P-deferred-validation-backlog-v1.json",
++    "C15-T3-P2Q-deferred-validation-backlog-v1.json"
++  ],
++  "research_only": true,
++  "schema_version": 1,
++  "status": "research_implementation_complete_benchmarks_deferred"
++}
+--- /dev/null
++++ b/docs/components/spatial/P2R-T3-correlation-aware-occupancy.md
+@@ -0,0 +1,69 @@
++# C15 T3 P2R — Correlation-aware research-only volume fusion
++
++## Scope and ancestry
++
++This is an **additive** offline research interface layered on P2Q's validated
++rectified-pinhole projection, P2C's independent-ray temporal occupancy engine,
++and T2's predicted-only voxel structural-audit path. **No Lu modifications**.
++
++P2R uses an explicit `P2RFusionRequest` (Protobuf). Caller declares an
++assumed `rho in [0,1]`; P2R does not measure or calibrate correlation.
++
++## The correction
++
++For voxel `v`, P2Q produces ray log-odds contributions `l_i =
++exp(-dt*ln 2/half_life_ticks) * log(p_i/(1-p_i))`. P2C assumes independence
++and sums these values, clamping log odds to `[-8,8]`.
++
++P2R groups events **per voxel** by `(source_ref, depth_frame_sha256)` (without
++`tick`, preventing replay of a claimed identical frame from gaining full
++independent weight). For group `g` with `n_g` events and assumed equicorrelation
++`rho`, P2R uses
++
++`L_v(rho) = clamp(sum_g sum_{i in g} l_i/(1+(n_g-1)*rho), -8, 8)`.
++
++This heuristic borrows an effective-sample-size factor from equicorrelation
++under simplified assumptions; it is **not** a probabilistically calibrated
++inverse sensor model, a general Bayesian observation model, or a sound claim
++about arbitrary spatially correlated noise. Mixed-sign evidence retains its
++conflict flag, and its cell is excluded from T2 handoff. Other correlated
++sources can still be counted independently because their provenance keys differ.
++
++For every cell P2R reports independent baseline, adjusted value, group count,
++largest repeated group, conflict flag and a **five-point sensitivity grid**
++`rho = {0,.25,.5,.75,1}`. The reported min/max refer to these five tested
++settings; they are **not** confidence/credible intervals nor guaranteed extrema
++for arbitrary continuous correlation. At `rho=0`, the result must match the
++existing P2C baseline (hard gate).
++
++P2R includes the unmodified P2Q result as explicitly labeled **baseline**,
++plus a **distinct** P2R hypothetical `VolumeGrid` using only
++`VOLUME_PREDICTED_OCCUPIED` or `VOLUME_PREDICTED_FREE`. No measured/verified
++geometry is emitted, and any T2 structural claim remains indeterminate.
++
++## Data and authorization limits
++
++- Camera geometry and depth are caller-supplied and not measured here.
++- Depth-frame SHA-256 is a caller claim; no raw pixel-byte attestation.
++- There is no host lease or source-owner authentication. Cross-sensor and
++  cross-frame correlation is not solved.
++- Unknown wire fields, malformed camera geometry, unauthorized modes, invalid
++  rho and mismatched P2Q replay are rejected.
++- Explicit resource bounds include P2Q's depth/voxel caps and P2R request size.
++- No canonical scene mutation, real-world mapping certification, or action
++  authority; no Lu installation or GPU worker execution.
++
++## Validation
++
++Run from the packaged Cognitum root:
++
++```bash
++PYTHONPATH=. python -m pytest -q tests/test_c15_t3_p2r_correlated_fusion.py
++PYTHONPATH=. python tools/run_c15_t3_p2r_demo.py
++PYTHONPATH=. python -m pytest -q tests/test_c13* tests/test_c14* tests/test_c15*
++PYTHONPATH=. python -m pytest -q tests/test_c07*
++PYTHONPATH=. python tools/verify_protobuf_schemas.py --require
++```
++
++Real-world confidence, independent OctoMap and OpenVDB parity, correlated
++frame statistics, and Windows Lu security gates stay deferred and separate.
+--- /dev/null
++++ b/proto/cognitum/spatial/v1/correlated_fusion.proto
+@@ -0,0 +1,48 @@
++syntax = "proto3";
++package cognitum.spatial.v1;
++// C15 T3 P2R: sensitivity analysis on caller-declared same-image correlation.
++// This is not sensor calibration, physical attestation, or action permission.
++import "cognitum/spatial/v1/calibrated_depth.proto";
++import "cognitum/spatial/v1/volume.proto";
++
++message P2RFusionRequest {
++  uint32 schema_version = 1;
++  P2QDepthRequest depth = 2;
++  // Equicorrelation heuristic within a cell for rays sharing (source_ref, depth_frame_sha256).
++  // A hash is a caller assertion, not a trusted frame identity.
++  double assumed_within_capture_rho = 3;
++  bool research_only = 4;
++  bool grants_authority = 5;
++}
++message P2RFusionCell {
++  sint32 x = 1;
++  sint32 y = 2;
++  sint32 z = 3;
++  double independent_log_odds = 4;
++  double independent_probability = 5;
++  double adjusted_log_odds = 6;
++  double adjusted_probability = 7;
++  uint32 hit_count = 8;
++  uint32 free_count = 9;
++  uint32 capture_group_count = 10;
++  uint32 largest_correlated_group = 11;
++  // Exact min/max on the documented five-point heuristic sensitivity grid,
++  // NOT an empirical confidence interval.
++  double sensitivity_min_probability = 12;
++  double sensitivity_max_probability = 13;
++  bool conflicting_observations = 14;
++}
++message P2RFusionResult {
++  uint32 schema_version = 1;
++  string conversation_id = 2;
++  string volume_id = 3;
++  bytes request_sha256 = 4;
++  bytes baseline_p2q_sha256 = 5;
++  P2QDepthResult independent_baseline = 6;
++  repeated P2RFusionCell cells = 7;
++  VolumeGrid hypothetical_volume = 8;
++  repeated string warnings = 9;
++  bool research_only = 10;
++  bool grants_authority = 11;
++  double assumed_within_capture_rho = 12;
++}
+--- /dev/null
++++ b/tests/test_c15_t3_p2r_correlated_fusion.py
+@@ -0,0 +1,211 @@
++"""C15 T3 P2R: correlation-ablation, provenance, tamper, and handoff gates."""
++import hashlib
++import math
++import random
++import unittest
++
++from cognitum.proto import spatial_correlated_fusion_pb2 as pb
++from cognitum.proto import spatial_volume_pb2 as vp
++from cognitum.spatial_correlated_fusion import fuse, verify, CorrelatedFusionRejected
++from tests.test_c15_t3_p2q_calibrated_depth import sample
++
++
++def make(rho=1., *, same_frame=True, n=2, same_source=True, repeat_tick=False):
++    depth = sample(u=3, v=3, tick=10)
++    for i in range(1,n):
++        px=depth.pixels.add()
++        px.CopyFrom(depth.pixels[0])
++        px.u=3+i
++        if not same_frame:
++            px.depth_frame_sha256=hashlib.sha256(('frame'+str(i)).encode()).digest()
++            px.tick=9-i if i<9 else 1
++        if not same_source:
++            px.source_ref='distinct'+str(i)
++        if repeat_tick:
++            px.tick=9-i
++    return pb.P2RFusionRequest(schema_version=1, depth=depth,
++              assumed_within_capture_rho=rho, research_only=True)
++
++
++def selected(out, coord=(4,4,2)):
++    return next(c for c in out.cells if (c.x,c.y,c.z)==coord)
++
++
++class CorrelatedFusionTests(unittest.TestCase):
++    def bad(self, q, why=None):
++        with self.assertRaises(CorrelatedFusionRejected) as caught:
++            fuse(q)
++        if why is not None:
++            self.assertIn(why,str(caught.exception))
++
++    def test_identical_frame_at_rho_one_is_not_double_confidence(self):
++        # Pixel rays overlap in their free-space traversal through (4,4,2).
++        a=fuse(make(n=1, rho=1.))
++        b=fuse(make(n=2, rho=1.))
++        x=selected(a);y=selected(b)
++        self.assertAlmostEqual(x.adjusted_log_odds,y.adjusted_log_odds,places=10)
++        self.assertLess(y.independent_probability,y.adjusted_probability)
++        self.assertEqual(y.largest_correlated_group,2)
++        self.assertEqual(y.capture_group_count,1)
++        self.assertTrue(verify(make(n=2,rho=1.),b))
++
++    def test_rho_zero_bitwise_equivalent_to_p2q_independent_baseline(self):
++        out=fuse(make(rho=0.))
++        for c in out.cells:
++            self.assertEqual(c.adjusted_log_odds,c.independent_log_odds)
++            self.assertEqual(c.adjusted_probability,c.independent_probability)
++        self.assertEqual(out.independent_baseline.temporal_result.cells[0].log_odds,
++                         out.cells[0].independent_log_odds)
++
++    def test_no_group_adjustment_for_different_images(self):
++        out=fuse(make(rho=1., same_frame=False))
++        for c in out.cells:
++            self.assertEqual(c.adjusted_log_odds,c.independent_log_odds)
++        self.assertEqual(selected(out).capture_group_count,2)
++
++    def test_no_group_adjustment_for_different_sources(self):
++        out=fuse(make(rho=1., same_source=False))
++        self.assertEqual(selected(out).capture_group_count,2)
++        for c in out.cells:
++            self.assertEqual(c.adjusted_log_odds,c.independent_log_odds)
++
++    def test_replayed_same_digest_different_tick_is_correlated(self):
++        q=make(rho=1.,repeat_tick=True)
++        q.depth.evaluation_tick=10
++        out=fuse(q)
++        self.assertEqual(selected(out).largest_correlated_group,2)
++        self.assertGreater(selected(out).adjusted_probability,
++                           selected(out).independent_probability)
++
++    def test_sensitivity_grid_contains_adjustment_at_tabulated_rhos(self):
++        for rho in (0.,.25,.5,.75,1.):
++            out=fuse(make(rho))
++            for c in out.cells:
++                self.assertLessEqual(c.sensitivity_min_probability-1e-12,c.adjusted_probability)
++                self.assertGreaterEqual(c.sensitivity_max_probability+1e-12,c.adjusted_probability)
++
++    def test_independent_group_weight_is_not_clamped_early(self):
++        # More observations on the same cell can saturate the baseline at -8,
++        # while rho=1 remains equivalent to a single observation.
++        q=make(rho=1., n=5)
++        for i,p in enumerate(q.depth.pixels):
++            p.u=i+1
++        out=fuse(q)
++        self.assertTrue(any(c.largest_correlated_group>1 for c in out.cells))
++        self.assertTrue(all(-8 <= c.adjusted_log_odds <= 8 for c in out.cells))
++
++    def test_conflicts_retained_and_never_handed_off(self):
++        q=make(rho=.8)
++        q.depth.pixels[-1].endpoint_hit=False
++        q.depth.pixels[-1].axial_depth_m=q.depth.camera.max_axial_depth_m
++        q.depth.pixels[-1].u=3
++        q.depth.pixels[-1].tick=9
++        out=fuse(q)
++        conflicts={(c.x,c.y,c.z) for c in out.cells if c.conflicting_observations}
++        forwarded={(v.x,v.y,v.z) for v in out.hypothetical_volume.evidence}
++        self.assertTrue(conflicts)
++        self.assertFalse(conflicts & forwarded)
++
++    def test_t2_handoff_is_predicted_only(self):
++        from cognitum.spatial_volume import classify
++        out=fuse(make(.6))
++        self.assertTrue(out.hypothetical_volume.research_only)
++        self.assertFalse(out.hypothetical_volume.grants_authority)
++        self.assertTrue(all(c.state==vp.CELL_UNKNOWN for c in classify(out.hypothetical_volume).cells))
++        self.assertTrue(all(v.kind in (vp.VOLUME_PREDICTED_OCCUPIED, vp.VOLUME_PREDICTED_FREE)
++                            for v in out.hypothetical_volume.evidence))
++
++    def test_unknown_proto_field_is_rejected(self):
++        q=make()
++        corrupt=pb.P2RFusionRequest.FromString(q.SerializeToString()+b'\x98\x06\x01')
++        self.bad(corrupt, 'INVALID_RESEARCH_FUSION_CONTRACT')
++
++    def test_invalid_rho_rejected(self):
++        for rho in (-.001,1.0001,float('inf'),float('nan')):
++            self.bad(make(rho),'INVALID_CORRELATION_ASSUMPTION')
++
++    def test_invalid_scope_camera_and_source_fail_closed(self):
++        q=make();q.research_only=False;self.bad(q)
++        q=make();q.grants_authority=True;self.bad(q)
++        q=make();q.depth.conversation_id='';self.bad(q, 'INVALID_P2Q_DEPTH')
++        q=make();q.depth.pixels[0].depth_frame_sha256=b'bad';self.bad(q, 'INVALID_P2Q_DEPTH')
++        q=make();q.depth.camera.fx=-1;self.bad(q, 'INVALID_P2Q_DEPTH')
++
++    def test_result_tampering_rejected(self):
++        q=make(.75);out=fuse(q);self.assertTrue(verify(q,out))
++        out.cells[0].adjusted_probability+=0.1
++        with self.assertRaisesRegex(CorrelatedFusionRejected,'FUSION_EVIDENCE_MISMATCH'):
++            verify(q,out)
++
++    def test_deterministic_replay_and_pixel_order(self):
++        q=make(.5)
++        a=fuse(q)
++        b=fuse(q)
++        self.assertEqual(a.SerializeToString(deterministic=True), b.SerializeToString(deterministic=True))
++        q2=type(q)();q2.CopyFrom(q);q2.depth.pixels.reverse()
++        b=fuse(q2)
++        self.assertEqual([(c.x,c.y,c.z,c.adjusted_probability) for c in a.cells],
++                         [(c.x,c.y,c.z,c.adjusted_probability) for c in b.cells])
++
++    def test_random_oracle_for_equicorrelation_free_only(self):
++        rng=random.Random(8171)
++        for _ in range(48):
++            rho=rng.random()
++            q=make(rho)
++            q.depth.free_probability=rng.uniform(.05,.45)
++            out=fuse(q)
++            c=selected(out)
++            # Independent reference: two same-capture log-odds contributions.
++            expected=2*math.log(q.depth.free_probability/(1-q.depth.free_probability))/(1+rho)
++            self.assertAlmostEqual(c.adjusted_log_odds, expected,places=10)
++
++
++if __name__=='__main__':unittest.main()
++
++class CorrelatedFusionIntegrationTests(unittest.TestCase):
++    def test_occupancy_endpoint_single_replayed_hit_never_gains_independent_weight(self):
++        req=make(rho=1.,repeat_tick=True)
++        req.depth.pixels[-1].u=3  # same pixel, different tick, same declared frame hash
++        out=fuse(req)
++        occupied=(4,4,6)
++        endpoint=selected(out,occupied)
++        self.assertEqual((endpoint.hit_count,endpoint.free_count),(2,0))
++        self.assertEqual(endpoint.largest_correlated_group,2)
++        # Temporal decay makes older hit slightly weaker; averaging the two
++        # cannot be larger than the newer single-frame likelihood.
++        self.assertLess(endpoint.adjusted_log_odds,math.log(.8/.2)+1e-12)
++        self.assertLess(endpoint.adjusted_probability,endpoint.independent_probability)
++
++    def test_numpy_independent_oracle_for_mixed_group_contributions(self):
++        import numpy as np
++        req=make(.65)
++        req.depth.pixels[-1].endpoint_hit=False
++        req.depth.pixels[-1].axial_depth_m=req.depth.camera.max_axial_depth_m
++        req.depth.pixels[-1].u=3
++        req.depth.pixels[-1].tick=9
++        out=fuse(req)
++        cell=selected(out,(4,4,6))
++        hit=np.log(.8/.2)
++        free=np.log(.3/.7) * 2**(-1/5)
++        expected=(hit+free)/(1+.65)
++        self.assertAlmostEqual(cell.adjusted_log_odds, float(expected),places=10)
++        self.assertTrue(cell.conflicting_observations)
++
++    def test_t2_structural_audit_never_confirms_hypothetical_occupancy(self):
++        from tests.test_c15_t2_composition import fixture as graph_fixture
++        from cognitum.spatial_structural_audit import audit
++        from cognitum.proto import spatial_structural_audit_pb2 as sp
++        q=make(.9)
++        out=fuse(q)
++        g=graph_fixture();g.conversation_id='chat'
++        request=sp.StructuralAuditRequest(schema_version=1,conversation_id='chat',
++            graph_id=g.graph_id,volume_id='vox',research_only=True)
++        c=request.claims.add(claim_id='p2r_claim',node_id='wall',source_ref='unverified',
++                expected=sp.SPATIAL_EXPECT_FREE)
++        c.box.min_x=c.box.max_x=4
++        c.box.min_y=c.box.max_y=4
++        c.box.min_z=c.box.max_z=2
++        report=audit(g,out.hypothetical_volume,request)
++        self.assertEqual(report.audits[0].state,sp.SPATIAL_AUDIT_INDETERMINATE)
++        self.assertGreaterEqual(report.audits[0].predicted_only_cells,1)
++        self.assertEqual(report.audits[0].claimed_support_cells,0)
+--- a/tools/check_proto_descriptors.py
++++ b/tools/check_proto_descriptors.py
+@@ -11,9 +11,10 @@
+ import sys
+ 
+ from google.protobuf.descriptor_pb2 import FileDescriptorProto, FileDescriptorSet
+-from cognitum.proto import spatial_calibrated_depth_pb2, capability_pb2, ce_handoff_pb2, worker_pb2, supervisor_acceptance_pb2, evaluation_pb2, benchmark_pb2, collector_pb2, specialists_pb2, memory_pb2, state_pb2, interpretation_pb2, formal_pb2, formal_backend_pb2, formal_advanced_pb2, optimization_pb2, workflows_pb2, optimization_runtime_pb2, planning_pb2, planning_engines_pb2, planning_stochastic_pb2, planning_structured_pb2, planning_guidance_pb2, probability_pb2, probability_backend_pb2, probability_continuous_pb2, probability_conjugate_pb2, probability_diagnostics_pb2, causal_pb2, causal_estimation_pb2, causal_dowhy_pb2, causal_heterogeneity_pb2, causal_discovery_pb2, causal_mature_pb2, causal_validation_pb2, causal_stability_pb2, causal_ambiguity_pb2, causal_temporal_pb2, causal_temporal_scm_pb2, causal_temporal_diagnostics_pb2, causal_temporal_advanced_pb2, causal_temporal_discovery_pb2, causal_uncertainty_pb2, causal_interval_comparison_pb2, causal_assurance_policy_pb2, causal_holdout_assurance_pb2, causal_adversarial_assurance_pb2, causal_integrated_assurance_pb2, causal_genuine_worker_assurance_pb2, causal_llm_caller_evaluation_pb2, spatial_scene_pb2, spatial_appearance_pipeline_pb2, spatial_structural_reconciliation_pb2, spatial_structural_c07_bridge_pb2, spatial_ontology_subset_pb2, spatial_identity_pb2, spatial_temporal_pb2, spatial_composition_pb2, spatial_volume_pb2, spatial_appearance_pb2, spatial_structural_audit_pb2, assembly_pb2, ray_occupancy_pb2, structural_hypotheses_pb2, temporal_occupancy_pb2, benchmark_observation_pb2
++from cognitum.proto import spatial_correlated_fusion_pb2, spatial_calibrated_depth_pb2, capability_pb2, ce_handoff_pb2, worker_pb2, supervisor_acceptance_pb2, evaluation_pb2, benchmark_pb2, collector_pb2, specialists_pb2, memory_pb2, state_pb2, interpretation_pb2, formal_pb2, formal_backend_pb2, formal_advanced_pb2, optimization_pb2, workflows_pb2, optimization_runtime_pb2, planning_pb2, planning_engines_pb2, planning_stochastic_pb2, planning_structured_pb2, planning_guidance_pb2, probability_pb2, probability_backend_pb2, probability_continuous_pb2, probability_conjugate_pb2, probability_diagnostics_pb2, causal_pb2, causal_estimation_pb2, causal_dowhy_pb2, causal_heterogeneity_pb2, causal_discovery_pb2, causal_mature_pb2, causal_validation_pb2, causal_stability_pb2, causal_ambiguity_pb2, causal_temporal_pb2, causal_temporal_scm_pb2, causal_temporal_diagnostics_pb2, causal_temporal_advanced_pb2, causal_temporal_discovery_pb2, causal_uncertainty_pb2, causal_interval_comparison_pb2, causal_assurance_policy_pb2, causal_holdout_assurance_pb2, causal_adversarial_assurance_pb2, causal_integrated_assurance_pb2, causal_genuine_worker_assurance_pb2, causal_llm_caller_evaluation_pb2, spatial_scene_pb2, spatial_appearance_pipeline_pb2, spatial_structural_reconciliation_pb2, spatial_structural_c07_bridge_pb2, spatial_ontology_subset_pb2, spatial_identity_pb2, spatial_temporal_pb2, spatial_composition_pb2, spatial_volume_pb2, spatial_appearance_pb2, spatial_structural_audit_pb2, assembly_pb2, ray_occupancy_pb2, structural_hypotheses_pb2, temporal_occupancy_pb2, benchmark_observation_pb2
+ 
+ EXPECTED = {
++    "cognitum/spatial/v1/correlated_fusion.proto": spatial_correlated_fusion_pb2.DESCRIPTOR,
+     "cognitum/spatial/v1/calibrated_depth.proto": spatial_calibrated_depth_pb2.DESCRIPTOR,
+     "cognitum/v1/capability.proto": capability_pb2.DESCRIPTOR,
+     "cognitum/v1/ce_handoff.proto": ce_handoff_pb2.DESCRIPTOR,
+--- /dev/null
++++ b/tools/run_c15_t3_p2r_demo.py
+@@ -0,0 +1,36 @@
++"""Deterministic P2R synthetic correlation study (not calibrated camera data)."""
++import json
++from cognitum.spatial_correlated_fusion import fuse, verify, SENSITIVITY_RHOS
++from tests.test_c15_t3_p2r_correlated_fusion import make, selected
++
++
++def main():
++    results=[]
++    for rho in SENSITIVITY_RHOS:
++        q=make(rho)
++        out=fuse(q)
++        verify(q,out)
++        cell=selected(out)
++        results.append({
++            'assumed_correlation':rho,
++            'independent_probability':cell.independent_probability,
++            'correlation_adjusted_probability':cell.adjusted_probability,
++            'correlated_group_size':cell.largest_correlated_group,
++            'group_count':cell.capture_group_count,
++            'sensitivity_grid_range':[
++                cell.sensitivity_min_probability,cell.sensitivity_max_probability],
++        })
++    report={
++        'milestone':'C15 T3 P2R', 'data_kind':'synthetic_caller_declared_depth',
++        'sensor_calibration':'not_authenticated', 'research_only':True,
++        'physical_occupancy_truth':'not_inferred',
++        'baseline':'C15 T3 P2Q independent-ray log odds',
++        'model':'same-source/same-frame equicorrelation effective-sample-size heuristic',
++        'cells':results,
++        'external_benchmark':'not_run',
++    }
++    print(json.dumps(report,indent=2,sort_keys=True))
++    return report
++
++
++if __name__ == '__main__':main()
