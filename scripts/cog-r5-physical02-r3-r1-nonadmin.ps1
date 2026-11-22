@@ -8,7 +8,8 @@ param(
  [Parameter(Mandatory=$true)][string]$WorkerRoot,
  [string]$HostRoot,
  [string]$PeerPython,
- [string]$EnvFile
+ [string]$EnvFile,
+ [switch]$ProductionQualifier
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'
@@ -27,7 +28,7 @@ $credentialFile=Join-Path $env:RUNNER_TEMP 'cognitum-r3-r1-nonadmin-credential.d
 $profileSrc=Join-Path $PWD 'scripts/cog-r5-physical02-r3-r1-user-profile.ps1'
 $profileCopy=Join-Path $root 'r3-r1-user-profile.ps1'
 $sysPwsh=Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe'
-$profileName='CognitumSsmR3CiSandboxV1'
+$profileName=if($ProductionQualifier){'CognitumSsmProductionV1'}else{'CognitumSsmR3CiSandboxV1'}
 if(!(Test-Path $profileSrc -PathType Leaf) -or !(Test-Path $sysPwsh -PathType Leaf)){
  throw 'Approved profile OS helper missing'
 }
@@ -46,7 +47,7 @@ public static class CognitumR3R1PeerBirth {
 }
 '@
 function Run-Profile([System.Management.Automation.PSCredential]$Credential,[string]$Action,[string]$Sid){
- $argsText='-NoProfile -NonInteractive -ExecutionPolicy Bypass -File "'+$profileCopy+'" -Mode '+$Action+' -Root "'+$root+'" -ExpectedUserSid '+$Sid
+ $argsText='-NoProfile -NonInteractive -ExecutionPolicy Bypass -File "'+$profileCopy+'" -Mode '+$Action+' -Root "'+$root+'" -ExpectedUserSid '+$Sid+' -ProfileName '+$profileName
  $out=Join-Path $root ('r3r1-profile-'+$Action+'-stdout.txt')
  $err=Join-Path $root ('r3r1-profile-'+$Action+'-stderr.txt')
  if((Test-Path $out) -or (Test-Path $err)){throw 'Refuse reused original nonadministrator profile diagnostic'}
@@ -184,6 +185,7 @@ if($Mode -eq 'provision'){
      account_name=$name
      user_sid=$sid
      profile=$profileName
+     qualification_only=[bool]$ProductionQualifier
      profile_sid=$package
      original_peer_pid=$pidPeer
      original_peer_birth=$birth
@@ -203,6 +205,17 @@ if($Mode -eq 'provision'){
      "COG_R3_CI_APP_SID=$package",
      ("COG_R3_CI_APP_WITNESS="+(Join-Path $hostCustody 'r3-original-appcontainer-witness.json'))
    )
+   if($ProductionQualifier){
+     $values+=@(
+       "COG_PROD_QUAL_PEER_PID=$pidPeer",
+       "COG_PROD_QUAL_PEER_BIRTH=$birth",
+       "COG_PROD_QUAL_PEER_SID=$sid",
+       "COG_PROD_QUAL_PEER_IMAGE_SHA256=$image",
+       "COG_PROD_QUAL_PROFILE=$profileName",
+       "COG_PROD_QUAL_APP_SID=$package",
+       ("COG_PROD_QUAL_APP_WITNESS="+(Join-Path $hostCustody 'r3-original-appcontainer-witness.json'))
+     )
+   }
    [IO.File]::AppendAllText($EnvFile,[string]::Join([Environment]::NewLine,$values)+[Environment]::NewLine)
    Write-Host 'PASS_CI_DEDICATED_NONADMIN_USER_OWNS_NATIVE_APP_CONTAINER_PROFILE'
  }catch{
@@ -221,7 +234,9 @@ if($Mode -eq 'provision'){
  if($rec.schema -cne 'cognitum.ssm.r3r1.external_nonadministrator_CI_profile.v1' -or
     $rec.account_name -cnotmatch '^CogR3Ci[0-9a-f]{12}$' -or
     $rec.user_sid -cnotmatch '^S-1-5-21-[0-9-]+$' -or
-    $rec.user_is_member_of_Administrators -ne $false){
+    $rec.user_is_member_of_Administrators -ne $false -or
+    $rec.profile -cne $profileName -or
+    $rec.qualification_only -ne [bool]$ProductionQualifier){
    throw 'Foreign production or stale local account must not be deleted'
  }
  $user=Get-LocalUser -Name $rec.account_name -ErrorAction Stop
