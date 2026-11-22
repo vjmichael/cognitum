@@ -1,0 +1,225 @@
+"""
+H3 — Interference ceiling (Test Rig doc §3.1).
+The doc marks H3 as *characterization*, not a single hard target:
+    "recall accuracy vs. bank fill — *characterize* the curve; know your N limit
+     → where HDC breaks."
+
+This test sweeps bank fill (N/D) and reports, per mechanism (NN / XOR-CAM /
+CONV-CAM):
+  - top1_accuracy    the decision itself (the doc's recall target),
+  - mean_top1_cos    true cosine of the decoded vector to the top-1 value
+                     (NNMemory and recall_from_bank both return it 4th),
+  - mean_top1_sim / mean_margin  raw dot-space diagnostics (scale ~ ||value||).
+
+METRIC CAVEAT (learned from a first, misleading run):
+  For CAM, "top1_sim" is max_j v_j·r̂ over N competitors — the max of ~N
+  random projections, which GROWS like sqrt(2 ln N) with N and is therefore
+  NOT a usable-signal measure (and not monotone). The quantities that carry
+  the real information are:
+    * top1_accuracy — the CAM error model is
+          P(err) ≈ Φ( sqrt(2 ln N) − sqrt(D/N) )   (target term D/N vs.
+          max-competitor ≈ sqrt(2 ln N)·sqrt(D/N));
+      the accuracy knee sits near N ≈ D / (2 ln D) ≈ D/18 at 90% level.
+    * mean_top1_cos — decays ~ 1/sqrt(N) for CAM (the fundamental CAM cost),
+      flat ~0.97 for NN.
+  Hence the knees are defined on accuracy (the decision), and the
+  monotonicity check is applied to accuracy only; cosine and raw sim/margin
+  are reported as diagnostics (cosine for CAM additionally exhibits the
+  max-of-N floor in the deep-interference regime, so it is not gated on).
+
+Sweep 2 answers doc §11's open question ("HDC hypervector dimension (start at
+10k? test 5k / 10k / 20k in H3)") by fixing N = 10k and varying D.
+
+Pass criterion (characterization):
+  curve_valid        — accuracy is non-increasing in N (tol 0.02); a RISING
+                       accuracy with fill would mean a bug or a degenerate
+                       regime (interference must not decrease with fill).
+  cam_ceiling_known  — for XOR or CONV superposition CAM, the 0.90 accuracy
+                       knee is located (bracketed inside the sweep, or
+                       below the sweep = "breaks even at N_min").
+  nn_floor_known     — the NN index knee is located (typically above the
+                       sweep = "holds at least to N_max").
+Together these say: we know where CAM breaks AND we know the NN side-channel
+floor — i.e. the Tier B wiring choice is informed.
+
+Memory note: peak is the largest cell (keys + values + NN index).
+At D=10k, N=20k that is ≈ 2.4 GB — fine on a 16–32 GB machine.
+"""
+from __future__ import annotations
+import numpy as np
+import hdc_reference as H
+
+ACC_TARGET = 0.90   # the doc's recall target (H1)
+COS_TARGET = 0.90   # usable-signal target for the cosine knee
+MONO_TOL = 0.02     # monotonicity tolerance (trial noise)
+MECHS = ("NN", "xor", "conv")
+CAM_MECHS = ("xor", "conv")
+# Quantity gated on monotonicity (see METRIC CAVEAT above).
+MONO_QUANTS = ("top1_accuracy",)
+
+
+def _cell(mech, D, N, alpha, trials, keys, values, bank, value_matrix, nn, rng):
+    correct = 0
+    sims = 0.0
+    margins = 0.0
+    coss = 0.0
+    for _ in range(trials):
+        i = int(rng.integers(N))
+        q = H.noisy(keys[i], alpha, rng) if alpha > 0 else keys[i].copy()
+        if mech == "NN":
+            idx, margin, top1, cosv = nn.recall(q)
+        else:
+            idx, margin, top1, cosv = H.recall_from_bank(bank, q, mech, value_matrix)
+        correct += int(idx == i)
+        sims += top1
+        margins += margin
+        coss += cosv
+    return {
+        "D": D, "mechanism": mech, "alpha": alpha, "N": N,
+        "fill_N_over_D": round(N / D, 3),
+        "top1_accuracy": correct / trials,
+        "mean_top1_cos": coss / trials,
+        "mean_top1_sim": sims / trials,
+        "mean_margin": margins / trials,
+    }
+
+
+def _knee(rows, mech, alpha, quantity, target):
+    """Where the ceiling sits: largest N still at/above target, and the first
+    grid point that falls below it."""
+    pts = sorted((r for r in rows if r["mechanism"] == mech and r["alpha"] == alpha),
+                 key=lambda r: r["N"])
+    if not pts:
+        return None
+    above = [r["N"] for r in pts if r[quantity] >= target]
+    below = [r["N"] for r in pts if r[quantity] < target]
+    if above and below:
+        kn = max(above)
+        val = next(r[quantity] for r in pts if r["N"] == kn)
+        return {"status": "bracketed", "knee_N": kn, "value_at_knee": val,
+                "first_fail_N": min(below)}
+    if above:
+        return {"status": "above_sweep", "knee_N": max(above),
+                "note": "knee beyond N_max — holds at least to N_max"}
+    return {"status": "below_sweep", "knee_N": None,
+            "note": "already below target at N_min"}
+
+
+def _curve_valid(rows, alphas):
+    """Accuracy must not RISE with fill (sanity of the regime)."""
+    ok = True
+    for alpha in alphas:
+        for mech in MECHS:
+            for qty in MONO_QUANTS:
+                seq = [r[qty] for r in sorted(
+                    (r for r in rows if r["alpha"] == alpha and r["mechanism"] == mech),
+                    key=lambda r: r["N"])]
+                for a, b in zip(seq, seq[1:]):
+                    if b > a + MONO_TOL:
+                        ok = False
+    return ok
+
+
+def run(D=10_000,
+        N_grid=(100, 200, 500, 1_000, 2_000, 5_000, 10_000, 20_000),
+        alphas=(0.0, 0.2),
+        trials=200,
+        D_probe=(5_000, 10_000, 20_000),
+        probe_N=10_000,
+        seed=9):
+    rng = np.random.default_rng(seed)
+
+    # --- sweep 1: N at fixed D (the ceiling curve) -------------------------
+    rows = []
+    for N in N_grid:
+        keys = H.random_sign_matrix(N, D, rng)
+        values = H.random_sign_matrix(N, D, rng)
+        banks = {"xor": H.build_bank(keys, values, "xor"),
+                 "conv": H.build_bank(keys, values, "conv")}
+        nn = H.NNMemory(keys, values)
+        for alpha in alphas:
+            for mech in MECHS:
+                rows.append(_cell(mech, D, N, alpha, trials, keys, values,
+                                  banks.get(mech.lower()), values, nn, rng))
+        del keys, values, banks, nn
+
+    # --- sweep 2: D at fixed N (doc §11 open question) ---------------------
+    probe = []
+    for Dp in D_probe:
+        keys = H.random_sign_matrix(probe_N, Dp, rng)
+        values = H.random_sign_matrix(probe_N, Dp, rng)
+        banks = {"xor": H.build_bank(keys, values, "xor"),
+                 "conv": H.build_bank(keys, values, "conv")}
+        nn = H.NNMemory(keys, values)
+        for alpha in alphas:
+            for mech in MECHS:
+                probe.append(_cell(mech, Dp, probe_N, alpha, trials, keys, values,
+                                   banks.get(mech.lower()), values, nn, rng))
+        del keys, values, banks, nn
+
+    # --- characterization ---------------------------------------------------
+    curve_ok = _curve_valid(rows, alphas)
+
+    def _knees_for(quantity, target):
+        out = {}
+        for mech in MECHS:
+            for alpha in alphas:
+                k = _knee(rows, mech, alpha, quantity, target)
+                if k is not None:
+                    out[f"{mech}|alpha={alpha}"] = k
+        return out
+
+    acc_knees = _knees_for("top1_accuracy", ACC_TARGET)
+    cos_knees = _knees_for("mean_top1_cos", COS_TARGET)
+
+    located = {"bracketed", "below_sweep"}
+    cam_ceiling_known = any(v["status"] in located
+                            for k, v in acc_knees.items()
+                            if k.split("|")[0] in CAM_MECHS)
+    nn_floor_known = any(v["status"] in located | {"above_sweep"}
+                         for k, v in acc_knees.items()
+                         if k.split("|")[0] == "NN")
+    passed = bool(curve_ok and cam_ceiling_known and nn_floor_known)
+
+    def _knee_str(knees, mech, alpha):
+        k = knees.get(f"{mech}|alpha={alpha}")
+        if k is None:
+            return "n/a"
+        if k["status"] == "bracketed":
+            return f"N~{k['knee_N']} (fails at {k['first_fail_N']})"
+        if k["status"] == "above_sweep":
+            return f">= {k['knee_N']} (holds to sweep max)"
+        return "< N_min (breaks from the start)"
+
+    summary = (
+        f"curve_valid={curve_ok} | acc-knee a=0.2: "
+        f"NN={_knee_str(acc_knees, 'NN', 0.2)}, "
+        f"xor={_knee_str(acc_knees, 'xor', 0.2)}, "
+        f"conv={_knee_str(acc_knees, 'conv', 0.2)} | cos-knee a=0.2: "
+        f"NN={_knee_str(cos_knees, 'NN', 0.2)}, "
+        f"xor={_knee_str(cos_knees, 'xor', 0.2)}, "
+        f"conv={_knee_str(cos_knees, 'conv', 0.2)} | "
+        + ("CHARACTERIZED — CAM ceiling located; NN floor known (GO with known N limit)"
+           if passed else "INCONCLUSIVE — inspect knees")
+    )
+    return {
+        "test": "H3",
+        "D": D,
+        "N_grid": list(N_grid),
+        "alphas": list(alphas),
+        "trials_per_cell": trials,
+        "rows": rows,
+        "D_probe_at_N10k": probe,
+        "curve_valid": curve_ok,
+        "acc_knees": acc_knees,
+        "cos_knees": cos_knees,
+        "cam_ceiling_known": cam_ceiling_known,
+        "nn_floor_known": nn_floor_known,
+        "pass": passed,
+        "summary": summary,
+    }
+
+
+if __name__ == "__main__":
+    import json
+    print(json.dumps(run(), indent=2))
