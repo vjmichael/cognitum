@@ -1,0 +1,2847 @@
+{
+  "schema": "cognitum-library-research-archive-inventory-v1",
+  "source": "ChatGPT Library",
+  "archive_ref": "archive/cognitum-library-20261122",
+  "notes": [
+    "Original bytes for bundle records were cross-checked against Library byte sizes before upload",
+    "This is a research archive, not a claim of v1.0 model/tool Lu interoperability",
+    "Never reconstruct original source paths without enforcing destination confinement"
+  ],
+  "counts": {
+    "individual_files": 40,
+    "bundles": 15,
+    "embedded_original_records": 422,
+    "total_preserved_original_records": 462,
+    "bundle_candidate_exclusions": 22,
+    "recovered_separately": 2,
+    "unresolved_candidate_exclusions": 20
+  },
+  "direct_files": [
+    {
+      "path": "archive/library/2026-11-22/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/CH40C_SUMMARY.json",
+      "git_blob_sha": "bfc9434a034bc98d0074df2402120a7e1a862680",
+      "size_bytes": 317
+    },
+    {
+      "path": "archive/library/2026-11-22/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/one_event_n160_i00.json",
+      "git_blob_sha": "793f8f46c989f5440156307c69c27b1b52478f03",
+      "size_bytes": 47165
+    },
+    {
+      "path": "archive/library/2026-11-22/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/one_event_n80_i00.json",
+      "git_blob_sha": "9c7654c2873b23b7ed004ddcfe89a9a7f019f224",
+      "size_bytes": 47175
+    },
+    {
+      "path": "archive/library/2026-11-22/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/quasi_separated_n160_i00.json",
+      "git_blob_sha": "a369e0eaf4ef4a75be685c0ac59363aa2852dc87",
+      "size_bytes": 46970
+    },
+    {
+      "path": "archive/library/2026-11-22/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/quasi_separated_n80_i00.json",
+      "git_blob_sha": "7ca8a3edda5d044dc6c298aad9ebf0bfe91d15a5",
+      "size_bytes": 46572
+    },
+    {
+      "path": "archive/library/2026-11-22/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/rare_1pct_n160_i00.json",
+      "git_blob_sha": "e56feb4e19e3f00f12637d48a7a89e815a8fe779",
+      "size_bytes": 46995
+    },
+    {
+      "path": "archive/library/2026-11-22/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/rare_1pct_n160_i13.json",
+      "git_blob_sha": "1a2e733172d04bf0df4b066eb977b5b9b03a1b0a",
+      "size_bytes": 46936
+    },
+    {
+      "path": "archive/library/2026-11-22/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/rare_1pct_n80_i00.json",
+      "git_blob_sha": "cbe7691cdba8805f88b6e9d868e3f6942cb428af",
+      "size_bytes": 47092
+    },
+    {
+      "path": "archive/library/2026-11-22/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/rare_5pct_n160_i00.json",
+      "git_blob_sha": "ad1fd0f9609ed4ba4a83c1bfd860ba8d30e3c099",
+      "size_bytes": 46865
+    },
+    {
+      "path": "archive/library/2026-11-22/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/rare_5pct_n80_i00.json",
+      "git_blob_sha": "d4a825ab87dad52321ca6320fc1552a99e0536da",
+      "size_bytes": 47043
+    },
+    {
+      "path": "archive/library/2026-11-22/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/zero_balanced_n160_i00.json",
+      "git_blob_sha": "20d936e2ae7b334b379247e6274174d990ec567e",
+      "size_bytes": 46978
+    },
+    {
+      "path": "archive/library/2026-11-22/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/zero_balanced_n80_i00.json",
+      "git_blob_sha": "2607479582bb30d1fe0163f0123fa6f0d7c60737",
+      "size_bytes": 47101
+    },
+    {
+      "path": "archive/library/2026-11-22/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/zero_imbalanced_n160_i00.json",
+      "git_blob_sha": "f6c793bed1d367ad8f8bdc03f46a8777dbdbd9c8",
+      "size_bytes": 46917
+    },
+    {
+      "path": "archive/library/2026-11-22/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/zero_imbalanced_n160_i05.json",
+      "git_blob_sha": "cef2404efd85e2b7bfbdedfbb524f9ea652295d8",
+      "size_bytes": 47022
+    },
+    {
+      "path": "archive/library/2026-11-22/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/zero_imbalanced_n160_i07.json",
+      "git_blob_sha": "4b86085d8f4b86a7d20da5bbda4697a69f8f7e0c",
+      "size_bytes": 46738
+    },
+    {
+      "path": "archive/library/2026-11-22/Cognitum/Development/CH_C14_40_C/CH40C_RESULTS_VERIFIED/zero_imbalanced_n80_i00.json",
+      "git_blob_sha": "e3a0db789ee9f159e6a5c9f3e2b2160b00d93674",
+      "size_bytes": 47289
+    },
+    {
+      "path": "archive/library/2026-11-22/KAN Restored/Documents/List of urls.md",
+      "git_blob_sha": "17efba9eae7d1a4fe9279b4bed5d0c19b990eb01",
+      "size_bytes": 1742
+    },
+    {
+      "path": "archive/library/2026-11-22/Root/C14_FULL_MATH_BENCH_SUMMARY.json",
+      "git_blob_sha": "7d5de1e83511a970736137f33a7db2a2fd1726df",
+      "size_bytes": 27192
+    },
+    {
+      "path": "archive/library/2026-11-22/Root/C15_Benchmark_Backlog_v5.json",
+      "git_blob_sha": "362e4d0e3504185f674ea31e9526203d9975e14e",
+      "size_bytes": 18383
+    },
+    {
+      "path": "archive/library/2026-11-22/Root/Cognitum-Lu-10-arm-model-augmentation-matrix.md",
+      "git_blob_sha": "ffdd7eaefbfb1ebaee0ffb9808778e816dccdd0a",
+      "size_bytes": 7484
+    },
+    {
+      "path": "archive/library/2026-11-22/Root/Cognitum-deletion-audit-20261119.md",
+      "git_blob_sha": "2ede84077229b432f680f6f40922a915a2f4a221",
+      "size_bytes": 12620
+    },
+    {
+      "path": "archive/library/2026-11-22/Root/Cognitum_C14_P0_Architecture_Addendum_v1_1_2026-10-27.md",
+      "git_blob_sha": "5fd931c523a0e71427185ee7a9a5f4c4ea74af80",
+      "size_bytes": 24347
+    },
+    {
+      "path": "archive/library/2026-11-22/Root/Cognitum_C15_P0_Standards_and_Research_Reaudit_2026-10-28.md",
+      "git_blob_sha": "b672a3eb6e7b3c08de75058f090f3c9597f6a384",
+      "size_bytes": 21300
+    },
+    {
+      "path": "archive/library/2026-11-22/Root/Cognitum_C15_P2J_Matched_Official_Evidence_2026-10-28.json",
+      "git_blob_sha": "9d26e56712a3b1c9920f6e39ad698fb7d15b5956",
+      "size_bytes": 5347
+    },
+    {
+      "path": "archive/library/2026-11-22/Root/Cognitum_C15_P2K_Milestone_Report_2026-10-28.md",
+      "git_blob_sha": "e36c19208ac4f9af476b3e8463f10d81391d8213",
+      "size_bytes": 8445
+    },
+    {
+      "path": "archive/library/2026-11-22/Root/Cognitum_Critical_Revision_1_3.md",
+      "git_blob_sha": "ba2f223988cd3ca8631a1fa9c62b4d5c8301a515",
+      "size_bytes": 42408
+    },
+    {
+      "path": "archive/library/2026-11-22/Root/Cognitum_Engineering_Standard_2026-10-27.md",
+      "git_blob_sha": "0183dc94ab82fda813a8e0cb2ae71adb5b401b7a",
+      "size_bytes": 11401
+    },
+    {
+      "path": "archive/library/2026-11-22/Root/Cognitum_HDC_KAN_Master_Mathematical_Capability_Register.md",
+      "git_blob_sha": "886036c85d1a5398030653acd6f8f5cbec94e63d",
+      "size_bytes": 47695
+    },
+    {
+      "path": "archive/library/2026-11-22/Root/Cognitum_MEL01_Compiled_Inventory.json",
+      "git_blob_sha": "ae9c3d156d914c2009eea09f5f726c84ba6d5aab",
+      "size_bytes": 145562
+    },
+    {
+      "path": "archive/library/2026-11-22/Root/Cognitum_Master_Mathematical_Capability_Reconciliation.md",
+      "git_blob_sha": "0d0139779b7104e2c56081714bbbfd966948ebfd",
+      "size_bytes": 45933
+    },
+    {
+      "path": "archive/library/2026-11-22/Root/Cognitum_Mathematical_Execution_Layer_Architecture.md",
+      "git_blob_sha": "dc6fb09bde4460129120ec26e9119e7a4520c1b6",
+      "size_bytes": 24957
+    },
+    {
+      "path": "archive/library/2026-11-22/Root/Cognitum_P13_Qwen_84_Blind_Questions_2026-10-30.json",
+      "git_blob_sha": "b9bc53e0327cc2252872820ab58e0d32a62128fb",
+      "size_bytes": 182370
+    },
+    {
+      "path": "archive/library/2026-11-22/Root/Cognitum_P13_Qwen_Benchmark_2026-10-30_Engineering_Report.md",
+      "git_blob_sha": "db264dc5d82608636a348ee54349422844e30763",
+      "size_bytes": 3960
+    },
+    {
+      "path": "archive/library/2026-11-22/Root/Cognitum_P13_Qwen_Benchmark_2026-10-30_Protocol.md",
+      "git_blob_sha": "5d003a3db6039eb8f62e62eeddac6ace684d1194",
+      "size_bytes": 6531
+    },
+    {
+      "path": "archive/library/2026-11-22/Root/Cognitum_P13_Qwen_Benchmark_2026-10-30_SOURCE_MANIFEST.json",
+      "git_blob_sha": "b0fbcd3982143df676881ad0bc66bef4136b6619",
+      "size_bytes": 114828
+    },
+    {
+      "path": "archive/library/2026-11-22/Root/Cognitum_P23_FULL_Independent_Analysis_2026-10-30.md",
+      "git_blob_sha": "f9f63f02ecb4ac9800407a3622065f4f5bd8c399",
+      "size_bytes": 3494
+    },
+    {
+      "path": "archive/library/2026-11-22/Root/Cognitum_Research_Charter.md",
+      "git_blob_sha": "fac0a8ce493f9cfe2c180d671c60b3c886dcab83",
+      "size_bytes": 8326
+    },
+    {
+      "path": "archive/library/2026-11-22/Root/Cognitum_Source_Informed_Revision_1_4.md",
+      "git_blob_sha": "f5e7f5f7301fa4be3aa2fd273c17a1772aef21e4",
+      "size_bytes": 59703
+    },
+    {
+      "path": "archive/library/2026-11-22/Root/Cognitum_Strengthened_Revision_1.1.md",
+      "git_blob_sha": "bcf35b6dd25d136df6119705ef6fb18456d6ba48",
+      "size_bytes": 10193
+    },
+    {
+      "path": "archive/library/2026-11-22/Root/Cognitum_Strengthened_Revision_1_2.md",
+      "git_blob_sha": "7b316815e848cae03cfff12d60a60aeb977aaed3",
+      "size_bytes": 36956
+    }
+  ],
+  "bundle_records": [
+    {
+      "original_library_path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/BENCH_FILES_SHA256.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 0,
+      "size_bytes": 1303
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/DEVELOPMENT_SMOKE_REDACTED.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 1,
+      "size_bytes": 881
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/MATH_COVERAGE_PLAN.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 2,
+      "size_bytes": 2140
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/README_FIRST.txt",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 3,
+      "size_bytes": 5521
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/README_MPFR_DISCOVERY_v1_2.txt",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 4,
+      "size_bytes": 2342
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/README_REPAIR_v1_1.txt",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 5,
+      "size_bytes": 2097
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/Windows_Acceptance_2026_11_03/README.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 6,
+      "size_bytes": 2353
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C14_Windows_Full_Math_Benchmark_2026_11_03/Windows_Acceptance_2026_11_03/WINDOWS_FULL_C14_MATH_BENCH_ACCEPTANCE_REDACTED.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 7,
+      "size_bytes": 4532
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15_Benchmark_Backlog_v3.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 8,
+      "size_bytes": 11480
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15_Benchmark_Backlog_v4.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 9,
+      "size_bytes": 14367
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15_Benchmark_Backlog_v5.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 10,
+      "size_bytes": 18383
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15_R2_1_Milestone_Report_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 11,
+      "size_bytes": 3976
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15_R2_1_Test_Evidence_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 12,
+      "size_bytes": 2994
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15_R2_Milestone_Report_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 13,
+      "size_bytes": 3481
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15_R2_Switch_Ablation_Pilot_Report_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 14,
+      "size_bytes": 4125
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15_T3_P2T_Benchmark_Backlog_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 15,
+      "size_bytes": 4328
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15_T3_P2X_Benchmark_Backlog_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 16,
+      "size_bytes": 4967
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15_T3_P2X_Local_Profile_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 17,
+      "size_bytes": 2385
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15_T3_P2X_Test_Evidence_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 18,
+      "size_bytes": 620
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15_T3_P2Y_Change_Inventory_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 19,
+      "size_bytes": 536
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15_T3_P2Y_Local_Profile_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 20,
+      "size_bytes": 992
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15_T3_P2Y_Test_Evidence_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 21,
+      "size_bytes": 1294
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15_T3_VM_Recovery_Validation_Backlog_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 22,
+      "size_bytes": 1287
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15_T3_Windows_ACL_Diagnostic_Order_Evidence_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 23,
+      "size_bytes": 1657
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15_T3_Windows_ACL_Fix_Verification_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 24,
+      "size_bytes": 1500
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15_T3_Windows_Native_Gate_Change_Inventory_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 25,
+      "size_bytes": 1151
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15_T3_Windows_Native_Test_Kit_Manifest_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 26,
+      "size_bytes": 615
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15_T3_Windows_Python_Fix_Validation_Evidence_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 27,
+      "size_bytes": 537
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15_WinHost_Change_Inventory_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 28,
+      "size_bytes": 1908
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15_WinHost_Test_Evidence_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-01.json",
+      "index": 29,
+      "size_bytes": 3059
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15-benchmark-backlog-v1.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 0,
+      "size_bytes": 5927
+    },
+    {
+      "original_library_path": "/Cognitum/Development/C15-benchmark-backlog-v2.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 1,
+      "size_bytes": 8849
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_25/frozen_protocol_B.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 2,
+      "size_bytes": 8108
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_25/frozen_protocol_B.sha256",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 3,
+      "size_bytes": 89
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_25/frozen_protocol.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 4,
+      "size_bytes": 7553
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_25/frozen_protocol.sha256",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 5,
+      "size_bytes": 87
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_25/SHA256SUMS.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 6,
+      "size_bytes": 8937
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_25/study_summary.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 7,
+      "size_bytes": 14334
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_28/frozen_protocol.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 8,
+      "size_bytes": 3547
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_28/frozen_protocol.sha256",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 9,
+      "size_bytes": 87
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_28/SHA256SUMS_CH28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 10,
+      "size_bytes": 13347
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_28/study_summary.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 11,
+      "size_bytes": 22852
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_29/SHA256SUMS_CH29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 12,
+      "size_bytes": 31357
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_30/benchmark_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 13,
+      "size_bytes": 10837
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_30/CH30_Benchmark_Final_Results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 14,
+      "size_bytes": 10837
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_30/DELIVERY_ATTESTATION.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 15,
+      "size_bytes": 2059
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_30/frozen_protocol.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 16,
+      "size_bytes": 1454
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_30/frozen_protocol.sha256",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 17,
+      "size_bytes": 107
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_30/package_manifest_summary.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 18,
+      "size_bytes": 301
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_30/SOURCE_SHA256.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 19,
+      "size_bytes": 1247
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_31/CH31_frozen_protocol_transfer.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 20,
+      "size_bytes": 3178
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_31/frozen_protocol.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 21,
+      "size_bytes": 3178
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_31/frozen_protocol.sha256",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 22,
+      "size_bytes": 87
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_31/SHA256SUMS_FULL_CH31.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 23,
+      "size_bytes": 64304
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_32/frozen_protocol.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 24,
+      "size_bytes": 3159
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_32/frozen_protocol.sha256",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 25,
+      "size_bytes": 87
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_32/hard_exit_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-02.json",
+      "index": 26,
+      "size_bytes": 512
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_32/heads.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 0,
+      "size_bytes": 1421
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_32/package_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 1,
+      "size_bytes": 418
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_32/SHA256SUMS_CH32_PACKAGE.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 2,
+      "size_bytes": 95158
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_33/chaos_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 3,
+      "size_bytes": 3523
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_33/checkpoint_heads.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 4,
+      "size_bytes": 1421
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_33/evidence_package_summary.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 5,
+      "size_bytes": 234
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_33/frozen_protocol.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 6,
+      "size_bytes": 4504
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_33/frozen_protocol.sha256",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 7,
+      "size_bytes": 87
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_33/GITHUB_EXPECTED_SHAS.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 8,
+      "size_bytes": 650
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_33/package_summary.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 9,
+      "size_bytes": 349
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_35/CH35_GitHub_Source_Part_1.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 10,
+      "size_bytes": 26767
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_35/CH35_GitHub_Source_Part_2.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 11,
+      "size_bytes": 18795
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_35/CH35_GitHub_Source_Part_3.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 12,
+      "size_bytes": 15357
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_36/audit_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 13,
+      "size_bytes": 382
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_36/duplicate_restart_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 14,
+      "size_bytes": 253
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_36/frozen_protocol.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 15,
+      "size_bytes": 1439
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_36/original15_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 16,
+      "size_bytes": 21308
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_36/package_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 17,
+      "size_bytes": 605
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_36/real_enospc_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 18,
+      "size_bytes": 1631
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_36/SOURCE_SHA256.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 19,
+      "size_bytes": 595
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_36/syscall_fsync_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 20,
+      "size_bytes": 735
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/frozen_pins.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 21,
+      "size_bytes": 4600
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000000_3d463f1b20a1906b52b11179758731b7b6efc626c4c676569faa7c27049aca18.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 22,
+      "size_bytes": 1551
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000001_401b21701b8776357181784dec9c1e0f4ba752f4d790ea8fd1572715c8cc8088.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 23,
+      "size_bytes": 1533
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000002_3487900da3f7e1b065e4233e71dd3206322668b59d56e41ed44b3f3caed6f5a1.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 24,
+      "size_bytes": 1554
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000003_882b68f5b4d306a600305846fad54b6154ef6dc6a5e252c3bcf77b9d792da0f3.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 25,
+      "size_bytes": 1536
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000004_ae4230921a23e06f1b8ff0468ab049974c7bde77a4e4f1d7bde5977411690640.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 26,
+      "size_bytes": 1533
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000005_b3433304eb43743db5996cf807600aa707283f3afd2242cecd21c7879f1c161d.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 27,
+      "size_bytes": 1536
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000006_97e3165067871ef2fb4f9fa31628132f353437ae82553391ec28c8e613c64c00.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-03.json",
+      "index": 28,
+      "size_bytes": 1536
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000007_4f659b713701ce6b62bfdbede53245758e83f1b1f83231c4f56e78927e150233.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 0,
+      "size_bytes": 1533
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000008_766a001c838c2e16886cad855ca769aae6649a1fce774f11e94707f7a15d7002.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 1,
+      "size_bytes": 1545
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000009_8fccd509203bbf70fbab8bc63687ca18041e97b99831ea35a9f4349059fd90f8.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 2,
+      "size_bytes": 1536
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000010_0be40a9a3c6a64199369c4a6242e7a3ed24968dbe90abb704710af0aa2c271e6.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 3,
+      "size_bytes": 1549
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000011_173d4f09e161d4aeb8c676c2643737f83da10cedb777cc2ee7dda3f56d9c297a.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 4,
+      "size_bytes": 1555
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000012_3dfd001b72328ba4d2aa88efacbcb374ff70c46a0c0b6f5b4880cda5e73220aa.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 5,
+      "size_bytes": 1552
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000013_2f8d06eb90b81979cd71e6838198cd6b5bbe041e7a3704ac9e6c050cf4b12c97.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 6,
+      "size_bytes": 1555
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_37/CH37_public_witness/revisions/00000014_1b417529b8f13a4b0e248921cc9aa6d30fd0a9008c5c2f99873182570f626bf3.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 7,
+      "size_bytes": 1555
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_37/frozen_protocol.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 8,
+      "size_bytes": 3307
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_37/original15_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 9,
+      "size_bytes": 39232
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_37/package_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 10,
+      "size_bytes": 598
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_37/public_audit.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 11,
+      "size_bytes": 1045
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/frozen_pins.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 12,
+      "size_bytes": 4600
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000000_87878c0cf9088c2be2caa378b2e8f35783e952f80ff746e888a42106f1b22c1c.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 13,
+      "size_bytes": 1551
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000001_900e5e871cbc764d35f1947eb5aae0569f07091e181920205417b5e879c2d201.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 14,
+      "size_bytes": 1533
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000002_54da257e980dcebf1fe95afbf9b6e0b3166f1eabfd331024e5434354ab7dd3a6.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 15,
+      "size_bytes": 1554
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000003_07a4dc51147dc904124e69017540153df509a158fdaf9ecc601a2fc7eb487926.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 16,
+      "size_bytes": 1536
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000004_9d5c8f17ba092e3d9c7b694c2bfbf3ab4a77bd6a117919dba509ed3379e7fa21.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 17,
+      "size_bytes": 1533
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000005_e508d36bb8371898f39a428760b2782d6da4f4c76c19005ce1d8de0fe923335e.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 18,
+      "size_bytes": 1536
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000006_6070f849a65a4d307409afd9598d4028af4c7f064bfc1e57884184572586cd64.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 19,
+      "size_bytes": 1536
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000007_ad5a7f9849b576d45a85981a18130a9c260ee367f54ce6e2c4838643dfe76ef3.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 20,
+      "size_bytes": 1533
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000008_d59ad82200b0edd3a4b9212a7cc25f71b7aa2c4198084f87bd76d5d1547c790e.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 21,
+      "size_bytes": 1536
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000009_d26e6c850fb5b53e83abfda5206fd391e33fbf0c3afb50deb25bdac49a781b01.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 22,
+      "size_bytes": 1545
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000010_6a1f241a4db0f1ac9bfb21e734710836ba496cfb1916c24a23bd0cc29e49fda9.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 23,
+      "size_bytes": 1549
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000011_e6cf127e8993ff758034cbc5cc21713357705887b94f79933dfd55c5ddabf808.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 24,
+      "size_bytes": 1555
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000012_f0860452fb0d5ae124aeda48a765d55d2ebfa8d6594fd17b60e8564995fcc298.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 25,
+      "size_bytes": 1552
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000013_8280ed1bac9a65831196b018beacc7b6c5ca8612d0a5a750da1207131833cb5a.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 26,
+      "size_bytes": 1555
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_38/CH38_public_witness/revisions/00000014_c8b2123d02a3da1a8e24cd2f1a631db0434e7ec89219c4059affe0bab364637e.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 27,
+      "size_bytes": 1555
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_38/frozen_protocol.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 28,
+      "size_bytes": 3270
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_38/original15_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-04.json",
+      "index": 29,
+      "size_bytes": 38631
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_38/package_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 0,
+      "size_bytes": 436
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_38/public_audit.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 1,
+      "size_bytes": 1045
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/frozen_pins.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 2,
+      "size_bytes": 4600
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000000_a9950b71883f72e5fb0b2a0b2411aca421f9de1e8a46050c1cf045740d4e6cde.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 3,
+      "size_bytes": 2049
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000001_c2d377a93d038382fe057c06ca70c8b79dc413b00fe0eeb052697e9930e96299.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 4,
+      "size_bytes": 2073
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000002_225401622c49a2831f855826063d8d1d635239de1172764bdd59b4df7fe58a53.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 5,
+      "size_bytes": 2077
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000003_b023665de9929b369a018139884073161b069faa7500a7345054887dbe3ce6af.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 6,
+      "size_bytes": 2053
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000004_6a70587658af7ee4edb76e3c8667930a4e3e356d08cc32824f41ce95f7187a85.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 7,
+      "size_bytes": 2049
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000005_59f77e9da642175209f8c696f8873f514b19528971d1db13425ed5e666a24a05.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 8,
+      "size_bytes": 2053
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000006_6e3f0c1aebd3611603aab1b2346e328bb0c1ea837c172b8436619c1d3db75a61.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 9,
+      "size_bytes": 2053
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000007_16f96030f3739d7514bb53bfe307850f2d36b7713674779e1014f111ac7a897d.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 10,
+      "size_bytes": 2053
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000008_f5503adcb09a5c58fa1e9d5c6d6923caceba2434a8637b268713a6c280404245.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 11,
+      "size_bytes": 2049
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000009_a7f55e53d6642e9f277fa54fe4e185409e4354ff0c94dd2b6e12d0e584694822.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 12,
+      "size_bytes": 2065
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000010_73468bc047399ee5d82edc8ba102ccc59a2734539d0a076ed315a30f4990e97e.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 13,
+      "size_bytes": 2070
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000011_61d3219ed5c2c6a7c7a281a6a50962ef861b3a75e9524b6d05a3ff18f7fb8b57.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 14,
+      "size_bytes": 2078
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000012_47a0759cb69426c1a29e98a14d97c72c11409d76c83fb5d45ad038fc2225b608.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 15,
+      "size_bytes": 2078
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000013_f4bb0065c6875d3d1e13315cf47884cfda94df1bc3c8def81e34407cd0982d25.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 16,
+      "size_bytes": 2074
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/CH39_public_witness/revisions/00000014_112980038c992461c0eaf43c2d3f066191e4c7404b058ba434c1ba1352af68c5.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 17,
+      "size_bytes": 2078
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/executed_source_sha256.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 18,
+      "size_bytes": 1283
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/forgery_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 19,
+      "size_bytes": 355
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/frozen_protocol.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 20,
+      "size_bytes": 5444
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/no_checker_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 21,
+      "size_bytes": 270
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/one_case_public_audit.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 22,
+      "size_bytes": 639
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/one_case_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 23,
+      "size_bytes": 5061
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/original15_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 24,
+      "size_bytes": 49275
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/package_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 25,
+      "size_bytes": 381
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/public_audit.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 26,
+      "size_bytes": 1045
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/Windows_Consolidated_CH23_CH39_2026_11_03/MPFR_Runtime_Bootstrap_V2/README_MPFR_FIX_V2.txt",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 27,
+      "size_bytes": 2229
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/Windows_Consolidated_CH23_CH39_2026_11_03/MPFR_Runtime_Bootstrap/README_MPFR.txt",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 28,
+      "size_bytes": 2407
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/Windows_Consolidated_CH23_CH39_2026_11_03/README_FIRST.txt",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-05.json",
+      "index": 29,
+      "size_bytes": 3815
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/Windows_Consolidated_CH23_CH39_2026_11_03/SELF_TEST_RESULTS_REDACTED.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 0,
+      "size_bytes": 1196
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/Windows_Consolidated_CH23_CH39_2026_11_03/TESTKIT_FILES_SHA256.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 1,
+      "size_bytes": 772
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/Windows_Test_Acceptance_2026_11_03/CH39_WINDOWS_ACCEPTANCE_REDACTED.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 2,
+      "size_bytes": 2296
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/Windows_TestKit_v2/PACKAGE_SHA256.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 3,
+      "size_bytes": 721
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/Windows_TestKit_v2/README_Windows.txt",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 4,
+      "size_bytes": 2507
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/Windows_TestKit_v2/VERIFY_KIT_SHA256.txt",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 5,
+      "size_bytes": 342
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/Windows_TestKit_v3/PACKAGE_SHA256.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 6,
+      "size_bytes": 721
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/Windows_TestKit_v3/README_Windows.txt",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 7,
+      "size_bytes": 1688
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/Windows_TestKit_v3/VERIFY_KIT_SHA256.txt",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 8,
+      "size_bytes": 189
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/Windows_TestKit/README_Windows.txt",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 9,
+      "size_bytes": 2617
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_39/Windows_TestKit/VERIFY_KIT_SHA256.txt",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 10,
+      "size_bytes": 338
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_B/CH40B_MANIFEST_SHA256.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 11,
+      "size_bytes": 1580
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_B/CH40B_original15_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 12,
+      "size_bytes": 14430
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_C/CH40C_PACKAGE_RESULTS.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 13,
+      "size_bytes": 556
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_C/CH40C_SOURCE_MANIFEST_SHA256.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 14,
+      "size_bytes": 3658
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_D/CH40D_PACKAGE_MANIFEST_SHA256.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 15,
+      "size_bytes": 4629
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_D/CH40D_PACKAGE_RESULTS.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 16,
+      "size_bytes": 447
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_D/CH40D_RESULTS/CH40D_FINAL_ACCEPTANCE.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 17,
+      "size_bytes": 5729
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_E/CH40E_FINAL_ACCEPTANCE.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 18,
+      "size_bytes": 8452
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_E/CH40E_MANIFEST_SHA256.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 19,
+      "size_bytes": 4575
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_E/CH40E_PACKAGE_RESULTS.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 20,
+      "size_bytes": 717
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_E/CH40E_READONLY_RESULTS/CH40E_READONLY_AUDIT.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 21,
+      "size_bytes": 5771
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_E/results/batch_1/SUMMARY.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 22,
+      "size_bytes": 5714
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_E/results/one_event_n80_i00_127_checked.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 23,
+      "size_bytes": 944
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_F/baseline_progress.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 24,
+      "size_bytes": 2878
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_F/CH40F_FULL_15_ACCEPTANCE.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 25,
+      "size_bytes": 14405
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_F/CH40F_MANIFEST_SHA256.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 26,
+      "size_bytes": 17034
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_F/CH40F_PACKAGE_RESULTS.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 27,
+      "size_bytes": 431
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_F/CH40F_RESEARCH_RECEIPT_SCOPE_TEST.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 28,
+      "size_bytes": 297
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_F/CH40F_SOURCE_SHA256.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-06.json",
+      "index": 29,
+      "size_bytes": 1606
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_F/Engineering_Report_CH_C14_40_F.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 0,
+      "size_bytes": 4193
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_F/extracted_smoke/CH40F_EXTRACTED_QUICK_AUDIT.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 1,
+      "size_bytes": 619
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_F/producer_progress.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 2,
+      "size_bytes": 3672
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_F/README.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 3,
+      "size_bytes": 2465
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_F/verifier_progress.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 4,
+      "size_bytes": 4287
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_F/verifier_tail_progress.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 5,
+      "size_bytes": 3241
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_G/accepted_results/CH40G_forged_worker_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 6,
+      "size_bytes": 985
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_G/accepted_results/CH40G_interrupted_checker_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 7,
+      "size_bytes": 996
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_G/accepted_results/CH40G_missing_checker_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 8,
+      "size_bytes": 988
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_G/accepted_results/CH40G_PUBLIC_AUDIT.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 9,
+      "size_bytes": 868
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_G/accepted_results/CH40G_tampered_trace_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 10,
+      "size_bytes": 986
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_G/accepted_results/CH40G_valid_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 11,
+      "size_bytes": 5930
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_G/accepted_results/public/frozen_pins.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 12,
+      "size_bytes": 4600
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_G/accepted_results/public/revisions/00000000_d13c90130bbdda4746677bb62fe65b31af3738dfa826a30de1e27df8d3b3cc82.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 13,
+      "size_bytes": 3236
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_G/CH40G_FILE_MANIFEST_SHA256.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 14,
+      "size_bytes": 4763
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_G/CH40G_FINAL_ACCEPTANCE.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 15,
+      "size_bytes": 2843
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_G/CH40G_PACKAGING_RESULTS.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 16,
+      "size_bytes": 437
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40_G/source/CAP_TRACE_PINS.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 17,
+      "size_bytes": 4661
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40/CH40_SOURCE_MANIFEST_SHA256.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 18,
+      "size_bytes": 1178
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_40/CH40A_original15_results.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 19,
+      "size_bytes": 20899
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_P2M_Milestone_Report_2026-10-28.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 20,
+      "size_bytes": 4279
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_Real_Image_Appearance_Milestone_Report_2026-10-28.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 21,
+      "size_bytes": 5602
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_Real_Image_Appearance_Repeat_Evidence_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 22,
+      "size_bytes": 694
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T2_P2N_Benchmark_Backlog_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 23,
+      "size_bytes": 2736
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T2_P2N_Milestone_Report_2026-10-28.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 24,
+      "size_bytes": 1857
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T2_P2N_Test_Evidence_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 25,
+      "size_bytes": 1192
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T2_P2O_Benchmark_Backlog_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 26,
+      "size_bytes": 2456
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T2_P2O_Milestone_Report_2026-10-28.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 27,
+      "size_bytes": 4987
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T2_P2O_Test_Evidence_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-07.json",
+      "index": 28,
+      "size_bytes": 1515
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T2_P2P_Benchmark_Backlog_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 0,
+      "size_bytes": 2601
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T2_P2P_Milestone_Report_2026-10-28.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 1,
+      "size_bytes": 4292
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T2_P2P_Test_Evidence_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 2,
+      "size_bytes": 1328
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T3_P2Q_Benchmark_Backlog_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 3,
+      "size_bytes": 3375
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T3_P2Q_Milestone_Report_2026-10-28.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 4,
+      "size_bytes": 3822
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T3_P2Q_Test_Evidence_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 5,
+      "size_bytes": 2821
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T3_P2R_Benchmark_Backlog_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 6,
+      "size_bytes": 2382
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T3_P2R_Milestone_Report_2026-10-28.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 7,
+      "size_bytes": 4741
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T3_P2R_Synthetic_Study_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 8,
+      "size_bytes": 1993
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T3_P2R_Test_Evidence_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 9,
+      "size_bytes": 1379
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T3_P2S_Benchmark_Backlog_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 10,
+      "size_bytes": 3117
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T3_P2S_Milestone_Report_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 11,
+      "size_bytes": 3687
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T3_P2S_Synthetic_Study_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 12,
+      "size_bytes": 3523
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T3_P2S_Test_Evidence_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 13,
+      "size_bytes": 1215
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T3_P2T_Milestone_Report_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 14,
+      "size_bytes": 3229
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T3_P2T_Test_Evidence_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 15,
+      "size_bytes": 729
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T3_P2U_Benchmark_Backlog_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 16,
+      "size_bytes": 2309
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T3_P2U_Synthetic_Demo_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 17,
+      "size_bytes": 1216
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T3_P2U_Test_Evidence_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 18,
+      "size_bytes": 2124
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T3_P2V_Benchmark_Backlog_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 19,
+      "size_bytes": 2976
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T3_P2V_Synthetic_Study_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 20,
+      "size_bytes": 2794
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T3_P2V_Test_Evidence_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 21,
+      "size_bytes": 1201
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T3_P2W_Benchmark_Backlog_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 22,
+      "size_bytes": 2833
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T3_P2W_Local_Profile_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 23,
+      "size_bytes": 1229
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_T3_P2W_Test_Evidence_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 24,
+      "size_bytes": 1899
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_Engineering_Standard_2026-10-27.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 25,
+      "size_bytes": 11401
+    },
+    {
+      "original_library_path": "/Cognitum/Development/P2T_Synthetic_Object_Motion_Evidence_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 26,
+      "size_bytes": 1232
+    },
+    {
+      "original_library_path": "/Cognitum/Development/START_HERE.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/development-part-08.json",
+      "index": 27,
+      "size_bytes": 3922
+    },
+    {
+      "original_library_path": "/C14_G17_Engineering_Report_2026-10-31.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 0,
+      "size_bytes": 3653
+    },
+    {
+      "original_library_path": "/C14_G18_Engineering_Report_2026-10-31.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 1,
+      "size_bytes": 7559
+    },
+    {
+      "original_library_path": "/C14_G22_Engineering_Report.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 2,
+      "size_bytes": 4425
+    },
+    {
+      "original_library_path": "/C14_G25_Gate_Closure_Report.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 3,
+      "size_bytes": 3996
+    },
+    {
+      "original_library_path": "/C14_G25_Nonproduction_Gate_Status.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 4,
+      "size_bytes": 1836
+    },
+    {
+      "original_library_path": "/C14_G25_Nonproduction_Gate_Status(1).json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 5,
+      "size_bytes": 1836
+    },
+    {
+      "original_library_path": "/C14_G25_Nonproduction_Integration_Report.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 6,
+      "size_bytes": 6407
+    },
+    {
+      "original_library_path": "/C14_G25_Release_Gate_Status.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 7,
+      "size_bytes": 1542
+    },
+    {
+      "original_library_path": "/C14_G25_Release_Gate_Status(1).json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 8,
+      "size_bytes": 1542
+    },
+    {
+      "original_library_path": "/C14_G25_Standalone_Supervisor_Report.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 9,
+      "size_bytes": 5320
+    },
+    {
+      "original_library_path": "/C15_Benchmark_Backlog_v3.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 10,
+      "size_bytes": 11480
+    },
+    {
+      "original_library_path": "/C15_Benchmark_Backlog_v4.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 11,
+      "size_bytes": 14367
+    },
+    {
+      "original_library_path": "/C15_Benchmark_Backlog_v4(1).json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 12,
+      "size_bytes": 14367
+    },
+    {
+      "original_library_path": "/C15_R2_1_Milestone_Report.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 13,
+      "size_bytes": 3976
+    },
+    {
+      "original_library_path": "/C15_R2_Milestone_Report.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 14,
+      "size_bytes": 3481
+    },
+    {
+      "original_library_path": "/c15_t3_p2s_study.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 15,
+      "size_bytes": 3523
+    },
+    {
+      "original_library_path": "/C15_T3_P2T_Benchmark_Backlog_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 16,
+      "size_bytes": 4328
+    },
+    {
+      "original_library_path": "/C15_T3_P2X_Benchmark_Backlog.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 17,
+      "size_bytes": 4967
+    },
+    {
+      "original_library_path": "/C15_T3_P2X_Local_Profile.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 18,
+      "size_bytes": 2385
+    },
+    {
+      "original_library_path": "/C15_T3_P2X_Milestone_Report.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 19,
+      "size_bytes": 3133
+    },
+    {
+      "original_library_path": "/C15_T3_P2Y_Benchmark_Backlog_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 20,
+      "size_bytes": 1383
+    },
+    {
+      "original_library_path": "/C15_T3_P2Y_Local_Profile.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 21,
+      "size_bytes": 992
+    },
+    {
+      "original_library_path": "/C15_T3_P2Y_Milestone_Report_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 22,
+      "size_bytes": 3670
+    },
+    {
+      "original_library_path": "/C15_T3_P2Y_Test_Evidence_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 23,
+      "size_bytes": 1294
+    },
+    {
+      "original_library_path": "/C15_T3_P2Z_Benchmark_Backlog_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 24,
+      "size_bytes": 1977
+    },
+    {
+      "original_library_path": "/C15_T3_P2Z_Clean_Crash_Evidence_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-01.json",
+      "index": 25,
+      "size_bytes": 946
+    },
+    {
+      "original_library_path": "/C15_T3_P2Z_Test_Evidence_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 0,
+      "size_bytes": 1755
+    },
+    {
+      "original_library_path": "/C15_T3_VM_Gate_Test_Evidence_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 1,
+      "size_bytes": 629
+    },
+    {
+      "original_library_path": "/C15_T3_VM_Reboot_and_Rollback_Milestone_Report_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 2,
+      "size_bytes": 2891
+    },
+    {
+      "original_library_path": "/C15_T3_VM_Recovery_Validation_Backlog_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 3,
+      "size_bytes": 1287
+    },
+    {
+      "original_library_path": "/C15_T3_Windows_Python_Prerequisite_Failure_And_Fix_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 4,
+      "size_bytes": 2798
+    },
+    {
+      "original_library_path": "/C15_T3_WinHost_Milestone_Report_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 5,
+      "size_bytes": 5019
+    },
+    {
+      "original_library_path": "/C15_WinHost_Test_Evidence_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 6,
+      "size_bytes": 3059
+    },
+    {
+      "original_library_path": "/CH40D_FINAL_ACCEPTANCE.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 7,
+      "size_bytes": 5861
+    },
+    {
+      "original_library_path": "/cog_postnative03_source_manifest.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 8,
+      "size_bytes": 2179
+    },
+    {
+      "original_library_path": "/Cognitum a trust layer around the model.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 9,
+      "size_bytes": 5560
+    },
+    {
+      "original_library_path": "/Cognitum_Alpha_C08_C09_P4_Verification_2026-10-30.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 10,
+      "size_bytes": 3338
+    },
+    {
+      "original_library_path": "/Cognitum_Alpha_C08_C09_P5_Milestone_Report_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 11,
+      "size_bytes": 4452
+    },
+    {
+      "original_library_path": "/Cognitum_Alpha_C08_C09_P5_Verification_2026-10-30.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 12,
+      "size_bytes": 4229
+    },
+    {
+      "original_library_path": "/Cognitum_Alpha_P2_Idempotency_Revisions_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 13,
+      "size_bytes": 17076
+    },
+    {
+      "original_library_path": "/Cognitum_Alpha_P2_Lifecycle_Gates_2026-10-30_TRANSFER.txt",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 14,
+      "size_bytes": 21086
+    },
+    {
+      "original_library_path": "/Cognitum_Alpha_P2_TRANSFER_FOR_GITHUB_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 15,
+      "size_bytes": 21086
+    },
+    {
+      "original_library_path": "/Cognitum_Alpha_P3_Durable_2026-10-30_TRANSFER.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 16,
+      "size_bytes": 17723
+    },
+    {
+      "original_library_path": "/Cognitum_Alpha_P3_Durable_2026-10-30_TRANSFER.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 17,
+      "size_bytes": 17723
+    },
+    {
+      "original_library_path": "/Cognitum_Alpha_P3_Durable_2026-10-30_TRANSFER(1).json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 18,
+      "size_bytes": 17723
+    },
+    {
+      "original_library_path": "/Cognitum_Alpha_P6_2_Signed_Admission_2026-10-30_Milestone_Report.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 19,
+      "size_bytes": 3606
+    },
+    {
+      "original_library_path": "/Cognitum_Alpha_P6_2_Signed_Admission_2026-10-30_Verification.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 20,
+      "size_bytes": 108845
+    },
+    {
+      "original_library_path": "/Cognitum_Alpha_P6_3_C08_C09_P9_2026-10-30_Milestone_Report.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 21,
+      "size_bytes": 1893
+    },
+    {
+      "original_library_path": "/Cognitum_Alpha_P6_3_C08_C09_P9_2026-10-30_Verification.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 22,
+      "size_bytes": 110403
+    },
+    {
+      "original_library_path": "/Cognitum_Alpha_P6_3_C08_C09_P9_2026-10-30_Verification(1).json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 23,
+      "size_bytes": 110403
+    },
+    {
+      "original_library_path": "/Cognitum_Alpha_P6_4_C08_C09_P10_2026-10-30_Milestone_Report.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 24,
+      "size_bytes": 5091
+    },
+    {
+      "original_library_path": "/Cognitum_Alpha_P6_4_C08_C09_P10_2026-10-30_Verification.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 25,
+      "size_bytes": 111887
+    },
+    {
+      "original_library_path": "/Cognitum_Alpha_P6_4_C08_C09_P10_2026-10-30_Verification(1).json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 26,
+      "size_bytes": 111887
+    },
+    {
+      "original_library_path": "/Cognitum_C08_C09_P12_2026-10-30_Engineering_Report.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 27,
+      "size_bytes": 5895
+    },
+    {
+      "original_library_path": "/Cognitum_C08_C09_P12_2026-10-30_Qwen_Independent_Offline_Audit.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 28,
+      "size_bytes": 15389
+    },
+    {
+      "original_library_path": "/Cognitum_C08_C09_P12_2026-10-30_Qwen_Independent_Offline_Audit(1).json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-02.json",
+      "index": 29,
+      "size_bytes": 15389
+    },
+    {
+      "original_library_path": "/Cognitum_C08_C09_P12_2026-10-30_SOURCE_MANIFEST.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 0,
+      "size_bytes": 113492
+    },
+    {
+      "original_library_path": "/Cognitum_C08_C09_P2_Integrity_Gates_2026-10-30_TRANSFER.txt",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 1,
+      "size_bytes": 28959
+    },
+    {
+      "original_library_path": "/Cognitum_C08_C09_P2_TRANSFER_FOR_GITHUB_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 2,
+      "size_bytes": 28959
+    },
+    {
+      "original_library_path": "/Cognitum_C08_C09_P3_Durable_2026-10-30_TRANSFER.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 3,
+      "size_bytes": 14795
+    },
+    {
+      "original_library_path": "/Cognitum_C08_C09_P3_Durable_2026-10-30_TRANSFER.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 4,
+      "size_bytes": 14795
+    },
+    {
+      "original_library_path": "/Cognitum_C08_C09_P6_Milestone_Report_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 5,
+      "size_bytes": 2709
+    },
+    {
+      "original_library_path": "/Cognitum_C08_C09_P6_Verification_2026-10-30.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 6,
+      "size_bytes": 2779
+    },
+    {
+      "original_library_path": "/Cognitum_C08_C09_P6_Verification_2026-10-30(1).json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 7,
+      "size_bytes": 2779
+    },
+    {
+      "original_library_path": "/Cognitum_C08_C09_P7_2026-10-30_Milestone_Report.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 8,
+      "size_bytes": 2659
+    },
+    {
+      "original_library_path": "/Cognitum_C08_C09_P8_2026-10-30_Milestone_Report.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 9,
+      "size_bytes": 4669
+    },
+    {
+      "original_library_path": "/Cognitum_C08_C09_P8_2026-10-30_Verification.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 10,
+      "size_bytes": 108468
+    },
+    {
+      "original_library_path": "/Cognitum_C08_C09_P8_2026-10-30_Verification(1).json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 11,
+      "size_bytes": 108468
+    },
+    {
+      "original_library_path": "/Cognitum_C08_C09_P9_Synthetic_Audit_2026-10-30.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 12,
+      "size_bytes": 8055
+    },
+    {
+      "original_library_path": "/Cognitum_C14_Sparse_EconML_Local_Validation_2026-10-28.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 13,
+      "size_bytes": 2862
+    },
+    {
+      "original_library_path": "/Cognitum_C15_Benchmark_Backlog_v1_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 14,
+      "size_bytes": 5927
+    },
+    {
+      "original_library_path": "/Cognitum_C15_GitHub_Source_Reconciliation_P13_to_P13B.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 15,
+      "size_bytes": 2123
+    },
+    {
+      "original_library_path": "/Cognitum_C15_P2F_Test_and_Next_Gate.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 16,
+      "size_bytes": 3950
+    },
+    {
+      "original_library_path": "/Cognitum_C15_P2G_Milestone_Report_2026-10-28.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 17,
+      "size_bytes": 6005
+    },
+    {
+      "original_library_path": "/Cognitum_C15_P2G_Test_Evidence_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 18,
+      "size_bytes": 4663
+    },
+    {
+      "original_library_path": "/Cognitum_C15_P2H_Milestone_Report_2026-10-28.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 19,
+      "size_bytes": 5997
+    },
+    {
+      "original_library_path": "/Cognitum_C15_P2H_RealData_Staging_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 20,
+      "size_bytes": 17783
+    },
+    {
+      "original_library_path": "/Cognitum_C15_P2I_Official_TrackEval_Milestone_Report_2026-10-28.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 21,
+      "size_bytes": 6343
+    },
+    {
+      "original_library_path": "/Cognitum_C15_P2J_Milestone_Report_2026-10-28.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 22,
+      "size_bytes": 5207
+    },
+    {
+      "original_library_path": "/Cognitum_C15_P2L_Milestone_Report_2026-10-28.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 23,
+      "size_bytes": 4069
+    },
+    {
+      "original_library_path": "/Cognitum_C15_P2L_Synthetic_Image_Study_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-03.json",
+      "index": 24,
+      "size_bytes": 1171
+    },
+    {
+      "original_library_path": "/Cognitum_C15_P2M_Milestone_Report_2026-10-28.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 0,
+      "size_bytes": 4279
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T2_P2N_Benchmark_Backlog_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 1,
+      "size_bytes": 2736
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T2_P2N_Milestone_Report_2026-10-28.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 2,
+      "size_bytes": 1857
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T2_P2O_Benchmark_Backlog_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 3,
+      "size_bytes": 2456
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T2_P2O_Milestone_Report_2026-10-28.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 4,
+      "size_bytes": 4987
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T2_P2P_Benchmark_Backlog_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 5,
+      "size_bytes": 2601
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T2_P2P_Milestone_Report_2026-10-28.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 6,
+      "size_bytes": 4292
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T2_P2P_Test_Evidence_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 7,
+      "size_bytes": 1328
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_Hypervisor_Poweroff_Provenance_Final_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 8,
+      "size_bytes": 6528
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_P2Q_Benchmark_Backlog_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 9,
+      "size_bytes": 3375
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_P2Q_Milestone_Report_2026-10-28.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 10,
+      "size_bytes": 3822
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_P2Q_Test_Evidence_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 11,
+      "size_bytes": 2821
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_P2R_Benchmark_Backlog_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 12,
+      "size_bytes": 2382
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_P2R_Milestone_Report_2026-10-28.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 13,
+      "size_bytes": 4741
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_P2R_Synthetic_Study_2026-10-28.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 14,
+      "size_bytes": 1993
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_P2S_Benchmark_Backlog_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 15,
+      "size_bytes": 3117
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_P2S_Milestone_Report_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 16,
+      "size_bytes": 3687
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_P2T_Milestone_Report_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 17,
+      "size_bytes": 3229
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_P2U_Benchmark_Backlog_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 18,
+      "size_bytes": 2309
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_P2U_Milestone_Report_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 19,
+      "size_bytes": 2608
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_P2U_Synthetic_Demo_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 20,
+      "size_bytes": 1216
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_P2V_Benchmark_Backlog_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 21,
+      "size_bytes": 2976
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_P2V_Milestone_Report_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 22,
+      "size_bytes": 3253
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_P2V_Synthetic_Study_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 23,
+      "size_bytes": 2794
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_P2W_Benchmark_Backlog_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 24,
+      "size_bytes": 2833
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_P2W_Local_Profile_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 25,
+      "size_bytes": 1229
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_P2W_Milestone_Report_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 26,
+      "size_bytes": 3458
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_P2Z_Milestone_Report_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 27,
+      "size_bytes": 2970
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_VirtualBox_Log_Provenance_Addendum_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-04.json",
+      "index": 28,
+      "size_bytes": 2769
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_VM_Gate_Final_Status_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 0,
+      "size_bytes": 2798
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_VM_Gate_Final_Status_2026-10-29(1).json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 1,
+      "size_bytes": 2798
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_Win11_Snapshot_Rollback_PASS_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 2,
+      "size_bytes": 3489
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_Win11_VM_Recovery_Combined_Evidence_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 3,
+      "size_bytes": 3756
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_Windows_x64_Process_Acceptance_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 4,
+      "size_bytes": 2588
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T4_P11_P13_Archive_Verification_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 5,
+      "size_bytes": 110728
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T4_P11_P13_Milestone_Report_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 6,
+      "size_bytes": 3972
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T4_P13B_Archive_Verification_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 7,
+      "size_bytes": 803
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T4_P13B_Archive_Verification_2026-10-29(1).json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 8,
+      "size_bytes": 803
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T4_P13B_Milestone_Report_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 9,
+      "size_bytes": 3133
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T4_P2_Archive_Verification_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 10,
+      "size_bytes": 638
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T4_P3_Archive_Verification_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 11,
+      "size_bytes": 1473
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T4_P4_Archive_Verification_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 12,
+      "size_bytes": 106921
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T4_P5_P7_Archive_Verification_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 13,
+      "size_bytes": 108257
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T4_P5_P7_Milestone_Report_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 14,
+      "size_bytes": 3307
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T4_P8_P10_Archive_Verification_2026-10-29.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 15,
+      "size_bytes": 109630
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T4_P8_P10_Milestone_Report_2026-10-29.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 16,
+      "size_bytes": 4501
+    },
+    {
+      "original_library_path": "/Cognitum_Claude_Independent_Review_Handoff_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 17,
+      "size_bytes": 22968
+    },
+    {
+      "original_library_path": "/Cognitum_Claude_Second_Round_Review_Questions_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 18,
+      "size_bytes": 8202
+    },
+    {
+      "original_library_path": "/Cognitum_Cloud_Prompt_Binding_Adversarial_Reproduction_2026-10-30.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 19,
+      "size_bytes": 546
+    },
+    {
+      "original_library_path": "/Cognitum_Cloud_Prompt_Binding_Security_2026-10-30_Engineering_Report.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 20,
+      "size_bytes": 3213
+    },
+    {
+      "original_library_path": "/Cognitum_Cloud_Prompt_Binding_Security_2026-10-30_Verification.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 21,
+      "size_bytes": 113284
+    },
+    {
+      "original_library_path": "/Cognitum_Component_Quality_P2_Report.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 22,
+      "size_bytes": 7461
+    },
+    {
+      "original_library_path": "/Cognitum_Component_Quality_P2_Report(1).md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 23,
+      "size_bytes": 7461
+    },
+    {
+      "original_library_path": "/Cognitum_Independent_Multi_Model_Comparison_2026-10-30_Engineering_Report.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 24,
+      "size_bytes": 2700
+    },
+    {
+      "original_library_path": "/Cognitum_Independent_Multi_Model_Comparison_2026-10-30_Scripted_No_Winner_Demo.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 25,
+      "size_bytes": 3363
+    },
+    {
+      "original_library_path": "/Cognitum_Local_First_Optional_Cloud_Bridge_2026-10-30_Engineering_Report.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 26,
+      "size_bytes": 3901
+    },
+    {
+      "original_library_path": "/Cognitum_Local_First_Optional_Cloud_Bridge_2026-10-30_Verification.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 27,
+      "size_bytes": 112218
+    },
+    {
+      "original_library_path": "/Cognitum_Local_First_Optional_Cloud_Bridge_2026-10-30_Verification(1).json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-05.json",
+      "index": 28,
+      "size_bytes": 112218
+    },
+    {
+      "original_library_path": "/Cognitum_Next_Test_Engineering_Report_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 0,
+      "size_bytes": 3159
+    },
+    {
+      "original_library_path": "/Cognitum_Next_Test_Fake_Win_2026-10-30.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 1,
+      "size_bytes": 1216
+    },
+    {
+      "original_library_path": "/Cognitum_ORtools_Independent_CP_SAT_Validation_2026-10-30.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 2,
+      "size_bytes": 2737
+    },
+    {
+      "original_library_path": "/Cognitum_P14_Offline_Receipt_Analysis_2026-10-30_Engineering_Report.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 3,
+      "size_bytes": 3297
+    },
+    {
+      "original_library_path": "/Cognitum_P15_Qwen_Pilot_Analysis_and_Targeted_Retest_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 4,
+      "size_bytes": 6327
+    },
+    {
+      "original_library_path": "/Cognitum_P16_Qwen_Retest_Engineering_Report_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 5,
+      "size_bytes": 4869
+    },
+    {
+      "original_library_path": "/Cognitum_P17_Reasoning_Sampler_Engineering_Report_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 6,
+      "size_bytes": 3976
+    },
+    {
+      "original_library_path": "/Cognitum_P18_Thinking_Control_2026-10-30_Engineering_Report.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 7,
+      "size_bytes": 2763
+    },
+    {
+      "original_library_path": "/Cognitum_P19_Native_API_Engineering_Report_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 8,
+      "size_bytes": 3813
+    },
+    {
+      "original_library_path": "/Cognitum_P19B_Capability_Compatibility_Engineering_Report_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 9,
+      "size_bytes": 5174
+    },
+    {
+      "original_library_path": "/Cognitum_P2_Alpha_Research_Archive_Verification_2026-10-30.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 10,
+      "size_bytes": 2262
+    },
+    {
+      "original_library_path": "/Cognitum_P2_Alpha_Research_Archive_Verification_2026-10-30(1).json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 11,
+      "size_bytes": 2262
+    },
+    {
+      "original_library_path": "/Cognitum_P20_Native_Scheduling_Engineering_Report_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 12,
+      "size_bytes": 4821
+    },
+    {
+      "original_library_path": "/Cognitum_P20B_Loopback_Timeout_Fix_2026-10-30_Engineering_Report.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 13,
+      "size_bytes": 2731
+    },
+    {
+      "original_library_path": "/Cognitum_P21_Independent_Schedule_Engineering_Report_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 14,
+      "size_bytes": 4173
+    },
+    {
+      "original_library_path": "/Cognitum_P21_P20_Independent_Schedule_Analysis_2026-10-30.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 15,
+      "size_bytes": 4198
+    },
+    {
+      "original_library_path": "/Cognitum_P21_P20_Independent_Schedule_Analysis_2026-10-30(1).json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 16,
+      "size_bytes": 4198
+    },
+    {
+      "original_library_path": "/Cognitum_P22_Engineering_Report_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 17,
+      "size_bytes": 4831
+    },
+    {
+      "original_library_path": "/Cognitum_P23_Engineering_Report_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 18,
+      "size_bytes": 3003
+    },
+    {
+      "original_library_path": "/Cognitum_P24_P23_Dual_Grade_2026-10-30.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 19,
+      "size_bytes": 5311
+    },
+    {
+      "original_library_path": "/Cognitum_P24_P23_Dual_Grade_2026-10-30(1).json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 20,
+      "size_bytes": 5311
+    },
+    {
+      "original_library_path": "/Cognitum_P24_P23_Dual_Grade_Engineering_Report_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 21,
+      "size_bytes": 4974
+    },
+    {
+      "original_library_path": "/Cognitum_P25_Offline_Paired_Analysis_Engineering_Report_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 22,
+      "size_bytes": 3169
+    },
+    {
+      "original_library_path": "/Cognitum_P25_P23_Full_Paired_Evidence_2026-10-30.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 23,
+      "size_bytes": 13777
+    },
+    {
+      "original_library_path": "/Cognitum_P25_P23_Full_Paired_Evidence_2026-10-30(1).json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 24,
+      "size_bytes": 13777
+    },
+    {
+      "original_library_path": "/Cognitum_P25_P23_Pilot_Paired_Evidence_2026-10-30.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 25,
+      "size_bytes": 6430
+    },
+    {
+      "original_library_path": "/Cognitum_P26_Host_Scoped_Gateway_Engineering_Report_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 26,
+      "size_bytes": 4444
+    },
+    {
+      "original_library_path": "/Cognitum_P26_Offline_Demonstration_2026-10-30.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-06.json",
+      "index": 27,
+      "size_bytes": 1057
+    },
+    {
+      "original_library_path": "/Cognitum_P27_Durable_Grant_Recovery_Engineering_Report_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-07.json",
+      "index": 0,
+      "size_bytes": 5403
+    },
+    {
+      "original_library_path": "/Cognitum_P27_Offline_Recovery_Demonstration_2026-10-30.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-07.json",
+      "index": 1,
+      "size_bytes": 1402
+    },
+    {
+      "original_library_path": "/Cognitum_P28_Claude_Full_Run_Diagnostic_2026-10-30.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-07.json",
+      "index": 2,
+      "size_bytes": 22389
+    },
+    {
+      "original_library_path": "/Cognitum_P28_Engineering_Report_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-07.json",
+      "index": 3,
+      "size_bytes": 6080
+    },
+    {
+      "original_library_path": "/Cognitum_P3_Alpha_HDC_KAN_Milestone_Report_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-07.json",
+      "index": 4,
+      "size_bytes": 2744
+    },
+    {
+      "original_library_path": "/Cognitum_P30_Film_Continuity_Offline_Demonstration_2026-10-30.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-07.json",
+      "index": 5,
+      "size_bytes": 4460
+    },
+    {
+      "original_library_path": "/Cognitum_P31_Offline_Dependency_Demo_2026-10-30.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-07.json",
+      "index": 6,
+      "size_bytes": 10648
+    },
+    {
+      "original_library_path": "/Cognitum_P31_Offline_Dependency_Demo_2026-10-30(1).json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-07.json",
+      "index": 7,
+      "size_bytes": 10648
+    },
+    {
+      "original_library_path": "/Cognitum_P6_1_Windows_VM_Result_Analysis_and_SQLite_Fix_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-07.json",
+      "index": 8,
+      "size_bytes": 3997
+    },
+    {
+      "original_library_path": "/Cognitum_Practical_Tool_Execution_2026-10-30_Engineering_Report.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-07.json",
+      "index": 9,
+      "size_bytes": 2088
+    },
+    {
+      "original_library_path": "/Cognitum_Practical_Tool_Execution_Results_2026-10-30.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-07.json",
+      "index": 10,
+      "size_bytes": 1487
+    },
+    {
+      "original_library_path": "/Cognitum_Practical_Tool_Execution_Results_2026-10-30(1).json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-07.json",
+      "index": 11,
+      "size_bytes": 1487
+    },
+    {
+      "original_library_path": "/Cognitum_Qwen_FULL_24_Request_Independent_Report_2026-10-30.md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-07.json",
+      "index": 12,
+      "size_bytes": 4464
+    },
+    {
+      "original_library_path": "/Cognitum_Qwen_FULL_Independent_Verification_2026-10-30.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-07.json",
+      "index": 13,
+      "size_bytes": 1394
+    },
+    {
+      "original_library_path": "/Cognitum_Qwen_FULL_Independent_Verification_2026-10-30(1).json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-07.json",
+      "index": 14,
+      "size_bytes": 1394
+    },
+    {
+      "original_library_path": "/Cognitum_Qwen_Pilot_Independent_Reaudit_2026-10-30.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-07.json",
+      "index": 15,
+      "size_bytes": 1389
+    },
+    {
+      "original_library_path": "/COGNITUM_REGRESSION_SUMMARY.json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-07.json",
+      "index": 16,
+      "size_bytes": 7015
+    },
+    {
+      "original_library_path": "/COGNITUM_REGRESSION_SUMMARY(1).json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-07.json",
+      "index": 17,
+      "size_bytes": 7278
+    },
+    {
+      "original_library_path": "/COGNITUM_REGRESSION_SUMMARY(2).json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-07.json",
+      "index": 18,
+      "size_bytes": 7456
+    },
+    {
+      "original_library_path": "/COGNITUM_REGRESSION_SUMMARY(3).json",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-07.json",
+      "index": 19,
+      "size_bytes": 7437
+    },
+    {
+      "original_library_path": "/Cognitum_Strengthened_Revision_1_2(1).md",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-07.json",
+      "index": 20,
+      "size_bytes": 37064
+    },
+    {
+      "original_library_path": "/ssm_multisite.py.txt",
+      "archive_bundle_path": "archive/library/2026-11-22/bundles/root-part-07.json",
+      "index": 21,
+      "size_bytes": 19524
+    }
+  ],
+  "exclusions": [
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_29/study_summary.json",
+      "reason": "text incomplete, potential sensitive reference or transformed"
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_31/benchmark_results.json",
+      "reason": "text incomplete, potential sensitive reference or transformed"
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_32/benchmark_results.json",
+      "reason": "text incomplete, potential sensitive reference or transformed"
+    },
+    {
+      "original_library_path": "/Cognitum/Development/CH_C14_33/benchmark_results.json",
+      "reason": "text incomplete, potential sensitive reference or transformed"
+    },
+    {
+      "original_library_path": "/Cognitum/Development/Cognitum_C15_Real_Image_Appearance_Official_Evidence_2026-10-28.json",
+      "reason": "text incomplete, potential sensitive reference or transformed"
+    },
+    {
+      "original_library_path": "/C14_FULL_MATH_BENCH_SUMMARY(1).json",
+      "reason": "large multi-page data"
+    },
+    {
+      "original_library_path": "/C14_FULL_MATH_BENCH_SUMMARY(2).json",
+      "reason": "large multi-page data"
+    },
+    {
+      "original_library_path": "/C15_R2_1_Official_Metrics.csv",
+      "reason": "transformed CSV or bytes mismatch"
+    },
+    {
+      "original_library_path": "/C15_R2_Official_Per_Sequence.csv",
+      "reason": "transformed CSV or bytes mismatch"
+    },
+    {
+      "original_library_path": "/Cognitum_C08_C09_P7_2026-10-30_Verification.json",
+      "reason": "large multi-page data"
+    },
+    {
+      "original_library_path": "/Cognitum_C15_P0_Comparator_Gap_Matrix_2026-10-28.csv",
+      "reason": "transformed CSV or bytes mismatch"
+    },
+    {
+      "original_library_path": "/Cognitum_C15_P2I_TrackEval_Per_Sequence_2026-10-28.csv",
+      "reason": "transformed CSV or bytes mismatch"
+    },
+    {
+      "original_library_path": "/Cognitum_C15_P2J_Official_Metrics_2026-10-28.csv",
+      "reason": "transformed CSV or bytes mismatch"
+    },
+    {
+      "original_library_path": "/Cognitum_C15_P2K_Official_Metrics_2026-10-28.csv",
+      "reason": "transformed CSV or bytes mismatch"
+    },
+    {
+      "original_library_path": "/Cognitum_C15_T3_VirtualBox_HardOff_Operator_Guide_2026-10-29.md",
+      "reason": "possible sensitive text"
+    },
+    {
+      "original_library_path": "/Cognitum_MEL01_Compiled_Inventory(1).json",
+      "reason": "large multi-page data"
+    },
+    {
+      "original_library_path": "/Cognitum_VM_Readiness.json",
+      "reason": "transformed CSV or bytes mismatch"
+    },
+    {
+      "original_library_path": "/Cognitum_VM_Readiness.txt",
+      "reason": "transformed CSV or bytes mismatch"
+    },
+    {
+      "original_library_path": "/Cognitum-Library-cleanup-recovery-20261119.csv",
+      "reason": "transformed CSV or bytes mismatch"
+    },
+    {
+      "original_library_path": "/ssm_postnative01_test_source.txt",
+      "reason": "possible sensitive text"
+    }
+  ],
+  "separately_recovered": [
+    {
+      "original_library_path": "/Cognitum_MEL01_Compiled_Inventory.json",
+      "reason": "large multi-page data"
+    },
+    {
+      "original_library_path": "/Cognitum_P13_Qwen_84_Blind_Questions_2026-10-30.json",
+      "reason": "large multi-page data"
+    }
+  ]
+}
