@@ -14,6 +14,10 @@ on:
       - scripts/cog-r5-physical02-r3-r1-admit-signed-release.ps1
       - scripts/cog-r5-physical02-r3-r1-deploy-approved-release.ps1
       - scripts/cog-r5-physical02-r3-r1-ci-approval-signature.ps1
+      - scripts/cog-r5-physical02-r3-r1-private-gpg-build.ps1
+      - scripts/cog-r5-physical02-r3-r1-private-gpg-verify.ps1
+      - scripts/cog-r5-physical02-r3-r1-private-gpg-physical.ps1
+      - scripts/cog-r5-physical02-r3-r1-ci-private-gpg.ps1
       - scripts/cog_r5_r3_r1_bundle.py
       - scripts/cog-r5-physical02-r3-r1-build-signed-release.ps1
       - scripts/cog-r5-physical02-r3-r1-physical-scm-observe.ps1
@@ -36,7 +40,7 @@ jobs:
       - name: Verify syntax and read-only admission code
         shell: pwsh
         run: |
-          foreach($p in @('scripts/cog-r5-physical02-r3-r1-runtime-audit.ps1','scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1','scripts/cog-r5-physical02-r3-r1-signed-installer.ps1','scripts/cog-r5-physical02-r3-r1-enroll-production.ps1','scripts/cog-r5-physical02-r3-r1-ci-scm-lifecycle.ps1','scripts/cog-r5-physical02-r3-r1-ci-nsis-package.ps1','scripts/cog-r5-physical02-r3-r1-verify-detached-approval.ps1','scripts/cog-r5-physical02-r3-r1-admit-signed-release.ps1','scripts/cog-r5-physical02-r3-r1-deploy-approved-release.ps1','scripts/cog-r5-physical02-r3-r1-ci-approval-signature.ps1','scripts/cog-r5-physical02-r3-r1-build-signed-release.ps1','scripts/cog-r5-physical02-r3-r1-physical-scm-observe.ps1')){
+          foreach($p in @('scripts/cog-r5-physical02-r3-r1-runtime-audit.ps1','scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1','scripts/cog-r5-physical02-r3-r1-signed-installer.ps1','scripts/cog-r5-physical02-r3-r1-enroll-production.ps1','scripts/cog-r5-physical02-r3-r1-ci-scm-lifecycle.ps1','scripts/cog-r5-physical02-r3-r1-ci-nsis-package.ps1','scripts/cog-r5-physical02-r3-r1-verify-detached-approval.ps1','scripts/cog-r5-physical02-r3-r1-admit-signed-release.ps1','scripts/cog-r5-physical02-r3-r1-deploy-approved-release.ps1','scripts/cog-r5-physical02-r3-r1-ci-approval-signature.ps1','scripts/cog-r5-physical02-r3-r1-private-gpg-build.ps1','scripts/cog-r5-physical02-r3-r1-private-gpg-verify.ps1','scripts/cog-r5-physical02-r3-r1-private-gpg-physical.ps1','scripts/cog-r5-physical02-r3-r1-ci-private-gpg.ps1','scripts/cog-r5-physical02-r3-r1-build-signed-release.ps1','scripts/cog-r5-physical02-r3-r1-physical-scm-observe.ps1')){
             $tokens=$null
             $errors=$null
             [void][Management.Automation.Language.Parser]::ParseFile((Resolve-Path $p).Path,[ref]$tokens,[ref]$errors)
@@ -110,6 +114,11 @@ jobs:
             if(-not $denied){throw 'Hosted CI was allowed to promote release into production'}
           }
           Write-Host 'PASS_CI_ONLY_NO_PHYSICAL_ADMISSION_OR_OUTPUT_RELEASE'
+      - name: CI-only disposable GPG private release verification and physical denial
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          & ./scripts/cog-r5-physical02-r3-r1-ci-private-gpg.ps1 -ExactSourceSha $env:GITHUB_SHA
       - name: Compile distinct genuine no-worker production SCM bootstrap
         shell: pwsh
         run: |
