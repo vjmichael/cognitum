@@ -5,6 +5,10 @@
 //! genuine SCM lifecycle ownership and fail-closed stop handling.
 //! Signing, installer, grants and physical acceptance are separate gates.
 #![deny(unsafe_op_in_unsafe_fn)]
+#[cfg(all(windows,feature="protected-ssm-qualification"))]
+mod qual_appcontainer;
+#[cfg(all(windows,feature="protected-ssm-qualification"))]
+mod qual_ssm;
 #[cfg(windows)]
 mod service {
     use std::{ffi::{c_void,OsStr},io,mem,os::windows::ffi::OsStrExt,
@@ -12,6 +16,11 @@ mod service {
         thread,time::Duration};
 
     type Handle=*mut c_void;
+    // Test-only derived service name; the accepted no-worker installed service
+    // retains its own identity and bytes. No test image is installable as R3-R1.
+    #[cfg(feature="protected-ssm-qualification")]
+    const SERVICE:&str="CognitumSsmProductionQualifierV1";
+    #[cfg(not(feature="protected-ssm-qualification"))]
     const SERVICE:&str="CognitumSsmSupervisorV1";
     const OWN_PROCESS:u32=0x10;
     const STOPPED:u32=1;
@@ -30,6 +39,8 @@ mod service {
     const JOB_EXTENDED_LIMIT_INFORMATION:u32=9;
     const JOB_BASIC_ACCOUNTING_INFORMATION:u32=1;
     const JOB_LIMIT_KILL_ON_JOB_CLOSE:u32=0x2000;
+    #[cfg(feature="protected-ssm-qualification")]
+    const JOB_LIMIT_ACTIVE:u32=0x8;
     static STOP:AtomicBool=AtomicBool::new(false);
 
     #[repr(C)]
@@ -133,6 +144,11 @@ mod service {
         let job=Owned(handle);
         let mut limit=ExtLimit::default();
         limit.basic.flags=JOB_LIMIT_KILL_ON_JOB_CLOSE;
+        #[cfg(feature="protected-ssm-qualification")]
+        {
+            limit.basic.flags|=JOB_LIMIT_ACTIVE;
+            limit.basic.active_limit=1;
+        }
         if unsafe {SetInformationJobObject(job.0,JOB_EXTENDED_LIMIT_INFORMATION,
                  (&mut limit as *mut ExtLimit).cast(),mem::size_of::<ExtLimit>() as u32)}==0 {
             return Err(io::Error::last_os_error());
@@ -150,6 +166,18 @@ mod service {
         if counter.active_processes!=0 || counter.total_processes!=0 {
             return Err(io::Error::new(io::ErrorKind::PermissionDenied,
                 "unapproved process entered production supervisor Job"));
+        }
+        Ok(())
+    }
+    #[cfg(feature="protected-ssm-qualification")]
+    fn assert_active_empty(job:&Owned)->io::Result<()> {
+        let mut value=JobAccounting::default();
+        if unsafe {QueryInformationJobObject(job.0,JOB_BASIC_ACCOUNTING_INFORMATION,
+                   (&mut value as *mut JobAccounting).cast(),
+                   mem::size_of::<JobAccounting>() as u32,ptr::null_mut())}==0 ||
+           value.active_processes!=0 {
+            return Err(io::Error::new(io::ErrorKind::PermissionDenied,
+                       "qualified SCM Job still has a living numerical worker"));
         }
         Ok(())
     }
@@ -192,16 +220,30 @@ mod service {
             }
         };
         if report(handle,RUNNING,0).is_err(){return;}
-        // No named-pipe endpoint and no mathematical operation. Only the
-        // externally accepted Lu Core operation bridge may later unlock work.
+        // NO Core operations are admitted here. The feature-gated successor
+        // proves one independently pinned, sealed numerical vector only.
+        // It is never compiled into the accepted private owner installer.
+        #[cfg(feature="protected-ssm-qualification")]
+        if crate::qual_ssm::execute(job.0,&STOP).is_err(){
+            let _=report(handle,STOP_PENDING,0);
+            drop(job);
+            let _=report(handle,STOPPED,4);
+            return;
+        }
         let mut failed=false;
         while !STOP.load(Ordering::Acquire) {
+            #[cfg(not(feature="protected-ssm-qualification"))]
             if assert_no_workers(&job).is_err(){failed=true;break;}
+            #[cfg(feature="protected-ssm-qualification")]
+            if assert_active_empty(&job).is_err(){failed=true;break;}
             thread::sleep(Duration::from_millis(100));
         }
         let _=report(handle,STOP_PENDING,0);
+        #[cfg(not(feature="protected-ssm-qualification"))]
         if assert_no_workers(&job).is_err(){failed=true;}
-        drop(job); // kill-on-close remains armed; no child is ever launched.
+        #[cfg(feature="protected-ssm-qualification")]
+        if assert_active_empty(&job).is_err(){failed=true;}
+        drop(job); // kill-on-close remains armed; qualification child was reaped.
         let _=report(handle,STOPPED,if failed{3}else{0});
     }
     fn wide(s:&OsStr)->Vec<u16>{
