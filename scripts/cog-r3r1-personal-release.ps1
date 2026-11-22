@@ -171,7 +171,7 @@ if($Phase -eq 'Check'){
   signed_release=$false
   physical_installed_accepted=$false
   output_release_authorized=$false
- }|ConvertTo-Json -Compress
+ }|ConvertTo-Json -Depth 8 -Compress
  return
 }
 if($ExactSourceSha -cnotmatch '^[a-f0-9]{40}$' -or $head[0] -cne $ExactSourceSha){
@@ -219,7 +219,7 @@ if($Phase -eq 'Candidate' -or $Phase -eq 'Production'){
   provenance_sha256=$p
   may_sign_without_separately_reviewed_hashes=$false
   output_release_authorized=$false
- }|ConvertTo-Json -Compress
+ }|ConvertTo-Json -Depth 8 -Compress
  return
 }
 if(-not $gpg){Refuse 'GnuPG executable unavailable'}
