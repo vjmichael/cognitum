@@ -14,13 +14,13 @@ if(-not $gpg){
 if(-not (Test-Path -LiteralPath $gpg -PathType Leaf)){throw 'Original Windows GnuPG executable unavailable'}
 $stage=Join-Path $env:RUNNER_TEMP ('cog-r3r1-disposable-gpg-'+$env:GITHUB_RUN_ID)
 if(Test-Path -LiteralPath $stage){throw 'Reused CI-only synthetic signature fixture'}
-$home=Join-Path $stage 'home'
+$gpgHome=Join-Path $stage 'home'
 $out=Join-Path $stage 'release'
 $runtime=Join-Path $out 'payload\runtime'
-New-Item -ItemType Directory -Path $home,$runtime -Force|Out-Null
+New-Item -ItemType Directory -Path $gpgHome,$runtime -Force|Out-Null
 $former=$env:GNUPGHOME
 try{
- $env:GNUPGHOME=$home
+ $env:GNUPGHOME=$gpgHome
  $who='Cognitum CI ephemeral test <cog-fixture@example.invalid>'
  & $gpg --batch --no-tty --pinentry-mode loopback --passphrase '' --quick-generate-key $who ed25519 sign 1d 2>&1 |Out-Null
  if($LASTEXITCODE -ne 0){throw 'Disposable one-run-only GPG key fixture creation failed'}
