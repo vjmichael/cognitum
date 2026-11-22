@@ -158,3 +158,27 @@ def canonical_candidate(value: Mapping[str, Any]) -> bytes:
     """Serialization helper for TEST VECTORS only. Never signs or approves."""
     return (json.dumps(value, sort_keys=True, separators=(",", ":"),
                        ensure_ascii=True, allow_nan=False) + "\n").encode("ascii")
+
+
+def _cli() -> None:
+    """Read-only admission CLI after a *separate* owner's GPG verification."""
+    import argparse
+    from pathlib import Path
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--manifest", type=Path, required=True)
+    parser.add_argument("--approved-manifest-sha256", required=True)
+    parser.add_argument("--approved-source-sha", required=True)
+    parser.add_argument("--approved-gpg-primary-fingerprint", required=True)
+    args = parser.parse_args()
+    data = args.manifest.read_bytes()
+    observed = validate(
+        data, externally_approved_manifest_sha256=args.approved_manifest_sha256,
+        externally_approved_source_sha=args.approved_source_sha,
+        externally_approved_gpg_primary_fingerprint=args.approved_gpg_primary_fingerprint,
+    )
+    print(json.dumps(observed, sort_keys=True, separators=(",", ":")))
+
+
+if __name__ == "__main__":
+    _cli()
