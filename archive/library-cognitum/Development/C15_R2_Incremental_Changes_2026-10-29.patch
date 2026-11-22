@@ -1,0 +1,810 @@
+--- a/R2_START_HERE.md
++++ b/R2_START_HERE.md
+@@ -0,0 +1,34 @@
++# Cognitum C15 — Appearance Association R2
++
++Status: **experimental / research-only**; no Lu host integration, no authenticated identity, no independent detector.
++
++## Changes versus frozen real-image R1
++
++1. **Adaptive appearance weighting** — reduce image-match influence when competing track templates are visually indistinguishable. Model confidence is heuristic; not calibrated.
++2. **Guarded feature updates** — do not assimilate ambiguous matches into the active appearance representation; use conservative EMA for clear matches.
++3. **Additional real-image appearance evidence** — pinned 128-dimensional spatial HSV descriptor from actual image pixels alongside the existing pinned 128-D grayscale descriptor. These are handcrafted features, **not** learned ReID.
++4. **Improved motion** — 4D center/velocity Kalman filter with explicit process noise, innovation-covariance (Mahalanobis) gating and Joseph-form covariance correction. No camera-motion compensation or physical calibration is claimed.
++5. **Bounded long-gap gallery** — retain prior reliable templates for confirmed tracks and attempt appearance-constrained re-entry up to a configured finite age.
++6. **Ambiguity management** — evidence-journal alternatives, frozen unreliable updates, optional abstention with ephemeral tentative identities. Forced labels may be exported **only** to a benchmark and are never identity authorization.
++7. **Size/geometry consistency** — box-size-ratio gating and soft overlap cost.
++
++Every change is a switch in `R2Config`, so it can be individually disabled for ablation. All outputs are hypotheses. The R2 report contract lives at `proto/cognitum/spatial/v1/appearance_r2.proto`; the prior schema remains unchanged. Hashes bind feature bytes to image/frame/box, **not** sensor authenticity.
++
++## Experimental designs
++
++- `tools/run_c15_r2_real_images.py`: R2 strict ambiguity-abstention and no-color ablation vs frozen R1/MPNTrack on P2K's three selected MOT17 sequences.
++- `tools/run_c15_r2_forced_ablation.py`: offline-only forced top-1 alternative, explicitly unauthoritative, with ambiguity and blocked-update counts; trained settings are not learned or auto-tuned.
++- Original MPNTrack detections are unchanged and GT IDs never enter the associator. This remains identity-only and **not** an independent end-to-end tracking system.
++- `--DO_PREPROC True` is required for official TrackEval MOT17 scoring, with pinned TrackEval source and independently obtained MOT17 training labels.
++- **No broad generalization claims**: these three sequences have already been inspected and are not a fresh holdout. Re-evaluate against unseen sequences and independent detectors before accepting a performance improvement.
++
++## Minimal verification
++
++```bash
++PYTHONPATH=. python -m pytest -q tests/test_c15_r2_appearance.py
++PYTHONPATH=. python tools/verify_protobuf_schemas.py --require
++```
++
++### Never interpret a forced benchmark ID as authority
++
++Even when an offline benchmark requires an ID in every MOT record, a near-tied match is still unverified. Lu is never modified or granted an action based on these assignments.
+--- a/cognitum/spatial_appearance_r2.py
++++ b/cognitum/spatial_appearance_r2.py
+@@ -0,0 +1,375 @@
++"""C15 Appearance Association R2: optional, offline ID-blind research associator.
++
++Seven independently switchable changes: appearance reliability, guarded feature
++updates, color descriptor, Kalman CV motion, gallery re-entry, ambiguity abstention,
++plus size-aware geometry. No source track IDs/GT or host authority can enter.
++
++Its returned track labels are *benchmark hypotheses*, never authenticated identity.
++"""
++from __future__ import annotations
++from collections import Counter, deque
++from dataclasses import dataclass, field
++from typing import Mapping
++import hashlib
++import math
++import numpy as np
++from scipy.optimize import linear_sum_assignment
++from cognitum.spatial_p2k_dense_identity import Detection, Params, validate_parameters
++from cognitum.spatial_p2l_appearance import (observation_id, _image, ENCODER_ID,
++    ENCODER_DIGEST, CONVERSATION, P2LRejected)
++from cognitum.spatial_appearance_evidence import assess, AppearanceRejected
++from cognitum.proto import spatial_appearance_pb2 as pb
++
++COLOR_ID = 'c15.r2.spatial-hsv8.v1'
++COLOR_DIGEST = hashlib.sha256(b'C15:R2:SPATIAL-HSV8:4X4:128D:V1').digest()
++MODEL_ID = 'c15.appearance-association.r2.research'
++
++class R2Rejected(ValueError):
++    pass
++
++
++@dataclass(frozen=True)
++class R2Config:
++    adaptive_appearance: bool = True
++    guarded_updates: bool = True
++    color_features: bool = True
++    kalman_motion: bool = True
++    long_gap_gallery: bool = True
++    ambiguous_abstention: bool = True
++    size_geometry: bool = True
++    max_reentry_gap: int = 48
++    gallery_limit: int = 6
++    match_margin: float = 0.35
++    feature_update_rate: float = 0.18
++    appearance_weight: float = 8.0
++    color_weight: float = 0.55
++    max_appearance_distance: float = 0.85
++    max_color_distance: float = 0.9
++    max_size_log_ratio: float = 1.35
++    kalman_process_sigma: float = 4.0
++    measurement_sigma: float = 10.0
++    mahalanobis_gate: float = 16.0
++    reentry_feature_threshold: float = 0.3
++
++
++def check_config(c:R2Config):
++    if not isinstance(c,R2Config): raise R2Rejected('INVALID_CONFIG')
++    bool_fields=('adaptive_appearance','guarded_updates','color_features','kalman_motion',
++        'long_gap_gallery','ambiguous_abstention','size_geometry')
++    if any(type(getattr(c,k)) is not bool for k in bool_fields):raise R2Rejected('INVALID_SWITCH')
++    if type(c.max_reentry_gap)!=int or not 13<=c.max_reentry_gap<=240 or type(c.gallery_limit)!=int or not 1<=c.gallery_limit<=16:
++        raise R2Rejected('INVALID_CAPACITY')
++    fields=('match_margin','feature_update_rate','appearance_weight','color_weight',
++        'max_appearance_distance','max_color_distance','max_size_log_ratio',
++        'kalman_process_sigma','measurement_sigma','mahalanobis_gate','reentry_feature_threshold')
++    if any(not math.isfinite(getattr(c,k)) for k in fields):raise R2Rejected('NONFINITE_CONFIG')
++    if not (0<=c.match_margin<=10 and 0<=c.feature_update_rate<=1 and
++            0<=c.appearance_weight<=100 and 0<=c.color_weight<=1 and
++            0<c.max_appearance_distance<=2 and 0<c.max_color_distance<=2 and
++            0.1<=c.max_size_log_ratio<=5 and 0.01<=c.kalman_process_sigma<=200 and
++            0.1<=c.measurement_sigma<=200 and 1<=c.mahalanobis_gate<=100 and
++            0<c.reentry_feature_threshold<=2):raise R2Rejected('INVALID_CONFIG_RANGE')
++
++
++def color_histogram_from_rgb(rgb, d:Detection)->tuple[float,...]:
++    """4x4 spatial HSV categories, 8 bins/tile. Handcrafted, non-ReID."""
++    if not isinstance(d,Detection) or not all(math.isfinite(x) for x in (d.x,d.y,d.w,d.h)) or d.w<=0 or d.h<=0:
++        raise R2Rejected('INVALID_BOX')
++    l=max(0,math.floor(d.x)); t=max(0,math.floor(d.y))
++    r=min(rgb.width,math.ceil(d.x+d.w)); b=min(rgb.height,math.ceil(d.y+d.h))
++    if r-l<4 or b-t<4:raise R2Rejected('INVALID_CROP')
++    a=np.asarray(rgb.crop((l,t,r,b)).convert('HSV'),dtype=np.uint8)
++    hue=(a[:,:,0].astype(np.uint16)*6//256).astype(np.uint8)
++    cat=np.where(a[:,:,1]<48, np.where(a[:,:,2]<128,6,7), hue)
++    out=np.zeros(128,dtype=np.float64)
++    h,w=cat.shape
++    for iy in range(4):
++        for ix in range(4):
++            tile=cat[iy*h//4:(iy+1)*h//4, ix*w//4:(ix+1)*w//4]
++            if not tile.size:raise R2Rejected('EMPTY_TILE')
++            out[8*(iy*4+ix):8*(iy*4+ix+1)]=np.bincount(tile.ravel(),minlength=8)/tile.size
++    out/=np.linalg.norm(out)
++    return tuple(map(float,out))
++
++
++def color_descriptors(frames:Mapping[int,list[Detection]], images:Mapping[int,bytes],
++                      *,sequence:str, conversation_id:str=CONVERSATION)->dict[tuple[int,int],pb.AppearanceDescriptor]:
++    from PIL import Image, ImageOps
++    import io
++    if set(images)!={f for f,ds in frames.items() if ds}:
++        raise R2Rejected('IMAGE_FRAME_SET_MISMATCH')
++    result={}
++    for frame in sorted(frames):
++        if not frames[frame]:continue
++        payload=images[frame]
++        _image(payload) # enforce existing P2L size/decodability guard
++        with Image.open(io.BytesIO(payload)) as raw:
++            rgb=ImageOps.exif_transpose(raw).convert('RGB')
++        digest=hashlib.sha256(payload).digest()
++        for index,d in enumerate(frames[frame]):
++            vec=color_histogram_from_rgb(rgb,d)
++            spec=pb.AppearanceDescriptor(schema_version=1,model_id=COLOR_ID,
++                image_source_id=sequence,detection_id=observation_id(sequence,d,index),
++                conversation_id=conversation_id,frame=frame,encoder_sha256=COLOR_DIGEST,
++                frame_sha256=digest,vector=vec,research_only=True,grants_authority=False)
++            assess(spec)
++            result[frame,index]=spec
++    return result
++
++
++def _unit(v):
++    x=np.asarray(v,dtype=np.float64)
++    norm=np.linalg.norm(x)
++    if not np.isfinite(norm) or norm<1e-12:raise R2Rejected('INVALID_VECTOR')
++    return x/norm
++
++
++def _cos(a,b):return float(max(0,min(2,1-np.dot(a,b))))
++
++
++@dataclass
++class _State:
++    tid:int
++    frame:int
++    x:np.ndarray
++    P:np.ndarray
++    w:float
++    h:float
++    gray:np.ndarray
++    color:np.ndarray|None
++    gallery:deque=field(default_factory=deque)
++    hits:int=1
++    uncertain:bool=False
++
++
++def _init_state(tid:int,frame:int,d:Detection,g,c,R2Config_inst):
++    cx,cy=d.center
++    return _State(tid,frame,np.array([cx,cy,0.,0.]),np.diag([225.,225.,900.,900.]),d.w,d.h,g,c,
++        deque(maxlen=R2Config_inst.gallery_limit))
++
++
++def _predict(s:_State,dt:int,c:R2Config):
++    F=np.eye(4);F[0,2]=F[1,3]=dt
++    noise=c.kalman_process_sigma**2
++    # Continuous white acceleration covariance over dt, with explicit process noise.
++    Q=noise*np.array([[dt**4/4,0,dt**3/2,0],[0,dt**4/4,0,dt**3/2],
++                      [dt**3/2,0,dt**2,0],[0,dt**3/2,0,dt**2]],dtype=float)
++    return F@s.x, F@s.P@F.T+Q
++
++
++def _correction(state, pred, P, cx,cy,c):
++    R=(c.measurement_sigma**2)*np.eye(2)
++    S=P[:2,:2]+R
++    K=P[:,:2]@np.linalg.inv(S)
++    z=np.array([cx,cy])-pred[:2]
++    state.x=pred+K@z
++    # Joseph stabilized update, symmetric nonnegative covariance.
++    eye=np.eye(4);H=np.zeros((2,4));H[:,:2]=np.eye(2)
++    KH=K@H
++    state.P=(eye-KH)@P@(eye-KH).T+K@R@K.T
++    state.P=(state.P+state.P.T)*0.5
++
++
++def _iou_center(w1,h1,w2,h2,dx,dy):
++    iw=max(0,min(w1,w2,(w1+w2)/2-abs(dx)))
++    ih=max(0,min(h1,h2,(h1+h2)/2-abs(dy)))
++    inter=iw*ih
++    return inter/max(1e-10,w1*h1+w2*h2-inter)
++
++
++def associate_r2(frames:Mapping[int,list[Detection]], *, num_frames:int, sequence:str,
++                 image_bytes:Mapping[int,bytes], gray_descriptors:Mapping[tuple[int,int],pb.AppearanceDescriptor],
++                 color_descriptors_map:Mapping[tuple[int,int],pb.AppearanceDescriptor]|None=None,
++                 params:Params=Params(), config:R2Config=R2Config()):
++    """ID-blind R2 hypothesis assignments; ambiguity may spawn a tentative track ID.
++
++    Gray and color sources must be bound to identical actual image bytes/boxes.
++    Ground truth and source tracker identity are never accepted as inputs.
++    """
++    validate_parameters(params);check_config(config)
++    if type(num_frames)!=int or not 1<=num_frames<=100000 or not sequence or len(sequence)>128:
++        raise R2Rejected('INVALID_INPUT')
++    if any(type(f)!=int or not 1<=f<=num_frames for f in frames):raise R2Rejected('INVALID_FRAME')
++    keys={(f,i) for f,ds in frames.items() for i in range(len(ds))}
++    if not keys or len(keys)>500000 or set(gray_descriptors)!=keys or set(image_bytes)!={f for f,ds in frames.items() if ds}:
++        raise R2Rejected('INCOMPLETE_INPUT')
++    if config.color_features and (color_descriptors_map is None or set(color_descriptors_map)!=keys):
++        raise R2Rejected('COLOR_EVIDENCE_MISSING')
++    if color_descriptors_map is not None and set(color_descriptors_map)!=keys:raise R2Rejected('EXTRA_COLOR_EVIDENCE')
++    vetted={}
++    for f,ds in frames.items():
++        if len(ds)>params.max_boxes:raise R2Rejected('DENSITY_EXCEEDS_CAPACITY')
++        if not ds:continue
++        payload=image_bytes[f];_image(payload);digest=hashlib.sha256(payload).digest()
++        for i,d in enumerate(ds):
++            if not isinstance(d,Detection) or d.frame!=f or d.w<=0 or d.h<=0 or not all(math.isfinite(v) for v in (d.x,d.y,d.w,d.h)):
++                raise R2Rejected('INVALID_DETECTION')
++            binding=observation_id(sequence,d,i)
++            specs=[(gray_descriptors[(f,i)],ENCODER_ID,ENCODER_DIGEST)]
++            if config.color_features:specs.append((color_descriptors_map[(f,i)],COLOR_ID,COLOR_DIGEST))
++            vecs=[]
++            for spec,model,enc in specs:
++                try:assess(spec)
++                except AppearanceRejected as exc:raise R2Rejected('INVALID_APPEARANCE') from exc
++                if (spec.frame!=f or spec.image_source_id!=sequence or spec.detection_id!=binding or
++                    spec.conversation_id!=CONVERSATION or spec.frame_sha256!=digest or
++                    spec.model_id!=model or spec.encoder_sha256!=enc):raise R2Rejected('PROVENANCE_MISMATCH')
++                vecs.append(_unit(spec.vector))
++            vetted[f,i]=(vecs[0],vecs[1] if len(vecs)>1 else None)
++    states:dict[int,_State]={};labels={};nextid=1;counts=Counter();audit=[]
++    for frame in range(1,num_frames+1):
++        # Unresolved tentative IDs are ephemeral. Only established tracks may
++        # enter the extended gallery; this prevents identity-abstention storms.
++        def ttl_for(s):
++            if s.uncertain:return 2
++            if config.long_gap_gallery and s.hits>=3:return config.max_reentry_gap
++            return params.max_gap_frames
++        states={tid:s for tid,s in states.items() if frame-s.frame<=ttl_for(s)}
++        if len(states)>params.max_tracks:raise R2Rejected('ACTIVE_TRACK_LIMIT')
++        ds=frames.get(frame,[])
++        if not ds:continue
++        active=sorted(states.values(),key=lambda x:x.tid)
++        n=len(ds);t=len(active)
++        predicted={s.tid:_predict(s,frame-s.frame,config) for s in active}
++        distinctiveness={}
++        if config.adaptive_appearance:
++            for s in active:
++                others=[_cos(s.gray,o.gray) for o in active if o.tid!=s.tid]
++                distinctiveness[s.tid]=max(0.15,min(1.,min(others)/0.35)) if others else 1.
++        scores=np.full((n,t+n),1e10,dtype=float)
++        scores[:,t:]=params.unmatched_cost+np.arange(n)[None,:]*1e-10
++        appdist=np.full((n,t),float('inf'))
++        for i,d in enumerate(ds):
++            gray,color=vetted[frame,i];cx,cy=d.center
++            for j,s in enumerate(active):
++                dt=frame-s.frame
++                pred,P=predicted[s.tid]
++                dx=cx-pred[0] if config.kalman_motion else cx-s.x[0]
++                dy=cy-pred[1] if config.kalman_motion else cy-s.x[1]
++                motion=0.5*((dx*dx+dy*dy)/(params.sigma_px**2))
++                if config.kalman_motion:
++                    # The configured CV model has diagonal XY innovation
++                    # covariance; avoid allocating a matrix for every pair.
++                    norm2=float(dx*dx/(P[0,0]+config.measurement_sigma**2)+
++                                dy*dy/(P[1,1]+config.measurement_sigma**2))
++                    motion=0.5*norm2
++                    if norm2>config.mahalanobis_gate:continue
++                elif math.hypot(dx,dy)>params.max_speed_px_per_frame*dt+3*params.sigma_px:continue
++                if config.size_geometry:
++                    size_dist=abs(math.log(d.w/s.w))+abs(math.log(d.h/s.h))
++                    if size_dist>2*config.max_size_log_ratio:continue
++                    ratio_cost=0.3*size_dist
++                    iou=_iou_center(s.w,s.h,d.w,d.h,dx,dy)
++                    geometry_cost=0.35*(1-iou)
++                else:ratio_cost=geometry_cost=0
++                dg=_cos(gray,s.gray)
++                if config.long_gap_gallery and s.gallery:
++                    dg=min([dg]+[_cos(gray,oldg) for oldg,_ in s.gallery])
++                dc=_cos(color,s.color) if color is not None and s.color is not None else 0
++                if config.long_gap_gallery and color is not None and s.gallery:
++                    dc=min([dc]+[_cos(color,oldc) for _,oldc in s.gallery if oldc is not None])
++                if dg>config.max_appearance_distance or (color is not None and dc>config.max_color_distance):continue
++                appearance=(1-config.color_weight)*dg+config.color_weight*dc if color is not None else dg
++                appdist[i,j]=appearance
++                if dt>params.max_gap_frames and (not config.long_gap_gallery or appearance>config.reentry_feature_threshold):continue
++                distinct=1.0
++                if config.adaptive_appearance:
++                    # If enrolled tracks are visually indistinguishable,
++                    # down-weight appearance rather than repeating O(tracks^2)
++                    # comparisons for every detection.
++                    distinct=distinctiveness[s.tid]
++                    if dt>params.max_gap_frames:distinct=max(distinct,0.9)
++                w=config.appearance_weight*distinct
++                score=motion+ratio_cost+geometry_cost+w*appearance
++                if math.isfinite(score) and score<=params.unmatched_cost:
++                    scores[i,j]=score+1e-9*j
++        row,col=linear_sum_assignment(scores)
++        if len(row)!=n:raise R2Rejected('ASSIGNMENT_INCOMPLETE')
++        result=[None]*n
++        for i,j in zip(row.tolist(),col.tolist()):
++            d=ds[i];cx,cy=d.center;gray,color=vetted[frame,i]
++            is_match=(j<t and scores[i,j]<1e9)
++            ambiguous=False
++            candidates=[]
++            if is_match:
++                # Both sides: nearest competing track and next-best detection
++                # for this track, plus explicit unmatched option.
++                alternative=min(float(np.min(np.delete(scores[i,:t],j))) if t>1 else 1e10,
++                                float(np.min(np.delete(scores[:,j],i))) if n>1 else 1e10,
++                                params.unmatched_cost)
++                margin=alternative-scores[i,j]
++                ambiguous=margin<=config.match_margin
++                candidates=[active[k].tid for k in np.argsort(scores[i,:t])[:min(t,3)] if scores[i,k]<1e9]
++                if ambiguous:counts['ambiguous_matches']+=1
++                if config.ambiguous_abstention and ambiguous:
++                    is_match=False;counts['abstained_identity_proposals']+=1
++            if is_match:
++                s=active[j];dt=frame-s.frame
++                pred,P=predicted[s.tid]
++                if config.kalman_motion:_correction(s,pred,P,cx,cy,config)
++                else:
++                    vx=(cx-s.x[0])/dt;vy=(cy-s.x[1])/dt
++                    s.x=np.array([cx,cy,vx,vy]);s.P=np.diag([params.sigma_px**2]*4)
++                s.frame=frame;s.w=d.w;s.h=d.h;s.hits+=1;s.uncertain=False
++                # Never update a questionable template; maintain bounded
++                # gallery with old reliable observations for re-entry.
++                if not (config.guarded_updates and ambiguous):
++                    rate=config.feature_update_rate if config.guarded_updates else 0.4
++                    if config.long_gap_gallery:
++                        s.gallery.append((s.gray.copy(),s.color.copy() if s.color is not None else None))
++                    s.gray=_unit((1-rate)*s.gray+rate*gray)
++                    if color is not None and s.color is not None:s.color=_unit((1-rate)*s.color+rate*color)
++                    counts['template_updates']+=1
++                else:counts['template_updates_blocked']+=1
++                if dt>params.max_gap_frames:counts['gallery_reentries']+=1
++                counts['matched_boxes']+=1;result[i]=s.tid
++                if ambiguous:counts['forced_ambiguous_research_matches']+=1
++            else:
++                if nextid>1000000:raise R2Rejected('TRACK_ID_CAPACITY')
++                tid=nextid;nextid+=1
++                states[tid]=_init_state(tid,frame,d,gray,color,config)
++                states[tid].uncertain=ambiguous
++                result[i]=tid;counts['new_identity_proposals']+=1
++            if ambiguous:
++                audit.append({'frame':frame,'detection_index':i,'candidate_ids':candidates,
++                              'decision':'tentative_new_id' if not is_match else 'forced_hypothesis',
++                              'not_authorized':True})
++        if len(set(result))!=n:raise R2Rejected('DUPLICATE_FRAME_IDS')
++        labels[frame]=result
++        counts['input_boxes']+=n;counts['observed_frames']+=1
++        counts['max_frame_boxes']=max(counts['max_frame_boxes'],n)
++        counts['max_active_tracks']=max(counts['max_active_tracks'],len(states))
++    counts['frames_without_detections']=num_frames-counts['observed_frames']
++    counts['research_only_no_authority']=1
++    counts['unattested_image_observations']=len(keys)
++    return labels,dict(counts),audit
++
++
++def to_protobuf_report(*, labels:dict, stats:dict, audit:list, sequence:str,
++                       config:R2Config, conversation_id:str=CONVERSATION):
++    """Emit a versioned, read-only Protobuf hypothesis artifact for C15 consumers."""
++    from dataclasses import asdict
++    import json
++    from cognitum.proto import spatial_appearance_r2_pb2 as msg
++    check_config(config)
++    if not sequence or not conversation_id or not labels:
++        raise R2Rejected('INVALID_REPORT_INPUT')
++    digest=hashlib.sha256(json.dumps(asdict(config),sort_keys=True,allow_nan=False).encode()).digest()
++    result=msg.R2ResearchReport(schema_version=1,conversation_id=conversation_id,
++            sequence_id=sequence,model_id=MODEL_ID,configuration_sha256=digest,
++            research_only=True,grants_authority=False,
++            abstained_identity_proposals=stats.get('abstained_identity_proposals',0),
++            template_updates_blocked=stats.get('template_updates_blocked',0),
++            gallery_reentries=stats.get('gallery_reentries',0))
++    by_key={(a['frame'],a['detection_index']):a for a in audit}
++    for frame in sorted(labels):
++        if type(frame) is not int or frame<1:raise R2Rejected('INVALID_REPORT_FRAME')
++        ids=labels[frame]
++        if len(ids)!=len(set(ids)):raise R2Rejected('DUPLICATE_FRAME_IDS')
++        for i,ident in enumerate(ids):
++            if type(ident) is not int or ident<1:raise R2Rejected('INVALID_REPORT_ID')
++            a=by_key.get((frame,i))
++            result.hypotheses.add(frame=frame,observation_ordinal=i,
++                proposed_track_id=ident,alternative_track_ids=a['candidate_ids'] if a else [],
++                ambiguous=bool(a),tentative=bool(a and a['decision']=='tentative_new_id'))
++    return result
+--- a/cognitum/proto/spatial_appearance_r2_pb2.py
++++ b/cognitum/proto/spatial_appearance_r2_pb2.py
+@@ -0,0 +1,6 @@
++"""Compiler-derived C15 R2 research-hypothesis contract."""
++from google.protobuf import descriptor_pool as pool
++from google.protobuf.internal import builder
++DESCRIPTOR=pool.Default().AddSerializedFile(bytes.fromhex('0a27636f676e6974756d2f7370617469616c2f76312f617070656172616e63655f72322e70726f746f1213636f676e6974756d2e7370617469616c2e763122fc010a1752324173736f63696174696f6e4879706f74686573697312140a056672616d6518012001280452056672616d65122f0a136f62736572766174696f6e5f6f7264696e616c18022001280d52126f62736572766174696f6e4f7264696e616c122a0a1170726f706f7365645f747261636b5f6964180320012804520f70726f706f736564547261636b496412320a15616c7465726e61746976655f747261636b5f6964731804200328045213616c7465726e6174697665547261636b496473121c0a09616d626967756f75731805200128085209616d626967756f7573121c0a0974656e746174697665180620012808520974656e7461746976652298040a10523252657365617263685265706f727412250a0e736368656d615f76657273696f6e18012001280d520d736368656d6156657273696f6e12270a0f636f6e766572736174696f6e5f6964180220012809520e636f6e766572736174696f6e4964121f0a0b73657175656e63655f6964180320012809520a73657175656e6365496412190a086d6f64656c5f696418042001280952076d6f64656c496412310a14636f6e66696775726174696f6e5f73686132353618052001280c5213636f6e66696775726174696f6e53686132353612230a0d72657365617263685f6f6e6c79180620012808520c72657365617263684f6e6c7912290a106772616e74735f617574686f72697479180720012808520f6772616e7473417574686f72697479124c0a0a6879706f74686573657318082003280b322c2e636f676e6974756d2e7370617469616c2e76312e52324173736f63696174696f6e4879706f746865736973520a6879706f74686573657312400a1c6162737461696e65645f6964656e746974795f70726f706f73616c73180920012804521a6162737461696e65644964656e7469747950726f706f73616c7312380a1874656d706c6174655f757064617465735f626c6f636b6564180a20012804521674656d706c61746555706461746573426c6f636b6564122b0a1167616c6c6572795f7265656e7472696573180b20012804521067616c6c6572795265656e7472696573620670726f746f33'))
++builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
++builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'cognitum.proto.spatial_appearance_r2_pb2', globals())
+--- a/proto/cognitum/spatial/v1/appearance_r2.proto
++++ b/proto/cognitum/spatial/v1/appearance_r2.proto
+@@ -0,0 +1,24 @@
++syntax = "proto3";
++package cognitum.spatial.v1;
++// C15 R2 offline evidence only; never host identity or permission authority.
++message R2AssociationHypothesis {
++  uint64 frame = 1;
++  uint32 observation_ordinal = 2;
++  uint64 proposed_track_id = 3;
++  repeated uint64 alternative_track_ids = 4;
++  bool ambiguous = 5;
++  bool tentative = 6;
++}
++message R2ResearchReport {
++  uint32 schema_version = 1;
++  string conversation_id = 2;
++  string sequence_id = 3;
++  string model_id = 4;
++  bytes configuration_sha256 = 5;
++  bool research_only = 6;
++  bool grants_authority = 7;
++  repeated R2AssociationHypothesis hypotheses = 8;
++  uint64 abstained_identity_proposals = 9;
++  uint64 template_updates_blocked = 10;
++  uint64 gallery_reentries = 11;
++}
+--- a/tools/run_c15_r2_real_images.py
++++ b/tools/run_c15_r2_real_images.py
+@@ -0,0 +1,112 @@
++"""Matched MOT17 real-image R2 ablation (original IDs hidden from both candidates)."""
++from __future__ import annotations
++import argparse,configparser,hashlib,json,shutil,subprocess,sys,time
++from dataclasses import asdict,replace
++from pathlib import Path
++from cognitum import spatial_p2l_appearance as old
++from cognitum import spatial_appearance_r2 as r2
++from cognitum import spatial_p2k_dense_identity as dense
++from cognitum import spatial_p2k_challenge_gate as challenge
++from cognitum import spatial_mot17_realdata_gate as rd
++from cognitum.spatial_trackeval_bridge import read_summary
++
++ARMS=('MPNTrackOriginal','CognitumRealAppearanceVelocity','CognitumR2All','CognitumR2NoColor')
++
++def sha(p:Path):
++    h=hashlib.sha256()
++    with p.open('rb') as f:
++        for x in iter(lambda:f.read(1024*1024),b''):h.update(x)
++    return h.hexdigest()
++
++def copy_input(src:Path,dst:Path):
++    if dst.exists():raise RuntimeError('STAGE_NONEMPTY')
++    dst.mkdir(parents=True)
++    for seq in challenge.SEQUENCES:
++        for name in (f'gt/MOT17-train/{seq}/gt/gt.txt',f'gt/MOT17-train/{seq}/seqinfo.ini'):
++            target=dst/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(src/name,target)
++        for arm in ARMS[:2]:
++            name=f'trackers/MOT17-train/{arm}/data/{seq}.txt'
++            target=dst/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(src/name,target)
++    (dst/'gt/seqmaps').mkdir(parents=True)
++    shutil.copyfile(src/'gt/seqmaps/MOT17-train.txt',dst/'gt/seqmaps/MOT17-train.txt')
++
++
++def run(*,baseline:Path,train:Path,out:Path,source:Path,source_zip:Path):
++    copy_input(baseline,out)
++    evidence={'milestone':'C15_APPEARANCE_ASSOCIATION_R2','version':'R2.v1','research_only':True,
++       'source_tracker_ids_passed_to_r2':False,'ground_truth_passed_to_r2':False,
++       'matched_boxes':True,'sequences':{},'model':r2.MODEL_ID,
++       'variants':{'CognitumR2All':asdict(r2.R2Config()),
++                   'CognitumR2NoColor':asdict(replace(r2.R2Config(),color_features=False))},
++       'frames_sha256':{},'inputs_sha256':{},'outputs_sha256':{}}
++    for seq in challenge.SEQUENCES:
++        begin=time.monotonic()
++        src=out/f'trackers/MOT17-train/MPNTrackOriginal/data/{seq}.txt'
++        cfg=configparser.ConfigParser();cfg.read(train/seq/'seqinfo.ini')
++        nframes=int(cfg['Sequence']['seqLength'])
++        frames,source_rows=dense.parse_id_blind(src.read_bytes(),num_frames=nframes)
++        images={f:(train/seq/'img1'/f'{f:06d}.jpg').read_bytes() for f in sorted(frames)}
++        evidence['frames_sha256'][seq]={f:hashlib.sha256(v).hexdigest() for f,v in images.items()}
++        t=time.monotonic()
++        gray=old.descriptors_from_frames(frames,images,sequence=seq)
++        color=r2.color_descriptors(frames,images,sequence=seq)
++        feature_time=round(time.monotonic()-t,3)
++        evidence['sequences'][seq]={'feature_seconds':feature_time,'boxes':len(gray), 'frame_count':nframes,'variants':{}}
++        for arm in ARMS[2:]:
++            config=r2.R2Config() if arm==ARMS[2] else replace(r2.R2Config(),color_features=False)
++            print('RUN',seq,arm,'boxes',len(gray),flush=True)
++            t=time.monotonic()
++            labels,stats,audit=r2.associate_r2(frames,num_frames=nframes,sequence=seq,
++               image_bytes=images,gray_descriptors=gray,
++               color_descriptors_map=color if config.color_features else None,config=config)
++            elapsed=round(time.monotonic()-t,3)
++            rows=[]
++            for f in range(1,nframes+1):
++                before=source_rows.get(f,[]);assigned=labels.get(f,[])
++                if len(before)!=len(assigned):raise RuntimeError('INPUT_BOX_DROPPED')
++                for a,ident in zip(before,assigned):
++                    b=a.copy();b[1]=str(ident)
++                    if a[0]!=b[0] or a[2:]!=b[2:]:raise RuntimeError('SOURCE_FIELDS_CHANGED')
++                    rows.append(','.join(b))
++            dest=out/f'trackers/MOT17-train/{arm}/data/{seq}.txt'
++            dest.parent.mkdir(parents=True,exist_ok=True)
++            dest.write_text('\n'.join(rows)+'\n')
++            original=src.read_text().splitlines();changed=dest.read_text().splitlines()
++            if len(changed)!=len(original) or any(a.split(',')[0]!=b.split(',')[0] or a.split(',')[2:]!=b.split(',')[2:]
++                  for a,b in zip(original,changed)):raise RuntimeError('BOX_PROVENANCE_MISMATCH')
++            evidence['sequences'][seq]['variants'][arm]={'counts':stats,'audit_sample':audit[:120],
++                'audit_count':len(audit),'association_seconds':elapsed,'output_sha256':sha(dest)}
++            print('DONE',seq,arm,'time',elapsed,'abstain',stats.get('abstained_identity_proposals',0),flush=True)
++        evidence['sequences'][seq]['total_seconds']=round(time.monotonic()-begin,3)
++    evidence['inputs_sha256']={str(p.relative_to(out)):sha(p) for p in sorted((out/'gt').rglob('*')) if p.is_file()}
++    evidence['outputs_sha256']={str(p.relative_to(out)):sha(p) for p in sorted((out/'trackers').rglob('*.txt'))}
++    pin=rd.verify_pinned_trackeval_source(source_zip=source_zip,checkout=source)
++    shim=Path(__file__).parent/'c15_trackeval_legacy_numpy_compat.py'
++    command=[sys.executable,str(shim),str(source/'scripts/run_mot_challenge.py'),
++      '--GT_FOLDER',str(out/'gt'),'--TRACKERS_FOLDER',str(out/'trackers'),
++      '--BENCHMARK','MOT17','--SPLIT_TO_EVAL','train','--TRACKERS_TO_EVAL',*ARMS,
++      '--CLASSES_TO_EVAL','pedestrian','--METRICS','HOTA','CLEAR','Identity',
++      '--DO_PREPROC','True','--PLOT_CURVES','False','--PRINT_CONFIG','False',
++      '--TIME_PROGRESS','False','--USE_PARALLEL','False']
++    print('OFFICIAL_TRACK_EVAL',flush=True)
++    proc=subprocess.run(command,cwd=source,text=True,capture_output=True,timeout=600)
++    if proc.returncode:raise RuntimeError('OFFICIAL_FAILED:'+proc.stdout[-4000:]+proc.stderr[-2000:])
++    if rd.verify_pinned_trackeval_source(source_zip=source_zip,checkout=source)!=pin:raise RuntimeError('EVALUATOR_CHANGED')
++    for name,h in evidence['inputs_sha256'].items():
++        if sha(out/name)!=h:raise RuntimeError('GT_CHANGED')
++    for name,h in evidence['outputs_sha256'].items():
++        if sha(out/name)!=h:raise RuntimeError('PREDICTION_CHANGED')
++    evidence['evaluator_pin']=pin
++    evidence['metrics']={arm:read_summary(out/'trackers/MOT17-train'/arm/'pedestrian_summary.txt') for arm in ARMS}
++    evidence['metric_sha256']={arm:sha(out/'trackers/MOT17-train'/arm/'pedestrian_summary.txt') for arm in ARMS}
++    evidence['stdout_tail']=proc.stdout[-1800:]
++    for name in ARMS:
++        val=evidence['metrics'][name]
++        print('METRIC',name,{key:val[key] for key in ('HOTA','AssA','MOTA','IDF1','IDSW')},flush=True)
++    (out/'r2_evidence.json').write_text(json.dumps(evidence,indent=2,sort_keys=True)+'\n')
++    return evidence
++
++if __name__=='__main__':
++    p=argparse.ArgumentParser()
++    for k in ('baseline','train','out','source','source-zip'):p.add_argument('--'+k,required=True,type=Path)
++    a=p.parse_args();run(baseline=a.baseline,train=a.train,out=a.out,source=a.source,source_zip=a.source_zip)
+--- a/tools/run_c15_r2_forced_ablation.py
++++ b/tools/run_c15_r2_forced_ablation.py
+@@ -0,0 +1,72 @@
++"""R2 benchmark-only forced-label ablation. No host identity authority."""
++import argparse,configparser,hashlib,json,subprocess,sys,time
++from dataclasses import asdict,replace
++from pathlib import Path
++from cognitum import spatial_p2k_dense_identity as dense
++from cognitum import spatial_p2l_appearance as old
++from cognitum import spatial_appearance_r2 as r2
++from cognitum import spatial_p2k_challenge_gate as challenge
++from cognitum import spatial_mot17_realdata_gate as rd
++from cognitum.spatial_trackeval_bridge import read_summary
++
++ARMS=('CognitumR2ForcedColor','CognitumR2ForcedGray')
++def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
++def main():
++    a=argparse.ArgumentParser()
++    for k in ('stage','train','source','source-zip'):a.add_argument('--'+k,type=Path,required=True)
++    x=a.parse_args();results={'scope':'C15_R2_EXPLORATORY_FORCED_HYPOTHESES_ONLY',
++      'research_only':True,'identity_assignments_authorized':False,
++      'same_original_boxes_and_gt':True,'mode':'ambiguous forced top1; updates frozen for ambiguous matches',
++      'configs':{},'sequences':{},'metrics':{}}
++    for name in ARMS:
++        config=replace(r2.R2Config(),ambiguous_abstention=False,color_features=(name==ARMS[0]))
++        results['configs'][name]=asdict(config)
++    for seq in challenge.SEQUENCES:
++        cfg=configparser.ConfigParser();cfg.read(x.train/seq/'seqinfo.ini')
++        nframes=int(cfg['Sequence']['seqLength'])
++        original=x.stage/f'trackers/MOT17-train/MPNTrackOriginal/data/{seq}.txt'
++        frames,source_rows=dense.parse_id_blind(original.read_bytes(),num_frames=nframes)
++        images={f:(x.train/seq/'img1'/f'{f:06d}.jpg').read_bytes() for f in sorted(frames)}
++        gray=old.descriptors_from_frames(frames,images,sequence=seq)
++        color=r2.color_descriptors(frames,images,sequence=seq)
++        results['sequences'][seq]={}
++        for name in ARMS:
++            conf=replace(r2.R2Config(),ambiguous_abstention=False,color_features=(name==ARMS[0]))
++            print('RUN',seq,name,flush=True);t=time.monotonic()
++            ids,counts,audit=r2.associate_r2(frames,num_frames=nframes,sequence=seq,
++                image_bytes=images,gray_descriptors=gray,
++                color_descriptors_map=color if conf.color_features else None,config=conf)
++            dest=x.stage/f'trackers/MOT17-train/{name}/data/{seq}.txt'
++            dest.parent.mkdir(parents=True,exist_ok=True)
++            if dest.exists():raise RuntimeError('OUTPUT_ALREADY_EXISTS')
++            lines=[]
++            for f in range(1,nframes+1):
++                for row,tid in zip(source_rows.get(f,[]),ids.get(f,[]),strict=True):
++                    changed=row.copy();changed[1]=str(tid);lines.append(','.join(changed))
++            dest.write_text('\n'.join(lines)+'\n')
++            before=original.read_text().splitlines();after=dest.read_text().splitlines()
++            assert len(before)==len(after) and all(a.split(',')[0]==b.split(',')[0]
++                 and a.split(',')[2:]==b.split(',')[2:] for a,b in zip(before,after))
++            results['sequences'][seq][name]={'counts':counts,'audit_count':len(audit),
++                'elapsed_seconds':round(time.monotonic()-t,3), 'prediction_sha256':sha(dest)}
++            print('DONE',seq,name,counts.get('forced_ambiguous_research_matches',0),flush=True)
++    pin=rd.verify_pinned_trackeval_source(source_zip=x.source_zip,checkout=x.source)
++    shim=Path(__file__).parent/'c15_trackeval_legacy_numpy_compat.py'
++    cmd=[sys.executable,str(shim),str(x.source/'scripts/run_mot_challenge.py'),
++       '--GT_FOLDER',str(x.stage/'gt'),'--TRACKERS_FOLDER',str(x.stage/'trackers'),
++       '--BENCHMARK','MOT17','--SPLIT_TO_EVAL','train','--TRACKERS_TO_EVAL',*ARMS,
++       '--CLASSES_TO_EVAL','pedestrian','--METRICS','HOTA','CLEAR','Identity',
++       '--DO_PREPROC','True','--PLOT_CURVES','False','--PRINT_CONFIG','False',
++       '--TIME_PROGRESS','False','--USE_PARALLEL','False']
++    proc=subprocess.run(cmd,cwd=x.source,capture_output=True,text=True,timeout=600)
++    if proc.returncode:raise RuntimeError(proc.stdout[-3000:]+proc.stderr[-1000:])
++    assert rd.verify_pinned_trackeval_source(source_zip=x.source_zip,checkout=x.source)==pin
++    for name in ARMS:
++        for seq in challenge.SEQUENCES:
++            dest=x.stage/f'trackers/MOT17-train/{name}/data/{seq}.txt'
++            assert sha(dest)==results['sequences'][seq][name]['prediction_sha256']
++        results['metrics'][name]=read_summary(x.stage/f'trackers/MOT17-train/{name}/pedestrian_summary.txt')
++        print('RESULT',name,{k:results['metrics'][name][k] for k in ('HOTA','MOTA','IDF1','IDSW')},flush=True)
++    results['source_pin']=pin
++    (x.stage/'r2_forced_ablation_evidence.json').write_text(json.dumps(results,sort_keys=True,indent=2)+'\n')
++if __name__=='__main__':main()
+--- a/tests/test_c15_r2_appearance.py
++++ b/tests/test_c15_r2_appearance.py
+@@ -0,0 +1,152 @@
++"""R2 offline hypothesis tests: adversarial, matching, provenance, switchability."""
++from dataclasses import replace
++import io
++import unittest
++from PIL import Image, ImageDraw
++import numpy as np
++from cognitum.spatial_p2k_dense_identity import Detection
++from cognitum import spatial_p2l_appearance as p2l
++from cognitum import spatial_appearance_r2 as r2
++
++
++def fixture(*,same_color=False, missing=()):
++    frames={};images={}
++    for f in (1,2,3,4,5):
++        if f in missing:continue
++        # two moving boxes that cross; source identity never enters detections
++        boxes=[(8+f*5,12,13,25),(58-f*5,12,13,25)]
++        im=Image.new('RGB',(96,64),(15,15,15));dr=ImageDraw.Draw(im)
++        colors=('red','red' if same_color else 'blue')
++        for (x,y,w,h),c in zip(boxes,colors):dr.rectangle((x,y,x+w-1,y+h-1),fill=c)
++        ds=[Detection(f,*x) for x in boxes]
++        frames[f]=ds
++        o=io.BytesIO();im.save(o,format='PNG');images[f]=o.getvalue()
++    g=p2l.descriptors_from_frames(frames,images,sequence='fixture')
++    c=r2.color_descriptors(frames,images,sequence='fixture')
++    return frames,images,g,c
++
++class R2Tests(unittest.TestCase):
++    def test_r2_color_is_normalized_and_id_blind(self):
++        frames,images,g,c=fixture()
++        self.assertEqual(len(c),10)
++        self.assertNotEqual(list(c[1,0].vector),list(c[1,1].vector))
++        self.assertEqual(c[1,0].image_source_id,'fixture')
++        result,stats,audit=r2.associate_r2(frames,num_frames=5,sequence='fixture',image_bytes=images,gray_descriptors=g,color_descriptors_map=c)
++        self.assertEqual(sum(map(len,result.values())),10)
++        self.assertTrue(stats['research_only_no_authority'])
++        self.assertTrue(all(len(set(row))==len(row) for row in result.values()))
++    def test_all_switches_individually_off(self):
++        frames,images,g,c=fixture()
++        switches=('adaptive_appearance','guarded_updates','color_features','kalman_motion',
++                  'long_gap_gallery','ambiguous_abstention','size_geometry')
++        for name in switches:
++            with self.subTest(name=name):
++                conf=replace(r2.R2Config(),**{name:False})
++                labels,stats,_=r2.associate_r2(frames,num_frames=5,sequence='fixture',image_bytes=images,
++                           gray_descriptors=g,color_descriptors_map=c if conf.color_features else None,config=conf)
++                self.assertEqual(stats['input_boxes'],10)
++                self.assertEqual(len(labels),5)
++    def test_tampered_frame_binding_fails_closed(self):
++        frames,images,g,c=fixture()
++        spec=c[1,0];original=spec.frame_sha256
++        spec.frame_sha256=b'X'*32
++        with self.assertRaisesRegex(r2.R2Rejected,'PROVENANCE_MISMATCH'):
++            r2.associate_r2(frames,num_frames=5,sequence='fixture',image_bytes=images,gray_descriptors=g,color_descriptors_map=c)
++        spec.frame_sha256=original
++    def test_tampered_model_id_rejected(self):
++        frames,images,g,c=fixture()
++        c[1,0].model_id='untrusted-v1'
++        with self.assertRaisesRegex(r2.R2Rejected,'PROVENANCE_MISMATCH'):
++            r2.associate_r2(frames,num_frames=5,sequence='fixture',image_bytes=images,gray_descriptors=g,color_descriptors_map=c)
++    def test_identical_people_flag_uncertainty(self):
++        frames,images,g,c=fixture(same_color=True)
++        _,stats,audit=r2.associate_r2(frames,num_frames=5,sequence='fixture',image_bytes=images,gray_descriptors=g,color_descriptors_map=c,
++                                      config=replace(r2.R2Config(),match_margin=10))
++        self.assertGreater(stats.get('abstained_identity_proposals',0),0)
++        self.assertTrue(any(x['not_authorized'] for x in audit))
++    def test_ambiguous_abstention_is_switchable(self):
++        frames,images,g,c=fixture(same_color=True)
++        _,stats,_=r2.associate_r2(frames,num_frames=5,sequence='fixture',image_bytes=images,gray_descriptors=g,color_descriptors_map=c,
++                                  config=replace(r2.R2Config(),match_margin=10,ambiguous_abstention=False))
++        self.assertEqual(stats.get('abstained_identity_proposals',0),0)
++        self.assertGreater(stats['ambiguous_matches'],0)
++        self.assertGreater(stats['template_updates_blocked'],0)
++    def test_gap_and_bounded_gallery(self):
++        frames,images,g,c=fixture(missing=(3,4))
++        labels,stats,_=r2.associate_r2(frames,num_frames=5,sequence='fixture',image_bytes=images,gray_descriptors=g,color_descriptors_map=c)
++        self.assertEqual(stats['frames_without_detections'],2)
++        self.assertEqual(stats['input_boxes'],6)
++    def test_configuration_fail_closed(self):
++        for conf in (replace(r2.R2Config(),gallery_limit=1000),replace(r2.R2Config(),color_weight=float('nan')),
++                     replace(r2.R2Config(),kalman_motion=1),replace(r2.R2Config(),max_reentry_gap=-1)):
++            with self.assertRaises(r2.R2Rejected):r2.check_config(conf)
++    def test_provenance_required_for_color(self):
++        frames,images,g,c=fixture()
++        with self.assertRaisesRegex(r2.R2Rejected,'COLOR_EVIDENCE_MISSING'):
++            r2.associate_r2(frames,num_frames=5,sequence='fixture',image_bytes=images,gray_descriptors=g)
++
++if __name__=='__main__':unittest.main()
++
++def test_long_gap_gallery_reentry_without_leaked_identity():
++    frames,images,g,c=fixture(missing=(2,3,4))
++    # Remap final observation from frame 5 to frame 20 with matching image bytes;
++    # re-compute descriptors after remapping, never using GT or source track IDs.
++    d=frames.pop(5)[0]
++    frames.pop(1)  # one object, well separated in time
++    source=images.pop(5)
++    images.pop(1)
++    frames={f:[Detection(f,10,10,15,28)] for f in (1,2,3,20)}
++    im=Image.new('RGB',(100,65),'black')
++    ImageDraw.Draw(im).rectangle((10,10,24,37),fill='red')
++    fp=io.BytesIO();im.save(fp,format='PNG')
++    images={f:fp.getvalue() for f in frames}
++    g=p2l.descriptors_from_frames(frames,images,sequence='fixture')
++    c=r2.color_descriptors(frames,images,sequence='fixture')
++    recovered,stats,_=r2.associate_r2(frames,num_frames=20,sequence='fixture',image_bytes=images,
++                                      gray_descriptors=g,color_descriptors_map=c)
++    assert recovered[3]==recovered[20],(recovered,stats)
++    assert stats['gallery_reentries']==1
++    no_reentry,_,_=r2.associate_r2(frames,num_frames=20,sequence='fixture',image_bytes=images,
++                  gray_descriptors=g,color_descriptors_map=c,
++                  config=replace(r2.R2Config(),long_gap_gallery=False))
++    assert no_reentry[3]!=no_reentry[20]
++
++
++def test_kalman_predict_and_joseph_update_are_bounded():
++    d=Detection(1,10,10,10,20)
++    initial=r2._init_state(1,1,d,r2._unit([1]*128),None,r2.R2Config())
++    predicted,P=r2._predict(initial,3,r2.R2Config())
++    assert float(P[0,0])>float(initial.P[0,0])
++    r2._correction(initial,predicted,P,50,25,r2.R2Config())
++    assert np.all(np.linalg.eigvalsh(initial.P)>=-1e-8)
++    assert np.isfinite(initial.x).all()
++
++def test_protobuf_r2_report_is_research_only_and_versioned():
++    from cognitum.proto import spatial_appearance_r2_pb2 as pb
++    frames,images,g,c=fixture(same_color=True)
++    config=replace(r2.R2Config(),match_margin=8)
++    labels,stats,audit=r2.associate_r2(frames,num_frames=5,sequence='fixture',image_bytes=images,
++        gray_descriptors=g,color_descriptors_map=c,config=config)
++    report=r2.to_protobuf_report(labels=labels,stats=stats,audit=audit,sequence='fixture',config=config)
++    serialized=report.SerializeToString(deterministic=True)
++    restored=pb.R2ResearchReport.FromString(serialized)
++    assert restored.schema_version==1 and restored.research_only and not restored.grants_authority
++    assert len(restored.configuration_sha256)==32
++    assert len(restored.hypotheses)==10
++    assert sum(bool(h.ambiguous) for h in restored.hypotheses)==len(audit)
++    assert restored.abstained_identity_proposals==stats.get('abstained_identity_proposals',0)
++
++def test_ambiguous_crowd_does_not_accumulate_unbounded_tracks():
++    base=Image.new('RGB',(96,64),'black')
++    draw=ImageDraw.Draw(base)
++    for x in (5,26,47,68):draw.rectangle((x,8,x+12,38),fill='red')
++    o=io.BytesIO();base.save(o,format='PNG');bytes_=o.getvalue()
++    frames={f:[Detection(f,float(x),8,13,31) for x in (5,26,47,68)] for f in range(1,41)}
++    images={f:bytes_ for f in frames}
++    g=p2l.descriptors_from_frames(frames,images,sequence='crowd')
++    c=r2.color_descriptors(frames,images,sequence='crowd')
++    labels,counts,audit=r2.associate_r2(frames,num_frames=40,sequence='crowd',image_bytes=images,
++      gray_descriptors=g,color_descriptors_map=c,config=replace(r2.R2Config(),match_margin=10))
++    assert counts['max_active_tracks']<70,counts
++    assert counts['input_boxes']==160
++    assert len(labels)==40
+--- a/tools/check_proto_descriptors.py
++++ b/tools/check_proto_descriptors.py
+@@ -11,9 +11,10 @@
+ import sys
+ 
+ from google.protobuf.descriptor_pb2 import FileDescriptorProto, FileDescriptorSet
+-from cognitum.proto import spatial_correlated_fusion_pb2, spatial_calibrated_depth_pb2, capability_pb2, ce_handoff_pb2, worker_pb2, supervisor_acceptance_pb2, evaluation_pb2, benchmark_pb2, collector_pb2, specialists_pb2, memory_pb2, state_pb2, interpretation_pb2, formal_pb2, formal_backend_pb2, formal_advanced_pb2, optimization_pb2, workflows_pb2, optimization_runtime_pb2, planning_pb2, planning_engines_pb2, planning_stochastic_pb2, planning_structured_pb2, planning_guidance_pb2, probability_pb2, probability_backend_pb2, probability_continuous_pb2, probability_conjugate_pb2, probability_diagnostics_pb2, causal_pb2, causal_estimation_pb2, causal_dowhy_pb2, causal_heterogeneity_pb2, causal_discovery_pb2, causal_mature_pb2, causal_validation_pb2, causal_stability_pb2, causal_ambiguity_pb2, causal_temporal_pb2, causal_temporal_scm_pb2, causal_temporal_diagnostics_pb2, causal_temporal_advanced_pb2, causal_temporal_discovery_pb2, causal_uncertainty_pb2, causal_interval_comparison_pb2, causal_assurance_policy_pb2, causal_holdout_assurance_pb2, causal_adversarial_assurance_pb2, causal_integrated_assurance_pb2, causal_genuine_worker_assurance_pb2, causal_llm_caller_evaluation_pb2, spatial_scene_pb2, spatial_appearance_pipeline_pb2, spatial_structural_reconciliation_pb2, spatial_structural_c07_bridge_pb2, spatial_ontology_subset_pb2, spatial_identity_pb2, spatial_temporal_pb2, spatial_composition_pb2, spatial_volume_pb2, spatial_appearance_pb2, spatial_structural_audit_pb2, assembly_pb2, ray_occupancy_pb2, structural_hypotheses_pb2, temporal_occupancy_pb2, benchmark_observation_pb2
++from cognitum.proto import spatial_appearance_r2_pb2, spatial_correlated_fusion_pb2, spatial_calibrated_depth_pb2, capability_pb2, ce_handoff_pb2, worker_pb2, supervisor_acceptance_pb2, evaluation_pb2, benchmark_pb2, collector_pb2, specialists_pb2, memory_pb2, state_pb2, interpretation_pb2, formal_pb2, formal_backend_pb2, formal_advanced_pb2, optimization_pb2, workflows_pb2, optimization_runtime_pb2, planning_pb2, planning_engines_pb2, planning_stochastic_pb2, planning_structured_pb2, planning_guidance_pb2, probability_pb2, probability_backend_pb2, probability_continuous_pb2, probability_conjugate_pb2, probability_diagnostics_pb2, causal_pb2, causal_estimation_pb2, causal_dowhy_pb2, causal_heterogeneity_pb2, causal_discovery_pb2, causal_mature_pb2, causal_validation_pb2, causal_stability_pb2, causal_ambiguity_pb2, causal_temporal_pb2, causal_temporal_scm_pb2, causal_temporal_diagnostics_pb2, causal_temporal_advanced_pb2, causal_temporal_discovery_pb2, causal_uncertainty_pb2, causal_interval_comparison_pb2, causal_assurance_policy_pb2, causal_holdout_assurance_pb2, causal_adversarial_assurance_pb2, causal_integrated_assurance_pb2, causal_genuine_worker_assurance_pb2, causal_llm_caller_evaluation_pb2, spatial_scene_pb2, spatial_appearance_pipeline_pb2, spatial_structural_reconciliation_pb2, spatial_structural_c07_bridge_pb2, spatial_ontology_subset_pb2, spatial_identity_pb2, spatial_temporal_pb2, spatial_composition_pb2, spatial_volume_pb2, spatial_appearance_pb2, spatial_structural_audit_pb2, assembly_pb2, ray_occupancy_pb2, structural_hypotheses_pb2, temporal_occupancy_pb2, benchmark_observation_pb2
+ 
+ EXPECTED = {
++    "cognitum/spatial/v1/appearance_r2.proto": spatial_appearance_r2_pb2.DESCRIPTOR,
+     "cognitum/spatial/v1/correlated_fusion.proto": spatial_correlated_fusion_pb2.DESCRIPTOR,
+     "cognitum/spatial/v1/calibrated_depth.proto": spatial_calibrated_depth_pb2.DESCRIPTOR,
+     "cognitum/v1/capability.proto": capability_pb2.DESCRIPTOR,
