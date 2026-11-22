@@ -14,6 +14,7 @@ on:
       - scripts/cog-r5-physical02-r3-r1-admit-signed-release.ps1
       - scripts/cog-r5-physical02-r3-r1-deploy-approved-release.ps1
       - scripts/cog-r5-physical02-r3-r1-ci-approval-signature.ps1
+      - scripts/cog-r3r1-personal-release.ps1
       - scripts/cog-r5-physical02-r3-r1-private-gpg-build.ps1
       - scripts/cog-r5-physical02-r3-r1-private-gpg-verify.ps1
       - scripts/cog-r5-physical02-r3-r1-private-gpg-physical.ps1
@@ -40,7 +41,7 @@ jobs:
       - name: Verify syntax and read-only admission code
         shell: pwsh
         run: |
-          foreach($p in @('scripts/cog-r5-physical02-r3-r1-runtime-audit.ps1','scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1','scripts/cog-r5-physical02-r3-r1-signed-installer.ps1','scripts/cog-r5-physical02-r3-r1-enroll-production.ps1','scripts/cog-r5-physical02-r3-r1-ci-scm-lifecycle.ps1','scripts/cog-r5-physical02-r3-r1-ci-nsis-package.ps1','scripts/cog-r5-physical02-r3-r1-verify-detached-approval.ps1','scripts/cog-r5-physical02-r3-r1-admit-signed-release.ps1','scripts/cog-r5-physical02-r3-r1-deploy-approved-release.ps1','scripts/cog-r5-physical02-r3-r1-ci-approval-signature.ps1','scripts/cog-r5-physical02-r3-r1-private-gpg-build.ps1','scripts/cog-r5-physical02-r3-r1-private-gpg-verify.ps1','scripts/cog-r5-physical02-r3-r1-private-gpg-physical.ps1','scripts/cog-r5-physical02-r3-r1-ci-private-gpg.ps1','scripts/cog-r5-physical02-r3-r1-build-signed-release.ps1','scripts/cog-r5-physical02-r3-r1-physical-scm-observe.ps1')){
+          foreach($p in @('scripts/cog-r3r1-personal-release.ps1','scripts/cog-r5-physical02-r3-r1-runtime-audit.ps1','scripts/cog-r5-physical02-r3-r1-installed-preflight.ps1','scripts/cog-r5-physical02-r3-r1-signed-installer.ps1','scripts/cog-r5-physical02-r3-r1-enroll-production.ps1','scripts/cog-r5-physical02-r3-r1-ci-scm-lifecycle.ps1','scripts/cog-r5-physical02-r3-r1-ci-nsis-package.ps1','scripts/cog-r5-physical02-r3-r1-verify-detached-approval.ps1','scripts/cog-r5-physical02-r3-r1-admit-signed-release.ps1','scripts/cog-r5-physical02-r3-r1-deploy-approved-release.ps1','scripts/cog-r5-physical02-r3-r1-ci-approval-signature.ps1','scripts/cog-r5-physical02-r3-r1-private-gpg-build.ps1','scripts/cog-r5-physical02-r3-r1-private-gpg-verify.ps1','scripts/cog-r5-physical02-r3-r1-private-gpg-physical.ps1','scripts/cog-r5-physical02-r3-r1-ci-private-gpg.ps1','scripts/cog-r5-physical02-r3-r1-build-signed-release.ps1','scripts/cog-r5-physical02-r3-r1-physical-scm-observe.ps1')){
             $tokens=$null
             $errors=$null
             [void][Management.Automation.Language.Parser]::ParseFile((Resolve-Path $p).Path,[ref]$tokens,[ref]$errors)
@@ -52,6 +53,20 @@ jobs:
               throw 'PowerShell protected automatic variable assignment in production preflight'
             }
           }
+      - name: Refuse private owner release driver on hosted CI
+        shell: pwsh
+        run: |
+          $blocked=$false
+          try {
+            & ./scripts/cog-r3r1-personal-release.ps1 -Phase Check |Out-Null
+          } catch {
+            if($_.Exception.Message -notmatch 'COG_R3R1_PERSONAL_RELEASE_REFUSED'){
+              throw 'Unexpected private release driver error'
+            }
+            $blocked=$true
+          }
+          if(-not $blocked){throw 'Hosted runner could invoke private owner release driver'}
+          Write-Host 'PASS_CI_NO_PRIVATE_RELEASE_DRIVER_EXECUTION'
       - name: Separate genuine production runtime from CI provenance
         shell: pwsh
         run: |
