@@ -7,6 +7,7 @@ on:
       - native/windows_scm_production/src/qual_appcontainer.rs
       - native/windows_scm_production/src/qual_ssm.rs
       - native/windows_scm_production/src/qual_cng_terminal.rs
+      - native/windows_scm_production/src/qual_recovery.rs
       - native/windows_scm_production/src/main.rs
       - native/windows_scm_production/Cargo.toml
       - cognitum/mel/ssm_r5_production_child.py
@@ -101,6 +102,7 @@ jobs:
           $values=@(
            "COG_PROD_QUAL_KSP_NAME=$($original.name)",
            "COG_PROD_QUAL_KSP_PUBLIC_SHA256=$($original.public_blob_sha256)",
+           ("COG_PROD_QUAL_PRELAUNCH="+(Join-Path $h 'production-prelaunch.json')),
            ("COG_PROD_QUAL_TERMINAL="+(Join-Path $h 'production-terminal.json')),
            ("COG_PROD_QUAL_TERMINAL_SIGNED="+(Join-Path $h 'production-terminal-signed.json'))
           )
@@ -153,6 +155,7 @@ jobs:
             native/windows_scm_production/target/q-expected.json
             native/windows_scm_production/target/q-host/r3-original-appcontainer-witness.json
             native/windows_scm_production/target/q-host/production-qualification.json
+            native/windows_scm_production/target/q-host/production-prelaunch.json
             native/windows_scm_production/target/q-host/production-terminal.json
             native/windows_scm_production/target/q-host/production-terminal-signed.json
             native/windows_scm_production/target/q-host/r2-public-p256.blob
