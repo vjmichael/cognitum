@@ -1,5 +1,21 @@
 
-**Revision:** 2026-11-22 (Cognitum host-load and genuine MEL execution qualified; current development baseline fast-forwarded to one main; owner Lu test pending)
+**Revision:** 2026-11-22 (owner-accepted Cognitum Core v1.0 locked; scope frozen on main; Lu loading remains owner-held)
+## COGNITUM CORE v1.0 — OWNER ACCEPTED / SCOPE LOCKED (2026-11-22)
+
+**Decision:** The owner declares **Cognitum Core v1.0 COMPLETE and LOCKED** as a non-user-facing mathematical/deterministic execution library and host-loadable Python interface. All work on this accepted baseline stops unless the owner explicitly authorizes a new, separately scoped change. No further micro-engineering, signing exercise, release-installer requirements, speculative security expansion, or additional Lu IPC bridge work is part of v1.0. This is a **product scope/change freeze**, not a claim that GitHub `main` has an administrator-enforced branch protection rule.
+
+**Accepted technical baseline:** exact native tested commit `9ecceabebbe65deb72fa151a0a34fe6921bc70ed`, [8/8 native jobs / 452/452 focused MEL tests](https://github.com/vjmichael/cognitum/actions/runs/44990342955), HDC/KAN/VFA five-operation host-load facade; existing scoped mathematical HDC, KAN, SSM, MEL and Orc Graph research implementations preserved in the single `main`. Main source was non-forced fast-forwarded from old `1d331fa8` with no divergent commits. The later `2d7ff5b8` closeout commit changed the ledger only. Preserve the accepted implementation and its evidence, do not expand what was specifically tested.
+
+**Release snapshot:** `release/cognitum-core-v1.0` points at this lock-ledger commit as a human-readable frozen reference. It is a branch snapshot rather than a cryptographically signed or GitHub-protected immutable tag; no lock on `main` permissions is asserted.
+
+**Scope boundary:** Dedicated `lu_adapter.load(scope, allowed)`, `schemas()`, `catalog()`, `dispatch(raw_model)`, `close()` expose approved VFA evaluate/gradient, HDC bind/query and checkpoint-approved KAN evaluate through genuine MEL mathematical workers, independently verified feedback and basic refusal/lifecycle guards. No Cognitum GUI, second model, replacement orchestrator or new IPC transport. SSM and broad Orc Graph remain separately implemented/scoped research and are **not** represented as direct v1.0 adapter operations.
+
+**Explicitly NOT accepted:** Actual Lu-installed model-to-Cognitum invocation and result feedback remain **owner-held and untested**. The owner will run that integration test. Future interface exposure, scientific extension, security/release hardening and FPGA/ARM work are future projects only if the owner reopens them. Earlier R3-R1 production release NO-GO and deep-research ledger items below are **historical/deferred**; they do not overturn the owner's accepted Core v1.0 scope.
+
+**Project disposition:** **CLOSED — COGNITUM CORE v1.0 / no active Cognitum engineering queue.** Keep prior evidence and historical entries for traceability. The next action is outside this project's closeout: owner's optional real Lu loading test.
+
+---
+
 **Governing decision:** owner reprioritization, November 16, 2026.  
 **Owner architecture decision (2026-11-20):** **Cognitum's Orc Graph** is the adopted name/direction for a **typed scientific capability graph and orchestration inside existing MEL**, not a second runtime or scheduler. **CH⊕aT** (informal CH+A(t)) is promoted to an owner-adopted **user–AI collaboration design principle**, NOT a proven mathematical law or empirical capability advantage. [Decision and acceptance contract](architecture/ORC_GRAPH_CH_AT_20261120.md). ORCH-01A, ORCH-01B, ORCH-01C and ORCH-01D have scoped four-platform native acceptance; ORCH-01E has scoped four-platform native acceptance, not real-world production or scientific validation, research candidates remain default-off, and production scientific accuracy/installed Lu acceptance is NOT claimed.
 
