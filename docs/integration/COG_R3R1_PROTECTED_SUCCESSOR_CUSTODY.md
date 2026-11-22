@@ -104,3 +104,64 @@ mathematical result delivery or ACK, no production claim.
 
 This work deliberately contains **no auto-upgrade or new owner command**
 to operate on the accepted installed service.
+
+
+## Candidate build, independent review, and owner-GPG signing
+
+The protected-ssm-production Cargo feature builds a distinct native Windows
+SCM executable with the fixed identity CognitumSsmProtectedV1. The compiler
+explicitly rejects combining that feature with the CI-only protected SSM
+qualification. No CI fixed-vector worker is shipped in this production build,
+and no Lu Core operations are admitted yet.
+
+The new cognitum-ssm-protected-successor.nsi carrier installs at the separate
+Program Files\Cognitum\SSMProtected root, overrides /D relocation, refuses
+existing protected installation or service, and pins read-only installed code.
+It DOES NOT register or start the new service, create a persistent machine
+CNG signer, provision the AppContainer, overwrite the owner's already accepted
+no-worker service, or issue result/output authorization.
+
+### Owner-release steps (only when reviewed inputs exist)
+
+1. Review a NEW exact clean protected-successor Git commit and prepare a fresh
+   full production frozen Python/NumPy/SciPy runtime with the original two-pass
+   candidate/production workflow. The old 2,413-file no-worker frozen runtime
+   cannot be renamed into a new production successor.
+2. Independently approve the new runtime full-file manifest and provenance
+   digests; separately obtain the public-key identity pins for the intended
+   machine CNG signer, external antirollback authority and Lu Core issuer.
+   These pins do not prove installation or enrollment. Missing identities
+   cannot be invented or inferred from GitHub CI.
+3. On the owner's personal x64 Windows build machine, run
+   scripts/cog-r3r1-protected-successor-build-candidate.ps1 with all external
+   pins. It builds the independent protected native service with Cargo locked
+   offline, stages the exact frozen runtime and compiles the distinct NSIS.
+   The Python manifest generator hashes the exact staged NSIS, service PE,
+   Python executable, production SSM child and all frozen imports and writes
+   the canonical protected-successor.json file exactly once. This is an
+   UNAPPROVED byte candidate, not a signed production release.
+4. A separate authorized reviewer checks original source, dependencies and
+   license evidence, full frozen runtime closure, executable and installer
+   byte identities, NSIS nonoverwrite behavior and external public identities.
+   The reviewer supplies the approved SHA-256 of the EXACT canonical
+   protected-successor.json by an independently trusted channel. Merely
+   copying the builder's reported SHA is not independent approval.
+5. Only THEN run scripts/cog-r3r1-protected-successor-sign.ps1 on the owner's
+   actual personal signing host with the reviewed candidate manifest hash.
+   It rechecks the complete staged bytes, uses the locally controlled owner
+   ECC-GPG primary key for a detached protected-successor.json.asc, and
+   verifies the signature in an isolated public-only GPG keyring. No private
+   key or passphrase must enter GitHub Actions, the repo, or this chat.
+
+The GitHub Windows/Linux workflow cog-r3r1-protected-successor-nsis.yml
+qualifies only source structure, cargo feature separation, and a disposable
+unsigned NSIS test install with a synthetic runtime. It cannot sign an
+actual production release or supply an independent reviewer, CNG enrollment,
+external monotonic authority, installed protected worker, or authentic Lu Core
+operation grant.
+
+Owner-GPG signing authenticates the source/byte manifest but does NOT grant
+Windows Authenticode publisher trust, authenticate Lu operations or permit
+output ACK. Real physical installation and persistent signer custody remain
+separate explicit future acceptance gates. Until then output_or_ACK_authorized
+must stay false.
