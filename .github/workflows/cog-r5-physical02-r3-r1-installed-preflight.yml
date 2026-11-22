@@ -14,6 +14,7 @@ on:
       - scripts/cog-r5-physical02-r3-r1-admit-signed-release.ps1
       - scripts/cog-r5-physical02-r3-r1-deploy-approved-release.ps1
       - scripts/cog-r5-physical02-r3-r1-ci-approval-signature.ps1
+      - scripts/cog_r5_r3_r1_bundle.py
       - scripts/cog-r5-physical02-r3-r1-build-signed-release.ps1
       - scripts/cog-r5-physical02-r3-r1-physical-scm-observe.ps1
       - deployment/windows/cognitum-ssm-bootstrap.nsi
@@ -47,6 +48,34 @@ jobs:
               throw 'PowerShell protected automatic variable assignment in production preflight'
             }
           }
+      - name: Separate genuine production runtime from CI provenance
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          python -m py_compile scripts/cog_r5_r3_r1_bundle.py
+          if($LASTEXITCODE -ne 0){throw 'Original Python frozen-runtime builder syntax invalid'}
+          $py=(Get-Command python -ErrorAction Stop).Source
+          foreach($mode in @('prepare-candidate','prepare-production')){
+            $out=Join-Path $env:RUNNER_TEMP ("cog-r3r1-"+$mode+"-stdout.txt")
+            $err=Join-Path $env:RUNNER_TEMP ("cog-r3r1-"+$mode+"-stderr.txt")
+            $dest=Join-Path $env:RUNNER_TEMP ("cog-r3r1-"+$mode+"-runtime")
+            $cmd=@('scripts/cog_r5_r3_r1_bundle.py',$mode,
+                   '--root',$dest,'--repo',(Get-Location).Path,
+                   '--source-sha',$env:GITHUB_SHA,
+                   '--approved-python-sha256',('7'*64))
+            if($mode -eq 'prepare-production'){
+              $cmd+=@('--approved-manifest-sha256',('6'*64))
+            }
+            $test=Start-Process -FilePath $py -ArgumentList $cmd -PassThru -Wait -NoNewWindow -RedirectStandardError $err -RedirectStandardOutput $out
+            if($test.ExitCode -eq 0 -or (Test-Path -LiteralPath $dest)){
+              throw 'Hosted CI prepared or wrote a forbidden genuine production runtime'
+            }
+            $diagnostic=Get-Content -LiteralPath $err -Raw
+            if(-not $diagnostic.Contains('hosted CI may not prepare production runtime')){
+              throw 'Original production runtime was not refused at the native hosted custody gate'
+            }
+          }
+          Write-Host 'PASS_CI_ONLY_PRODUCTION_RUNTIME_CANDIDATE_AND_APPROVAL_MINT_REFUSED'
       - name: Refuse release signing without independently provisioned publisher
         shell: pwsh
         run: |
