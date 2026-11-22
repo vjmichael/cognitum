@@ -1,0 +1,75 @@
+name: Cognitum R3-R1 protected successor custody source gate
+on:
+  push:
+    branches: [integration/cog-lu-ipc01e-r2-custody-20261121]
+    paths:
+      - scripts/cog_r3r1_protected_successor_contract.py
+      - scripts/cog-r3r1-protected-successor-custody.ps1
+      - research_tests/mel_lu_ipc01e_r5/test_protected_successor_contract.py
+      - .github/workflows/cog-r3r1-protected-successor-custody.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cog-r3r1-protected-successor-custody
+  cancel-in-progress: false
+jobs:
+  linux-policy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Reject old bootstrap, CI fixture, fake signer and false claims
+        run: |
+          python -m unittest -q research_tests.mel_lu_ipc01e_r5.test_protected_successor_contract
+  windows-refusal:
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify same strict manifest contract on genuine Windows
+        shell: pwsh
+        run: |
+          python -m unittest -q research_tests.mel_lu_ipc01e_r5.test_protected_successor_contract
+          if($LASTEXITCODE -ne 0){throw 'Closed successor source contract failed'}
+      - name: Parse original non-mutating owner-GPG custody preflight
+        shell: pwsh
+        run: |
+          $file=Join-Path $PWD 'scripts/cog-r3r1-protected-successor-custody.ps1'
+          $tokens=$null
+          $errors=$null
+          $null=[System.Management.Automation.Language.Parser]::ParseFile($file,[ref]$tokens,[ref]$errors)
+          if(@($errors).Count -ne 0){
+            throw 'Production protected successor read-only preflight source parse rejected'
+          }
+          'PASS_WINDOWS_PROTECTED_SUCCESSOR_READONLY_PREFLIGHT_SOURCE'
+      - name: Hosted Windows CI must not self-approve installed successor
+        shell: pwsh
+        run: |
+          $rejected=$false
+          $pins=@{
+            Stage='C:\cog-no-release'
+            InstalledRoot='C:\cog-no-worker'
+            ApprovedManifestSha256=('1'*64)
+            ApprovedSourceSha='3ac8b241be555a1945f2255360d230a8a0c92a87'
+            ApprovedGpgPrimaryFingerprint='DB9C7C9FCC675D8EE33D3F885007C136EE8BDB86'
+            TrustedPublicKeyFile='C:\cog-no-public.asc'
+            NativeGpgExe='C:\cog-no-gpg.exe'
+          }
+          try{
+            & ./scripts/cog-r3r1-protected-successor-custody.ps1 @pins | Out-Null
+          }catch{
+            $rejected=([string]$_ -match 'Hosted CI cannot attest installed custody')
+          }
+          if(-not $rejected){throw 'Hosted CI was incorrectly admitted as physical owner install'}
+          'PASS_CI_CANNOT_ATTEST_PROTECTED_SUCCESSOR_CUSTODY'
