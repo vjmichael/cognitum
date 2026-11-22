@@ -1,0 +1,573 @@
+{
+  "cases": [
+    "one_event_n160_i00",
+    "one_event_n80_i00",
+    "quasi_separated_n160_i00",
+    "quasi_separated_n80_i00",
+    "rare_1pct_n160_i00",
+    "rare_1pct_n160_i13",
+    "rare_1pct_n80_i00",
+    "rare_5pct_n160_i00",
+    "rare_5pct_n80_i00",
+    "zero_balanced_n160_i00",
+    "zero_balanced_n80_i00",
+    "zero_imbalanced_n160_i00",
+    "zero_imbalanced_n160_i05",
+    "zero_imbalanced_n160_i07",
+    "zero_imbalanced_n80_i00"
+  ],
+  "checks": {
+    "CH25__one_event_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH25__one_event_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH25__quasi_separated_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH25__quasi_separated_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH25__rare_1pct_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH25__rare_1pct_n160_i13": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH25__rare_1pct_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH25__rare_5pct_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH25__rare_5pct_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH25__zero_balanced_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH25__zero_balanced_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH25__zero_imbalanced_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH25__zero_imbalanced_n160_i05": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH25__zero_imbalanced_n160_i07": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH25__zero_imbalanced_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH26__one_event_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH26__one_event_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH26__quasi_separated_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH26__quasi_separated_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH26__rare_1pct_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH26__rare_1pct_n160_i13": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH26__rare_1pct_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH26__rare_5pct_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH26__rare_5pct_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH26__zero_balanced_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH26__zero_balanced_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH26__zero_imbalanced_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH26__zero_imbalanced_n160_i05": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH26__zero_imbalanced_n160_i07": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH26__zero_imbalanced_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH27__one_event_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH27__one_event_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH27__quasi_separated_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH27__quasi_separated_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH27__rare_1pct_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH27__rare_1pct_n160_i13": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH27__rare_1pct_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH27__rare_5pct_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH27__rare_5pct_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH27__zero_balanced_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH27__zero_balanced_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH27__zero_imbalanced_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH27__zero_imbalanced_n160_i05": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH27__zero_imbalanced_n160_i07": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH27__zero_imbalanced_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH28__one_event_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH28__one_event_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH28__quasi_separated_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH28__quasi_separated_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH28__rare_1pct_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH28__rare_1pct_n160_i13": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH28__rare_1pct_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH28__rare_5pct_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH28__rare_5pct_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH28__zero_balanced_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH28__zero_balanced_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH28__zero_imbalanced_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH28__zero_imbalanced_n160_i05": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH28__zero_imbalanced_n160_i07": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH28__zero_imbalanced_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH29__one_event_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH29__one_event_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH29__quasi_separated_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH29__quasi_separated_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH29__rare_1pct_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH29__rare_1pct_n160_i13": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH29__rare_1pct_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH29__rare_5pct_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH29__rare_5pct_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH29__zero_balanced_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH29__zero_balanced_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH29__zero_imbalanced_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH29__zero_imbalanced_n160_i05": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH29__zero_imbalanced_n160_i07": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH29__zero_imbalanced_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH30__one_event_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH30__one_event_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH30__quasi_separated_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH30__quasi_separated_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH30__rare_1pct_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH30__rare_1pct_n160_i13": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH30__rare_1pct_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH30__rare_5pct_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH30__rare_5pct_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH30__zero_balanced_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH30__zero_balanced_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH30__zero_imbalanced_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH30__zero_imbalanced_n160_i05": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH30__zero_imbalanced_n160_i07": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH30__zero_imbalanced_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH31__one_event_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH31__one_event_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH31__quasi_separated_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH31__quasi_separated_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH31__rare_1pct_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH31__rare_1pct_n160_i13": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH31__rare_1pct_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH31__rare_5pct_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH31__rare_5pct_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH31__zero_balanced_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH31__zero_balanced_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH31__zero_imbalanced_n160_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH31__zero_imbalanced_n160_i05": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH31__zero_imbalanced_n160_i07": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH31__zero_imbalanced_n80_i00": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "CH32": {
+      "reason": "Linux-only journal durability and directory fsync",
+      "status": "UNSUPPORTED_PLATFORM"
+    },
+    "CH33": {
+      "reason": "Linux-only compacted journal filesystem durability",
+      "status": "UNSUPPORTED_PLATFORM"
+    },
+    "CH34": {
+      "reason": "Linux fcntl proof anchors and filesystem recovery",
+      "status": "UNSUPPORTED_PLATFORM"
+    },
+    "CH35": {
+      "reason": "Linux signer account, SO_PEERCRED and kernel operations",
+      "status": "UNSUPPORTED_PLATFORM"
+    },
+    "CH36": {
+      "reason": "Linux kernel-enforced ENOSPC, user namespaces and multi-UID signer",
+      "status": "UNSUPPORTED_PLATFORM"
+    },
+    "CH37": {
+      "reason": "Linux distinct verifier/signer UIDs and AF_UNIX",
+      "status": "UNSUPPORTED_PLATFORM"
+    },
+    "CH38": {
+      "reason": "Linux four-UID attestor/signing service",
+      "status": "UNSUPPORTED_PLATFORM"
+    },
+    "CH39": {
+      "reason": "Linux five-UID independent checker and signed service",
+      "status": "UNSUPPORTED_PLATFORM"
+    },
+    "suite_CH23": {
+      "elapsed_seconds": 1.534,
+      "exit_code": 0,
+      "log": "C:\\Users\\UserMN4312\\Downloads\\Cognitum_C14_All_Past_Math_Benchmark_Windows_2026-11-03\\C14_MATH_RESULTS\\logs\\suite_CH23.log",
+      "status": "PASS",
+      "stderr_tail": "",
+      "tests_executed": 10
+    },
+    "suite_CH24": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "suite_CH26": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "suite_CH27": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "suite_CH28": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "suite_CH29": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "suite_CH30": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    },
+    "suite_CH31": {
+      "reason": "MPFR DLL not found. Copy the MPFR_Runtime folder from the prior test kit into this folder, or pass --mpfr-dll path",
+      "status": "BLOCKED"
+    }
+  },
+  "completed_utc": "2026-11-03T15:59:57.342710+00:00",
+  "counts": {
+    "BLOCKED": 112,
+    "FAIL": 0,
+    "PASS": 1,
+    "UNSUPPORTED_PLATFORM": 8
+  },
+  "global_optimality_proven": false,
+  "last_updated_utc": "2026-11-03T15:59:57.341715+00:00",
+  "notice": "Original MPFR computations; not all phases can run natively on Windows and no unrestricted global optimum proven",
+  "provenance": {
+    "archive_sha256": "9e713b102982ea09fecbcfbd27bccf55d56808188bfc3e5be1ba76922000ae6b",
+    "case_filter": [
+      "one_event_n160_i00",
+      "one_event_n80_i00",
+      "quasi_separated_n160_i00",
+      "quasi_separated_n80_i00",
+      "rare_1pct_n160_i00",
+      "rare_1pct_n160_i13",
+      "rare_1pct_n80_i00",
+      "rare_5pct_n160_i00",
+      "rare_5pct_n80_i00",
+      "zero_balanced_n160_i00",
+      "zero_balanced_n80_i00",
+      "zero_imbalanced_n160_i00",
+      "zero_imbalanced_n160_i05",
+      "zero_imbalanced_n160_i07",
+      "zero_imbalanced_n80_i00"
+    ],
+    "mpfr": "None",
+    "phase_filter": [
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30",
+      "31",
+      "32",
+      "33",
+      "34",
+      "35",
+      "36",
+      "37",
+      "38",
+      "39"
+    ],
+    "platform": "win32",
+    "python": "3.14.6",
+    "runner_sha256": "b64ff271cb91cb837acde5103de167b7380c39b0cbf9268453f9bbf4dc340d8e",
+    "worker_sha256": "a67a14ba287ad8a548bc3e894708450d891232093d2b0c696ce95fbea0f1d466"
+  },
+  "scientific_release": "NO_GO",
+  "scope_limits": [
+    "Not every declared function has independent unit coverage",
+    "CH34-39 Linux-only trust/OS integration is not reproduced on Windows",
+    "Historical CH23 source optimizer reconstruction not equivalent to a new scientific holdout",
+    "No 0.05 bounded gap certification or unrestricted global optimum was established"
+  ],
+  "source_function_inventory": "C:\\Users\\UserMN4312\\Downloads\\Cognitum_C14_All_Past_Math_Benchmark_Windows_2026-11-03\\C14_MATH_RESULTS\\MATH_FUNCTION_INVENTORY.json",
+  "status": "BLOCKED",
+  "suite": "Cognitum CH23\u201339 complete available historical mathematical regression"
+}

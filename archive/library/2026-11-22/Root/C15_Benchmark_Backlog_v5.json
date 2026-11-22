@@ -1,0 +1,534 @@
+{
+  "completed_reference_checkpoints": [
+    {
+      "id": "C15-T1-P2I",
+      "input": "TrackEval data.zip MPNTrack provided predictions MOT17 21 combinations",
+      "limitation": "not Cognitum tracker performance",
+      "metrics_0_to_100": {
+        "HOTA": 61.904,
+        "IDF1": 71.206,
+        "MOTA": 64.399
+      },
+      "status": "measured_conventional_baseline"
+    },
+    {
+      "id": "C15-T1-P2K",
+      "input": "MOT17-02-DPM, MOT17-05-DPM, MOT17-13-DPM; identical MPNTrack boxes",
+      "limitation": "identity-only, original MPNTrack boxes, not independent detections",
+      "metrics_0_to_100": {
+        "CognitumP2KPosition": {
+          "HOTA": 41.365,
+          "IDF1": 45.563,
+          "IDSW": 186
+        },
+        "CognitumP2KVelocity": {
+          "HOTA": 41.996,
+          "IDF1": 46.203,
+          "IDSW": 186
+        },
+        "MPNTrackOriginal": {
+          "HOTA": 47.59,
+          "IDF1": 54.976,
+          "IDSW": 60
+        }
+      },
+      "status": "measured_negative_research_result"
+    },
+    {
+      "id": "C15-T1-P2L",
+      "input": "deterministic generated 4-frame images",
+      "limitation": "no real MOT17 appearance feature measurements",
+      "status": "synthetic_only"
+    },
+    {
+      "boxes": 18512,
+      "id": "C15-T1-REAL-APPEARANCE",
+      "limitation": "Fixed MPNTrack boxes; grayscale handcrafted appearance (not trained person ReID); full three selected training sequences only; ID-only, not independent detector or real holdout.",
+      "metrics_0_to_100": {
+        "CognitumP2KPosition": {
+          "AssA": 41.342,
+          "HOTA": 41.365,
+          "IDF1": 45.563,
+          "IDSW": 186.0
+        },
+        "CognitumP2KVelocity": {
+          "AssA": 42.373,
+          "HOTA": 41.996,
+          "IDF1": 46.203,
+          "IDSW": 186.0
+        },
+        "CognitumRealAppearancePosition": {
+          "AssA": 46.137,
+          "HOTA": 44.122,
+          "IDF1": 48.726,
+          "IDSW": 96.0
+        },
+        "CognitumRealAppearanceVelocity": {
+          "AssA": 46.194,
+          "HOTA": 44.173,
+          "IDF1": 48.952,
+          "IDSW": 99.0
+        },
+        "MPNTrackOriginal": {
+          "AssA": 53.586,
+          "HOTA": 47.59,
+          "IDF1": 54.976,
+          "IDSW": 60.0
+        }
+      },
+      "scenes": [
+        "MOT17-02-DPM",
+        "MOT17-05-DPM",
+        "MOT17-13-DPM"
+      ],
+      "status": "measured_real_image_histogram_reference_not_deployed"
+    },
+    {
+      "evaluation_input": "three frozen MOT17-train DPM sequences, 18,512 same original MPNTrack boxes, real image pixels, pinned TrackEval",
+      "id": "C15-Appearance-Association-R2",
+      "interpretation": "All R2 variants below prior R1 IDF1/HOTA; strict abstention causes severe ID fragmentation. DO NOT use as performance improvement or production tracker.",
+      "note": "Benchmark and test results do not authorize identity, and no independent detector was used.",
+      "observed_official_metrics": {
+        "CognitumR2All": {
+          "AssA": 39.899,
+          "DetA": 42.457,
+          "HOTA": 41.108,
+          "IDF1": 45.028,
+          "IDSW": 3248.0,
+          "MOTA": 37.399
+        },
+        "CognitumR2ForcedColor": {
+          "AssA": 45.284,
+          "DetA": 42.222,
+          "HOTA": 43.693,
+          "IDF1": 46.347,
+          "IDSW": 201.0,
+          "MOTA": 45.565
+        },
+        "CognitumR2ForcedGray": {
+          "AssA": 43.375,
+          "DetA": 42.309,
+          "HOTA": 42.799,
+          "IDF1": 46.695,
+          "IDSW": 186.0,
+          "MOTA": 45.611
+        },
+        "CognitumR2NoColor": {
+          "AssA": 38.734,
+          "DetA": 42.479,
+          "HOTA": 40.511,
+          "IDF1": 44.902,
+          "IDSW": 3445.0,
+          "MOTA": 36.852
+        },
+        "CognitumRealAppearanceVelocity": {
+          "AssA": 46.194,
+          "DetA": 42.302,
+          "HOTA": 44.173,
+          "IDF1": 48.952,
+          "IDSW": 99.0,
+          "MOTA": 45.786
+        },
+        "MPNTrackOriginal": {
+          "AssA": 53.586,
+          "DetA": 42.312,
+          "HOTA": 47.59,
+          "IDF1": 54.976,
+          "IDSW": 60.0,
+          "MOTA": 45.945
+        }
+      },
+      "status": "experimental_implementation_completed_benchmark_regression"
+    },
+    {
+      "boxes": 2413,
+      "id": "C15-R2-FEATURE-ABLATION-PILOT",
+      "input": "first 120 frames each MOT17-02-DPM, MOT17-05-DPM, MOT17-09-DPM; first time Cognitum 09 tested",
+      "note": "nonstandard shortened MOT17 evaluation: neither full official benchmark nor unseen sequence-level holdout; benchmark-only forced labels; no model improvement certified",
+      "scores": {
+        "CognitumR1Frozen": {
+          "AssA": 81.343,
+          "HOTA": 60.677,
+          "IDF1": 63.762,
+          "IDSW": 2,
+          "MOTA": 48.682
+        },
+        "MPNTrackFixed": {
+          "AssA": 81.727,
+          "HOTA": 60.778,
+          "IDF1": 63.928,
+          "IDSW": 1,
+          "MOTA": 48.703
+        },
+        "R2FullForced": {
+          "AssA": 80.85,
+          "HOTA": 60.448,
+          "IDF1": 61.853,
+          "IDSW": 12,
+          "MOTA": 48.474
+        },
+        "R2OffAdaptiveAppearance": {
+          "AssA": 80.947,
+          "HOTA": 60.5,
+          "IDF1": 62.047,
+          "IDSW": 10,
+          "MOTA": 48.516
+        },
+        "R2OffColorFeatures": {
+          "AssA": 81.364,
+          "HOTA": 60.642,
+          "IDF1": 63.098,
+          "IDSW": 4,
+          "MOTA": 48.64
+        },
+        "R2OffGuardedUpdates": {
+          "AssA": 81.412,
+          "HOTA": 60.671,
+          "IDF1": 62.932,
+          "IDSW": 2,
+          "MOTA": 48.682
+        },
+        "R2OffKalmanMotion": {
+          "AssA": 81.364,
+          "HOTA": 60.645,
+          "IDF1": 63.071,
+          "IDSW": 9,
+          "MOTA": 48.495
+        },
+        "R2OffLongGapGallery": {
+          "AssA": 81.62,
+          "HOTA": 60.738,
+          "IDF1": 63.873,
+          "IDSW": 7,
+          "MOTA": 48.578
+        },
+        "R2OffSizeGeometry": {
+          "AssA": 79.871,
+          "HOTA": 60.114,
+          "IDF1": 60.664,
+          "IDSW": 17,
+          "MOTA": 48.37
+        }
+      },
+      "status": "measured_exploratory_research_result"
+    },
+    {
+      "decision": "retain frozen R1; do not promote refined R2.1",
+      "id": "C15-R2.1-RELIABILITY-AND-COHERENT-GALLERY",
+      "limitation": "one complete 837-frame MOT17-05-DPM sequence and shortened 120-frame exploratory windows; fixed MPNTrack boxes; benchmark-forced hypotheses; no holdout win or real deployment",
+      "nonstandard_120_frame_pilot": {
+        "CognitumR1Frozen": {
+          "AssA": 81.343,
+          "HOTA": 60.677,
+          "IDF1": 63.762,
+          "IDSW": 2.0,
+          "MOTA": 48.682
+        },
+        "MPNTrackFixed": {
+          "AssA": 81.727,
+          "HOTA": 60.778,
+          "IDF1": 63.928,
+          "IDSW": 1.0,
+          "MOTA": 48.703
+        },
+        "R2CoherentGallery": {
+          "AssA": 80.828,
+          "HOTA": 60.44,
+          "IDF1": 61.853,
+          "IDSW": 12.0,
+          "MOTA": 48.474
+        },
+        "R2LegacyFrozen": {
+          "AssA": 80.85,
+          "HOTA": 60.448,
+          "IDF1": 61.853,
+          "IDSW": 12.0,
+          "MOTA": 48.474
+        },
+        "R2ReliableAndCoherent": {
+          "AssA": 81.091,
+          "HOTA": 60.538,
+          "IDF1": 62.241,
+          "IDSW": 10.0,
+          "MOTA": 48.516
+        },
+        "R2ReliableUpdate": {
+          "AssA": 81.091,
+          "HOTA": 60.538,
+          "IDF1": 62.241,
+          "IDSW": 10.0,
+          "MOTA": 48.516
+        }
+      },
+      "official_single_sequence_mot17_05": {
+        "CognitumR1Frozen": {
+          "AssA": 36.346,
+          "HOTA": 42.827,
+          "IDF1": 49.767,
+          "IDSW": 45.0,
+          "MOTA": 55.313
+        },
+        "MPNTrackFixed": {
+          "AssA": 53.181,
+          "HOTA": 51.975,
+          "IDF1": 63.936,
+          "IDSW": 18.0,
+          "MOTA": 55.906
+        },
+        "R2CoherentGallery": {
+          "AssA": 33.81,
+          "HOTA": 41.338,
+          "IDF1": 45.239,
+          "IDSW": 104.0,
+          "MOTA": 54.662
+        },
+        "R2LegacyFrozen": {
+          "AssA": 35.146,
+          "HOTA": 42.202,
+          "IDF1": 47.123,
+          "IDSW": 101.0,
+          "MOTA": 54.706
+        },
+        "R2ReliableAndCoherent": {
+          "AssA": 30.185,
+          "HOTA": 39.113,
+          "IDF1": 41.006,
+          "IDSW": 111.0,
+          "MOTA": 54.561
+        },
+        "R2ReliableUpdate": {
+          "AssA": 30.277,
+          "HOTA": 39.172,
+          "IDF1": 41.127,
+          "IDSW": 107.0,
+          "MOTA": 54.619
+        }
+      },
+      "status": "experimental_implementation_passes_tests_full_sequence_regression"
+    }
+  ],
+  "deferred_experiments": [
+    {
+      "acceptance": "Hash-preserved frames and boxes for all arms; scorer and split identical; report wins and regressions per sequence. No default-on promotion based on one sequence.",
+      "completion_reference": "Cognitum_C15_Real_Image_Appearance_2026-10-28",
+      "id": "C15-T1-REAL-APPEARANCE",
+      "limitations": "Not complete MOT17 21-sequence appearance benchmark; not pretrained ReID, no independent detector, no real-world generalization or significance result",
+      "matched_arms": [
+        "MPNTrack original-ID control",
+        "Cognitum P2K position",
+        "Cognitum P2K velocity",
+        "Cognitum P2L histogram+velocity"
+      ],
+      "measured": "3 full MOT17 training sequences 18,512 source boxes; official TrackEval, 5 arms; P2L fixed histogram, not learned ReID",
+      "metrics": [
+        "HOTA",
+        "DetA",
+        "AssA",
+        "MOTA",
+        "IDF1",
+        "ID switches",
+        "coverage",
+        "latency",
+        "CPU memory"
+      ],
+      "requires": [
+        "MOT17-train sequence image frames with redistribution rights documented",
+        "public GT annotations MOT17Labels.zip",
+        "pinned TrackEval checkout",
+        "fixed MPNTrack boxes and corresponding frame IDs"
+      ],
+      "resume_condition": "authentic MOT17-train images available for matching annotations",
+      "status": "completed_real_pixels_official_evaluator_three_sequences"
+    },
+    {
+      "acceptance": "No ID leakage; hold out frames/identities; publish raw metrics and confidence intervals where applicable; disclose weight licensing and training overlap.",
+      "id": "C15-T1-LEARNED-REID",
+      "matched_arms": [
+        "P2K velocity",
+        "P2L handcrafted histogram",
+        "pinned conventional learned ReID",
+        "Cognitum learned-adapter under same boxes"
+      ],
+      "metrics": [
+        "HOTA",
+        "AssA",
+        "IDF1",
+        "ID switches",
+        "missing_feature_rate",
+        "latency",
+        "VRAM/RAM",
+        "energy if measured"
+      ],
+      "requires": [
+        "MOT17-train frames",
+        "licensed pinned OSNet/Torchreid or BoxMOT weights",
+        "verified model SHA256",
+        "fixed preprocessing and device",
+        "reviewed isolated worker and consent"
+      ],
+      "resume_condition": "MOT17-train images now available; obtain licensed pinned learned model weights, audited worker and matching experiment preregistration",
+      "status": "deferred_missing_pinned_weights_and_secure_worker"
+    },
+    {
+      "acceptance": "Separate detector quality from identity-association quality; no source tracker boxes used for claims of independent tracking.",
+      "id": "C15-T1-INDEPENDENT-DETECTORS",
+      "matched_arms": [
+        "ByteTrack",
+        "OC-SORT",
+        "BoT-SORT",
+        "Cognitum candidates"
+      ],
+      "metrics": [
+        "HOTA",
+        "DetA",
+        "AssA",
+        "IDF1",
+        "MOTA",
+        "runtime",
+        "memory",
+        "input fairness"
+      ],
+      "requires": [
+        "MOT17 image frames",
+        "pinned detector weights and configuration",
+        "independent detection outputs",
+        "equivalent tracker budgets and matched evaluation split"
+      ],
+      "resume_condition": "MOT17 frames now available; procure pinned independent detector weights, inference configuration and matched tracker runtime",
+      "status": "deferred_missing_pinned_detector_and_trained_tracker_benchmarks"
+    },
+    {
+      "acceptance": "Only compare semantically overlapping features; not claim a T2 graph is a full OWL 2 reasoner.",
+      "id": "C15-T2-OWL2-ENGINE",
+      "matched_arms": [
+        "mature OWL 2 reasoner",
+        "Cognitum constrained structure graph"
+      ],
+      "metrics": [
+        "soundness",
+        "entailment recall",
+        "inconsistent ontology rejection",
+        "time",
+        "memory"
+      ],
+      "requires": [
+        "pinned OWL 2 DL reasoner such as HermiT or Pellet",
+        "reproducible ontology fixtures and license review"
+      ],
+      "resume_condition": "independent external solver available and ontology test suite frozen",
+      "status": "deferred_external_reasoner_parity"
+    },
+    {
+      "acceptance": "Do not compare different occupied/free/unknown meanings or treat uncalibrated 2D images as 3D rays.",
+      "id": "C15-T3-OCTOMAP-OPENVDB",
+      "matched_arms": [
+        "Cognitum sparse ray reference",
+        "OctoMap occupancy",
+        "OpenVDB volumetric representation on shared subset"
+      ],
+      "metrics": [
+        "occupancy correctness",
+        "boundary consistency",
+        "memory",
+        "throughput",
+        "uncertainty semantics"
+      ],
+      "requires": [
+        "pinned OctoMap and OpenVDB builds",
+        "camera/depth or calibrated rays",
+        "common coordinate system and volume tests"
+      ],
+      "resume_condition": "external engine builds plus matching 3D observation fixtures",
+      "status": "deferred_external_3d_engine_parity"
+    },
+    {
+      "acceptance": "Use same models and quantization and evaluate each of sub-1B, ~1B, 7B\u201314B, ~16B, 25B\u201335B tiers separately; separate routing failures from Cognitum failures.",
+      "id": "C15-P3-LU-LLM-HARDWARE",
+      "matched_arms": [
+        "Lu without Cognitum",
+        "Lu with Cognitum",
+        "competent conventional spatial tools"
+      ],
+      "metrics": [
+        "task success",
+        "tool accuracy",
+        "latency",
+        "RAM/VRAM",
+        "energy if measured",
+        "failure attribution"
+      ],
+      "requires": [
+        "Lu approved native CE worker and security gates",
+        "actual configured GGUF models across five tiers",
+        "matched CPU/GPU settings",
+        "authorized resource and power measurement"
+      ],
+      "resume_condition": "Lu integration and secure worker execution independently approved",
+      "status": "deferred_host_security_and_model_benchmarks"
+    },
+    {
+      "acceptance": "Gain on held-out sequences without unacceptable IDSW fragmentation, source leakage, or safety downgrade",
+      "guard": "R2 not approved; no claims based on currently reused three evaluation sequences",
+      "id": "C15-R2-ABLATABLE-HOLDOUT",
+      "inputs_needed": "Unseen MOT17 training sequences or other ground-truth identities; independent detections; source version pin",
+      "method": "Predeclare seven switch-off ablations and a fixed validation/holdout partition, tune on validation only; test on untouched holdout; compare R1 + conventional baseline under identical boxes",
+      "metrics": [
+        "HOTA",
+        "AssA",
+        "IDF1",
+        "IDSW",
+        "fragmentation",
+        "latency",
+        "peak_RAM",
+        "abstention_rate"
+      ],
+      "status": "deferred"
+    },
+    {
+      "acceptance": "Do not replace R1 unless full held-out HOTA and IDF1 improve without unacceptable ID switches, fragmentation, or authority/latency regressions.",
+      "design": "Re-run chosen switches on full MOT17-02/05/13 and held-out full distinct sequences MOT17-04/10/11; report per-sequence HOTA/IDF1/IDSW, fragmentation, latency, memory, ambiguity; avoid 09 as sole easy holdout.",
+      "id": "C15-R2-ABLATION-FULL-AND-INDEPENDENT-HOLDOUT",
+      "requirements": [
+        "full original MOT17 frame sequence(s)",
+        "official TrackEval source pin",
+        "same detector box stream across all arms",
+        "rigorous train/validation split by video sequence",
+        "predeclared parameter choices and ablation matrix",
+        "no GT identities or source IDs into association"
+      ],
+      "resume_when": "full-sequence scoring resources available and hypotheses frozen",
+      "status": "deferred"
+    },
+    {
+      "acceptance": "Matched boxes and official HOTA/IDF1/IDSW; no regression on holdout, bounded CPU and memory, clear ambiguity audit.",
+      "id": "C15-R2.1-RELIABILITY-REVISIT",
+      "needed": "Holdout sequence split and a stateful quality model that balances template reliability and aging without GT tuning.",
+      "status": "deferred",
+      "why": "Full-length excessive update suppression (786 blocked proposals on MOT17-05) causes appearance staleness and identity fragmentation."
+    },
+    {
+      "acceptance": "Improved verified long-gap re-ID without increased false identity switches.",
+      "id": "C15-R2.1-GALLERY-LONG-OCCLUSION",
+      "needed": "Annotated re-entry gap stratification, camera motion tracking and candidate gate counterfactuals on withheld sequences.",
+      "status": "deferred",
+      "why": "Coherent gallery eliminates cross-snapshot feature mixing but reduces full-sequence association scores."
+    },
+    {
+      "acceptance": "Profile in equivalent settings before/after, preserve exact output hashes or document changed behavior; report wall-clock/CPU/RSS and complexity.",
+      "id": "C15-R2-EFFICIENCY-CODE-REVIEW",
+      "status": "queued",
+      "targets": "Repeated image decode per benchmark arm; Python pairwise cosine/gallery loops; O(n^3) assignment; repeated validation; 2x2 matrix inverse per correction; memory bounds.",
+      "why": "User wants an efficiency review, deferred while advancing engineering."
+    }
+  ],
+  "last_reviewed_utc_date": "2026-10-29",
+  "policy": {
+    "benchmark_deferred_is_never_a_pass": true,
+    "prohibit_host_authority_promotion_without_lu_approval": true,
+    "prohibit_replacing_real_scores_with_synthetic_scores": true,
+    "require_separate_data_model_evaluator_provenance": true,
+    "runtime_research_only": true
+  },
+  "portfolio": "Cognitum/C15",
+  "schema_version": 4
+}

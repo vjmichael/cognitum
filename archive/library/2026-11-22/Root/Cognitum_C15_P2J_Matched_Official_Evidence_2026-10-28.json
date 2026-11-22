@@ -1,0 +1,131 @@
+{
+  "ambiguous_hypotheses_forced_top1_for_analysis": true,
+  "ambiguous_model_decision_rate": 1.0,
+  "baseline_vs_cognitum_comparison_restricts_both_to_same_120_frames": true,
+  "coordinate_mapping": "pixel center / 100 -> pseudo-metre XY (not physical metres)",
+  "counts": {
+    "ambiguous_top1_forced": 119,
+    "decision_ASSOCIATION_AMBIGUOUS": 119,
+    "first_frame_without_prior": 1,
+    "input_boxes": 481,
+    "matched_pairs": 472,
+    "new_identity_proposals": 9,
+    "proposals": 119
+  },
+  "dataset_input_roles": {
+    "association": "MPNTrack boxes with MPNTrack identity stripped",
+    "baseline": "same MPNTrack boxes plus original MPNTrack IDs",
+    "scorer": "official MOT17 gt, withheld from association"
+  },
+  "file_hashes": {
+    "gt/MOT17-train/MOT17-05-DPM/gt/gt.txt": "2e457c46979a1ec033f96449a36641f746674d58cd63a8d9d8c6f2db081084e4",
+    "gt/MOT17-train/MOT17-05-DPM/seqinfo.ini": "334e59ee6bd4ba58af258adcd600bda1f8cc0be194277cf8e74f43393739ecb3",
+    "gt/seqmaps/MOT17-train.txt": "79583eaf6f82fcc2e0b01c14843c852531e6c9aa86dddbd4c610648fdbd46785",
+    "trackers/MOT17-train/CognitumP2JTop1/data/MOT17-05-DPM.txt": "d1205d47a5f604b3b0670d49ec37d803bdeac5b8f6b79c7f55c763566f54d766",
+    "trackers/MOT17-train/MPNTrackMatchedBoxes/data/MOT17-05-DPM.txt": "5e65e0b91d0713169af805289b68485da921b84e7cf2b6ee61fdb95cfc9bd674"
+  },
+  "frames": 120,
+  "full_MOT17_21_sequence_reference_scores_not_comparable_to_this_window": true,
+  "gt_supplied_to_association": false,
+  "identity_mapping_posthoc_not_provided_to_cognitum": {
+    "0.0": "1",
+    "1.0": "2",
+    "2.0": "3",
+    "3.0": "4",
+    "4.0": "5",
+    "5.0": "6",
+    "6.0": "7",
+    "8.0": "8",
+    "9.0": "9"
+  },
+  "independent_proto_descriptor_checks": "61/61 compiled and matched",
+  "input_boxes_per_frame_max": 6,
+  "input_geometry_identical": true,
+  "kind": "C15_T1_P2J_IDENTITY_ONLY_REASSOCIATION_ABLATION",
+  "not_deployable_host_authority": true,
+  "not_independent_tracker": true,
+  "official_evaluation": {
+    "difference_cognitum_minus_baseline": {
+      "AssA": 0.0,
+      "CLR_FN": 0.0,
+      "CLR_FP": 0.0,
+      "CLR_TP": 0.0,
+      "DetA": 0.0,
+      "HOTA": 0.0,
+      "IDF1": 0.0,
+      "IDSW": 0.0,
+      "MOTA": 0.0
+    },
+    "do_preproc": true,
+    "metrics": {
+      "CognitumP2JTop1": {
+        "AssA": 57.84,
+        "CLR_FN": 526.0,
+        "CLR_FP": 28.0,
+        "CLR_TP": 453.0,
+        "DetA": 38.01,
+        "HOTA": 46.862,
+        "IDF1": 54.658,
+        "IDP": 82.952,
+        "IDR": 40.756,
+        "IDSW": 1.0,
+        "MOTA": 43.309
+      },
+      "MPNTrackMatchedBoxes": {
+        "AssA": 57.84,
+        "CLR_FN": 526.0,
+        "CLR_FP": 28.0,
+        "CLR_TP": 453.0,
+        "DetA": 38.01,
+        "HOTA": 46.862,
+        "IDF1": 54.658,
+        "IDP": 82.952,
+        "IDR": 40.756,
+        "IDSW": 1.0,
+        "MOTA": 43.309
+      }
+    },
+    "runner_sha256": "dae02aed9d617aa650454930ba3af743e3904ece9c8ec8d32b3a1eede2d6f5dc",
+    "shim_sha256": "73d0c6a09a165f899c0ae9f81e6c20479252822f8f4f7c5f33d77c02a26a48da",
+    "source_verified": {
+      "commit": "12c8791b303e0a0b50f753af204249e622d0281a",
+      "files_verified": 86,
+      "git_tree_sha": "ce583e59d96b33aad5f8f62149d96bc6bc4d8f96",
+      "source_zip_sha256": "5a089bf3638d1f3a7ae8383ccebf774146f7b1ceca1de989a97b55c76248eb5c"
+    },
+    "summary_sha256": {
+      "CognitumP2JTop1": "bf6a5186d061d3989094984f257640504756ff6d7dbf91dc524cf24da35a3600",
+      "MPNTrackMatchedBoxes": "bf6a5186d061d3989094984f257640504756ff6d7dbf91dc524cf24da35a3600"
+    }
+  },
+  "output_id_rows_identical_except_column_2": true,
+  "parameters": {
+    "max_speed_proxy_m_per_tick": 3.0,
+    "pseudo_meters_per_pixel": 0.01,
+    "sigma_proxy_m": 0.3,
+    "top_k": 2,
+    "unmatched_cost": 9.0
+  },
+  "posthoc_identity_permutation_is_bijective": true,
+  "research_only": true,
+  "score_interpretation": "Equality arises from a bijective nine-ID renaming on identical detector boxes; this is not evidence of independent tracking efficacy.",
+  "selected_regression_tests": "1091 passed, 39 skipped, 547 subtests passed",
+  "selection": "first 120 frames; no detection filtering or discarding",
+  "sequence": "MOT17-05-DPM",
+  "sha256": {
+    "gt/MOT17-train/MOT17-05-DPM/gt/gt.txt": "2e457c46979a1ec033f96449a36641f746674d58cd63a8d9d8c6f2db081084e4",
+    "gt/MOT17-train/MOT17-05-DPM/seqinfo.ini": "334e59ee6bd4ba58af258adcd600bda1f8cc0be194277cf8e74f43393739ecb3",
+    "gt/seqmaps/MOT17-train.txt": "79583eaf6f82fcc2e0b01c14843c852531e6c9aa86dddbd4c610648fdbd46785",
+    "trackers/MOT17-train/CognitumP2JTop1/data/MOT17-05-DPM.txt": "d1205d47a5f604b3b0670d49ec37d803bdeac5b8f6b79c7f55c763566f54d766",
+    "trackers/MOT17-train/MPNTrackMatchedBoxes/data/MOT17-05-DPM.txt": "5e65e0b91d0713169af805289b68485da921b84e7cf2b6ee61fdb95cfc9bd674"
+  },
+  "source": {
+    "full_gt_sha256": "ed74c54176b21b38cb690eda79a4755cf16e4c4a9ca2f019b0ba8904636174f5",
+    "full_prediction_sha256": "d3966bc24db28add9b8f7ac85ca2fe539f67beb31696a46896d3296c003c61dc",
+    "source_seqinfo_sha256": "d23ef19c3a0e78926efd4dfb34ccde3b1527daab25fb7c4d2325de4a52dec311"
+  },
+  "source_box_provenance": "MPNTrack predictions, NOT independent detector observations",
+  "source_ids_visible_to_association": false,
+  "source_predictor_ids_used_by_cognitum": false,
+  "status": "completed_identity_only_not_p3"
+}
