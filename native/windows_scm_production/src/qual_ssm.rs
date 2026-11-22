@@ -155,5 +155,10 @@ pub fn execute(job:Handle,stop:&AtomicBool)->io::Result<()>{
  let empty_after=empty(job).unwrap_or(false);
  if !waited||!empty_after {return Err(refused("cannot establish terminal kernel Job custody"));}
  let digest=outcome?;
+ // A signed receipt is minted ONLY after the kernel Job is confirmed empty
+ // and the original numerical result is checked. The signer is externally
+ // provisioned; no key creation, issuer grant or output release here.
+ crate::qual_cng_terminal::seal_original_terminal(
+     raw.pid,env!("COG_PROD_QUAL_REQUEST_SHA256"),&digest)?;
  record(witness,raw.pid,&digest)
 }
