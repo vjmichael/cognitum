@@ -7,6 +7,9 @@ publish = false
 [features]
 # CI-only qualification, forbidden in accepted R3-R1 no-worker release.
 protected-ssm-qualification = []
+# Distinct installable protected SCM identity; NO original Core grant broker yet.
+# Must NEVER auto-run the CI-only fixed test vector on an owner's machine.
+protected-ssm-production = []
 
 [dependencies]
 
