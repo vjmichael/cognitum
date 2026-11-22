@@ -1,0 +1,4150 @@
+{
+  "schema": "cognitum.mel.inventory.v1",
+  "baseline_sha": "934fcda26ac54856675db50fd9e7fa4986424e9a",
+  "native_run": 44443339840,
+  "scope": "engineering_inventory_only_not_dispatch",
+  "groups": [
+    {
+      "id": "H1",
+      "title": "All major representational architectures",
+      "coverage": "P",
+      "evidence": "hdc_algebra, hdc_survey_algebra, hdc_ghrr, spatial sketches, VFA and SDM: 14 bounded algebra families documented in COG-03BC, plus subsequent work.",
+      "remaining": "Complete RHC, SSP/SPA/NVSA distinctions, full GA and architecture coverage with faithful reference comparisons. Do not conflate variants.",
+      "owner": "COG-03-ALGEBRA",
+      "navigation_refs": [
+        "cognitum/research/hdc_algebra.py",
+        "cognitum/research/hdc_survey_algebra.py",
+        "cognitum/research/hdc_ghrr.py",
+        "cognitum/research/hdc_capacity.py",
+        "cognitum/research/hdc_frontier_encoders.py"
+      ],
+      "legacy_scope_links": [
+        "V01",
+        "V02",
+        "V03",
+        "V04",
+        "V05",
+        "V06",
+        "V07",
+        "V08",
+        "V09",
+        "V10",
+        "V11",
+        "V12",
+        "V13",
+        "V14",
+        "V15",
+        "V16",
+        "H04"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H2",
+      "title": "Abstract algebra",
+      "coverage": "P",
+      "evidence": "Typed BSC/MAP/HRR/FHRR and other bounded binding specs; ordered GHRR inverses; VFA ring-like operations where closed.",
+      "remaining": "Formalize group/module/ring/field/semiring contracts and negative axioms per representation, not a universal field.",
+      "owner": "COG-03-ALGEBRA",
+      "navigation_refs": [
+        "cognitum/research/hdc_algebra.py",
+        "cognitum/research/hdc_survey_algebra.py",
+        "cognitum/research/hdc_ghrr.py",
+        "cognitum/research/hdc_capacity.py",
+        "cognitum/research/hdc_frontier_encoders.py"
+      ],
+      "legacy_scope_links": [
+        "V01",
+        "V02",
+        "V06",
+        "V07",
+        "V14"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H3",
+      "title": "Linear algebra",
+      "coverage": "P",
+      "evidence": "Inner products, matrices, flattened GHRR scoring, Nyström projection, Cholesky and tensor solves.",
+      "remaining": "General SVD/eigensystem/orthogonality contracts and numerical certificates.",
+      "owner": "COG-03-ALGEBRA",
+      "navigation_refs": [
+        "cognitum/research/hdc_algebra.py",
+        "cognitum/research/hdc_survey_algebra.py",
+        "cognitum/research/hdc_ghrr.py",
+        "cognitum/research/hdc_capacity.py",
+        "cognitum/research/hdc_frontier_encoders.py"
+      ],
+      "legacy_scope_links": [
+        "V15",
+        "E08"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H4",
+      "title": "High-dimensional geometry",
+      "coverage": "P",
+      "evidence": "Codebook coherence, Gram analysis, Nyström, screened and phase encoders, measured geometry and capacity.",
+      "remaining": "Intrinsic dimension, learned/correlated geometry, distortion bounds and high-dimensional operating envelope.",
+      "owner": "COG-03-ALGEBRA",
+      "navigation_refs": [
+        "cognitum/research/hdc_algebra.py",
+        "cognitum/research/hdc_survey_algebra.py",
+        "cognitum/research/hdc_ghrr.py",
+        "cognitum/research/hdc_capacity.py",
+        "cognitum/research/hdc_frontier_encoders.py"
+      ],
+      "legacy_scope_links": [
+        "V16",
+        "E07",
+        "E08",
+        "L16"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H5",
+      "title": "Probability theory",
+      "coverage": "P",
+      "evidence": "MAP-I/MAP-B/Bloom exact or conditional probability analyses, FPE fixed-pair Hoeffding bounds, Mondrian uncertainty.",
+      "remaining": "Dependence, uncertainty calibration, continuous distributions, uniform and derivative concentration.",
+      "owner": "COG-03-ALGEBRA",
+      "navigation_refs": [
+        "cognitum/research/hdc_algebra.py",
+        "cognitum/research/hdc_survey_algebra.py",
+        "cognitum/research/hdc_ghrr.py",
+        "cognitum/research/hdc_capacity.py",
+        "cognitum/research/hdc_frontier_encoders.py"
+      ],
+      "legacy_scope_links": [
+        "E01",
+        "E04",
+        "E07"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H6",
+      "title": "Information theory",
+      "coverage": "P",
+      "evidence": "Information load/capacity and compressed/packed payload comparisons (D1/C2/H12).",
+      "remaining": "Entropy, mutual information, rate-distortion, information-loss and end-to-end tradeoffs.",
+      "owner": "COG-03-ALGEBRA",
+      "navigation_refs": [
+        "cognitum/research/hdc_algebra.py",
+        "cognitum/research/hdc_survey_algebra.py",
+        "cognitum/research/hdc_ghrr.py",
+        "cognitum/research/hdc_capacity.py",
+        "cognitum/research/hdc_frontier_encoders.py"
+      ],
+      "legacy_scope_links": [
+        "V16",
+        "M06",
+        "L07"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H7",
+      "title": "Coding theory",
+      "coverage": "P",
+      "evidence": "Noise tests, codebook screening/coherence, sparse/Bloom occupancy, packed parity and corruption controls.",
+      "remaining": "Explicit ECC/code design, minimum distance guarantees, burst and adversarial errors.",
+      "owner": "COG-03-ALGEBRA",
+      "navigation_refs": [
+        "cognitum/research/hdc_algebra.py",
+        "cognitum/research/hdc_survey_algebra.py",
+        "cognitum/research/hdc_ghrr.py",
+        "cognitum/research/hdc_capacity.py",
+        "cognitum/research/hdc_frontier_encoders.py"
+      ],
+      "legacy_scope_links": [
+        "V01",
+        "V05",
+        "V11",
+        "V12",
+        "V16",
+        "E13",
+        "M06",
+        "L08",
+        "L16"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H8",
+      "title": "Harmonic analysis",
+      "coverage": "B",
+      "evidence": "HRR/FHRR and random Fourier VFA, periodic mode algebra, convolution, complex phases and translation (VFA-01).",
+      "remaining": "General correlation, wavelet/multiresolution, nonperiodic spectral bounds and quantization.",
+      "owner": "COG-03-ALGEBRA",
+      "navigation_refs": [
+        "cognitum/research/hdc_algebra.py",
+        "cognitum/research/hdc_survey_algebra.py",
+        "cognitum/research/hdc_ghrr.py",
+        "cognitum/research/hdc_capacity.py",
+        "cognitum/research/hdc_frontier_encoders.py"
+      ],
+      "legacy_scope_links": [
+        "V03",
+        "V04",
+        "L14"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H9",
+      "title": "Kernel mathematics",
+      "coverage": "B",
+      "evidence": "Nyström, RFF/FPE, Gaussian RKHS reproduction/norm/power function, tensor-product kernel (VFA-02/03).",
+      "remaining": "Nonseparable and broader kernels, conditioning, certified bounds, kernel learning.",
+      "owner": "COG-03-ALGEBRA",
+      "navigation_refs": [
+        "cognitum/research/hdc_algebra.py",
+        "cognitum/research/hdc_survey_algebra.py",
+        "cognitum/research/hdc_ghrr.py",
+        "cognitum/research/hdc_capacity.py",
+        "cognitum/research/hdc_frontier_encoders.py"
+      ],
+      "legacy_scope_links": [
+        "E03",
+        "E07",
+        "E09"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H10",
+      "title": "Tensor and geometric algebra",
+      "coverage": "P",
+      "evidence": "TPR and matrix binding, bounded geometric algebra reference, tensor-product Gaussian kernels and GHRR.",
+      "remaining": "General contraction/decomposition, Clifford dimension and rotation fidelity, sparse/low-rank costs.",
+      "owner": "COG-03-ALGEBRA",
+      "navigation_refs": [
+        "cognitum/research/hdc_algebra.py",
+        "cognitum/research/hdc_survey_algebra.py",
+        "cognitum/research/hdc_ghrr.py",
+        "cognitum/research/hdc_capacity.py",
+        "cognitum/research/hdc_frontier_encoders.py"
+      ],
+      "legacy_scope_links": [
+        "V08",
+        "V09",
+        "V10",
+        "V13",
+        "V14",
+        "H04"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H11",
+      "title": "Fundamental HDC operations",
+      "coverage": "B",
+      "evidence": "Spec families and native TorchHD parity: binding, unbinding, bundling, weighting, similarity, cleanup; FPE and matrix operations.",
+      "remaining": "Qualify every operation-family pairing, loss-aware unbundling, normalized/inverse conventions and physical parity.",
+      "owner": "COG-03-ALGEBRA",
+      "navigation_refs": [
+        "cognitum/research/hdc_algebra.py",
+        "cognitum/research/hdc_survey_algebra.py",
+        "cognitum/research/hdc_ghrr.py",
+        "cognitum/research/hdc_capacity.py",
+        "cognitum/research/hdc_frontier_encoders.py"
+      ],
+      "legacy_scope_links": [
+        "V01",
+        "V02",
+        "V03",
+        "V04",
+        "V05",
+        "V06",
+        "V07",
+        "V08",
+        "V09",
+        "V10",
+        "V11",
+        "V12",
+        "V13",
+        "E03",
+        "H01"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H12",
+      "title": "Fundamental encoding",
+      "coverage": "P",
+      "evidence": "Random, level, thermometer, circular/density, phase, sparse, learned projection, typed multidimensional coordinates.",
+      "remaining": "Reliable interval, residue/numerical semantics and all domain encoders.",
+      "owner": "COG-03-MEMORY",
+      "navigation_refs": [
+        "cognitum/research/hdc_encoders.py",
+        "cognitum/research/hdc_structured_encoders.py",
+        "cognitum/research/hdc_associative.py",
+        "cognitum/research/hdc_associative_lifecycle.py",
+        "cognitum/research/hdc_memory_advanced.py",
+        "cognitum/research/hdc_canonical.py"
+      ],
+      "legacy_scope_links": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E07",
+        "E08",
+        "E09",
+        "E10",
+        "E12",
+        "E13"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H13",
+      "title": "Structured encoding",
+      "coverage": "P",
+      "evidence": "Typed structured sums, sets, role/filler records and tabular HRR proposals.",
+      "remaining": "General dictionary/multiset/ordered list operations with stable schemas and exact witnesses.",
+      "owner": "COG-03-MEMORY",
+      "navigation_refs": [
+        "cognitum/research/hdc_encoders.py",
+        "cognitum/research/hdc_structured_encoders.py",
+        "cognitum/research/hdc_associative.py",
+        "cognitum/research/hdc_associative_lifecycle.py",
+        "cognitum/research/hdc_memory_advanced.py",
+        "cognitum/research/hdc_canonical.py"
+      ],
+      "legacy_scope_links": [
+        "E05",
+        "E06",
+        "M07"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H14",
+      "title": "Hierarchical encoding",
+      "coverage": "P",
+      "evidence": "Tree leaf capacity, nested majority, weighted compositional controls.",
+      "remaining": "Recursive trees and general hierarchical recovery, depth/ambiguity/resource gates.",
+      "owner": "COG-03-MEMORY",
+      "navigation_refs": [
+        "cognitum/research/hdc_encoders.py",
+        "cognitum/research/hdc_structured_encoders.py",
+        "cognitum/research/hdc_associative.py",
+        "cognitum/research/hdc_associative_lifecycle.py",
+        "cognitum/research/hdc_memory_advanced.py",
+        "cognitum/research/hdc_canonical.py"
+      ],
+      "legacy_scope_links": [
+        "E06"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H15",
+      "title": "Relational encoding",
+      "coverage": "P",
+      "evidence": "Role/entity keys, directed ordered paths, GHRR and verified rules.",
+      "remaining": "N-ary/relations-about-relations with typed schemas and canonical evidence.",
+      "owner": "COG-03-MEMORY",
+      "navigation_refs": [
+        "cognitum/research/hdc_encoders.py",
+        "cognitum/research/hdc_structured_encoders.py",
+        "cognitum/research/hdc_associative.py",
+        "cognitum/research/hdc_associative_lifecycle.py",
+        "cognitum/research/hdc_memory_advanced.py",
+        "cognitum/research/hdc_canonical.py"
+      ],
+      "legacy_scope_links": [
+        "E06",
+        "M07",
+        "R03"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H16",
+      "title": "Associative memory",
+      "coverage": "B",
+      "evidence": "Cleanup, true sparse distributed counters, packed SDM, phase working memory, two-tier recall, verified hits.",
+      "remaining": "Full partial-cue, inverse/contextual query and false-association calibration under correlated data.",
+      "owner": "COG-03-MEMORY",
+      "navigation_refs": [
+        "cognitum/research/hdc_encoders.py",
+        "cognitum/research/hdc_structured_encoders.py",
+        "cognitum/research/hdc_associative.py",
+        "cognitum/research/hdc_associative_lifecycle.py",
+        "cognitum/research/hdc_memory_advanced.py",
+        "cognitum/research/hdc_canonical.py"
+      ],
+      "legacy_scope_links": [
+        "M01",
+        "M02",
+        "M03",
+        "M04",
+        "M05",
+        "M06"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H17",
+      "title": "Memory organization",
+      "coverage": "P",
+      "evidence": "Phase working memory and two-tier reference, host-owned canonical ANSF; no competing owner.",
+      "remaining": "Episodic/semantic/procedural hierarchy, context/time policies and integrated host acceptance.",
+      "owner": "COG-03-MEMORY",
+      "navigation_refs": [
+        "cognitum/research/hdc_encoders.py",
+        "cognitum/research/hdc_structured_encoders.py",
+        "cognitum/research/hdc_associative.py",
+        "cognitum/research/hdc_associative_lifecycle.py",
+        "cognitum/research/hdc_memory_advanced.py",
+        "cognitum/research/hdc_canonical.py"
+      ],
+      "legacy_scope_links": [
+        "M02",
+        "M03"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H18",
+      "title": "Memory evolution",
+      "coverage": "B",
+      "evidence": "Revision-bound derived associations, lifecycle/invalidation, incremental insertion/subtraction/deletion, churn and replay tests.",
+      "remaining": "Long-term consolidation/conflict/version policies integrated with authenticated Lu authority.",
+      "owner": "COG-03-MEMORY",
+      "navigation_refs": [
+        "cognitum/research/hdc_encoders.py",
+        "cognitum/research/hdc_structured_encoders.py",
+        "cognitum/research/hdc_associative.py",
+        "cognitum/research/hdc_associative_lifecycle.py",
+        "cognitum/research/hdc_memory_advanced.py",
+        "cognitum/research/hdc_canonical.py"
+      ],
+      "legacy_scope_links": [
+        "E10",
+        "M05"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H19",
+      "title": "Memory navigation",
+      "coverage": "P",
+      "evidence": "Similarity, table proposals, graph paths and canonical exact verification.",
+      "remaining": "Hierarchical cross-domain navigation, semantic neighborhoods and measured end-to-end task gains.",
+      "owner": "COG-03-MEMORY",
+      "navigation_refs": [
+        "cognitum/research/hdc_encoders.py",
+        "cognitum/research/hdc_structured_encoders.py",
+        "cognitum/research/hdc_associative.py",
+        "cognitum/research/hdc_associative_lifecycle.py",
+        "cognitum/research/hdc_memory_advanced.py",
+        "cognitum/research/hdc_canonical.py"
+      ],
+      "legacy_scope_links": [
+        "M01",
+        "M07",
+        "H09"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H20",
+      "title": "Function representation",
+      "coverage": "B",
+      "evidence": "Random Fourier, periodic spectra, univariate Gaussian/RKHS and multivariate diagonal Gaussian representations (1–8 variables).",
+      "remaining": "General complex-valued fields/functions, nonseparable spaces and scalable multidimensional representations; complex coefficients alone do not mean arbitrary complex output.",
+      "owner": "COG-03-VFA",
+      "navigation_refs": [
+        "cognitum/research/vfa_random.py",
+        "cognitum/research/vfa_periodic.py",
+        "cognitum/research/vfa_rkhs.py",
+        "cognitum/research/vfa_multivariate.py"
+      ],
+      "legacy_scope_links": [
+        "E11"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H21",
+      "title": "Function construction",
+      "coverage": "B",
+      "evidence": "Kernel sections, sampled Fourier construction, interpolation, regression references and tensor fitting/approximation.",
+      "remaining": "Adaptive functional learning, stable solver alternatives, general reconstruction and held-out conditions.",
+      "owner": "COG-03-VFA",
+      "navigation_refs": [
+        "cognitum/research/vfa_random.py",
+        "cognitum/research/vfa_periodic.py",
+        "cognitum/research/vfa_rkhs.py",
+        "cognitum/research/vfa_multivariate.py"
+      ],
+      "legacy_scope_links": [
+        "E11",
+        "L17"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H22",
+      "title": "Fundamental functional algebra",
+      "coverage": "B",
+      "evidence": "Sum, subtraction, scaling, translation, circular/nonperiodic spectral convolution, bounded coefficient operations.",
+      "remaining": "Explicit scalar division contract and correlation across compatible domains; no general closure claim.",
+      "owner": "COG-03-VFA",
+      "navigation_refs": [
+        "cognitum/research/vfa_random.py",
+        "cognitum/research/vfa_periodic.py",
+        "cognitum/research/vfa_rkhs.py",
+        "cognitum/research/vfa_multivariate.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H23",
+      "title": "Extended functional algebra",
+      "coverage": "B",
+      "evidence": "Pointwise product, bounded periodic quotient, derivatives, integration, polynomial composition, typed chain-rule expressions, Hessian/Laplacian.",
+      "remaining": "Functional inverse, general nonperiodic quotient/composition and derivative/interval certificates.",
+      "owner": "COG-03-VFA",
+      "navigation_refs": [
+        "cognitum/research/vfa_random.py",
+        "cognitum/research/vfa_periodic.py",
+        "cognitum/research/vfa_rkhs.py",
+        "cognitum/research/vfa_multivariate.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H24",
+      "title": "Higher-order mathematics",
+      "coverage": "P",
+      "evidence": "RKHS inner products, function energy, approximation projection and error estimates, typed composition.",
+      "remaining": "Operator algebra, functional maps, optimization and general distance/metric semantics.",
+      "owner": "COG-03-VFA",
+      "navigation_refs": [
+        "cognitum/research/vfa_random.py",
+        "cognitum/research/vfa_periodic.py",
+        "cognitum/research/vfa_rkhs.py",
+        "cognitum/research/vfa_multivariate.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H25",
+      "title": "Residue arithmetic",
+      "coverage": "O",
+      "evidence": "MCR modular compositional binding is present; not evidence of residue arithmetic or CRT decoding.",
+      "remaining": "RHC independent integer residues, range proofs, CRT, signed overflow, addition/subtraction/multiplication. New explicit task.",
+      "owner": "COG-03-ARITHMETIC",
+      "navigation_refs": [
+        "cognitum/research/hdc_algebra.py",
+        "cognitum/research/hdc_hardware.py",
+        "cognitum/research/hdc_encoders.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H26",
+      "title": "Extended numerical representation",
+      "coverage": "P",
+      "evidence": "Signed weights, integer and phase/quantized projections, real function encodings.",
+      "remaining": "Rational and fractional arithmetic, range extension/overflow and exact residue numerical representations.",
+      "owner": "COG-03-ARITHMETIC",
+      "navigation_refs": [
+        "cognitum/research/hdc_algebra.py",
+        "cognitum/research/hdc_hardware.py",
+        "cognitum/research/hdc_encoders.py"
+      ],
+      "legacy_scope_links": [
+        "V07",
+        "E13",
+        "L09",
+        "H07"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H27",
+      "title": "Numerical algebra",
+      "coverage": "P",
+      "evidence": "Packed dot/scoring, matrix binding, kernel solves, finite spectral operations.",
+      "remaining": "General iterative numerical algebra on typed HDC representations and residual guarantees.",
+      "owner": "COG-03-ARITHMETIC",
+      "navigation_refs": [
+        "cognitum/research/hdc_algebra.py",
+        "cognitum/research/hdc_hardware.py",
+        "cognitum/research/hdc_encoders.py"
+      ],
+      "legacy_scope_links": [
+        "V15",
+        "L17",
+        "H01",
+        "H02",
+        "H03",
+        "H05",
+        "H07",
+        "H08",
+        "H12"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H28",
+      "title": "Resonator foundations",
+      "coverage": "B",
+      "evidence": "CoupledResonator, cleanup variants, pair/exhaustive references, recovered resonator code.",
+      "remaining": "Larger-factor and correlated-codebook qualification, uncertainty and failure envelopes.",
+      "owner": "COG-03-FACTORIZATION",
+      "navigation_refs": [
+        "cognitum/research/hdc_resonator_frontier.py",
+        "cognitum/research/hdc_reasoning_advanced.py",
+        "cognitum/research/hdc_uncertain_visual.py",
+        "cognitum/research/hdc_visual_closeout.py"
+      ],
+      "legacy_scope_links": [
+        "R01",
+        "R02",
+        "R07"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H29",
+      "title": "Resonator dynamics",
+      "coverage": "B",
+      "evidence": "Classical/continuous Hopfield and nonlinear cleanup dynamics, fixed-point checks; negative spurious-attractor outcomes retained.",
+      "remaining": "Convergence theory, oscillation/dynamics and robust initialization under scale.",
+      "owner": "COG-03-FACTORIZATION",
+      "navigation_refs": [
+        "cognitum/research/hdc_resonator_frontier.py",
+        "cognitum/research/hdc_reasoning_advanced.py",
+        "cognitum/research/hdc_uncertain_visual.py",
+        "cognitum/research/hdc_visual_closeout.py"
+      ],
+      "legacy_scope_links": [
+        "M04",
+        "R02",
+        "R07"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H30",
+      "title": "Combinatorial factorization",
+      "coverage": "P",
+      "evidence": "Factorized/beam search, GSBC, ordered factor recovery, exact equal-pair comparator.",
+      "remaining": "Hierarchical resonators, deeper multifactors, correlated hypotheses and independent scaling tests.",
+      "owner": "COG-03-FACTORIZATION",
+      "navigation_refs": [
+        "cognitum/research/hdc_resonator_frontier.py",
+        "cognitum/research/hdc_reasoning_advanced.py",
+        "cognitum/research/hdc_uncertain_visual.py",
+        "cognitum/research/hdc_visual_closeout.py"
+      ],
+      "legacy_scope_links": [
+        "R01",
+        "R02"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H31",
+      "title": "Superposition decomposition",
+      "coverage": "P",
+      "evidence": "Weighted residual peeling, equal-weight exact pair oracle, multi-object synthetic controls.",
+      "remaining": "General source separation under non-identifiability, multiple unknowns, visual residuals.",
+      "owner": "COG-03-FACTORIZATION",
+      "navigation_refs": [
+        "cognitum/research/hdc_resonator_frontier.py",
+        "cognitum/research/hdc_reasoning_advanced.py",
+        "cognitum/research/hdc_uncertain_visual.py",
+        "cognitum/research/hdc_visual_closeout.py"
+      ],
+      "legacy_scope_links": [
+        "R02"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H32",
+      "title": "Inverse problems",
+      "coverage": "P",
+      "evidence": "Restricted latent-factor and candidate program recovery (D2B).",
+      "remaining": "General inverse problems, identifiability, transformation recovery and uncertainty.",
+      "owner": "COG-03-FACTORIZATION",
+      "navigation_refs": [
+        "cognitum/research/hdc_resonator_frontier.py",
+        "cognitum/research/hdc_reasoning_advanced.py",
+        "cognitum/research/hdc_uncertain_visual.py",
+        "cognitum/research/hdc_visual_closeout.py"
+      ],
+      "legacy_scope_links": [
+        "R02",
+        "R05",
+        "H10"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H33",
+      "title": "Visual representation",
+      "coverage": "B",
+      "evidence": "Image/IMU encoders, CIFAR and sampled CORe50 pretrained feature classification; actual native data gates.",
+      "remaining": "Broader multi-object encoders, robust full-dataset held-outs and efficiency.",
+      "owner": "COG-03-FACTORIZATION",
+      "navigation_refs": [
+        "cognitum/research/hdc_resonator_frontier.py",
+        "cognitum/research/hdc_reasoning_advanced.py",
+        "cognitum/research/hdc_uncertain_visual.py",
+        "cognitum/research/hdc_visual_closeout.py"
+      ],
+      "legacy_scope_links": [
+        "L23"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H34",
+      "title": "Object disentanglement",
+      "coverage": "P",
+      "evidence": "Resonator factorization in controlled synthetic problems; visual encoders validated separately.",
+      "remaining": "Actual joint image factor recovery of identity, pose, color, shape and scale with held-out combinations. No claim already integrated.",
+      "owner": "COG-03-FACTORIZATION",
+      "navigation_refs": [
+        "cognitum/research/hdc_resonator_frontier.py",
+        "cognitum/research/hdc_reasoning_advanced.py",
+        "cognitum/research/hdc_uncertain_visual.py",
+        "cognitum/research/hdc_visual_closeout.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H35",
+      "title": "Scene disentanglement",
+      "coverage": "P",
+      "evidence": "Synthetic multi-object factorization and separate shared C15 scene graphs/tracking.",
+      "remaining": "Hierarchical visual scene factorizer with background, occlusion, transformations and uncertainty; compare exact OpenUSD truth in NVP.",
+      "owner": "COG-03-FACTORIZATION",
+      "navigation_refs": [
+        "cognitum/research/hdc_resonator_frontier.py",
+        "cognitum/research/hdc_reasoning_advanced.py",
+        "cognitum/research/hdc_uncertain_visual.py",
+        "cognitum/research/hdc_visual_closeout.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H36",
+      "title": "Extended actor representation",
+      "coverage": "O",
+      "evidence": "No actor anatomy/facial/expression/costume HDC engine confirmed.",
+      "remaining": "NVP/CapsNet/ActorID research integration, not replacement of authoritative actor records.",
+      "owner": "COG-03-FACTORIZATION",
+      "navigation_refs": [
+        "cognitum/research/hdc_resonator_frontier.py",
+        "cognitum/research/hdc_reasoning_advanced.py",
+        "cognitum/research/hdc_uncertain_visual.py",
+        "cognitum/research/hdc_visual_closeout.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H37",
+      "title": "Advanced cinematic perception",
+      "coverage": "O",
+      "evidence": "C15 conventional tracking is available, but not HDC cinematic continuity.",
+      "remaining": "Camera, illumination, occlusion, moving actors, shot continuity and real video validation.",
+      "owner": "COG-03-FACTORIZATION",
+      "navigation_refs": [
+        "cognitum/research/hdc_resonator_frontier.py",
+        "cognitum/research/hdc_reasoning_advanced.py",
+        "cognitum/research/hdc_uncertain_visual.py",
+        "cognitum/research/hdc_visual_closeout.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H38",
+      "title": "Continuous spatial representation",
+      "coverage": "P",
+      "evidence": "SpatialSketch/phase/FPE, half-spectrum spatial controls and coordinate binding.",
+      "remaining": "Full SSP/SPA spatial operations, rotations, transformation group semantics and long-range distortion.",
+      "owner": "COG-03-SPATIAL",
+      "navigation_refs": [
+        "cognitum/research/hdc_dynamic_spatial.py",
+        "cognitum/research/vfa_multivariate.py"
+      ],
+      "legacy_scope_links": [
+        "E11"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H39",
+      "title": "Mapping",
+      "coverage": "P",
+      "evidence": "Role-location associations, spatial sketch and separate C15 scene lifecycle.",
+      "remaining": "Occupancy/semantic mapping, time and map consistency, host-owned updates.",
+      "owner": "COG-03-SPATIAL",
+      "navigation_refs": [
+        "cognitum/research/hdc_dynamic_spatial.py",
+        "cognitum/research/vfa_multivariate.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H40",
+      "title": "Navigation",
+      "coverage": "A",
+      "evidence": "C12 planning and C15 tracking available as shared tools; HDC spatial primitives only.",
+      "remaining": "HDC localization/path integration/SLAM/route prediction and matched controls.",
+      "owner": "COG-03-SPATIAL",
+      "navigation_refs": [
+        "cognitum/research/hdc_dynamic_spatial.py",
+        "cognitum/research/vfa_multivariate.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H41",
+      "title": "Relational reasoning",
+      "coverage": "B",
+      "evidence": "OrderedPaths, verified_rule_paths, directed graph and path witnesses, HRR table query and canonical validation.",
+      "remaining": "Longer paths, open-world relation composition and actual graph data; no formal-proof substitution.",
+      "owner": "COG-03-REASONING",
+      "navigation_refs": [
+        "cognitum/research/hdc_reasoning_advanced.py",
+        "cognitum/research/hdc_resonator_frontier.py",
+        "cognitum/research/hdc_canonical.py"
+      ],
+      "legacy_scope_links": [
+        "R03",
+        "R04",
+        "R06"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H42",
+      "title": "Analogical reasoning",
+      "coverage": "P",
+      "evidence": "Graph rank fingerprints and observed-rule transfer on controlled examples.",
+      "remaining": "General analogical correspondences and abstraction, held-out relational structures.",
+      "owner": "COG-03-REASONING",
+      "navigation_refs": [
+        "cognitum/research/hdc_reasoning_advanced.py",
+        "cognitum/research/hdc_resonator_frontier.py",
+        "cognitum/research/hdc_canonical.py"
+      ],
+      "legacy_scope_links": [
+        "R04",
+        "R08"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H43",
+      "title": "Symbolic reasoning",
+      "coverage": "P",
+      "evidence": "Role bindings, finite typed query/rule proposals and graph witnesses.",
+      "remaining": "Full variable substitution, predicate/grammar contracts, solver-verified output.",
+      "owner": "COG-03-REASONING",
+      "navigation_refs": [
+        "cognitum/research/hdc_reasoning_advanced.py",
+        "cognitum/research/hdc_resonator_frontier.py",
+        "cognitum/research/hdc_canonical.py"
+      ],
+      "legacy_scope_links": [
+        "M07",
+        "R05",
+        "R08",
+        "R09"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H44",
+      "title": "Combinatorial reasoning",
+      "coverage": "P",
+      "evidence": "Exact-streamed vs recurrent factor search, finite DSL synthesis, constrained beam search.",
+      "remaining": "Broader constraint optimization and supported reasoning interfaces; compare exact solvers.",
+      "owner": "COG-03-REASONING",
+      "navigation_refs": [
+        "cognitum/research/hdc_reasoning_advanced.py",
+        "cognitum/research/hdc_resonator_frontier.py",
+        "cognitum/research/hdc_canonical.py"
+      ],
+      "legacy_scope_links": [
+        "R05",
+        "H10"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H45",
+      "title": "Higher-order reasoning",
+      "coverage": "O",
+      "evidence": "Higher-order relations and abstract schemas not independently demonstrated.",
+      "remaining": "Recursive relational abstraction and cross-domain schemas with typed proof/witnesses.",
+      "owner": "COG-03-REASONING",
+      "navigation_refs": [
+        "cognitum/research/hdc_reasoning_advanced.py",
+        "cognitum/research/hdc_resonator_frontier.py",
+        "cognitum/research/hdc_canonical.py"
+      ],
+      "legacy_scope_links": [
+        "R08"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H46",
+      "title": "Automata",
+      "coverage": "A",
+      "evidence": "Sequence/HMM transition references and old register E06 mentions FSA; no complete typed VSA automata gate confirmed.",
+      "remaining": "Explicit deterministic/nondeterministic automata, transition composition and exact witness tests.",
+      "owner": "COG-03-EXECUTABLE",
+      "navigation_refs": [
+        "cognitum/research/hdc_structured_encoders.py",
+        "cognitum/research/hdc_reasoning_advanced.py",
+        "cognitum/research/hdc_temporal.py"
+      ],
+      "legacy_scope_links": [
+        "E06"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H47",
+      "title": "Data structures",
+      "coverage": "P",
+      "evidence": "Structured records, sets, trees and associative stores; no complete stack/queue execution contract.",
+      "remaining": "Typed data structure algebra and operation sequences (push/pop/enqueue/dequeue), loss and bounds.",
+      "owner": "COG-03-EXECUTABLE",
+      "navigation_refs": [
+        "cognitum/research/hdc_structured_encoders.py",
+        "cognitum/research/hdc_reasoning_advanced.py",
+        "cognitum/research/hdc_temporal.py"
+      ],
+      "legacy_scope_links": [
+        "E06"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H48",
+      "title": "Computational behavior",
+      "coverage": "O",
+      "evidence": "Finite DSL synthesis executes independently, not a general VSA computational machine.",
+      "remaining": "Pushdown, grammar/instructions, deterministic replay and state transition oracles.",
+      "owner": "COG-03-EXECUTABLE",
+      "navigation_refs": [
+        "cognitum/research/hdc_structured_encoders.py",
+        "cognitum/research/hdc_reasoning_advanced.py",
+        "cognitum/research/hdc_temporal.py"
+      ],
+      "legacy_scope_links": [
+        "R05"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H49",
+      "title": "Computing in superposition",
+      "coverage": "P",
+      "evidence": "Superposition and keyed task models, peel/recovery and shared encodings.",
+      "remaining": "Explicit alternative-state evolution, common transformations and interference scaling; no unlimited parallelism.",
+      "owner": "COG-03-EXECUTABLE",
+      "navigation_refs": [
+        "cognitum/research/hdc_structured_encoders.py",
+        "cognitum/research/hdc_reasoning_advanced.py",
+        "cognitum/research/hdc_temporal.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H50",
+      "title": "Classification",
+      "coverage": "B",
+      "evidence": "Prototype/centroid, native TorchHD and independent corrective heads, RGB/IMU and streaming tests.",
+      "remaining": "Multilabel/generalized classification and per-family competitive matched results.",
+      "owner": "COG-03-LEARNING",
+      "navigation_refs": [
+        "cognitum/research/hdc_learning.py",
+        "cognitum/research/hdc_advanced_learning.py",
+        "cognitum/research/hdc_frontier_learning.py",
+        "cognitum/research/hdc_learning_closeout.py",
+        "cognitum/research/hdc_stream_discovery.py",
+        "cognitum/research/hdc_cooperative_learning.py"
+      ],
+      "legacy_scope_links": [
+        "L01",
+        "L02",
+        "L03",
+        "L04",
+        "L05",
+        "L06",
+        "L07",
+        "L08",
+        "L09",
+        "L10",
+        "L11",
+        "L15",
+        "L18",
+        "L28",
+        "H02"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H51",
+      "title": "Representation learning",
+      "coverage": "P",
+      "evidence": "Trainable items, learned projection, STE, phase and metric-related methods, independent native comparisons.",
+      "remaining": "Contrastive/self-supervised encoders, scalable training and matched memory/cost gates.",
+      "owner": "COG-03-LEARNING",
+      "navigation_refs": [
+        "cognitum/research/hdc_learning.py",
+        "cognitum/research/hdc_advanced_learning.py",
+        "cognitum/research/hdc_frontier_learning.py",
+        "cognitum/research/hdc_learning_closeout.py",
+        "cognitum/research/hdc_stream_discovery.py",
+        "cognitum/research/hdc_cooperative_learning.py"
+      ],
+      "legacy_scope_links": [
+        "E03",
+        "E09",
+        "E12",
+        "L05",
+        "L06",
+        "L07",
+        "L08",
+        "L10",
+        "L11",
+        "L12",
+        "L13",
+        "L14",
+        "L15",
+        "L16",
+        "H06",
+        "H11"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H52",
+      "title": "Efficient learning",
+      "coverage": "B",
+      "evidence": "Online/one-pass/few-shot and multi-prototype experiments (E1/E2), budget-aware training.",
+      "remaining": "Real-world few-shot controls and robust statistical comparisons, production admission.",
+      "owner": "COG-03-LEARNING",
+      "navigation_refs": [
+        "cognitum/research/hdc_learning.py",
+        "cognitum/research/hdc_advanced_learning.py",
+        "cognitum/research/hdc_frontier_learning.py",
+        "cognitum/research/hdc_learning_closeout.py",
+        "cognitum/research/hdc_stream_discovery.py",
+        "cognitum/research/hdc_cooperative_learning.py"
+      ],
+      "legacy_scope_links": [
+        "E12",
+        "L02",
+        "L03",
+        "L04",
+        "L12"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H53",
+      "title": "Adaptive learning",
+      "coverage": "P",
+      "evidence": "DriftPrototype, bounded VisualBank, class-incremental/continual controls and revision policies.",
+      "remaining": "Long-duration domain adaptation, forgetting, interference and drift under realistic streams.",
+      "owner": "COG-03-LEARNING",
+      "navigation_refs": [
+        "cognitum/research/hdc_learning.py",
+        "cognitum/research/hdc_advanced_learning.py",
+        "cognitum/research/hdc_frontier_learning.py",
+        "cognitum/research/hdc_learning_closeout.py",
+        "cognitum/research/hdc_stream_discovery.py",
+        "cognitum/research/hdc_cooperative_learning.py"
+      ],
+      "legacy_scope_links": [
+        "L03",
+        "L12",
+        "L19",
+        "L20",
+        "L23",
+        "L27"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H54",
+      "title": "Statistical computation",
+      "coverage": "P",
+      "evidence": "Regression, density-distance, OpenWorld, Mondrian conformal and clustering references.",
+      "remaining": "Distribution algebra, density normalization, uncertainty propagation and calibration on shifted data.",
+      "owner": "COG-03-LEARNING",
+      "navigation_refs": [
+        "cognitum/research/hdc_learning.py",
+        "cognitum/research/hdc_advanced_learning.py",
+        "cognitum/research/hdc_frontier_learning.py",
+        "cognitum/research/hdc_learning_closeout.py",
+        "cognitum/research/hdc_stream_discovery.py",
+        "cognitum/research/hdc_cooperative_learning.py"
+      ],
+      "legacy_scope_links": [
+        "L17",
+        "L18",
+        "L19",
+        "L20",
+        "L21",
+        "L22",
+        "L28"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H55",
+      "title": "Advanced learning",
+      "coverage": "P",
+      "evidence": "OfflineQ, pseudo-labeling, trainable/shared task models and compositional tests.",
+      "remaining": "Real RL/general self-supervision/meta-learning and verified action integration; no live control.",
+      "owner": "COG-03-LEARNING",
+      "navigation_refs": [
+        "cognitum/research/hdc_learning.py",
+        "cognitum/research/hdc_advanced_learning.py",
+        "cognitum/research/hdc_frontier_learning.py",
+        "cognitum/research/hdc_learning_closeout.py",
+        "cognitum/research/hdc_stream_discovery.py",
+        "cognitum/research/hdc_cooperative_learning.py"
+      ],
+      "legacy_scope_links": [
+        "L26",
+        "H11"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H56",
+      "title": "Temporal intelligence",
+      "coverage": "B",
+      "evidence": "Categorical HMM duration/LDN, n-gram, IMU real HAR held-out and packed heads.",
+      "remaining": "Causal unknown-length inference, longer sequences, event histories and prediction across domains.",
+      "owner": "COG-03-EXTENDED",
+      "navigation_refs": [
+        "cognitum/research/hdc_temporal.py",
+        "cognitum/research/hdc_temporal_closeout.py",
+        "cognitum/research/hdc_cooperative_learning.py",
+        "cognitum/research/hdc_dynamic_spatial.py"
+      ],
+      "legacy_scope_links": [
+        "E05",
+        "E06",
+        "L24",
+        "L25"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H57",
+      "title": "Multimodal intelligence",
+      "coverage": "P",
+      "evidence": "Text/RGB/image/IMU individually tested; no unified audio-video cross-modal engine.",
+      "remaining": "Multimodal binding and alignment, missing/conflicting evidence and real cross-modal generalization.",
+      "owner": "COG-03-EXTENDED",
+      "navigation_refs": [
+        "cognitum/research/hdc_temporal.py",
+        "cognitum/research/hdc_temporal_closeout.py",
+        "cognitum/research/hdc_cooperative_learning.py",
+        "cognitum/research/hdc_dynamic_spatial.py"
+      ],
+      "legacy_scope_links": [
+        "E05",
+        "R09",
+        "L22",
+        "L23",
+        "H06"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H58",
+      "title": "Dynamical computation",
+      "coverage": "P",
+      "evidence": "Classical and continuous recurrent cleanup, HMM/LDN and stable reference dynamics.",
+      "remaining": "Reservoir/oscillatory systems and stability/convergence under scaling.",
+      "owner": "COG-03-EXTENDED",
+      "navigation_refs": [
+        "cognitum/research/hdc_temporal.py",
+        "cognitum/research/hdc_temporal_closeout.py",
+        "cognitum/research/hdc_cooperative_learning.py",
+        "cognitum/research/hdc_dynamic_spatial.py"
+      ],
+      "legacy_scope_links": [
+        "M04",
+        "R07",
+        "L25"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H59",
+      "title": "Distributed intelligence",
+      "coverage": "P",
+      "evidence": "Offline simulated federated aggregation, robust aggregation, packed communication references.",
+      "remaining": "Real multi-node execution, partitioned memory, codebook/version agreement, fault/network recovery.",
+      "owner": "COG-03-EXTENDED",
+      "navigation_refs": [
+        "cognitum/research/hdc_temporal.py",
+        "cognitum/research/hdc_temporal_closeout.py",
+        "cognitum/research/hdc_cooperative_learning.py",
+        "cognitum/research/hdc_dynamic_spatial.py"
+      ],
+      "legacy_scope_links": [
+        "L27",
+        "L28",
+        "H05",
+        "H09"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "H60",
+      "title": "Cognitive integration",
+      "coverage": "A",
+      "evidence": "Standalone HDC research plus cooperative conventional COG-06/07 and Lu-owned memory; optional research routes remain disabled.",
+      "remaining": "Model-to-tool efficacy, HDC planning/fusion/control/agent memory integration and protected installed acceptance.",
+      "owner": "COG-03-EXTENDED",
+      "navigation_refs": [
+        "cognitum/research/hdc_temporal.py",
+        "cognitum/research/hdc_temporal_closeout.py",
+        "cognitum/research/hdc_cooperative_learning.py",
+        "cognitum/research/hdc_dynamic_spatial.py"
+      ],
+      "legacy_scope_links": [
+        "R06",
+        "R09",
+        "L26"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K1",
+      "title": "All major KAN basis families",
+      "coverage": "P",
+      "evidence": "Portable NumPy B-spline and Gaussian RBF inference (kan_portable, kan_optional).",
+      "remaining": "Validate all 22 candidate families individually; not all are established KAN architectures. Stable basis contracts first.",
+      "owner": "COG-04-FOUNDATIONS",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/kan_optional.py",
+        "cognitum/research/kan_approval.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K2",
+      "title": "Representation theory",
+      "coverage": "O",
+      "evidence": "Register/theory references, no verified constructive representation-theorem engine program.",
+      "remaining": "Formal hypotheses, approximation regimes, constructive limitations and complexity.",
+      "owner": "COG-04-FOUNDATIONS",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/kan_optional.py",
+        "cognitum/research/kan_approval.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K3",
+      "title": "Approximation theory",
+      "coverage": "A",
+      "evidence": "Historical P22/P22b approximation/held-out reports; current legacy inference only.",
+      "remaining": "Recover/rebuild trainable models; rigorous convergence and error controls with matched methods.",
+      "owner": "COG-04-FOUNDATIONS",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/kan_optional.py",
+        "cognitum/research/kan_approval.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K4",
+      "title": "Functional analysis",
+      "coverage": "A",
+      "evidence": "HDC VFA provides RKHS; not KAN functional-analysis integration.",
+      "remaining": "KAN function norms, Banach/Sobolev and weak/strong convergence, shared math interface.",
+      "owner": "COG-04-FOUNDATIONS",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/kan_optional.py",
+        "cognitum/research/kan_approval.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K5",
+      "title": "Spline mathematics",
+      "coverage": "P",
+      "evidence": "Spline Cox–de Boor-style recursion with upper-endpoint handling; bounded strictly increasing grids, degrees 0–3 in wrapper.",
+      "remaining": "Repeated/clamped knots, continuity, derivative/integral, support and refinement coefficient transport.",
+      "owner": "COG-04-FOUNDATIONS",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/kan_optional.py",
+        "cognitum/research/kan_approval.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K6",
+      "title": "Polynomial mathematics",
+      "coverage": "A",
+      "evidence": "Shared C05 bounded exact polynomial math; historical polynomial comparator.",
+      "remaining": "KAN Bernstein/Chebyshev/orthogonal bases, recurrences and minimax.",
+      "owner": "COG-04-FOUNDATIONS",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/kan_optional.py",
+        "cognitum/research/kan_approval.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K7",
+      "title": "Harmonic analysis",
+      "coverage": "A",
+      "evidence": "HDC Fourier VFA exists, not KAN harmonic basis.",
+      "remaining": "Fourier, wavelet, spectral and localized KAN bases.",
+      "owner": "COG-04-FOUNDATIONS",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/kan_optional.py",
+        "cognitum/research/kan_approval.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K8",
+      "title": "Differential calculus",
+      "coverage": "O",
+      "evidence": "Forward inference only on current branch.",
+      "remaining": "Analytic/AD Jacobians, Hessians, high derivatives and oracle parity.",
+      "owner": "COG-04-FOUNDATIONS",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/kan_optional.py",
+        "cognitum/research/kan_approval.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K9",
+      "title": "Integral calculus",
+      "coverage": "O",
+      "evidence": "No native KAN quadrature/integration gate located.",
+      "remaining": "Exact basis integrals, numerical quadrature, integral-operator tests.",
+      "owner": "COG-04-FOUNDATIONS",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/kan_optional.py",
+        "cognitum/research/kan_approval.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K10",
+      "title": "Numerical analysis",
+      "coverage": "P",
+      "evidence": "Bounded finite-values/checkpoint input checks; first-layer domain gate; historical stress failures.",
+      "remaining": "All layers domain semantics, roundoff, conditioning, stable training, error certificates.",
+      "owner": "COG-04-FOUNDATIONS",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/kan_optional.py",
+        "cognitum/research/kan_approval.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K11",
+      "title": "Function learning",
+      "coverage": "A",
+      "evidence": "Historical P19/P22/P22b actual training recorded; original code/checkpoints unresolved in current baseline.",
+      "remaining": "Restore or independently rebuild learning, multi-output/unknown-function tasks and repeat evidence.",
+      "owner": "COG-04-FOUNDATIONS",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/kan_optional.py",
+        "cognitum/research/kan_approval.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K12",
+      "title": "Function evaluation",
+      "coverage": "B",
+      "evidence": "PortableKAN scalar/vector/batched forward inference and bounded typed single request wrapper; endpoint tests.",
+      "remaining": "Explicit derivative/integral API, consistent domain checks throughout layers and reference fidelity.",
+      "owner": "COG-04-FOUNDATIONS",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/kan_optional.py",
+        "cognitum/research/kan_approval.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K13",
+      "title": "Functional arithmetic",
+      "coverage": "O",
+      "evidence": "No typed functional arithmetic KAN interface.",
+      "remaining": "Addition, subtraction, products, quotient constraints, translation with verification.",
+      "owner": "COG-04-FOUNDATIONS",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/kan_optional.py",
+        "cognitum/research/kan_approval.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K14",
+      "title": "Functional composition",
+      "coverage": "P",
+      "evidence": "Sequential layers compose learned edge functions during forward inference.",
+      "remaining": "Explicit arbitrary composition, independent chain rules, inverse/coordinate mappings.",
+      "owner": "COG-04-FOUNDATIONS",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/kan_optional.py",
+        "cognitum/research/kan_approval.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K15",
+      "title": "Function decomposition",
+      "coverage": "P",
+      "evidence": "Additive masked edge functions implemented structurally.",
+      "remaining": "Multiplicative MultKAN, low-rank decomposition, identifiability and extraction.",
+      "owner": "COG-04-FOUNDATIONS",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/kan_optional.py",
+        "cognitum/research/kan_approval.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K16",
+      "title": "Functional constraints",
+      "coverage": "A",
+      "evidence": "Historical P22 monotonicity failures and P22b soft penalties; no hard guarantee.",
+      "remaining": "Constrained basis, monotone/positive/convex/periodic function certificates.",
+      "owner": "COG-04-FOUNDATIONS",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/kan_optional.py",
+        "cognitum/research/kan_approval.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K17",
+      "title": "Domain treatment",
+      "coverage": "P",
+      "evidence": "Strict grid input range/refusal in wrapper, endpoint fix, finite shape checks.",
+      "remaining": "Adaptive knots, boundary/extrapolation treatment through every layer, discontinuities and OOD validation.",
+      "owner": "COG-04-FOUNDATIONS",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/kan_optional.py",
+        "cognitum/research/kan_approval.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K18",
+      "title": "Fundamental KAN",
+      "coverage": "P",
+      "evidence": "Up to two bounded spline/RBF layers with masks/base/bias in wrapper.",
+      "remaining": "Trainable shallow/deep/residual/sparse/MultKAN architecture fidelity and scaling.",
+      "owner": "COG-04-ARCHITECTURES",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/kan_optional.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K19",
+      "title": "Computationally efficient KAN",
+      "coverage": "P",
+      "evidence": "Masked matrices compiled for batched inference; RBF path.",
+      "remaining": "Actual efficient-kan/FastKAN parity, grouped/shared/low-rank architectures, training and cost.",
+      "owner": "COG-04-ARCHITECTURES",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/kan_optional.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K20",
+      "title": "Spatial KAN",
+      "coverage": "O",
+      "evidence": "No convolutional/graph/geometric KAN source confirmed on head.",
+      "remaining": "Independent reference variants and spatial symmetry/accuracy gates.",
+      "owner": "COG-04-ARCHITECTURES",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/kan_optional.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K21",
+      "title": "Temporal KAN",
+      "coverage": "O",
+      "evidence": "Standalone SSM/temporal filters are not recurrent KAN.",
+      "remaining": "Recurrent/continuous-time KAN and state/streaming acceptance.",
+      "owner": "COG-04-ARCHITECTURES",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/kan_optional.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K22",
+      "title": "Attention architectures",
+      "coverage": "O",
+      "evidence": "No KAT/KAN attention implementation on head.",
+      "remaining": "Matched rational grouped KAT and controlled transformer hybrids.",
+      "owner": "COG-04-ARCHITECTURES",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/kan_optional.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K23",
+      "title": "Generative and latent architectures",
+      "coverage": "O",
+      "evidence": "No KAN autoencoder/variational/generative architecture gate.",
+      "remaining": "Latent functional structure, generalization and task-specific costs.",
+      "owner": "COG-04-ARCHITECTURES",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/kan_optional.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K24",
+      "title": "Optimization algorithms",
+      "coverage": "A",
+      "evidence": "Historical AdamW training; shared optimization available separately.",
+      "remaining": "Trainable KAN optimizer suite (SGD/Adam/L-BFGS/constrained), repeatable matched tests.",
+      "owner": "COG-04-LEARNING",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K25",
+      "title": "Adaptive learning",
+      "coverage": "O",
+      "evidence": "Static supplied grids in current engine.",
+      "remaining": "Knot movement/refinement, adaptive sampling, basis selection and coefficient transport.",
+      "owner": "COG-04-LEARNING",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K26",
+      "title": "Structural optimization",
+      "coverage": "P",
+      "evidence": "Masks support externally supplied disabled edges; no current optimizer for masks.",
+      "remaining": "Growth/pruning/topology/rank search with independent fidelity and cost.",
+      "owner": "COG-04-LEARNING",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K27",
+      "title": "Regularization",
+      "coverage": "A",
+      "evidence": "Historical soft physical monotonicity penalty; no current regularized training.",
+      "remaining": "Sparsity, smoothness, complexity and derivative/physics constraints.",
+      "owner": "COG-04-LEARNING",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K28",
+      "title": "Learning reliability",
+      "coverage": "A",
+      "evidence": "Historical disjoint holdouts and OOD failures; signed approval metadata is not learning reliability.",
+      "remaining": "Initialization, gradient stability/convergence, calibration, unseen domains and overfitting controls.",
+      "owner": "COG-04-LEARNING",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K29",
+      "title": "Differential geometry",
+      "coverage": "A",
+      "evidence": "Shared spatial geometry exists, not differential-geometry KAN.",
+      "remaining": "Manifolds, tangent metrics, curvature and geodesic instruments with verified learned models.",
+      "owner": "COG-04-GEOMETRY",
+      "navigation_refs": [
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K30",
+      "title": "Information geometry",
+      "coverage": "A",
+      "evidence": "Practical causal/probability and frozen CH40 research are separate.",
+      "remaining": "Fisher metrics, divergence, information geometry of KAN functions.",
+      "owner": "COG-04-GEOMETRY",
+      "navigation_refs": [
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K31",
+      "title": "Algebraic topology",
+      "coverage": "A",
+      "evidence": "C19 topology engine uses Ripser/GUDHI independently.",
+      "remaining": "Connect KAN learned structures to independently verified topology, not automatic invariants.",
+      "owner": "COG-04-GEOMETRY",
+      "navigation_refs": [
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K32",
+      "title": "Persistent topology",
+      "coverage": "A",
+      "evidence": "C19 persistence diagrams and sensitivity controls independently.",
+      "remaining": "Temporal persistence/learned structure and KAN interface.",
+      "owner": "COG-04-GEOMETRY",
+      "navigation_refs": [
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K33",
+      "title": "Geometric learning",
+      "coverage": "O",
+      "evidence": "No KAN equivariant/invariant architecture verified.",
+      "remaining": "Group action, coordinate-independent learning, symmetry and error controls.",
+      "owner": "COG-04-GEOMETRY",
+      "navigation_refs": [
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K34",
+      "title": "Emergent geometry",
+      "coverage": "A",
+      "evidence": "Shared geometry/topology instruments available in bounded form.",
+      "remaining": "Discover and test learned manifold/latent geometry and intrinsic dimension; avoid interpreting artifacts.",
+      "owner": "COG-04-GEOMETRY",
+      "navigation_refs": [
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K35",
+      "title": "Tensor algebra",
+      "coverage": "A",
+      "evidence": "Tensor-product VFA and NumPy batched arrays are not KAN tensor decomposition.",
+      "remaining": "Tensor network/CP/Tucker/TT KAN bases, errors and scaling.",
+      "owner": "COG-04-OPERATORS",
+      "navigation_refs": [
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K36",
+      "title": "Operator theory",
+      "coverage": "O",
+      "evidence": "No KAN operator-valued execution interface.",
+      "remaining": "Linear/nonlinear/differential/integral operators and compatible composition.",
+      "owner": "COG-04-OPERATORS",
+      "navigation_refs": [
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K37",
+      "title": "Neural operators",
+      "coverage": "O",
+      "evidence": "DeepOKAN/KANO papers listed only.",
+      "remaining": "Function-to-function operator learning, independent solver and discretization shift gates.",
+      "owner": "COG-04-OPERATORS",
+      "navigation_refs": [
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K38",
+      "title": "Spectral analysis",
+      "coverage": "A",
+      "evidence": "Fourier VFA and separate graph/topology math.",
+      "remaining": "KAN eigensystems, spectral modes and appropriate learned representation.",
+      "owner": "COG-04-OPERATORS",
+      "navigation_refs": [
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K39",
+      "title": "Higher-order composition",
+      "coverage": "O",
+      "evidence": "No higher-order KAN function collections or typed operator algebra.",
+      "remaining": "Function-valued maps, hierarchical functional objects and composition rules.",
+      "owner": "COG-04-OPERATORS",
+      "navigation_refs": [
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K40",
+      "title": "Differential equations",
+      "coverage": "A",
+      "evidence": "P22b historical solver-labeled stopping-distance surrogate; C16 conventional ODE solver separate.",
+      "remaining": "Actual forward/inverse ODE/PDE residual and boundary/initial-value learning, not just scalar regression.",
+      "owner": "COG-04-SCIENCE",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K41",
+      "title": "Scientific modeling",
+      "coverage": "A",
+      "evidence": "Historical P22/P22b idealized dynamics/monotonicity experiments, explicit no-go for safety control.",
+      "remaining": "Conservation laws, hard constraints, error certificates and real data.",
+      "owner": "COG-04-SCIENCE",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K42",
+      "title": "Inverse problems",
+      "coverage": "O",
+      "evidence": "No independently verified KAN parameter/source inversion gate.",
+      "remaining": "Identifiability, ambiguity, material/parameter recovery and uncertainty.",
+      "owner": "COG-04-SCIENCE",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K43",
+      "title": "Equation discovery",
+      "coverage": "O",
+      "evidence": "No symbolic KAN equation-discovery gate located.",
+      "remaining": "Held-out governing equations, equivalence, counterexamples and false-discovery controls.",
+      "owner": "COG-04-SCIENCE",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K44",
+      "title": "Multiscale modeling",
+      "coverage": "O",
+      "evidence": "No multiscale KAN model verified.",
+      "remaining": "Coupled scales, multiresolution and coarse-graining error.",
+      "owner": "COG-04-SCIENCE",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K45",
+      "title": "Scientific simulation",
+      "coverage": "A",
+      "evidence": "Historical P22/P22b solver-labeled surrogate; current shared ODE/numerical solver.",
+      "remaining": "Reproducible trainable surrogates coupled to independent solver and verified validity domain.",
+      "owner": "COG-04-SCIENCE",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K46",
+      "title": "Dynamical systems",
+      "coverage": "A",
+      "evidence": "Shared C16/C17 dynamics and historical physics fitting, not KAN dynamical-systems engine.",
+      "remaining": "Model regime evolution, equilibria, stability and bifurcation detection.",
+      "owner": "COG-04-DYNAMICS",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K47",
+      "title": "Chaotic systems",
+      "coverage": "O",
+      "evidence": "No KAN chaotic systems benchmark.",
+      "remaining": "Lyapunov estimates, short-horizon prediction, long-run invariants and sensitivity.",
+      "owner": "COG-04-DYNAMICS",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K48",
+      "title": "Stochastic processes",
+      "coverage": "A",
+      "evidence": "Shared stochastic/probability and temporal methods separate.",
+      "remaining": "KAN stochastic/random function learning, SDE/Markov coupling, uncertainty.",
+      "owner": "COG-04-DYNAMICS",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K49",
+      "title": "Probabilistic learning",
+      "coverage": "A",
+      "evidence": "Shared C13 probability; historical calibration negative results.",
+      "remaining": "Density/conditional probability constraints, Bayesian KAN integration and calibration.",
+      "owner": "COG-04-DYNAMICS",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K50",
+      "title": "Ensemble mathematics",
+      "coverage": "O",
+      "evidence": "No KAN ensemble or rare-event system verified.",
+      "remaining": "Alternative models, prediction intervals, rare-event and model-selection controls.",
+      "owner": "COG-04-DYNAMICS",
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K51",
+      "title": "Symbolic extraction",
+      "coverage": "O",
+      "evidence": "No symbolic extraction implementation on head; prior conceptual guides only.",
+      "remaining": "KAN 2.0 style symbolic recovery and exact-equivalence/unknown outcome gates.",
+      "owner": "COG-04-SYMBOLIC",
+      "navigation_refs": [
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K52",
+      "title": "Symbolic compilation",
+      "coverage": "O",
+      "evidence": "No expression-to-KAN compiler.",
+      "remaining": "Typed expression initialization, round-trip semantics, learned refinement.",
+      "owner": "COG-04-SYMBOLIC",
+      "navigation_refs": [
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K53",
+      "title": "Symbolic computation",
+      "coverage": "A",
+      "evidence": "Shared C05 exact polynomial/symbolic math, not KAN-integrated.",
+      "remaining": "Expression simplification/factorization/calculus through explicit shared CAS contracts.",
+      "owner": "COG-04-SYMBOLIC",
+      "navigation_refs": [
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K54",
+      "title": "Mathematical verification",
+      "coverage": "P",
+      "evidence": "Signed/pinned research checkpoints, bounded inputs, legacy inference tests; authenticity is not math correctness.",
+      "remaining": "Independent symbolic/interval verification, counterexamples, numerical to exact-grade separation.",
+      "owner": "COG-04-SYMBOLIC",
+      "navigation_refs": [
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K55",
+      "title": "Continual learning",
+      "coverage": "O",
+      "evidence": "Shared C18 adaptation lifecycle is not KAN continual learning.",
+      "remaining": "Local coefficient updates, versioning, drift/forgetting and frozen holdout acceptance.",
+      "owner": "COG-04-ADAPTATION",
+      "navigation_refs": [
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K56",
+      "title": "Compositional learning",
+      "coverage": "O",
+      "evidence": "Sequential inference is not learned reuse or compositional learning.",
+      "remaining": "Module reuse/transfer, composed functions, held-out cross-domain tests.",
+      "owner": "COG-04-ADAPTATION",
+      "navigation_refs": [
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K57",
+      "title": "Meta-learning",
+      "coverage": "O",
+      "evidence": "No KAN meta-learning/basis selection optimizer.",
+      "remaining": "Learning architecture/basis/optimization policies under matched budgets.",
+      "owner": "COG-04-ADAPTATION",
+      "navigation_refs": [
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K58",
+      "title": "Optimization and control",
+      "coverage": "A",
+      "evidence": "Conventional optimization/planning and historical stopping distance surrogate separate.",
+      "remaining": "Variational/trajectory/MPC learning and independent constraint checks; no live control without safety gate.",
+      "owner": "COG-04-ADAPTATION",
+      "navigation_refs": [
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K59",
+      "title": "Decision intelligence",
+      "coverage": "O",
+      "evidence": "No KAN decision/RL or game-theory engine verified.",
+      "remaining": "Matched decision/value-function research, uncertainty and bounded action interfaces.",
+      "owner": "COG-04-ADAPTATION",
+      "navigation_refs": [
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "K60",
+      "title": "Causal investigation",
+      "coverage": "A",
+      "evidence": "COG-07 established causal libraries accepted; no KAN causal mechanism learner.",
+      "remaining": "KAN-assisted mechanisms with identified assumptions, intervention and counterfactual evaluation.",
+      "owner": "COG-04-ADAPTATION",
+      "navigation_refs": [
+        "docs/quality/P22_KAN_Real_Physics_Training_20261101.md",
+        "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S01",
+      "title": "Computer algebra system",
+      "coverage": "P",
+      "evidence": "C05 scientific_math/exact_reference implements bounded rational/polynomial symbolic routines (not full CAS).",
+      "remaining": "Use established CAS for general exact algebra, verify boundaries and outputs.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S02",
+      "title": "Numerical linear algebra",
+      "coverage": "B",
+      "evidence": "C05 exact matrices and NumPy/SciPy kernel/physical/statistical calculations.",
+      "remaining": "Canonical numerical formats, decomposition library adapters and error budgets.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S03",
+      "title": "Tensor engine",
+      "coverage": "P",
+      "evidence": "VFA-03 Kronecker-factor solves, TPR/structured arrays.",
+      "remaining": "General tensor engine, contractions/decompositions/compression; no need to duplicate libraries.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S04",
+      "title": "Fourier engine",
+      "coverage": "B",
+      "evidence": "NumPy FFT in HRR and VFA-01 spectral algebra.",
+      "remaining": "Shared typed transform/correlation interface, domain and error contracts.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S05",
+      "title": "Wavelet engine",
+      "coverage": "O",
+      "evidence": "No dedicated wavelet source/gate identified.",
+      "remaining": "Maintained wavelet reference + localized basis and transform verification.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S06",
+      "title": "Geometry engine",
+      "coverage": "P",
+      "evidence": "C15 spatial geometry, SE(3) and scene consistency, VFA spatial kernels.",
+      "remaining": "General manifold, differential geometry and learning-facing interface.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S07",
+      "title": "Topology engine",
+      "coverage": "B",
+      "evidence": "C19 bounded Ripser/GUDHI, MST H0, H1, persistence and sensitivity.",
+      "remaining": "Extend bounds/general complexes only as required; not arbitrary topology claims.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S08",
+      "title": "Graph engine",
+      "coverage": "B",
+      "evidence": "C12 NetworkX/graph planning and C15 scene graphs, HDC graph references.",
+      "remaining": "Shared typed graph/evidence/algorithm interface across engines.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S09",
+      "title": "Kernel engine",
+      "coverage": "B",
+      "evidence": "VFA-02/03 Gaussian RKHS, exact kernel and randomized approximation, Nyström.",
+      "remaining": "Nonseparable kernels, stable solvers and cross-engine shared interface.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S10",
+      "title": "Probability engine",
+      "coverage": "B",
+      "evidence": "C13 bounded probability/Bayesian/inference/calibration adapters and HDC uncertainty.",
+      "remaining": "Distribution/operator algebra, general uncertainty propagation and unified contracts.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S11",
+      "title": "Optimization engine",
+      "coverage": "B",
+      "evidence": "C11 optimization/allocation/scheduling/runtime, established libraries.",
+      "remaining": "Integrate function optimization/learning and certified decision boundaries.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S12",
+      "title": "ODE solver",
+      "coverage": "B",
+      "evidence": "C16 SciPy solve_ivp and analytic physical controls.",
+      "remaining": "Broader systems, stiffness/event and solver failure envelopes; typed operands.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S13",
+      "title": "PDE solver",
+      "coverage": "O",
+      "evidence": "No general shared PDE solver qualified in inspected head.",
+      "remaining": "Maintained PDE method, boundary/initial conditions, manufactured-solution verification.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S14",
+      "title": "SDE solver",
+      "coverage": "O",
+      "evidence": "No general SDE solver qualified in inspected head.",
+      "remaining": "Known Itô/Stratonovich semantics, weak/strong convergence, stochastic path fixtures.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S15",
+      "title": "Numerical integration engine",
+      "coverage": "P",
+      "evidence": "VFA analytic integrals, SciPy quadrature test oracles and C05 polynomial integration.",
+      "remaining": "Shared adaptive quadrature interface, singularities, multidimensional error.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S16",
+      "title": "Automatic differentiation",
+      "coverage": "P",
+      "evidence": "Torch-based HDC training uses differentiation; analytic VFA calculus.",
+      "remaining": "Shared typed automatic differentiation (forward/reverse) and independent derivative controls.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S17",
+      "title": "Interval arithmetic",
+      "coverage": "A",
+      "evidence": "Frozen CH40 MPFR/FLINT/Arb interval/proof research exists; not VFA integrated.",
+      "remaining": "Reuse verified instrumentation when justified, not restart CH40 gap pursuit. VFA-04 directed bounds and provenance.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S18",
+      "title": "Formal logic engine",
+      "coverage": "B",
+      "evidence": "C10 Boolean/finite/SMT formal references and typed interfaces.",
+      "remaining": "Shared solver/evidence contract for HDC/KAN candidate hypotheses.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S19",
+      "title": "Constraint solver",
+      "coverage": "B",
+      "evidence": "C10 Z3/cvc5 and C12 planning/validation/optimization.",
+      "remaining": "Bind constraints to representation and explicit witness/unknown semantics.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S20",
+      "title": "Theorem prover",
+      "coverage": "P",
+      "evidence": "C10 strict cvc5/Carcara Alethe proof checks; bounded formal verification, not general theorem prover.",
+      "remaining": "Formal proof-system interoperability for supported propositions; preserve unsupported cases.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S21",
+      "title": "Causal inference engine",
+      "coverage": "B",
+      "evidence": "COG-07 actual maintained causal gates DoWhy/EconML/causal-learn, known-truth cases and failures preserved.",
+      "remaining": "Typed identification assumptions, calibrated uncertainty and KAN coupling.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S22",
+      "title": "Simulation engine",
+      "coverage": "P",
+      "evidence": "C05 bounded simulation, C16 ODE, synthetic HDC and KAN historical physics models.",
+      "remaining": "General simulation interface and external scientific simulators; real validation when needed.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S23",
+      "title": "Complexity analyzer",
+      "coverage": "P",
+      "evidence": "Benchmark capture/source manifests, retained-array/RSS/timing pilots, H12 pipeline profiling.",
+      "remaining": "Unified complexity/resource/energy measurement, end-to-end limits and comparable training/inference.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [
+        "H01",
+        "H02",
+        "H03",
+        "H05",
+        "H06",
+        "H07",
+        "H12"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "S24",
+      "title": "Dimensional analysis",
+      "coverage": "P",
+      "evidence": "C16 explicit SI dimensional models, bounded scientific math.",
+      "remaining": "Shared unit/dimensional algebra, typed function inputs/outputs/errors and conversions.",
+      "owner": "COG-MATH-S",
+      "navigation_refs": [
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "I-01",
+      "title": "Convert KAN functions into compatible VFA representations",
+      "coverage": "O",
+      "evidence": "No KAN→VFA functional conversion verified.",
+      "remaining": "Domain/basis/provenance/loss and independent fit checks.",
+      "owner": "COG-MATH-I",
+      "navigation_refs": [
+        "cognitum/research/vfa_multivariate.py",
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/hdc_canonical.py",
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "I-02",
+      "title": "Approximate VFA functions with KAN",
+      "coverage": "O",
+      "evidence": "No VFA→KAN fit verified.",
+      "remaining": "Rebuilt trainable KAN and matched approximation budgets.",
+      "owner": "COG-MATH-I",
+      "navigation_refs": [
+        "cognitum/research/vfa_multivariate.py",
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/hdc_canonical.py",
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "I-03",
+      "title": "Compare functional accuracy across representations",
+      "coverage": "O",
+      "evidence": "Separate HDC and KAN historical comparisons, not matched cross-function representation study.",
+      "remaining": "Same target, samples, precision, resource and error, multiple seeds.",
+      "owner": "COG-MATH-I",
+      "navigation_refs": [
+        "cognitum/research/vfa_multivariate.py",
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/hdc_canonical.py",
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "I-04",
+      "title": "Associate KAN functions with HDC concepts",
+      "coverage": "O",
+      "evidence": "HDC concept/role binding available independently.",
+      "remaining": "Canonical typed KAN function identity and concept associations.",
+      "owner": "COG-MATH-I",
+      "navigation_refs": [
+        "cognitum/research/vfa_multivariate.py",
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/hdc_canonical.py",
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "I-05",
+      "title": "Retrieve relevant KAN functions through HDC",
+      "coverage": "O",
+      "evidence": "Standalone HDC retrieval, no function catalog integration.",
+      "remaining": "Function metadata, candidate retrieval and exact identity verification.",
+      "owner": "COG-MATH-I",
+      "navigation_refs": [
+        "cognitum/research/vfa_multivariate.py",
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/hdc_canonical.py",
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "I-06",
+      "title": "Compose compatible mathematical objects across engines",
+      "coverage": "O",
+      "evidence": "VFA-only typed compositions.",
+      "remaining": "Cross-engine composition with structural, domain and accuracy semantics.",
+      "owner": "COG-MATH-I",
+      "navigation_refs": [
+        "cognitum/research/vfa_multivariate.py",
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/hdc_canonical.py",
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "I-07",
+      "title": "Use HDC to organize KAN knowledge regions",
+      "coverage": "O",
+      "evidence": "Standalone HDC clustering and KAN functions not jointly connected.",
+      "remaining": "Knowledge-region organization and stable identity/revision controls.",
+      "owner": "COG-MATH-I",
+      "navigation_refs": [
+        "cognitum/research/vfa_multivariate.py",
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/hdc_canonical.py",
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "I-08",
+      "title": "Use KAN to learn HDC similarity transformations",
+      "coverage": "O",
+      "evidence": "No KAN-trained HDC similarity transformation verified.",
+      "remaining": "Metric properties, false associations and learned transform evaluation.",
+      "owner": "COG-MATH-I",
+      "navigation_refs": [
+        "cognitum/research/vfa_multivariate.py",
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/hdc_canonical.py",
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "I-09",
+      "title": "Learn improved HDC encoders using KAN",
+      "coverage": "O",
+      "evidence": "HDC learned projections available, not KAN-backed encoders.",
+      "remaining": "Trainable KAN encoder and matched fidelity/cost/OOD comparisons.",
+      "owner": "COG-MATH-I",
+      "navigation_refs": [
+        "cognitum/research/vfa_multivariate.py",
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/hdc_canonical.py",
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "I-10",
+      "title": "Investigate HDC geometry with KAN-based models",
+      "coverage": "O",
+      "evidence": "Standalone HDC geometry and shared topology.",
+      "remaining": "KAN modeling of measured HDC geometry and independent analysis.",
+      "owner": "COG-MATH-I",
+      "navigation_refs": [
+        "cognitum/research/vfa_multivariate.py",
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/hdc_canonical.py",
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "I-11",
+      "title": "Joint spatial and functional computation",
+      "coverage": "O",
+      "evidence": "VFA spatial/functional kernels alone do not prove joint HDC/KAN.",
+      "remaining": "Shared typed coordinates, function domains and coherent composed tasks.",
+      "owner": "COG-MATH-I",
+      "navigation_refs": [
+        "cognitum/research/vfa_multivariate.py",
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/hdc_canonical.py",
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "I-12",
+      "title": "Joint probability and uncertainty representation",
+      "coverage": "O",
+      "evidence": "Standalone shared probability and HDC uncertainty.",
+      "remaining": "Cross-representation probability/uncertainty interface and calibration.",
+      "owner": "COG-MATH-I",
+      "navigation_refs": [
+        "cognitum/research/vfa_multivariate.py",
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/hdc_canonical.py",
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "I-13",
+      "title": "Cross-domain analogical and mathematical discovery",
+      "coverage": "O",
+      "evidence": "Bounded HDC rule transfer, no joint discovery gate.",
+      "remaining": "Held-out discovery, candidate verification and counterexamples.",
+      "owner": "COG-MATH-I",
+      "navigation_refs": [
+        "cognitum/research/vfa_multivariate.py",
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/hdc_canonical.py",
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "I-14",
+      "title": "Independent calculation and error cross-checking",
+      "coverage": "P",
+      "evidence": "Independent HDC dense/analytic references and historical KAN baselines; not mutual cross-check yet.",
+      "remaining": "Same-function HDC↔KAN cross-check with external oracle, explicit precision and discrepancy policy.",
+      "owner": "COG-MATH-I",
+      "navigation_refs": [
+        "cognitum/research/vfa_multivariate.py",
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/hdc_canonical.py",
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "I-15",
+      "title": "Hierarchical collections of mathematical objects",
+      "coverage": "O",
+      "evidence": "No joint hierarchical mathematical object catalog verified.",
+      "remaining": "Typed hierarchy of representations, functions/operators, provenance and references.",
+      "owner": "COG-MATH-I",
+      "navigation_refs": [
+        "cognitum/research/vfa_multivariate.py",
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/hdc_canonical.py",
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "I-16",
+      "title": "Shared knowledge history and provenance",
+      "coverage": "A",
+      "evidence": "Lu ANSF owns canonical history; HDC derived indexes and signed KAN checkpoint approval independently.",
+      "remaining": "Shared math-object provenance, host-authorized revisions and no competing memory owner.",
+      "owner": "COG-MATH-I",
+      "navigation_refs": [
+        "cognitum/research/vfa_multivariate.py",
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/hdc_canonical.py",
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "I-17",
+      "title": "Distributed mathematical microverse communication",
+      "coverage": "O",
+      "evidence": "Simulated federated HDC, no actual distributed joint microverse.",
+      "remaining": "Define concrete distributed isolated workers, message schemas and failure semantics.",
+      "owner": "COG-MATH-I",
+      "navigation_refs": [
+        "cognitum/research/vfa_multivariate.py",
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/hdc_canonical.py",
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "I-18",
+      "title": "Shared constraint and symbolic verification",
+      "coverage": "A",
+      "evidence": "Shared C10 formal and constraint verification available separately.",
+      "remaining": "Joint expression/claim witnesses, shared solver policy and result binding.",
+      "owner": "COG-MATH-I",
+      "navigation_refs": [
+        "cognitum/research/vfa_multivariate.py",
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/hdc_canonical.py",
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "I-19",
+      "title": "Heterogeneous computational routing",
+      "coverage": "A",
+      "evidence": "COG-06 cooperative conventional routing, research default off.",
+      "remaining": "Explicit HDC/KAN capability and resource-aware routing, real tool-use evidence and authority.",
+      "owner": "COG-MATH-I",
+      "navigation_refs": [
+        "cognitum/research/vfa_multivariate.py",
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/hdc_canonical.py",
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [
+        "H01",
+        "H02",
+        "H03",
+        "H04",
+        "H05",
+        "H07",
+        "H08",
+        "H09",
+        "H10",
+        "H11",
+        "H12"
+      ],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    },
+    {
+      "id": "I-20",
+      "title": "Cross-representation continual learning",
+      "coverage": "O",
+      "evidence": "Separate HDC continual learning; no current KAN adaptation or cross-representation lifecycle.",
+      "remaining": "Versioning, drift and transfer across functions/representations under shared held-outs.",
+      "owner": "COG-MATH-I",
+      "navigation_refs": [
+        "cognitum/research/vfa_multivariate.py",
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/hdc_canonical.py",
+        "cognitum/scientific_math.py",
+        "cognitum/exact_reference.py",
+        "cognitum/formal_backend.py",
+        "cognitum/formal_solver.py",
+        "cognitum/probability_backend.py",
+        "cognitum/causal_specialists.py",
+        "cognitum/optimization.py",
+        "cognitum/planning_graph.py",
+        "cognitum/physics_ode.py",
+        "cognitum/spatial_geometry.py",
+        "cognitum/topology_gudhi.py",
+        "cognitum/temporal_statespace.py"
+      ],
+      "legacy_scope_links": [],
+      "mel_admission": "not_admitted",
+      "production_enabled": false
+    }
+  ],
+  "legacy_links": {
+    "V01": [
+      "H1",
+      "H2",
+      "H7",
+      "H11"
+    ],
+    "V02": [
+      "H1",
+      "H2",
+      "H11"
+    ],
+    "V03": [
+      "H1",
+      "H8",
+      "H11"
+    ],
+    "V04": [
+      "H1",
+      "H8",
+      "H11"
+    ],
+    "V05": [
+      "H1",
+      "H7",
+      "H11"
+    ],
+    "V06": [
+      "H1",
+      "H2",
+      "H11"
+    ],
+    "V07": [
+      "H1",
+      "H2",
+      "H11",
+      "H26"
+    ],
+    "V08": [
+      "H1",
+      "H10",
+      "H11"
+    ],
+    "V09": [
+      "H1",
+      "H10",
+      "H11"
+    ],
+    "V10": [
+      "H1",
+      "H10",
+      "H11"
+    ],
+    "V11": [
+      "H1",
+      "H7",
+      "H11"
+    ],
+    "V12": [
+      "H1",
+      "H7",
+      "H11"
+    ],
+    "V13": [
+      "H1",
+      "H10",
+      "H11"
+    ],
+    "V14": [
+      "H1",
+      "H2",
+      "H10"
+    ],
+    "V15": [
+      "H1",
+      "H3",
+      "H27"
+    ],
+    "V16": [
+      "H1",
+      "H4",
+      "H6",
+      "H7"
+    ],
+    "E01": [
+      "H5",
+      "H12"
+    ],
+    "E02": [
+      "H12"
+    ],
+    "E03": [
+      "H9",
+      "H11",
+      "H12",
+      "H51"
+    ],
+    "E04": [
+      "H5",
+      "H12"
+    ],
+    "E05": [
+      "H12",
+      "H13",
+      "H56",
+      "H57"
+    ],
+    "E06": [
+      "H13",
+      "H14",
+      "H15",
+      "H46",
+      "H47",
+      "H56"
+    ],
+    "E07": [
+      "H4",
+      "H5",
+      "H9",
+      "H12"
+    ],
+    "E08": [
+      "H3",
+      "H4",
+      "H12"
+    ],
+    "E09": [
+      "H9",
+      "H12",
+      "H51"
+    ],
+    "E10": [
+      "H12",
+      "H18"
+    ],
+    "E11": [
+      "H20",
+      "H21",
+      "H38"
+    ],
+    "E12": [
+      "H12",
+      "H51",
+      "H52"
+    ],
+    "E13": [
+      "H7",
+      "H12",
+      "H26"
+    ],
+    "M01": [
+      "H16",
+      "H19"
+    ],
+    "M02": [
+      "H16",
+      "H17"
+    ],
+    "M03": [
+      "H16",
+      "H17"
+    ],
+    "M04": [
+      "H16",
+      "H29",
+      "H58"
+    ],
+    "M05": [
+      "H16",
+      "H18"
+    ],
+    "M06": [
+      "H6",
+      "H7",
+      "H16"
+    ],
+    "M07": [
+      "H13",
+      "H15",
+      "H19",
+      "H43"
+    ],
+    "R01": [
+      "H28",
+      "H30"
+    ],
+    "R02": [
+      "H28",
+      "H29",
+      "H30",
+      "H31",
+      "H32"
+    ],
+    "R03": [
+      "H15",
+      "H41"
+    ],
+    "R04": [
+      "H41",
+      "H42"
+    ],
+    "R05": [
+      "H32",
+      "H43",
+      "H44",
+      "H48"
+    ],
+    "R06": [
+      "H41",
+      "H60"
+    ],
+    "R07": [
+      "H28",
+      "H29",
+      "H58"
+    ],
+    "R08": [
+      "H42",
+      "H43",
+      "H45"
+    ],
+    "R09": [
+      "H43",
+      "H57",
+      "H60"
+    ],
+    "L01": [
+      "H50"
+    ],
+    "L02": [
+      "H50",
+      "H52"
+    ],
+    "L03": [
+      "H50",
+      "H52",
+      "H53"
+    ],
+    "L04": [
+      "H50",
+      "H52"
+    ],
+    "L05": [
+      "H50",
+      "H51"
+    ],
+    "L06": [
+      "H50",
+      "H51"
+    ],
+    "L07": [
+      "H6",
+      "H50",
+      "H51"
+    ],
+    "L08": [
+      "H7",
+      "H50",
+      "H51"
+    ],
+    "L09": [
+      "H26",
+      "H50"
+    ],
+    "L10": [
+      "H50",
+      "H51"
+    ],
+    "L11": [
+      "H50",
+      "H51"
+    ],
+    "L12": [
+      "H51",
+      "H52",
+      "H53"
+    ],
+    "L13": [
+      "H51"
+    ],
+    "L14": [
+      "H8",
+      "H51"
+    ],
+    "L15": [
+      "H50",
+      "H51"
+    ],
+    "L16": [
+      "H4",
+      "H7",
+      "H51"
+    ],
+    "L17": [
+      "H21",
+      "H27",
+      "H54"
+    ],
+    "L18": [
+      "H50",
+      "H54"
+    ],
+    "L19": [
+      "H53",
+      "H54"
+    ],
+    "L20": [
+      "H53",
+      "H54"
+    ],
+    "L21": [
+      "H54"
+    ],
+    "L22": [
+      "H54",
+      "H57"
+    ],
+    "L23": [
+      "H33",
+      "H53",
+      "H57"
+    ],
+    "L24": [
+      "H56"
+    ],
+    "L25": [
+      "H56",
+      "H58"
+    ],
+    "L26": [
+      "H55",
+      "H60"
+    ],
+    "L27": [
+      "H53",
+      "H59"
+    ],
+    "L28": [
+      "H50",
+      "H54",
+      "H59"
+    ],
+    "H01": [
+      "H11",
+      "H27",
+      "S23",
+      "I-19"
+    ],
+    "H02": [
+      "H27",
+      "H50",
+      "S23",
+      "I-19"
+    ],
+    "H03": [
+      "H27",
+      "S23",
+      "I-19"
+    ],
+    "H04": [
+      "H1",
+      "H10",
+      "I-19"
+    ],
+    "H05": [
+      "H27",
+      "H59",
+      "S23",
+      "I-19"
+    ],
+    "H06": [
+      "H51",
+      "H57",
+      "S23"
+    ],
+    "H07": [
+      "H26",
+      "H27",
+      "S23",
+      "I-19"
+    ],
+    "H08": [
+      "H27",
+      "I-19"
+    ],
+    "H09": [
+      "H19",
+      "H59",
+      "I-19"
+    ],
+    "H10": [
+      "H32",
+      "H44",
+      "I-19"
+    ],
+    "H11": [
+      "H51",
+      "H55",
+      "I-19"
+    ],
+    "H12": [
+      "H27",
+      "S23",
+      "I-19"
+    ]
+  },
+  "reserved_operations": [
+    {
+      "operation": "vfa.evaluate",
+      "stage": "MEL-02",
+      "groups": [
+        "H20",
+        "H21",
+        "S09"
+      ],
+      "navigation_refs": [
+        "cognitum/research/vfa_rkhs.py",
+        "cognitum/research/vfa_multivariate.py"
+      ],
+      "contract_sketch": "bounded function plus finite coordinates -> values",
+      "executable": false,
+      "model_advertised": false,
+      "descriptor_status": "reserved_not_routable"
+    },
+    {
+      "operation": "vfa.gradient",
+      "stage": "MEL-02",
+      "groups": [
+        "H23",
+        "S16"
+      ],
+      "navigation_refs": [
+        "cognitum/research/vfa_multivariate.py"
+      ],
+      "contract_sketch": "bounded function plus coordinates -> gradient with declared derivative semantics",
+      "executable": false,
+      "model_advertised": false,
+      "descriptor_status": "reserved_not_routable"
+    },
+    {
+      "operation": "hdc.bind",
+      "stage": "MEL-03",
+      "groups": [
+        "H1",
+        "H11",
+        "H15"
+      ],
+      "navigation_refs": [
+        "cognitum/research/hdc_algebra.py"
+      ],
+      "contract_sketch": "compatible VSA specification and operands -> bound representation",
+      "executable": false,
+      "model_advertised": false,
+      "descriptor_status": "reserved_not_routable"
+    },
+    {
+      "operation": "hdc.query",
+      "stage": "MEL-03",
+      "groups": [
+        "H16",
+        "H19",
+        "H41"
+      ],
+      "navigation_refs": [
+        "cognitum/research/hdc_optional.py",
+        "cognitum/research/hdc_canonical.py"
+      ],
+      "contract_sketch": "revision-bound query -> candidates, canonical witnesses separately",
+      "executable": false,
+      "model_advertised": false,
+      "descriptor_status": "reserved_not_routable"
+    },
+    {
+      "operation": "kan.evaluate",
+      "stage": "MEL-03",
+      "groups": [
+        "K1",
+        "K11",
+        "K12",
+        "K18"
+      ],
+      "navigation_refs": [
+        "cognitum/research/kan_optional.py",
+        "cognitum/research/kan_approval.py",
+        "cognitum/research/kan_portable.py"
+      ],
+      "contract_sketch": "approved checkpoint and domain-qualified inputs -> approximate values",
+      "executable": false,
+      "model_advertised": false,
+      "descriptor_status": "reserved_not_routable"
+    },
+    {
+      "operation": "vfa.compose",
+      "stage": "MEL-04",
+      "groups": [
+        "H23",
+        "H24"
+      ],
+      "navigation_refs": [
+        "cognitum/research/vfa_multivariate.py"
+      ],
+      "contract_sketch": "compatible functions -> typed expression, not implied closure",
+      "executable": false,
+      "model_advertised": false,
+      "descriptor_status": "reserved_not_routable"
+    },
+    {
+      "operation": "convert.kan_to_vfa",
+      "stage": "MEL-04",
+      "groups": [
+        "I-01",
+        "I-03",
+        "I-14"
+      ],
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py",
+        "cognitum/research/vfa_rkhs.py"
+      ],
+      "contract_sketch": "bounded function conversion; held-out error qualification required",
+      "executable": false,
+      "model_advertised": false,
+      "descriptor_status": "reserved_not_routable"
+    },
+    {
+      "operation": "convert.vfa_to_kan",
+      "stage": "MEL-04",
+      "groups": [
+        "I-02",
+        "I-03",
+        "I-14"
+      ],
+      "navigation_refs": [
+        "cognitum/research/vfa_rkhs.py",
+        "cognitum/research/kan_portable.py"
+      ],
+      "contract_sketch": "blocked on trainable KAN; no implementation yet",
+      "executable": false,
+      "model_advertised": false,
+      "descriptor_status": "reserved_not_routable"
+    },
+    {
+      "operation": "kan.fit",
+      "stage": "COG-04",
+      "groups": [
+        "K11",
+        "K24",
+        "K25",
+        "K28"
+      ],
+      "navigation_refs": [
+        "cognitum/research/kan_portable.py"
+      ],
+      "contract_sketch": "blocked on recovered or reconstructed trainable implementation",
+      "executable": false,
+      "model_advertised": false,
+      "descriptor_status": "reserved_not_routable"
+    },
+    {
+      "operation": "verify.function_equivalence",
+      "stage": "MEL-05",
+      "groups": [
+        "I-14",
+        "K54",
+        "S18"
+      ],
+      "navigation_refs": [
+        "cognitum/research/vfa_rkhs.py",
+        "cognitum/research/vfa_multivariate.py"
+      ],
+      "contract_sketch": "domain-qualified independent comparisons, not automatic symbolic proof",
+      "executable": false,
+      "model_advertised": false,
+      "descriptor_status": "reserved_not_routable"
+    },
+    {
+      "operation": "formal.check_constraint",
+      "stage": "MEL-04",
+      "groups": [
+        "I-18",
+        "S18",
+        "S19"
+      ],
+      "navigation_refs": [
+        "cognitum/formal_solver.py",
+        "cognitum/formal_backend.py"
+      ],
+      "contract_sketch": "reuse independently checked formal semantics; bridge not yet admitted",
+      "executable": false,
+      "model_advertised": false,
+      "descriptor_status": "reserved_not_routable"
+    }
+  ],
+  "source_git_blobs": {
+    "cognitum/capability_route_proposal.py": "fd6593f7722ecda8e2bc2a3f1ea946b5aa30a1ea",
+    "cognitum/causal_specialists.py": "2fcecac96bfa1028a242d6a541eb64c1752e7b51",
+    "cognitum/contracts.py": "11d129fb057641ac5da67fccd2f541da0860992f",
+    "cognitum/cooperative.py": "eaa5952f2b25a15e35d9ae4ec2216c4bb6e8cc69",
+    "cognitum/exact_reference.py": "a1d2315912dc332206ba35d16c192614fbd56a53",
+    "cognitum/formal_backend.py": "71ed9f37e83378d896192e18439543f89379f9e7",
+    "cognitum/formal_solver.py": "cfc60e740a436883433a80a67aaacf6db81fba40",
+    "cognitum/lu_ce_handoff.py": "5307864a2bfb5fa78dba944f84a31fec43b08036",
+    "cognitum/optimization.py": "7d1bee564cdb3a209e9976bb43e9ae6f45626c24",
+    "cognitum/physics_ode.py": "f90cbc7bd988811395de1da5dc5aac317e11b9bf",
+    "cognitum/planning_graph.py": "d275333e4cd5207ab8a0dbe0f3eb2bf9c30683d2",
+    "cognitum/policy.py": "a86abb2231d9594f591e5958f44f006cbf7d3eb6",
+    "cognitum/probability_backend.py": "84f2a9bd9f16122fe780926467eedae494fd8530",
+    "cognitum/registry.py": "288171a1113e1d7d259b353ae8703e6ca34fc7b1",
+    "cognitum/research/hdc_advanced_learning.py": "3ff9bb64c8624c2d7e6c5737b22fcba2ef260c48",
+    "cognitum/research/hdc_algebra.py": "1b64d122fd0a34e5de3e747c4076ffaa80216284",
+    "cognitum/research/hdc_associative.py": "42121bc738737ce3dbe3b3921d41404ceec47d73",
+    "cognitum/research/hdc_associative_lifecycle.py": "74a0032a08157f3efded820d40ed1401fcef982e",
+    "cognitum/research/hdc_canonical.py": "ffe6d62ea16ec19e5475bba74cc30f7f490054c7",
+    "cognitum/research/hdc_capacity.py": "b8820b863a23800f549a52781875607ba1d4feac",
+    "cognitum/research/hdc_cooperative_learning.py": "1046a24f5570ff422d78f9ff8bb407de3fd00f70",
+    "cognitum/research/hdc_dynamic_spatial.py": "2010a93856e06fffd74237dec7c89b424f142e8b",
+    "cognitum/research/hdc_encoders.py": "57f7a80af6a39315a5e8b003a19653c063c79826",
+    "cognitum/research/hdc_frontier_encoders.py": "b74ac593c689c925675b3bfc580c730e8dd06cb3",
+    "cognitum/research/hdc_frontier_learning.py": "1b0748e5b0b8588da22e89390d61e190a7bb91cb",
+    "cognitum/research/hdc_ghrr.py": "1b05d98c87e9bacea9e8548b56261d7a30fb28b6",
+    "cognitum/research/hdc_hardware.py": "ff4e764d7af09a2cf1335d5e6c53ddcd1c7dcfe3",
+    "cognitum/research/hdc_learning.py": "93d17118e75d07fba9ae32e11496471aeec696e8",
+    "cognitum/research/hdc_learning_closeout.py": "f8e0cd14e5b187857506452556acc5393674134b",
+    "cognitum/research/hdc_memory_advanced.py": "34d54f18ba352b1f1fcb0f9c03dc548c5616f8c4",
+    "cognitum/research/hdc_optional.py": "d8eb7698185d3ac83c3aedaef21a7af18c572f74",
+    "cognitum/research/hdc_reasoning_advanced.py": "73b2649d5675f61627eecab39fde90a63cd91206",
+    "cognitum/research/hdc_resonator_frontier.py": "57cdf173b09376d25abeff7646c6544791cdf718",
+    "cognitum/research/hdc_stream_discovery.py": "689180a387aa5ec153a6584563c73fefd0a956d7",
+    "cognitum/research/hdc_structured_encoders.py": "bb8848cc52018bb3c5962bd5982677cb59f4a71f",
+    "cognitum/research/hdc_survey_algebra.py": "bd0b5cbd5ce178d84afadddab54174b26ce4acbe",
+    "cognitum/research/hdc_temporal.py": "7522d2d40d87ec305f1a3a829fd14d7567f87c4c",
+    "cognitum/research/hdc_temporal_closeout.py": "052091619c703aacf2c21c918a9e283bdacef83e",
+    "cognitum/research/hdc_uncertain_visual.py": "56b794c00250d45e24fba2dbbd840b03bcfbdb46",
+    "cognitum/research/hdc_visual_closeout.py": "212f6c9f0eee91ebebaecd91a073a4aa2927bca0",
+    "cognitum/research/kan_approval.py": "ee3471db63570a9016b685298ac81edf071a84c1",
+    "cognitum/research/kan_optional.py": "2b71e3a6433a12b27b58a372ecff4839217c20a2",
+    "cognitum/research/kan_portable.py": "f56b9b937a166531ca8130f89e50964ea02e66d8",
+    "cognitum/research/vfa_multivariate.py": "6e498ac907de910ac00a29a1befefa59fdc1cda4",
+    "cognitum/research/vfa_periodic.py": "f4406349d5e28ba15d3b4689fa953bf53850c7ff",
+    "cognitum/research/vfa_random.py": "7f26a18a91137e6a19f7022d301a5c38cf4182ba",
+    "cognitum/research/vfa_rkhs.py": "f19156d11ff73faa6a21e7a9036269f2784e9566",
+    "cognitum/runtime.py": "885c4bf56114c7cab98252539e5900113ae3418b",
+    "cognitum/scientific_math.py": "3af361fcbb390eb0e3d788ba116b2b654901e924",
+    "cognitum/spatial_geometry.py": "cdef1e667febcf9eed64a72bbd1df3d4ac804d92",
+    "cognitum/temporal_statespace.py": "29ad2f036abd14a8dabc9be5469a430a374c765a",
+    "cognitum/topology_gudhi.py": "5bc21477797b6ec9af471243dc5c41d398723890",
+    "cognitum/worker.py": "8246e955525655414c2da95d7153a794f011a0ef",
+    "docs/quality/P22_KAN_Real_Physics_Training_20261101.md": "6739b9f6c18fa945d8a96ea448d1c028d4b7da91",
+    "docs/quality/P22b_KAN_Wind_Drag_Lag_Training_20261101.md": "2162d068d66a50712e1729157cdf492e213cbcf9"
+  },
+  "counts": {
+    "H": {
+      "P": 36,
+      "B": 16,
+      "O": 5,
+      "A": 3
+    },
+    "K": {
+      "P": 10,
+      "O": 24,
+      "A": 25,
+      "B": 1
+    },
+    "S": {
+      "P": 9,
+      "B": 11,
+      "O": 3,
+      "A": 1
+    },
+    "I-": {
+      "O": 16,
+      "P": 1,
+      "A": 3
+    }
+  },
+  "mel_admission": false,
+  "production_enabled": false,
+  "evidence_scope": "local scoped metadata compilation from exact source documents and exact GitHub baseline identities; legacy ID/method projection fixture; not native repository acceptance"
+}
