@@ -1,11 +1,15 @@
-"""MEL-06B-A: inert host interoperability adapter; no Lu integration.
+"""MEL-06B: Cognitum-owned host-loadable mathematical tool interface.
 
-Only trusted host code may use this API. It does not register, advertise,
-authorize, dispatch, authenticate transport, or publish. Native IPC uses the
-existing MEL protobuf messages, not an adapter-specific wire protocol.
+An already trusted host can call load(scope, allowed), inspect the currently
+allowed schemas, dispatch one model-selected operation through the existing
+MEL Runtime/Admission/worker, and close the session. This is a Python host
+API, NOT automatic Lu registration, IPC, an installer, or model authority.
+Lu remains responsible for actual tool registration, user/turn authorization,
+transport custody, cancellation, and final model feedback/publication.
 """
 from dataclasses import dataclass
 from hashlib import sha256
+from threading import RLock
 
 from . import admission as a, native as n, engines as e, model_engines as m
 from . import model_reference as r, intent_reference as ir, discovery as d
@@ -180,3 +184,94 @@ def verify_host_retained_receipt(prepared, receipt):
     return {'ok': True, 'candidate': d.strict_json(r.canonical(body)),
             'candidate_sha256': ir.digest(body),
             'publication_authorized': False}
+
+
+class LoadedCognitum:
+    """One host-owned, one-call MEL tool session.
+
+    Only an already authorized caller may construct Scope and Allowed. Model
+    text is never a scope, grant, operation allowlist or checkpoint approval.
+    No module registration, extra executor, IPC endpoint, or model instance
+    is created here. The existing ReferenceTurn provides reviewed schemas,
+    real worker dispatch and independent numerical result verification.
+    """
+
+    def __init__(self, scope, allowed):
+        n.need(type(scope) is a.Scope and type(allowed) is r.Allowed,
+               'trusted host scope and allowlist required')
+        self._lock = RLock()
+        self._closed = False
+        self._scope = scope
+        self._allowed = allowed
+        self._turn = r.ReferenceTurn(scope, allowed)
+
+    def _require_open(self):
+        n.need(not self._closed, 'Cognitum session closed')
+
+    def schemas(self):
+        """Live model-facing JSON schemas for host-approved operations only."""
+        with self._lock:
+            self._require_open()
+            return self._turn.schemas()
+
+    def catalog(self):
+        """Serializable metadata for the caller to register, never a grant.
+
+        The declared Lu registration state is false because only Lu can own
+        and establish that state. Route metadata cannot add to Allowed.
+        """
+        with self._lock:
+            self._require_open()
+            return {
+                'profile': PROFILE,
+                'registered_with_lu': False,
+                'execution_authorized_by_lu': False,
+                'one_call_per_session': True,
+                'routes': [_metadata(op) for op in self._allowed.operations],
+                'tool_schemas': self._turn.schemas(),
+            }
+
+    def dispatch(self, raw_model):
+        """Execute one validated model request; return verified MEL feedback.
+
+        The caller must check the user's original Lu turn grant BEFORE this
+        call and decide whether to return feedback to its model AFTER it.
+        Output is a candidate for the host, never an authorization or receipt
+        that a model may assert. Existing MEL refuses unoffered operations,
+        malformed input, stale checkpoint and duplicate calls.
+        """
+        with self._lock:
+            if self._closed:
+                return {'ok': False, 'error': 'session_closed',
+                        'result': None, 'publication_authorized': False}
+            feedback = self._turn.dispatch(raw_model)
+            return {**feedback, 'publication_authorized': False}
+
+    def close(self):
+        """Revoke the MEL session and release its owned local worker grants."""
+        with self._lock:
+            if not self._closed:
+                self._closed = True
+                self._turn.close()
+
+    def __enter__(self):
+        self._require_open()
+        return self
+
+    def __exit__(self, *_):
+        self.close()
+
+
+def load(scope, allowed):
+    """Load Cognitum's existing MEL tools for a trusted Python host.
+
+    Example: with load(Scope('s','w','u','t'),
+                       Allowed(('hdc.bind',))) as engine:
+                 schemas = engine.schemas()
+                 feedback = engine.dispatch(model_json)
+
+    This does not dynamically load a Rust NativeTool into Lu. An installed
+    Lu host must explicitly register and invoke this Python-side interface;
+    that end-to-end handoff is reserved for the owner's physical Lu test.
+    """
+    return LoadedCognitum(scope, allowed)
