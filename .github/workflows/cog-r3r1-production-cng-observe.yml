@@ -1,0 +1,91 @@
+name: Cognitum R3-R1 independent machine CNG signer observation
+on:
+  push:
+    branches: [integration/cog-lu-ipc01e-r2-custody-20261121]
+    paths:
+      - scripts/cog-r3r1-production-cng-observe.ps1
+      - .github/workflows/cog-r3r1-production-cng-observe.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cog-r3r1-cng-observe
+  cancel-in-progress: false
+jobs:
+  windows:
+    name: Preexisting nonexportable machine CNG positive and negative admission
+    runs-on: windows-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Separately create CI-only disposable machine CNG signer
+        id: provision
+        shell: pwsh
+        run: |
+          $root=Join-Path $env:RUNNER_TEMP 'cog-r3r1-cng-observe'
+          if(Test-Path $root){throw 'Refuse reused CNG test store'}
+          New-Item -ItemType Directory -Path $root -ErrorAction Stop | Out-Null
+          & ./scripts/cog-r5-physical02-r2-cng-provision.ps1 -Mode provision -FixtureRoot $root -EnvFile "$env:GITHUB_ENV"
+          if($LASTEXITCODE -ne 0){throw 'Independent CI-only CNG provisioning failed'}
+          Add-Content "$env:GITHUB_ENV" "COG_R3_CNG_CI_ROOT=$root"
+      - name: Observe native existing key without creating or exporting private bytes
+        shell: pwsh
+        run: |
+          $raw=& ./scripts/cog-r3r1-production-cng-observe.ps1 -ExistingMachineKeyName $env:COG_R2_CI_KEY_NAME -ApprovedPublicBlobSha256 $env:COG_R2_CI_PUBLIC_SHA256 -CiDiagnosticOnly
+          $r=($raw|Out-String)|ConvertFrom-Json
+          if($r.status -cne 'PASS_CI_PREEXISTING_MACHINE_CNG_PUBLIC_IDENTITY_OBSERVATION_ONLY' -or
+             $r.public_blob_sha256 -cne $env:COG_R2_CI_PUBLIC_SHA256 -or
+             $r.private_export_policy_disabled -ne $true -or
+             $r.signing_usage_present -ne $true -or
+             $r.key_created_or_changed -ne $false -or
+             $r.external_Core_issuer_enrolled -ne $false -or
+             $r.one_use_Core_grant_verified -ne $false -or
+             $r.durable_terminal_receipts_signed -ne $false -or
+             $r.installed_worker_accepted -ne $false -or
+             $r.output_or_ACK_authorized -ne $false){
+            throw 'Observed machine key identity incorrectly promoted to Core/output authority'
+          }
+          $raw|Set-Content -LiteralPath "$PWD/r3r1-cng-observed.json" -Encoding utf8
+      - name: Wrong public pin and non-existing machine key must refuse
+        shell: pwsh
+        run: |
+          $wrong=('0'*64)
+          if($wrong -ceq $env:COG_R2_CI_PUBLIC_SHA256){throw 'Invalid test precondition'}
+          $caught=$false
+          try {
+            & ./scripts/cog-r3r1-production-cng-observe.ps1 -ExistingMachineKeyName $env:COG_R2_CI_KEY_NAME -ApprovedPublicBlobSha256 $wrong -CiDiagnosticOnly | Out-Null
+          }catch{$caught=$true}
+          if(-not $caught){throw 'Zero digest falsely accepted'}
+          $wrong='a'*64
+          if($wrong -ceq $env:COG_R2_CI_PUBLIC_SHA256){$wrong='b'*64}
+          $caught=$false
+          try {
+            & ./scripts/cog-r3r1-production-cng-observe.ps1 -ExistingMachineKeyName $env:COG_R2_CI_KEY_NAME -ApprovedPublicBlobSha256 $wrong -CiDiagnosticOnly | Out-Null
+          }catch{$caught=$true}
+          if(-not $caught){throw 'Mismatched external digest falsely accepted'}
+          $caught=$false
+          try {
+            & ./scripts/cog-r3r1-production-cng-observe.ps1 -ExistingMachineKeyName 'MissingCognitumMachineKeyV1' -ApprovedPublicBlobSha256 $env:COG_R2_CI_PUBLIC_SHA256 -CiDiagnosticOnly | Out-Null
+          }catch{$caught=$true}
+          if(-not $caught){throw 'Missing independent machine key falsely accepted'}
+          $caught=$false
+          try {
+            & ./scripts/cog-r3r1-production-cng-observe.ps1 -ExistingMachineKeyName $env:COG_R2_CI_KEY_NAME -ApprovedPublicBlobSha256 $env:COG_R2_CI_PUBLIC_SHA256 | Out-Null
+          }catch{$caught=$true}
+          if(-not $caught){throw 'Hosted CI key falsely passed genuine production mode'}
+          'PASS_CI_CNG_MISSING_KEY_WRONG_DIGEST_PRODUCTION_REFUSAL' |Set-Content r3r1-cng-negative.txt
+      - name: Revoke original CI-only signer key
+        if: always() && steps.provision.outcome == 'success'
+        shell: pwsh
+        run: |
+          & ./scripts/cog-r5-physical02-r2-cng-provision.ps1 -Mode remove -FixtureRoot $env:COG_R3_CNG_CI_ROOT
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cog-r3r1-cng-readonly-windows
+          path: |
+            r3r1-cng-observed.json
+            r3r1-cng-negative.txt
+          if-no-files-found: warn
