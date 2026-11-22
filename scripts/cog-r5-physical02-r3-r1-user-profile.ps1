@@ -5,11 +5,13 @@
 param(
  [Parameter(Mandatory=$true)][ValidateSet('create','delete')][string]$Mode,
  [Parameter(Mandatory=$true)][string]$Root,
- [Parameter(Mandatory=$true)][string]$ExpectedUserSid
+ [Parameter(Mandatory=$true)][string]$ExpectedUserSid,
+ [ValidateSet('CognitumSsmR3CiSandboxV1','CognitumSsmProductionV1')]
+ [string]$ProfileName='CognitumSsmR3CiSandboxV1'
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'
-$moniker='CognitumSsmR3CiSandboxV1'
+$moniker=$ProfileName
 if($env:OS -ne 'Windows_NT'){throw 'Native Windows profile creation required'}
 $root=[IO.Path]::GetFullPath($Root)
 if(!(Test-Path -LiteralPath $root -PathType Container)){throw 'Exact nonadmin profile I/O folder missing'}
@@ -107,6 +109,7 @@ if($Mode -eq 'create'){
  [ordered]@{
    schema='cognitum.ssm.r3r1.CI_user_owned_appcontainer.v1'
    owner_user_sid=$ExpectedUserSid
+   profile_name=$moniker
    appcontainer_sid=$packageSid
    no_network_capabilities=$true
    owner_is_nonadministrator=$true
@@ -121,6 +124,7 @@ if($Mode -eq 'create'){
  $old=Get-Content -LiteralPath $receipt -Raw|ConvertFrom-Json
  if($old.schema -cne 'cognitum.ssm.r3r1.CI_user_owned_appcontainer.v1' -or
     $old.owner_user_sid -cne $ExpectedUserSid -or
+    $old.profile_name -cne $moniker -or
     $old.owner_is_nonadministrator -ne $true){
    throw 'Foreign/installer AppContainer profile deletion refused'
  }
