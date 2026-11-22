@@ -57,6 +57,11 @@ jobs:
           $p=Join-Path $PWD 'native/windows_scm_production/target'
           $python=(& python -c 'import sys;print(sys.executable)').Trim()
           & ./scripts/cog-r5-physical02-r3-r1-nonadmin.ps1 -Mode provision -ProductionQualifier -FixtureRoot (Join-Path $p 'q-profile') -WorkerRoot (Join-Path $p 'q-io') -RuntimeParent (Join-Path $p 'q-runtime-parent') -HostRoot (Join-Path $p 'q-host') -PeerPython $python -EnvFile "$env:GITHUB_ENV"
+      - name: Compile original Lu workspace Protobuf contract before runtime freeze
+        shell: pwsh
+        run: |
+          python -m research_tests.mel_lu_ipc01c.compile_pinned_lu_ssm --root "$PWD/cognitum/mel/vendor" --descriptor-out "$PWD/q-proto.desc" --receipt "$PWD/q-proto.json"
+          if($LASTEXITCODE -ne 0){throw 'Reviewed original Lu workspace contract generation failed'}
       - name: Build complete pinned Python NumPy SciPy Cognitum runtime
         shell: pwsh
         run: |
