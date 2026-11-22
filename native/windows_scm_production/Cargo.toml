@@ -4,6 +4,10 @@ version = "0.1.0"
 edition = "2021"
 publish = false
 
+[features]
+# CI-only qualification, forbidden in accepted R3-R1 no-worker release.
+protected-ssm-qualification = []
+
 [dependencies]
 
 [[bin]]
