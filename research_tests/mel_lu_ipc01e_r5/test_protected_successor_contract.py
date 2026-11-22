@@ -65,6 +65,17 @@ class ProtectedSuccessorContract(unittest.TestCase):
                 d["protected_service_name"]=service
                 with self.assertRaises(c.RefusedSuccessor): audit(d)
 
+    def test_original_owner_accepted_release_bytes_refused_even_with_new_source(self):
+        for field, old_sha in (
+            ("protected_nsis_installer_sha256", c.CURRENT_NO_WORKER_INSTALLER_SHA256),
+            ("protected_service_image_sha256", c.CURRENT_NO_WORKER_SERVICE_SHA256),
+            ("frozen_runtime_manifest_sha256", c.CURRENT_NO_WORKER_RUNTIME_MANIFEST_SHA256),
+        ):
+            with self.subTest(field=field):
+                d=candidate()
+                d[field]=old_sha
+                with self.assertRaises(c.RefusedSuccessor): audit(d)
+
     def test_owner_fingerprint_cannot_be_selected_from_signed_document(self):
         d=candidate()
         d["approved_gpg_primary_fingerprint"]="A"*40
