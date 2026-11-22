@@ -4,6 +4,7 @@
 param(
  [ValidateSet('Check','Candidate','Production','Sign','Verify')][string]$Phase='Check',
  [string]$ExactSourceSha='',
+ [string]$ApprovedReleaseToolSha='',
  [string]$PythonExecutable='',
  [string]$ApprovedPythonSha256='',
  [string]$ApprovedManifestSha256='',
@@ -180,10 +181,16 @@ if($Phase -eq 'Check'){
  }|ConvertTo-Json -Depth 8 -Compress
  return
 }
-if($ExactSourceSha -cnotmatch '^[a-f0-9]{40}$' -or $head[0] -cne $ExactSourceSha){
- Refuse 'Exact reviewed original Git source SHA does not match checkout'
-}
+if($ExactSourceSha -cnotmatch '^[a-f0-9]{40}$'){Refuse 'Reviewed original source SHA required'}
 if($tracked.Count -ne 0){Refuse 'Tracked original source has local edits'}
+if($head[0] -cne $ExactSourceSha){
+ if($Phase -cne 'Sign' -or $ApprovedReleaseToolSha -cnotmatch '^[a-f0-9]{40}$' -or
+    $ApprovedReleaseToolSha -cne $head[0]){
+  Refuse 'Candidate/production require exact original; sign requires reviewed tool SHA'
+ }
+ # Exact Git ancestry, allowed file delta and original payload SHA are
+ # independently checked by the private GPG builder before staging.
+}
 if($Phase -eq 'Candidate' -or $Phase -eq 'Production'){
  if(-not $python){Refuse 'Original x64 Python executable unavailable'}
  if($pythonInventory.python_bits -ne 64 -or
@@ -249,6 +256,7 @@ if($Phase -eq 'Sign'){
  $builder=Join-Path $PSScriptRoot 'cog-r5-physical02-r3-r1-private-gpg-build.ps1'
  $buildArgs=@{
   ExactSourceSha=$ExactSourceSha
+  ApprovedReleaseToolSha=$ApprovedReleaseToolSha
   ApprovedRuntimeRoot=$RuntimeRoot
   ApprovedRuntimeManifestSha256=$ApprovedManifestSha256
   ApprovedRuntimeProvenanceSha256=$ApprovedProvenanceSha256

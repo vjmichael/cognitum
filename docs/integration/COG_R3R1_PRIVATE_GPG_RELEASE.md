@@ -194,3 +194,33 @@ an owned original Python prefix, or the owner may provision an independently
 reviewed, complete, self-contained x64 CPython prefix. Keep source and
 full manifest approvals distinct; do not copy the user-site overlay into
 the release or treat pip check as runtime-closure approval.
+
+
+## Targeted original-Windows ACL correction with separate tool pin
+
+Observed owner machine ACLs at original source `8c45869214255fc91af53e88e0bfaff6b943696c`
+are ordinary Windows patterns: C: and Program Files are owned by the Windows
+TrustedInstaller service, Creator Owner rules are inherit-only, and
+ProgramData may permit Users to create sibling folders. The old private GPG
+release builder treated all these as fatal even for a strictly protected
+stage. Do NOT change any OS-folder ownership or ACL to make Cognitum sign.
+
+The new builder checks the precreated staging folder **strictly**: its owner
+must be SYSTEM or Administrators, its DACL must have inheritance disabled,
+and no untrusted account may have write privileges on that folder or its
+future release payloads. Each ancestor must remain non-reparse, be owned by
+SYSTEM/Administrators/TrustedInstaller, and must not allow untrusted
+non-inherit-only DELETE_CHILD, WRITE_DAC or WRITE_OWNER. This addresses
+normal Windows ACLs without permitting hostile changes to the staged release.
+
+Release-tool-only correction does not change Cognitum's original verified
+2,413-file runtime or numerical/native/NSIS source. During `-Phase Sign`,
+`-ExactSourceSha` MUST remain the exact old reviewed source SHA, and the
+separately reviewed `-ApprovedReleaseToolSha` MUST equal the updated Git HEAD.
+The builder verifies that the new HEAD descends from the original commit and
+that the only intervening changed files are its exact two release-tool scripts
+and these release docs/ledger. A changed numerical component, native SCM,
+NSIS definition or frozen bundler causes refusal. Candidate/Production still
+require HEAD equal original source and MUST NOT be rerun against new tool head.
+No GitHub secret is imported, no CI hosted production signing, no ACL repair
+and no installed/output authorization occurs automatically.
