@@ -65,18 +65,52 @@ def copytree(src, dst):
     shutil.copytree(src,dst,symlinks=False,ignore=excluded)
 
 
-def prepare(destination:Path, repo:Path):
+def prepare(destination:Path, repo:Path, *,
+            production_source_sha=None,
+            approved_manifest_sha256=None,
+            approved_python_sha256=None):
+    production = production_source_sha is not None
+    if production:
+        # This is an independently pinned *fresh build from original imports*.
+        # It is NOT a promotion/rename of the CI fixture's provenance.
+        need(os.environ.get("GITHUB_ACTIONS") != "true" and
+             os.environ.get("CI") != "true",
+             "hosted CI may not prepare production runtime")
+        for value, length in ((production_source_sha, 40),
+                              (approved_manifest_sha256, 64),
+                              (approved_python_sha256, 64)):
+            need(isinstance(value, str) and
+                 re.fullmatch(r"[0-9a-f]{" + str(length) + r"}", value) and
+                 set(value) != {"0"},
+                 "independent original source, manifest and Python image pins required")
+        need(sys.maxsize > 2**32, "original native Windows x64 Python required")
     need(sys.platform=="win32","genuine native Windows Python runtime required")
     need(destination.is_absolute() and not destination.exists() and
          destination.parent.is_dir() and not destination.parent.is_symlink(),
          "fresh externally staged absolute package root required")
     repo=repo.resolve(strict=True)
+    if production:
+        try:
+            rev=subprocess.run(["git", "-C", str(repo), "rev-parse", "HEAD"],
+                               capture_output=True, text=True, timeout=10, check=True)
+            dirty=subprocess.run(["git", "-C", str(repo), "status",
+                                  "--porcelain", "--untracked-files=no"],
+                                 capture_output=True, text=True, timeout=10, check=True)
+        except (OSError, subprocess.CalledProcessError, subprocess.TimeoutExpired):
+            raise BundleRefused("R3 frozen SSM runtime refused: exact original Git source unavailable")
+        need(rev.stdout.strip() == production_source_sha and
+             not dirty.stdout.strip(),
+             "production runtime exact Git source differs or has tracked edits")
     need((repo/"cognitum/mel/ssm_r5_fixed_child.py").is_file(),
          "reviewed fixed numerical entrypoint required")
     source_python=Path(sys.executable).resolve(strict=True)
     prefix=Path(sys.prefix).resolve(strict=True)
-    need(source_python.parent==prefix and prefix.name.lower() in ("x64","amd64"),
-         "unexpected exact GitHub Windows toolchain executable layout")
+    need(source_python.parent==prefix and
+         (production or prefix.name.lower() in ("x64","amd64")),
+         "unexpected original native Windows Python executable layout")
+    if production:
+        need(hashfile(source_python) == approved_python_sha256,
+             "original production Python image differs from external SHA256 pin")
     site=prefix/"Lib/site-packages"
     need(site.is_dir() and (site/"numpy").is_dir() and (site/"scipy").is_dir(),
          "NumPy and SciPy not pinned in the original Python runtime")
@@ -156,16 +190,29 @@ def prepare(destination:Path, repo:Path):
     manifest=destination/"r3-r1-runtime.manifest"
     raw="".join(f"{digest}\t{rel}\n" for rel,digest,_ in entries).encode("ascii")
     need(len(raw)<MAX_FILES*240,"frozen import manifest too large")
+    manifest_digest=hashlib.sha256(raw).hexdigest()
+    if production:
+        # The external manifest pin MUST be known BEFORE this invocation.
+        # There is deliberately no auto-approval, CI artifact promotion, or
+        # fallback to a locally generated digest on disagreement.
+        need(manifest_digest == approved_manifest_sha256,
+             "fresh production import closure differs from external manifest approval")
     manifest.write_bytes(raw)
     report={
-      "schema":"cognitum.ssm.r3r1.test_installer_style_frozen_runtime.v1",
+      "schema":("cognitum.ssm.r3r1.production_installer_runtime.v1"
+                if production else
+                "cognitum.ssm.r3r1.test_installer_style_frozen_runtime.v1"),
       "python_sha256":hashfile(exe),
       "fixed_script_sha256":hashfile(script),
-      "runtime_manifest_sha256":hashlib.sha256(raw).hexdigest(),
+      "runtime_manifest_sha256":manifest_digest,
       "runtime_file_count":len(entries),
       "runtime_total_bytes":total,
       "selected_numpy_scipy":True,
       "closed_site_packages":True,
+      "original_production_source_sha":(production_source_sha if production else None),
+      "external_python_image_sha256":(approved_python_sha256 if production else None),
+      "production_release_signer_approved":False,
+      "independent_release_authority_approved":False,
       "exact_package_owner_ACL_approved":False,
       "signed_installer_publisher_approved":False,
       "actual_Core_grant":False,
@@ -232,13 +279,25 @@ def smoke(directory:Path,request:Path):
 
 if __name__=="__main__":
     parser=argparse.ArgumentParser()
-    parser.add_argument("mode",choices=["prepare","smoke"])
+    parser.add_argument("mode",choices=["prepare","prepare-production","smoke"])
+    parser.add_argument("--source-sha")
+    parser.add_argument("--approved-manifest-sha256")
+    parser.add_argument("--approved-python-sha256")
     parser.add_argument("--root",required=True)
     parser.add_argument("--repo")
     parser.add_argument("--request")
     args=parser.parse_args()
-    if args.mode=="prepare":
-        result=prepare(Path(args.root),Path(args.repo or Path(__file__).resolve().parents[1]))
+    if args.mode in ("prepare", "prepare-production"):
+        if args.mode == "prepare-production":
+            need(bool(args.source_sha and args.approved_manifest_sha256 and
+                      args.approved_python_sha256),
+                 "separately approved original Git, manifest and CPython pins required")
+        result=prepare(
+            Path(args.root),Path(args.repo or Path(__file__).resolve().parents[1]),
+            production_source_sha=(args.source_sha if args.mode=="prepare-production" else None),
+            approved_manifest_sha256=(args.approved_manifest_sha256 if args.mode=="prepare-production" else None),
+            approved_python_sha256=(args.approved_python_sha256 if args.mode=="prepare-production" else None),
+        )
     else:
         need(bool(args.request),"fixed smoke input required")
         result=smoke(Path(args.root),Path(args.request))
