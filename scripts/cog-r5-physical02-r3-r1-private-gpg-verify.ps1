@@ -154,21 +154,7 @@ if($manifestLines.Count -lt 1 -or $manifestLines.Count -gt 12000){
 $expectedImports=[Collections.Generic.Dictionary[string,string]]::new([StringComparer]::OrdinalIgnoreCase)
 $previous=''
 foreach($line in $manifestLines){
- $match=[regex]::Match($line,'^([0-9a-f]{64})\t([ -~]+)
- status='PASS_PRIVATE_GPG_PACKAGE_DIGESTS_OBSERVATION_ONLY'
- exact_source_sha=$ExpectedSourceSha
- gpg_primary_fingerprint=$expectedFp
- installer_sha256=$actual.installer_sha256
- service_sha256=$actual.service_sha256
- runtime_manifest_sha256=$actual.runtime_manifest_sha256
- runtime_provenance_sha256=$actual.runtime_provenance_sha256
- windows_authenticode_required=$false
- physical_windows_installed_accepted=$false
- protected_worker_verified=$false
- core_grant_verified=$false
- output_release_or_ACK_authorized=$false
-}|ConvertTo-Json -Compress
-)
+ $match=[regex]::Match($line,'^([0-9a-f]{64})\t([ -~]+)$')
  if(-not $match.Success){Refuse 'Noncanonical original runtime manifest entry'}
  $relative=$match.Groups[2].Value
  $segments=@($relative.Split('/'))
