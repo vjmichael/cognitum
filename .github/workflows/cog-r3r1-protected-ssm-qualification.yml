@@ -1,0 +1,115 @@
+name: Cognitum protected SCM AppContainer SSM numerical qualification
+on:
+  push:
+    branches: [integration/cog-lu-ipc01e-r2-custody-20261121]
+    paths:
+      - .github/workflows/cog-r3r1-protected-ssm-qualification.yml
+      - native/windows_scm_production/src/qual_appcontainer.rs
+      - native/windows_scm_production/src/qual_ssm.rs
+      - native/windows_scm_production/src/main.rs
+      - native/windows_scm_production/Cargo.toml
+      - cognitum/mel/ssm_r5_production_child.py
+      - scripts/cog-r3r1-qualify-protected-ssm.ps1
+      - scripts/cog_r3r1_qualifier_pins.py
+      - scripts/cog-r5-physical02-r3-r1-nonadmin.ps1
+      - scripts/cog-r5-physical02-r3-r1-user-profile.ps1
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cog-r3r1-ssm-lineage
+  cancel-in-progress: false
+jobs:
+  windows:
+    name: Real SCM nonadmin AppContainer Job and independent SSM numerical proof
+    runs-on: windows-latest
+    timeout-minutes: 50
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Pinned NumPy SciPy and protocol libraries
+        run: python -m pip install numpy==2.2.6 scipy==1.15.3 protobuf==6.33.1 cryptography==46.0.3 pytest==9.0.2
+      - name: Uncontained process must refuse original request before parsing
+        shell: pwsh
+        run: |
+          python -m unittest -q research_tests.mel_lu_ipc01e_r5.test_production_ssm_child_gate
+          if($LASTEXITCODE -ne 0){throw 'Uncontained worker refusal failed'}
+      - name: Separate disposable host, peer, I/O and runtime
+        shell: pwsh
+        run: |
+          $p=Join-Path $PWD 'native/windows_scm_production/target'
+          foreach($x in @('q-host','q-profile','q-io','q-runtime-parent')){
+            New-Item -ItemType Directory -Path (Join-Path $p $x) -Force | Out-Null
+          }
+      - name: Independent standard-user no-capability AppContainer profile
+        id: user
+        shell: pwsh
+        run: |
+          $p=Join-Path $PWD 'native/windows_scm_production/target'
+          $python=(& python -c 'import sys;print(sys.executable)').Trim()
+          & ./scripts/cog-r5-physical02-r3-r1-nonadmin.ps1 -Mode provision -ProductionQualifier -FixtureRoot (Join-Path $p 'q-profile') -WorkerRoot (Join-Path $p 'q-io') -RuntimeParent (Join-Path $p 'q-runtime-parent') -HostRoot (Join-Path $p 'q-host') -PeerPython $python -EnvFile "$env:GITHUB_ENV"
+      - name: Build complete pinned Python NumPy SciPy Cognitum runtime
+        shell: pwsh
+        run: |
+          $p=Join-Path $PWD 'native/windows_scm_production/target'
+          python scripts/cog_r5_r3_r1_bundle.py prepare --root (Join-Path $p 'q-runtime-parent/runtime') --repo "$PWD" | Set-Content q-runtime.json
+          if($LASTEXITCODE -ne 0){throw 'Frozen math runtime unavailable'}
+      - name: Original SSM request and independent expected output pin
+        shell: pwsh
+        run: |
+          $p=Join-Path $PWD 'native/windows_scm_production/target'
+          $hostRoot=Join-Path $p 'q-host'
+          $io=Join-Path $p 'q-io'
+          $runtime=Join-Path $p 'q-runtime-parent/runtime'
+          python scripts/cog_r5_r1_scm_ssm_fixture.py prepare --root "$hostRoot" --worker-root "$io" --runtime-root "$runtime" --env-file "$env:GITHUB_ENV"
+          if($LASTEXITCODE -ne 0){throw 'Original SSM vector missing'}
+          python scripts/cog_r5_r3_r1_bundle.py smoke --root "$runtime" --request (Join-Path $io 'input.frame') | Set-Content q-frozen-smoke.json
+          if($LASTEXITCODE -ne 0){throw 'Original real mathematical smoke failed'}
+          python scripts/cog_r3r1_qualifier_pins.py prepare
+          if($LASTEXITCODE -ne 0){throw 'Independent numerical SHA unavailable'}
+      - name: Native SCM AppContainer qualifier compile, no installer mutation
+        shell: pwsh
+        run: |
+          cargo build --manifest-path native/windows_scm_production/Cargo.toml --release --locked --offline --features protected-ssm-qualification
+          if($LASTEXITCODE -ne 0){throw 'Feature-gated native SCM protected worker compile failed'}
+          (Get-FileHash native/windows_scm_production/target/release/cognitum-scm-production.exe -Algorithm SHA256).Hash.ToLowerInvariant() | Set-Content q-exe-sha.txt
+      - name: Genuine SCM worker token and original Job before SSM execution
+        shell: pwsh
+        run: |
+          $p=Join-Path $PWD 'native/windows_scm_production/target'
+          & ./scripts/cog-r3r1-qualify-protected-ssm.ps1 -Executable (Join-Path $p 'release/cognitum-scm-production.exe') -WitnessRoot (Join-Path $p 'q-host') -WorkerRoot (Join-Path $p 'q-io') -EvidencePath "$PWD/q-scm-receipt.json"
+      - name: Independently recompute same numerical answer, verify no release
+        shell: pwsh
+        run: |
+          python scripts/cog_r3r1_qualifier_pins.py verify
+          if($LASTEXITCODE -ne 0){throw 'Numerical result recomputation failed'}
+      - name: Revoke disposable peer, profile and DPAPI account
+        if: always() && steps.user.outcome == 'success'
+        shell: pwsh
+        run: |
+          $p=Join-Path $PWD 'native/windows_scm_production/target'
+          & ./scripts/cog-r5-physical02-r3-r1-nonadmin.ps1 -Mode remove -ProductionQualifier -FixtureRoot (Join-Path $p 'q-profile') -WorkerRoot (Join-Path $p 'q-io') -RuntimeParent (Join-Path $p 'q-runtime-parent')
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cog-protected-ssm-source-lineage
+          path: |
+            q-runtime.json
+            q-exe-sha.txt
+            q-frozen-smoke.json
+            q-scm-receipt.json
+            native/windows_scm_production/target/q-expected.json
+            native/windows_scm_production/target/q-host/r3-original-appcontainer-witness.json
+            native/windows_scm_production/target/q-host/production-qualification.json
+            native/windows_scm_production/target/q-io/input.frame
+            native/windows_scm_production/target/q-io/output.frame
+          if-no-files-found: warn
