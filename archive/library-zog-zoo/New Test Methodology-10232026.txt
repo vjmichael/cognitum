@@ -1,0 +1,38 @@
+We need to redesign the HDC tests. Instead of a lexical retrieval, we have to test the HDC component to show what about HDC that could add to current transformers.
+
+Benchmark	What to test	Primary metric
+1. Algebraic correctness	Bind/unbind identities, permutation, similarity, deterministic behavior	Correctness and numerical error
+2. Associative memory capacity	Number of role–value pairs recoverable from bundled representations	Top-1 recovery vs. memory load
+3. Noise and interference resistance	Recovery after bit flips, noisy observations, unrelated bundled items	Accuracy vs. corruption level
+4. Compositional representation	Encode structures with the same symbols but different relationships or order	Structure discrimination accuracy
+5. Relational composition	Recover relationships and perform explicitly defined multi-step transformations	Correct answer rate vs. relationship depth
+6. Continual memory updates	Insert, update, replace, and retrieve associations over time	Accuracy, interference, update cost
+
+ChatGPT suggests CLUTRR: https://github.com/facebookresearch/clutrr
+
+There is already a research precedent for exactly these tests
+One paper I'd particularly recommend having Qwen use as a benchmark reference is:
+
+A Comparison of Vector Symbolic Architectures — Schlegel, Neubert, and Protzel (2022).
+
+The researchers compared 11 VSA implementations, including tests for:
+- How many hypervectors can be bundled before retrieval deteriorates.
+- How accurately information can be recovered after binding and unbinding.
+- How interference affects recovery when many bound pairs are stored together.
+- How representations perform in practical recognition tasks.
+In other words, they evaluated the capabilities that distinguish VSA/HDC from ordinary vector retrieval.
+
+Also, in the User's download folder there is the wikipedia-2023-11-embed-en-v3-int8-binary folder. There are 5 parquet files that I downloaded out of the 414 files.
+
+What ChatGPT would like to benchmark with the five files
+Benchmark	What Qwen should measure
+Ingestion	Parquet reading speed, encoding throughput, peak RAM
+Memory scaling	Actual memory required for 1–5 shards
+Associative search	Query latency and throughput as the hypervector bank grows
+Binary representation	Packed-bit versus current int8 HDC performance
+Multithreading	One CPU thread versus 12 threads on identical workloads
+GPU processing	Batch encoding and large-scale similarity calculations on your R9700
+Memory updates	Adding or replacing associations without rebuilding everything
+
+ChatGPT's message to Qwen:
+Zog Zoo Wikipedia benchmark: Use the five available Wikipedia Parquet shards for a separate scalability and integration benchmark. Keep BEIR retrieval and standard HDC compositional-algebra tests as distinct evaluations. Measure incremental ingest, native HDC encoding, peak RAM, memory footprint, associative-search latency and throughput, 1-thread vs 12-thread CPU scaling, GPU performance including transfer overhead, and incremental update cost. Compare with the supplied Cohere packed binary and int8 representations as labeled baselines, not native HDC results. Report cold-cache and warm-cache results separately. No need to download all remaining shards for this phase.
