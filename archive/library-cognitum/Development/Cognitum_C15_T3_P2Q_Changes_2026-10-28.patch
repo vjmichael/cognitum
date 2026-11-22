@@ -1,0 +1,740 @@
+--- /dev/null
++++ b/P2Q_START_HERE.md
+@@ -0,0 +1,36 @@
++# Cognitum C15 T3 P2Q — Calibrated depth -> sparse volume -> T2 hypotheses
++
++**Offline research reference only.** P2P baseline retained; new additions are
++P2Q Protobuf, reference conversion, synthetic smoke, and tests. Does not touch
++Lu, Jan, GitHub, installed models, or physical cameras.
++
++## Run
++
++```
++PYTHONPATH=. python tools/run_c15_t3_p2q_demo.py
++PYTHONPATH=. python -m pytest -q tests/test_c15_t3_p2q_calibrated_depth.py
++PYTHONPATH=. python -m pytest -q tests/test_c13* tests/test_c14* tests/test_c15*
++PYTHONPATH=. python -m pytest -q tests/test_c07*
++PYTHONPATH=. python tools/verify_protobuf_schemas.py --require
++```
++
++## Core files
++
++- `proto/cognitum/spatial/v1/calibrated_depth.proto`
++- `cognitum/proto/spatial_calibrated_depth_pb2.py` (compiler-derived descriptor)
++- `cognitum/spatial_calibrated_depth.py`
++- `tests/test_c15_t3_p2q_calibrated_depth.py`
++- `tools/run_c15_t3_p2q_demo.py`
++- `docs/components/spatial/P2Q-T3-calibrated-depth-bridge.md`
++- `docs/components/spatial/C15-T3-P2Q-deferred-validation-backlog-v1.json`
++- `tools/check_proto_descriptors.py` (one new registered descriptor)
++
++`P2Q_SHA256SUMS.json` covers packaged source files. The archive is a research
++checkpoint, not an authenticated software release or a security certification.
++`P2P_SHA256SUMS.json` (if present) remains historical evidence for the P2P
++snapshot, not a fresh attestation of updated P2Q files.
++
++The camera intrinsics, pose, depth readings, source labels, and image hash are
++caller-supplied. The source digest is not a signature and a depth-image hash
++is not verified against supplied raw pixels. No production geometry or real
++world occupancy claims are permitted. **No canonical scene mutation.**
+--- /dev/null
++++ b/cognitum/proto/spatial_calibrated_depth_pb2.py
+@@ -0,0 +1,8 @@
++"""Compiler-produced C15 T3 P2Q depth calibration wire descriptor."""
++from cognitum.proto import temporal_occupancy_pb2 as _temporal
++from cognitum.proto import spatial_volume_pb2 as _volume
++from google.protobuf import descriptor_pool as pool
++from google.protobuf.internal import builder
++DESCRIPTOR=pool.Default().AddSerializedFile(bytes.fromhex('0a2a636f676e6974756d2f7370617469616c2f76312f63616c696272617465645f64657074682e70726f746f1213636f676e6974756d2e7370617469616c2e76311a2c636f676e6974756d2f7370617469616c2f76312f74656d706f72616c5f6f63637570616e63792e70726f746f1a20636f676e6974756d2f7370617469616c2f76312f766f6c756d652e70726f746f22a8030a0950325143616d65726112190a086672616d655f696418012001280952076672616d65496412340a1663616c6962726174696f6e5f736f757263655f726566180220012809521463616c6962726174696f6e536f7572636552656612140a05776964746818032001280d5205776964746812160a0668656967687418042001280d5206686569676874120e0a02667818052001280152026678120e0a02667918062001280152026679120e0a02637818072001280152026378120e0a02637918082001280152026379122b0a117265637469666965645f70696e686f6c65180920012808521072656374696669656450696e686f6c6512440a0b7472616e736c6174696f6e180a2001280b32222e636f676e6974756d2e7370617469616c2e76312e4f63637570616e637956656333520b7472616e736c6174696f6e120e0a027177180b2001280152027177120e0a027178180c2001280152027178120e0a027179180d2001280152027179120e0a02717a180e200128015202717a12290a116d61785f617869616c5f64657074685f6d180f20012801520e6d6178417869616c44657074684d22d3010a0d5032514465707468506978656c120c0a017518012001280d520175120c0a017618022001280d52017612220a0d617869616c5f64657074685f6d180320012801520b617869616c44657074684d12120a047469636b18042001280452047469636b121d0a0a736f757263655f7265661805200128095209736f75726365526566122c0a1264657074685f6672616d655f73686132353618062001280c521064657074684672616d6553686132353612210a0c656e64706f696e745f686974180720012808520b656e64706f696e7448697422e8040a0f50325144657074685265717565737412250a0e736368656d615f76657273696f6e18012001280d520d736368656d6156657273696f6e12270a0f636f6e766572736174696f6e5f6964180220012809520e636f6e766572736174696f6e4964121b0a09766f6c756d655f69641803200128095208766f6c756d654964121d0a0a636170747572655f6964180420012809520963617074757265496412360a0663616d65726118052001280b321e2e636f676e6974756d2e7370617469616c2e76312e50325143616d657261520663616d65726112230a0d63616d6572615f73686132353618062001280c520c63616d65726153686132353612200a0c766f78656c5f73697a655f6d180720012801520a766f78656c53697a654d12190a086d61785f6178697318082001280d52076d61784178697312270a0f6576616c756174696f6e5f7469636b180920012804520e6576616c756174696f6e5469636b12260a0f68616c665f6c6966655f7469636b73180a20012801520d68616c664c6966655469636b73123a0a06706978656c73180b2003280b32222e636f676e6974756d2e7370617469616c2e76312e5032514465707468506978656c5206706978656c7312270a0f6869745f70726f626162696c697479180c20012801520e68697450726f626162696c69747912290a10667265655f70726f626162696c697479180d20012801520f6672656550726f626162696c69747912230a0d72657365617263685f6f6e6c79180e20012808520c72657365617263684f6e6c7912290a106772616e74735f617574686f72697479180f20012808520f6772616e7473417574686f7269747922cd030a0d50325150726f6a656374696f6e120c0a017518012001280d520175120c0a017618022001280d52017612120a047469636b18032001280452047469636b121d0a0a736f757263655f7265661804200128095209736f75726365526566122c0a1264657074685f6672616d655f73686132353618052001280c521064657074684672616d6553686132353612210a0c656e64706f696e745f686974180620012808520b656e64706f696e74486974124e0a1163616d6572615f656e64706f696e745f6d18072001280b32222e636f676e6974756d2e7370617469616c2e76312e4f63637570616e637956656333520f63616d657261456e64706f696e744d124c0a10776f726c645f656e64706f696e745f6d18082001280b32222e636f676e6974756d2e7370617469616c2e76312e4f63637570616e637956656333520e776f726c64456e64706f696e744d12170a07766f78656c5f781809200128115206766f78656c5812170a07766f78656c5f79180a200128115206766f78656c5912170a07766f78656c5f7a180b200128115206766f78656c5a12330a16646572697665645f7261795f736f757263655f726566180c20012809521364657269766564526179536f75726365526566229d050a0e5032514465707468526573756c7412250a0e736368656d615f76657273696f6e18012001280d520d736368656d6156657273696f6e12270a0f636f6e766572736174696f6e5f6964180220012809520e636f6e766572736174696f6e4964121b0a09766f6c756d655f69641803200128095208766f6c756d654964121d0a0a636170747572655f6964180420012809520963617074757265496412250a0e726571756573745f73686132353618052001280c520d7265717565737453686132353612230a0d63616d6572615f73686132353618062001280c520c63616d65726153686132353612440a0b70726f6a656374696f6e7318072003280b32222e636f676e6974756d2e7370617469616c2e76312e50325150726f6a656374696f6e520b70726f6a656374696f6e7312580a1074656d706f72616c5f7265717565737418082001280b322d2e636f676e6974756d2e7370617469616c2e76312e54656d706f72616c4f63637570616e637952657175657374520f74656d706f72616c5265717565737412550a0f74656d706f72616c5f726573756c7418092001280b322c2e636f676e6974756d2e7370617469616c2e76312e54656d706f72616c4f63637570616e6379526573756c74520e74656d706f72616c526573756c7412500a136879706f746865746963616c5f766f6c756d65180a2001280b321f2e636f676e6974756d2e7370617469616c2e76312e566f6c756d654772696452126879706f746865746963616c566f6c756d65121a0a087761726e696e6773180b2003280952087761726e696e677312230a0d72657365617263685f6f6e6c79180c20012808520c72657365617263684f6e6c7912290a106772616e74735f617574686f72697479180d20012808520f6772616e7473417574686f72697479620670726f746f33'))
++builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
++builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'cognitum.proto.spatial_calibrated_depth_pb2', globals())
+--- /dev/null
++++ b/cognitum/spatial_calibrated_depth.py
+@@ -0,0 +1,199 @@
++"""C15 T3 P2Q: validated pinhole depth -> temporal sparse occupancy -> T2 hypotheses.
++
++No actual calibration, depth measurements, source ownership, or physical safety
++are authenticated here. No undistortion, learned monocular-depth prediction,
++canonical scene mutation, 3D pose inference from a 2D appearance descriptor,
++or host permission are implied. All results are research-only Protobuf.
++"""
++from __future__ import annotations
++
++import hashlib
++import math
++
++from cognitum.proto import spatial_calibrated_depth_pb2 as pb
++from cognitum.proto import temporal_occupancy_pb2 as tp
++from cognitum.proto import spatial_volume_pb2 as vp
++from cognitum.spatial_temporal_occupancy import integrate, _rotate, TemporalOccupancyRejected
++from cognitum.spatial_volume import classify as classify_volume, VolumeRejected
++
++MAX_SAMPLES = 256
++MAX_BYTES = 100_000
++MAX_DIMENSION = 8192
++
++
++class CalibratedDepthRejected(ValueError):
++    pass
++
++
++def _require(ok, why):
++    if not ok:
++        raise CalibratedDepthRejected(why)
++
++
++def _id(x):
++    return isinstance(x, str) and 0 < len(x) <= 128 and all(
++        v.isascii() and (v.isalnum() or v in '-_:.') for v in x)
++
++
++def _digest(message):
++    return hashlib.sha256(message.SerializeToString(deterministic=True)).digest()
++
++
++def _known(message):
++    clone = type(message)()
++    clone.CopyFrom(message)
++    clone.DiscardUnknownFields()
++    return _digest(message) == _digest(clone)
++
++
++def _coords(p):
++    return p.x, p.y, p.z
++
++
++def _point(p, coords):
++    p.x, p.y, p.z = coords
++
++
++def _validate(req):
++    _require(isinstance(req, pb.P2QDepthRequest) and req.schema_version == 1 and
++             req.research_only and not req.grants_authority and _known(req) and
++             req.ByteSize() <= MAX_BYTES and req.HasField('camera'), 'INVALID_RESEARCH_REQUEST')
++    _require(_id(req.conversation_id) and _id(req.volume_id) and _id(req.capture_id) and
++             math.isfinite(req.voxel_size_m) and .001 <= req.voxel_size_m <= 1000 and
++             1 <= req.max_axis <= 128 and req.evaluation_tick > 0 and
++             math.isfinite(req.half_life_ticks) and 0 < req.half_life_ticks <= 1e9,
++             'INVALID_GRID_OR_SCOPE')
++    _require(1 <= len(req.pixels) <= MAX_SAMPLES and
++             math.isfinite(req.hit_probability) and .5 < req.hit_probability < .999 and
++             math.isfinite(req.free_probability) and .001 < req.free_probability < .5,
++             'INVALID_CAPACITY_OR_SENSOR_MODEL')
++    c = req.camera
++    q = (c.qw, c.qx, c.qy, c.qz)
++    tr = _coords(c.translation)
++    _require(_id(c.frame_id) and _id(c.calibration_source_ref) and
++             c.HasField('translation') and c.rectified_pinhole and
++             1 <= c.width <= MAX_DIMENSION and 1 <= c.height <= MAX_DIMENSION and
++             all(math.isfinite(v) for v in (c.fx, c.fy, c.cx, c.cy, c.max_axial_depth_m) + q + tr) and
++             0 < c.fx <= 1e7 and 0 < c.fy <= 1e7 and
++             0 <= c.cx <= c.width and 0 <= c.cy <= c.height and
++             .001 <= c.max_axial_depth_m <= 1000 and
++             abs(sum(z*z for z in q) - 1) < 1e-5,
++             'INVALID_OR_UNRECTIFIED_CAMERA')
++    _require(len(req.camera_sha256) == 32 and req.camera_sha256 == _digest(c),
++             'CAMERA_DIGEST_MISMATCH')
++    seen = set()
++    frame_digests = {}
++    for pixel in req.pixels:
++        key = (pixel.source_ref, pixel.tick, pixel.u, pixel.v)
++        _require(key not in seen and _id(pixel.source_ref) and
++                 pixel.tick > 0 and pixel.tick <= req.evaluation_tick and
++                 0 <= pixel.u < c.width and 0 <= pixel.v < c.height and
++                 len(pixel.depth_frame_sha256) == 32 and
++                 math.isfinite(pixel.axial_depth_m) and
++                 .001 <= pixel.axial_depth_m <= c.max_axial_depth_m,
++                 'INVALID_DEPTH_SAMPLE_OR_PROVENANCE')
++        # A no-return beam is a free-space observation to the declared axial
++        # limit, NOT evidence of an occupied endpoint at a missing depth.
++        _require(pixel.endpoint_hit or
++                 abs(pixel.axial_depth_m - c.max_axial_depth_m) <= 1e-9,
++                 'MISS_MUST_REACH_DECLARED_MAX_DEPTH')
++        frame_key = (pixel.source_ref, pixel.tick)
++        previous_digest = frame_digests.setdefault(frame_key, pixel.depth_frame_sha256)
++        _require(previous_digest == pixel.depth_frame_sha256,
++                 'INCONSISTENT_SOURCE_TICK_DEPTH_FRAME_HASH')
++        seen.add(key)
++    return c, q, tr
++
++
++def project(req: pb.P2QDepthRequest) -> pb.P2QDepthResult:
++    c, q, translation = _validate(req)
++    out = pb.P2QDepthResult(
++        schema_version=1, conversation_id=req.conversation_id,
++        volume_id=req.volume_id, capture_id=req.capture_id,
++        request_sha256=_digest(req), camera_sha256=req.camera_sha256,
++        research_only=True, grants_authority=False)
++    temporal = tp.TemporalOccupancyRequest(
++        schema_version=1, conversation_id=req.conversation_id,
++        volume_id=req.volume_id, voxel_size_m=req.voxel_size_m,
++        max_axis=req.max_axis, evaluation_tick=req.evaluation_tick,
++        half_life_ticks=req.half_life_ticks,
++        research_only=True, grants_authority=False)
++    frame = temporal.frames.add(frame_id=c.frame_id, qw=c.qw, qx=c.qx, qy=c.qy, qz=c.qz)
++    _point(frame.translation, translation)
++    world_max = req.voxel_size_m * req.max_axis
++    for px in sorted(req.pixels, key=lambda x: (x.tick, x.source_ref, x.u, x.v)):
++        # Axial-depth convention Z=d; pixel coordinates refer to pixel CENTERS.
++        endpoint = (((px.u + .5 - c.cx) / c.fx) * px.axial_depth_m,
++                    ((px.v + .5 - c.cy) / c.fy) * px.axial_depth_m,
++                    px.axial_depth_m)
++        world = tuple(a + b for a, b in zip(_rotate(q, endpoint), translation))
++        _require(all(math.isfinite(z) and 0 <= z < world_max for z in translation + world) and
++                 math.dist(translation, world) > 1e-12,
++                 'PROJECTED_RAY_OUTSIDE_GRID')
++        voxel = tuple(math.floor(z / req.voxel_size_m) for z in world)
++        derived_ref = 'ray.' + hashlib.sha256(
++            ('%s|%s|%s|%s|%s|%s' % (req.capture_id, px.source_ref, px.tick,
++                                       px.u, px.v, px.depth_frame_sha256.hex())).encode('utf-8')
++        ).hexdigest()[:32]
++        r = temporal.rays.add(source_ref=derived_ref, tick=px.tick,
++            frame_id=c.frame_id, endpoint_hit=px.endpoint_hit,
++            hit_probability=req.hit_probability, free_probability=req.free_probability)
++        _point(r.start, (0., 0., 0.))
++        _point(r.end, endpoint)
++        mapping = out.projections.add(u=px.u, v=px.v, tick=px.tick,
++            source_ref=px.source_ref, depth_frame_sha256=px.depth_frame_sha256,
++            endpoint_hit=px.endpoint_hit, derived_ray_source_ref=derived_ref, voxel_x=voxel[0],
++            voxel_y=voxel[1], voxel_z=voxel[2])
++        _point(mapping.camera_endpoint_m, endpoint)
++        _point(mapping.world_endpoint_m, world)
++    try:
++        occupancy = integrate(temporal)
++    except TemporalOccupancyRejected as exc:
++        raise CalibratedDepthRejected('TEMPORAL_OCCUPANCY_REJECTED:' + str(exc)) from exc
++    # Projected occupancy is a hypothesis, not a measured T2 truth. A
++    # conflicted or near-0.5 cell is left unknown, never silently resolved.
++    hypothetical = vp.VolumeGrid(schema_version=1, conversation_id=req.conversation_id,
++        volume_id=req.volume_id, voxel_size_m=req.voxel_size_m,
++        max_axis=req.max_axis, research_only=True, grants_authority=False)
++    source_id = 'p2q.' + out.request_sha256.hex()[:32]
++    for cell in occupancy.cells:
++        if cell.conflicted or .35 < cell.probability < .65:
++            continue
++        occupied = cell.probability >= .65
++        reliability = max(.5, min(.999, cell.probability if occupied else 1 - cell.probability))
++        hypothetical.evidence.add(x=cell.x, y=cell.y, z=cell.z,
++            kind=vp.VOLUME_PREDICTED_OCCUPIED if occupied else vp.VOLUME_PREDICTED_FREE,
++            source_id=source_id, tick=req.evaluation_tick, reliability=reliability)
++    _require(len(hypothetical.evidence) <= 8192, 'HYPOTHETICAL_VOLUME_CAPACITY')
++    try:
++        predicted = classify_volume(hypothetical)
++    except VolumeRejected as exc:
++        raise CalibratedDepthRejected('VOLUME_HANDOFF_REJECTED:' + str(exc)) from exc
++    _require(all(c.state == vp.CELL_UNKNOWN for c in predicted.cells),
++             'ILLEGAL_PROMOTION_OF_HYPOTHETICAL_GEOMETRY')
++    out.temporal_request.CopyFrom(temporal)
++    out.temporal_result.CopyFrom(occupancy)
++    out.hypothetical_volume.CopyFrom(hypothetical)
++    out.warnings.extend([
++        'DEPTH_AND_CAMERA_CALIBRATION_ARE_CALLER_ASSERTED_NOT_AUTHENTICATED',
++        'IMAGE_SHA256_CLAIM_HAS_NOT_BEEN_VERIFIED_AGAINST_IMAGE_BYTES',
++        'PINHOLE_RECTIFIED_INPUT_REQUIRED_NO_DISTORTION_CORRECTION',
++        'DEPTH_Z_IS_AXIAL_NOT_EUCLIDEAN_RAY_LENGTH',
++        'SPARSE_LOG_ODDS_ASSUME_INDEPENDENCE_NOT_REAL_WORLD_CALIBRATION',
++        'SAME_FRAME_RAYS_ARE_CORRELATED_DESPITE_DISTINCT_DERIVED_EVENT_REFS',
++        'T2_VOLUME_HANDOFF_IS_PREDICTED_ONLY_NEVER_MEASURED',
++        'T2_HYPOTHETICAL_STRUCTURE_IS_NOT_PHYSICAL_GEOMETRY',
++        'NO_CANONICAL_SCENE_VOXEL_OR_ACTION_AUTHORITY',
++    ])
++    return out
++
++
++def verify(req: pb.P2QDepthRequest, response: pb.P2QDepthResult) -> bool:
++    _require(isinstance(response, pb.P2QDepthResult) and _known(response),
++             'INVALID_RESPONSE')
++    # Research reference determinism and exact provenance binding, not a
++    # cryptographic signature, host source verification, or sensor attestation.
++    expected = project(req)
++    _require(response.SerializeToString(deterministic=True) ==
++             expected.SerializeToString(deterministic=True), 'PROJECTED_HANDOFF_MISMATCH')
++    return True
+--- /dev/null
++++ b/docs/components/spatial/C15-T3-P2Q-deferred-validation-backlog-v1.json
+@@ -0,0 +1,54 @@
++{
++  "schema_version": 1,
++  "milestone": "C15 T3 P2Q",
++  "status": "deferred; no external benchmark scored",
++  "research_only": true,
++  "preserve_existing_backlogs": [
++    "C15-benchmark-backlog-v1.json",
++    "C15-T2-P2N-deferred-validation-backlog-v1.json",
++    "C15-T2-P2O-deferred-validation-backlog-v1.json",
++    "C15-T2-P2P-deferred-validation-backlog-v1.json"
++  ],
++  "experiments": [
++    {
++      "id": "T3-P2Q-CALIBRATION-10",
++      "status": "deferred_calibrated_depth_data_absent",
++      "inputs": ["licensable rectified depth frames", "camera intrinsics and extrinsics with provenance", "held-out 3D ground truth", "depth-validity masks"],
++      "comparators": ["OpenCV camera back-projection reference", "ground truth sensor geometry", "Cognitum P2Q pinhole projection"],
++      "metrics": ["3D endpoint RMS error (m)", "pixel reprojection error (px)", "out-of-volume rejection", "calibration-source failures"],
++      "acceptance": "report independent residuals and uncertainty; zero fabricated physical-calibration passes"
++    },
++    {
++      "id": "T3-P2Q-OCTOMAP-11",
++      "status": "deferred_external_engine",
++      "inputs": ["pinned OctoMap source/build", "same registered depth/ray observations", "matched voxel resolution and sensor inverse model"],
++      "comparators": ["OctoMap conventional occupancy mapping", "Cognitum P2B ray integration", "Cognitum P2C temporal integration"],
++      "metrics": ["occupied/free/unknown IoU", "conflicted cell retention", "log-odds residual", "runtime and memory"],
++      "acceptance": "match model conventions and document expected divergences before any parity claim"
++    },
++    {
++      "id": "T3-P2Q-OPENVDB-12",
++      "status": "deferred_external_engine",
++      "inputs": ["pinned OpenVDB or NanoVDB dependency", "bounded reference sparse volumes", "specified transforms and metadata"],
++      "comparators": ["Cognitum VolumeGrid", "OpenVDB reference", "dense NumPy ground truth"],
++      "metrics": ["cell coordinate equivalence", "sparse storage overhead", "unknown-cell preservation", "read/write validation"],
++      "acceptance": "differentiate data structure interoperability from algorithmic tracking or mapping improvement"
++    },
++    {
++      "id": "T3-P2Q-CORRELATED-RAYS-13",
++      "status": "deferred_sensor_model_research",
++      "inputs": ["multiple ray pixels from common frames", "known correlation/noise model", "held-out occupancy labels"],
++      "comparators": ["independent-ray log odds (existing)", "per-frame correlation-corrected fusion", "OctoMap model"],
++      "metrics": ["calibration Brier/ECE", "false high-confidence occupancy", "reappearance and moving-obstacle errors"],
++      "acceptance": "no silent inference of independence or real-world confidence from shared-frame pixels"
++    },
++    {
++      "id": "T3-P2Q-HOST-SECURITY-14",
++      "status": "deferred_windows_lu_host",
++      "inputs": ["authenticated Lu-native permission lease", "camera-calibration custody/provenance", "Windows-native worker isolation", "revocation test harness"],
++      "comparators": ["rejected simulated lease", "host-owned valid lease", "revoked source owner"],
++      "metrics": ["unauthorized voxel mutation", "cross-chat source leak", "revocation race", "invalid camera-source admission"],
++      "acceptance": "zero unauthorized canonical mutations and cross-scope reads, tested on Windows host"
++    }
++  ]
++}
+--- /dev/null
++++ b/docs/components/spatial/P2Q-T3-calibrated-depth-bridge.md
+@@ -0,0 +1,71 @@
++# C15 T3 P2Q — Calibrated depth and sparse occupancy bridge
++
++**Status:** research-only software engineering checkpoint. Existing T3 P2B/P2C ray and
++occupancy engines are reused without modifications. No actual sensor calibration,
++validated camera pose, or real-world mapping accuracy is established here.
++
++## Input contract
++
++New `proto/cognitum/spatial/v1/calibrated_depth.proto` (`P2QDepthRequest`):
++
++- Explicit conversation, volume, capture IDs; schema v1; `research_only=true`,
++  `grants_authority=false`; no implicit host privileges.
++- Pinhole intrinsics `(fx,fy,cx,cy)`, image dimensions, axial max depth, and
++  a normalized **camera-to-world** quaternion (w,x,y,z) and translation in meters.
++- **Rectified image only**. No distortion coefficients or inversion are supported.
++  `rectified_pinhole` is a caller assertion, not a proof of image rectification.
++- A SHA-256 of the serialized camera contract, source reference and a SHA-256
++  **claimed** for each depth frame. Hashes establish internal binding consistency
++  only: input bytes have not been independently inspected or signed.
++- Each pixel sample uses integer index `(u,v)`, depth along camera Z in meters,
++  source reference, logical tick, and endpoint-hit flag. The pixel represents the
++  **center** `(u+0.5,v+0.5)`. Non-return rays MUST reach `max_axial_depth_m`
++  and become free-space observations without an occupied endpoint.
++- `P2QDepthRequest` is capped at **256 samples**, 100 KB, 8192x8192 image,
++  128 voxel axes, bounded depth/intrinsics, and strictly finite geometry.
++- Duplicate `(source,tick,pixel)` events, inconsistent frame hashes for the same
++  source/tick, unknown Protobuf fields, and missing source evidence fail closed.
++
++## Transformation and integration
++
++Camera endpoint `(X,Y,Z) = (((u+0.5-cx)/fx)d, ((v+0.5-cy)/fy)d, d)`;
++world endpoint `R(q)(X,Y,Z)+t`; start is `t`. All rays must remain inside
++specified **positive-origin world volume**, otherwise the entire request fails.
++
++Ray source refs are **derived per pixel event** and source/tick/frame hash, so
++multiple pixels from one image can be ingested by existing temporal sparse DDA
++without accidental event-key collisions. This does **not** establish statistical
++independence: same-frame rays are correlated, and log odds may be overconfident.
++Downstream results carry an explicit correlation warning.
++
++The resulting `P2QDepthResult` embeds:
++
++- A per-pixel provenance/coordinate mapping;
++- Existing `TemporalOccupancyRequest` and `TemporalOccupancyResult` v1;
++- Existing `VolumeGrid` v1 restricted to **predicted-only** occupancy evidence,
++  with conflict/near-0.5 cells left unknown, for T2 structural auditing;
++- Source and request SHA-256, research flags, and limitation warnings.
++
++`spatial_volume.classify` **must** keep all predicted-only cells UNKNOWN;
++`spatial_structural_audit.audit` may report hypothetical coverage but must remain
++INDETERMINATE for an otherwise unsupported structural claim. No 2D appearance
++embedding (P2M) can substitute for depth or physically calibrated extrinsics.
++
++## Reproduce
++
++```bash
++PYTHONPATH=. python tools/run_c15_t3_p2q_demo.py
++PYTHONPATH=. python -m pytest -q tests/test_c15_t3_p2q_calibrated_depth.py
++PYTHONPATH=. python -m pytest -q tests/test_c13* tests/test_c14* tests/test_c15*
++PYTHONPATH=. python tools/verify_protobuf_schemas.py --require
++```
++
++## Deferred external validations
++
++See `C15-T3-P2Q-deferred-validation-backlog-v1.json`. No OctoMap or OpenVDB
++execution claim, no calibrated depth dataset scores, no quantitative map IoU,
++no real sensor validation, and no Windows-native host certification.
++
++References: OpenCV camera calibration / perspective projection documentation
++(https://docs.opencv.org/3.3.1/d9/d0c/group__calib3d.html); OctoMap occupancy
++representation (https://octomap.github.io/octomap/doc/index).
+--- /dev/null
++++ b/proto/cognitum/spatial/v1/calibrated_depth.proto
+@@ -0,0 +1,80 @@
++syntax = "proto3";
++package cognitum.spatial.v1;
++// C15 T3 P2Q -- research-only depth-geometry bridge, not a sensor attestation.
++import "cognitum/spatial/v1/temporal_occupancy.proto";
++import "cognitum/spatial/v1/volume.proto";
++
++message P2QCamera {
++  string frame_id = 1;
++  string calibration_source_ref = 2;
++  uint32 width = 3;
++  uint32 height = 4;
++  double fx = 5;
++  double fy = 6;
++  double cx = 7;
++  double cy = 8;
++  // This contract supports an explicitly rectified/undistorted pinhole image only.
++  bool rectified_pinhole = 9;
++  // Camera-to-world rigid transform. Quaternion order: w, x, y, z.
++  OccupancyVec3 translation = 10;
++  double qw = 11;
++  double qx = 12;
++  double qy = 13;
++  double qz = 14;
++  double max_axial_depth_m = 15;
++}
++message P2QDepthPixel {
++  uint32 u = 1;
++  uint32 v = 2;
++  double axial_depth_m = 3;
++  uint64 tick = 4;
++  string source_ref = 5;
++  bytes depth_frame_sha256 = 6;
++  bool endpoint_hit = 7;
++}
++message P2QDepthRequest {
++  uint32 schema_version = 1;
++  string conversation_id = 2;
++  string volume_id = 3;
++  string capture_id = 4;
++  P2QCamera camera = 5;
++  bytes camera_sha256 = 6;
++  double voxel_size_m = 7;
++  uint32 max_axis = 8;
++  uint64 evaluation_tick = 9;
++  double half_life_ticks = 10;
++  repeated P2QDepthPixel pixels = 11;
++  double hit_probability = 12;
++  double free_probability = 13;
++  bool research_only = 14;
++  bool grants_authority = 15;
++}
++message P2QProjection {
++  uint32 u = 1;
++  uint32 v = 2;
++  uint64 tick = 3;
++  string source_ref = 4;
++  bytes depth_frame_sha256 = 5;
++  bool endpoint_hit = 6;
++  OccupancyVec3 camera_endpoint_m = 7;
++  OccupancyVec3 world_endpoint_m = 8;
++  sint32 voxel_x = 9;
++  sint32 voxel_y = 10;
++  sint32 voxel_z = 11;
++  string derived_ray_source_ref = 12;
++}
++message P2QDepthResult {
++  uint32 schema_version = 1;
++  string conversation_id = 2;
++  string volume_id = 3;
++  string capture_id = 4;
++  bytes request_sha256 = 5;
++  bytes camera_sha256 = 6;
++  repeated P2QProjection projections = 7;
++  TemporalOccupancyRequest temporal_request = 8;
++  TemporalOccupancyResult temporal_result = 9;
++  VolumeGrid hypothetical_volume = 10;
++  repeated string warnings = 11;
++  bool research_only = 12;
++  bool grants_authority = 13;
++}
+--- /dev/null
++++ b/tests/test_c15_t3_p2q_calibrated_depth.py
+@@ -0,0 +1,186 @@
++"""P2Q adversarial, reference, and bounded end-to-end integration tests."""
++import hashlib
++import math
++import random
++import unittest
++
++from cognitum.proto import spatial_calibrated_depth_pb2 as p
++from cognitum.proto import spatial_volume_pb2 as volume
++from cognitum import spatial_calibrated_depth as gate
++from cognitum.spatial_volume import classify as classify_volume
++
++
++def sample(*, u=3, v=3, depth=2.0, hit=True, tick=10, source='depthframe'):
++    q = p.P2QDepthRequest(schema_version=1,conversation_id='chat',volume_id='vox',capture_id='capture',
++                           voxel_size_m=.5,max_axis=32,evaluation_tick=10,half_life_ticks=5,
++                           hit_probability=.8,free_probability=.3,research_only=True)
++    c=q.camera
++    c.frame_id='camera1';c.calibration_source_ref='factory-data'
++    c.width=8;c.height=8;c.fx=4;c.fy=4;c.cx=3.5;c.cy=3.5
++    c.rectified_pinhole=True;c.qw=1;c.translation.x=2;c.translation.y=2;c.translation.z=1
++    c.max_axial_depth_m=5
++    q.camera_sha256=gate._digest(c)
++    q.pixels.add(u=u,v=v,axial_depth_m=depth,tick=tick,source_ref=source,
++                 depth_frame_sha256=hashlib.sha256(b'unverified-depth-frame').digest(),
++                 endpoint_hit=hit)
++    return q
++
++
++class CalibratedDepthTests(unittest.TestCase):
++    def assertBad(self,request):
++        with self.assertRaises(gate.CalibratedDepthRejected): gate.project(request)
++
++    def test_center_depth_to_world_endpoint(self):
++        req=sample(); result=gate.project(req)
++        self.assertEqual(tuple(gate._coords(result.projections[0].camera_endpoint_m)),(0.,0.,2.))
++        self.assertEqual(tuple(gate._coords(result.projections[0].world_endpoint_m)),(2.,2.,3.))
++        self.assertEqual((result.projections[0].voxel_x,result.projections[0].voxel_y,result.projections[0].voxel_z),(4,4,6))
++        self.assertTrue(gate.verify(req,result));self.assertTrue(result.research_only)
++        self.assertFalse(result.grants_authority)
++
++    def test_center_occupied_free_and_unknown_classification(self):
++        out=gate.project(sample());cells={(c.x,c.y,c.z):c for c in out.temporal_result.cells}
++        self.assertGreater(cells[4,4,6].hit_count,0)
++        self.assertGreater(cells[4,4,2].free_count,0)
++        v=classify_volume(out.hypothetical_volume)
++        self.assertTrue(v.cells)
++        self.assertTrue(all(c.state == volume.CELL_UNKNOWN for c in v.cells))
++        self.assertTrue(all(e.kind in (volume.VOLUME_PREDICTED_FREE,volume.VOLUME_PREDICTED_OCCUPIED) for e in out.hypothetical_volume.evidence))
++        self.assertTrue(all(e.tick==10 for e in out.hypothetical_volume.evidence))
++        self.assertTrue(gate.verify(sample(),out))
++
++    def test_two_pixel_rays_same_source_and_tick(self):
++        req=sample()
++        req.pixels.add().CopyFrom(req.pixels[0]);req.pixels[-1].u=4
++        out=gate.project(req)
++        self.assertEqual(len(out.projections),2)
++        self.assertNotEqual(out.projections[0].derived_ray_source_ref,out.projections[1].derived_ray_source_ref)
++        self.assertEqual({r.source_ref for r in out.temporal_request.rays},
++                         {m.derived_ray_source_ref for m in out.projections})
++        self.assertIn('SAME_FRAME_RAYS_ARE_CORRELATED_DESPITE_DISTINCT_DERIVED_EVENT_REFS',out.warnings)
++
++    def test_repeated_sample_rejected(self):
++        req=sample();req.pixels.add().CopyFrom(req.pixels[0]);self.assertBad(req)
++
++    def test_same_source_tick_requires_same_frame_hash(self):
++        req=sample()
++        req.pixels.add().CopyFrom(req.pixels[0]);req.pixels[-1].u=4
++        req.pixels[-1].depth_frame_sha256=hashlib.sha256(b'another-frame').digest()
++        with self.assertRaisesRegex(gate.CalibratedDepthRejected,
++                                    'INCONSISTENT_SOURCE_TICK_DEPTH_FRAME_HASH'):
++            gate.project(req)
++
++    def test_unrectified_rejected(self):
++        req=sample();req.camera.rectified_pinhole=False;req.camera_sha256=gate._digest(req.camera);self.assertBad(req)
++
++    def test_2d_cannot_substitute_for_depth(self):
++        req=sample();req.pixels[0].axial_depth_m=0;self.assertBad(req)
++
++    def test_missing_and_early_no_return_rejected(self):
++        req=sample();req.pixels[0].endpoint_hit=False;self.assertBad(req)
++        req.pixels[0].axial_depth_m=req.camera.max_axial_depth_m
++        result=gate.project(req)
++        self.assertTrue(all(not r.endpoint_hit for r in result.temporal_request.rays))
++        self.assertTrue(all(c.hit_count==0 for c in result.temporal_result.cells))
++
++    def test_nonfinite_camera_and_depth(self):
++        req=sample();req.camera.fx=float('nan');req.camera_sha256=gate._digest(req.camera);self.assertBad(req)
++        req=sample();req.pixels[0].axial_depth_m=float('inf');self.assertBad(req)
++
++    def test_quaternion_must_be_unit(self):
++        req=sample();req.camera.qw=1.2;req.camera_sha256=gate._digest(req.camera);self.assertBad(req)
++
++    def test_outside_grid_and_pixel(self):
++        req=sample();req.pixels[0].u=8;self.assertBad(req)
++        req=sample();req.camera.translation.x=20;req.camera_sha256=gate._digest(req.camera);self.assertBad(req)
++
++    def test_tampered_hash_or_result(self):
++        req=sample();req.camera.fx+=1;self.assertBad(req)
++        req=sample();result=gate.project(req);result.projections[0].world_endpoint_m.x+=1
++        with self.assertRaisesRegex(gate.CalibratedDepthRejected,'PROJECTED_HANDOFF_MISMATCH'):
++            gate.verify(req,result)
++
++    def test_invalid_scope_rejected(self):
++        req=sample();req.conversation_id='';self.assertBad(req)
++        req=sample();req.grants_authority=True;self.assertBad(req)
++        req=sample();req.pixels[0].depth_frame_sha256=b'';self.assertBad(req)
++        req=sample();req.pixels[0].tick=11;self.assertBad(req)
++
++    def test_unknown_fields_rejected(self):
++        req=sample();corrupt=p.P2QDepthRequest.FromString(req.SerializeToString()+b'\x98\x06\x01')
++        self.assertBad(corrupt)
++
++    def test_perspective_against_independent_rotation_reference(self):
++        from scipy.spatial.transform import Rotation
++        rng=random.Random(37)
++        for _ in range(40):
++            req=sample(u=rng.randint(0,7),v=rng.randint(0,7),depth=rng.uniform(.1,4))
++            ang=rng.uniform(-.6,.6)
++            req.camera.translation.x=7; req.camera.translation.y=7
++            req.camera.qw=math.cos(ang/2)
++            req.camera.qz=math.sin(ang/2)
++            req.camera_sha256=gate._digest(req.camera)
++            o=gate.project(req).projections[0]
++            expected_local=(((req.pixels[0].u+.5-req.camera.cx)/req.camera.fx)*req.pixels[0].axial_depth_m,
++                            ((req.pixels[0].v+.5-req.camera.cy)/req.camera.fy)*req.pixels[0].axial_depth_m,
++                            req.pixels[0].axial_depth_m)
++            xyz=Rotation.from_quat([0,0,math.sin(ang/2),math.cos(ang/2)]).apply(expected_local)+[7,7,1]
++            for actual,expected in zip(gate._coords(o.world_endpoint_m),xyz):
++                self.assertAlmostEqual(actual,expected,places=11)
++
++    def test_batch_order_invariance(self):
++        req=sample(u=3,v=3)
++        req.pixels.add().CopyFrom(req.pixels[0]);req.pixels[-1].u=4
++        first=gate.project(req)
++        rev=type(req)();rev.CopyFrom(req);rev.pixels.reverse()
++        second=gate.project(rev)
++        self.assertEqual(first.temporal_request.SerializeToString(deterministic=True),
++                         second.temporal_request.SerializeToString(deterministic=True))
++        # Derived hypothesis source incorporates request hash (and request order),
++        # so compare evidence coordinates/kinds, not the provenance identity.
++        self.assertEqual([(v.x,v.y,v.z,v.kind) for v in first.hypothetical_volume.evidence],
++                         [(v.x,v.y,v.z,v.kind) for v in second.hypothetical_volume.evidence])
++
++    def test_t2_audit_cannot_promote_depth_hypothesis(self):
++        from tests.test_c15_t2_composition import fixture as graph_fixture
++        from cognitum.proto import spatial_structural_audit_pb2 as audit_pb
++        from cognitum.spatial_structural_audit import audit
++        q=sample()
++        output=gate.project(q)
++        g=graph_fixture()
++        g.conversation_id='chat'
++        request=audit_pb.StructuralAuditRequest(schema_version=1,
++            conversation_id='chat',graph_id=g.graph_id,volume_id='vox',research_only=True)
++        c=request.claims.add(claim_id='depth_claim',node_id='wall',
++            source_ref='caller_claim',expected=audit_pb.SPATIAL_EXPECT_OCCUPIED)
++        c.box.min_x=c.box.max_x=4
++        c.box.min_y=c.box.max_y=4
++        c.box.min_z=c.box.max_z=6
++        structural=audit(g,output.hypothetical_volume,request)
++        self.assertEqual(structural.audits[0].state,audit_pb.SPATIAL_AUDIT_INDETERMINATE)
++        self.assertEqual(structural.audits[0].predicted_only_cells,1)
++        self.assertEqual(structural.audits[0].claimed_support_cells,0)
++
++    def test_duplicate_same_source_tick_cell_conflict_is_not_silenced(self):
++        q=sample()
++        q.pixels.add().CopyFrom(q.pixels[0])
++        q.pixels[-1].u=4
++        q.pixels[-1].endpoint_hit=False
++        q.pixels[-1].axial_depth_m=q.camera.max_axial_depth_m
++        output=gate.project(q)
++        # Correlated same-frame evidence stays flagged and cannot auto-certify
++        # any cell, even when the underlying temporal integration agrees.
++        self.assertIn('SAME_FRAME_RAYS_ARE_CORRELATED_DESPITE_DISTINCT_DERIVED_EVENT_REFS',output.warnings)
++        self.assertTrue(all(e.kind in (volume.VOLUME_PREDICTED_FREE,volume.VOLUME_PREDICTED_OCCUPIED)
++                            for e in output.hypothetical_volume.evidence))
++
++    def test_bounded_sample_count(self):
++        req=sample()
++        for i in range(gate.MAX_SAMPLES):
++            req.pixels.add(u=i%8,v=(i//8)%8,axial_depth_m=1.,tick=i+1,
++                source_ref='src',depth_frame_sha256=b'0'*32,endpoint_hit=True)
++        req.evaluation_tick=1000
++        self.assertBad(req)
++
++
++if __name__=='__main__': unittest.main()
+--- a/tools/check_proto_descriptors.py
++++ b/tools/check_proto_descriptors.py
+@@ -11,9 +11,10 @@
+ import sys
+ 
+ from google.protobuf.descriptor_pb2 import FileDescriptorProto, FileDescriptorSet
+-from cognitum.proto import capability_pb2, ce_handoff_pb2, worker_pb2, supervisor_acceptance_pb2, evaluation_pb2, benchmark_pb2, collector_pb2, specialists_pb2, memory_pb2, state_pb2, interpretation_pb2, formal_pb2, formal_backend_pb2, formal_advanced_pb2, optimization_pb2, workflows_pb2, optimization_runtime_pb2, planning_pb2, planning_engines_pb2, planning_stochastic_pb2, planning_structured_pb2, planning_guidance_pb2, probability_pb2, probability_backend_pb2, probability_continuous_pb2, probability_conjugate_pb2, probability_diagnostics_pb2, causal_pb2, causal_estimation_pb2, causal_dowhy_pb2, causal_heterogeneity_pb2, causal_discovery_pb2, causal_mature_pb2, causal_validation_pb2, causal_stability_pb2, causal_ambiguity_pb2, causal_temporal_pb2, causal_temporal_scm_pb2, causal_temporal_diagnostics_pb2, causal_temporal_advanced_pb2, causal_temporal_discovery_pb2, causal_uncertainty_pb2, causal_interval_comparison_pb2, causal_assurance_policy_pb2, causal_holdout_assurance_pb2, causal_adversarial_assurance_pb2, causal_integrated_assurance_pb2, causal_genuine_worker_assurance_pb2, causal_llm_caller_evaluation_pb2, spatial_scene_pb2, spatial_appearance_pipeline_pb2, spatial_structural_reconciliation_pb2, spatial_structural_c07_bridge_pb2, spatial_ontology_subset_pb2, spatial_identity_pb2, spatial_temporal_pb2, spatial_composition_pb2, spatial_volume_pb2, spatial_appearance_pb2, spatial_structural_audit_pb2, assembly_pb2, ray_occupancy_pb2, structural_hypotheses_pb2, temporal_occupancy_pb2, benchmark_observation_pb2
++from cognitum.proto import spatial_calibrated_depth_pb2, capability_pb2, ce_handoff_pb2, worker_pb2, supervisor_acceptance_pb2, evaluation_pb2, benchmark_pb2, collector_pb2, specialists_pb2, memory_pb2, state_pb2, interpretation_pb2, formal_pb2, formal_backend_pb2, formal_advanced_pb2, optimization_pb2, workflows_pb2, optimization_runtime_pb2, planning_pb2, planning_engines_pb2, planning_stochastic_pb2, planning_structured_pb2, planning_guidance_pb2, probability_pb2, probability_backend_pb2, probability_continuous_pb2, probability_conjugate_pb2, probability_diagnostics_pb2, causal_pb2, causal_estimation_pb2, causal_dowhy_pb2, causal_heterogeneity_pb2, causal_discovery_pb2, causal_mature_pb2, causal_validation_pb2, causal_stability_pb2, causal_ambiguity_pb2, causal_temporal_pb2, causal_temporal_scm_pb2, causal_temporal_diagnostics_pb2, causal_temporal_advanced_pb2, causal_temporal_discovery_pb2, causal_uncertainty_pb2, causal_interval_comparison_pb2, causal_assurance_policy_pb2, causal_holdout_assurance_pb2, causal_adversarial_assurance_pb2, causal_integrated_assurance_pb2, causal_genuine_worker_assurance_pb2, causal_llm_caller_evaluation_pb2, spatial_scene_pb2, spatial_appearance_pipeline_pb2, spatial_structural_reconciliation_pb2, spatial_structural_c07_bridge_pb2, spatial_ontology_subset_pb2, spatial_identity_pb2, spatial_temporal_pb2, spatial_composition_pb2, spatial_volume_pb2, spatial_appearance_pb2, spatial_structural_audit_pb2, assembly_pb2, ray_occupancy_pb2, structural_hypotheses_pb2, temporal_occupancy_pb2, benchmark_observation_pb2
+ 
+ EXPECTED = {
++    "cognitum/spatial/v1/calibrated_depth.proto": spatial_calibrated_depth_pb2.DESCRIPTOR,
+     "cognitum/v1/capability.proto": capability_pb2.DESCRIPTOR,
+     "cognitum/v1/ce_handoff.proto": ce_handoff_pb2.DESCRIPTOR,
+     "cognitum/worker/v1/worker.proto": worker_pb2.DESCRIPTOR,
+--- /dev/null
++++ b/tools/run_c15_t3_p2q_demo.py
+@@ -0,0 +1,68 @@
++"""Offline P2Q synthetic camera/depth -> sparse occupancy -> T2 audit smoke."""
++import hashlib
++import json
++from cognitum.proto import spatial_calibrated_depth_pb2 as p
++from cognitum.proto import spatial_composition_pb2 as t2
++from cognitum.proto import spatial_structural_audit_pb2 as a
++from cognitum import spatial_calibrated_depth as depth
++from cognitum.spatial_structural_audit import audit
++
++
++def run():
++    q=p.P2QDepthRequest(schema_version=1,conversation_id='demo-chat',volume_id='demo-grid',
++                        capture_id='synthetic-capture',voxel_size_m=.5,max_axis=32,
++                        evaluation_tick=10,half_life_ticks=5,hit_probability=.8,
++                        free_probability=.3,research_only=True)
++    cam=q.camera
++    cam.frame_id='camera-1';cam.calibration_source_ref='synthetic-claim'
++    cam.width=8;cam.height=8;cam.fx=4;cam.fy=4;cam.cx=3.5;cam.cy=3.5
++    cam.rectified_pinhole=True;cam.qw=1
++    cam.translation.x=cam.translation.y=2;cam.translation.z=1
++    cam.max_axial_depth_m=5
++    q.camera_sha256=depth._digest(cam)
++    digest=hashlib.sha256(b'synthetic-depth-array-not-a-real-camera').digest()
++    q.pixels.add(u=3,v=3,axial_depth_m=2.0,tick=10,source_ref='synthetic-depth',
++                 depth_frame_sha256=digest,endpoint_hit=True)
++    output=depth.project(q)
++    assert depth.verify(q,output)
++    graph=t2.StructureGraph(schema_version=1,graph_id='proposed-structure',
++                            conversation_id='demo-chat',research_only=True)
++    graph.nodes.add(node_id='shell',kind='hypothetical-shell',
++                    evidence=t2.EVIDENCE_HYPOTHETICAL,source_ref='simulation')
++    ar=a.StructuralAuditRequest(schema_version=1,conversation_id='demo-chat',
++                                graph_id='proposed-structure',volume_id='demo-grid',
++                                research_only=True)
++    claim=ar.claims.add(claim_id='claimed-solid',node_id='shell',
++                        source_ref='simulation',expected=a.SPATIAL_EXPECT_OCCUPIED)
++    claim.box.min_x=claim.box.max_x=4
++    claim.box.min_y=claim.box.max_y=4
++    claim.box.min_z=claim.box.max_z=6
++    t2_result=audit(graph,output.hypothetical_volume,ar)
++    outcome={
++        'milestone':'C15-T3-P2Q',
++        'input_kind':'synthetic_camera_depth',
++        'calibration_authenticated':False,
++        'sensor_authenticated':False,
++        'research_only':output.research_only,
++        'grants_authority':output.grants_authority,
++        'request_sha256':output.request_sha256.hex(),
++        'camera_sha256':output.camera_sha256.hex(),
++        'projected':len(output.projections),
++        'first_world_endpoint_m':[output.projections[0].world_endpoint_m.x,
++                                  output.projections[0].world_endpoint_m.y,
++                                  output.projections[0].world_endpoint_m.z],
++        'first_endpoint_voxel':[output.projections[0].voxel_x,
++                                output.projections[0].voxel_y,
++                                output.projections[0].voxel_z],
++        'occupancy_cells':len(output.temporal_result.cells),
++        'hypothetical_volume_cells':len(output.hypothetical_volume.evidence),
++        't2_assessment':a.SpatialAuditState.Name(t2_result.audits[0].state),
++        't2_predicted_only':t2_result.audits[0].predicted_only_cells,
++        'warnings':list(output.warnings),
++    }
++    assert outcome['t2_assessment']=='SPATIAL_AUDIT_INDETERMINATE'
++    return outcome
++
++
++if __name__=='__main__':
++    print(json.dumps(run(),indent=2,sort_keys=True))
