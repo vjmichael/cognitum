@@ -14,6 +14,7 @@ on:
       - scripts/cog-r3r1-qualify-protected-ssm.ps1
       - scripts/cog_r3r1_qualifier_pins.py
       - scripts/cog_r3r1_qualifier_cng_verify.py
+      - scripts/cog_r3r1_qualifier_recovery_verify.py
       - scripts/cog-r5-physical02-r3-r1-nonadmin.ps1
       - scripts/cog-r5-physical02-r3-r1-user-profile.ps1
   workflow_dispatch:
@@ -128,6 +129,11 @@ jobs:
         run: |
           python scripts/cog_r3r1_qualifier_cng_verify.py | Set-Content q-cng-audit.json
           if($LASTEXITCODE -ne 0){throw 'External CNG terminal signature/Job receipt audit refused'}
+      - name: Classify actual SCM second-start and uncertain partial terminal recovery
+        shell: pwsh
+        run: |
+          python scripts/cog_r3r1_qualifier_recovery_verify.py | Set-Content q-recovery-matrix.json
+          if($LASTEXITCODE -ne 0){throw 'Original restart/uncertain/replay fail-closed audit refused'}
       - name: Revoke disposable peer, profile and DPAPI account
         if: always() && steps.user.outcome == 'success'
         shell: pwsh
@@ -152,6 +158,7 @@ jobs:
             q-frozen-smoke.json
             q-scm-receipt.json
             q-cng-audit.json
+            q-recovery-matrix.json
             native/windows_scm_production/target/q-expected.json
             native/windows_scm_production/target/q-host/r3-original-appcontainer-witness.json
             native/windows_scm_production/target/q-host/production-qualification.json
