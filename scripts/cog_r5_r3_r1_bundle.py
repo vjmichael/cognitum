@@ -69,16 +69,18 @@ def prepare(destination:Path, repo:Path, *,
             production_source_sha=None,
             approved_manifest_sha256=None,
             approved_python_sha256=None):
-    production = production_source_sha is not None
-    if production:
+    external = production_source_sha is not None
+    production = external and approved_manifest_sha256 is not None
+    if external:
         # This is an independently pinned *fresh build from original imports*.
         # It is NOT a promotion/rename of the CI fixture's provenance.
         need(os.environ.get("GITHUB_ACTIONS") != "true" and
              os.environ.get("CI") != "true",
              "hosted CI may not prepare production runtime")
-        for value, length in ((production_source_sha, 40),
-                              (approved_manifest_sha256, 64),
-                              (approved_python_sha256, 64)):
+        pins=[(production_source_sha, 40), (approved_python_sha256, 64)]
+        if production:
+            pins.append((approved_manifest_sha256, 64))
+        for value, length in pins:
             need(isinstance(value, str) and
                  re.fullmatch(r"[0-9a-f]{" + str(length) + r"}", value) and
                  set(value) != {"0"},
@@ -89,7 +91,7 @@ def prepare(destination:Path, repo:Path, *,
          destination.parent.is_dir() and not destination.parent.is_symlink(),
          "fresh externally staged absolute package root required")
     repo=repo.resolve(strict=True)
-    if production:
+    if external:
         try:
             rev=subprocess.run(["git", "-C", str(repo), "rev-parse", "HEAD"],
                                capture_output=True, text=True, timeout=10, check=True)
@@ -106,9 +108,9 @@ def prepare(destination:Path, repo:Path, *,
     source_python=Path(sys.executable).resolve(strict=True)
     prefix=Path(sys.prefix).resolve(strict=True)
     need(source_python.parent==prefix and
-         (production or prefix.name.lower() in ("x64","amd64")),
+         (external or prefix.name.lower() in ("x64","amd64")),
          "unexpected original native Windows Python executable layout")
-    if production:
+    if external:
         need(hashfile(source_python) == approved_python_sha256,
              "original production Python image differs from external SHA256 pin")
     site=prefix/"Lib/site-packages"
@@ -201,6 +203,8 @@ def prepare(destination:Path, repo:Path, *,
     report={
       "schema":("cognitum.ssm.r3r1.production_installer_runtime.v1"
                 if production else
+                "cognitum.ssm.r3r1.unapproved_production_candidate.v1"
+                if external else
                 "cognitum.ssm.r3r1.test_installer_style_frozen_runtime.v1"),
       "python_sha256":hashfile(exe),
       "fixed_script_sha256":hashfile(script),
@@ -209,15 +213,19 @@ def prepare(destination:Path, repo:Path, *,
       "runtime_total_bytes":total,
       "selected_numpy_scipy":True,
       "closed_site_packages":True,
-      "original_production_source_sha":(production_source_sha if production else None),
-      "external_python_image_sha256":(approved_python_sha256 if production else None),
-      "production_release_signer_approved":False,
-      "independent_release_authority_approved":False,
       "exact_package_owner_ACL_approved":False,
       "signed_installer_publisher_approved":False,
       "actual_Core_grant":False,
       "external_output_release_authorized":False,
     }
+    if external:
+        report.update({
+          "original_production_source_sha":production_source_sha,
+          "external_python_image_sha256":approved_python_sha256,
+          "external_manifest_approved_for_production":bool(production),
+          "production_release_signer_approved":False,
+          "independent_release_authority_approved":False,
+        })
     (destination/"r3-r1-runtime-provenance.json").write_text(
          json.dumps(report,sort_keys=True,separators=(",",":"))+"\n",encoding="ascii")
     return report
@@ -279,7 +287,7 @@ def smoke(directory:Path,request:Path):
 
 if __name__=="__main__":
     parser=argparse.ArgumentParser()
-    parser.add_argument("mode",choices=["prepare","prepare-production","smoke"])
+    parser.add_argument("mode",choices=["prepare","prepare-candidate","prepare-production","smoke"])
     parser.add_argument("--source-sha")
     parser.add_argument("--approved-manifest-sha256")
     parser.add_argument("--approved-python-sha256")
@@ -287,16 +295,18 @@ if __name__=="__main__":
     parser.add_argument("--repo")
     parser.add_argument("--request")
     args=parser.parse_args()
-    if args.mode in ("prepare", "prepare-production"):
+    if args.mode in ("prepare", "prepare-candidate", "prepare-production"):
+        if args.mode in ("prepare-candidate", "prepare-production"):
+            need(bool(args.source_sha and args.approved_python_sha256),
+                 "externally pinned exact Git source and CPython image required")
         if args.mode == "prepare-production":
-            need(bool(args.source_sha and args.approved_manifest_sha256 and
-                      args.approved_python_sha256),
-                 "separately approved original Git, manifest and CPython pins required")
+            need(bool(args.approved_manifest_sha256),
+                 "independently approved original frozen import manifest required")
         result=prepare(
             Path(args.root),Path(args.repo or Path(__file__).resolve().parents[1]),
-            production_source_sha=(args.source_sha if args.mode=="prepare-production" else None),
+            production_source_sha=(args.source_sha if args.mode in ("prepare-candidate","prepare-production") else None),
             approved_manifest_sha256=(args.approved_manifest_sha256 if args.mode=="prepare-production" else None),
-            approved_python_sha256=(args.approved_python_sha256 if args.mode=="prepare-production" else None),
+            approved_python_sha256=(args.approved_python_sha256 if args.mode in ("prepare-candidate","prepare-production") else None),
         )
     else:
         need(bool(args.request),"fixed smoke input required")
