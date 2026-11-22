@@ -114,7 +114,7 @@ jobs:
             if(-not $denied){throw 'Hosted CI was allowed to promote release into production'}
           }
           Write-Host 'PASS_CI_ONLY_NO_PHYSICAL_ADMISSION_OR_OUTPUT_RELEASE'
-      - name: CI native GPG and Git-MSYS path interoperability with signature/tamper and physical denial
+      - name: CI restored native Git-GPG fixture signature/tamper and physical refusal test
         shell: pwsh
         run: |
           $ErrorActionPreference='Stop'
