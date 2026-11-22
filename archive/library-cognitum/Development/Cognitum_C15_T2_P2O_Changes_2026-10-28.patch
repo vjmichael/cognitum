@@ -1,0 +1,934 @@
+--- a/P2O_START_HERE.md
++++ b/P2O_START_HERE.md
+@@ -0,0 +1,26 @@
++# Cognitum C15 T2 P2O — Claim Revision and Hypothesis Reconciliation
++
++Research-only source checkpoint. Developed independently; no Lu, GitHub, or real datasets modified.
++
++## New files
++- `proto/cognitum/spatial/v1/structural_reconciliation.proto`
++- `cognitum/proto/spatial_structural_reconciliation_pb2.py` (generated from independently compiled descriptor)
++- `cognitum/spatial_structural_reconciliation.py`
++- `tests/test_c15_t2_p2o_reconciliation.py`
++- `tools/run_c15_p2o_t2_reconciliation.py`
++- `docs/components/spatial/P2O-T2-hypothesis-reconciliation-and-retraction.md`
++- `docs/components/spatial/C15-T2-P2O-reconciliation-backlog-v1.json`
++- `docs/components/spatial/P2O-reconciliation-synthetic-demo.json`
++- `tools/check_proto_descriptors.py` updated with a 64th source/binding schema.
++
++## Reproduce
++```
++PYTHONPATH=. python tools/run_c15_p2o_t2_reconciliation.py
++PYTHONPATH=. python -m pytest -q tests/test_c15_t2_p2o_reconciliation.py tests/test_c15_t2_p2n_ontology.py
++PYTHONPATH=. python tools/verify_protobuf_schemas.py --require
++PYTHONPATH=. python -m pytest -q tests/test_c15* tests/test_c13* tests/test_c14*
++```
++
++The previously recorded six C15 tracking/appearance and three T2 reasoner deferrals are unchanged. Three new P2O independent-validation dependencies are recorded separately. No live source authority, OWL completeness, canonical memory write, Lu approval, or T3 geometry is claimed.
++
++The `P2O_SHA256SUMS.json` file lists SHA-256 values for all other files included in this archive. Its hashes are integrity checks, not attestations of file publisher or trust.
+--- a/cognitum/proto/spatial_structural_reconciliation_pb2.py
++++ b/cognitum/proto/spatial_structural_reconciliation_pb2.py
+@@ -0,0 +1,8 @@
++"""Compiler-derived Cognitum C15 T2 P2O reconciliation contract."""
++from cognitum.proto import spatial_ontology_subset_pb2 as _ontology
++from cognitum.proto import spatial_composition_pb2 as _composition
++from google.protobuf import descriptor_pool as pool
++from google.protobuf.internal import builder
++DESCRIPTOR=pool.Default().AddSerializedFile(bytes.fromhex('0a33636f676e6974756d2f7370617469616c2f76312f7374727563747572616c5f7265636f6e63696c696174696f6e2e70726f746f1213636f676e6974756d2e7370617469616c2e76311a29636f676e6974756d2f7370617469616c2f76312f6f6e746f6c6f67795f7375627365742e70726f746f1a25636f676e6974756d2f7370617469616c2f76312f636f6d706f736974696f6e2e70726f746f22520a0b543243616e64696461746512210a0c63616e6469646174655f6964180120012809520b63616e646964617465496412200a0b6578706c616e6174696f6e180220012809520b6578706c616e6174696f6e22690a0e5432547970654164646974696f6e12190a08636c61696d5f69641801200128095207636c61696d4964123c0a05636c61696d18022001280b32262e636f676e6974756d2e7370617469616c2e76312e4f6e746f6c6f677954797065436c61696d5205636c61696d22630a0e5432456467654164646974696f6e12190a08636c61696d5f69641801200128095207636c61696d496412360a046564676518022001280b32222e636f676e6974756d2e7370617469616c2e76312e53747275637475726545646765520465646765222e0a115432436c61696d52657472616374696f6e12190a08636c61696d5f69641801200128095207636c61696d496422fa020a0f54325265766973696f6e4576656e7412190a086576656e745f696418012001280952076576656e74496412210a0c63616e6469646174655f6964180220012809520b63616e6469646174654964121a0a0873657175656e636518032001280d520873657175656e6365121d0a0a736f757263655f7265661804200128095209736f75726365526566121c0a09726174696f6e616c651805200128095209726174696f6e616c6512400a086164645f7479706518062001280b32232e636f676e6974756d2e7370617469616c2e76312e5432547970654164646974696f6e480052076164645479706512400a086164645f6564676518072001280b32232e636f676e6974756d2e7370617469616c2e76312e5432456467654164646974696f6e480052076164644564676512420a077265747261637418082001280b32262e636f676e6974756d2e7370617469616c2e76312e5432436c61696d52657472616374696f6e480052077265747261637442080a066368616e67652291030a1754325265636f6e63696c696174696f6e5265717565737412250a0e736368656d615f76657273696f6e18012001280d520d736368656d6156657273696f6e12270a0f636f6e766572736174696f6e5f6964180220012809520e636f6e766572736174696f6e496412560a116f6e746f6c6f67795f74656d706c61746518032001280b32292e636f676e6974756d2e7370617469616c2e76312e4f6e746f6c6f677941756469745265717565737452106f6e746f6c6f677954656d706c61746512400a0a63616e6469646174657318042003280b32202e636f676e6974756d2e7370617469616c2e76312e543243616e646964617465520a63616e64696461746573123c0a066576656e747318052003280b32242e636f676e6974756d2e7370617469616c2e76312e54325265766973696f6e4576656e7452066576656e747312230a0d72657365617263685f6f6e6c79180620012808520c72657365617263684f6e6c7912290a106772616e74735f617574686f72697479180720012808520f6772616e7473417574686f7269747922a3040a1154325265766973696f6e46696e64696e6712190a086576656e745f696418012001280952076576656e74496412210a0c63616e6469646174655f6964180220012809520b63616e6469646174654964121a0a0873657175656e636518032001280d520873657175656e6365121a0a086465636973696f6e18042001280952086465636973696f6e12310a14696e74726f64756365645f636f6e666c696374731805200328095213696e74726f6475636564436f6e666c69637473122d0a127265736f6c7665645f636f6e666c6963747318062003280952117265736f6c766564436f6e666c6963747312280a106163746976655f636c61696d5f696473180720032809520e616374697665436c61696d49647312340a166f6e746f6c6f67795f726573756c745f73686132353618082001280c52146f6e746f6c6f6779526573756c7453686132353612270a0f736e617073686f745f73686132353618092001280c520e736e617073686f7453686132353612340a166a6f75726e616c5f726563656970745f736861323536180a2001280c52146a6f75726e616c52656365697074536861323536122a0a116368616e67655f736f757263655f726566180b20012809520f6368616e6765536f75726365526566121c0a09726174696f6e616c65180c200128095209726174696f6e616c65122d0a12737570706f7274696e675f736f7572636573180d200328095211737570706f7274696e67536f7572636573228b030a12543243616e64696461746546696e64696e6712210a0c63616e6469646174655f6964180120012809520b63616e646964617465496412250a0e66696e616c5f6465636973696f6e180220012809520d66696e616c4465636973696f6e12270a0f746f74616c5f7265766973696f6e7318032001280d520e746f74616c5265766973696f6e7312280a106163746976655f636c61696d5f696473180420032809520e616374697665436c61696d49647312310a14756e7265736f6c7665645f636f6e666c696374731805200328095213756e7265736f6c766564436f6e666c6963747312300a1466696e616c5f726563656970745f73686132353618062001280c521266696e616c52656365697074536861323536123f0a1c66696e616c5f6f6e746f6c6f67795f726573756c745f73686132353618072001280c521966696e616c4f6e746f6c6f6779526573756c7453686132353612320a1566696e616c5f737570706f727465645f7479706573180820032809521366696e616c537570706f72746564547970657322af030a1654325265636f6e63696c696174696f6e526573756c7412250a0e736368656d615f76657273696f6e18012001280d520d736368656d6156657273696f6e12270a0f636f6e766572736174696f6e5f6964180220012809520e636f6e766572736174696f6e496412250a0e726571756573745f73686132353618032001280c520d7265717565737453686132353612440a097265766973696f6e7318042003280b32262e636f676e6974756d2e7370617469616c2e76312e54325265766973696f6e46696e64696e6752097265766973696f6e7312470a0a63616e6469646174657318052003280b32272e636f676e6974756d2e7370617469616c2e76312e543243616e64696461746546696e64696e67520a63616e64696461746573121a0a087761726e696e677318062003280952087761726e696e677312230a0d72657365617263685f6f6e6c79180720012808520c72657365617263684f6e6c7912290a106772616e74735f617574686f72697479180820012808520f6772616e7473417574686f7269747912230a0d616e795f636f6e666c69637473180920012808520c616e79436f6e666c69637473620670726f746f33'))
++builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
++builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'cognitum.proto.spatial_structural_reconciliation_pb2', globals())
+--- a/cognitum/spatial_structural_reconciliation.py
++++ b/cognitum/spatial_structural_reconciliation.py
+@@ -0,0 +1,175 @@
++"""C15 T2 P2O: audited revisions of competing structural *claims*.
++
++Research-only. Claim retirement and source references are unauthenticated input,
++not host permission, sensor truth, canonical belief mutation or physical geometry.
++No Bayesian ranking or implicit conflict resolution. Each candidate is isolated.
++"""
++from __future__ import annotations
++
++from collections import defaultdict
++import hashlib
++
++from cognitum import spatial_ontology_subset as ontology
++from cognitum.proto import spatial_structural_reconciliation_pb2 as pb
++
++MAX_CANDIDATES = 8
++MAX_EVENTS = 128
++MAX_PER_CANDIDATE = 64
++MAX_ACTIVE = 128
++MAX_BYTES = 160_000
++
++
++class ReconciliationRejected(ValueError):
++    pass
++
++
++def _check(condition, message):
++    if not condition:
++        raise ReconciliationRejected(message)
++
++
++def _digest(msg):
++    return hashlib.sha256(msg.SerializeToString(deterministic=True)).digest()
++
++
++def _hash_parts(*values):
++    h = hashlib.sha256()
++    for v in values:
++        h.update(len(v).to_bytes(8, 'big'))
++        h.update(v)
++    return h.digest()
++
++
++def _conflicts(audit):
++    return {f'{item.node_id}|{key}' for item in audit.findings for key in item.disjoint_conflicts}
++
++
++def _source_refs(audit):
++    return sorted({src for finding in audit.findings for entailment in finding.entailed_types
++                   for src in entailment.support_sources})
++
++
++def _snapshot(template, claims):
++    # A new protobuf snapshot, never a mutation to the caller's template.
++    r = type(template)()
++    r.CopyFrom(template)
++    for key in sorted(claims):
++        kind, claim = claims[key]
++        if kind == 'type':
++            r.assertions.add().CopyFrom(claim)
++        else:
++            r.graph.edges.add().CopyFrom(claim)
++    return r
++
++
++def _preflight(req):
++    _check(isinstance(req, pb.T2ReconciliationRequest) and
++           ontology._known(req) and req.schema_version == 1 and
++           req.research_only and not req.grants_authority and
++           ontology._id(req.conversation_id) and
++           req.HasField('ontology_template') and
++           req.ByteSize() <= MAX_BYTES, 'INVALID_P2O_REQUEST')
++    t = req.ontology_template
++    _check(t.schema_version == 1 and t.conversation_id == req.conversation_id and
++           t.research_only and not t.grants_authority and
++           not t.assertions and not t.graph.edges,
++           'TEMPLATE_MUST_HAVE_NO_DYNAMIC_CLAIMS')
++    try:
++        ontology.audit(t)
++    except ontology.OntologyRejected as exc:
++        raise ReconciliationRejected('INVALID_ONTOLOGY_TEMPLATE:' + str(exc)) from exc
++    _check(1 <= len(req.candidates) <= MAX_CANDIDATES and
++           1 <= len(req.events) <= MAX_EVENTS, 'P2O_CAPACITY')
++    candidates = {}
++    for c in req.candidates:
++        _check(ontology._id(c.candidate_id) and c.candidate_id not in candidates and
++               0 < len(c.explanation) <= 240, 'INVALID_CANDIDATE')
++        candidates[c.candidate_id] = c
++    events = defaultdict(list)
++    used_events = set()
++    for e in req.events:
++        _check(ontology._id(e.event_id) and e.event_id not in used_events and
++               e.candidate_id in candidates and e.sequence == len(events[e.candidate_id]) + 1 and
++               e.sequence <= MAX_PER_CANDIDATE and ontology._id(e.source_ref) and
++               0 < len(e.rationale) <= 240 and
++               e.WhichOneof('change') in ('add_type', 'add_edge', 'retract'),
++               'INVALID_EVENT_SEQUENCE_OR_SCOPE')
++        used_events.add(e.event_id)
++        if e.WhichOneof('change') == 'add_type':
++            _check(ontology._id(e.add_type.claim_id) and e.add_type.HasField('claim'),
++                   'INVALID_TYPE_EVENT')
++        elif e.WhichOneof('change') == 'add_edge':
++            _check(ontology._id(e.add_edge.claim_id) and e.add_edge.HasField('edge'),
++                   'INVALID_EDGE_EVENT')
++        else:
++            _check(ontology._id(e.retract.claim_id), 'INVALID_RETRACTION_EVENT')
++        events[e.candidate_id].append(e)
++    return candidates, events
++
++
++def reconcile(req: pb.T2ReconciliationRequest) -> pb.T2ReconciliationResult:
++    candidates, events = _preflight(req)
++    t = req.ontology_template
++    out = pb.T2ReconciliationResult(schema_version=1, conversation_id=req.conversation_id,
++                                    request_sha256=_digest(req), research_only=True)
++    for candidate_id in sorted(candidates):
++        claims = {}                  # candidate-local active assertions/edges
++        retired = set()              # claim IDs cannot be reused even after retirement
++        preceding = _hash_parts(_digest(t), candidate_id.encode('utf-8'), b'P2O-v1')
++        previous_audit = ontology.audit(t)
++        previous_conflicts = _conflicts(previous_audit)
++        for e in events[candidate_id]:
++            operation = e.WhichOneof('change')
++            if operation == 'retract':
++                key = e.retract.claim_id
++                _check(key in claims, 'RETRACTION_OF_INACTIVE_OR_UNKNOWN_CLAIM')
++                claims.pop(key)
++            else:
++                key = e.add_type.claim_id if operation == 'add_type' else e.add_edge.claim_id
++                _check(key not in claims and key not in retired, 'DUPLICATE_OR_REUSED_CLAIM_ID')
++                claim = e.add_type.claim if operation == 'add_type' else e.add_edge.edge
++                claims[key] = ('type' if operation == 'add_type' else 'edge', claim)
++                _check(len(claims) <= MAX_ACTIVE, 'ACTIVE_CLAIM_CAPACITY')
++            retired.add(key)
++            snapshot = _snapshot(t, claims)
++            try:
++                audit = ontology.audit(snapshot)  # validate every intermediate state
++            except ontology.OntologyRejected as exc:
++                raise ReconciliationRejected('INVALID_REVISED_ONTOLOGY:' + str(exc)) from exc
++            conflicts = _conflicts(audit)
++            snapshot_sha = _digest(snapshot)
++            receipt = _hash_parts(preceding, _digest(e), snapshot_sha, _digest(audit))
++            row = out.revisions.add(
++                event_id=e.event_id, candidate_id=candidate_id, sequence=e.sequence,
++                decision='CLAIMS_CONFLICTED' if conflicts else 'CLAIMS_CONSISTENT',
++                introduced_conflicts=sorted(conflicts - previous_conflicts),
++                resolved_conflicts=sorted(previous_conflicts - conflicts),
++                active_claim_ids=sorted(claims),
++                ontology_result_sha256=_digest(audit), snapshot_sha256=snapshot_sha,
++                journal_receipt_sha256=receipt, change_source_ref=e.source_ref,
++                rationale=e.rationale, supporting_sources=_source_refs(audit))
++            previous_conflicts, previous_audit, preceding = conflicts, audit, receipt
++        final = out.candidates.add(
++            candidate_id=candidate_id,
++            final_decision='CLAIMS_CONFLICTED' if previous_conflicts else
++                           ('CLAIMS_CONSISTENT' if claims else 'NO_ACTIVE_CLAIMS'),
++            total_revisions=len(events[candidate_id]),
++            active_claim_ids=sorted(claims),
++            unresolved_conflicts=sorted(previous_conflicts),
++            final_receipt_sha256=preceding,
++            final_ontology_result_sha256=_digest(previous_audit))
++        for f in previous_audit.findings:
++            for entailed in f.entailed_types:
++                final.final_supported_types.append(
++                    f'{f.node_id}|{entailed.class_id}|{str(entailed.hypothetical).lower()}')
++        if previous_conflicts:
++            out.any_conflicts = True
++    out.warnings.extend([
++        'CALLER_CLAIM_RETRACTIONS_DO_NOT_AUTHENTICATE_SOURCE_OR_DELETE_CANONICAL_FACTS',
++        'CONSISTENCY_IS_NOT_CORRECTNESS_OR_PROBABILISTIC_HYPOTHESIS_SELECTION',
++        'HYPOTHETICAL_EVIDENCE_NOT_PROMOTED_BY_DEFAULT',
++        'OPEN_WORLD_ABSENCE_IS_NOT_NEGATION',
++        'JOURNAL_SHA256_IS_NOT_A_SIGNATURE_OR_AUTHORIZATION',
++        'READ_ONLY_NO_T3_GEOMETRY_OR_SCENE_MUTATION',
++    ])
++    return out
+--- a/docs/components/spatial/C15-T2-P2O-reconciliation-backlog-v1.json
++++ b/docs/components/spatial/C15-T2-P2O-reconciliation-backlog-v1.json
+@@ -0,0 +1,36 @@
++{
++  "schema_version": 1,
++  "research_only": true,
++  "milestone": "C15 T2 P2O",
++  "status": "deferred independent validation; NOT passed or canceled",
++  "preserved_backlogs": [
++    "C15-benchmark-backlog-v1.json (six earlier tracking/appearance benchmarks)",
++    "C15-T2-external-reasoner-backlog-v1.json (three T2 independent evaluator gates)"
++  ],
++  "experiments": [
++    {
++      "id": "T2-P2O-TRUTH-MAINTENANCE-4",
++      "status": "deferred_external_reference_unavailable",
++      "required": ["pinned, independently verified truth-maintenance reference implementation", "versioned identical finite claim and withdrawal fixtures", "reference provenance and license review"],
++      "comparators": ["P2O full-replay baseline", "independently authored reference engine", "naive full recomputation"],
++      "metrics": ["entailment agreement", "new/resolved conflict precision", "retraction correctness", "time/memory", "deterministic replay"],
++      "acceptance": "zero unauthorized claim promotion; report all disagreements and negative cases; no assumption that audit consistency equals truth"
++    },
++    {
++      "id": "T2-P2O-LONGITUDINAL-5",
++      "status": "deferred_real_source_data_unavailable",
++      "required": ["licensed real longitudinal structural annotations", "independent correction and source-identity records", "held-out splits", "audited source authority and revocation policy"],
++      "comparators": ["caller-claim-only baseline", "explicit human correction baseline", "competent structure graph/TMS baseline"],
++      "metrics": ["correct contradiction detection", "false retraction", "unresolved ambiguity", "source attribution", "temporal recovery", "cost"],
++      "acceptance": "preserve conflicting evidence and abstain when uncertain; publish false positives and regressions"
++    },
++    {
++      "id": "T2-P2O-PERSISTENCE-6",
++      "status": "deferred_host_integration_and_native_security",
++      "required": ["host-approved persistence API", "restart/atomic-journal contract", "authenticated actor and source trust", "Windows-native worker confinement"],
++      "comparators": ["clean deterministic replay", "transactional event-store baseline"],
++      "metrics": ["replay/restart parity", "rollback safety", "concurrent modification rejection", "revocation effectiveness", "resource budgets"],
++      "acceptance": "no source retirement without authorized host-side permissions; no canonical Lu writes before security gate"
++    }
++  ]
++}
+--- a/docs/components/spatial/P2O-T2-hypothesis-reconciliation-and-retraction.md
++++ b/docs/components/spatial/P2O-T2-hypothesis-reconciliation-and-retraction.md
+@@ -0,0 +1,39 @@
++# Cognitum C15 T2 P2O — Structural hypothesis reconciliation
++
++**Date:** 2026-10-28. **Scope:** Independent Cognitum research-only implementation. Lu, GitHub and real datasets unchanged.
++
++## Added contract and executable reference
++
++- `proto/cognitum/spatial/v1/structural_reconciliation.proto`: Protobuf-native bounded alternative claims + sequenced evidence changes, compiler-derived Python bindings; serialized unknown fields fail closed.
++- `cognitum/spatial_structural_reconciliation.py`: immutable ontology template, deterministic replay of type/edge additions and explicit retractions; every intermediate candidate state re-audited with the existing P2N ontology and mereology rules.
++- `tools/run_c15_p2o_t2_reconciliation.py`: reproducible two-candidate example demonstrating conflict introduction and caller-declared retirement; no real-world evidence or efficacy claim.
++
++## Reconciliation semantics
++
++Every candidate is independent (max 8, max 128 events globally, max 64 per candidate, max 128 active claims per candidate). Input events are contiguous and one-indexed **within** each candidate, and globally unique by event ID; source IDs, rationale and claim IDs are mandatory. A candidate can add a scoped type or edge claim, or retract an *active* same-candidate claim. Claim IDs cannot be reused. P2N rejects self/unknown nodes, invalid types, contradictory observed/hypothetical promotions, duplicate entailed claims, cycles or multiple structural parents. Bad revisions reject the whole request; there are no partial writes.
++
++After each revision the output records introduced and resolved contradiction IDs, current active claim IDs, supporting source references, the original change's stated rationale/source, stable snapshot digest, and append-stable chained journal checksum. The output also includes a per-candidate final status and typed findings. The journal digest is an integrity checksum, **not** a signature or authenticated authority. Source refs and `EVIDENCE_OBSERVED` labels are supplied by callers, **not authenticated**.
++
++**Interpretation rule:** `CLAIMS_CONSISTENT` means no contradiction found by the **finite supported P2N rules on the current claims**. It is *not* evidence of truth, verified object recognition, automatic selection among alternatives, high confidence, full OWL reasoning or valid scene mutation. An arbitrary correction may remove a contradiction but does not prove the remaining claim. `NO_ACTIVE_CLAIMS` is a distinct final state. Open-world absence does not imply a negative claim.
++
++Hypothetical T1/P2M object candidates stay hypothetical. No camera appearance claim is promoted to a physical pose; T3 occupancy/projection, Lu host authority, security scope changes, and canonical persistence are excluded. Source revisions are hypothetical caller requests, not a revocation of sensor facts or a host policy change.
++
++## Focused verification
++
++- A mechanical vs void classification produces a disjoint contradiction; retiring the void claim records a resolved contradiction without selecting a true explanation.
++- Alternative candidates remain isolated; attempted cross-candidate retirement fails.
++- Typed part edges can generate contradiction through P2N declared relation signatures; retracting an edge reverses its derived source support.
++- Unknown/malformed Protobuf fields, revision gaps, duplicate IDs, source/scope mismatches, invalid edges, false authority and observed/hypothetical conflation reject the full request.
++- Deterministic replays match hashes, and older receipts remain stable when events append. An independent class-closure + disjointness oracle checks the randomized retraction cases (separate from comparing per-revision P2N audits).
++- Historical datasets and learned tracking benchmark records are preserved; new experimental benchmark dependencies recorded in `C15-T2-P2O-reconciliation-backlog-v1.json`.
++
++## Reproduce
++
++```bash
++PYTHONPATH=. python tools/run_c15_p2o_t2_reconciliation.py --out /tmp/c15-p2o-example.json
++PYTHONPATH=. python -m pytest -q tests/test_c15_t2_p2o_reconciliation.py tests/test_c15_t2_p2n_ontology.py
++PYTHONPATH=. python tools/verify_protobuf_schemas.py --require
++PYTHONPATH=. python -m pytest -q tests/test_c15* tests/test_c13* tests/test_c14*
++```
++
++**Open gates:** external OWL-RL/independent truth maintenance and longitudinal multi-source real structural datasets, authenticated permissions/revocation, durable host journal/restart, Windows-native sandbox, calibrated T2/T3 sensor observations, real Lu-model evaluation. None is implicitly passed by the P2O offline reference.
+--- a/docs/components/spatial/P2O-protobuf-schema-check.log
++++ b/docs/components/spatial/P2O-protobuf-schema-check.log
+@@ -0,0 +1 @@
++PASS: independently compiled 64 .proto files; Python binding wire shapes match (/opt/pyvenv/lib/python3.13/site-packages/torch/bin/protoc)
+--- a/docs/components/spatial/P2O-reconciliation-synthetic-demo.json
++++ b/docs/components/spatial/P2O-reconciliation-synthetic-demo.json
+@@ -0,0 +1,128 @@
++{
++  "acceptance": "No real hypothesis selection, 3D projection, scene mutation or Lu permission",
++  "origin": "synthetic caller-claim fixture (not source-authenticated)",
++  "phase": "C15 T2 P2O",
++  "result": {
++    "candidates": [
++      {
++        "active_claim_ids": [
++          "mechanicalClaim"
++        ],
++        "candidate_id": "candidateA",
++        "final_decision": "CLAIMS_CONSISTENT",
++        "final_ontology_result_sha256": "KmmM8fD27Gx8ooMGYnfu1Y9I1v79BfwWwo5JNdaseKQ=",
++        "final_receipt_sha256": "Oy2rrJCREnV40mA0CGBt7hH9QbB6k2KFxAMNt0qA21Y=",
++        "final_supported_types": [
++          "component|Entity|false",
++          "component|MachinePart|false",
++          "component|Solid|false"
++        ],
++        "total_revisions": 3
++      },
++      {
++        "active_claim_ids": [
++          "voidOnlyClaim"
++        ],
++        "candidate_id": "candidateB",
++        "final_decision": "CLAIMS_CONSISTENT",
++        "final_ontology_result_sha256": "Hde3NfXglpgjZ9GW2hHY/H01sGOpDjc8vLzPh1Wutds=",
++        "final_receipt_sha256": "IByNM7OImxGY+O6R7bXXfDpE7TmukIQRNMflCR89PoI=",
++        "final_supported_types": [
++          "component|Entity|false",
++          "component|Void|false"
++        ],
++        "total_revisions": 1
++      }
++    ],
++    "conversation_id": "replayDemo",
++    "request_sha256": "fjA9MkzU2HM5jzawfkFULmkyHpKekCdPcHWlhtabbwk=",
++    "research_only": true,
++    "revisions": [
++      {
++        "active_claim_ids": [
++          "mechanicalClaim"
++        ],
++        "candidate_id": "candidateA",
++        "change_source_ref": "researchSource",
++        "decision": "CLAIMS_CONSISTENT",
++        "event_id": "revision1",
++        "journal_receipt_sha256": "aLpWoSR6kBoBj0bcFXAlmoainU9rhP7S6HvyGt3GvVE=",
++        "ontology_result_sha256": "KmmM8fD27Gx8ooMGYnfu1Y9I1v79BfwWwo5JNdaseKQ=",
++        "rationale": "caller supplied a classification",
++        "sequence": 1,
++        "snapshot_sha256": "T+h11N8a47uunWOyZRo50AdnCEyZg3HBoBZEP19katg=",
++        "supporting_sources": [
++          "mechanicalClaim"
++        ]
++      },
++      {
++        "active_claim_ids": [
++          "mechanicalClaim",
++          "voidClaim"
++        ],
++        "candidate_id": "candidateA",
++        "change_source_ref": "researchSource",
++        "decision": "CLAIMS_CONFLICTED",
++        "event_id": "revision2",
++        "introduced_conflicts": [
++          "component|Solid|Void|schemaDisjointClaim"
++        ],
++        "journal_receipt_sha256": "NPUGsICidLH/yIhxM7pMf3Q49DFJJdX1uXeJOfRzcvg=",
++        "ontology_result_sha256": "kZJfC/MjH9PvhIY8ok4L6se312BqtJNkAUNMd38dBrI=",
++        "rationale": "caller supplied a classification",
++        "sequence": 2,
++        "snapshot_sha256": "n+2Wn/PNiRB6nc9XdQjjxU0OhXpJWvBiGK56HGzgE04=",
++        "supporting_sources": [
++          "mechanicalClaim",
++          "voidClaim"
++        ]
++      },
++      {
++        "active_claim_ids": [
++          "mechanicalClaim"
++        ],
++        "candidate_id": "candidateA",
++        "change_source_ref": "revisionSource",
++        "decision": "CLAIMS_CONSISTENT",
++        "event_id": "revision3",
++        "journal_receipt_sha256": "Oy2rrJCREnV40mA0CGBt7hH9QbB6k2KFxAMNt0qA21Y=",
++        "ontology_result_sha256": "KmmM8fD27Gx8ooMGYnfu1Y9I1v79BfwWwo5JNdaseKQ=",
++        "rationale": "caller retracted disputed void label",
++        "resolved_conflicts": [
++          "component|Solid|Void|schemaDisjointClaim"
++        ],
++        "sequence": 3,
++        "snapshot_sha256": "T+h11N8a47uunWOyZRo50AdnCEyZg3HBoBZEP19katg=",
++        "supporting_sources": [
++          "mechanicalClaim"
++        ]
++      },
++      {
++        "active_claim_ids": [
++          "voidOnlyClaim"
++        ],
++        "candidate_id": "candidateB",
++        "change_source_ref": "researchSource",
++        "decision": "CLAIMS_CONSISTENT",
++        "event_id": "revision4",
++        "journal_receipt_sha256": "IByNM7OImxGY+O6R7bXXfDpE7TmukIQRNMflCR89PoI=",
++        "ontology_result_sha256": "Hde3NfXglpgjZ9GW2hHY/H01sGOpDjc8vLzPh1Wutds=",
++        "rationale": "caller supplied a classification",
++        "sequence": 1,
++        "snapshot_sha256": "RGQSVrQEZS5X0TFWRRNkgDIFtPJvbjJKj+rbroEsLpw=",
++        "supporting_sources": [
++          "voidOnlyClaim"
++        ]
++      }
++    ],
++    "schema_version": 1,
++    "warnings": [
++      "CALLER_CLAIM_RETRACTIONS_DO_NOT_AUTHENTICATE_SOURCE_OR_DELETE_CANONICAL_FACTS",
++      "CONSISTENCY_IS_NOT_CORRECTNESS_OR_PROBABILISTIC_HYPOTHESIS_SELECTION",
++      "HYPOTHETICAL_EVIDENCE_NOT_PROMOTED_BY_DEFAULT",
++      "OPEN_WORLD_ABSENCE_IS_NOT_NEGATION",
++      "JOURNAL_SHA256_IS_NOT_A_SIGNATURE_OR_AUTHORIZATION",
++      "READ_ONLY_NO_T3_GEOMETRY_OR_SCENE_MUTATION"
++    ]
++  }
++}
+--- a/docs/components/spatial/P2O-selected-tests.log
++++ b/docs/components/spatial/P2O-selected-tests.log
+@@ -0,0 +1,39 @@
++........................................................................ [  5%]
++........................................................................ [ 11%]
++................................................................. [ 17%]
++.................................................................... [ 22%]
++................................................................... [ 28%]
++................................................................ [ 33%]
++.........................................s.........................s.. [ 39%]
++........................................................................ [ 44%]
++................................................s....................ss. [ 50%]
++.................................................................... [ 56%]
++..ss................................................................. [ 62%]
++........................................................................ [ 67%]
++.................................................................................................................................... [ 78%]
++............................................................ [ 83%]
++......................ss....ssss...ss.sssssss............sssssss.. [ 88%]
++........................................................................ [ 94%]
++............................ssssssssss.........................          [100%]
++=============================== warnings summary ===============================
++tests/test_c13_p3_continuous.py::ContinuousTests::test_optional_runtime_import_compatibility
++  /opt/pyvenv/lib/python3.13/site-packages/arviz/__init__.py:110: MigrationWarning: arviz.InferenceData is no longer available on the arviz package; ArviZ now uses xarray's DataTree for the same role. See the migration guide: https://python.arviz.org/en/latest/user_guide/migration_guide.html#datatree
++    warnings.warn(
++
++tests/test_c13_p4_diagnostics.py::DiagnosticsTests::test_no_constant_diagnostic_proof
++  /opt/pyvenv/lib/python3.13/site-packages/arviz_stats/base/diagnostics.py:90: RuntimeWarning: invalid value encountered in scalar divide
++    (between_chain_variance / within_chain_variance + num_samples - 1) / (num_samples)
++
++tests/test_c14_p4d_temporal_advanced.py::TestAdvancedTemporal::test_values_match_real_library_directly
++tests/test_c14_p4d_temporal_advanced.py::TestAdvancedTemporal::test_values_match_real_library_directly
++  /mnt/data/c15_p2o_work/tests/test_c14_p4d_temporal_advanced.py:44: InterpolationWarning: The test statistic is outside of the range of p-values available in the
++  look-up table. The actual p-value is greater than the p-value returned.
++  
++    expected_kpss=kpss(arr,regression='c',nlags='auto')
++
++tests/test_c14_vendor_preflight.py::VendorArchiveAdmission::test_duplicate_entry_rejected
++  /usr/lib/python3.13/zipfile/__init__.py:1642: UserWarning: Duplicate name: 'causal-learn-main/setup.py'
++    return self._open_to_write(zinfo, force_zip64=force_zip64)
++
++-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
++1185 passed, 39 skipped, 5 warnings, 567 subtests passed in 22.86s
+--- a/docs/components/spatial/P2O-test-evidence.json
++++ b/docs/components/spatial/P2O-test-evidence.json
+@@ -0,0 +1,43 @@
++{
++  "backlog_unchanged_sha256": {
++    "C15-T2-external-reasoner-backlog-v1.json": "389709eea052ed3342d1a6918dcbbfb72ce56f8c9ba4d1567d502baee10f7ec1",
++    "C15-benchmark-backlog-v1.json": "4d117d91114dc2ca401d493319f293528fccddce3fe2ecddf2b46b5783702390"
++  },
++  "date": "2026-10-28",
++  "decision": "research-only bounded P2O smoke checkpoint; not production approval",
++  "focused_suites": {
++    "expression": "python -m pytest -q tests/test_c15_t2_p2o_reconciliation.py tests/test_c15_t2_p2n_ontology.py",
++    "passed": 46,
++    "subtests_passed": 5
++  },
++  "independent_schema_compiler": {
++    "binary": "torch/bin/protoc",
++    "matched": 64,
++    "total": 64
++  },
++  "milestone": "C15 T2 P2O",
++  "oracle": "independent class sets Mechanical=>Solid and explicit Solid vs Void, plus direct P2N replay audits",
++  "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
++  "protobuf": "6.33.6",
++  "python": "3.13.5",
++  "replay_trials": 120,
++  "schema_version": 1,
++  "scope": "Cognitum research only; no Lu/GitHub/Windows mutation",
++  "selected_suites": {
++    "expression": "python -m pytest -q tests/test_c15* tests/test_c13* tests/test_c14*",
++    "passed": 1185,
++    "skipped": 39,
++    "subtests_passed": 567,
++    "warnings": 5
++  },
++  "unverified": [
++    "unrestricted repository suite",
++    "official OWL 2 RL parity",
++    "authenticated source identities",
++    "persistent journal/restart",
++    "Windows-native confinement",
++    "real structural performance",
++    "T2/T3 calibrated geometry",
++    "Lu host integration"
++  ]
++}
+--- a/proto/cognitum/spatial/v1/structural_reconciliation.proto
++++ b/proto/cognitum/spatial/v1/structural_reconciliation.proto
+@@ -0,0 +1,67 @@
++syntax = "proto3";
++package cognitum.spatial.v1;
++import "cognitum/spatial/v1/ontology_subset.proto";
++import "cognitum/spatial/v1/composition.proto";
++// C15 T2 P2O: read-only, finite competing-claim reconciliation.
++// Every claim change is a caller-declared event, not authenticated evidence.
++message T2Candidate { string candidate_id = 1; string explanation = 2; }
++message T2TypeAddition { string claim_id = 1; OntologyTypeClaim claim = 2; }
++message T2EdgeAddition { string claim_id = 1; StructureEdge edge = 2; }
++message T2ClaimRetraction { string claim_id = 1; }
++message T2RevisionEvent {
++  string event_id = 1;
++  string candidate_id = 2;
++  uint32 sequence = 3; // contiguous, 1-indexed, per candidate
++  string source_ref = 4; // caller-supplied; not authenticated
++  string rationale = 5;
++  oneof change {
++    T2TypeAddition add_type = 6;
++    T2EdgeAddition add_edge = 7;
++    T2ClaimRetraction retract = 8;
++  }
++}
++message T2ReconciliationRequest {
++  uint32 schema_version = 1;
++  string conversation_id = 2;
++  OntologyAuditRequest ontology_template = 3; // schema and nodes, no dynamic claims/edges
++  repeated T2Candidate candidates = 4;
++  repeated T2RevisionEvent events = 5;
++  bool research_only = 6;
++  bool grants_authority = 7;
++}
++message T2RevisionFinding {
++  string event_id = 1;
++  string candidate_id = 2;
++  uint32 sequence = 3;
++  string decision = 4; // CLAIMS_CONSISTENT or CLAIMS_CONFLICTED
++  repeated string introduced_conflicts = 5; // node|classA|classB|axiomSource
++  repeated string resolved_conflicts = 6;
++  repeated string active_claim_ids = 7;
++  bytes ontology_result_sha256 = 8;
++  bytes snapshot_sha256 = 9;
++  bytes journal_receipt_sha256 = 10; // an integrity checksum, not a signature
++  string change_source_ref = 11;
++  string rationale = 12;
++  repeated string supporting_sources = 13;
++}
++message T2CandidateFinding {
++  string candidate_id = 1;
++  string final_decision = 2;
++  uint32 total_revisions = 3;
++  repeated string active_claim_ids = 4;
++  repeated string unresolved_conflicts = 5;
++  bytes final_receipt_sha256 = 6;
++  bytes final_ontology_result_sha256 = 7;
++  repeated string final_supported_types = 8; // node|type|hypothetical; not an admitted assertion
++}
++message T2ReconciliationResult {
++  uint32 schema_version = 1;
++  string conversation_id = 2;
++  bytes request_sha256 = 3;
++  repeated T2RevisionFinding revisions = 4;
++  repeated T2CandidateFinding candidates = 5;
++  repeated string warnings = 6;
++  bool research_only = 7;
++  bool grants_authority = 8;
++  bool any_conflicts = 9;
++}
+--- a/tests/test_c15_t2_p2o_reconciliation.py
++++ b/tests/test_c15_t2_p2o_reconciliation.py
+@@ -0,0 +1,256 @@
++"""C15 T2 P2O revision replay and adversarial epistemic boundaries."""
++import copy
++import hashlib
++import random
++import pytest
++from cognitum import spatial_structural_reconciliation as r2
++from cognitum import spatial_ontology_subset as ont
++from cognitum.proto import spatial_structural_reconciliation_pb2 as pb
++from cognitum.proto import spatial_composition_pb2 as sg
++from cognitum.proto import spatial_ontology_subset_pb2 as op
++
++
++def setup(*names, include_hypotheses=False):
++    req = pb.T2ReconciliationRequest(schema_version=1,conversation_id='c1',research_only=True)
++    base = req.ontology_template
++    base.schema_version=1;base.conversation_id='c1';base.research_only=True
++    base.include_hypotheses=include_hypotheses
++    base.graph.schema_version=1;base.graph.graph_id='g1';base.graph.conversation_id='c1';base.graph.research_only=True
++    for node, evidence in [('x',sg.EVIDENCE_INFERRED),('y',sg.EVIDENCE_INFERRED),('guess',sg.EVIDENCE_HYPOTHETICAL)]:
++        base.graph.nodes.add(node_id=node,kind='component',evidence=evidence,source_ref='sourceNode')
++    for name, parents in [('Entity',[]),('Solid',['Entity']),('Mechanical',['Solid']),('Void',['Entity']),('Assembly',['Entity'])]:
++        base.classes.add(class_id=name,parent_class_ids=parents,source_ref='schema')
++    base.disjoints.add(first_class_id='Solid',second_class_id='Void',source_ref='disjointRule')
++    for name in names:
++        req.candidates.add(candidate_id=name,explanation='An unadmitted research alternative '+name)
++    return req
++
++
++def add_type(req,candidate,cls,node='x',status=sg.EVIDENCE_INFERRED,claim=None):
++    events=[e for e in req.events if e.candidate_id==candidate]
++    e=req.events.add(event_id=f'{candidate}E{len(events)+1}',candidate_id=candidate,
++                     sequence=len(events)+1,source_ref='researchLog',rationale='New caller claim, not an authenticated measurement')
++    e.add_type.claim_id=claim or (candidate+cls+node)
++    e.add_type.claim.CopyFrom(op.OntologyTypeClaim(node_id=node,class_id=cls,evidence=status,source_ref='source'+(claim or candidate+cls+node)))
++    return e
++
++
++def add_edge(req,candidate,from_id='x',to_id='y',relation=sg.STRUCTURE_PART_OF,
++             status=sg.EVIDENCE_INFERRED,claim='edge1'):
++    events=[e for e in req.events if e.candidate_id==candidate]
++    e=req.events.add(event_id=f'{candidate}E{len(events)+1}',candidate_id=candidate,
++                     sequence=len(events)+1,source_ref='researchLog',rationale='Edge added as an unadmitted structural claim')
++    e.add_edge.claim_id=claim
++    e.add_edge.edge.CopyFrom(sg.StructureEdge(from_id=from_id,to_id=to_id,relation=relation,evidence=status,source_ref='edgeSource'))
++    return e
++
++
++def retract(req,candidate,key,reason='A source has revised an earlier claim'):
++    events=[e for e in req.events if e.candidate_id==candidate]
++    e=req.events.add(event_id=f'{candidate}E{len(events)+1}',candidate_id=candidate,
++                     sequence=len(events)+1,source_ref='revisionLog',rationale=reason)
++    e.retract.claim_id=key
++    return e
++
++
++def by_candidate(out):return {c.candidate_id:c for c in out.candidates}
++
++
++def test_revision_retracts_conflict_and_preserves_receipts():
++    req=setup('alternativeA','alternativeB')
++    add_type(req,'alternativeA','Mechanical')
++    add_type(req,'alternativeA','Void')
++    retract(req,'alternativeA','alternativeAVoidx')
++    add_type(req,'alternativeB','Void')
++    original=req.SerializeToString(deterministic=True)
++    out=r2.reconcile(req)
++    assert req.SerializeToString(deterministic=True)==original
++    assert not out.any_conflicts
++    rev=[x for x in out.revisions if x.candidate_id=='alternativeA']
++    assert [x.decision for x in rev]==['CLAIMS_CONSISTENT','CLAIMS_CONFLICTED','CLAIMS_CONSISTENT']
++    assert rev[1].introduced_conflicts==['x|Solid|Void|disjointRule']
++    assert rev[2].resolved_conflicts==['x|Solid|Void|disjointRule']
++    assert rev[2].active_claim_ids==['alternativeAMechanicalx']
++    assert len({x.journal_receipt_sha256 for x in rev})==3
++    assert all(len(x.journal_receipt_sha256)==32 and len(x.snapshot_sha256)==32 for x in rev)
++    assert by_candidate(out)['alternativeA'].final_decision=='CLAIMS_CONSISTENT'
++    assert by_candidate(out)['alternativeB'].final_decision=='CLAIMS_CONSISTENT'
++    assert out.grants_authority is False and out.research_only
++    assert r2.reconcile(req).SerializeToString(deterministic=True)==out.SerializeToString(deterministic=True)
++    assert 'CONSISTENCY_IS_NOT_CORRECTNESS_OR_PROBABILISTIC_HYPOTHESIS_SELECTION' in out.warnings
++
++
++def test_unresolved_conflict_is_never_automatically_selected():
++    req=setup('conflicted','alternative')
++    add_type(req,'conflicted','Mechanical')
++    add_type(req,'conflicted','Void')
++    add_type(req,'alternative','Void')
++    out=r2.reconcile(req)
++    assert out.any_conflicts
++    assert by_candidate(out)['conflicted'].final_decision=='CLAIMS_CONFLICTED'
++    assert by_candidate(out)['alternative'].final_decision=='CLAIMS_CONSISTENT'
++    assert not hasattr(out,'selected_candidate')
++
++
++def test_hypothetical_never_promoted_and_opt_in_is_labeled():
++    req=setup('c1')
++    add_type(req,'c1','Mechanical')
++    add_type(req,'c1','Void',status=sg.EVIDENCE_HYPOTHETICAL)
++    normal=r2.reconcile(req)
++    assert not normal.any_conflicts
++    assert not any('Void' in s for s in normal.candidates[0].final_supported_types)
++    req.ontology_template.include_hypotheses=True
++    included=r2.reconcile(req)
++    assert included.any_conflicts
++    assert 'x|Void|true' in included.candidates[0].final_supported_types
++    assert 'x|Mechanical|false' in included.candidates[0].final_supported_types
++    req2=setup('c2')
++    add_type(req2,'c2','Mechanical',node='guess',status=sg.EVIDENCE_OBSERVED)
++    with pytest.raises(r2.ReconciliationRejected,match='CONFLATION'):
++        r2.reconcile(req2)
++
++
++def test_edge_signatures_change_types_and_provenance_with_retraction():
++    req=setup('structure')
++    req.ontology_template.relation_rules.add(relation=sg.STRUCTURE_PART_OF,
++                      from_class_id='Void',to_class_id='Assembly',source_ref='schemaSource')
++    add_type(req,'structure','Mechanical')
++    add_edge(req,'structure')
++    retract(req,'structure','edge1')
++    out=r2.reconcile(req)
++    rev=out.revisions
++    assert rev[1].introduced_conflicts==['x|Solid|Void|disjointRule']
++    assert rev[2].resolved_conflicts==['x|Solid|Void|disjointRule']
++    assert 'edgeSource' in rev[1].supporting_sources
++    assert 'schemaSource' in rev[1].supporting_sources
++    assert 'edgeSource' not in rev[2].supporting_sources
++    assert all('y|Assembly' not in s for s in out.candidates[0].final_supported_types)
++
++
++def test_retractions_cannot_target_other_candidate_or_reuse_ids():
++    req=setup('a','b');add_type(req,'a','Mechanical');retract(req,'b','aMechanicalx')
++    with pytest.raises(r2.ReconciliationRejected,match='UNKNOWN_CLAIM'):
++        r2.reconcile(req)
++    req=setup('a');add_type(req,'a','Mechanical');retract(req,'a','aMechanicalx')
++    add_type(req,'a','Mechanical')
++    with pytest.raises(r2.ReconciliationRejected,match='REUSED_CLAIM'):
++        r2.reconcile(req)
++    req=setup('a');add_type(req,'a','Mechanical');retract(req,'a','aMechanicalx')
++    retract(req,'a','aMechanicalx')
++    with pytest.raises(r2.ReconciliationRejected,match='UNKNOWN_CLAIM'):
++        r2.reconcile(req)
++
++
++@pytest.mark.parametrize('tamper',[
++ 'wrong_scope','authority','template_authority','template_assertion','template_edge',
++ 'duplicate_candidate','duplicate_event','sequence_gap','event_scope','bad_op',
++ 'bad_claim_id','no_reason','unknown_wire','invalid_node','unknown_class',
++ 'wrong_graph_scope','missing_research_flag', 'empty_events',
++])
++def test_adversarial_rejects_invalid_wire_and_logs(tamper):
++    req=setup('a');add_type(req,'a','Mechanical')
++    if tamper=='wrong_scope':req.conversation_id='c2'
++    elif tamper=='authority':req.grants_authority=True
++    elif tamper=='template_authority':req.ontology_template.grants_authority=True
++    elif tamper=='template_assertion':req.ontology_template.assertions.add(node_id='x',class_id='Solid',evidence=sg.EVIDENCE_INFERRED,source_ref='src')
++    elif tamper=='template_edge':req.ontology_template.graph.edges.add(from_id='x',to_id='y',relation=sg.STRUCTURE_PART_OF,evidence=sg.EVIDENCE_INFERRED,source_ref='src')
++    elif tamper=='duplicate_candidate':req.candidates.add().CopyFrom(req.candidates[0])
++    elif tamper=='duplicate_event':req.events.add().CopyFrom(req.events[0])
++    elif tamper=='sequence_gap':req.events[0].sequence=2
++    elif tamper=='event_scope':req.events[0].candidate_id='foreign'
++    elif tamper=='bad_op':req.events[0].ClearField('add_type')
++    elif tamper=='bad_claim_id':req.events[0].add_type.claim_id=''
++    elif tamper=='no_reason':req.events[0].rationale=''
++    elif tamper=='unknown_wire':req=pb.T2ReconciliationRequest.FromString(req.SerializeToString()+b'\xc0\x3e\x01')
++    elif tamper=='invalid_node':req.events[0].add_type.claim.node_id='does_not_exist'
++    elif tamper=='unknown_class':req.events[0].add_type.claim.class_id='Other'
++    elif tamper=='wrong_graph_scope':req.ontology_template.graph.conversation_id='c2'
++    elif tamper=='missing_research_flag':req.research_only=False
++    elif tamper=='empty_events':req.events.clear()
++    with pytest.raises(r2.ReconciliationRejected):r2.reconcile(req)
++
++
++def test_invalid_structure_cycle_rejected_without_mutating_input():
++    req=setup('a')
++    add_edge(req,'a',from_id='x',to_id='y',claim='a')
++    add_edge(req,'a',from_id='y',to_id='x',claim='b')
++    initial=req.SerializeToString(deterministic=True)
++    with pytest.raises(r2.ReconciliationRejected,match='INVALID_REVISED_ONTOLOGY'):
++        r2.reconcile(req)
++    assert req.SerializeToString(deterministic=True)==initial
++
++
++def test_randomized_retraction_replay_matches_independent_ontology_snapshots():
++    rnd=random.Random(20261028)
++    # For every branch independently build the expected active-claim set, and
++    # compare reconciler decision + conflicts to P2N on a freshly built request.
++    for case in range(120):
++        req=setup('a')
++        additions=[];active={}
++        for j in range(rnd.randint(1,12)):
++            if active and rnd.random()<0.37:
++                claim_id=rnd.choice(sorted(active))
++                retract(req,'a',claim_id)
++                del active[claim_id]
++            else:
++                cls=rnd.choice(['Mechanical','Void','Assembly','Solid'])
++                node=rnd.choice(['x','y'])
++                claim_id=f'id{j}'
++                add_type(req,'a',cls,node=node,claim=claim_id)
++                active[claim_id]=copy.deepcopy(req.events[-1].add_type.claim)
++            additions.append(copy.deepcopy(active))
++        out=r2.reconcile(req)
++        assert len(out.revisions)==len(additions)
++        for rev, expected_active in zip(out.revisions, additions):
++            independent=op.OntologyAuditRequest()
++            independent.CopyFrom(req.ontology_template)
++            for key in sorted(expected_active):independent.assertions.add().CopyFrom(expected_active[key])
++            checked=ont.audit(independent)
++            expected={f'{f.node_id}|{c}' for f in checked.findings for c in f.disjoint_conflicts}
++            # Separate class-set oracle: subclass expansion Mechanical=>Solid and
++            # the only disjointness rule in the fixture is Solid vs Void.
++            typed={node:set() for node in ('x','y','guess')}
++            for item in expected_active.values():
++                typed[item.node_id].add(item.class_id)
++                if item.class_id=='Mechanical':typed[item.node_id].add('Solid')
++            oracle={f'{node}|Solid|Void|disjointRule' for node,types in typed.items()
++                    if 'Solid' in types and 'Void' in types}
++            assert expected==oracle,case
++            assert rev.decision == ('CLAIMS_CONFLICTED' if expected else 'CLAIMS_CONSISTENT'),case
++            assert list(rev.active_claim_ids)==sorted(expected_active),case
++            assert rev.ontology_result_sha256==hashlib.sha256(checked.SerializeToString(deterministic=True)).digest(),case
++
++
++def test_reordered_event_changes_receipts_not_authenticated_provenance():
++    first=setup('a');add_type(first,'a','Mechanical');add_type(first,'a','Void')
++    second=setup('a');add_type(second,'a','Void');add_type(second,'a','Mechanical')
++    x,y=r2.reconcile(first),r2.reconcile(second)
++    assert x.candidates[0].final_ontology_result_sha256==y.candidates[0].final_ontology_result_sha256
++    assert x.candidates[0].final_receipt_sha256!=y.candidates[0].final_receipt_sha256
++    assert x.any_conflicts and y.any_conflicts
++
++
++def test_capacity_preflight_fails_closed():
++    req=setup('a')
++    for j in range(r2.MAX_EVENTS+1):add_type(req,'a','Mechanical',claim=f'id{j}')
++    with pytest.raises(r2.ReconciliationRejected,match='P2O_CAPACITY'):
++        r2.reconcile(req)
++
++
++def test_receipts_remain_stable_when_new_revision_is_appended():
++    original=setup('a');add_type(original,'a','Mechanical')
++    before=r2.reconcile(original)
++    appended=copy.deepcopy(original);add_type(appended,'a','Void')
++    after=r2.reconcile(appended)
++    assert before.revisions[0].journal_receipt_sha256==after.revisions[0].journal_receipt_sha256
++    assert before.revisions[0].snapshot_sha256==after.revisions[0].snapshot_sha256
++    assert before.request_sha256!=after.request_sha256
++
++def test_p2m_hypothetical_only_branch_is_not_admitted():
++    req=setup('cameraHypothesis')
++    add_type(req,'cameraHypothesis','Mechanical',node='guess',status=sg.EVIDENCE_HYPOTHETICAL)
++    result=r2.reconcile(req)
++    assert result.candidates[0].final_decision=='CLAIMS_CONSISTENT'
++    assert not result.candidates[0].final_supported_types
++    assert not result.any_conflicts
++    assert not result.grants_authority
+--- a/tools/check_proto_descriptors.py
++++ b/tools/check_proto_descriptors.py
+@@ -11,7 +11,7 @@
+ import sys
+ 
+ from google.protobuf.descriptor_pb2 import FileDescriptorProto, FileDescriptorSet
+-from cognitum.proto import capability_pb2, ce_handoff_pb2, worker_pb2, supervisor_acceptance_pb2, evaluation_pb2, benchmark_pb2, collector_pb2, specialists_pb2, memory_pb2, state_pb2, interpretation_pb2, formal_pb2, formal_backend_pb2, formal_advanced_pb2, optimization_pb2, workflows_pb2, optimization_runtime_pb2, planning_pb2, planning_engines_pb2, planning_stochastic_pb2, planning_structured_pb2, planning_guidance_pb2, probability_pb2, probability_backend_pb2, probability_continuous_pb2, probability_conjugate_pb2, probability_diagnostics_pb2, causal_pb2, causal_estimation_pb2, causal_dowhy_pb2, causal_heterogeneity_pb2, causal_discovery_pb2, causal_mature_pb2, causal_validation_pb2, causal_stability_pb2, causal_ambiguity_pb2, causal_temporal_pb2, causal_temporal_scm_pb2, causal_temporal_diagnostics_pb2, causal_temporal_advanced_pb2, causal_temporal_discovery_pb2, causal_uncertainty_pb2, causal_interval_comparison_pb2, causal_assurance_policy_pb2, causal_holdout_assurance_pb2, causal_adversarial_assurance_pb2, causal_integrated_assurance_pb2, causal_genuine_worker_assurance_pb2, causal_llm_caller_evaluation_pb2, spatial_scene_pb2, spatial_appearance_pipeline_pb2, spatial_ontology_subset_pb2, spatial_identity_pb2, spatial_temporal_pb2, spatial_composition_pb2, spatial_volume_pb2, spatial_appearance_pb2, spatial_structural_audit_pb2, assembly_pb2, ray_occupancy_pb2, structural_hypotheses_pb2, temporal_occupancy_pb2, benchmark_observation_pb2
++from cognitum.proto import capability_pb2, ce_handoff_pb2, worker_pb2, supervisor_acceptance_pb2, evaluation_pb2, benchmark_pb2, collector_pb2, specialists_pb2, memory_pb2, state_pb2, interpretation_pb2, formal_pb2, formal_backend_pb2, formal_advanced_pb2, optimization_pb2, workflows_pb2, optimization_runtime_pb2, planning_pb2, planning_engines_pb2, planning_stochastic_pb2, planning_structured_pb2, planning_guidance_pb2, probability_pb2, probability_backend_pb2, probability_continuous_pb2, probability_conjugate_pb2, probability_diagnostics_pb2, causal_pb2, causal_estimation_pb2, causal_dowhy_pb2, causal_heterogeneity_pb2, causal_discovery_pb2, causal_mature_pb2, causal_validation_pb2, causal_stability_pb2, causal_ambiguity_pb2, causal_temporal_pb2, causal_temporal_scm_pb2, causal_temporal_diagnostics_pb2, causal_temporal_advanced_pb2, causal_temporal_discovery_pb2, causal_uncertainty_pb2, causal_interval_comparison_pb2, causal_assurance_policy_pb2, causal_holdout_assurance_pb2, causal_adversarial_assurance_pb2, causal_integrated_assurance_pb2, causal_genuine_worker_assurance_pb2, causal_llm_caller_evaluation_pb2, spatial_scene_pb2, spatial_appearance_pipeline_pb2, spatial_structural_reconciliation_pb2, spatial_ontology_subset_pb2, spatial_identity_pb2, spatial_temporal_pb2, spatial_composition_pb2, spatial_volume_pb2, spatial_appearance_pb2, spatial_structural_audit_pb2, assembly_pb2, ray_occupancy_pb2, structural_hypotheses_pb2, temporal_occupancy_pb2, benchmark_observation_pb2
+ 
+ EXPECTED = {
+     "cognitum/v1/capability.proto": capability_pb2.DESCRIPTOR,
+@@ -63,6 +63,7 @@
+     "cognitum/causal/v1/integrated_assurance.proto": causal_integrated_assurance_pb2.DESCRIPTOR,
+     "cognitum/causal/v1/genuine_worker_assurance.proto": causal_genuine_worker_assurance_pb2.DESCRIPTOR,
+     "cognitum/causal/v1/llm_caller_evaluation.proto": causal_llm_caller_evaluation_pb2.DESCRIPTOR,
++    "cognitum/spatial/v1/structural_reconciliation.proto": spatial_structural_reconciliation_pb2.DESCRIPTOR,
+     "cognitum/spatial/v1/ontology_subset.proto": spatial_ontology_subset_pb2.DESCRIPTOR,
+     "cognitum/spatial/v1/scene.proto": spatial_scene_pb2.DESCRIPTOR,
+     "cognitum/spatial/v1/appearance_pipeline.proto": spatial_appearance_pipeline_pb2.DESCRIPTOR,
+--- a/tools/run_c15_p2o_t2_reconciliation.py
++++ b/tools/run_c15_p2o_t2_reconciliation.py
+@@ -0,0 +1,61 @@
++"""Reproduce the C15 T2 P2O claim-revision example without external inputs.
++
++Usage: PYTHONPATH=. python tools/run_c15_p2o_t2_reconciliation.py [--out FILE]
++Research-only illustrative fixture, not a real evidence benchmark or OWL run.
++"""
++import argparse
++import json
++from pathlib import Path
++from google.protobuf.json_format import MessageToDict
++from cognitum import spatial_structural_reconciliation as r2
++from cognitum.proto import spatial_structural_reconciliation_pb2 as p
++from cognitum.proto import spatial_composition_pb2 as sg
++
++
++def fixture():
++    req=p.T2ReconciliationRequest(schema_version=1,conversation_id='replayDemo',research_only=True)
++    base=req.ontology_template
++    base.schema_version=1;base.conversation_id='replayDemo';base.research_only=True
++    g=base.graph
++    g.schema_version=1;g.conversation_id='replayDemo';g.graph_id='sampleAssembly';g.research_only=True
++    g.nodes.add(node_id='component',kind='part',evidence=sg.EVIDENCE_INFERRED,source_ref='callerNode')
++    for class_id,parents in [('Entity',[]),('Solid',['Entity']),('MachinePart',['Solid']),('Void',['Entity'])]:
++        base.classes.add(class_id=class_id,parent_class_ids=parents,source_ref='schemaClaim')
++    base.disjoints.add(first_class_id='Solid',second_class_id='Void',source_ref='schemaDisjointClaim')
++    req.candidates.add(candidate_id='candidateA',explanation='Mechanical part; conflicting void label later retired')
++    req.candidates.add(candidate_id='candidateB',explanation='Void hypothesis; no contradiction with current claims')
++    def add(c,eid,num,ctype,cid):
++        e=req.events.add(event_id=eid,candidate_id=c,sequence=num,
++                         source_ref='researchSource',rationale='caller supplied a classification')
++        e.add_type.claim_id=cid
++        e.add_type.claim.node_id='component';e.add_type.claim.class_id=ctype
++        e.add_type.claim.evidence=sg.EVIDENCE_INFERRED;e.add_type.claim.source_ref=cid
++    add('candidateA','revision1',1,'MachinePart','mechanicalClaim')
++    add('candidateA','revision2',2,'Void','voidClaim')
++    e=req.events.add(event_id='revision3',candidate_id='candidateA',sequence=3,
++                     source_ref='revisionSource',rationale='caller retracted disputed void label')
++    e.retract.claim_id='voidClaim'
++    add('candidateB','revision4',1,'Void','voidOnlyClaim')
++    return req
++
++
++def main():
++    parser=argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--out',type=Path)
++    args=parser.parse_args()
++    result=r2.reconcile(fixture())
++    payload={
++        'phase':'C15 T2 P2O',
++        'origin':'synthetic caller-claim fixture (not source-authenticated)',
++        'result':MessageToDict(result,preserving_proto_field_name=True),
++        'acceptance':'No real hypothesis selection, 3D projection, scene mutation or Lu permission',
++    }
++    content=json.dumps(payload,sort_keys=True,indent=2)+'\n'
++    if args.out:
++        args.out.parent.mkdir(parents=True,exist_ok=True)
++        args.out.write_text(content,encoding='utf-8')
++    else:print(content,end='')
++    return 0
++
++
++if __name__=='__main__':raise SystemExit(main())
