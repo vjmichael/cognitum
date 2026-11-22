@@ -1,0 +1,74 @@
+"""
+H2 — Binding invertibility (doc §3.1).
+Bind A⊗B, unbind A, measure the recovery of B → goal: recovery ≥ 0.9 similarity.
+
+The matrix isolates *which* algebra works for *which* operand regime — that is
+exactly what the Tier B wiring needs to know.
+"""
+from __future__ import annotations
+import numpy as np
+import hdc_reference as H
+
+PASS_SIM = 0.90
+
+def _recover(binding, A, B, A_unbind, rng):
+    bound = (H.bind_conv if binding == "conv" else H.bind_xor)(A, B)
+    rec = (H.unbind_conv if binding == "conv" else H.unbind_xor)(bound, A_unbind)
+    return H.cosine(rec, B)
+
+def run(D=10_000, alpha=0.2, trials=200, seed=8):
+    rng = np.random.default_rng(seed)
+    rows = []
+    variants = [
+        # (label, binding, A_kind, unbind_kind)
+        ("V1 sign/clean unbind", "xor", "sign", "clean"),
+        ("V2 sign/noisy unbind", "xor", "sign", "noisy"),
+        ("V3 superposed A", "xor", "superposed", "clean"),
+        ("V4 sign/clean unbind", "conv", "sign", "clean"),
+        ("V5 sign/noisy unbind", "conv", "sign", "noisy"),
+        ("V6 superposed A", "conv", "superposed", "clean"),
+    ]
+    for label, binding, a_kind, u_kind in variants:
+        sims = []
+        for _ in range(trials):
+            a1 = H.random_sign(D, rng)
+            a2 = H.random_sign(D, rng)
+            B = H.random_sign(D, rng)
+            if a_kind == "sign":
+                A = a1
+            else:  # superposed: mean of two signs
+                A = ((a1.astype(np.float64) + a2.astype(np.float64)) / 2.0).astype(np.float32)
+            if u_kind == "clean":
+                A_un = A
+            else:
+                A_un = H.noisy(A, alpha, rng)
+            sims.append(_recover(binding, A, B, A_un, rng))
+        mean = float(np.mean(sims))
+        rows.append({
+            "variant": label, "binding": binding, "A": a_kind, "unbind": u_kind,
+            "mean_recovery_sim": mean,
+            "min_recovery_sim": float(np.min(sims)),
+            "pass": mean >= PASS_SIM,
+        })
+    # best = max recovery across each binding's operand regime.
+    # (Recovery fix: the dict-comprehension `{r["binding"]: r["mean_recovery_sim"]
+    #  for r in rows}` silently kept only the LAST row per binding — i.e. the
+    #  superposed-A variant — not the best one, so XOR was always judged on V3.)
+    best = {}
+    for r in rows:
+        b = r["binding"]
+        if b not in best or r["mean_recovery_sim"] > best[b]:
+            best[b] = r["mean_recovery_sim"]
+    passed = all(v >= PASS_SIM for v in best.values())
+    return {
+        "test": "H2", "D": D, "alpha": alpha, "trials_per_variant": trials,
+        "rows": rows,
+        "best_by_binding": best,
+        "pass": passed,
+        "summary": (f"best per binding: {best} → "
+                    f"{'PASS (both algebras ≥0.9 in their regime)' if passed else 'MIXED — see map'}"),
+    }
+
+if __name__ == "__main__":
+    import json
+    print(json.dumps(run(), indent=2))
