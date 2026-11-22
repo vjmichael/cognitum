@@ -1,0 +1,115 @@
+name: Cognitum R3-R1 protected successor unsigned carrier qualification
+on:
+  push:
+    branches: [integration/cog-lu-ipc01e-r2-custody-20261121]
+    paths:
+      - native/windows_scm_production/src/main.rs
+      - native/windows_scm_production/Cargo.toml
+      - deployment/windows/cognitum-ssm-protected-successor.nsi
+      - scripts/cog-r3r1-ci-protected-nsis.ps1
+      - scripts/cog-r3r1-protected-successor-build-candidate.ps1
+      - scripts/cog-r3r1-protected-successor-sign.ps1
+      - scripts/cog_r3r1_protected_successor_candidate.py
+      - scripts/cog_r3r1_protected_successor_contract.py
+      - research_tests/mel_lu_ipc01e_r5/test_protected_successor_candidate.py
+      - .github/workflows/cog-r3r1-protected-successor-nsis.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cog-r3r1-protected-successor-carrier
+  cancel-in-progress: false
+jobs:
+  source-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Closed candidate byte-preservation and external approval refusals
+        run: |
+          python -m unittest -q research_tests.mel_lu_ipc01e_r5.test_protected_successor_contract
+          python -m unittest -q research_tests.mel_lu_ipc01e_r5.test_protected_successor_candidate
+  windows-nsis:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Refuse forged private signer and altered candidate
+        shell: pwsh
+        run: |
+          python -m unittest -q research_tests.mel_lu_ipc01e_r5.test_protected_successor_contract
+          if($LASTEXITCODE -ne 0){throw 'Closed GPG successor source contract failed'}
+          python -m unittest -q research_tests.mel_lu_ipc01e_r5.test_protected_successor_candidate
+          if($LASTEXITCODE -ne 0){throw 'Exact unsigned candidate payload tests failed'}
+      - name: Protected owner build/sign scripts parse and CI cannot use local GPG
+        shell: pwsh
+        run: |
+          foreach($file in @(
+            'scripts/cog-r3r1-protected-successor-build-candidate.ps1',
+            'scripts/cog-r3r1-protected-successor-sign.ps1',
+            'scripts/cog-r3r1-ci-protected-nsis.ps1'
+          )){
+            $tokens=$null;$errors=$null
+            $null=[System.Management.Automation.Language.Parser]::ParseFile(
+              (Join-Path $PWD $file),[ref]$tokens,[ref]$errors)
+            if(@($errors).Count -gt 0){throw "Protected native release source parser refused: $file"}
+          }
+          'PASS_CI_PRIVATE_OWNER_GPG_RELEASE_SCRIPTS_PARSE_NO_SIGNATURE_CREATED'
+      - name: Compile genuinely distinct protected production SCM image, no fixed CI vector
+        shell: pwsh
+        run: |
+          cargo build --manifest-path native/windows_scm_production/Cargo.toml --release --offline --locked --no-default-features --features protected-ssm-production
+          if($LASTEXITCODE -ne 0){throw 'Native protected successor service compile failed'}
+          $exe=Join-Path $PWD 'native/windows_scm_production/target/release/cognitum-scm-production.exe'
+          if(-not(Test-Path -LiteralPath $exe -PathType Leaf)){throw 'Compiled distinct SCM PE missing'}
+          $result=Start-Process -FilePath $exe -PassThru -Wait
+          if($result.ExitCode -eq 0){throw 'Protected candidate executed outside SCM without authorization'}
+          (Get-FileHash $exe -Algorithm SHA256).Hash.ToLowerInvariant()|Set-Content unsigned-protected-image-sha.txt
+      - name: Original mutually exclusive qualification features cannot ship together
+        shell: pwsh
+        run: |
+          $output=& cargo check --manifest-path native/windows_scm_production/Cargo.toml --offline --locked --no-default-features --features protected-ssm-production,protected-ssm-qualification 2>&1
+          if($LASTEXITCODE -eq 0){throw 'CI-only worker and production service compiled together'}
+          if(($output|Out-String) -notmatch 'CI-only numerical qualifier cannot be combined with protected production installer'){
+            throw 'Mixed-feature build refused for an unrelated reason'
+          }
+          'PASS_CI_COMPILE_TIME_REFUSAL_OF_TEST_ONLY_PROTECTED_RELEASE'
+      - name: Obtain fixed NSIS compiler for disposable Windows test
+        shell: pwsh
+        run: |
+          $nsis=@(
+            'C:\Program Files (x86)\NSIS\makensis.exe',
+            'C:\Program Files\NSIS\makensis.exe'
+          )|Where-Object{Test-Path -LiteralPath $_ -PathType Leaf}|Select-Object -First 1
+          if(-not $nsis){
+            & choco.exe install nsis --version=3.12.0 --no-progress --yes --limit-output
+            if($LASTEXITCODE -ne 0){throw 'Exact disposable NSIS compiler installation refused'}
+            $nsis=@(
+              'C:\Program Files (x86)\NSIS\makensis.exe',
+              'C:\Program Files\NSIS\makensis.exe'
+            )|Where-Object{Test-Path -LiteralPath $_ -PathType Leaf}|Select-Object -First 1
+          }
+          if(-not $nsis){throw 'Reviewed Windows NSIS toolchain unavailable'}
+          [IO.File]::AppendAllText($env:GITHUB_ENV,("COG_CI_PROTECTED_NSIS="+$nsis+[Environment]::NewLine))
+      - name: Genuine isolated fixed Program Files protected NSIS install smoke
+        shell: pwsh
+        run: |
+          $exe=Join-Path $PWD 'native/windows_scm_production/target/release/cognitum-scm-production.exe'
+          & ./scripts/cog-r3r1-ci-protected-nsis.ps1 -CompiledProtectedService $exe -MakeNsisExecutable $env:COG_CI_PROTECTED_NSIS
+          'PASS_CI_PROTECTED_SOURCE_CARRIER_NO_INSTALLED_AUTHORITY'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cog-r3r1-unsigned-protected-source-observation
+          path: unsigned-protected-image-sha.txt
+          if-no-files-found: warn
