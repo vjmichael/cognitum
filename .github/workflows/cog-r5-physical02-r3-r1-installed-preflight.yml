@@ -114,7 +114,7 @@ jobs:
             if(-not $denied){throw 'Hosted CI was allowed to promote release into production'}
           }
           Write-Host 'PASS_CI_ONLY_NO_PHYSICAL_ADMISSION_OR_OUTPUT_RELEASE'
-      - name: CI ephemeral private GPG key, signed manifest, tamper and installed admission denial
+      - name: CI native GPG and Git-MSYS path interoperability with signature/tamper and physical denial
         shell: pwsh
         run: |
           $ErrorActionPreference='Stop'
