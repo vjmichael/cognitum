@@ -1,0 +1,1573 @@
+--- /dev/null
++++ b/P2W_START_HERE.md
+@@ -0,0 +1,11 @@
++# Cognitum C15 T3 P2W — volumetric lifecycle checkpoint
++
++Source-of-truth input: isolated C15 T3 P2V Checkpoint ZIP. No Lu or GitHub edits.
++
++New files: `proto/cognitum/spatial/v1/map_lifecycle.proto`, `cognitum/proto/spatial_map_lifecycle_pb2.py`, `cognitum/spatial_map_lifecycle.py`, `tests/test_c15_t3_p2w_map_lifecycle.py`, `tools/run_c15_t3_p2w_profile.py`, `docs/components/spatial/P2W-volumetric-lifecycle.md` and companion backlog.
++
++Smoke: `PYTHONPATH=. python -m pytest -q tests/test_c15_t3_p2w_map_lifecycle.py`.
++Schema gate: `PYTHONPATH=. python tools/verify_protobuf_schemas.py --require`.
++Local CPU profile: `PYTHONPATH=. python tools/run_c15_t3_p2w_profile.py --out /tmp/p2w_profile.json`.
++
++**Limit:** P2W merges compact map metadata, but full upstream P2V replay remains expensive. Checkpoint integrity hashes are not signatures or authenticated durable state. Real-sensor accuracy, Windows behavior and complete repository testing are not established.
+--- /dev/null
++++ b/cognitum/proto/spatial_map_lifecycle_pb2.py
+@@ -0,0 +1,9 @@
++"""C15 T3 P2W generated wire contract; independently compiled descriptor."""
++from cognitum.proto import spatial_dynamic_scene_robustness_pb2 as _v
++from cognitum.proto import spatial_volume_pb2 as _volume
++from google.protobuf import descriptor_pool as pool
++from google.protobuf.internal import builder
++DESCRIPTOR = pool.Default().AddSerializedFile(bytes.fromhex(
++'0a27636f676e6974756d2f7370617469616c2f76312f6d61705f6c6966656379636c652e70726f746f1213636f676e6974756d2e7370617469616c2e76311a32636f676e6974756d2f7370617469616c2f76312f64796e616d69635f7363656e655f726f627573746e6573732e70726f746f1a20636f676e6974756d2f7370617469616c2f76312f766f6c756d652e70726f746f2282010a0750325743656c6c120c0a0178180120012811520178120c0a0179180220012811520179120c0a017a18032001281152017a122a0a116c6173745f737570706f72745f7469636b180420012804520f6c617374537570706f72745469636b12210a0c72657461696e65645f6e6f77180520012808520b72657461696e65644e6f7722c2010a095032574f626a656374121b0a096f626a6563745f696418012001280952086f626a6563744964122c0a126c6173745f6f627365727665645f7469636b18022001280452106c6173744f627365727665645469636b12440a0a6c6173745f737461746518032001280e32252e636f676e6974756d2e7370617469616c2e76312e5032564964656e74697479537461746552096c617374537461746512240a0d61757468656e74696361746564180420012808520d61757468656e7469636174656422bf050a0d503257436865636b706f696e7412250a0e736368656d615f76657273696f6e18012001280d520d736368656d6156657273696f6e12270a0f636f6e766572736174696f6e5f6964180220012809520e636f6e766572736174696f6e4964121b0a09766f6c756d655f69641803200128095208766f6c756d654964121a0a0873657175656e6365180420012804520873657175656e636512300a146c6173745f6576616c756174696f6e5f7469636b18052001280452126c6173744576616c756174696f6e5469636b12280a106d61785f636170747572655f7469636b180620012804520e6d6178436170747572655469636b12360a177072696f725f636865636b706f696e745f73686132353618072001280c52157072696f72436865636b706f696e7453686132353612300a14736f757263655f726573756c745f73686132353618082001280c5212736f75726365526573756c7453686132353612320a0563656c6c7318092003280b321c2e636f676e6974756d2e7370617469616c2e76312e50325743656c6c520563656c6c7312380a076f626a65637473180a2003280b321e2e636f676e6974756d2e7370617469616c2e76312e5032574f626a65637452076f626a6563747312740a2663757272656e745f73746174696f6e6172795f6879706f746865746963616c5f766f6c756d65180b2001280b321f2e636f676e6974756d2e7370617469616c2e76312e566f6c756d6547726964522363757272656e7453746174696f6e6172794879706f746865746963616c566f6c756d6512230a0d72657365617263685f6f6e6c79180c20012808520c72657365617263684f6e6c7912290a106772616e74735f617574686f72697479180d20012808520f6772616e7473417574686f72697479122b0a11636865636b706f696e745f736861323536180e2001280c5210636865636b706f696e74536861323536228c040a105032575570646174655265717565737412250a0e736368656d615f76657273696f6e18012001280d520d736368656d6156657273696f6e12500a0e736f757263655f7265717565737418022001280b32292e636f676e6974756d2e7370617469616c2e76312e503256526f627573746e65737352657175657374520d736f7572636552657175657374124d0a0d736f757263655f726573756c7418032001280b32282e636f676e6974756d2e7370617469616c2e76312e503256526f627573746e657373526573756c74520c736f75726365526573756c74123e0a0870726576696f757318042001280b32222e636f676e6974756d2e7370617469616c2e76312e503257436865636b706f696e74520870726576696f7573122c0a126d61785f7265736964656e745f63656c6c7318052001280d52106d61785265736964656e7443656c6c7312300a146d61785f7265736964656e745f6f626a6563747318062001280d52126d61785265736964656e744f626a6563747312240a0e6d61785f69646c655f7469636b73180720012804520c6d617849646c655469636b73121a0a0873657175656e6365180820012804520873657175656e636512230a0d72657365617263685f6f6e6c79180920012808520c72657365617263684f6e6c7912290a106772616e74735f617574686f72697479180a20012808520f6772616e7473417574686f72697479227a0a0e5032574576696374656443656c6c120c0a0178180120012811520178120c0a0179180220012811520179120c0a017a18032001281152017a123e0a06726561736f6e18042001280e32262e636f676e6974756d2e7370617469616c2e76312e5032574576696374696f6e526561736f6e5206726561736f6e226f0a10503257457669637465644f626a656374121b0a096f626a6563745f696418012001280952086f626a6563744964123e0a06726561736f6e18022001280e32262e636f676e6974756d2e7370617469616c2e76312e5032574576696374696f6e526561736f6e5206726561736f6e228a060a0f503257557064617465526573756c7412250a0e736368656d615f76657273696f6e18012001280d520d736368656d6156657273696f6e12420a0a636865636b706f696e7418022001280b32222e636f676e6974756d2e7370617469616c2e76312e503257436865636b706f696e74520a636865636b706f696e7412250a0e726571756573745f73686132353618032001280c520d72657175657374536861323536122e0a1376657269666965645f7032765f73686132353618042001280c5211766572696669656450327653686132353612480a0d657669637465645f63656c6c7318052003280b32232e636f676e6974756d2e7370617469616c2e76312e5032574576696374656443656c6c520c6576696374656443656c6c73124e0a0f657669637465645f6f626a6563747318062003280b32252e636f676e6974756d2e7370617469616c2e76312e503257457669637465644f626a656374520e657669637465644f626a6563747312280a10696e7075745f63656c6c5f636f756e7418072001280d520e696e70757443656c6c436f756e74122c0a12696e7075745f6f626a6563745f636f756e7418082001280d5210696e7075744f626a656374436f756e74122a0a116f75747075745f63656c6c5f636f756e7418092001280d520f6f757470757443656c6c436f756e74122e0a136f75747075745f6f626a6563745f636f756e74180a2001280d52116f75747075744f626a656374436f756e7412410a1d63757272656e745f7374617469635f65766964656e63655f636f756e74180b2001280d521a63757272656e7453746174696345766964656e6365436f756e7412380a18757073747265616d5f7265706c61795f7665726966696564180c200128085216757073747265616d5265706c6179566572696669656412230a0d72657365617263685f6f6e6c79180d20012808520c72657365617263684f6e6c7912290a106772616e74735f617574686f72697479180e20012808520f6772616e7473417574686f72697479121a0a087761726e696e6773180f2003280952087761726e696e67732a5f0a115032574576696374696f6e526561736f6e121c0a185032575f4556494354494f4e5f554e535045434946494544100012140a105032575f49444c455f45585049524544100112160a125032575f43415041434954595f4c494d49541002620670726f746f33'))
++builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
++builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'cognitum.proto.spatial_map_lifecycle_pb2', globals())
+--- /dev/null
++++ b/cognitum/spatial_map_lifecycle.py
+@@ -0,0 +1,226 @@
++"""C15 T3 P2W: bounded state-delta merge over *verified* P2V snapshots.
++
++This adapter does not incrementally evaluate P2V, attest sensor inputs, mutate
++canonical scene state, or supply navigation authority. Checkpoint SHA-256 is an
++integrity checksum, NOT a signature. Consumers must anchor checkpoint digests
++in a separately authenticated host journal before relying on continuity.
++"""
++from __future__ import annotations
++
++import hashlib
++import re
++from cognitum.proto import spatial_map_lifecycle_pb2 as pb
++from cognitum.proto import spatial_dynamic_scene_robustness_pb2 as vp
++from cognitum.proto import spatial_volume_pb2 as volume_pb
++from cognitum.spatial_dynamic_scene_robustness import verify as p2v_verify, RobustnessRejected
++from cognitum.spatial_volume import classify, VolumeRejected
++
++_SCOPE = re.compile(r'^[a-zA-Z0-9_.:-]{1,128}$')
++MAX_REQUEST_BYTES = 15_000_000
++MAX_STATE_BYTES = 3_000_000
++MAX_CELLS = 4096
++MAX_OBJECTS = 128
++
++class LifecycleRejected(ValueError):
++    pass
++
++def _check(ok: bool, why: str) -> None:
++    if not ok:
++        raise LifecycleRejected(why)
++
++def _digest(message):
++    return hashlib.sha256(message.SerializeToString(deterministic=True)).digest()
++
++def _known(message):
++    clean = type(message)()
++    clean.CopyFrom(message)
++    clean.DiscardUnknownFields()
++    return clean.SerializeToString(deterministic=True) == message.SerializeToString(deterministic=True)
++
++def checkpoint_digest(state: pb.P2WCheckpoint) -> bytes:
++    tmp = pb.P2WCheckpoint()
++    tmp.CopyFrom(state)
++    tmp.checkpoint_sha256 = b''
++    return _digest(tmp)
++
++def _check_checkpoint(state):
++    _check(state.schema_version == 1 and state.research_only and not state.grants_authority
++           and _known(state) and state.ByteSize() <= MAX_STATE_BYTES
++           and bool(_SCOPE.fullmatch(state.conversation_id))
++           and bool(_SCOPE.fullmatch(state.volume_id)), 'INVALID_PREVIOUS_CHECKPOINT')
++    _check(state.sequence >= 1 and state.last_evaluation_tick >= state.max_capture_tick > 0
++           and len(state.source_result_sha256) == 32
++           and (len(state.prior_checkpoint_sha256) == 32 if state.sequence > 1
++                else len(state.prior_checkpoint_sha256) == 0)
++           and len(state.checkpoint_sha256) == 32
++           and checkpoint_digest(state) == state.checkpoint_sha256,
++           'CHECKPOINT_INTEGRITY_FAILURE')
++    _check(len(state.cells) <= MAX_CELLS and len(state.objects) <= MAX_OBJECTS,
++           'PREVIOUS_RESOURCE_LIMIT')
++    coords = [(x.x,x.y,x.z) for x in state.cells]
++    objects = [x.object_id for x in state.objects]
++    _check(coords == sorted(set(coords)) and objects == sorted(set(objects)),
++           'NONCANONICAL_CHECKPOINT')
++    _check(all(x.last_support_tick <= state.last_evaluation_tick and x.last_support_tick > 0
++               for x in state.cells) and
++           all(x.last_observed_tick <= state.last_evaluation_tick and x.last_observed_tick > 0
++               and not x.authenticated and bool(_SCOPE.fullmatch(x.object_id)) for x in state.objects),
++           'INVALID_CHECKPOINT_RECORD')
++    static = {(e.x,e.y,e.z) for e in state.current_stationary_hypothetical_volume.evidence}
++    active = {(x.x,x.y,x.z) for x in state.cells if x.retained_now}
++    _check(static == active and len(static)==len(state.current_stationary_hypothetical_volume.evidence),
++           'CHECKPOINT_STATIC_MISMATCH')
++    _validate_volume(state.current_stationary_hypothetical_volume)
++
++def _validate_volume(grid):
++    _check(grid.research_only and not grid.grants_authority and _known(grid)
++           and all(e.kind in (volume_pb.VOLUME_PREDICTED_OCCUPIED,volume_pb.VOLUME_PREDICTED_FREE)
++                   for e in grid.evidence), 'UNAUTHORIZED_MAP_EVIDENCE')
++    try:
++        audited = classify(grid)
++    except VolumeRejected as exc:
++        raise LifecycleRejected('INVALID_VOLUME:' + str(exc)) from exc
++    _check(all(c.state == volume_pb.CELL_UNKNOWN for c in audited.cells),
++           'MAP_MEASUREMENT_PROMOTION')
++
++def advance(req: pb.P2WUpdateRequest) -> pb.P2WUpdateResult:
++    """Verify entire upstream P2V snapshot, then incrementally merge its metadata.
++
++    The expensive P2V evaluation still runs in full. Only this metadata merge
++    has bounded O(previous + snapshot) work and a capped resident state.
++    """
++    _check(isinstance(req,pb.P2WUpdateRequest) and req.schema_version == 1
++           and req.research_only and not req.grants_authority and _known(req)
++           and req.ByteSize() <= MAX_REQUEST_BYTES, 'INVALID_P2W_CONTRACT')
++    _check(1 <= req.max_resident_cells <= MAX_CELLS
++           and 1 <= req.max_resident_objects <= MAX_OBJECTS
++           and 1 <= req.max_idle_ticks <= 10_000_000 and req.sequence >= 1,
++           'INVALID_P2W_BUDGET')
++    try:
++        p2v_verify(req.source_request, req.source_result)
++    except RobustnessRejected as exc:
++        raise LifecycleRejected('UNVERIFIED_UPSTREAM_P2V:' + str(exc)) from exc
++    return _merge_preverified(req)
++
++def _merge_preverified(req: pb.P2WUpdateRequest) -> pb.P2WUpdateResult:
++    """Internal profiling primitive; caller MUST verify P2V beforehand.
++
++    Not a host endpoint or authorization bypass. Public callers use advance().
++    """
++    source = req.source_result
++    _check(source.research_only and not source.grants_authority
++           and bool(_SCOPE.fullmatch(source.conversation_id))
++           and bool(_SCOPE.fullmatch(source.volume_id)), 'INVALID_P2V_SCOPE')
++    _validate_volume(source.conservative_static_hypothetical_volume)
++    evaluated = req.source_request.dynamic_request.windows[-1].temporal_request.evaluation_tick
++    _check(len(source.cameras) > 0 and len(source.cells) <= MAX_CELLS
++           and len(source.identities) <= MAX_OBJECTS, 'UPSTREAM_RESOURCE_LIMIT')
++    newest_capture = max(x.tick for x in source.cameras)
++    _check(newest_capture <= evaluated, 'CAPTURE_AHEAD_OF_EVALUATION')
++    previous = req.previous if req.HasField('previous') else None
++    if previous is not None:
++        _check_checkpoint(previous)
++        _check(req.sequence == previous.sequence + 1
++               and source.conversation_id == previous.conversation_id
++               and source.volume_id == previous.volume_id,
++               'SEQUENCE_OR_SCOPE_MISMATCH')
++        _check(evaluated > previous.last_evaluation_tick
++               and newest_capture > previous.max_capture_tick,
++               'STALE_OR_REPLAYED_UPDATE')
++    else:
++        _check(req.sequence == 1, 'MISSING_PREDECESSOR')
++    result = pb.P2WUpdateResult(schema_version=1,request_sha256=_digest(req),
++                                 verified_p2v_sha256=_digest(source),
++                                 upstream_replay_verified=True,research_only=True)
++    state = result.checkpoint
++    state.schema_version=1
++    state.conversation_id=source.conversation_id
++    state.volume_id=source.volume_id
++    state.sequence=req.sequence
++    state.last_evaluation_tick=evaluated
++    state.max_capture_tick=newest_capture
++    state.source_result_sha256=result.verified_p2v_sha256
++    state.research_only=True
++    if previous is not None:
++        state.prior_checkpoint_sha256=previous.checkpoint_sha256
++    # Merge unique voxel keys, but a prior static prediction is NEVER assumed
++    # eligible in a later snapshot that omits or disputes the cell.
++    prev_cells = {(c.x,c.y,c.z):c for c in previous.cells} if previous else {}
++    current = {(c.x,c.y,c.z):c for c in source.cells}
++    _check(len(current) == len(source.cells),'DUPLICATE_P2V_CELLS')
++    evidence = {(e.x,e.y,e.z):e for e in source.conservative_static_hypothetical_volume.evidence}
++    _check(len(evidence) == len(source.conservative_static_hypothetical_volume.evidence)
++           and all(k in current and current[k].retained for k in evidence),
++           'INVALID_STATIC_EVIDENCE_BINDING')
++    result.input_cell_count=len(current)
++    merged = {}
++    for key in prev_cells.keys() | current.keys():
++        old = prev_cells.get(key)
++        cur = current.get(key)
++        tick = max(old.last_support_tick if old else 0,cur.latest_support_tick if cur else 0)
++        if not tick or tick > evaluated:
++            continue
++        if evaluated-tick > req.max_idle_ticks:
++            result.evicted_cells.add(x=key[0],y=key[1],z=key[2],reason=pb.P2W_IDLE_EXPIRED)
++            continue
++        # A previously qualified voxel cannot stay qualified without an
++        # identical, fresh, latest P2V retained evidence claim.
++        eligible = bool(cur and cur.retained and key in evidence
++                        and cur.latest_support_tick == tick)
++        merged[key]=(tick,eligible)
++    survivors = sorted(merged,key=lambda key:(not merged[key][1],-merged[key][0],key))
++    keep = set(survivors[:req.max_resident_cells])
++    for key in sorted(set(merged)-keep):
++        result.evicted_cells.add(x=key[0],y=key[1],z=key[2],reason=pb.P2W_CAPACITY_LIMIT)
++    for key in sorted(keep):
++        tick,eligible=merged[key]
++        state.cells.add(x=key[0],y=key[1],z=key[2],last_support_tick=tick,retained_now=eligible)
++    vol = state.current_stationary_hypothetical_volume
++    vol.CopyFrom(source.conservative_static_hypothetical_volume)
++    retained_evidence=[e for e in vol.evidence if (e.x,e.y,e.z) in keep and merged[(e.x,e.y,e.z)][1]]
++    vol.ClearField('evidence')
++    vol.evidence.extend(retained_evidence)
++    _validate_volume(vol)
++    result.current_static_evidence_count=len(vol.evidence)
++    # Object identity is caller-asserted; snapshot handles only bounded cache
++    # lifetimes, never authenticates or extrapolates missing observations.
++    prev_obj = {o.object_id:o for o in previous.objects} if previous else {}
++    cur_obj = {o.object_id:o for o in source.identities}
++    _check(len(cur_obj)==len(source.identities),'DUPLICATE_P2V_OBJECT')
++    result.input_object_count=len(cur_obj)
++    object_records={}
++    for ident in prev_obj.keys() | cur_obj.keys():
++        old=prev_obj.get(ident)
++        cur=cur_obj.get(ident)
++        tick=max(old.last_observed_tick if old else 0,cur.last_observed_tick if cur else 0)
++        if tick == 0 or tick > evaluated:
++            continue
++        if evaluated-tick > req.max_idle_ticks:
++            result.evicted_objects.add(object_id=ident,reason=pb.P2W_IDLE_EXPIRED)
++            continue
++        state_code = cur.state if cur and cur.last_observed_tick >= (old.last_observed_tick if old else 0) else old.last_state
++        object_records[ident]=(tick,state_code)
++    object_order=sorted(object_records,key=lambda ident:(-object_records[ident][0],ident))
++    object_keep=set(object_order[:req.max_resident_objects])
++    for ident in sorted(set(object_records)-object_keep):
++        result.evicted_objects.add(object_id=ident,reason=pb.P2W_CAPACITY_LIMIT)
++    for ident in sorted(object_keep):
++        tick,code=object_records[ident]
++        state.objects.add(object_id=ident,last_observed_tick=tick,last_state=code,authenticated=False)
++    result.output_cell_count=len(state.cells)
++    result.output_object_count=len(state.objects)
++    state.checkpoint_sha256=checkpoint_digest(state)
++    _check(state.ByteSize() <= MAX_STATE_BYTES, 'CHECKPOINT_BYTE_LIMIT')
++    result.warnings.extend([
++        'INCREMENTAL_ONLY_FOR_P2W_STATE_MERGE_P2V_REPLAY_IS_FULL',
++        'CHECKPOINT_DIGEST_IS_NOT_AN_AUTHENTICATED_HOST_JOURNAL',
++        'EVICTED_HISTORY_IS_NOT_AVAILABLE_FOR_FUTURE_INFERENCE',
++        'STATIC_HYPOTHESES_NOT_MEASUREMENTS_OR_NAVIGATION_AUTHORITY',
++        'NO_LU_OR_CANONICAL_SCENE_STATE_MUTATION'])
++    return result
++
++def verify(req: pb.P2WUpdateRequest, result: pb.P2WUpdateResult) -> bool:
++    _check(isinstance(result,pb.P2WUpdateResult) and _known(result) and
++           result.SerializeToString(deterministic=True) ==
++           advance(req).SerializeToString(deterministic=True),'P2W_REPLAY_MISMATCH')
++    return True
+--- /dev/null
++++ b/docs/components/spatial/C15-T3-P2W-deferred-validation-backlog-v1.json
+@@ -0,0 +1,86 @@
++{
++  "schema": "cognitum-c15-t3-p2w-backlog-v1",
++  "status": "deferred-not-passed",
++  "upstream": "C15-T3-P2V",
++  "preservation": "All earlier T1/T2/T3/R1 backlogs unchanged. Frozen R1 baseline remains accepted.",
++  "experiments": [
++    {
++      "id": "P2W-B01",
++      "title": "Large-scene long-horizon resident cache",
++      "requires": [
++        "calibrated real 3D streams",
++        "registered trajectories",
++        "measured memory and reference occupancy"
++      ],
++      "measures": [
++        "peak RSS",
++        "false-static retention",
++        "evicted-cell recall",
++        "occupancy precision and coverage"
++      ],
++      "acceptance": "Held-out scenes; budget sweep with confidence intervals and explicit evicted-cell loss"
++    },
++    {
++      "id": "P2W-B02",
++      "title": "True incremental upstream P2V validation",
++      "requires": [
++        "host-authenticated append-only capture journal",
++        "verified delta semantics and durable checkpoints",
++        "parity oracle from full recomputation"
++      ],
++      "measures": [
++        "full versus delta exact parity",
++        "CPU latency",
++        "peak memory",
++        "replay rejection"
++      ],
++      "acceptance": "No false claims of incremental P2V until exact parity and hostile replay gates pass"
++    },
++    {
++      "id": "P2W-B03",
++      "title": "Windows crash/restart and host authority",
++      "requires": [
++        "authorized Windows Lu test host",
++        "persistent trust store and revocation harness",
++        "durable journal anchoring checkpoint digests"
++      ],
++      "measures": [
++        "restart recovery",
++        "tamper rejection",
++        "revocation abort",
++        "scope isolation"
++      ],
++      "acceptance": "Offline checksums and Linux mocks are not valid substitute for Windows host tests"
++    },
++    {
++      "id": "P2W-B04",
++      "title": "Independent occupancy engine comparison",
++      "requires": [
++        "pinned OctoMap/OpenVDB reference",
++        "matched sensor streams, registration and voxel resolution"
++      ],
++      "measures": [
++        "voxel disagreements",
++        "eviction effects",
++        "time and resident memory"
++      ],
++      "acceptance": "Independent engine actually executed; report semantic mismatches"
++    },
++    {
++      "id": "P2W-B05",
++      "title": "Real-time resource scalability",
++      "requires": [
++        "representative high-density 3D trajectories",
++        "controlled Windows CPU/GPU platform",
++        "profiling instrumentation"
++      ],
++      "measures": [
++        "p50/p95/p99 end-to-end",
++        "peak private bytes/RSS",
++        "eviction I/O costs"
++      ],
++      "acceptance": "Compare complete pipeline, not merely preverified merge; include batching and worst case"
++    }
++  ],
++  "research_status": "offline-synthetic-contract-passed-real-world-validation-pending"
++}
+--- /dev/null
++++ b/docs/components/spatial/P2W-local-profile.json
+@@ -0,0 +1,43 @@
++{
++  "caution": "Preverified merge timing bypasses trust verification ONLY for profiling; public advance always verifies. Full P2V still replays all windows; not an end-to-end incremental P2V engine. Synthetic samples are not cross-platform performance benchmarks.",
++  "checkpoint": {
++    "active_static_evidence": 8,
++    "integrity_matches": true,
++    "protobuf_bytes": 754,
++    "resident_cells": 8,
++    "resident_objects": 1,
++    "sequence": 2,
++    "sha256": "8f9e378e072220b0e7633077f1a486d39491b88d360cac9c83122eefe89767f2"
++  },
++  "hardware": {
++    "machine": "x86_64",
++    "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
++    "python": "3.13.5"
++  },
++  "mode": "Python CPU single-process offline",
++  "preverified_merge_only_ms": {
++    "count": 30,
++    "median_ms": 0.4059,
++    "min_ms": 0.3845,
++    "p95_ms": 0.4973
++  },
++  "public_advance_ms": {
++    "count": 30,
++    "median_ms": 35.3611,
++    "min_ms": 32.5276,
++    "p95_ms": 40.217
++  },
++  "source": {
++    "captures": 15,
++    "cells": 18,
++    "identities": 1
++  },
++  "study": "C15-P2W-synthetic-local-cost-v1",
++  "tracemalloc_peak_bytes_one_advance": 69301,
++  "verified_p2v_ms": {
++    "count": 30,
++    "median_ms": 32.1431,
++    "min_ms": 31.1165,
++    "p95_ms": 33.5511
++  }
++}
+--- /dev/null
++++ b/docs/components/spatial/P2W-volumetric-lifecycle.md
+@@ -0,0 +1,34 @@
++# C15 T3 P2W — bounded volumetric lifecycle (offline research)
++
++**Decision:** P2V remains the complete scene-robustness evaluator. P2W is an optional, read-only incremental **metadata and cache-state merge** over a *fully replay-verified P2V snapshot*. Nothing in P2W is a production navigation map, an authenticated observation, or a Lu worker.
++
++## Contract and entrypoints
++
++- `proto/cognitum/spatial/v1/map_lifecycle.proto`
++- `cognitum/proto/spatial_map_lifecycle_pb2.py` — generated from independently compiled descriptors.
++- `cognitum/spatial_map_lifecycle.py`: public `advance(request)` and `verify(request,result)`, `checkpoint_digest(state)`.
++- `tests/test_c15_t3_p2w_map_lifecycle.py`: boundedness, replay, scope, wire, tampering, T2 integration.
++- `tools/run_c15_t3_p2w_profile.py`: local synthetic timing of full P2V verification, the **private preverified merge**, and public complete request. Private merge MUST NOT be offered to external or host callers without independent verification.
++
++## State transitions and failure behavior
++
++1. Reject unknown fields, non-research requests, authority flags, oversized inputs, invalid resource quotas.
++2. Re-evaluate the exact supplied P2V request, require deterministic byte-equality with the supplied P2V result. **This is NOT incremental P2V recomputation.**
++3. Validate previous checkpoint scope, schema, deterministic checksum, sorting/uniqueness, budget, predicted-only evidence. Check previous `sequence + 1`, strict `evaluation_tick` increase and new maximum capture tick.
++4. Merge current P2V voxel and object records with bounded prior memory; keep historical cells but mark them **not eligible** if the latest P2V result does not independently retain them. Never carry forward stationary-map authority.
++5. Evict idle cells/objects; deterministically cap resident cells and objects. Report both TTL and capacity evictions explicitly. Quota exhaustion can reduce recall; this is not a zero-loss map cache.
++6. Rebuild the **current** predicted-only volume only from eligible surviving P2V evidence, and independently validate it with the existing classifier (result must remain `CELL_UNKNOWN`).
++7. Compute a deterministic SHA-256 hash chain (`prior_checkpoint_sha256`, `checkpoint_sha256`). Replaying the same update gives byte-identical output.
++
++## Security and continuity limitations
++
++- A SHA-256 of protobuf bytes detects accidental or unsophisticated mutation. It does **not authenticate** a caller, a depth camera, original evidence, or a prior checkpoint; a hostile caller can recompute it. A production host must anchor the latest digest in a separately trusted durable journal and authenticate the conversation and publisher before accepting a checkpoint.
++- A later update must include new capture timestamps, but that is only a freshness assertion from the caller, not proof of real sensor capture.
++- Memory budgets are `1..4096` cells and `1..128` objects; source request capped at 15 MB; checkpoint cap 3 MB. These values are *research contracts*, not resource reservations in a Windows host.
++- Only P2W state metadata is incrementally merged; the full P2Q→P2V path still recomputes and verifies its complete bounded source window. Test platform is a Linux container and no real sensor, Windows host, OctoMap or OpenVDB was executed here.
++- The private `_merge_preverified` routine is **benchmark instrumentation**, not an alternative public API. Public `advance` always verifies P2V.
++- The object identity remains a caller assertion; no navigation or measured structural facts are generated. Static forecasts are not collision-clearance decisions.
++
++## Follow-up
++
++Investigate structural sharing / incremental validation of P2Q/P2S/P2V from a trusted authenticated host journal, compare against a pinned volumetric engine under matched voxel resolutions and depth streams, test eviction policy under adversarial density, run long-horizon crash/restart and Windows memory profiling. All are deferred; see the companion backlog.
+--- /dev/null
++++ b/proto/cognitum/spatial/v1/map_lifecycle.proto
+@@ -0,0 +1,80 @@
++syntax = "proto3";
++package cognitum.spatial.v1;
++// C15 T3 P2W: read-only, bounded lifecycle checkpoints of P2V predictions.
++// This is NOT incremental P2V evaluation, authenticated sensor history,
++// canonical map storage or authority to navigate using the resulting map.
++import "cognitum/spatial/v1/dynamic_scene_robustness.proto";
++import "cognitum/spatial/v1/volume.proto";
++message P2WCell {
++  sint32 x = 1;
++  sint32 y = 2;
++  sint32 z = 3;
++  uint64 last_support_tick = 4;
++  bool retained_now = 5;
++}
++message P2WObject {
++  string object_id = 1;
++  uint64 last_observed_tick = 2;
++  P2VIdentityState last_state = 3;
++  bool authenticated = 4;
++}
++message P2WCheckpoint {
++  uint32 schema_version = 1;
++  string conversation_id = 2;
++  string volume_id = 3;
++  uint64 sequence = 4;
++  uint64 last_evaluation_tick = 5;
++  uint64 max_capture_tick = 6;
++  bytes prior_checkpoint_sha256 = 7;
++  bytes source_result_sha256 = 8;
++  repeated P2WCell cells = 9;
++  repeated P2WObject objects = 10;
++  VolumeGrid current_stationary_hypothetical_volume = 11;
++  bool research_only = 12;
++  bool grants_authority = 13;
++  bytes checkpoint_sha256 = 14;
++}
++message P2WUpdateRequest {
++  uint32 schema_version = 1;
++  P2VRobustnessRequest source_request = 2;
++  P2VRobustnessResult source_result = 3;
++  P2WCheckpoint previous = 4;
++  uint32 max_resident_cells = 5;
++  uint32 max_resident_objects = 6;
++  uint64 max_idle_ticks = 7;
++  uint64 sequence = 8;
++  bool research_only = 9;
++  bool grants_authority = 10;
++}
++enum P2WEvictionReason {
++  P2W_EVICTION_UNSPECIFIED = 0;
++  P2W_IDLE_EXPIRED = 1;
++  P2W_CAPACITY_LIMIT = 2;
++}
++message P2WEvictedCell {
++  sint32 x = 1;
++  sint32 y = 2;
++  sint32 z = 3;
++  P2WEvictionReason reason = 4;
++}
++message P2WEvictedObject {
++  string object_id = 1;
++  P2WEvictionReason reason = 2;
++}
++message P2WUpdateResult {
++  uint32 schema_version = 1;
++  P2WCheckpoint checkpoint = 2;
++  bytes request_sha256 = 3;
++  bytes verified_p2v_sha256 = 4;
++  repeated P2WEvictedCell evicted_cells = 5;
++  repeated P2WEvictedObject evicted_objects = 6;
++  uint32 input_cell_count = 7;
++  uint32 input_object_count = 8;
++  uint32 output_cell_count = 9;
++  uint32 output_object_count = 10;
++  uint32 current_static_evidence_count = 11;
++  bool upstream_replay_verified = 12;
++  bool research_only = 13;
++  bool grants_authority = 14;
++  repeated string warnings = 15;
++}
+--- /dev/null
++++ b/tests/test_c15_t3_p2w_map_lifecycle.py
+@@ -0,0 +1,176 @@
++"""P2W bounded incremental metadata, full upstream replay and checkpoint integrity."""
++import unittest
++from cognitum.proto import spatial_map_lifecycle_pb2 as pb
++from cognitum.proto import spatial_volume_pb2 as volume_pb
++from cognitum.spatial_map_lifecycle import advance,verify,LifecycleRejected,checkpoint_digest
++from cognitum.spatial_dynamic_scene_robustness import analyze
++from cognitum.spatial_volume import classify
++from tests.test_c15_t3_p2v_dynamic_scene_robustness import fixture
++from tests.test_c15_t3_p2u_dynamic_scene_mapping import shifted
++
++
++def request(q=None, **kw):
++    q=q or fixture()
++    d=dict(schema_version=1,source_request=q,source_result=analyze(q),
++           max_resident_cells=30,max_resident_objects=3,max_idle_ticks=1000,
++           sequence=1,research_only=True)
++    d.update(kw)
++    return pb.P2WUpdateRequest(**d)
++
++
++def next_source(q):
++    fresh=type(q)();fresh.CopyFrom(q)
++    fresh.dynamic_request.windows.add().CopyFrom(shifted(fresh.dynamic_request.windows[0],200))
++    return fresh
++
++class LifecycleTests(unittest.TestCase):
++    def bad(self,request_,reason):
++        with self.assertRaises(LifecycleRejected) as err:advance(request_)
++        self.assertIn(reason,str(err.exception))
++
++    def test_first_snapshot_reproducible_and_read_only(self):
++        q=request();old=q.source_result.SerializeToString(deterministic=True)
++        a=advance(q);b=advance(q)
++        self.assertEqual(a.SerializeToString(deterministic=True),b.SerializeToString(deterministic=True))
++        self.assertTrue(verify(q,a));self.assertEqual(old,q.source_result.SerializeToString(deterministic=True))
++        self.assertEqual(a.checkpoint.sequence,1)
++        self.assertTrue(a.upstream_replay_verified)
++        self.assertEqual(checkpoint_digest(a.checkpoint),a.checkpoint.checkpoint_sha256)
++        self.assertFalse(a.checkpoint.grants_authority)
++        self.assertTrue(a.checkpoint.research_only)
++
++    def test_second_snapshot_new_captures_and_hash_chain(self):
++        a=advance(request());n=next_source(fixture())
++        b=advance(request(n,previous=a.checkpoint,sequence=2))
++        self.assertEqual(b.checkpoint.prior_checkpoint_sha256,a.checkpoint.checkpoint_sha256)
++        self.assertGreater(b.checkpoint.max_capture_tick,a.checkpoint.max_capture_tick)
++        self.assertGreater(b.checkpoint.last_evaluation_tick,a.checkpoint.last_evaluation_tick)
++        self.assertTrue(verify(request(n,previous=a.checkpoint,sequence=2),b))
++
++    def test_no_new_capture_blocks_replay_even_if_eval_tick_changes(self):
++        a=advance(request());q=fixture()
++        for w in q.dynamic_request.windows:w.temporal_request.evaluation_tick+=300
++        self.bad(request(q,previous=a.checkpoint,sequence=2),'STALE_OR_REPLAYED_UPDATE')
++
++    def test_new_capture_but_replayed_evaluation_tick(self):
++        a=advance(request(next_source(fixture())))
++        # Valid but earlier P2V source must not roll back a newer checkpoint.
++        self.bad(request(fixture(),previous=a.checkpoint,sequence=2),'STALE_OR_REPLAYED_UPDATE')
++
++    def test_checkpoint_content_tamper_rejected(self):
++        a=advance(request());a.checkpoint.cells[0].last_support_tick=777
++        self.bad(request(next_source(fixture()),previous=a.checkpoint,sequence=2),'CHECKPOINT_INTEGRITY_FAILURE')
++
++    def test_wrong_chain_sequence_and_cross_scope_rejected(self):
++        a=advance(request());n=next_source(fixture())
++        self.bad(request(n,previous=a.checkpoint,sequence=3),'SEQUENCE_OR_SCOPE_MISMATCH')
++        prior=a.checkpoint
++        prior.conversation_id='other'
++        prior.checkpoint_sha256=checkpoint_digest(prior)
++        # Internally consistent but different conversation must fail scope gate.
++        self.bad(request(n,previous=prior,sequence=2),'SEQUENCE_OR_SCOPE_MISMATCH')
++
++    def test_cap_evicts_explicitly_and_deterministically(self):
++        x=advance(request(max_resident_cells=3,max_resident_objects=1))
++        self.assertEqual(len(x.checkpoint.cells),3)
++        self.assertTrue(x.evicted_cells)
++        self.assertTrue(all(e.reason==pb.P2W_CAPACITY_LIMIT for e in x.evicted_cells))
++        self.assertEqual(x.current_static_evidence_count,3)
++        self.assertEqual(len(x.checkpoint.current_stationary_hypothetical_volume.evidence),3)
++        self.assertTrue(verify(request(max_resident_cells=3,max_resident_objects=1),x))
++
++    def test_idle_eviction_can_retire_all_metadata(self):
++        # First run can expire older cells but not any future tick.
++        x=advance(request(max_idle_ticks=1))
++        self.assertTrue(x.evicted_cells)
++        self.assertTrue(any(e.reason==pb.P2W_IDLE_EXPIRED for e in x.evicted_cells))
++        # Newest supported cells remain eligible; old cells are evicted.
++        self.assertLess(x.current_static_evidence_count,x.input_cell_count)
++
++    def test_reusing_stale_static_from_prior_is_disallowed(self):
++        old=advance(request());new=next_source(fixture())
++        from tests.test_c15_t3_p2v_dynamic_scene_robustness import pose_translate
++        pose_translate(new,.05)
++        new.max_camera_translation_step_m=.01
++        r=advance(request(new,previous=old.checkpoint,sequence=2))
++        self.assertEqual(r.current_static_evidence_count,0)
++        self.assertTrue(all(not c.retained_now for c in r.checkpoint.cells))
++
++    def test_untrusted_source_result_tamper_rejected(self):
++        q=request();q.source_result.cells[0].retained=not q.source_result.cells[0].retained
++        self.bad(q,'UNVERIFIED_UPSTREAM_P2V')
++
++    def test_source_hash_binding_and_unknown_wire_rejected(self):
++        q=request();q.source_result.request_sha256=b'a'*32
++        self.bad(q,'UNVERIFIED_UPSTREAM_P2V')
++        q=request();bad=pb.P2WUpdateRequest.FromString(q.SerializeToString()+b'\x98\x06\x01')
++        self.bad(bad,'INVALID_P2W_CONTRACT')
++
++    def test_policy_and_no_predecessor_failure(self):
++        self.bad(request(max_resident_cells=0),'INVALID_P2W_BUDGET')
++        self.bad(request(max_resident_objects=0),'INVALID_P2W_BUDGET')
++        self.bad(request(max_idle_ticks=0),'INVALID_P2W_BUDGET')
++        self.bad(request(sequence=2),'MISSING_PREDECESSOR')
++        self.bad(request(grants_authority=True),'INVALID_P2W_CONTRACT')
++
++    def test_prediction_only_and_t2_indeterminate(self):
++        o=advance(request())
++        vol=o.checkpoint.current_stationary_hypothetical_volume
++        self.assertTrue(all(x.kind in (volume_pb.VOLUME_PREDICTED_FREE,volume_pb.VOLUME_PREDICTED_OCCUPIED) for x in vol.evidence))
++        self.assertTrue(all(c.state == volume_pb.CELL_UNKNOWN for c in classify(vol).cells))
++        from tests.test_c15_t2_composition import fixture as graph_fixture
++        from cognitum.proto import spatial_structural_audit_pb2 as ap
++        from cognitum.spatial_structural_audit import audit
++        graph=graph_fixture();graph.conversation_id='chat'
++        rq=ap.StructuralAuditRequest(schema_version=1,conversation_id='chat',graph_id=graph.graph_id,
++           volume_id='vox',research_only=True)
++        c=next(iter(vol.evidence))
++        z=rq.claims.add(claim_id='not_proven',node_id='wall',source_ref='synthetic',expected=ap.SPATIAL_EXPECT_OCCUPIED)
++        z.box.min_x=z.box.max_x=c.x;z.box.min_y=z.box.max_y=c.y;z.box.min_z=z.box.max_z=c.z
++        self.assertEqual(audit(graph,vol,rq).audits[0].state,ap.SPATIAL_AUDIT_INDETERMINATE)
++
++    def test_serialized_checkpoint_roundtrip_is_recoverable(self):
++        a=advance(request())
++        stored=a.checkpoint.SerializeToString(deterministic=True)
++        restored=pb.P2WCheckpoint.FromString(stored)
++        self.assertEqual(checkpoint_digest(restored),restored.checkpoint_sha256)
++        n=next_source(fixture())
++        original=advance(request(n,previous=a.checkpoint,sequence=2))
++        replayed=advance(request(n,previous=restored,sequence=2))
++        self.assertEqual(original.SerializeToString(deterministic=True),
++                         replayed.SerializeToString(deterministic=True))
++
++    def test_tampered_checkpoint_static_volume_rejected_even_if_rehashed(self):
++        a=advance(request())
++        prior=a.checkpoint
++        prior.current_stationary_hypothetical_volume.ClearField('evidence')
++        prior.checkpoint_sha256=checkpoint_digest(prior)
++        self.bad(request(next_source(fixture()),previous=prior,sequence=2),
++                 'CHECKPOINT_STATIC_MISMATCH')
++
++    def test_replay_result_mutation_detected(self):
++        req=request()
++        out=advance(req)
++        out.evicted_cells.add(x=101,y=101,z=101,reason=pb.P2W_CAPACITY_LIMIT)
++        with self.assertRaisesRegex(LifecycleRejected,'P2W_REPLAY_MISMATCH'):
++            verify(req,out)
++
++    def test_no_identity_authentication_and_result_tampering(self):
++        req=request();out=advance(req)
++        self.assertTrue(all(not o.authenticated for o in out.checkpoint.objects))
++        out.checkpoint.objects[0].authenticated=True
++        with self.assertRaisesRegex(LifecycleRejected,'P2W_REPLAY_MISMATCH'):verify(req,out)
++
++    def test_prior_checkpoint_unsorted_or_unverified(self):
++        prior=advance(request()).checkpoint
++        prior.cells.reverse()
++        prior.checkpoint_sha256=checkpoint_digest(prior)
++        self.bad(request(next_source(fixture()),previous=prior,sequence=2),'NONCANONICAL_CHECKPOINT')
++
++    def test_metadata_budget_always_respected(self):
++        o=advance(request(max_resident_cells=1,max_resident_objects=1))
++        self.assertEqual(o.output_cell_count,1)
++        self.assertLessEqual(o.checkpoint.ByteSize(),3_000_000)
++        self.assertEqual(o.output_object_count,1)
++
++if __name__=='__main__':unittest.main()
+--- a/tools/check_proto_descriptors.py
++++ b/tools/check_proto_descriptors.py
+@@ -11,11 +11,12 @@
+ import sys
+ 
+ from google.protobuf.descriptor_pb2 import FileDescriptorProto, FileDescriptorSet
+-from cognitum.proto import spatial_dynamic_scene_robustness_pb2, spatial_dynamic_scene_mapping_pb2
++from cognitum.proto import spatial_map_lifecycle_pb2, spatial_dynamic_scene_robustness_pb2, spatial_dynamic_scene_mapping_pb2
+ from cognitum.proto import spatial_object_aware_volume_pb2
+ from cognitum.proto import spatial_temporal_consistency_pb2, spatial_correlated_fusion_pb2, spatial_calibrated_depth_pb2, capability_pb2, ce_handoff_pb2, worker_pb2, supervisor_acceptance_pb2, evaluation_pb2, benchmark_pb2, collector_pb2, specialists_pb2, memory_pb2, state_pb2, interpretation_pb2, formal_pb2, formal_backend_pb2, formal_advanced_pb2, optimization_pb2, workflows_pb2, optimization_runtime_pb2, planning_pb2, planning_engines_pb2, planning_stochastic_pb2, planning_structured_pb2, planning_guidance_pb2, probability_pb2, probability_backend_pb2, probability_continuous_pb2, probability_conjugate_pb2, probability_diagnostics_pb2, causal_pb2, causal_estimation_pb2, causal_dowhy_pb2, causal_heterogeneity_pb2, causal_discovery_pb2, causal_mature_pb2, causal_validation_pb2, causal_stability_pb2, causal_ambiguity_pb2, causal_temporal_pb2, causal_temporal_scm_pb2, causal_temporal_diagnostics_pb2, causal_temporal_advanced_pb2, causal_temporal_discovery_pb2, causal_uncertainty_pb2, causal_interval_comparison_pb2, causal_assurance_policy_pb2, causal_holdout_assurance_pb2, causal_adversarial_assurance_pb2, causal_integrated_assurance_pb2, causal_genuine_worker_assurance_pb2, causal_llm_caller_evaluation_pb2, spatial_scene_pb2, spatial_appearance_pipeline_pb2, spatial_structural_reconciliation_pb2, spatial_structural_c07_bridge_pb2, spatial_ontology_subset_pb2, spatial_identity_pb2, spatial_temporal_pb2, spatial_composition_pb2, spatial_volume_pb2, spatial_appearance_pb2, spatial_structural_audit_pb2, assembly_pb2, ray_occupancy_pb2, structural_hypotheses_pb2, temporal_occupancy_pb2, benchmark_observation_pb2
+ 
+ EXPECTED = {
++    "cognitum/spatial/v1/map_lifecycle.proto": spatial_map_lifecycle_pb2.DESCRIPTOR,
+     "cognitum/spatial/v1/dynamic_scene_robustness.proto": spatial_dynamic_scene_robustness_pb2.DESCRIPTOR,
+     "cognitum/spatial/v1/dynamic_scene_mapping.proto": spatial_dynamic_scene_mapping_pb2.DESCRIPTOR,
+     "cognitum/spatial/v1/temporal_consistency.proto": spatial_temporal_consistency_pb2.DESCRIPTOR,
+--- /dev/null
++++ b/tools/run_c15_t3_p2w_profile.py
+@@ -0,0 +1,64 @@
++"""Offline synthetic P2W CPU timing: full P2V verification versus state merge.
++
++Usage: PYTHONPATH=. python tools/run_c15_t3_p2w_profile.py --out /tmp/p2w.json
++The private _merge_preverified path is profiling-only; it does NOT validate inputs.
++"""
++import argparse
++import json
++import platform
++import statistics
++import sys
++import time
++import tracemalloc
++from pathlib import Path
++from cognitum.spatial_dynamic_scene_robustness import analyze as evaluate_p2v, verify as verify_p2v
++from cognitum.spatial_map_lifecycle import advance, _merge_preverified, verify, checkpoint_digest
++from cognitum.proto import spatial_map_lifecycle_pb2 as pb
++from tests.test_c15_t3_p2v_dynamic_scene_robustness import fixture
++from tests.test_c15_t3_p2u_dynamic_scene_mapping import shifted
++
++def timing(action,n=30):
++    for _ in range(3):action()
++    results=[]
++    for _ in range(n):
++        t=time.perf_counter_ns();action();results.append((time.perf_counter_ns()-t)/1e6)
++    return {'count':n,'median_ms':round(statistics.median(results),4),
++            'min_ms':round(min(results),4),
++            'p95_ms':round(sorted(results)[int(.95*(n-1))],4)}
++
++def main():
++    parser=argparse.ArgumentParser();parser.add_argument('--out',type=Path);parser.add_argument('--iterations',type=int,default=30)
++    args=parser.parse_args()
++    if not 5 <= args.iterations <= 200: parser.error('iterations must be 5..200')
++    first=fixture(); source=evaluate_p2v(first)
++    req=pb.P2WUpdateRequest(schema_version=1,source_request=first,source_result=source,
++         max_resident_cells=30,max_resident_objects=3,max_idle_ticks=1000,sequence=1,research_only=True)
++    assert verify(req,advance(req))
++    q=fixture();q.dynamic_request.windows.add().CopyFrom(shifted(q.dynamic_request.windows[0],200))
++    second=evaluate_p2v(q)
++    next_req=pb.P2WUpdateRequest(schema_version=1,source_request=q,source_result=second,
++         previous=advance(req).checkpoint,max_resident_cells=8,max_resident_objects=1,
++         max_idle_ticks=1000,sequence=2,research_only=True)
++    assert verify(next_req,advance(next_req))
++    p2v=timing(lambda:verify_p2v(q,second),args.iterations)
++    merge=timing(lambda:_merge_preverified(next_req),args.iterations)
++    end_to_end=timing(lambda:advance(next_req),args.iterations)
++    tracemalloc.start()
++    checkpoint=advance(next_req).checkpoint
++    current,peak=tracemalloc.get_traced_memory();tracemalloc.stop()
++    result={'study':'C15-P2W-synthetic-local-cost-v1','mode':'Python CPU single-process offline',
++            'hardware':{'platform':platform.platform(),'python':sys.version.split()[0],
++                        'machine':platform.machine()},
++            'source':{'captures':len(second.cameras),'cells':len(second.cells),'identities':len(second.identities)},
++            'verified_p2v_ms':p2v,'preverified_merge_only_ms':merge,'public_advance_ms':end_to_end,
++            'caution':'Preverified merge timing bypasses trust verification ONLY for profiling; public advance always verifies. Full P2V still replays all windows; not an end-to-end incremental P2V engine. Synthetic samples are not cross-platform performance benchmarks.',
++            'checkpoint':{'sequence':checkpoint.sequence,'resident_cells':len(checkpoint.cells),
++                          'active_static_evidence':len(checkpoint.current_stationary_hypothetical_volume.evidence),
++                          'resident_objects':len(checkpoint.objects),'protobuf_bytes':checkpoint.ByteSize(),
++                          'sha256':checkpoint.checkpoint_sha256.hex(),
++                          'integrity_matches':checkpoint_digest(checkpoint)==checkpoint.checkpoint_sha256},
++            'tracemalloc_peak_bytes_one_advance':peak}
++    blob=json.dumps(result,indent=2,sort_keys=True)+'\n'
++    if args.out:args.out.parent.mkdir(parents=True,exist_ok=True);args.out.write_text(blob)
++    print(blob)
++if __name__=='__main__':main()
+--- /dev/null
++++ b/P2W_SHA256SUMS.json
+@@ -0,0 +1,799 @@
++{
++  "milestone": "C15-T3-P2W",
++  "sha256": {
++    ".github/workflows/python-tests.yml": "2a9f71d6237bf874f423412d3cc1750a5cf7a573b9b9b73b98f804f03378b906",
++    "CHECKPOINT_INFO.json": "ed1b2246ce0fa20636c7fefbe16f5a8b49a895411b59688d0f98d5b38b46dba3",
++    "P2E_SHA256SUMS.json": "600535a29bc6e9413f6f68ca3fcfd61cdec783ae2d58d07dd87098e4fd8b9738",
++    "P2E_START_HERE.md": "82fd52c3c4c6e2462cd81b2e2dd5af4158eb5bf6e5210f4fb85c2407ebd96d37",
++    "P2F_GUARD_README.md": "d938a8deb44fc10ebf71c5622dc47effc6ddecbe03fb0947c50ef60392ee9b70",
++    "P2F_PRE_HARDENING_SHA256SUMS.json": "b8323a19f2b6e1117db57ed30c73fdb6f2f7ede16c00c1c6871d35d8e5ff5017",
++    "P2F_SHA256SUMS.json": "eceee2eebb7e92f05b894c567b3236b5934ed94b5c7f7be4123f2f210a36b018",
++    "P2F_START_HERE.md": "8c3e6cd734629088978bdd4874bb83279030b394969e2c0bf70f34645b5d49bf",
++    "P2G_SHA256SUMS.json": "c0e12b7535aa8baeeca245cac54c7e6b57020b1bc109bb93ea59ede90dc72062",
++    "P2G_START_HERE.md": "77cafedcf545265fe69a05c7fee37b3776ba00fc1131c1bd362074f6bb7c6c9a",
++    "P2H_SHA256SUMS.json": "ce102aa623dc438b3493339ce6cd09aed2554cb2c1c9efaf7356d9f362b20bc8",
++    "P2H_START_HERE.md": "def9460b3e87c33f9be0b59da7348c81ce6cfbdea8a6110825993b0afc14e942",
++    "P2I_SHA256SUMS.json": "6b5444d0c434988fd8afed2c5f87cafa5af4c0a314beed906bb0672be2ca1fa0",
++    "P2I_START_HERE.md": "2584bde29581c706f75781a14f5884ce2724049c1bd524076cd8ac7aca0feef5",
++    "P2J_SHA256SUMS.json": "aa5d7229bae7a63a0fdcf6e8f562e3c194dfdd29dfb5580da75b10adb5569930",
++    "P2J_START_HERE.md": "ea8f3b7d1ab3504f62df026833689394aa313ad047ffa1f45ce82ec288680152",
++    "P2K_SHA256SUMS.json": "801ca34a86eee05ba9defa36e0cc5b248b3b7ef56fc4c2a0d10f8f35b2d92f39",
++    "P2K_START_HERE.md": "5f5a379e7668d749f6196b26c525b534afd05acc4d9a41ce7a4ac03c51340ac8",
++    "P2L_CHECKPOINT_INFO.json": "188c7130699b4c6358792e930f6b20bec305f56d12e0d7ac1b0af249776e5e88",
++    "P2L_SHA256SUMS.json": "9720888d9fbb8afdf117d6b810e9e1ed165318337bbe73a6e3ab785e520ccae8",
++    "P2L_START_HERE.md": "a488af5582c95d4ce50c3a811534181decb742c98b87659a00dff0778d63c00f",
++    "P2M_CHECKPOINT_INFO.json": "188ed7ed93615116ce0652568af127bf1882c97479c50f910ef498e5030310ca",
++    "P2M_SHA256SUMS.json": "8941209d8a2f000a712e1e041b7fdfc0f123fd63fbf83a0b243b1d03161bfdc0",
++    "P2M_START_HERE.md": "ec65ec6234e0430d0e3530cfec03a666150b8b8371acf4a6efda4aa984023092",
++    "P2N_CHECKPOINT_INFO.json": "1a68b9a07f54fc84cb59728cd03014bff57d09b369fbb6f7e317ae69e100a0ca",
++    "P2N_SHA256SUMS.json": "25e403271fad65444b04ee404593a5701457904a524c5c549b837bb95d172283",
++    "P2N_START_HERE.md": "cd612e35da887379077646577f5c960f7fe7a0e5fb7a3fab4d2db414f86502f2",
++    "P2O_SHA256SUMS.json": "83e7e5e365f85f3f67bc8cda05ed6488d7e9dbca5bd5f3b24574779dc7748246",
++    "P2O_START_HERE.md": "a1293dfa2329077852505a7c91615157995b513c83dd0ade02f56b256cf24388",
++    "P2P_SHA256SUMS.json": "73caa50c0bbfe1edc63c33b4c447948f8da679a2478c088453b199108269c725",
++    "P2P_START_HERE.md": "0806cfe6f2910d4d555b1a983a1871da0f004ce1bb758df6862af8250fd2ef75",
++    "P2Q_SHA256SUMS.json": "df683913f3b66ab05779a64bcdbde8e6daae958f9e982060ff1c5c54ebe87513",
++    "P2Q_START_HERE.md": "1746e84b96010ca33c0561d6bd7592e0da947ba1a4a930172e87c91b3ea5baa3",
++    "P2R_SHA256SUMS.json": "3dfaa637255623b8c95adfcbbebbafb1e8fc66ab7c4015fab2b7032d1391062c",
++    "P2R_START_HERE.md": "83aecfffc394bd4fb7d47a0c2c268bb7cffbdb0dfd691e6c8bcdd656503a71db",
++    "P2S_CHECKPOINT_INFO.json": "3b7fb6b9fe5b3488305fb68cc808acb2a3bd395ecfac44871a93e9d8413f17e9",
++    "P2S_SHA256SUMS.json": "752db6418b471c2aa45f05308ef691b8baf55585ee6e24743465366b59c11794",
++    "P2S_START_HERE.md": "920a3299b53974efac13d218381869953ba45b2e57399ad7d26296ecc8542dba",
++    "P2T_SHA256SUMS.json": "1f82f1464b70653359f0363eb9373fda1a899278fcc7a2a37e3614101b0b9788",
++    "P2T_START_HERE.md": "fb02c1c88907ace6c604b42807338679f3180af88a6fd74a29235401b97af849",
++    "P2U_SHA256SUMS.json": "0d54ee4b5f7374d21f98fedcd8860077a1f3f5694cf233aefc20b0f2e5e0947f",
++    "P2U_START_HERE.md": "2b81c608d0d13aa0a26b7557b3115e770b5f3bd975be85783422e7d3eb32022d",
++    "P2V_SHA256SUMS.json": "7e5baa761eec12f6bebd69db4ffd15157dc3ab9139629c527e70cf651d1f696b",
++    "P2V_START_HERE.md": "0194b8dede56788e3b99db59105154ea1d97b1142a6018ab65010f054f951d33",
++    "P2W_START_HERE.md": "52d969bbb2e20f4c80555737927af7252b7233edc95d50353e2d28c771d6de20",
++    "README.md": "6964cf7328e6a403c36775ec7dd49f73e07a86244531ec0c1711c0cdd36591fc",
++    "SOURCE_SHA256SUMS.json": "4d5b610cb204042f89b88e02fd125e30c966fd450a2eae5dfef7c28ff1b3988d",
++    "cognitum/__init__.py": "0e286a427968424a968f5a297a02f5ade4a7e2b88ac58aabf24851f49b2e4fd7",
++    "cognitum/__main__.py": "7257df3634e329cd486c99db1634ddb4310b973f0b23e24dd1c6a63acdad29d4",
++    "cognitum/ansf_host_policy_reference.py": "83a9254cc8fd6dc68ef61fedc9aa14e1d7fe5a2b29c007f7ec53d5eb1bf50e26",
++    "cognitum/ansf_read_reference.py": "b0adaa0d49c27a905fad7ed5607cb3f157ed46a1472625440a186ccec0bc8c5d",
++    "cognitum/benchmark_capture.py": "cef37cb38b4281c905aa7f9bef8de8ed8e49d44bb1b3fc0ccbd18158d722ddb3",
++    "cognitum/capability_results.py": "d2482533d425386ca3876682a18de2b01e64ebcba0a74d6a24bf1cee0b41bc26",
++    "cognitum/causal.py": "d894adfd2af3243274a1d333746544f7b1e373eaaf8366b3854812014bd3b0b0",
++    "cognitum/causal_adversarial_assurance.py": "7fc1223c04d52d076680cc00152a7e1590d539b44dbc2ea2b7ed06e534def703",
++    "cognitum/causal_ambiguity.py": "ee5b0238f58f5fcb21adf2254f7f15a002870dad84f458a3ccf4155ac1db8b3b",
++    "cognitum/causal_assurance_policy.py": "be0301129cb6060bb157a23744262dee9018b3c622e4285c546aea420d5cfd7c",
++    "cognitum/causal_discovery.py": "0085f2fd74e46a1fcdee6afe0e09777869da32ee640d4904fa224a50421a0ce1",
++    "cognitum/causal_dowhy_backend.py": "a11857108b6d14368717b2ea27250c0290f9bbd014e49f15544f0c27600532ad",
++    "cognitum/causal_dowhy_worker.py": "03a61182f53da15905199004d93684c4464648fc1fb2decd92f49da688434bb6",
++    "cognitum/causal_estimation.py": "17f28cf7d9956e1e3c0208e73a9aa2f6016594d63d1b7d3be3571574561e27c3",
++    "cognitum/causal_g12_independent_verifier.py": "410c34cd662a61d789f46bc357153155fff15bf0c2c2ebfa61ee9eb3d84ecc2a",
++    "cognitum/causal_genuine_worker_assurance.py": "976049a1f93eea59d8803be58de43349aff96452c324f367cb50df1208391baa",
++    "cognitum/causal_heterogeneity.py": "0bbc37a4ac7dc54c2f77688d6bb912509555935e640bed1ee2947cff52cacaad",
++    "cognitum/causal_holdout_assurance.py": "1c88ce5573796eca7a29ba56c7d13b35158ddad15d51818fab27c5c7169c2668",
++    "cognitum/causal_integrated_assurance.py": "d25a42bd1d25306ca4071fd7dcfd193ac999bc130db72b67ecb2da9a164c2af0",
++    "cognitum/causal_interval_comparison.py": "39504b729101b0cbafdffe172c3d5b4bf502a5d2d2d2cafd23e4ca5b8875f2f3",
++    "cognitum/causal_llm_caller_eval.py": "9adb84cfb33a79c808c4de69e9e0f43dfe13ad3facee7a3da20912acc6c61e75",
++    "cognitum/causal_mature_backend.py": "1231f39551160f23a27221d56ad3b3e9fb3336c7327f005c816f532ec11880cd",
++    "cognitum/causal_mature_worker.py": "c4acc4448868f68ab8108c79f3379e3af56e3ff8c5f014ba6e494fd69b9b7350",
++    "cognitum/causal_stability.py": "7125e24364c271e72429850cdad11f0c468a4b8d41c69e4d998dc66d74b41b0d",
++    "cognitum/causal_temporal.py": "88656bcfac1509ab98bec4f614a80b1bebffc7181041d2e18c4ad91f91ca7f8b",
++    "cognitum/causal_temporal_advanced.py": "4a36e1ad5a096eb400cf7e49cb7383c6701bc4af9f1b07afae5a24b8e32556ac",
++    "cognitum/causal_temporal_diagnostics.py": "90bf34a1601f48e957ac0d88b1509c93c215978571841f0ceda59c0ceca5328e",
++    "cognitum/causal_temporal_scm.py": "51df6d0ec13a51c9a9def47677eaabb335e09a0e0369d954585b87502502a9ad",
++    "cognitum/causal_tigramite_backend.py": "f6f76188c88fe81cef9f620f71a6200f29371bffb1823a770340084c6c31fefb",
++    "cognitum/causal_tigramite_worker.py": "e34db2924f415f5964bc09d73f4858cc4e41a7621a649bca8f7d05d10e4e7983",
++    "cognitum/causal_uncertainty.py": "b15c8c6abccb32f5ae7d0b107a1801bd1f109d4b359975a7666f154f88ab1c24",
++    "cognitum/causal_validation.py": "8ab237d7431e621414dbc8b67cc748d67a86d20ec455108e5fc7a1c3a8966dda",
++    "cognitum/ce_manifest.py": "a83b251ee401c8a1ff18caf77e5f195cfabf6057af8ac15caad55c1330a48780",
++    "cognitum/contracts.py": "e28464c7d50079ad6e956486a222cb7407eeefa074a7243a4283cc6b18098ae4",
++    "cognitum/eval_protobuf.py": "cd22d19fa14b0def43ed46833e255f06eea9ed819f1b838ad9571a82adeb4fba",
++    "cognitum/evaluation.py": "64b4ef10c087d95769cc635002c131b533c923eca9035a206607ed4552714809",
++    "cognitum/exact_reference.py": "1a0f91b949fcb2c5d379c18ffe7d9ea4062be39e4c9e56015467257da2403017",
++    "cognitum/formal_backend.py": "54aa0fafdb96ea83fd17a52e59072ea8ba328bcadbd057b38c2722ed8cdc633c",
++    "cognitum/formal_finite.py": "47a7e9b7f301f204a2e0fbd2617628a54626accf57f52639ea84022c27fb1886",
++    "cognitum/formal_session.py": "06b9948a04129aa7087b0716f6346084464f11f89cb3e902076bc459730a46f1",
++    "cognitum/formal_solver.py": "16da0ffbd549015dccf2952be13f6a2bb332e774060c4646e694d08ac214e60a",
++    "cognitum/formal_z3_worker.py": "b731c888cc07157f7d8a3c4245f2cfbd3092cb8c96bb070da69a5351c4a43d4d",
++    "cognitum/lu_ce_handoff.py": "58503bf6e3a4971014da03424d29f678e2e2ed27e40ca7e1a8376c5279bbfd98",
++    "cognitum/lu_ce_protobuf.py": "958f749a31292177c9cad638304dc43584ffe7710e85c79b60726efefa6fcc69",
++    "cognitum/lu_collector_receipt.py": "dd68ea73e08ac28d5ee07f5f45ea99854b529cfc4f2dc0fb3810a986efc0b5c6",
++    "cognitum/math_catalog.py": "6a01c043a3e4698c9a08093fe5860caa3d95feb190460329527af76cbaca8cf1",
++    "cognitum/memory_evidence.py": "82df2d75c7fc74a55a1e45bb6ccb87191bb294f64061e8ac3568bf33209a9c8d",
++    "cognitum/memory_host_gate.py": "c7f22a8942ae53479c1563648c41ebd383be2eea7505bc3d49667d8496331f42",
++    "cognitum/memory_literal.py": "bba0b81cc8bc8d1e155097749f2a289050a31879fea7b4b0e08c8f5b8631cd1f",
++    "cognitum/optimization.py": "93b73e31e68545f08b1310756c92ea3510296dc9e8947008fe3cff2b11f85c87",
++    "cognitum/optimization_runtime.py": "ae5e1b2feb61135930a665bb3e5bbbb11c33514afc0409ed16612e026061630a",
++    "cognitum/optimization_workflows.py": "718e8392602c3c9ab93493c9b3d772e62ee5ce0d5b4ed02dfe50bbc80415bf45",
++    "cognitum/planning.py": "ad6fe237bfba90fcc63326e88893632425a61050c3df7917aad870dedcc21551",
++    "cognitum/planning_engines.py": "aaa9dfe12e912182c483addb99e4cfe16a900f082436685b3c899edf380d54ff",
++    "cognitum/planning_guidance.py": "5c28561105224a2c3bfdef1981acad241cedc5a1ff58cd882de747582469ab67",
++    "cognitum/planning_stochastic.py": "b9fcdb12609a84c32808fd5efd329cf8d65f1242ff676d046e8179c76bfc698b",
++    "cognitum/planning_structured.py": "103499bef405aa1e67ffecc800cf797fb8282a613533052eeb5e3cffdcb400d7",
++    "cognitum/plugins/__init__.py": "8509426cd12c27263c68992747cddf22d14aa4d3fc60bd040137ac5d263d2f8c",
++    "cognitum/plugins/calculator.py": "dcc0d8092a843bb19aedfb759c228abdc1f779ec9b65d4f5cfcd9aee1d360706",
++    "cognitum/policy.py": "52456626844f1a893526e220b84542f3e89d905277c9cebe013b9c18c10f42ef",
++    "cognitum/probability.py": "b34f5146b9c913e2c0323696e0536b82e4006ccabe49ef2023545a6655562640",
++    "cognitum/probability_backend.py": "58626a31c95534d4965acff4fc0ec77a2e9d24a5549b3f7ea13c045a9c8689d9",
++    "cognitum/probability_conjugate.py": "654f187c0ff1f0e64609862a13ba1e9cc305cb35da09cd65919496f7fb34c6f5",
++    "cognitum/probability_continuous.py": "b97ddb000cbaf70f8278aaf82f186543e4de934921c4d174b668502c3a8645bf",
++    "cognitum/probability_diagnostics.py": "f7554830ff0014dc5fa5d1bbb01e013cfca74b9f1950ec1de61915ba7032d458",
++    "cognitum/probability_pgmpy_worker.py": "72d981c87cded9fd295fa02eea8f2f474691d41de0a4fa9dc7b7fbddc756c905",
++    "cognitum/probability_pymc_worker.py": "6bd4fbf2db98e832ed2212739c3659b59af43d18eaa0ad888cd5cf9dbb6dcccd",
++    "cognitum/proto/__init__.py": "d083a2de7a84ad9d2e80bda0b4fec6a7aee434240ac8df441909872ae85e7734",
++    "cognitum/proto/assembly_pb2.py": "e62284bb2e9c87ecdcdb41eeb3cb53490ab690fb9a05c4ff901e145c9f9a890c",
++    "cognitum/proto/benchmark_observation_pb2.py": "a12c0395382a98d63b2af8c9140639faadc24b9a4f735223cd37052d52d128ce",
++    "cognitum/proto/benchmark_pb2.py": "2f75b2dfab448f02a01d7f1719856bb6c1b097a3cc9e6de7698b9323b2d6010a",
++    "cognitum/proto/capability_pb2.py": "7ed0139117aa25bedb9ee76fc3568845445916e3f36d767873222ff15a38d258",
++    "cognitum/proto/causal_adversarial_assurance_pb2.py": "239fadd50561da589d4f7dd3d933652e37a52bad1b92a9134661709fe5bca38e",
++    "cognitum/proto/causal_ambiguity_pb2.py": "8692d7dc68cdbf3cc9431cf04686dabc41f94948c8b94ce534166b573be89a9a",
++    "cognitum/proto/causal_assurance_policy_pb2.py": "f0da20e115d6de82f1f132b56960afed618196550795cdf57abcf07e186b5c8b",
++    "cognitum/proto/causal_discovery_pb2.py": "cea8bba9fb7d03526bb8ca0b728b90a5048b2c16c496ce1e24eb51996a0a9b9a",
++    "cognitum/proto/causal_dowhy_pb2.py": "f915051656d127f1afcb44b2bb5daf1ec3649273f92969e17d7e0c85e7337d1c",
++    "cognitum/proto/causal_estimation_pb2.py": "1afd748984eb864bf5c1cf71956b2dacd95c743064a33d99fbcd504e2f1d1ceb",
++    "cognitum/proto/causal_genuine_worker_assurance_pb2.py": "2125a5c4728865c616fbad1360025d32b3f2bf4f9299b4d410e16fed19bfd12f",
++    "cognitum/proto/causal_heterogeneity_pb2.py": "6fc57d3887103aed7286a19af6ad6065ed45605974852abf52c97eded0338c88",
++    "cognitum/proto/causal_holdout_assurance_pb2.py": "f4fc9ef6a55d5dcbd2a7c03c99140f261dedb00ddc6e5a316e770e61ca46e253",
++    "cognitum/proto/causal_integrated_assurance_pb2.py": "d27d2542ac769f226b77fb415fd543337822b16cc39f051ca076843c702c1215",
++    "cognitum/proto/causal_interval_comparison_pb2.py": "aa33aca97d35cb98e8a61e50728789704bce6c91633410d0963b1d2e4897d5d9",
++    "cognitum/proto/causal_llm_caller_evaluation_pb2.py": "7a32491da2115b188056750a363133ff58793dcb8bd9a5e9aa157aa5e55f231c",
++    "cognitum/proto/causal_mature_pb2.py": "e1a48ab8516059471de642e0cade6033a00b66710f3bd916cdd1591ce2ee2b7a",
++    "cognitum/proto/causal_pb2.py": "c7ecb50cd0ca30f3fbe5de9c59b4b83c5e8cd53a15be73f234ae9f94ea7465c1",
++    "cognitum/proto/causal_stability_pb2.py": "7491b625441a1597af4d1cadb6a14f47fa5b3be60371820cd1b1a92d30feeded",
++    "cognitum/proto/causal_temporal_advanced_pb2.py": "1da91e2e8bbbfddb571cee78c8bb68bef2540c85ace8d6dcf73b08f86e131fbc",
++    "cognitum/proto/causal_temporal_diagnostics_pb2.py": "09639f61866eb491bc4f9d87324fd59c4d692cba2ad089e76a7ea98f60946328",
++    "cognitum/proto/causal_temporal_discovery_pb2.py": "13486a70a4eb85f3ab4f6fd5c67dabf99fe02de184a135929af1dc24672a24b1",
++    "cognitum/proto/causal_temporal_pb2.py": "5ba3d1bc0d7970124a125d11dcd0e4e2ecf177d5eeefa2bf15d1ad45ed26ba38",
++    "cognitum/proto/causal_temporal_scm_pb2.py": "fbce372ba5d21a5014cb8a79168e598a6aa728461584c202e5bec31a1ece0331",
++    "cognitum/proto/causal_uncertainty_pb2.py": "647670275b9afef817732100f2c6b7787af40a359183076c7badd0db6a2f12ab",
++    "cognitum/proto/causal_validation_pb2.py": "024712e8337e2fb0a577ddbfacfa7a1d4952fb219e6c8da8545acd2b8241afe3",
++    "cognitum/proto/ce_handoff_pb2.py": "f41b39c335c25c9aa15218c861e587ad5a350749a73088adc27e1b934708e956",
++    "cognitum/proto/collector_pb2.py": "1abf89568f08e6e9c79c734d31be548b66b64b5e95181a7b8643fc84e4f39d3b",
++    "cognitum/proto/evaluation_pb2.py": "f460e3808e76ff821da1c8f5dd9b7eb9452e2f96bb20430cd971355c710da4b4",
++    "cognitum/proto/formal_advanced_pb2.py": "d105c5fc7fa5fc13d5c3c490855b97103a8df253d8cc8b662fdc781cca8ccc31",
++    "cognitum/proto/formal_backend_pb2.py": "0b43337a5e1375381c1c4be301323ddf00aa0dd9276f8df8688953a0e92ef572",
++    "cognitum/proto/formal_pb2.py": "09c8c11034ace94a5b294d1a400a9da0321fd1d24bfd9431ac9dd4bbe21e4b0a",
++    "cognitum/proto/interpretation_pb2.py": "962e6679a3230b873866b0b7cc3dada0821ea4ecd442408cc340947dfea9c960",
++    "cognitum/proto/memory_pb2.py": "e7e9485ad578d519381bb2f6950a9e4441d6831330edcd8b520625b6996e0419",
++    "cognitum/proto/optimization_pb2.py": "6eaf4099a5ebe0e0893c0410f7531ad797f4886ecce23458ab56b6fe1f71ab1b",
++    "cognitum/proto/optimization_runtime_pb2.py": "38f3e6c5a3fb808141a088ad51808e2ac674612840813b811b561fc18ca6e184",
++    "cognitum/proto/planning_engines_pb2.py": "0f3abbd6b34b883ae2bc47c9f25d17066d67dfdca758406eea842596004d9c15",
++    "cognitum/proto/planning_guidance_pb2.py": "4cc6f1855d416a3946ea601aafc5d609f644702edf7a9789275376082248af7a",
++    "cognitum/proto/planning_pb2.py": "640671821b26780c9ffaee065fec775b3f0df12c676e584a328d6e0b03a77a95",
++    "cognitum/proto/planning_stochastic_pb2.py": "6d4f4a95ba2042e66a1a1dbe292a622b1068c6599887b36d83e36cc965cf41d0",
++    "cognitum/proto/planning_structured_pb2.py": "ed806430bb384c131a9ca54b514647b2fe6a982416dfe23566bc436897407fd1",
++    "cognitum/proto/probability_backend_pb2.py": "6ac8b80c1db3bcd95a15e99f8486423b35815b7a68192c0a95901b02679a436e",
++    "cognitum/proto/probability_conjugate_pb2.py": "aacbefeb98940655104cb46456f36c3d988fe0b4e3d46620ba447c651dd3cac9",
++    "cognitum/proto/probability_continuous_pb2.py": "a8043fda6400452951be9f251a3da5425c6b1b2ec59da0ee3d63c831d0f639fe",
++    "cognitum/proto/probability_diagnostics_pb2.py": "d8a632fd384186932dd246fd9bb63534c82e09a17d57f0a7c909168c75a94222",
++    "cognitum/proto/probability_pb2.py": "53e8dbae9d42cd15e746ca7fe4eefdd7c59bd2dd0f5152042b0a497efcbd1bbc",
++    "cognitum/proto/ray_occupancy_pb2.py": "56b80b0004e8c11c665bb9112aeb77ac5029e73633dfe8c767d58282d3bef8a6",
++    "cognitum/proto/spatial_appearance_pb2.py": "1cd10709cc62ecb8ef333bf9b3cbf9a3338f943a8952a484023db299a214a589",
++    "cognitum/proto/spatial_appearance_pipeline_pb2.py": "254f195f21c96c5df9e792136d277ec20bd6ac7152dbb33a12fc0792fb7c6aad",
++    "cognitum/proto/spatial_calibrated_depth_pb2.py": "f82ba1f8bb150de4837b8d9f9e7a924433fe124754552d2b19866205d7621d3c",
++    "cognitum/proto/spatial_composition_pb2.py": "d2e0db657028e15700e9d9152f13279b6837d5be7368148708354032648eea5c",
++    "cognitum/proto/spatial_correlated_fusion_pb2.py": "87148d5797164aa55dbbd0641a92e64602ff6bc39af92f7430e0c42e668db175",
++    "cognitum/proto/spatial_dynamic_scene_mapping_pb2.py": "d19fa9e6f935045c6004ab99738d1d8bd009a9b5b2b4b74a0fa2014eb7fb9520",
++    "cognitum/proto/spatial_dynamic_scene_robustness_pb2.py": "225feffbf010f97132edf189c358c3c246c3ac65703bd101118818bacf3cba61",
++    "cognitum/proto/spatial_identity_pb2.py": "e68928e5dcd519b875ab8c9aabde1cb08c4e38d7cef37c12717625515f2b1f67",
++    "cognitum/proto/spatial_map_lifecycle_pb2.py": "a5d22aae066731cdcf66569a435ec9d4c56df5c950c0fdf7de7513ab9a7b15ee",
++    "cognitum/proto/spatial_object_aware_volume_pb2.py": "c67d7692611451805d411d23e50e45235d7b7d9763352b943e6c5f1db98eed84",
++    "cognitum/proto/spatial_ontology_subset_pb2.py": "f671dc0c6137bfb247e45c1512a821d06db341a9a9cc40310c090cb1264ad6e7",
++    "cognitum/proto/spatial_scene_pb2.py": "c5508980d2ea74b44a7f3719f6be6f373cf0cbd62cff93df69b03d6b9dfa5aec",
++    "cognitum/proto/spatial_structural_audit_pb2.py": "e2a4898105ffbeadc96b48a4a60bd53054080295f888235eef3ba8e29db16743",
++    "cognitum/proto/spatial_structural_c07_bridge_pb2.py": "8aef6c924e862f695705659c429a4923d55d071df01eb9c6ffff4fd7bb0c840a",
++    "cognitum/proto/spatial_structural_reconciliation_pb2.py": "70a50fda37c27e071bd562e52586c10219c34859e7954e53d214873d2ea4ab77",
++    "cognitum/proto/spatial_temporal_consistency_pb2.py": "3b1aff6c2adf17be597d0b8f166a4da39f78820c3b9b5e15c80ddbfb5eb7f557",
++    "cognitum/proto/spatial_temporal_pb2.py": "fa399936cc3b6327d6ef6b78eec0c47ad78c0fef563fdbfb62fa2c9173e6f99a",
++    "cognitum/proto/spatial_volume_pb2.py": "05b9a326931856afa76c41e5fc43615278bdee38a5e951cac904c41eb6500837",
++    "cognitum/proto/specialists_pb2.py": "d5c9e4fac43cf409b0bc4df50831af96c56e9eb5f73f3f8ae948b74ad572727d",
++    "cognitum/proto/state_pb2.py": "44cf07a56038d7287420a9bf50ab2a5972c02863f45e2df70f1d504e87f99f4e",
++    "cognitum/proto/structural_hypotheses_pb2.py": "b6059d4c9d096557863cbb974d9735f530fa750884548cc310c0677b7f80ff8e",
++    "cognitum/proto/supervisor_acceptance_pb2.py": "6af5c07d45f937524afe3110e41871b320c26fe7661424659358002d4e52f8c7",
++    "cognitum/proto/temporal_occupancy_pb2.py": "88b00000c887858e379d66889d5b862665c4068617a7a708d5f7fe2288d238dc",
++    "cognitum/proto/worker_pb2.py": "bb864ad181e1065aa9d43d068dd8ec167b045cd5032cfadf8fd27eb8157c8e1c",
++    "cognitum/proto/workflows_pb2.py": "7c646af83ad61ea05ca6e11e0254dab5ea993e9e39462276044637df5eed5373",
++    "cognitum/protobuf_codec.py": "4df82f14d56056398a19ee9bc2053f91abe8d66a2b21481bdb41d63202bc3d2f",
++    "cognitum/registry.py": "ad508dc5a53126ab89bc4df006e6fcf8220d08a2eba3385a62b86d9c203798a4",
++    "cognitum/runtime.py": "33ad415c305f730da987e1d4c5ea4cc89e11ffa88fef9f215206c1297f779778",
++    "cognitum/scientific_math.py": "64c13cd57c6c0bac4951aa4c124c06dbf623dfa5afb356d5f5adc0d6ab0a5987",
++    "cognitum/spatial_appearance_evidence.py": "310440d113d53f996a44a813752b9eed0e6e62fc8987769ec96d2835ef3fd0cd",
++    "cognitum/spatial_assembly.py": "19cca2e54d4d41bcfef569827cd8d34e6b8323be02008692bf5a8aae95fcc191",
++    "cognitum/spatial_benchmark_observation.py": "d99aaeaa62b2c5ef6ad935ef3d462a18fa02dbc099a0024305a938f7aba98e06",
++    "cognitum/spatial_calibrated_depth.py": "3be5965aecf42db0deecb4986086101416df379bc6ebf973a1bf8831540f98c5",
++    "cognitum/spatial_composition.py": "75d3fdcf8080722e4ebdf32ffc59ecc34f21e1ac2ccec7a74ca1f7508c1d49e0",
++    "cognitum/spatial_correlated_fusion.py": "1685e433f2a769bb36d155e862b374b37b94f18198ae2f69c05ee13830d01fe3",
++    "cognitum/spatial_dynamic_scene_mapping.py": "f5cf0f66556aa1ab590578666b0241f9327b40e82c4cadba3fcf23016a8e3974",
++    "cognitum/spatial_dynamic_scene_robustness.py": "42a6323dd1fc3ce8c03a718451202e65d9b5489a2dabd374a50759d3ebb05ad0",
++    "cognitum/spatial_identity_association.py": "4d1455980f1c1aca3e5f749787ada61e32586e48e1ea8f9e44188119080ca192",
++    "cognitum/spatial_map_lifecycle.py": "c5523897464971bb0c1be971fcad4a1a80de42b787c1d09c2d77061e150e68c3",
++    "cognitum/spatial_mot17_realdata_gate.py": "08b255e8c7f62bdf7f7d56bb25da99a6392206919837e0b63ee029a984439e51",
++    "cognitum/spatial_mot_adapter.py": "f5a00d7bbd9903f86b7356015e7738d400e2d5e6c75dc645d0ff723b7ac78aac",
++    "cognitum/spatial_object_aware_volume.py": "db53ab3ad69cffb38ecbde82fc1d959a63cb744a8abe1a4b7751b3bd95be63e3",
++    "cognitum/spatial_ontology_subset.py": "cdc3c96096ad97c27eb24668d0c5273b1aae2359f6149fbec4e171b2c9e37685",
++    "cognitum/spatial_p2j_matched_identity.py": "235d89bab939c5194a8ef75d64e19ef6994165176ed9e58f76d13654dde9912a",
++    "cognitum/spatial_p2k_challenge_gate.py": "cfd6e7adfa530d775bfb6b93b0f04a5471f29ed5c6e2b09c4fd46da627ea4a0f",
++    "cognitum/spatial_p2k_dense_identity.py": "1a6fdf9f7164b103d2dc11a38522bcf9217b42edf473fa91b8ae6238b7750c08",
++    "cognitum/spatial_p2l_appearance.py": "0409ca6022d84b579cc9a2bd5b71a35b54f6da18d5f67eb543269ec08f9c5fcd",
++    "cognitum/spatial_p2m_pipeline.py": "8699d0bbedca4fc3bd234cfe95b76c035faebcd26a46121e240e0f3c8b14bc8a",
++    "cognitum/spatial_ray_occupancy.py": "8782d4baa3ece105c233ea66078bbbe05d9d0a870494c6ac63678a7d0ab84414",
++    "cognitum/spatial_scene_reference.py": "88f3ae7a786bc490c41e930869b59279e1b1fb885696ef0d182082aa86b6241e",
++    "cognitum/spatial_structural_audit.py": "7d3e5381b9b7e3540bfadc96d72486c38b2be2309aa108ed4289dcf614bbaac4",
++    "cognitum/spatial_structural_c07_bridge.py": "525fd8d9f5cc8be8284ba9d3166732b34e099ea0d63ba069b683b014dcd16593",
++    "cognitum/spatial_structural_hypotheses.py": "8f05f3ac100bb1f74c288866f520370aa82f549cfa2ce97256ed512a03fb6d7c",
++    "cognitum/spatial_structural_reconciliation.py": "e0676881d249dca81acd89d7f75c6240c75e87b9419dbc7ff8f0415b6b94f45f",
++    "cognitum/spatial_temporal_consistency.py": "67583e30aaee405e35d11dbdaca4c7b0cfaeb4eaf121248aff57b71a15b1ca29",
++    "cognitum/spatial_temporal_occupancy.py": "476cc60d15b20f91d4b9e3b27f755cd5bd1c552b768600bded11ae935d3a57f2",
++    "cognitum/spatial_temporal_tracking.py": "7c2b63597731faa7b9ef7ecc786f1ff0061ba1e8967e0c211b848afec5dd9486",
++    "cognitum/spatial_trackeval_bridge.py": "f85be146ddbd0d8ba8192a9ea4aa5e39f0a62f03708f32fecd14ee63e72a576d",
++    "cognitum/spatial_volume.py": "052a7a144dc8f5912694f2f5483538b2c73491fc0fb1f5d6d18fa362aebb5b9d",
++    "cognitum/state_context.py": "1e03c6de7dd49103968dad6e482d50e7edef0b30af6e82d975f9b5df7b6969d9",+    "cognitum/state_evaluation.py": "d31569234e595584891a277c4789472cd71cb7f2acfd16f4204869060b771e6e",
++    "cognitum/state_host_gate.py": "1de3a05a7a300e8c53f288e3c80133039c05b9f25cc730bcafbeda39939c1fda",
++    "cognitum/state_journal.py": "083433476090651ed155e4c160348317c314693fcda8d67b7daf501b268b6e7b",
++    "cognitum/state_language.py": "6a24645de1924ff2d67ac1bdc896ed589bb8b8e9e71fb95966fdd86383035393",
++    "cognitum/state_language_eval.py": "27b7c0d67a5c26e7366ffbe274be36460b204934df4fec71f12f555aeb323d6b",
++    "cognitum/state_longform_eval.py": "216a896c160cc82eb83d624219d34ae217f5fc372673d3bd12221e5c8de0a09b",
++    "cognitum/state_revision.py": "fdc12b0f1b13122c5ad1364584b622adb1c9e097b0fcf09192b8256a553d60a5",
++    "cognitum/state_temporal.py": "6520a32a85f32104d540b043e1e1c534460cc7478f0d93b7c9258ea56146c258",
++    "cognitum/supervisor_acceptance.py": "893a9ee31fb3a361bbf8573d11dfe4a502cae7d8b77d535858ef9ff5c72591b3",
++    "cognitum/supervisor_conformance.py": "acf7c3b72355a8c19abb2b3c352a4cf4b7d72b59917c9235431e296d5a35aa6b",
++    "cognitum/tracing.py": "1af870d52bd890d895a4de45b207c40754a4513936f27afaf97db2dda7847f02",
++    "cognitum/worker.py": "82cf040c6be1c4d1ee0c4ef56419d3a572edff05d8ce5b3c4580bdc512852d5a",
++    "cognitum/worker_wire.py": "1656405ea070191093720a9f0cb8ed780d517ba48aa28a27b62fcc6be4cc1380",
++    "docs/Cognitum_Comprehensive_AI_Architecture_R1_5.md": "9d7d937faaf5807e409a140f2af8eae1b1b0bf82a3bcb3d23c163538062c4ab3",
++    "docs/architecture.md": "4d70eea1f3d2d911a3823e3857f08f1367f406befee9036385e36310b4e6db11",
++    "docs/build-order.md": "b99bfe5e69db7f8e069915d2892cdd3c5d0f4343eeb2fdb2cd3bdecdb02dac44",
++    "docs/components/calculator/P0-research.md": "8982954092879a68cb10050b83b9d2e19574df4fdb4ea63279b89d42834e3289",
++    "docs/components/calculator/P1-P2-exact-verification.md": "25061eb98032a48e27ab3e35c57bb2752153e83c2c4ee7a4ee1929ac073debfa",
++    "docs/components/calculator/P1-P2-scientific-specialists.md": "54796685e1111a2e198eeb8225c4703983eafd05afda1510f670e3dc2a7155ed",
++    "docs/components/causal/P0-P1-causal-models-and-identification.md": "a120d2f9752468c028e1d51ebf20dac17708f053e18a4b8dbf1ff5157b984101",
++    "docs/components/causal/P0-architecture-addendum-v1.1.md": "fb88cbf4c27de55157a32e4168326e3782af36a9f1946701d47d9b461c9a857e",
++    "docs/components/causal/P1-functional-test-evidence.json": "98b7cc4db8b6bb56d2de05f5bce58b8210f4a3fd36ac73ba8773e4ee415e3745",
++    "docs/components/causal/P2A-functional-test-evidence.json": "8c7db6ec4aa5de6e91c1ca6f31b5e5c2b41e91ff14e42322a31867ca00730acd",
++    "docs/components/causal/P2A-observational-reference-and-compatibility.md": "2ce74d64a0030647a795241e2e90b457a102de0308c475ba96ca9f82dea54640",
++    "docs/components/causal/P2B-G1-gate-evidence.json": "978500841253963b45447193d798e8eb2e6d5b01559251bbf34c1c1ef4cdb21e",
++    "docs/components/causal/P2B-G1-local-footprint-evidence.json": "cf260668d7e1fbe54f9ec46c8a64c9a8361ca15aaa15dcd877fcc81e83b215cc",
++    "docs/components/causal/P2B-G1-offline-gates-and-footprint.md": "f1418797e572b270a6efc2a21f4c93369819c5773bfe637acd8c30b358764b7c",
++    "docs/components/causal/P2B-functional-test-evidence.json": "0f34697c10310b1f1065d588dcc990ea6d56241256afc1e10dd6212b8b5ec267",
++    "docs/components/causal/P2B-pinned-dowhy-worker-candidate.md": "c24d9e995255b12eb86bbff3680b5b0ce25b43f4f57adf4c4a5035c206f444ba",
++    "docs/components/causal/P3A-P3B-conditional-effects-and-undirected-discovery.md": "729565f802759860e99c8079445f180a612ce38871ce3091a2c572680aa763c1",
++    "docs/components/causal/P3A-P3B-functional-test-evidence.json": "d8ffa866976b060bce0388f3983e284da5f72bbb540cb2252f264ff97e6d5c58",
++    "docs/components/causal/P3C-functional-test-evidence.json": "37f3d091bd90c8f6a25a06bf8130da49ad2d3dffab8a6d36cae4a49cc0ea3fef",
++    "docs/components/causal/P3C-pinned-mature-worker-candidates.md": "098969e946105e94c1024c1242be0a8fd56528c1e6e1d0492a87e4aa1d67d964",
++    "docs/components/causal/P3D-functional-test-evidence.json": "2caebda61030779fbda6265c8adfec18bdf9af64d10a14704613fe7157c711c1",
++    "docs/components/causal/P3D-synthetic-ambiguity-and-cross-backend-comparison.md": "21da1e03ee320c1786b3bbbb61e135aa26f5d4b88fa2307a752aa2902cc69e09",
++    "docs/components/causal/P3E-P3F-P4A-P4B-functional-test-evidence.json": "7aa7dad84a461dd0639c4d7583a175546bda3fe73d37d9f95192c132896e840b",
++    "docs/components/causal/P3E-P3F-P4A-resampling-ambiguity-temporal.md": "4d8ed73df4d7c2ecc08f5cd7e45f4b12805200a0e08bc3a6d8fb4993dcda3fc2",
++    "docs/components/causal/P4B-time-indexed-exact-scm.md": "a4baf28f625421fe1ebe51fb7a2aa47f91a3f2ab026efa7c03651838990db07a",
++    "docs/components/causal/P4C-functional-test-evidence.json": "fe2885c1f4fb5831b5c34ca0d218c2163cb40348d249731731141c89e33862fe",
++    "docs/components/causal/P4C-timestamp-residual-admission.md": "e2622795ff16e9e269fefd19f2ed6cb5c0e99aa9d994c2b0e003cc22b3412670",
++    "docs/components/causal/P4D-functional-test-evidence.json": "b0388a931244bb0876991f240938b0759c4f223a8ff0cc0b148ef78c4bb859bc",
++    "docs/components/causal/P4D-stationarity-change-and-baseline.md": "56ca87d1fe7c469c26fb831305c02c5c8471e83ddc3697309bc8cea6be262eee",
++    "docs/components/causal/P4E-G10-assurance-policy-and-decision-safeguards.md": "2a6161b69d04429ad3b4133ecdae765ac4d262fd140f73edbc3a65b982daac9a",
++    "docs/components/causal/P4E-G10-assurance-policy-evidence.json": "523d1eaa00715cb26ca85bfb2d39c459e286fce6f8e5f6f92d532a932c274fbd",
++    "docs/components/causal/P4E-G11-functional-test-evidence.json": "a45576aac2261af7cd642402aa3beab4b76ab649bf58b6c63204bef8f9d0d056",
++    "docs/components/causal/P4E-G11-holdout-evidence.json": "d9df3b0dd7ba3fb9f86c60f18c8ea7974ad61db9112e021539af302b97ef919e",
++    "docs/components/causal/P4E-G11-independent-holdout-assurance.md": "16a0240f8c29ffa08b0202aeb24e3c8cbc4774e3aa80cd6e97813b5b0e7f57ac",
++    "docs/components/causal/P4E-G12-adversarial-generalization-independent-verification.md": "6c06e0974a1c6c80252e50fd0c67ea4bdbb387846ae18d10a4f3ca38977392a5",
++    "docs/components/causal/P4E-G12-adversarial-mechanisms-evidence.json": "9ebe4f80ac40d6f1dcd1740ca4f23b41f9be3edd0b3d25f09e80be621d96f51d",
++    "docs/components/causal/P4E-G12-verification-evidence.json": "9c9dc66aef5d336a4a50142430193dfdb4fe1ea214c1f7159314b003d5fffb5a",
++    "docs/components/causal/P4E-G13-adversarial-caller-evidence.json": "d6fc17fcf8762980385e2a504a3f2deadfd6a4f5a26cd9fb49bf417d81f1690d",
++    "docs/components/causal/P4E-G13-end-to-end-assurance-and-adversarial-caller-validation.md": "39c8f18a4fcd035428ab1dbc45a3b14ac28aa77901682e6e694ceeb180cdd995",
++    "docs/components/causal/P4E-G13-functional-test-evidence.json": "c728cce0a2f5e0da2d9422e102dcf242d7cb4a9facdcb4d147d0d17e4588c0b2",
++    "docs/components/causal/P4E-G14-genuine-worker-and-assurance-integration.md": "825a05621aeb026bc21e8cd46c3e28254a95681430fb98e8e43935e81c49c987",
++    "docs/components/causal/P4E-G14-genuine-worker-smoke-evidence.json": "b86f744717c888bd97aba9943f37be1f5b643dab27bdfc82945f72581433366f",
++    "docs/components/causal/P4E-G15-caller-evaluation-evidence.json": "11773f891609c53f48305753e7f75fdf0f297ec1d0547316eeb52a0ba8c544b2",
++    "docs/components/causal/P4E-G15-evaluation-readiness-and-boundaries.md": "971fa7bdc6ea6d33e1eb8ae5a3ea4cee3a035a3bdf75307140c00282b4f87cdc",
++    "docs/components/causal/P4E-G15-functional-test-evidence.json": "54c6a2792ef2651c19afe43088e4bb31164a098ae6b7fb21ba69c0cf1e1184b8",
++    "docs/components/causal/P4E-G15-scripted-acceptance-evidence.json": "11773f891609c53f48305753e7f75fdf0f297ec1d0547316eeb52a0ba8c544b2",
++    "docs/components/causal/P4E-G2-genuine-uploaded-source-evidence.json": "861969b33866c33d72ec9fedbeebdb90432471bdfc713c8d7a07acd29a089f4e",
++    "docs/components/causal/P4E-G2-genuine-uploaded-source-validation.md": "0ffc3c55fd6245d09aeb62b14209c5cc8a35bdcf9bc5e2eb16188cdf95376ad2",
++    "docs/components/causal/P4E-G3-ground-truth-evidence.json": "892f37b140cc0bbf5903c01e2a9276aaa0c607ab99074cd8dc047c007a8d2b41",
++    "docs/components/causal/P4E-G3-synthetic-validation-and-launcher-parity.md": "bfba3317b2ef805069d014783cf1690581c3383dd69cef6c0b06ef231c2f2a5a",
++    "docs/components/causal/P4E-G3-verification-evidence.json": "e649b125a6a9ab3965a2622e3aa0447d4955bd95d9a431dd02dd3ca346774ad2",
++    "docs/components/causal/P4E-G4-source-dependency-evidence.json": "3939ca2697c7b946dce8609caa4ade9f796b9cb5fcb9b047cb85c713b02c3c6c",
++    "docs/components/causal/P4E-G4-source-import-probe.json": "9b35d4070f2d29032f6572225204b36542507301f7d21459e8e0c4da7414300f",
++    "docs/components/causal/P4E-G4-uploaded-source-preflight.md": "126d810c9abac642f5fa3b0db0c7ae49c2539c920020b05a118557c5a3386026",
++    "docs/components/causal/P4E-G5-genuine-mature-workers.md": "27205514429491087a8104ed143113cffa770870a572893b3029c6adb4c120f1",
++    "docs/components/causal/P4E-G5-test-evidence.json": "2b94de9cb4f61c769fb582b0b1b883a795515a5fcfe3fca65aa2170001497576",
++    "docs/components/causal/P4E-G6-crosslibrary-evidence.json": "574e993bb68a8069f6bffeae751dad6f674e480bc23bd24be6577653bfd93ac8",
++    "docs/components/causal/P4E-G6-real-dowhy-source-and-cross-library.md": "b33244d0a5b2281aa81691ddadb8b8bb0b62715a07d7da7f5e59724c3a52ad53",
++    "docs/components/causal/P4E-G7-multifixture-methodology-and-results.md": "a20427edfded7d2fe60ec0d738f1d0cba00e36853cb4e4014e04d6aec4644dba",
++    "docs/components/causal/P4E-G7-n300-seeded-evidence.json": "3a084128698054cc0ffef7550cb425b7e26a682aec0e1fdf485c23a355c1a2f4",
++    "docs/components/causal/P4E-G7-n900-seeded-evidence.json": "26d51d271e2e63b58f1a16261ceefca12043d940e5676890c80065471c96ce05",
++    "docs/components/causal/P4E-G7-validation-evidence.json": "d58778fd869430474fcf4994a369e5ec7f0e9b9cd35134afc3f3e867065d31bf",
++    "docs/components/causal/P4E-G8-calibration-evidence.json": "26d4b71cbb7bcda18084c98361e7241fd694a45423d50182b7530dd69c09f58d",
++    "docs/components/causal/P4E-G8-genuine-crosslibrary-intervals.json": "3c5bd7677315a7f2e2906a3399b7761296fa2080c6c572df8ed94c0f85898b15",
++    "docs/components/causal/P4E-G8-uncertainty-calibration-and-partial-identification.md": "a69b30515372bd921452818da0b80e8b6110847de9e2b0180253a7851d4edd16",
++    "docs/components/causal/P4E-G9-bootstrap-aipw-calibration-and-method-comparison.md": "79c7206dafb9c6c60de1b88b88ddba13a1904a90943c52cc16bfcd39e967541f",
++    "docs/components/causal/P4E-G9-interval-method-calibration-evidence.json": "87f66bdcdac7de9c25a1df0c951053fb8cb4922842b81542a5e9867f01eaf6f9",
++    "docs/components/causal/P4E-G9-nuisance-sensitivity-evidence.json": "b28a2f469052002e54ff5c77da265845ef169e8d7b697ceadbf918ac7fb8d029",
++    "docs/components/causal/P4E-functional-test-evidence.json": "6dabded896a5f0f59b171cd0aaa27b3cce5b90b2394cbef534f8f5d7f14d833a",
++    "docs/components/causal/P4E-tigramite-temporal-discovery.md": "7eafa5a3a49e48328626f57953e9515e18fd12c62073b92c5ea1c292f5261e75",
++    "docs/components/core-runtime/P0-lu-native-audit.md": "e614ccceaaa9c61085a4e96c9a49257367a881ab16fa6429e9eb9e6cc74d5a5d",
++    "docs/components/core-runtime/P0-research.md": "ed3c7c677ceb2b2137888658510ebe7a5845df954faa5c368840c9650a478a39",
++    "docs/components/core-runtime/P0-schema-study.md": "4203e603f2099fc7328f198c6d2d097193e5fb73c146494346a1d205b346156a",
++    "docs/components/core-runtime/P1-P2-ce-manifest-fixture.md": "11bd93e9c18294959bcdd36d930c41a25e50bfb1ae0ad4d8289f50bf05f8850e",
++    "docs/components/core-runtime/P1-P2-lu-ce-discovery-handoff.md": "d2c58f54c97f54d7d4afedabd8561efbadf2fe55737223a0e445391dc7048924",
++    "docs/components/core-runtime/P1-P2-protobuf-native.md": "3fb11984bc22737e722b9df6fd3c1206c34161c49f57ee4d0feda2ae855eef7f",
++    "docs/components/core-runtime/P1-P2-tracing-hardening.md": "8d53ce8d4158bfa6b5d6afbf2694c3467284c6961ea504d2397f447610198e34",
++    "docs/components/core-runtime/P1-P2-typed-results.md": "3cd560f3f6d647832f866b7e1c6d4d4699e8b193aeb2b21835702c94f4c881db",
++    "docs/components/evaluation/Cognitum-Lu-10-arm-model-augmentation-matrix.md": "ee48187e0d34b4eee1ac0954b7acd50306e8ae9b4cca54f379d6c82d151921cc",
++    "docs/components/evaluation/P0-research.md": "829b93123280eaeef25320677b22caee7c9950587d87c3963c9efa1f218f4655",
++    "docs/components/evaluation/P1-P2-host-benchmark-capture.md": "9959c5509a5b327db309b940347c945143987d7f0e9ad1c302744b99c3810fe4",
++    "docs/components/evaluation/P1-P2-protobuf-component-smoke.md": "2cd95bcd262c8510d3ccc5c4d5d57e863822ea946e4b8c1e388c5d5f7a00f767",
++    "docs/components/formal/P0-P1-bounded-smt-formal-verification.md": "80f9ce50609fe762a37a4666ab3741ac152bf9c3a67a8e6b12ecc44f2098c6b2",
++    "docs/components/formal/P1-test-evidence.json": "3f6e3971b67945b1c74e24ab0627dc0197df8e1503b0df45b28a602b282c1c64",
++    "docs/components/formal/P2-functional-test-evidence.json": "2a97d364292375af474fefd33d22e4647e93523d1a5bebcdcd37bf4df1a2abc7",
++    "docs/components/formal/P2-mature-backend-audit-trace.md": "d23d4300df30fabdc44f24f60e9968f0be846080bfcb4e091199926ed7de9080",
++    "docs/components/formal/P3-functional-test-evidence.json": "688a3ee8eda569239ad1c6be51ce629d49d24177a185df3dc78ce91cd56bc474",
++    "docs/components/formal/P3-incremental-and-exhaustive-checks.md": "f7c6647a0c9f80732c6ebbf8ff25ceede2a262577e950db5e7833f2085c3de67",
++    "docs/components/hdc-kan/P0-archive-reuse-audit.md": "8a978de281692c4299f72196f6e3335990ad59ef34a556f1453a3ac279f2390e",
++    "docs/components/integration/P0-P2-host-collector-receipt.md": "ef89b4a4005a581ac5b1169f841e2d7fccf7cdddafc867684d3f9403950dfa31",
++    "docs/components/memory/P0-ansf-ownership-retrieval.md": "a48e6393bdd26f511dfec8b90f69671777254de201fbc3425feba2a711edda57",
++    "docs/components/memory/P1-native-evidence-verifier.md": "c1bb11f90a82efc092d2089c2d842ea201cd30ba084023322e9401d50ac6b174",
++    "docs/components/memory/P11-native-mutation-authority.md": "1951ff7f1afab085e3fa27c363e6ae112809e0a6d30de91ce1a07128b8dd4a1b",
++    "docs/components/memory/P2-host-fence-citation-literal.md": "482d09033997fe027e263bf26325cc8a0f7e64f38cbc3c02d26e722b2ad3c27c",
++    "docs/components/memory/P3-ansf-schema-conformance.md": "3f29900c35cfaea3959900fa3118af28d782a47789a3646e6dbee10b19a8de19",
++    "docs/components/memory/P5-source-recovery-fence.md": "648a1e399307d6006d473907b52e31a8605f857e98658ae7dce13264e2598a4b",
++    "docs/components/memory/P7-lu-native-protobuf-bridge.md": "8c0833667dbf8e24fb2c5285ea78977bda355a1861ea5e4da88c58740e6eb076",
++    "docs/components/memory/P8-native-test-gate.md": "376b2f55072e039905a731b54ab9dbd0370c0ffd32b14fea90b7e2d78d90dc06",
++    "docs/components/memory/P8-pinned-source-audit.json": "136058a3c7d8331389eaeb256e752f6a6caba571a7367e64a8cf113e04c63368",
++    "docs/components/memory/P8-test-evidence.json": "d8aa64ecdf0900a1560524a666aee725ee3c7130db0d4e7871901bce4a4d2128",
++    "docs/components/memory/P9-isolated-native-gate.md": "f9046b72a05923a8a98bf942d3721eeef9e9c72ad6d5ce6a61945cd89e2d2e03",
++    "docs/components/memory/P9-test-evidence.json": "2d01799381adba723e102190fe320008c8798fd9d14f93caacdc25e55b688739",
++    "docs/components/optimization/P0-P1-mature-baselines-and-integer-linear-kernel.md": "b96925963a44e317aec7fe69332c499311a4b17b588f16f7a650a70ec3d9232f",
++    "docs/components/optimization/P1-functional-test-evidence.json": "47fd0ea9932e6a22cc6696ba3b1ef9741e5944dd43bc99af8393f39ed3c7ae65",
++    "docs/components/optimization/P2-domain-workflows.md": "170ee7960d027b9b4f14662f44c13f514179df8e0a0086ef26739f61baac87ad",
++    "docs/components/optimization/P2-functional-test-evidence.json": "d1a6b12ccb9135768cc2e353ed10b579017564e2a44614fa79891862d0ff4720",
++    "docs/components/optimization/P3-functional-test-evidence.json": "d6ce34ee90bd5c85964b02ee1ec03df38279b9bff9b6d10e1de416ad9069a4cf",
++    "docs/components/optimization/P3-worker-manifests-and-audit-hooks.md": "addf23bbb2703ac795d31609dd8ea3b672138cd6a3d2281314a261b3c055fccc",
++    "docs/components/planning/P0-P1-classical-planning-search.md": "b2755fe99c0e29bf1579e75fa63d1757cde4912683e4d035e9a3103582c6f591",
++    "docs/components/planning/P1-test-evidence.json": "71d79f03ad8b83d961bad95d134043bd91486bae38455f6d505bc9ff9e948da9",
++    "docs/components/planning/P2-external-planner-adapters.md": "22265d506c24c87b23d892ad20281cb9d7477e247d832fff08e358f882a15ce6",
++    "docs/components/planning/P2-test-evidence.json": "b549084c099d5b21c6ede7b83642db616e0caac85b5f403c469c71d25463fedd",
++    "docs/components/planning/P3-advanced-stochastic-hierarchical-temporal.md": "cb098abb02f6dd1dec14426c08dda37d08dec1b1a2b700039181375f7934d47d",
++    "docs/components/planning/P3-test-evidence.json": "cf54237badafb103b3ee8d0c8edcda97ec82fbcc664c50653969a3e138c3fe2a",
++    "docs/components/planning/P4-experimental-guided-search.md": "23f7f6c43cbdc12f8dd322ba604fd9d72f47c44266ab5527cd493df15350daa8",
++    "docs/components/planning/P4-test-evidence.json": "aa348fa0d60f98095c61b44c8693f3a476bb8c78833d3d96d3d84a520c244ee8",
++    "docs/components/probability/P0-P1-probabilistic-inference.md": "a5bc1e44bb7cf49a35af2d0826c009f8fc98c932ebadf10395b37841b25005e3",
++    "docs/components/probability/P1-functional-test-evidence.json": "9557a03d6afee38f95378ef4e9441c229a97b74cce4e6e6827c15ca12da4b409",
++    "docs/components/probability/P2-functional-test-evidence.json": "734feeb826c2515518bfb275c1e05a1004c1152861e5b05aac28b0a49d422980",
++    "docs/components/probability/P2-pgmpy-backend-MAP.md": "13f02377f0b3cf3865a1f5c1dce6b1e4b59eccc79c4fb2bfd2821b5c2539d99e",
++    "docs/components/probability/P3-continuous-hierarchical-inference.md": "42e3af6c59d4589a7f0bd3db18004164e280acd8b142f057f620aeda70da5847",
++    "docs/components/probability/P3-functional-test-evidence.json": "13b241baecd988280e56265085a067a684d4dfaab7c6c137e510c428eec45436",
++    "docs/components/probability/P4-functional-test-evidence.json": "bc25af7d883f2aa0b7cb3309d4be8b5d02a45891dd5605ba7eb1b72b937e5750",
++    "docs/components/probability/P4-general-conjugate-and-chain-diagnostics.md": "6fc021d2d6fcd20b086fcf862a20dbcfa9e891ac4d6e947d0666458a39554efd",
++    "docs/components/security/P0-research.md": "297b65a79114af249251b0bbf25bfcca7b9f0b07acd15647c2838232bb5ee052",
++    "docs/components/security/P1-P2-protobuf-worker-boundary.md": "9178f1b7c386f33a9cd14b413d6062fec10ec7c9903b78a4e2a5e95caa60c6b0",
++    "docs/components/security/P1-P2-supervisor-acceptance.md": "49230f1585c7198d818a204c5ca700a9ddb3ba0461c90a3fb81aa413c3f9a042",
++    "docs/components/security/P2-host-conformance-gate.md": "4a2bda06e1aae7b7f22236d7b9f3805fa318245c4f44bc28dfbf9acac68a8099",
++    "docs/components/spatial/C15-T2-P2O-reconciliation-backlog-v1.json": "db47bfeafda778d831400f0b2fc0915ba9c727f65d479fbd81723b0141cc60a5",
++    "docs/components/spatial/C15-T2-P2P-deferred-validation-backlog-v1.json": "4f7594f3eadef16863f9d9a3254bfd18430f6a6879495b2d325ad9b49da11857",
++    "docs/components/spatial/C15-T2-external-reasoner-backlog-v1.json": "389709eea052ed3342d1a6918dcbbfb72ce56f8c9ba4d1567d502baee10f7ec1",
++    "docs/components/spatial/C15-T3-P2Q-deferred-validation-backlog-v1.json": "d5c3a1e1b28f49078029598c0434550a58d22051858432bd2703e390e3e6b173",
++    "docs/components/spatial/C15-T3-P2R-deferred-validation-backlog-v1.json": "27852d20c965405bb94299c340dd04b93b6b9b4a3afc913bfe86bb6d46694d59",
++    "docs/components/spatial/C15-T3-P2S-deferred-validation-backlog-v1.json": "22297609a8ccd23d4e23315065c51edf0a106e9020aa496854a016f4b918f954",
++    "docs/components/spatial/C15-T3-P2T-deferred-validation-backlog-v1.json": "74df9649b2acf3aafa4cf8cb00300f3cd6103a54773cf8b19db0d6a1d071a546",
++    "docs/components/spatial/C15-T3-P2U-deferred-validation-backlog-v1.json": "fb87d675d4d59227171d64d323d8dd355f17c08e9690d01b5c57ba6ee1bb8002",
++    "docs/components/spatial/C15-T3-P2V-deferred-validation-backlog-v1.json": "647832de375a1f8e34971283164c4fd1286b0de05b5b5617e29d37818b19eae7",
++    "docs/components/spatial/C15-T3-P2W-deferred-validation-backlog-v1.json": "43b713155dd9ba36c0dbd26d9a3d71099f8ae86edba5773c370f9eeff1271f97",
++    "docs/components/spatial/C15-benchmark-backlog-v1.json": "4d117d91114dc2ca401d493319f293528fccddce3fe2ecddf2b46b5783702390",
++    "docs/components/spatial/P0-P1-scene-graph-reference.md": "77f5276b27ae0c40ef19bef371e720aa0d720edff3a9176f7af9eb77c7039230",
++    "docs/components/spatial/P0-expanded-compositional-physical-world-model-research.md": "d54182caea14fd00414cf338214ad0b1486282022ea47b53c55aeeda4b39023f",
++    "docs/components/spatial/P1-functional-test-evidence.json": "13fd8669eaf031482a5d2469ec7d477c9c3d140c625db89c7ead8264bb653475",
++    "docs/components/spatial/P1-observation-adapter-and-P2F-official-evaluator-gate.md": "d1afb7c0bb902aae85b9cb277ccf97322cb11f7ad788e5d5755a4dcfab767d1d",
++    "docs/components/spatial/P1-synthetic-smoke-evidence.json": "7c22791467d53f898034e5e438ebc3039fb411c3431416495a689872c97dc745",
++    "docs/components/spatial/P2A-functional-verification.json": "6f31ae78af1c99347735d81476fc9e54f68af7d58d17b0c329302e5e8cb81346",
++    "docs/components/spatial/P2A-identity-evidence-baseline.md": "62e2da7c2885b5f694b711bbbd4ab57aef6d93bafeaf13fd543f03fa261cd9eb",
++    "docs/components/spatial/P2A-protobuf-verification.json": "818fa00c29ccd23fe05755048aaa2781e22b116154bc27fcf58db83b75b90bd2",
++    "docs/components/spatial/P2A-structural-audit-seeded-evidence.json": "f43d6008bacc527fdb52410720b6944f8b7cc70714be7f6073e994f6024d1505",
++    "docs/components/spatial/P2A-structural-volumetric-adversarial-validation.md": "67f556d8aa55a9d3a771a687ba98b92901f108538626378f18f02ca416c84bd7",
++    "docs/components/spatial/P2A-test-evidence.json": "9deb088b03ec9198d4652eb1c9f705d5585bd5a18a8a52a48b4ea5d31eeba26b",
++    "docs/components/spatial/P2B-assembly-mereology-and-sparse-ray-occupancy.md": "4414e7044d1dba98170dbc58b8d97a792a1370c7546c6382e6c6eabbf7e9a4a4",
++    "docs/components/spatial/P2B-functional-test-evidence.json": "7150f8e75ba5027cedd0b01e611328b42ff25fbde70355023267e823113f11d0",
++    "docs/components/spatial/P2B-identity-hypotheses-and-uncertainty-aware-association.md": "631a227db63b3a7552cf5a43bbef19d07d9f46173eef90b53259a470515f8225",
++    "docs/components/spatial/P2B-reproducible-study.json": "9df95a0618a76f9ab2c6067240d72da9ac8a7d23df442ff062df46cec83991e0",
++    "docs/components/spatial/P2B-synthetic-association-evidence.json": "80419d814170cff29a565f0a83b91d5ac864dc1a1eeb4538feb57d18857a63db",
++    "docs/components/spatial/P2B-test-evidence.json": "d0d9c682751b8d4d69b66e6eb6360c078502ff6f1509fc574314d2b7bb25546d",
++    "docs/components/spatial/P2C-T2-T3-functional-evidence.json": "58cc8ce907b60acf3d5f510749f4d4552d8284e9ef69bd2f82fc6cf5a4bc4c17",
++    "docs/components/spatial/P2C-functional-test-evidence.json": "5f85b0d602a838d7e8df2737972d6427e0fbafe55268e0354553b898741b9947",
++    "docs/components/spatial/P2C-historical-manifest.json": "003cbb9655287b6212de370f295e42a24ea5a657aa44310cae0adfbad854b2b2",
++    "docs/components/spatial/P2C-reproducible-studies.json": "3003599da5a5236d92fa253305fd0c7a14c432bce29174147d0488802f2e2b54",
++    "docs/components/spatial/P2C-structural-hypotheses-temporal-occupancy.md": "ad6a87da0f93e8370df61ed527206ec2a9c17242523765af6e3fa7369a96c661",
++    "docs/components/spatial/P2C-temporal-study-evidence.json": "136bab7a67a5073edb63ac586f831f237eafbacbfe7e855dc6582f53065cc9c6",
++    "docs/components/spatial/P2C-temporal-tracking-and-evidence-fusion.md": "304df2928cd3659131377bef42d93b42f7ff987e5b458b4da527ef4ebf6ea31a",
++    "docs/components/spatial/P2D-T2-T3-real-tracking-and-structural-volume.md": "596b1334f6c942a6e0367ab8b8468ac709cf4af64653b4024e10a5f3f66ac0a1",
++    "docs/components/spatial/P2D-T2-T3-verification.json": "24cc3dbd5d41bcc92d1c504fc8daf7938016336cf49b1b52c14577ec865fbfaf",
++    "docs/components/spatial/P2E-functional-verification.json": "4eeecd80b33b9fca59c643642e8bf133e4071d5149ecc85badaeacccffb9eaec",
++    "docs/components/spatial/P2E-live-external-diagnostic-evidence.json": "175f33176c4c7378f2acaad5d67a016c8691b3afd89b3036a1bbe3956715de34",
++    "docs/components/spatial/P2E-real-annotation-fixture.md": "08ef58bd2592bc6d4bce9b1c24d6340d0428442d53ee2f8f02561fad870146d5",
++    "docs/components/spatial/P2F-original-validation-and-external-gates.json": "f1fccf289ab5f62dfdae34ae3f6a74a3c938dc2a417082d5296bdb00445483b8",
++    "docs/components/spatial/P2F-validation-and-external-gates.json": "9169f8bc4918140474560283f1e7fcc89822af85704f0aa89d2584adb58bdd20",
++    "docs/components/spatial/P2G-independent-graph-geometry-numerics.md": "1fe4e4e4c76b898207e65492fc6ed3a747c2488f6641a957a933b948384e98c5",
++    "docs/components/spatial/P2G-selected-gate-evidence.json": "57fdebcc5387bdbd04c90d1cf9213cf30cceaef5f1d67de21071c5613f58d8bd",
++    "docs/components/spatial/P2H-mot17-native-data-parity-readiness.md": "de0acf256974bbc61c0766977e1430a2305d39519f53dc7139bbc8e5116d386a",
++    "docs/components/spatial/P2H-real-dataset-staging-evidence.json": "1f21cdef492449ad9e09da8d5d7591520975be088c691cf60277e31881a0a1eb",
++    "docs/components/spatial/P2H-selected-gate-evidence.json": "264028c3d9a87a3ae05e9a9220de833f6abd875e8de2ebfa85ecc4f2681fdbea",
++    "docs/components/spatial/P2I-TrackEval-per-sequence.csv": "72e1cd1599f577a08753bd902538781f5e68f52f7b28ff1f6bc32fe4a8db6cbe",
++    "docs/components/spatial/P2I-official-TrackEval-benchmark.md": "8bf5b60437374bc9557a65b8bd87a988a893c5452dcd026a294081e4e1e89130",
++    "docs/components/spatial/P2I-official-evaluation-evidence.json": "4eb74fa7c6307df126bc415c32f13140796e44ad8fe7b359c45166ba740bb2a6",
++    "docs/components/spatial/P2I-official-pedestrian-detailed.csv": "8e01c31319324255dfc02b93f491bd83b9456a14fd8447392fe6859c808e9670",
++    "docs/components/spatial/P2I-official-pedestrian-summary.txt": "5df9f9750cab6097189f10103f3e6c893b2a6d1743549e3c49c69a8273e771ea",
++    "docs/components/spatial/P2J-official-identity-only-evidence.json": "8fdb88889e5923f789ed91bed453ae6d7a247c470ee24059248b63507d9979af",
++    "docs/components/spatial/P2J-official-identity-only-matched-ablation.md": "687ead581d019d4fc173b68c10929f2b43074b9a7a432521608c80cad95ff00a",
++    "docs/components/spatial/P2K-dense-association-official-MOT17.md": "83d7c31d183c167f02e7dee4ab1257087643553efce12665cde950503f264216",
++    "docs/components/spatial/P2K-official-evidence.json": "8479bd0ebd7f439a76dd78024ef30068b5ee4710a2a95f43298b4bd403e7ab76",
++    "docs/components/spatial/P2K-official-per-sequence.csv": "743f88c2dc91b3e9153d4f6e6a0225984c6a8d28e323b278c728f89d98ec0d49",
++    "docs/components/spatial/P2L-appearance-aware-association.md": "b4f9c31763d524d6579043641ccbad4338fa29c8b80f54476275ddcc0adcd6e8",
++    "docs/components/spatial/P2L-frame-gate.json": "21311ec58f38bf872312e773d23ac88aa619b5d1b6cfe1a84a171fa1fcb32efe",
++    "docs/components/spatial/P2L-synthetic-study.json": "b3fbe3f91490ffdc82348da8faf7c310b2f35f1f692bd6fe4e211b99b4f64f55",
++    "docs/components/spatial/P2M-model-interface-and-cross-C15-handoff.md": "4ab9c8f4e9b05a70bc9132ff84295bd3e09c74742faabe651a28861520f88454",
++    "docs/components/spatial/P2N-T2-typed-ontology-structural-consistency.md": "7eabe3fd574855eafd764f73a05796b50b3e6c48ac8099b06e8d59701a209c63",
++    "docs/components/spatial/P2N-test-evidence.json": "248207d45a29646fbd8370c81d5ca5a267c62fdfff6ba2f5b3a6446814f4f8f4",
++    "docs/components/spatial/P2O-T2-hypothesis-reconciliation-and-retraction.md": "7fd47b083a4061e50b91ab960b62d71d9fd4826b110ec4740dbcfc0ae420399b",
++    "docs/components/spatial/P2O-reconciliation-synthetic-demo.json": "85699949105e3c156ef78aeb09aea786d4f19450016317f5251625c0e45cf12f",
++    "docs/components/spatial/P2O-test-evidence.json": "7fb7f73eb69a9aba2d88057b33715d88bb22508af0572088c8983035cfc9566c",
++    "docs/components/spatial/P2P-T2-C07-provenance-bridge.md": "088d4a6c99f6fa027cf6baca0cc496a67a260d9cbb8d0c86f00613684360ec27",
++    "docs/components/spatial/P2P-milestone-report.md": "ca9c60104111942e99f092baadad45acb18621af43e2a6db1994477f4d9509b2",
++    "docs/components/spatial/P2P-synthetic-bridge-demo.json": "38ebce43e0d1ecebfac6a7dc755fe4e0696c00577afc2047156a6d0e3197c6ab",
++    "docs/components/spatial/P2Q-T3-calibrated-depth-bridge.md": "84d3008944ecc925ee6d22f788c4e733d9da54beea2d7825978b8063e64e882e",
++    "docs/components/spatial/P2R-T3-correlation-aware-occupancy.md": "6c351b482f19ac45dba4ee8e7599ea227198e89bfd37f76e6e97701f7806e917",
++    "docs/components/spatial/P2S-T3-temporal-volumetric-consistency.md": "5df4e7ba2d5d0c44d7f4705e2b88c42d839f07fd2a096b61a164f51fe8853ebc",
++    "docs/components/spatial/P2T-milestone-report.md": "74d03b1a32fc750cea10db786a77ac8833c888ce82d953a49844f8b1a938a9c4",
++    "docs/components/spatial/P2T-object-aware-volume.md": "39c2b714b3e29d11ec1c08df43a0580c18cb403d2e33f04498bfac59c4ff89d9",
++    "docs/components/spatial/P2U-dynamic-scene-mapping.md": "576a4ba75ea024ceca284284bf2cfb6f31720e7a2e6bb621a413692c19dc45e0",
++    "docs/components/spatial/P2V-dynamic-scene-robustness.md": "d4ad00f4d029d4959641893ff86d07f513c786a338c333feb5571f11e2f003d5",
++    "docs/components/spatial/P2V-synthetic-demo.json": "dd55cb8fd452cbdb5883367b2eca7d61a3b7a1c10ca2adfc92d112cafb720e34",
++    "docs/components/spatial/P2V-test-evidence.json": "890d43c240d95efb9fd5b9b6e76ab5f2240be8ffbff1405b8d68dee55530a3a3",
++    "docs/components/spatial/P2W-local-profile.json": "534693e8882efa9672405bae845128744caf9f92b81b3fb865f1321851921b07",
++    "docs/components/spatial/P2W-volumetric-lifecycle.md": "2b603365b4986b9deaed69085ebe9b68fe13f0bfe43f1d8174e785653712fee0",
++    "docs/components/state/P0-P1-event-revision-baseline.md": "efee0b1428e17c9d5ae6f64d381040b5b5e7c30781982e136714596c1ff1ca2f",
++    "docs/components/state/P1-test-evidence.json": "ddd624b7ebe509f83913ab129877c8d568bbb9740bdfded43352cddf56e77a54",
++    "docs/components/state/P2-adversarial-source-consistency.md": "31c82bab90246f6d921a61d9ac6b2c333a4d688df677403f4b0965f72e8bb0b4",
++    "docs/components/state/P2-test-evidence.json": "cad4429f59ddba17e5d3acd7fcd4c2a2504acec3bafd4da237759704a00f65da",
++    "docs/components/state/P3-persistent-journal-reconciliation.md": "264ee629afea3817471807fd1724929e50ec4a782c5abf4883e384bb58ecd1ee",
++    "docs/components/state/P3-test-evidence.json": "dd208a5b76fff40b2c8064dfeba79b97c436c8ec36ce71a3260cafefc647a70c",
++    "docs/components/state/P4-temporal-deletion-rebuild.md": "d94bb76e54498d1a3932486f161650b5216a1bd1a2cb063eb5ecc47110c70150",
++    "docs/components/state/P4-test-evidence.json": "d1cc166a6e875507401a6fcfc42c437f7a5010bddea4f048d75760dd3aa93f31",
++    "docs/components/state/P5-bitemporal-uncertainty.md": "ef72d95b8187c1a5bab62818bdac0c1d6a5e8c3cbf384301b653d71f51295c7c",
++    "docs/components/state/P5-test-evidence.json": "d71711eac361e543b0c91a25df60c165ef49ee7bffd1a9ee937ca0e542ae3450",
++    "docs/components/state/P6-comparative-evaluation.md": "ecdc76557fdaba11242a6dd07c695d1973005c6c66a9418828dc60b305ddfedc",
++    "docs/components/state/P6-evaluation-result.json": "636f82500dc731db61e848572866633c120cbd5cd8231d66e4e7fc6f8eba4e57",
++    "docs/components/state/P6-test-evidence.json": "5e002ecac05f95a3a96ad95e024f7f6e736e8b087bd244c59a415a77547c909e",
++    "docs/components/state/P7-evaluation-result.json": "42f117c92852366195b29939e4f9db363f077c84f74ed85ab3cf3bd3353cba61",
++    "docs/components/state/P7-multiconversation-annotated-evaluation.md": "f6856dd42f4e81496d3e3220d4b7e18e89150bfb8fbac83e623ee3877b6a3b90",
++    "docs/components/state/P7-test-evidence.json": "c5f6073e0d220deee3aaa38f9e6f02185ddf4714726ff523be29b6134e558b0f",
++    "docs/components/state/P8-conversational-language-evaluation.md": "ab2126cce8f2d9ed572bb0613bc31e692b13c3362ecbbad1b211657fd28bbab1",
++    "docs/components/state/P9-host-bound-context-resolution.md": "960f540dba5004cbefac22163975f0cb6ca12ea1038981a8532760f10cb00ad8",
++    "docs/components/state/P9-test-evidence.json": "d4280d78c1efe1ec1f380bb0f777d5797bbb92fb86d513cbc938b1764b129ef8",
++    "docs/core-only.txt": "09dd2ee19c994e63502a8732afa1ecd976cd99294f281c4ce4eda0808e495f26",
++    "docs/decisions/2026-10-27-C08-C09-deferred.md": "b681e2b9dd8523d4b8c3d70c65be99cc15babe9cb92f6c0c13d52a73d002b4bc",
++    "docs/decisions/2026-10-28-C14-G15-real-LLM-gate-deferred.md": "4a51fc15a5f4c457b83453fb129a41d1e812702cc5246d23f4bde5d825e2a3be",
++    "docs/decisions/C14-G15-future-model-benchmark-gate.json": "208e488fbda01429dc0205dfae72bbf97445e5003a04e5f909caa95e04acad50",
++    "docs/design/Cognitum_Engineering_Standard_2026-10-27.md": "99b623378960ce8f13672d6aa01365ecaa8927790b98669e524d7ada4b7ebcac",
++    "docs/design/README.md": "732923459231f1399fe11d386aa531bcef0b459d96f5df6acb944cdd9dc73e60",
++    "docs/design/research-validation-and-delivery.md": "2d1626899d3ac5535d1926377f5a11d982d36cec295c839a9d24829c36946dab",
++    "docs/design/technology-portfolio-C01-C19.md": "c3fe9d2af6b92f2235eb300b54572f2cd828881c2cd334d8242be716da92845e",
++    "docs/exact-calculator.txt": "9670a5f29e1baf0deadfcb2b8e3e263096d8bab8bfa2bb38ae82a4066447163b",
++    "docs/isolated-calculator-tests.txt": "7cde1ff6be11ca2af8f1ea79069cd64f04e22c4a567d7db57468729a166b5016",
++    "docs/lu-cognitum-integration.md": "a0b83fc7848c7a5282b2df7dcea062b0b7ae4f321c6067ef8b6bffd81d2334f5",
++    "docs/lu-dlc-ce-addenda.md": "db7eec09e1b8ebd8b330c8dc316de5054c6354c3b127999b1edf5e7b33bb7065",
++    "docs/replay.txt": "481d5ed849e08e13297f27740f9518bfd4c9fb19266ce726993411829a930b7c",
++    "docs/research.md": "650508fc112f3784dc19ec432b37a86b40ef058bd81965826b84654ad4ef4827",
++    "docs/roadmap.md": "2d2bedd39f2de2c9e271ce6eda25f4978fe1db46108fc0b37d666da884dd8dd7",
++    "docs/sources/Cognitum_Source_Informed_Revision_1_4.md": "df6edca83d1eadf8f8b4910d83639f95968540cb4ec59807ec75aa8a319eaa47",
++    "docs/sources/Cognitum_Strengthened_Revision_1.1.md": "1b5c59ff1fb041faa32993928fcf8f958be8ed9c7f619d2a4447b3aa490bf484",
++    "docs/sources/Cognitum_Strengthened_Revision_1_2.md": "cd086e705893b4176414e4fe22f0252e0efd7861f7e868862f308ee0ee1fddbd",
++    "docs/sources/hybrid_ai_design.md": "ca5d6b0219130c61215ac5e9a978f6ba8e4e44ad3075d25a17fdd2ef614f4e47",
++    "docs/status.md": "5ecce4e847eef3933259409c054db4f363b0f19c1847c5bea32dc808b980f837",
++    "docs/unavailable-calculator.txt": "73ea0b03ccfe15990e9ee5dc17ca8d39af81e9c1a98f88791bd4ea2f74a31974",
++    "docs/unit-tests.txt": "ce7ad52aa60a401de425bfa0a602844720753ae21c6d9b642e17e3f83180437d",
++    "docs/verification.json": "1efe01f943ea36029cb160ed250555b9e0175ae4520f991c4562a7d64e82f1c7",
++    "evals/c07_p8_conversational_cases.jsonl": "540834d870aa15451391dc292a2391a66723b194bfe2a71a98fcfe06ec86b2ec",
++    "evals/c07_p8_report.json": "c11d4360bfa4ec046c3825d4dbbd6b4602ea888ae20652dd5a78dc20a4159b26",
++    "evals/quantization_pair_validation.py": "49955081a622a0d4cec6cf67b7c0b3209d96363f220f4e083eae3e721c77c4d7",
++    "evals/smoke-report.json": "241cd89231a03264730b00a850a6aced04055a9a4dca8e718e8e7ea40f8c7cd1",
++    "evals/smoke.json": "bff73a61642f95b0cd03aab1ac76f7e9641499a45926a7c6e366e65ead8bf490",
++    "integrations/lu/README_C06_P10.md": "04aa2774931607d57160310b1427af144a17f34c1a8a3ff7036ae9cc4d76975d",
++    "integrations/lu/README_C06_P6.md": "55a738a454dcd9d8bc8d0d2e696ef4fdb874af6233b2ca2e22a93afa1dbaa103",
++    "integrations/lu/README_C06_P7.md": "91bf1430f907c521839634a489f6e058fed77efb79488c4ec6814b15a6fad26d",
++    "integrations/lu/README_C06_P9.md": "d46978ed764030cbe487d16227aa0772a9df55d203ec16d9a84f628273372a5c",
++    "integrations/lu/apply_overlay.py": "63943b9cb7ebeffc5fff858d8eb2d640e4e25802f9658eaf7f7f4b1ab0221a91",
++    "integrations/lu/p8/native_gate.py": "153635aa8881b75e003fc662e0cda4d1f7fb2d8450d031ff9fb941886080d35f",
++    "integrations/lu/p9/native_test_workspace.py": "c300fbfbf2c5e99685bba900e04381c40b905a01e58fb12dc199e319bfe554d4",
++    "integrations/lu/p9/run_windows_native_gate.ps1": "6911304c5edd71eecf8103f416d5929a532ee90bd94868e85611ceb6a0c733dd",
++    "integrations/lu/src-tauri/lu-core/proto/cognitum/memory/v1/evidence.proto": "2b01abc57b5bdc6780c78033a7246b05b52378e5ce94770dfc339041b77a03b7",
++    "integrations/lu/src-tauri/lu-core/src/ansf_memory_gate.rs": "a83b8cc4214cc2f4f7b78e04fd0047775ab4725076f48acd6bf910cd2c655d05",
++    "integrations/lu/src-tauri/lu-core/src/ansf_memory_proto.rs": "4eaad5e37b5e8d79ec3bcf3f9a5f9e2801783ffe048f861e30c1719cb6eea586",
++    "proto/cognitum/benchmark/v1/benchmark.proto": "95b93adc2b2e56a3e521ff99b61d11aa0ee1394b6ff14c0753bb0793342a91f0",
++    "proto/cognitum/benchmark/v1/collector.proto": "ba5abad916d0cb5fc4ccbaeae5ec1f5834ada4c82021a29dae3c148460f74bcd",
++    "proto/cognitum/causal/v1/adversarial_assurance.proto": "c825a0d841cff4ed1ee49fa112ea0acf3d2c33bf9f6bf54a38dc690d14310406",
++    "proto/cognitum/causal/v1/ambiguity.proto": "80bd8653bed69442229708bd447d6a2443b2e2be1b62b8a0f91d2b99f7d844c3",
++    "proto/cognitum/causal/v1/assurance_policy.proto": "e0cfe5f1f2ed4f130aaafd9ed5458d7928080b023504c7d356dbbd59415387a6",
++    "proto/cognitum/causal/v1/discovery.proto": "3fce03ae8548e63e7371df8853862e67ff0acd1b08fa6cdbb324228c698f8b85",
++    "proto/cognitum/causal/v1/dowhy.proto": "47745251c633998f2eb9f77e1775f242be878d6f5dea7c98ee19e55d999f5cab",
++    "proto/cognitum/causal/v1/estimation.proto": "d686f3d46de95d725aa3426ecc8ed66cc53898fd932c4b181d5c23fe07781ad6",
++    "proto/cognitum/causal/v1/genuine_worker_assurance.proto": "96b7a714af25d5fd7de5264b5f7e453249baf3e8b773964a8d5a9c82c40b458d",
++    "proto/cognitum/causal/v1/heterogeneity.proto": "e310a59edd58031a1eebec84609b9fb965f06461ef2b9e687992606be3b7b197",
++    "proto/cognitum/causal/v1/holdout_assurance.proto": "30e334d45f82cff450d45a33e002bdc318f98a7de0faa61832eb38e0a7931210",
++    "proto/cognitum/causal/v1/integrated_assurance.proto": "7daf8bed1e6f717a921bcb77e0bc71f68b49aae2e64efc1dd6821b4acc8f60d8",
++    "proto/cognitum/causal/v1/interval_comparison.proto": "01c496c1506ecdac871b5e432ddbd07e2ef3686421e89a29296d03f4de34237b",
++    "proto/cognitum/causal/v1/llm_caller_evaluation.proto": "8783759d7e883c1e0f00f6c34e821ff7858354f5537a458cc9add0d39d665e3f",
++    "proto/cognitum/causal/v1/mature_worker.proto": "bb9185e033b2607d70d6ef5c7835fcf376ce971d900688f8d17b6d8513df8ddc",
++    "proto/cognitum/causal/v1/scm.proto": "72b3e47b5a7951e518c79c1625012216f43fdb711bb7865a0213048dbea1ec85",
++    "proto/cognitum/causal/v1/stability.proto": "ad0d4042b1e39d788db25f7b3f2c7017d6c92adc2a37be660490b5db76d14c0a",
++    "proto/cognitum/causal/v1/temporal.proto": "f88822f26bd9f4f0e95aa629825fce00fd9d0b4f2284a8f535687156308e3872",
++    "proto/cognitum/causal/v1/temporal_advanced.proto": "7f7a00f0de6d8de63de76f95b36cdab7a3af6f7e6384f92d90a40d940f00e3a5",
++    "proto/cognitum/causal/v1/temporal_diagnostics.proto": "4a32ed0d4bea324c3e3a944be17a8d4201b6d6ffd61afce52e8fe59cb569c08c",
++    "proto/cognitum/causal/v1/temporal_discovery.proto": "92308d2dbc48ca95429e2209a1961fc153372a6ac6933c8ba8d7ee37ae07f1d0",
++    "proto/cognitum/causal/v1/temporal_scm.proto": "1b9a80449d3eac1b4dcfe7e90c04a06a09f86bad903e397cdf540e963fd897a5",
++    "proto/cognitum/causal/v1/uncertainty.proto": "fee47e8ac455217d21e45350889550415d9df4eba9101a76eafedda8459ae54b",
++    "proto/cognitum/causal/v1/validation.proto": "62ba71624788039567fc99f0b9e7efe67d9a85ff0b6ba8c4067d142fc1db6b60",
++    "proto/cognitum/eval/v1/evaluation.proto": "6e42d503ea77d3258c7258e5abc4ef01e0cbddb969f475c38ae4a15910e924c9",
++    "proto/cognitum/formal/v1/advanced.proto": "6794c79706e036490188c85b91ba956b65f1f6ebe78481cb25474db4bba80a49",
++    "proto/cognitum/formal/v1/backend.proto": "e0dca1e5dbfc5d3df2b335249b3cc6b4f30185de99e005ccd47d1d9bdaf99690",
++    "proto/cognitum/formal/v1/solve.proto": "2548ea31e98011c4310eaf3520ad4e9855edc72fa7bc74387e83031e31ee044d",
++    "proto/cognitum/math/v1/specialists.proto": "385597cd5fade0397180bd8b23560773a1e4b6082743893395703941b905c837",
++    "proto/cognitum/memory/v1/evidence.proto": "2b01abc57b5bdc6780c78033a7246b05b52378e5ce94770dfc339041b77a03b7",
++    "proto/cognitum/optimization/v1/optimize.proto": "a23ba63d4be8df4ccc2b6dfc280433bb32b7d8cd73502b4cc887a7a99994e2c4",
++    "proto/cognitum/optimization/v1/runtime.proto": "84e7684a597844b7b4a9e0c6140c272743a56944824b20feb04fa7b0be240950",
++    "proto/cognitum/optimization/v1/workflows.proto": "1ca8edf34399e498f7da25f41ebbbc1bcac88f2ef4ad76db8ff146b54211689f",
++    "proto/cognitum/planning/v1/classical.proto": "439a5b1eccac3cc3118cd888a1d792a91725163b9eba37aac3bd01a978f79d80",
++    "proto/cognitum/planning/v1/engines.proto": "917b16f131f8d626c87eeac75e7749eaa2592dff408a753885d112db66ae6d74",
++    "proto/cognitum/planning/v1/guidance.proto": "9431ff022ff9d1f36cc9bd884b79ca99a49785fb604f1c255f79777e42b7b221",
++    "proto/cognitum/planning/v1/stochastic.proto": "d75f90824ed81076bbd502c806de986fd26181d4328bf02f6c3bfbd3d30840f9",
++    "proto/cognitum/planning/v1/structured.proto": "65e0404a453319f4e8995741f7a50d6dfa485ab59f0ae4b58f5ac8037cd1e576",
++    "proto/cognitum/probability/v1/backend.proto": "0c00e5e57123ae921f669d1b221fb47d5e4e8f536e06ea052d9cd50811a8df63",
++    "proto/cognitum/probability/v1/conjugate.proto": "0422876fbd90349001741e4c3067040f323e1fcb343b230f88ce0add0fcfa721",
++    "proto/cognitum/probability/v1/continuous.proto": "02f415103021adb33834e0db4274ec462d0382111b616f3db4b3ed3697f1e341",
++    "proto/cognitum/probability/v1/diagnostics.proto": "4c251df410c8296173465b58b692567283bb8cf3ec55eaf3ff7e5be774c78ef9",
++    "proto/cognitum/probability/v1/inference.proto": "f5e1343c3d535c02e6cc7bcc6427c18b7f941a13620a0ba14926849338877727",
++    "proto/cognitum/security/v1/supervisor_acceptance.proto": "73020b32256c8c573474bf7577fe13ac5f071424467e22c1a0dd90ed06e02f8b",
++    "proto/cognitum/spatial/v1/appearance.proto": "e989cca5f37292dc7f87d26bdc721305e5732a1b3011c5690c90ceead8bcf29f",
++    "proto/cognitum/spatial/v1/appearance_pipeline.proto": "56da07d563809e761c2078af19e28195b124f516bf129eff5e6e9c299ebe6b5f",
++    "proto/cognitum/spatial/v1/assembly.proto": "e142573f1153e9d1d89f68f1276b3197293f62cda215d33ab4508713e328718a",
++    "proto/cognitum/spatial/v1/benchmark_observation.proto": "09ddeb3529f2caaaf83774c8ced38357118f19efd63778463c909cfbc566441d",
++    "proto/cognitum/spatial/v1/calibrated_depth.proto": "cd06e5ec4a674fc803251c7206c750cc48f3855b5f353cf067c047f1e399f144",
++    "proto/cognitum/spatial/v1/composition.proto": "0e8e3aaf3b2220b17a76bf1a8237ee10a184d0df11e9eaf419bb28b5d3d94aa2",
++    "proto/cognitum/spatial/v1/correlated_fusion.proto": "7f178bd9303583824bfbc25c269ed478cdb95ed3b844472acdac5b7b1e986132",
++    "proto/cognitum/spatial/v1/dynamic_scene_mapping.proto": "0fa7f7a973b7207ca298ec59ddc0524b8ee53ad77d46416935dfa8b5cf1712e5",
++    "proto/cognitum/spatial/v1/dynamic_scene_robustness.proto": "11bd6d974b237842960519428884af6bf9a8aeddf66941f8f6b73c8862173b18",
++    "proto/cognitum/spatial/v1/identity.proto": "801f725a6e67af053707179a38cbed4c776fcbff8fb4e23d3d470ea1239f82a3",
++    "proto/cognitum/spatial/v1/map_lifecycle.proto": "95edb5720d207fda03463133582dbd8e8c8fe92fa5c449fab5e02015abefb5d6",
++    "proto/cognitum/spatial/v1/object_aware_volume.proto": "863d0fb1c411bb49f08c9fb10c1844339f0dbe1d5d0b8fac05cbd6585c6b16b8",
++    "proto/cognitum/spatial/v1/ontology_subset.proto": "1ef744e3097e48b3a30ab0aafa69e5a1ad0a01184df92d0ad7070e8687678873",
++    "proto/cognitum/spatial/v1/ray_occupancy.proto": "fec7922a74a7731244c16563af9b9cb46fcfca2a30bf41b0c88b1e01a13bbce5",
++    "proto/cognitum/spatial/v1/scene.proto": "6ddbb398e429f7deccaaa1b729bca6c0f489c9bd032a49acebf4f6f541669bca",
++    "proto/cognitum/spatial/v1/structural_audit.proto": "f2f6315b44d168a160306a61c0eb5aa98c3b80a90629cdce4bb9dd8b7ee570b6",
++    "proto/cognitum/spatial/v1/structural_c07_bridge.proto": "77dd0379c29da2ae0673ca0391337ae408c1f214a143fa2ead3f765df18aa3bb",
++    "proto/cognitum/spatial/v1/structural_hypotheses.proto": "71ce7ca6f0e9fa1502543adc1ca137ecfe2881609d8b03c810bd239be125424a",
++    "proto/cognitum/spatial/v1/structural_reconciliation.proto": "2c028ca5c5ffb5a9b1d5ff152f594317b96249ced9e1c2405a9b0f4586bcced2",
++    "proto/cognitum/spatial/v1/temporal.proto": "122f8a9af290579c049ca8feb94dda1a1ff806f348dbd3030c881e27be11dc40",
++    "proto/cognitum/spatial/v1/temporal_consistency.proto": "1ce0dd48f87a96e82df58f49a122694e9d5ae3e0f20538285bc80e72d6725e15",
++    "proto/cognitum/spatial/v1/temporal_occupancy.proto": "2a2d4e2db8f899c6168ca2e107aad9584f878e32b84e6a6e62cd9426510cf18e",
++    "proto/cognitum/spatial/v1/volume.proto": "2afae3f095a84240a1635c7100da5cd22adbf8d8676ade80a3082ae8f471bbf4",
++    "proto/cognitum/state/v1/events.proto": "2fa19142465ad803f2ae150530126ee120efae9ffde385b379e18d57c8d10907",
++    "proto/cognitum/state/v1/interpretation.proto": "1f09449d87255aa59cb06765ec6df3e320022f27a134dcd59c0ca0ccf1cc31e7",
++    "proto/cognitum/v1/capability.proto": "6a5bb5ac7deca544f5261b4938b949d2a12fa5224afba7287f97121bc55fe4aa",
++    "proto/cognitum/v1/ce_handoff.proto": "7af111018fa479e3102ee60e97bd4984d19590bb4b0dedc9f423dbde7df8def8",
++    "proto/cognitum/worker/v1/worker.proto": "a7f2058dae4e1d92d5f53862d06485885ddb01d150120b510337033ae66be1e0",
++    "pyproject.toml": "416f4d3ffa1a7662e342dd7506cc243325fb8075145cd6b3bb6e8b49e56ba19c",
++    "research/schema_validation_probe.py": "253291149b7435f6adb2eb4191583b586b6daf04e8e014f654db94d2d4b20afb",
++    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
++    "tests/fixtures/capability_results_v1.json": "74a1dbab60e7facc8459edd19aadf0f114e975ce73aefa28b68d4fd1b959e176",
++    "tests/fixtures/ce_calc_v0.json": "5a15173634491585982de46374c648258410a2dd0a185c4271190f2e8dc6d04a",
++    "tests/manifest_v1.json": "75c4bc84df00e73a728ec2a184da2da5c712f1eb280fcdc75e089a2a523d6330",
++    "tests/test_benchmark_capture.py": "b9b60bf098a50619967d5d02eb8c114821ab1f5c5654d92b4fcf913c0a4a65f0",
++    "tests/test_c05_exact_verification.py": "b478f936325029d67246ad3aff6b9bc5e0dde8888a25524ce6d724b02b447a21",
++    "tests/test_c05_scientific_math.py": "a4e828ccce40e54f45afb7747e11fc2b9df83e77a730f30c0f54f113f21792a5",
++    "tests/test_c06_ansf_reference.py": "d4bebfd86c1f8e836e15a99c78a2bb3dabf44a734da09538af0f054f1fd0d5c7",
++    "tests/test_c06_durable_host_reference.py": "c08eca39dece97442cd4e0f9c90e2842d57c9db870cc956755f4c0b81a7fd34f",
++    "tests/test_c06_host_gate.py": "918d429ae2395f8187f2bb8c33624cbc8afcd9779367882994ff7530d7d00440",
++    "tests/test_c06_library_checkpoint.py": "865d022219744d537d3a2c4acb08663b28c81162cd9280e571ab2bd208d4ad3f",
++    "tests/test_c06_lu_native_overlay.py": "0dc5b5f2d3a8bf0d10c8af800cbb3299858f59b59b9fd8e06fe9a267b57078c3",
++    "tests/test_c06_lu_overlay_installer.py": "90ea7b9cbc4436b33cd9c0f297f69be2c5651349b308e45ddc5e42ea62973f4e",
++    "tests/test_c06_memory_evidence.py": "0a6329419331757a822c853b56173715165818d9863a81ed6f9b5dbfd71ebaa3",
++    "tests/test_c06_p10_session_scoping.py": "9b5fb03ef3c11a64c32917206b82e71e0165e2067b5e773330b6e99a613d016b",
++    "tests/test_c06_p11_mutation_authority.py": "e2761ec6a8fcb239103b6a9bb384d32807453402c51f6a32b6ff9fd0fe8c71b9",
++    "tests/test_c06_p7_protobuf_bridge.py": "c799aa2f8f009ab56a621df182af59eaa49fdd262f37b5aa0c0126b04341ec6b",
++    "tests/test_c06_p8_native_test_gate.py": "fd92baa5a116cdfd141ccfb28febe70d3e3fd6d7c2a8812c692eb89ff536d0d1",
++    "tests/test_c06_p9_native_workspace.py": "752584701fc56cfa61df94f19803cae9307ef3c6d067f2dc81e42ecc7e391d0b",
++    "tests/test_c06_proto_source.py": "6650f9e271cf192a42a34ce47f79f16f962a937b29623ff332686c2456996614",
++    "tests/test_c06_source_recovery_gate.py": "ada544c24178fdb649e4ea7a71df40e930d5bb745d645d42b813ffdfda414a83",
++    "tests/test_c07_adversarial_p2.py": "3aef110ab999096d06f1aaf5984711fd70e86347265c6abe7afa5b2fc3ef3e6a",
++    "tests/test_c07_benchmark_p3.py": "5fb8b0d9e68e0376c4457a8ca04acce1563cb76d135acb48c90415fb844b9bdc",
++    "tests/test_c07_journal_p3.py": "1864f038a7b0ee90123c9247952a5f941eed419b05a5689d0d7dd761519b196b",
++    "tests/test_c07_p4_temporal_deletion.py": "1f14164cf6c9abedc2e898bed9b45d0ec3661e353b1cf50cc84d60fa58f61a38",
++    "tests/test_c07_p5_bitemporal_uncertainty.py": "5353a9696434dc1e9d80598561f8b4fc7a5f40fa8088078d7be5e1c862999377",
++    "tests/test_c07_p6_evaluation.py": "641603bba933448fcf0e85dfc5bf529eb33bf9a11104913e54990ab168eaaf7b",
++    "tests/test_c07_p7_longform.py": "b2fdd0f7b5255f3579b8d606ac05788990da8d9ff24e0a1c9324f0dd14af392e",
++    "tests/test_c07_p8_conversational_language.py": "6ff3541cc9f5a754fc4b78bcd2949eb41397ff676de5f321586291fb30f123b7",
++    "tests/test_c07_p9_context_resolution.py": "e6ae00ade690ded6780815aded43cae3facb332b011b710eebe0784cc18110e2",
++    "tests/test_c07_state_revision.py": "a2c45f74f5af6ab07117676df23f2047d8740a119acc2297ee32e36e782ab2de",
++    "tests/test_c10_formal.py": "19329177ce01ccd3bc21b6927ca295c7e5f6884404600424a16df5b78d00581c",
++    "tests/test_c10_p2_backend.py": "49ce157c3ea8ef323bbad58c6fc3bc6e2c3e4488295c4e0a9bbee9ae5a4bf0dd",
++    "tests/test_c10_p3_advanced.py": "b6d8ccdcefbfa1808ce7ac0847ba7b48eecae35722e9f5c7944c2601783fb823",
++    "tests/test_c11_optimization.py": "6116b348399d5b1d3d2eddcc351426459c7ef4ef76a26fba7e201b5386c436b9",
++    "tests/test_c11_p3_runtime.py": "c9d4bd70a573171328205ec8b0b31f86c4e91d34c3cf24766b262d359d726eb0",
++    "tests/test_c11_workflows.py": "f8894d681b90cf8c507b12fea5d80c37155e4866b9b751fa2a9d7e6d685628a7",
++    "tests/test_c12_p2_engines.py": "9b986c9afbae103fef4e7fceafbeb621946852ba13193d44acbb86500ec67ae3",
++    "tests/test_c12_p3_stochastic.py": "b91e2412f0165fade73aadf81292c188d904ab11e62cce4a1f7db6cf10828ba2",
++    "tests/test_c12_p3_structured.py": "49bed5a03762fe2a2fc28d105affe1b43df636cec7da1d10d6ad9d94b93e892c",
++    "tests/test_c12_p4_guidance.py": "b77cbe79ca45154e35c8b62338b3197d284de6e5c8599386d7e5391144f54241",
++    "tests/test_c12_planning.py": "808a656b8b6a06b2a1216a2df90fafd66f41944c0c06a5e1f2b9773fe590b5d6",
++    "tests/test_c13_p2_backend.py": "e5d6abcbd634f64619f9a0224c29a80a21164e8874ac40a5a1338823ae80a756",
++    "tests/test_c13_p3_continuous.py": "2f4174cffd0171fc8e54bb46dc93a32438fa3f729cdc851cb4afd638c53d9cf6",
++    "tests/test_c13_p4_conjugate.py": "089cc1f4ecda2dfbd02e07957e226d8101419760b2a88ec55898f6180b07bb41",
++    "tests/test_c13_p4_diagnostics.py": "729928734dc5a416c8477545c3475257c6a5ee90bfa44cfe99e15162666aa4d6",
++    "tests/test_c13_probability.py": "86536a6ec5ade635913710b3a26a748730405f23b10efe284f9069689578f111",
++    "tests/test_c14_causal.py": "aabafcc648231f6b031a8f1806a3881cf84a54a842a0a21f43a21f64e6709897",
++    "tests/test_c14_dowhy_adapter.py": "b334527f90fdcceaeedf9a4de88c16a898b733f61272a25b720aefadd650981a",
++    "tests/test_c14_dowhy_runtime_gate.py": "9ca374239563695ddb30e0939f0c60b39e3b894528b068cc314c4a8ccac8ff26",
++    "tests/test_c14_estimation.py": "ee25b327730dfc4a4d5d034bba9f048b684348ad71fca69422b94b6bdc8cf6fe",
++    "tests/test_c14_p3_discovery.py": "4b7e1fb7b35c19bdd5352fe0e0f51f190c9cc4cb5a3da93c96fe5462a2ba081e",
++    "tests/test_c14_p3_heterogeneity.py": "91419f4f0594b840661c81bb69cbd79a1bb55f1f6f2ce42745590faa5745bc43",
++    "tests/test_c14_p3c_mature_adapter.py": "c68493556e82597ae4cb106dd46e26d6f8dc20ba2ebf875c41e3d8d5f673e3d6",
++    "tests/test_c14_p3c_runtime_gate.py": "83bf66383d0390ca39dad2d14152c439cf6d92cae7e91b125cff6c1355651753",
++    "tests/test_c14_p3d_quantization_protocol.py": "814c420b9c99aefc699b1988b96e088b63db28c41ac95c1c7c6821263e630c5d",
++    "tests/test_c14_p3d_validation.py": "47bde8f112f98f059352c1dfdc1fad6fdb23101182e572c26e3a888392c0d324",
++    "tests/test_c14_p3e_stability.py": "8b028d1cddc9629fde1bff3af333740b06610fe5c1810297567232e880be69ac",
++    "tests/test_c14_p3f_ambiguity.py": "bd230aec54f550897221b6979fdefeb8ad676d48d517ea744db58362340fef55",
++    "tests/test_c14_p4a_temporal.py": "87e2792646c9ed2226a0d00237e0d8fdf1c08d8f65b54495aab8d763613d22eb",
++    "tests/test_c14_p4b_temporal_scm.py": "97611bd0b9fcec9fc19494fa5e1bc720f7b02c35260cb998b2a0a7c59dff760b",
++    "tests/test_c14_p4c_temporal_diagnostics.py": "80ee5d370576f2be757c06f233a0df951b61d55ba2e7a8b3715dd8462d4691d5",
++    "tests/test_c14_p4d_temporal_advanced.py": "f51d62abef7a1cea1757dfe890cf2a92f917e96fd0d6439b435fd8c1303d74b9",
++    "tests/test_c14_p4e_g10_assurance_policy.py": "dfccfb270a2606238cf0a995b80aa6760c6e2fa6da62779e7e9a71817d617870",
++    "tests/test_c14_p4e_g11_holdout.py": "24ab183ca5299d3154346c922a2912ed8c3ced30cedba666d3a40de3c9868ba0",
++    "tests/test_c14_p4e_g12_adversarial.py": "6dbd7cc8d35501a8902954870b8d1ee2d063e8411b5b8ed7b33a29711388b756",
++    "tests/test_c14_p4e_g13_evidence.py": "dd448d8ff8b5099178a8881c8510fb7afabd876f50333d91987474a0bd23c56f",
++    "tests/test_c14_p4e_g13_integration.py": "7e772ecf05fe6fea9fc92a4e776a68b3c56d8eeeb6e782f20a145725d986f629",
++    "tests/test_c14_p4e_g14_bridge.py": "cb0c1c5650a94dfe037bf5dd1cf956faec60a420f4518746e665573d89d0ef26",
++    "tests/test_c14_p4e_g14_evidence.py": "7af39ea50b817cdf1eb1cd2bb7e6f07e1660f3c67aa5356d3e6c6796e8fda99a",
++    "tests/test_c14_p4e_g15_caller_eval.py": "210d753d325580f891d5664b0c2b5f793db797f975e11ea6673b57ad0e0ce36c",
++    "tests/test_c14_p4e_g3_ground_truth.py": "89ac4b1af57bfb6a38bb588c5bde93e96446f0bfc302766d6937b341db335c56",
++    "tests/test_c14_p4e_g3_launcher_paths.py": "d122f75fb40e1c257b5b183f1ff462cc3c7cbf11f69c7ac7a35bc3353820ad1e",
++    "tests/test_c14_p4e_g5_real_runtime.py": "4ca11152c49bda335cf8c93d6d800d36e63a5b844cd222a72af6d40716b7bec4",
++    "tests/test_c14_p4e_g6_source_comparison.py": "ff4680778578a90901a49752e0b18aad16491c2732a5509e8f55adab4ae2e29e",
++    "tests/test_c14_p4e_g7_multifixture.py": "30bd8d305828ca1f07750f453e86efd3ad47dc6eaf6d7b58b6e5bc102102c64e",
++    "tests/test_c14_p4e_g8_crosslibrary_evidence.py": "66d7305c27c5ac53506f5e838ce63bba47cff1c4817a3123fdd350f71a10ebfb",
++    "tests/test_c14_p4e_g8_uncertainty.py": "6be17d4209627b75323bc7e0ee7d32da88e39c2f1bda514b360ba0c7604612b8",
++    "tests/test_c14_p4e_g9_interval_comparison.py": "781ba348a48c29e13fba42d33df2697b6870b12fcdf3c767b8e050f66f1bbf65",
++    "tests/test_c14_p4e_g9_protobuf.py": "218c433198b32f22a9a0869abe2ff76764a278a9fa613eccbf7ffa3057ecc67d",
++    "tests/test_c14_p4e_tigramite.py": "18fb568af73bd9d70e39e80ee760f635fba14fc4f72fe8bab8c54d9dcac41e4b",
++    "tests/test_c14_p4e_uploaded_tigramite.py": "54adff21cc8b57db365e14aacc995f76677289f28f694cbd2dc1bc68d44f1b21",
++    "tests/test_c14_vendor_preflight.py": "a1c48d95728aec76733ceefbecac5520c55a7eaa99da04c1da14ee3ddeca525e",
++    "tests/test_c14_wheelhouse_gate.py": "97247f8c8f312d9db46ff1ed6e50e953f6799029d96f606c04ec4a6b9dc5c0ba",
++    "tests/test_c15_p2a_adversarial_baseline.py": "35cfbc0f6f036acc0bb40767b2a489479bcbea690a41be092149d9f04343dc0e",
++    "tests/test_c15_p2b_identity_association.py": "1c694dab3aca4cbb3710b7aa7db4e3f2988b4c0a000584722b5c34feb043e975",
++    "tests/test_c15_p2b_independent_assignment.py": "b237c5f52e3f6167d34eb4bda37f5cec7b4dd0938268fa6b19ec0a21638eeedc",
++    "tests/test_c15_p2c_temporal_tracking.py": "3ecb85e333f3083b5f6cfe9f0c7dd3725f7c6e0a24453bb649c22e63c4824313",
++    "tests/test_c15_p2d_appearance.py": "4560aa603f5db595f46dec8358acdd4613f39a072d8680c5fb8a902f1bec0a1f",
++    "tests/test_c15_p2d_mot_adapter.py": "8bbcae07a999aabc4a2fa7b19321a76e13cbc548c3141f28937c8522590fb506",
++    "tests/test_c15_p2e_real_annotation_pilot.py": "254777ea2df5c44539bdc66e41da9eaa6f7227855155e39ba774fa6f5d1a6191",
++    "tests/test_c15_p2f_benchmark_adapter.py": "efae9d4e76b2df2a7a7400ba4f7e3963bdbd2ffe425c849533e8f213d7640c91",
++    "tests/test_c15_p2g_independent_parity.py": "fa830d8047293ad3a13b6041d94c4ad63bd278b96b063e936ef9591652d15d0e",
++    "tests/test_c15_p2h_realdata_gate.py": "3a91f2be9b94692dd08a53f01547df7427e2473164b87165abdb8c3c2bf3e14a",
++    "tests/test_c15_p2j_matched_identity.py": "8297b9b2f79c27a2657fccfd337b4ce62e7d0b8e2213678474ac27afd84edbf6",
++    "tests/test_c15_p2k_challenge_gate.py": "96de69b97f824f5f3ec9efe043f1210bfb8cd8bed527aa03e9eb267e511c40f6",
++    "tests/test_c15_p2k_dense_identity.py": "36a7796a15d4d7f42be51991a0c67a872bd9f846c4bbdc5a812a937b24d338fe",
++    "tests/test_c15_p2l_appearance.py": "1190f5116cbaf993d5c50da58ec8e4ac7ab2d89226ead2e2c5b4cf3fbd82a258",
++    "tests/test_c15_p2l_frame_study.py": "c217bc6712987d67adb57552c894fd94d311ddb679d2be4ff9f57955e9ea3868",
++    "tests/test_c15_p2m_pipeline.py": "416321f50c9b9a6ce42b0f149c046f670fcd687eb87827b0f3db197a72cd9b40",
++    "tests/test_c15_scene_reference.py": "27baf9034abb5ff8faa2cb420705df217f3509633d79153e1a5f7a72e7e312a7",
++    "tests/test_c15_t2_composition.py": "705e45baad40eebc811f0b5dd4c8b215d72e92a030e6cdfa147b510ee92cb9d0",
++    "tests/test_c15_t2_p2b_assembly.py": "940eca6926c046019288ee7d4f38574b5a3a2716f15622e34f93393a2f3fe163",
++    "tests/test_c15_t2_p2c_hypotheses.py": "4e591a5dc50a7d400a7bd9594e9e7dd1e363cc16521cbb073eca844429156679",
++    "tests/test_c15_t2_p2n_ontology.py": "5bd1dc472646e55cfbe1a205f6ef55de3eab8b8ca06dce990cd7293fba792fb3",
++    "tests/test_c15_t2_p2o_reconciliation.py": "3bac36c661a7c9a2210f583d2562dd850df6cc1bc3fd11d9e61341258310b297",
++    "tests/test_c15_t2_p2p_c07_bridge.py": "ca488f5b6d8854740e6ca925e70f0c74da88e9b229b1f511508b3119e8df73f0",
++    "tests/test_c15_t2_t3_structural_audit.py": "0af59d823570256dcba5894745849e00ad152b8ea7a14220d60c9ecc5d6d2caf",
++    "tests/test_c15_t3_p2b_ray_occupancy.py": "9b4f49a3f43f9432d11e86eaee0518b5e969b69b07542421fad915ae2dec2e61",
++    "tests/test_c15_t3_p2c_temporal_occupancy.py": "7950cbe5f9af8ee17a85e1f2c2e10aee430ddaff731a1a557ccc0ff5455e1dee",
++    "tests/test_c15_t3_p2q_calibrated_depth.py": "1940a6467c7a323b2d44c1e751129018a751304ac08d7fcf773dcb8a55bde6eb",
++    "tests/test_c15_t3_p2r_correlated_fusion.py": "cb30145915e60a1f0f1faac0bd08f820c8403b0582f4a160d1073016aaedc452",
++    "tests/test_c15_t3_p2s_temporal_consistency.py": "ac2fd45a527e5dccbc02fbe36596d9d0b5a394ed726737019f8cf504fd5f5e0f",
++    "tests/test_c15_t3_p2t_object_aware_volume.py": "dcbdecdcfec7ba213fa365231904f0d7d04fe55e366b7b5877c086da003a8d04",
++    "tests/test_c15_t3_p2u_dynamic_scene_mapping.py": "ca07e338a44c55ce51d16bc210b64300ea64f75bbe443cd40bf6563db5a70d5e",
++    "tests/test_c15_t3_p2v_dynamic_scene_robustness.py": "4d160fbf06a30632e456e19a323af8fba37e28f2c2c7e29a54ae0607dc805073",
++    "tests/test_c15_t3_p2w_map_lifecycle.py": "e70d1102aa8dc07880946f23e9dfa81cbd5ca04afe15de7c7dbc2ec181c30d6f",
++    "tests/test_c15_t3_volume.py": "eca31ceb547a3a81f2635c59894832fc65e09d307167634f9a7ca4a3725ac926",
++    "tests/test_calculator.py": "6891b0341d9f521923d9ba766060223d8a046d99adef325059cb93799c5ade58",
++    "tests/test_capability_results.py": "691e95a8673b8e7837cc54f53bb9760b76af4b666c2507173dc6c7b4970856f8",
++    "tests/test_ce_manifest.py": "d8564b32fc607912927ac94776c9128871ab60c81093cddbedd2afd69404c228",
++    "tests/test_core.py": "39185f9b4d3e5503ab533351d3654308c1524685d870a64569a66410f5cf03b1",
++    "tests/test_eval_protobuf.py": "832d0fc29c590de644cbcb53a7b4730247b24ceaeeb2668d288918c840e45496",
++    "tests/test_lu_ce_handoff.py": "fdd849cd1bbed311c84e6f45638c2535f41bb985944220b9a79d91a34942e481",
++    "tests/test_lu_ce_protobuf.py": "bffa002894033e41f6d60fe107c115b070f0061473987e0dd22ecce5702cf903",
++    "tests/test_lu_collector_receipt.py": "a98d1bfb8d5b6a752a4c10904673cb17ef802ebfc2c47a380ada96d346159c03",
++    "tests/test_protobuf_codec.py": "5958374e303441d3001d07d100df16a39ed7aece1117f70bbe821b8ad4fb29ce",
++    "tests/test_supervisor_acceptance.py": "7d988402190e2c8c20138233e971739d14cd027b38bd89d6f5809110ec79c837",
++    "tests/test_supervisor_conformance.py": "819facfd7292e67fcd24e4ad95390f8b966dcdb8b08706a2093cca9c31aafc3b",
++    "tests/test_tracing.py": "ec3106d48ff66a03d1602750aa674c1d8f134a8a965de3cf2eef42fd81eadbd8",
++    "tests/test_worker_wire.py": "5c3cb747a615553f5befd9b9e21c7f4e36b53d43b146891d9bb8935df301d1b1",
++    "tools/benchmark_c07_p3.py": "bd1135c2d0ecd34bdb26283e12b784d89b92babeda8a329931d4c48b76afe14e",
++    "tools/benchmark_c07_p6.py": "51b294f7cc081d2d01cfbaed8eadf384315f3cbfd48add682b6782c5d04f9f24",
++    "tools/benchmark_c07_p7.py": "67bae33e1b2aa9ce5a469425211ded9d75dd59c3723c29f31da7f52272d83172",
++    "tools/build_library_checkpoint.py": "e21a400cfd610eae77ec3fc5ccc498adf5ea0087095127e458381b112eb0d8d1",
++    "tools/c11_worker.py": "af0062a1ad693b8179fb8a6c25e3f46eb049b3cc007ca74a093d5ea28be87763",
++    "tools/c12_unified_worker.py": "4057658df3929b846ffdeed317e608a52b0096e8d5af0f6e72bf3710d0fa575a",
++    "tools/c14_p2b_footprint.py": "3dd753df570bf91582a67942cb1f71b7bb697a9ff3416df5173d860c4e40709d",
++    "tools/c14_p2b_wheelhouse_gate.py": "eea59a83631573935303960ef69b718ecab0819894e95d253178ecb75f727473",
++    "tools/c15_p2f_trackeval_probe.py": "d6c4f947f52ca0876e3cb3f1c052779948130ff9ac28f7c85b5132baeed1252e",
++    "tools/c15_real_annotation_pilot.py": "6bd316450ef9b092640a59e7ff5fd64fe1d2a76fb8009bb3f97f19f8ef2522cd",
++    "tools/c15_structural_audit_study.py": "c316ec74c0698cc97dd7c42171f102e94dcdd4f76f2e62765bb9418a4c797504",
++    "tools/c15_trackeval_legacy_numpy_compat.py": "73d0c6a09a165f899c0ae9f81e6c20479252822f8f4f7c5f33d77c02a26a48da",
++    "tools/c15_tracking_preflight.py": "f85c6d338c597bdc51246c012d25403a2835d3851c2f9d33ebb542a8d4230c0a",
++    "tools/check_proto_descriptors.py": "1d2d73def4675945ac6c6acce50062948d1fdbb8c380a844abaeb1a05ebf5a82",
++    "tools/emit_lu_ce_handoff.py": "c966d025651e9163bd912d21f9202dda78163cfc57cbcb73abe72fe8c1fbea2c",
++    "tools/inspect_c14_vendor_archives.py": "6c16e4088d1720cad7ede8758b74dda62a199a9dfedde7ddcb9308ed3094c20f",
++    "tools/prepare_g5_local_sources.py": "b96856485418b092b80533b0290e30bf151633d6946a9d3caec0309f1cb1b9b4",
++    "tools/probe_c14_uploaded_source_imports.py": "405740e5d580b851a5258836e3ddd1433474eb0f1ffc29f10a3edc7da180fbd0",
++    "tools/run_c03_smoke.py": "db79d8283d257b27d4de8d88d798ed0305de1bca3fc413ecd6e34d908ecd1a62",
++    "tools/run_c10_p2_smoke.py": "287493612e91f3f970f3a0e1d43222eb2c97e35a3b2070d6265a39b036df3dad",
++    "tools/run_c10_p3_smoke.py": "0585135ca5e13a826b0a694a74b13922e748b27e4a5004427544acb3a7b57ea5",
++    "tools/run_c10_smoke.py": "9a5cb7cdc40283b4571ad0277a1b457b11a27be41824caf38c3208eb5648e52c",
++    "tools/run_c11_p2_smoke.py": "5d667a0d898218c430be30d988b9b4fa9285488c0c2209b92ff6ec79bc1e83ab",
++    "tools/run_c11_p3_smoke.py": "e44b15d52dfab25348424c08c71f6061f3bf6df42599ba7479314323ade98f62",
++    "tools/run_c11_smoke.py": "f19ca6d4fd5e9b35deef20c2df058f4f08142ad6dfc1c788737af1f92bdbbbfe",
++    "tools/run_c12_p2_smoke.py": "3e46acaeeb09971f004778b7241d78b907eb663a700bd1407e21270592eeb5fc",
++    "tools/run_c12_p3_smoke.py": "ce13a3378e4edaecdc7d7fec717202a33fb25e366568d7bf51b05a3ff0c09569",
++    "tools/run_c12_p4_smoke.py": "5e237ed18ab887be935a9e27d4a7ab15871a40df65a302e64f3b2b2a678af85d",
++    "tools/run_c12_smoke.py": "30a3746d6c552538b4416c71695099d3c45d86f706af7d85fa9e971b16339546",
++    "tools/run_c13_p2_smoke.py": "d6b5a2062a336f2e893dc170759884182e396775dc08fac1dc5f7e0b18bf8e6e",
++    "tools/run_c13_p3_smoke.py": "58ca0f66f5a4cc18b52a06a826a4af55a44e4f5ea2008885f530e6ab59d24c33",
++    "tools/run_c13_p4_smoke.py": "fef4ae794dfcba44e65408ef99f879950f296367269b91e0c62847a99848d468",
++    "tools/run_c13_smoke.py": "fc33afb0804575d62db1c20133f305b517c7f52766d99adfe733c0fb49102430",
++    "tools/run_c14_estimation_smoke.py": "927f904b7807e26dec09df633a423b4e1bb4793bb1509911a9dfef23d9bc462f",
++    "tools/run_c14_p3d_smoke.py": "db77d4572ca2edcbdf4919e15b9c2481fe502466e4d7e2cce2ec05c08c7e1c79",
++    "tools/run_c14_p3ef_p4a_smoke.py": "0cd766f00555a48624dde1e2ed5fc9f3c309dfaaee04a54e10bbd7cc39bec1e7",
++    "tools/run_c14_p4b_smoke.py": "0ac28e9d4195605195577822284aa07da79917b39bd1a3bfd768ca92008dc5f4",
++    "tools/run_c14_p4c_smoke.py": "cdfdadccdab54fdf71add882a0b614321d12d05753a95aea9897a51030428331",
++    "tools/run_c14_p4d_smoke.py": "8a7e150eb1ceb20316989450642b8e465cd62ca0e7294fda07b4b95de70e9f95",
++    "tools/run_c14_p4e_g10_evidence.py": "d64ec75c1efb40259daea70d6445802a8b797ad7064de6e5198097c23b5a7cc6",
++    "tools/run_c14_p4e_g10_smoke.py": "fee08128f4b18cd57a148f3a5e5c69876211e0490447af8f20208f1c7c557186",
++    "tools/run_c14_p4e_g11_holdout.py": "4998343b656ddb0ead2c40e4c9cfa262fe510432b659457beb2df54a1d4dfaa2",
++    "tools/run_c14_p4e_g11_smoke.py": "852a54d159358cc7b2eefc69f99786608de652436147961adaacfa4b438daf0d",
++    "tools/run_c14_p4e_g11_verify_report.py": "2fb7300b1d925cb8aaf762e3a9ba37cf41e27b40060fe97bbba9e8a24d4455c7",
++    "tools/run_c14_p4e_g12_adversarial.py": "c7a1dbf27c233274f17f0f714e0f3d433390138c506047af00b99e9c87fdc27d",
++    "tools/run_c14_p4e_g12_smoke.py": "e4e6bf3734c2e73a264e1fdb6c1c70d9edd12ec547def3d175892ef03a69fcfb",
++    "tools/run_c14_p4e_g12_verify_report.py": "620c5d932860d9d5179db01df2e3f97cf04808258d751a897b06b17b019a9331",
++    "tools/run_c14_p4e_g13_acceptance.py": "8d24c636d38c96f6308961ad49c9eceb20815b15e20bc112d19cf258dfcc2753",
++    "tools/run_c14_p4e_g13_verify_report.py": "4e566e9b1640c9efd90a18fe115050832517b521f355e2fb62f807527b7bf1d2",
++    "tools/run_c14_p4e_g14_audit.py": "57ab1534f336c481e44ae2b0e83acd3fe0aaf8b652c3beff93f808d86e4ddfa1",
++    "tools/run_c14_p4e_g14_real_worker_smoke.py": "794ae226c941e8e6cbf9c7090adbf8d98006b69fc2c0f9d3c12b7bbba9901e50",
++    "tools/run_c14_p4e_g15_llm_caller_eval.py": "33f2d2ff4c2d9766c1b2ad472df4d5af2cf57f1f8d98a2b4e81da38c22bb2497",
++    "tools/run_c14_p4e_g3_ground_truth.py": "ea0d0bb83c079b3412f8795012e30c4fe6287eefe45a81478bfac5c7e0f82be0",
++    "tools/run_c14_p4e_g5_smoke.py": "2b541ebe299ba379c7310c5d0a66ce52d59c37ff2e0140a53b85e3bfe39e2fbd",
++    "tools/run_c14_p4e_g6_crosslibrary.py": "c82761857900e37b97a1780191d27c04eacc83a7c788e1f999507fe436885c43",
++    "tools/run_c14_p4e_g7_smoke.py": "830faaeb6194815fe5d52225ca833adc1b1cb0770c58bd62611184bf2c77270f",
++    "tools/run_c14_p4e_g7_study.py": "042d90ff7da827867bdfe82aa7f1dadf8e08b52d22f903986591c49bbef89d64",
++    "tools/run_c14_p4e_g8_crosslibrary_intervals.py": "9956067fa5219fd23788e9b915ff96b50492c58a6986f5e3e0fb4b7e424fc368",
++    "tools/run_c14_p4e_g8_smoke.py": "3c3e223af78d864c377e1c9f2a85017d1e2e13b70e4c961b6ddb9ba0d79544d8",
++    "tools/run_c14_p4e_g8_uncertainty.py": "861ba1d225b03aa8290476fb06000893ee0a7de2244572e7df8a20b61084c1c3",
++    "tools/run_c14_p4e_g9_interval_comparison.py": "f13b3988cadc81dbcc00639c6e378404b87c2256b224a8821be69aa513e5750f",
++    "tools/run_c14_p4e_g9_nuisance_sensitivity.py": "100f58584633b235f56ce6784c1deea55cd835d9f8583aafae2bba5a6b00198d",
++    "tools/run_c14_p4e_g9_smoke.py": "c2db88779f3e8600ce3a20c75e2c99786ccb415649377e0d5700c73e378553ec",
++    "tools/run_c14_p4e_smoke.py": "8ac5c7266ff569ff87954b409f64dc3251d8368a6192860b4ef3d231542acdb4",
++    "tools/run_c14_smoke.py": "2951f0ee1d3ca8df8d3a7c4fc9d8037b8dab3154533eae1f6e3e0201f62a1d79",
++    "tools/run_c15_p2b_association_study.py": "061fb81b25d3edb335917d0db7a4f4fa13f1d3b359592fddbb4e4da7b4e03500",
++    "tools/run_c15_p2c_temporal_study.py": "d75f33989968548942271c64e65ad017cd0a511ae1b680948178c05730bb7aa3",
++    "tools/run_c15_p2g_gate.py": "cea50abf68f092ffc13a6c47e390559e3c4a92d2186643287636502c44346817",
++    "tools/run_c15_p2h_gate.py": "cdbec0f435e3c33c8a0ed0389fb19a6c38d68722008c4cbd9e9144f88e2f143f",
++    "tools/run_c15_p2j_matched_identity.py": "fa3db7ce91ad3bcde03cc49ce009f40b4cf73de9ebca210366e77b44976e01c8",
++    "tools/run_c15_p2k_challenge.py": "cf8bbaff23daa1025acb8d966253593ef1e1d2220a6bdabcc9f8f8e814bf7a8d",
++    "tools/run_c15_p2l_frame_study.py": "4090ffafd4b3efb9122d0f3bc2f3a2d55de26bbf93c915a112321ae376a0df8c",
++    "tools/run_c15_p2l_synthetic_study.py": "7a215c7031b5e232e0d834c4d69581f480b3d148efba65e9cfbacea043aa1538",
++    "tools/run_c15_p2m_interface_smoke.py": "86a2356dc5fdbb485bf70648498f18142a5590b503dc8966109799deb9898b5d",
++    "tools/run_c15_p2n_t2_ontology.py": "67274a9a052ccf4c43f3a4f22d256242860c26d43bfd4f9415f4042414808872",
++    "tools/run_c15_p2o_t2_reconciliation.py": "5b709243cb07c5e7b28afbfd80551ac103e19b1b5dc1bf65b01f1d4395607bfb",
++    "tools/run_c15_p2p_t2_c07_demo.py": "d86deec0ec80df6f9080996ad79564c6cf6f1dfec0363a986d4fb5a1d1b0a213",
++    "tools/run_c15_scene_smoke.py": "d085f6631f17fbedd550f3704a368e186dbcb25872e9599f9689ed837a1a8f3a",
++    "tools/run_c15_t2_t3_p2b_study.py": "b08df99a2d48cf70916436acd1d30a86929909cd572f781761a48e306c6ddc61",
++    "tools/run_c15_t2_t3_p2c_study.py": "3efd6da58181e3ccb38e0df1271878e9dfb9589f1549be6d4d282dc07facf161",
++    "tools/run_c15_t3_p2q_demo.py": "6425bd2525bffb4d2409535932ad716a5082776ad262a9aff988700f4a41f5ae",
++    "tools/run_c15_t3_p2r_demo.py": "b4d0e16a186fa6522977fe2cd2d10360a5cf06e45106570d0123b5acf1354431",
++    "tools/run_c15_t3_p2s_demo.py": "096be8c6cd9795eb667afde66899b99a6f1fac8e7e1e36dc28868247fc5bb6db",
++    "tools/run_c15_t3_p2t_demo.py": "a16ba8c809f049e6fcb42b68422a8378d0288a8b220749b68bd6417686a3323b",
++    "tools/run_c15_t3_p2u_demo.py": "815fbf735565bf1a8bfc6d2178fca208a5fd8b1426dfaf88499b7fb24c80ebb3",
++    "tools/run_c15_t3_p2v_demo.py": "e15c50d19805b60fb8bad7abe92f14b9c702a905f3eed20d25873b27e4a9f5f9",
++    "tools/run_c15_t3_p2w_profile.py": "0f4c2d7f188ac9751f5becadabc5c5640fa0c3fa7d6eef43e2d1d6427ad4afe6",
++    "tools/verify_protobuf_schemas.py": "353562925c09dea11e9ce4a806334711d0b50fd26abac869ad8b2abc37a0eebf"
++  }
++}
