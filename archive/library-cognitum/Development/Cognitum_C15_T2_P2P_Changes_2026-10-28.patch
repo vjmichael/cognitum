@@ -1,0 +1,1066 @@
+--- a/README.md
++++ b/README.md
+@@ -349,3 +349,9 @@
+ Results are **not** cross-domain calibration certificates, trusted host
+ admission, validated data-shift detection in real deployments, or Windows
+ sandbox evidence. Synthetic domain declarations are not security attestation.
++
++## Latest C15 T2 P2P checkpoint
++
++See `P2P_START_HERE.md`: C07 event-provenance association for the existing P2O
++structural hypothesis journal. Offline/mock-host test only. No Lu/ANSF write
++route, no authority promotion, no cross-conversation evidence import.
+--- a/tools/check_proto_descriptors.py
++++ b/tools/check_proto_descriptors.py
+@@ -11,7 +11,7 @@
+ import sys
+ 
+ from google.protobuf.descriptor_pb2 import FileDescriptorProto, FileDescriptorSet
+-from cognitum.proto import capability_pb2, ce_handoff_pb2, worker_pb2, supervisor_acceptance_pb2, evaluation_pb2, benchmark_pb2, collector_pb2, specialists_pb2, memory_pb2, state_pb2, interpretation_pb2, formal_pb2, formal_backend_pb2, formal_advanced_pb2, optimization_pb2, workflows_pb2, optimization_runtime_pb2, planning_pb2, planning_engines_pb2, planning_stochastic_pb2, planning_structured_pb2, planning_guidance_pb2, probability_pb2, probability_backend_pb2, probability_continuous_pb2, probability_conjugate_pb2, probability_diagnostics_pb2, causal_pb2, causal_estimation_pb2, causal_dowhy_pb2, causal_heterogeneity_pb2, causal_discovery_pb2, causal_mature_pb2, causal_validation_pb2, causal_stability_pb2, causal_ambiguity_pb2, causal_temporal_pb2, causal_temporal_scm_pb2, causal_temporal_diagnostics_pb2, causal_temporal_advanced_pb2, causal_temporal_discovery_pb2, causal_uncertainty_pb2, causal_interval_comparison_pb2, causal_assurance_policy_pb2, causal_holdout_assurance_pb2, causal_adversarial_assurance_pb2, causal_integrated_assurance_pb2, causal_genuine_worker_assurance_pb2, causal_llm_caller_evaluation_pb2, spatial_scene_pb2, spatial_appearance_pipeline_pb2, spatial_structural_reconciliation_pb2, spatial_ontology_subset_pb2, spatial_identity_pb2, spatial_temporal_pb2, spatial_composition_pb2, spatial_volume_pb2, spatial_appearance_pb2, spatial_structural_audit_pb2, assembly_pb2, ray_occupancy_pb2, structural_hypotheses_pb2, temporal_occupancy_pb2, benchmark_observation_pb2
++from cognitum.proto import capability_pb2, ce_handoff_pb2, worker_pb2, supervisor_acceptance_pb2, evaluation_pb2, benchmark_pb2, collector_pb2, specialists_pb2, memory_pb2, state_pb2, interpretation_pb2, formal_pb2, formal_backend_pb2, formal_advanced_pb2, optimization_pb2, workflows_pb2, optimization_runtime_pb2, planning_pb2, planning_engines_pb2, planning_stochastic_pb2, planning_structured_pb2, planning_guidance_pb2, probability_pb2, probability_backend_pb2, probability_continuous_pb2, probability_conjugate_pb2, probability_diagnostics_pb2, causal_pb2, causal_estimation_pb2, causal_dowhy_pb2, causal_heterogeneity_pb2, causal_discovery_pb2, causal_mature_pb2, causal_validation_pb2, causal_stability_pb2, causal_ambiguity_pb2, causal_temporal_pb2, causal_temporal_scm_pb2, causal_temporal_diagnostics_pb2, causal_temporal_advanced_pb2, causal_temporal_discovery_pb2, causal_uncertainty_pb2, causal_interval_comparison_pb2, causal_assurance_policy_pb2, causal_holdout_assurance_pb2, causal_adversarial_assurance_pb2, causal_integrated_assurance_pb2, causal_genuine_worker_assurance_pb2, causal_llm_caller_evaluation_pb2, spatial_scene_pb2, spatial_appearance_pipeline_pb2, spatial_structural_reconciliation_pb2, spatial_structural_c07_bridge_pb2, spatial_ontology_subset_pb2, spatial_identity_pb2, spatial_temporal_pb2, spatial_composition_pb2, spatial_volume_pb2, spatial_appearance_pb2, spatial_structural_audit_pb2, assembly_pb2, ray_occupancy_pb2, structural_hypotheses_pb2, temporal_occupancy_pb2, benchmark_observation_pb2
+ 
+ EXPECTED = {
+     "cognitum/v1/capability.proto": capability_pb2.DESCRIPTOR,
+@@ -64,6 +64,7 @@
+     "cognitum/causal/v1/genuine_worker_assurance.proto": causal_genuine_worker_assurance_pb2.DESCRIPTOR,
+     "cognitum/causal/v1/llm_caller_evaluation.proto": causal_llm_caller_evaluation_pb2.DESCRIPTOR,
+     "cognitum/spatial/v1/structural_reconciliation.proto": spatial_structural_reconciliation_pb2.DESCRIPTOR,
++    "cognitum/spatial/v1/structural_c07_bridge.proto": spatial_structural_c07_bridge_pb2.DESCRIPTOR,
+     "cognitum/spatial/v1/ontology_subset.proto": spatial_ontology_subset_pb2.DESCRIPTOR,
+     "cognitum/spatial/v1/scene.proto": spatial_scene_pb2.DESCRIPTOR,
+     "cognitum/spatial/v1/appearance_pipeline.proto": spatial_appearance_pipeline_pb2.DESCRIPTOR,
+--- /dev/null
++++ b/proto/cognitum/spatial/v1/structural_c07_bridge.proto
+@@ -0,0 +1,49 @@
++syntax = "proto3";
++package cognitum.spatial.v1;
++import "cognitum/spatial/v1/structural_reconciliation.proto";
++// C15 T2 P2P: read-only C07 provenance reconciliation. Caller bytes are NOT grants.
++// Host must verify source ownership, event admission and current revision under a held lease.
++message T2C07BridgeRequest {
++  uint32 schema_version = 1;
++  T2ReconciliationRequest structural_request = 2;
++  repeated bytes c07_event_frames = 3; // canonical C07 StateEvent wire frames in journal order
++  bool research_only = 4;
++  bool grants_authority = 5;
++}
++message T2C07EventFinding {
++  string event_id = 1;
++  string candidate_id = 2;
++  string claim_id = 3;
++  uint32 c07_action = 4;
++  uint32 c07_origin = 5;
++  uint32 c07_uncertainty = 6;
++  uint32 c07_status_after = 7;
++  uint64 c07_revision_after = 8;
++  bytes c07_source_sha256 = 9; // digest of reference, not verification/signature
++}
++message T2C07ClaimFinding {
++  string candidate_id = 1;
++  string claim_id = 2;
++  string structural_status = 3; // ACTIVE or RETRACTED
++  uint32 c07_status = 4;
++  uint32 c07_origin = 5;
++  uint32 c07_uncertainty = 6;
++  string c07_uncertainty_note = 7;
++  uint64 c07_revision = 8;
++  string latest_c07_event_id = 9;
++  bool requires_review = 10;
++  bytes c07_source_sha256 = 11;
++}
++message T2C07BridgeResult {
++  uint32 schema_version = 1;
++  string conversation_id = 2;
++  bytes request_sha256 = 3;
++  bytes c07_projection_sha256 = 4;
++  T2ReconciliationResult structural_result = 5;
++  repeated T2C07EventFinding events = 6;
++  repeated T2C07ClaimFinding claims = 7;
++  repeated string warnings = 8;
++  bool research_only = 9;
++  bool grants_authority = 10;
++  bool requires_review = 11;
++}
+--- /dev/null
++++ b/cognitum/proto/spatial_structural_c07_bridge_pb2.py
+@@ -0,0 +1,7 @@
++"""Compiler-derived C15 T2 P2P C07 structural evidence bridge."""
++from cognitum.proto import spatial_structural_reconciliation_pb2 as _recon
++from google.protobuf import descriptor_pool as pool
++from google.protobuf.internal import builder
++DESCRIPTOR = pool.Default().AddSerializedFile(bytes.fromhex('0a2f636f676e6974756d2f7370617469616c2f76312f7374727563747572616c5f6330375f6272696467652e70726f746f1213636f676e6974756d2e7370617469616c2e76311a33636f676e6974756d2f7370617469616c2f76312f7374727563747572616c5f7265636f6e63696c696174696f6e2e70726f746f2292020a1254324330374272696467655265717565737412250a0e736368656d615f76657273696f6e18012001280d520d736368656d6156657273696f6e125b0a127374727563747572616c5f7265717565737418022001280b322c2e636f676e6974756d2e7370617469616c2e76312e54325265636f6e63696c696174696f6e5265717565737452117374727563747572616c5265717565737412280a106330375f6576656e745f6672616d657318032003280c520e6330374576656e744672616d657312230a0d72657365617263685f6f6e6c79180420012808520c72657365617263684f6e6c7912290a106772616e74735f617574686f72697479180520012808520f6772616e7473417574686f7269747922d7020a1154324330374576656e7446696e64696e6712190a086576656e745f696418012001280952076576656e74496412210a0c63616e6469646174655f6964180220012809520b63616e646964617465496412190a08636c61696d5f69641803200128095207636c61696d4964121d0a0a6330375f616374696f6e18042001280d5209633037416374696f6e121d0a0a6330375f6f726967696e18052001280d52096330374f726967696e12270a0f6330375f756e6365727461696e747918062001280d520e633037556e6365727461696e747912280a106330375f7374617475735f616674657218072001280d520e6330375374617475734166746572122c0a126330375f7265766973696f6e5f616674657218082001280452106330375265766973696f6e4166746572122a0a116330375f736f757263655f73686132353618092001280c520f633037536f7572636553686132353622be030a115432433037436c61696d46696e64696e6712210a0c63616e6469646174655f6964180120012809520b63616e646964617465496412190a08636c61696d5f69641802200128095207636c61696d4964122b0a117374727563747572616c5f73746174757318032001280952107374727563747572616c537461747573121d0a0a6330375f73746174757318042001280d5209633037537461747573121d0a0a6330375f6f726967696e18052001280d52096330374f726967696e12270a0f6330375f756e6365727461696e747918062001280d520e633037556e6365727461696e747912300a146330375f756e6365727461696e74795f6e6f74651807200128095212633037556e6365727461696e74794e6f746512210a0c6330375f7265766973696f6e180820012804520b6330375265766973696f6e122d0a136c61746573745f6330375f6576656e745f696418092001280952106c61746573744330374576656e74496412270a0f72657175697265735f726576696577180a20012808520e7265717569726573526576696577122a0a116330375f736f757263655f736861323536180b2001280c520f633037536f7572636553686132353622ad040a115432433037427269646765526573756c7412250a0e736368656d615f76657273696f6e18012001280d520d736368656d6156657273696f6e12270a0f636f6e766572736174696f6e5f6964180220012809520e636f6e766572736174696f6e496412250a0e726571756573745f73686132353618032001280c520d7265717565737453686132353612320a156330375f70726f6a656374696f6e5f73686132353618042001280c521363303750726f6a656374696f6e53686132353612580a117374727563747572616c5f726573756c7418052001280b322b2e636f676e6974756d2e7370617469616c2e76312e54325265636f6e63696c696174696f6e526573756c7452107374727563747572616c526573756c74123e0a066576656e747318062003280b32262e636f676e6974756d2e7370617469616c2e76312e54324330374576656e7446696e64696e6752066576656e7473123e0a06636c61696d7318072003280b32262e636f676e6974756d2e7370617469616c2e76312e5432433037436c61696d46696e64696e675206636c61696d73121a0a087761726e696e677318082003280952087761726e696e677312230a0d72657365617263685f6f6e6c79180920012808520c72657365617263684f6e6c7912290a106772616e74735f617574686f72697479180a20012808520f6772616e7473417574686f7269747912270a0f72657175697265735f726576696577180b20012808520e7265717569726573526576696577620670726f746f33'))
++builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
++builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'cognitum.proto.spatial_structural_c07_bridge_pb2', globals())
+--- /dev/null
++++ b/cognitum/spatial_structural_c07_bridge.py
+@@ -0,0 +1,214 @@
++"""C15 T2 P2P: read-only structural ↔ C07 event reconciliation.
++
++The supplied frames are NOT authenticated. Only Lu's trusted host can create,
++hold and enforce the source/event/binding lease. A Python fake lease is useful
++for tests, not a production security boundary. Neither this code nor its output
++writes an ANSF/C07 journal, authenticates evidence, or grants tool authority.
++"""
++from __future__ import annotations
++
++from hashlib import sha256
++from typing import Callable, Protocol, TypeVar
++
++from cognitum.proto import spatial_structural_c07_bridge_pb2 as pb
++from cognitum.proto import state_pb2 as state
++from cognitum import spatial_structural_reconciliation as structural
++from cognitum import spatial_ontology_subset as ontology
++from cognitum.state_host_gate import HostStateLease, require_host_pass
++from cognitum.state_revision import (
++    StateLedger, StateInvalid, StateConflict, canonical_event,
++)
++
++T = TypeVar('T')
++MAX_FRAME_COUNT = 512
++MAX_REQUEST_BYTES = 1_400_000
++PREFIX = 'spatial.'
++
++
++class T2C07Rejected(ValueError):
++    """Invalid or mismatched structural/C07 evidence. No partial disclosure."""
++
++
++class HostT2C07Lease(HostStateLease, Protocol):
++    def bind_structural_event(self, scope_id: str, t2_event, c07_event: state.StateEvent) -> bool:
++        """Host verifies source ownership and exact intent, not just caller IDs."""
++
++
++def _digest(msg):
++    return sha256(msg.SerializeToString(deterministic=True)).digest()
++
++
++def _source_digest(source):
++    return _digest(source)
++
++
++def _claim_id(event):
++    op = event.WhichOneof('change')
++    return (event.retract.claim_id if op == 'retract' else
++            event.add_type.claim_id if op == 'add_type' else event.add_edge.claim_id)
++
++
++def _payload(event):
++    op = event.WhichOneof('change')
++    return (event.add_type.claim if op == 'add_type' else event.add_edge.edge)
++
++
++def _preflight(req):
++    if not (isinstance(req, pb.T2C07BridgeRequest) and ontology._known(req) and
++            req.schema_version == 1 and req.research_only and not req.grants_authority and
++            req.HasField('structural_request') and req.ByteSize() <= MAX_REQUEST_BYTES and
++            1 <= len(req.c07_event_frames) <= MAX_FRAME_COUNT):
++        raise T2C07Rejected('INVALID_P2P_REQUEST')
++    try:
++        candidates, grouped = structural._preflight(req.structural_request)
++    except structural.ReconciliationRejected as exc:
++        raise T2C07Rejected('INVALID_STRUCTURAL_REQUEST') from exc
++    event_map = {}
++    claim_owners = {}
++    for candidate, sequence in grouped.items():
++        for event in sequence:
++            cid = _claim_id(event)
++            if len(PREFIX + cid) > 128:
++                raise T2C07Rejected('CLAIM_IDENTIFIER_TOO_LONG_FOR_C07')
++            if event.WhichOneof('change') != 'retract':
++                # C07 has a scope-wide claim ID space; P2O IDs were candidate-local.
++                if cid in claim_owners:
++                    raise T2C07Rejected('C07_GLOBAL_CLAIM_ID_COLLISION')
++                claim_owners[cid] = candidate
++            elif claim_owners.get(cid) != candidate:
++                raise T2C07Rejected('P2O_RETRACTION_WITHOUT_ADD')
++            event_map[event.event_id] = event
++    # P2O event list may interleave candidates; _preflight preserves per-candidate order.
++    return event_map, claim_owners
++
++
++def publish_host_fenced(req: pb.T2C07BridgeRequest,
++                        lease: HostT2C07Lease,
++                        publish: Callable[[bytes], T]) -> T:
++    """Produce C07-linked P2O audit only inside a host-held read lease.
++
++    The host *must* hold the external lease until the synchronous publish returns,
++    and synchronize source deletion/revocation with publication. This callback
++    interface itself is not authority, and is not callable by models/plugins.
++    """
++    event_map, owners = _preflight(req)
++    frozen = req.SerializeToString(deterministic=True)
++    structural_request = req.structural_request
++    scope = structural_request.conversation_id
++    require_host_pass(lease.ensure_active)
++    ledger = StateLedger(scope)
++    linked = {}
++    seen_p2o = set()
++    seen_c07_ids = set()
++    per_candidate_seq = {}
++    event_annotations = []
++    for frame in req.c07_event_frames:
++        try:
++            event = canonical_event(frame)
++        except StateInvalid as exc:
++            raise T2C07Rejected('INVALID_CANONICAL_C07_EVENT') from exc
++        if event.scope_id != scope or event.event_id in seen_c07_ids:
++            raise T2C07Rejected('C07_SCOPE_OR_DUPLICATE_EVENT')
++        seen_c07_ids.add(event.event_id)
++        if event.claim_id not in owners:
++            raise T2C07Rejected('UNRELATED_C07_CLAIM')
++        owner = owners[event.claim_id]
++        if (event.subject_id != owner or event.predicate != PREFIX + event.claim_id
++                or event.value_kind != state.TEXT):
++            raise T2C07Rejected('C07_CLAIM_IDENTITY_MISMATCH')
++        matched = event_map.get(event.event_id)
++        if matched is not None:
++            if matched.candidate_id != owner or _claim_id(matched) != event.claim_id:
++                raise T2C07Rejected('EVENT_BINDING_MISMATCH')
++            if matched.sequence != per_candidate_seq.get(owner, 0) + 1:
++                raise T2C07Rejected('STRUCTURAL_REVISION_ORDER_MISMATCH')
++            per_candidate_seq[owner] = matched.sequence
++            op = matched.WhichOneof('change')
++            if op == 'retract':
++                if event.action != state.RETRACT or event.claim_id not in linked:
++                    raise T2C07Rejected('RETRACTION_BINDING_MISMATCH')
++                value = linked[event.claim_id][0]
++            else:
++                if event.action != state.ASSERT or event.claim_id in linked:
++                    raise T2C07Rejected('ADDITION_BINDING_MISMATCH')
++                value = _digest(_payload(matched)).hex()
++            if event.value_text != value:
++                raise T2C07Rejected('STRUCTURAL_CONTENT_HASH_MISMATCH')
++            # An explicit trusted-host binding must cover P2O source and C07 source.
++            require_host_pass(lease.bind_structural_event, scope, matched, event)
++            if matched.SerializeToString(deterministic=True) != (
++                    event_map[matched.event_id].SerializeToString(deterministic=True)):
++                raise T2C07Rejected('MUTATED_STRUCTURAL_EVENT')
++            linked[event.claim_id] = (value, owner, op)
++            seen_p2o.add(event.event_id)
++        else:
++            if event.claim_id not in linked or event.action not in (
++                    state.CHALLENGE, state.CONFIRM, state.EXPIRE, state.TEMPORAL_CORRECT):
++                raise T2C07Rejected('UNMAPPED_C07_MUTATION')
++            if event.value_text != linked[event.claim_id][0]:
++                raise T2C07Rejected('UNMAPPED_C07_CONTENT_CHANGE')
++        require_host_pass(lease.admit_event, scope, event)
++        require_host_pass(lease.verify_source, scope, event.source, False)
++        if event.SerializeToString(deterministic=True) != frame:
++            raise T2C07Rejected('MUTATED_C07_EVENT')
++        try:
++            ledger.apply(event)
++        except (StateInvalid, StateConflict) as exc:
++            raise T2C07Rejected('INVALID_C07_STATE_TRANSITION') from exc
++        if matched is not None:
++            view = next((c for c in ledger.projection().claims if c.claim_id == event.claim_id), None)
++            if view is None:
++                raise T2C07Rejected('C07_CLAIM_MISSING')
++            event_annotations.append((matched, event, state.ClaimView.FromString(
++                view.SerializeToString(deterministic=True))))
++    if seen_p2o != set(event_map):
++        raise T2C07Rejected('MISSING_P2O_C07_EVENT_BINDING')
++    # Verify each CURRENT source under the SAME held lease, not only history.
++    projection = ledger.projection()
++    for claim in projection.claims:
++        if claim.status in (state.ACTIVE, state.DISPUTED):
++            require_host_pass(lease.verify_source, scope, claim.source, True)
++    if req.SerializeToString(deterministic=True) != frozen:
++        raise T2C07Rejected('MUTATED_BRIDGE_REQUEST')
++    try:
++        sr = structural.reconcile(structural_request)
++    except structural.ReconciliationRejected as exc:
++        raise T2C07Rejected('INVALID_P2O_REPLAY') from exc
++    out = pb.T2C07BridgeResult(
++        schema_version=1, conversation_id=scope,
++        request_sha256=sha256(frozen).digest(),
++        c07_projection_sha256=_digest(projection), research_only=True)
++    out.structural_result.CopyFrom(sr)
++    for st, c07, view in event_annotations:
++        out.events.add(event_id=st.event_id, candidate_id=st.candidate_id,
++                       claim_id=c07.claim_id, c07_action=c07.action,
++                       c07_origin=view.origin, c07_uncertainty=view.uncertainty_kind,
++                       c07_status_after=view.status, c07_revision_after=view.revision,
++                       c07_source_sha256=_source_digest(c07.source))
++    active_by_candidate = {c.candidate_id: set(c.active_claim_ids) for c in sr.candidates}
++    for c in sorted(projection.claims, key=lambda x: x.claim_id):
++        structural_status = ('ACTIVE' if c.claim_id in active_by_candidate[owners[c.claim_id]]
++                             else 'RETRACTED')
++        review = (c.status != state.ACTIVE if structural_status == 'ACTIVE'
++                  else c.status != state.RETRACTED)
++        review = review or c.origin in (state.MODEL_HYPOTHESIS, state.IMPORT_OBSERVED) or (
++            c.uncertainty_kind != state.UNCERTAINTY_UNSPECIFIED)
++        out.claims.add(candidate_id=owners[c.claim_id], claim_id=c.claim_id,
++                       structural_status=structural_status, c07_status=c.status,
++                       c07_origin=c.origin, c07_uncertainty=c.uncertainty_kind,
++                       c07_uncertainty_note=c.uncertainty_note,
++                       c07_revision=c.revision, latest_c07_event_id=c.latest_event_id,
++                       requires_review=review, c07_source_sha256=_source_digest(c.source))
++        out.requires_review |= review
++    out.warnings.extend([
++        'HOST_VERIFICATION_IS_EXTERNAL_NEVER_INFERRED_FROM_C07_OR_P2O_LABELS',
++        'C07_CLAIM_STATUS_DOES_NOT_PROMOTE_STRUCTURAL_HYPOTHESES_TO_FACTS',
++        'DISPUTED_OR_EXPIRED_EVIDENCE_REQUIRES_REVIEW_NO_SILENT_RETRACTION',
++        'NO_CROSS_CONVERSATION_EVIDENCE_IMPORT_IN_P2P_V1',
++        'NO_CANONICAL_STATE_WRITES_NO_AUTOMATIC_HYPOTHESIS_WINNER',
++        'SOURCE_SHA256_RECEIPTS_ARE_NOT_SIGNATURES',
++    ])
++    require_host_pass(lease.ensure_active)
++    if req.SerializeToString(deterministic=True) != frozen:
++        raise T2C07Rejected('MUTATED_BRIDGE_REQUEST')
++    return publish(out.SerializeToString(deterministic=True))
+--- /dev/null
++++ b/tests/test_c15_t2_p2p_c07_bridge.py
+@@ -0,0 +1,303 @@
++"""C15 T2 P2P: read-only C07 integration, adversarial provenance and replay."""
++import copy
++import hashlib
++import pytest
++from cognitum.proto import spatial_structural_c07_bridge_pb2 as bridge_pb
++from cognitum.proto import spatial_composition_pb2 as sg
++from cognitum.proto import spatial_ontology_subset_pb2 as ont
++from cognitum.proto import state_pb2 as sp
++from cognitum import spatial_structural_c07_bridge as bridge
++from cognitum.state_host_gate import SourceUnavailable
++
++
++def req_fixture():
++    outer = bridge_pb.T2C07BridgeRequest(schema_version=1, research_only=True)
++    p = outer.structural_request
++    p.schema_version = 1;p.conversation_id = 'c1';p.research_only = True
++    template = p.ontology_template
++    template.schema_version = 1;template.conversation_id = 'c1';template.research_only=True
++    template.graph.schema_version=1;template.graph.graph_id='graph';template.graph.conversation_id='c1';template.graph.research_only=True
++    template.graph.nodes.add(node_id='node',kind='component',evidence=sg.EVIDENCE_INFERRED,source_ref='node-source')
++    for ident, parents in [('Entity',[]),('Solid',['Entity']),('Void',['Entity'])]:
++        template.classes.add(class_id=ident,parent_class_ids=parents,source_ref='taxonomy')
++    template.disjoints.add(first_class_id='Solid',second_class_id='Void',source_ref='disjoint')
++    p.candidates.add(candidate_id='branchA',explanation='One structural interpretation')
++    for index, label in enumerate(['Solid','Void']):
++        e=p.events.add(event_id=f'ev{index+1}',candidate_id='branchA',sequence=index+1,
++                       source_ref='untrustedP2OSource',rationale='A sourced, reviewable alternative')
++        e.add_type.claim_id=f'claim{index+1}'
++        e.add_type.claim.CopyFrom(ont.OntologyTypeClaim(node_id='node',class_id=label,
++                  evidence=sg.EVIDENCE_INFERRED,source_ref='untrustedType'))
++    e=p.events.add(event_id='ev3',candidate_id='branchA',sequence=3,
++                   source_ref='untrustedP2OSource',rationale='Retire the disputed alternative')
++    e.retract.claim_id='claim2'
++    return outer
++
++
++def state_events(req, *, disputed=False, uncertainty=False):
++    events=[]
++    def make(t2, action, value, rev=0, origin=sp.USER_VERIFIED, name=None, time=1):
++        e=sp.StateEvent(schema_version=1,event_id=name or t2.event_id,scope_id='c1',
++             claim_id=bridge._claim_id(t2),subject_id=t2.candidate_id,
++             predicate=bridge.PREFIX+bridge._claim_id(t2),value_kind=sp.TEXT,value_text=value,
++             origin=origin,action=action,expected_revision=rev,
++             recorded_at_ms=time,effective_at_ms=time,
++             source=sp.SourceEvidence(session_id='c1',root_entry_id='1',revision_entry_id='2',
++                   content_sha256='a'*64,snapshot_id='snap'))
++        return e
++    a,b,c=req.structural_request.events[:3]
++    ha=bridge._digest(a.add_type.claim).hex()
++    hb=bridge._digest(b.add_type.claim).hex()
++    e=make(a,sp.ASSERT,ha,time=1000,
++           origin=sp.MODEL_HYPOTHESIS if uncertainty else sp.USER_VERIFIED)
++    if uncertainty:
++        e.uncertainty_kind=sp.EXPLICITLY_UNCERTAIN
++        e.uncertainty_note='Classification uncertain; confirm by independent evidence'
++    events.append(e)
++    if disputed:
++        events.append(make(a,sp.CHALLENGE,ha,1,sp.MODEL_HYPOTHESIS,'challengeA',1500))
++    events.append(make(b,sp.ASSERT,hb,time=2000))
++    events.append(make(c,sp.RETRACT,hb,1,time=3000))
++    return events
++
++
++class TrustedTestLease:
++    def __init__(self):
++        self.active=True;self.admitted=[];self.sources=[];self.bindings=[]
++        self.deny_source=False;self.deny_binding=False;self.deny_admission=False
++        self.reject_claimed_user=False
++    def ensure_active(self):return self.active
++    def admit_event(self,scope,e):
++        self.admitted.append(e.event_id)
++        return not self.deny_admission and not (self.reject_claimed_user and e.origin == sp.USER_VERIFIED)
++    def verify_source(self,scope,source,current):
++        self.sources.append((source.session_id,current))
++        return not self.deny_source and source.session_id == scope
++    def bind_structural_event(self,scope,t2,c07):
++        self.bindings.append((t2.event_id,c07.event_id))
++        return not self.deny_binding and scope=='c1' and t2.event_id==c07.event_id
++
++
++def run(req,lease=None):
++    lease=lease or TrustedTestLease()
++    seen=[]
++    response=bridge.publish_host_fenced(req,lease,lambda data: seen.append(data) or data)
++    assert len(seen)==1
++    return bridge_pb.T2C07BridgeResult.FromString(response),lease
++
++
++def populated(disputed=False,uncertainty=False):
++    q=req_fixture()
++    q.c07_event_frames.extend(e.SerializeToString(deterministic=True) for e in
++                              state_events(q,disputed=disputed,uncertainty=uncertainty))
++    return q
++
++
++def test_reconciliation_keeps_c07_provenance_and_p2o_conflict_history():
++    q=populated()
++    out,lease=run(q)
++    assert out.structural_result.revisions[1].introduced_conflicts==['node|Solid|Void|disjoint']
++    assert out.structural_result.revisions[2].resolved_conflicts==['node|Solid|Void|disjoint']
++    assert [x.event_id for x in out.events]==['ev1','ev2','ev3']
++    assert [(x.claim_id,x.structural_status,x.c07_status) for x in out.claims]==[
++        ('claim1','ACTIVE',sp.ACTIVE),('claim2','RETRACTED',sp.RETRACTED)]
++    assert not out.requires_review and not out.grants_authority and out.research_only
++    assert len(lease.bindings)==3
++    assert len([v for _,v in lease.sources if v])==1
++    assert all(len(x.c07_source_sha256)==32 for x in out.claims)
++    again,_=run(q)
++    assert again.SerializeToString(deterministic=True)==out.SerializeToString(deterministic=True)
++
++
++def test_dispute_requires_review_without_auto_retraction_or_promotion():
++    q=populated(disputed=True)
++    out,_=run(q)
++    assert out.requires_review
++    assert out.claims[0].c07_status == sp.DISPUTED
++    assert out.claims[0].structural_status == 'ACTIVE'
++    assert out.claims[0].c07_revision == 2
++    assert out.structural_result.candidates[0].active_claim_ids==['claim1']
++    assert len(out.events)==3
++
++
++def test_uncertainty_survives_without_fabricated_numeric_confidence():
++    out,_=run(populated(uncertainty=True))
++    assert out.requires_review
++    assert out.claims[0].c07_origin == sp.MODEL_HYPOTHESIS
++    assert out.claims[0].c07_uncertainty == sp.EXPLICITLY_UNCERTAIN
++    assert 'uncertain' in out.claims[0].c07_uncertainty_note.lower()
++    assert not out.grants_authority
++
++
++def test_host_denials_fail_closed_and_publish_nothing():
++    for gate in ['deny_source','deny_binding','deny_admission']:
++        l=TrustedTestLease();setattr(l,gate,True);out=[]
++        with pytest.raises(SourceUnavailable):
++            bridge.publish_host_fenced(populated(),l,out.append)
++        assert not out
++    l=TrustedTestLease();l.active=False
++    with pytest.raises(SourceUnavailable):run(populated(),l)
++
++
++def test_host_can_reject_forged_verified_origin():
++    l=TrustedTestLease();l.reject_claimed_user=True
++    with pytest.raises(SourceUnavailable):run(populated(),l)
++
++@pytest.mark.parametrize('attack',[
++    'foreign_scope','foreign_source','unknown_wire','missing_frame','tamper_hash',
++    'duplicate_c07_id','wrong_identity','wrong_predicate','swap_frames','missing_retract',
++    'injected_unmapped_retract','faked_authority','cross_candidate','invalid_version',
++    'unknown_outer_field','wrong_claim_id','wrong_action','untrusted_state_field',
++])
++def test_adversarial_rejection(attack):
++    q=populated()
++    events=[sp.StateEvent.FromString(x) for x in q.c07_event_frames]
++    if attack=='foreign_scope': events[0].scope_id='other'
++    elif attack=='foreign_source':events[0].source.session_id='other'
++    elif attack=='unknown_wire': q.c07_event_frames[0]+=b'\xf8\x07\x01'
++    elif attack=='missing_frame':del q.c07_event_frames[1]
++    elif attack=='tamper_hash':events[0].value_text='0'*64
++    elif attack=='duplicate_c07_id':events[1].event_id=events[0].event_id
++    elif attack=='wrong_identity':events[0].subject_id='different'
++    elif attack=='wrong_predicate':events[0].predicate='other'
++    elif attack=='swap_frames':events[0],events[1]=events[1],events[0]
++    elif attack=='missing_retract':del q.c07_event_frames[-1]
++    elif attack=='injected_unmapped_retract':events[0].event_id='extra';events[0].action=sp.RETRACT
++    elif attack=='faked_authority':q.grants_authority=True
++    elif attack=='cross_candidate':q.structural_request.events[0].candidate_id='foreign'
++    elif attack=='invalid_version':q.schema_version=9
++    elif attack=='unknown_outer_field':q=bridge_pb.T2C07BridgeRequest.FromString(q.SerializeToString()+b'\xf8\x07\x01')
++    elif attack=='wrong_claim_id':events[0].claim_id='unknown'
++    elif attack=='wrong_action':events[0].action=sp.CONFIRM
++    elif attack=='untrusted_state_field':events[0].origin=999
++    if attack not in ('faked_authority','cross_candidate','invalid_version','unknown_outer_field','missing_frame','missing_retract','unknown_wire'):
++        q.c07_event_frames[:]=[e.SerializeToString(deterministic=True) for e in events]
++    if attack=='swap_frames':
++        # Keep C07 chronology in order of supplied frames, not sorting.
++        pass
++    with pytest.raises((bridge.T2C07Rejected,SourceUnavailable)):
++        run(q)
++
++
++def test_unmapped_expiry_does_not_retract_p2o_claim():
++    q=req_fixture(); events=state_events(q)
++    e=copy.deepcopy(events[0]);e.event_id='expiry';e.action=sp.EXPIRE;e.expected_revision=1
++    e.recorded_at_ms=1750;e.effective_at_ms=1750
++    frames=[events[0],e,*events[1:]]
++    q.c07_event_frames.extend(x.SerializeToString(deterministic=True) for x in frames)
++    out,_=run(q)
++    assert out.requires_review and out.claims[0].c07_status==sp.EXPIRED
++    assert out.claims[0].structural_status=='ACTIVE'
++
++
++def test_late_host_revocation_fails_before_publication():
++    class Revoking(TrustedTestLease):
++        def verify_source(self,scope,source,current):
++            if current:self.active=False
++            return super().verify_source(scope,source,current)
++    results=[]
++    with pytest.raises(SourceUnavailable):
++        bridge.publish_host_fenced(populated(),Revoking(),results.append)
++    assert results==[]
++
++
++def test_response_contains_no_raw_c07_source_record_and_not_a_grant():
++    out,_=run(populated())
++    assert not out.grants_authority
++    assert b'aaaaaaaaaaaaaaaa' not in out.SerializeToString(deterministic=True)
++    assert out.request_sha256==hashlib.sha256(populated().SerializeToString(deterministic=True)).digest()
++
++
++def test_two_candidates_isolation_and_independent_provenance():
++    q=req_fixture()
++    q.structural_request.candidates.add(candidate_id='branchB',explanation='Different source hypothesis')
++    e=q.structural_request.events.add(event_id='ev4',candidate_id='branchB',sequence=1,
++                                     source_ref='otherResearchSource',rationale='Independent candidate')
++    e.add_type.claim_id='branchBClaim'
++    e.add_type.claim.CopyFrom(ont.OntologyTypeClaim(node_id='node',class_id='Void',
++                                 evidence=sg.EVIDENCE_HYPOTHETICAL,source_ref='otherSource'))
++    events=state_events(q)
++    extra=sp.StateEvent(schema_version=1,event_id='ev4',scope_id='c1',claim_id='branchBClaim',
++                        subject_id='branchB',predicate='spatial.branchBClaim',
++                        value_kind=sp.TEXT,value_text=bridge._digest(e.add_type.claim).hex(),
++                        action=sp.ASSERT,origin=sp.MODEL_HYPOTHESIS,
++                        recorded_at_ms=4000,effective_at_ms=4000,
++                        uncertainty_kind=sp.OPEN_QUESTION,uncertainty_note='Unverified second candidate',
++                        source=sp.SourceEvidence(session_id='c1',root_entry_id='20',revision_entry_id='21',
++                             content_sha256='b'*64,snapshot_id='otherSnap'))
++    q.c07_event_frames.extend(x.SerializeToString(deterministic=True) for x in [*events,extra])
++    result,lease=run(q)
++    assert result.requires_review
++    assert len(result.claims)==3
++    by_id={c.claim_id:c for c in result.claims}
++    assert by_id['branchBClaim'].candidate_id=='branchB'
++    assert by_id['branchBClaim'].c07_origin==sp.MODEL_HYPOTHESIS
++    assert 'branchBClaim' not in result.structural_result.candidates[0].active_claim_ids
++    assert result.structural_result.candidates[1].active_claim_ids==['branchBClaim']
++    assert len(lease.bindings)==4
++
++
++def test_host_callback_mutation_detected_even_when_lease_returns_true():
++    class Mutating(TrustedTestLease):
++        def bind_structural_event(self,scope,t2,c07):
++            t2.source_ref='forgedByHostCallback'
++            return True
++    callbacks=[]
++    with pytest.raises(bridge.T2C07Rejected,match='MUTATED_BRIDGE_REQUEST'):
++        bridge.publish_host_fenced(populated(),Mutating(),callbacks.append)
++    assert not callbacks
++
++
++def test_unknown_field_c07_fails_without_source_callback():
++    q=populated();q.c07_event_frames[0]+=b'\xf8\x07\x01'
++    lease=TrustedTestLease()
++    with pytest.raises(bridge.T2C07Rejected):run(q,lease)
++    assert not lease.admitted and not lease.sources and not lease.bindings
++
++
++def test_global_claim_collision_across_candidates_is_explicitly_rejected():
++    q=req_fixture()
++    q.structural_request.candidates.add(candidate_id='branchB', explanation='Other')
++    e=q.structural_request.events.add(event_id='ev4',candidate_id='branchB',sequence=1,
++             source_ref='research',rationale='Duplicate ID across candidates')
++    e.add_type.claim_id='claim1'
++    e.add_type.claim.CopyFrom(q.structural_request.events[0].add_type.claim)
++    q.c07_event_frames.extend(x.SerializeToString(deterministic=True) for x in state_events(q))
++    with pytest.raises(bridge.T2C07Rejected,match='COLLISION'):
++        run(q)
++
++
++def test_c07_confirm_keeps_p2o_hypothesis_separate_from_host_verification():
++    q=req_fixture();events=state_events(q,uncertainty=True)
++    confirm=copy.deepcopy(events[0]);confirm.event_id='confirm1';confirm.action=sp.CONFIRM
++    confirm.origin=sp.USER_VERIFIED;confirm.expected_revision=1
++    confirm.uncertainty_kind=sp.UNCERTAINTY_UNSPECIFIED
++    confirm.uncertainty_note='';confirm.recorded_at_ms=1500;confirm.effective_at_ms=1500
++    q.c07_event_frames.extend(e.SerializeToString(deterministic=True) for e in
++                              [events[0],confirm,*events[1:]])
++    out,_=run(q)
++    assert out.claims[0].c07_revision==2
++    assert out.claims[0].c07_origin==sp.USER_VERIFIED
++    assert out.claims[0].c07_uncertainty==sp.EXPLICITLY_UNCERTAIN
++    assert out.requires_review
++    assert out.structural_result.candidates[0].final_decision=='CLAIMS_CONSISTENT'
++    assert not out.grants_authority
++
++
++def test_c07_temporal_correction_links_history_but_cannot_change_structural_claim():
++    q=req_fixture();events=state_events(q)
++    correct=copy.deepcopy(events[0]);correct.event_id='correct1';correct.action=sp.TEMPORAL_CORRECT
++    correct.expected_revision=1;correct.recorded_at_ms=1500;correct.effective_at_ms=800
++    correct.corrects_event_id='ev1'
++    q.c07_event_frames.extend(e.SerializeToString(deterministic=True) for e in
++                              [events[0],correct,*events[1:]])
++    out,_=run(q)
++    assert out.claims[0].c07_revision==2
++    assert out.claims[0].latest_c07_event_id=='correct1'
++    assert out.claims[0].structural_status=='ACTIVE'
++    assert not out.grants_authority
++    correct.corrects_event_id='ev2'
++    q.c07_event_frames[:]=[e.SerializeToString(deterministic=True) for e in
++                           [events[0],correct,*events[1:]]]
++    with pytest.raises(bridge.T2C07Rejected,match='STATE_TRANSITION'):
++        run(q)
+--- /dev/null
++++ b/tools/run_c15_p2p_t2_c07_demo.py
+@@ -0,0 +1,70 @@
++"""C15 T2 P2P offline demonstration using a MOCK host lease (not credentials).
++
++Run: PYTHONPATH=. python tools/run_c15_p2p_t2_c07_demo.py [--out PATH]
++No ANSF connection, Lu host, Windows permissions, live source or canonical writes.
++"""
++import argparse
++from hashlib import sha256
++import json
++from pathlib import Path
++
++from google.protobuf.json_format import MessageToDict
++from tools.run_c15_p2o_t2_reconciliation import fixture
++from cognitum import spatial_structural_c07_bridge as bridge
++from cognitum.proto import spatial_structural_c07_bridge_pb2 as pb
++from cognitum.proto import state_pb2 as state
++
++
++class MockOfflineLease:
++    """Test only. NEVER pass a lease from model/tool/plugin code in production."""
++    def ensure_active(self):return True
++    def admit_event(self,scope,event):return scope=='replayDemo'
++    def verify_source(self,scope,source,current):
++        return scope=='replayDemo' and source.session_id == 'replayDemo'
++    def bind_structural_event(self,scope,t2,c07):
++        return scope=='replayDemo' and t2.event_id==c07.event_id
++
++
++def demo():
++    original=fixture()
++    req=pb.T2C07BridgeRequest(schema_version=1,structural_request=original,research_only=True)
++    prior={}
++    for i,t2 in enumerate(original.events):
++        claim_id=bridge._claim_id(t2)
++        op=t2.WhichOneof('change')
++        if op=='retract':
++            value=prior[claim_id]
++            action=state.RETRACT;revision=1
++        else:
++            value=bridge._digest(bridge._payload(t2)).hex()
++            prior[claim_id]=value
++            action=state.ASSERT;revision=0
++        event=state.StateEvent(
++            schema_version=1,event_id=t2.event_id,scope_id='replayDemo',
++            claim_id=claim_id,subject_id=t2.candidate_id,predicate=bridge.PREFIX+claim_id,
++            value_kind=state.TEXT,value_text=value,origin=state.MODEL_HYPOTHESIS,
++            action=action,expected_revision=revision,
++            recorded_at_ms=1000*(i+1),effective_at_ms=1000*(i+1),
++            source=state.SourceEvidence(session_id='replayDemo',root_entry_id=str(i+1),
++              revision_entry_id=str(i+1),content_sha256=sha256(t2.SerializeToString(deterministic=True)).hexdigest(),
++              snapshot_id=f'fixture{i+1}'))
++        req.c07_event_frames.append(event.SerializeToString(deterministic=True))
++    raw=bridge.publish_host_fenced(req,MockOfflineLease(),lambda data:data)
++    result=pb.T2C07BridgeResult.FromString(raw)
++    return {'phase':'C15 T2 P2P',
++      'source':'Synthetic P2O fixture plus synthetic C07 canonical events',
++      'security':'Mock-only host lease; NOT source-authenticated or a real Lu security check',
++      'result':MessageToDict(result,preserving_proto_field_name=True),
++      'no_authority_grant':True,'canonical_writes':False}
++
++
++def main():
++    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--out',type=Path)
++    args=p.parse_args()
++    value=json.dumps(demo(),sort_keys=True,indent=2)+'\n'
++    if args.out:
++        args.out.parent.mkdir(parents=True,exist_ok=True)
++        args.out.write_text(value,encoding='utf-8')
++    else:print(value,end='')
++
++if __name__=='__main__':main()
+--- /dev/null
++++ b/docs/components/spatial/P2P-T2-C07-provenance-bridge.md
+@@ -0,0 +1,26 @@
++# C15 T2 P2P — C07-linked structural evidence (research contract)
++
++## Purpose
++
++P2O can replay multiple structural hypotheses and explicitly retire caller claims, but its labels and sources are not authenticated. C07 already implements a typed, revisioned, source-aware *derived* belief projection. P2P builds an additive, read-only bridge so an authenticated host can correlate those two independent audit logs **without** allowing a P2O hypothesis to write C07 or become a physical-world fact.
++
++This reference implementation cannot authenticate anything itself. Lu is **not modified**. An actual Lu native host would need to acquire/hold a lease under its own Windows OS and ANSF trust boundaries; **never** accept a Python `HostT2C07Lease` object from an LLM, external worker, document, MCP server, or frontend.
++
++## Contract
++
++- `proto/cognitum/spatial/v1/structural_c07_bridge.proto`: P2O request + canonical C07 event bytes; output contains the unchanged P2O audit and C07-linked event/claim summaries.
++- `cognitum/spatial_structural_c07_bridge.py`: finite `publish_host_fenced` reference call. It calls the existing C07 `StateLedger` reducer in a disposable in-memory projection, requires strict `True` for `ensure_active`, `admit_event`, `verify_source` for every historical source and every currently active/disputed source, and `bind_structural_event` for every matched P2O change.
++- Caller-supplied event bytes, source names, origin labels, hash receipts, `research_only`, and `grants_authority` **never constitute a credential**; the actual host verifies action provenance and bound source/current revision. Source deletion or revocation denies publication. A successful result is **not permission to write anything**.
++- Each P2O event ID is paired with an identical C07 event ID. The C07 claim ID is the P2O claim ID (unique across all candidates in this bridge), C07 subject is the candidate, C07 predicate is `spatial.<claim_id>` and C07 TEXT is SHA-256 of the deterministic Protobuf type/edge payload. Retraction refers to the identical C07 claim ID and original payload. The host must additionally verify source and meaning via `bind_structural_event`; simple matching hashes and IDs alone are not sufficient.
++- Extra C07 CHALLENGE, CONFIRM, EXPIRE, and TEMPORAL_CORRECT events may appear in the same ledger, but are **not** interpreted as structural changes. P2O may not silently supersede an earlier structural addition. Rejected: missing binding, duplicate event, foreign scope, malformed wire, payload mismatch, stale C07 revision, host refusal, and a second candidate reusing the same global C07 claim ID.
++- C07 uncertainty/origin/status are reported separately from P2O's current hypothesis state. DISPUTED/EXPIRED labels, lower-provenance origins or explicit uncertainty cause `requires_review`; they do **not** retract or promote a structural hypothesis.
++- P2P v1 rejects cross-conversation evidence imports. It requires the same scope/active conversation ID for the P2O journal and C07 ledger. Linking other conversations needs a separate, explicit Lu-host-verifiable read/consent/scope contract in the future.
++- Bounded to 512 C07 canonical event frames, P2O's own eight candidates and 128 events, and 1.4 MB total request. No external model/worker, file I/O, persistent database, network access, geometry, or scene mutation.
++
++## Limitations
++
++This is **integration-interface readiness**, not real Lu trust integration. Synthetic host leases used by tests are *mocks*, not security validations. SHA-256 digests and source references provide audit consistency, **not** source authenticity. C07's state cache remains derived; Lu ANSF would be the canonical source if integrated. No canonical C07 event or structural source is authored by this adapter, no forced winner is chosen, and inherited structural types remain uncertain hypotheses. No new real-world performance or OWL 2 results were measured.
++
++## Tests and next gate
++
++Run `PYTHONPATH=. python -m pytest -q tests/test_c15_t2_p2p_c07_bridge.py`, `PYTHONPATH=. python tools/verify_protobuf_schemas.py --require`, then the C07 and C15 regressions. Deferred host integration should verify actual source ownership/revision, deletion/revocation across the callback, concurrent host fencing and Windows-native worker isolation; real longitudinal structural evidence and independent ontology semantics remain open.
+--- /dev/null
++++ b/docs/components/spatial/C15-T2-P2P-deferred-validation-backlog-v1.json
+@@ -0,0 +1,37 @@
++{
++  "schema_version": 1,
++  "project": "Cognitum C15 T2 P2P",
++  "status": "deferred, not passed or canceled",
++  "research_only": true,
++  "preserved_prior_records": [
++    "C15-benchmark-backlog-v1.json (six tracking/appearance experiments)",
++    "C15-T2-P2N-reasoner backlog (three independent ontology/structure experiments)",
++    "C15-T2-P2O reconciliation backlog (three truth-maintenance/real-data/host experiments)"
++  ],
++  "experiments": [
++    {
++      "id": "T2-P2P-HOST-SECURITY-7",
++      "status": "deferred_host_integration",
++      "required": ["actual Lu-native authenticated read lease", "ANSF source ownership/current-revision lookup", "revoke/delete synchronization", "Windows-native permission/concurrency harness"],
++      "comparators": ["rejected forged synthetic lease", "authenticated host-owned event replay", "known revoked/deleted evidence"],
++      "metrics": ["unauthorized disclosure count", "stale source admission count", "revocation race outcomes", "latency", "memory"],
++      "acceptance": "zero unauthorized deliveries or canonical writes; source deletion/revocation blocks held-lease publication; no LLM-provided lease accepted"
++    },
++    {
++      "id": "T2-P2P-LONGITUDINAL-8",
++      "status": "deferred_real_evidence_missing",
++      "required": ["licensed real longitudinal structural hypotheses", "independently attributed corrections and uncertainties", "held-out annotations", "explicit correction versioning"],
++      "comparators": ["P2O-only replay", "C07 typed belief projection", "independent manual adjudication"],
++      "metrics": ["source-link correctness", "correction-history retention", "false structural promotion", "false retraction", "abstention and coverage"],
++      "acceptance": "no false source linkage or silent conflict winner; report errors and missing provenance with preserved negative cases"
++    },
++    {
++      "id": "T2-P2P-CROSS-CONVERSATION-9",
++      "status": "deferred_explicit_scope_contract",
++      "required": ["user-granted cross-chat link permission", "trusted host-owned source-to-target graph", "separate read vs write authorities", "deletion/revocation propagation", "source-version isolation fixtures"],
++      "comparators": ["same-scope P2P (current)", "explicit host-authorized cross-chat reader", "denied/revoked link controls"],
++      "metrics": ["unauthorized cross-chat exposure", "source identity confusion", "revocation race", "false inheritance of instructions", "deterministic replay"],
++      "acceptance": "zero implicit cross-chat imports, write permissions, or new instructions derived from linked evidence"
++    }
++  ]
++}
+--- /dev/null
++++ b/docs/components/spatial/P2P-synthetic-bridge-demo.json
+@@ -0,0 +1,223 @@
++{
++  "canonical_writes": false,
++  "no_authority_grant": true,
++  "phase": "C15 T2 P2P",
++  "result": {
++    "c07_projection_sha256": "xVlcgFGPNqKUnIxMYqFdYP9nc/EC3C5kgZZOoAT8YrU=",
++    "claims": [
++      {
++        "c07_origin": 4,
++        "c07_revision": "1",
++        "c07_source_sha256": "Kg3m88HXsXsFG70USWL14ECpUrB41J/WnnRzJSCY6Mc=",
++        "c07_status": 1,
++        "candidate_id": "candidateA",
++        "claim_id": "mechanicalClaim",
++        "latest_c07_event_id": "revision1",
++        "requires_review": true,
++        "structural_status": "ACTIVE"
++      },
++      {
++        "c07_origin": 4,
++        "c07_revision": "2",
++        "c07_source_sha256": "hhFolzwaxPiCxBu8IgJaPE7If8yWMRyPxZiOKE63UkM=",
++        "c07_status": 3,
++        "candidate_id": "candidateA",
++        "claim_id": "voidClaim",
++        "latest_c07_event_id": "revision3",
++        "requires_review": true,
++        "structural_status": "RETRACTED"
++      },
++      {
++        "c07_origin": 4,
++        "c07_revision": "1",
++        "c07_source_sha256": "7vUyjL4X5OlaKj42JrceOvfz4qyeaGE/VKCFrCswYcI=",
++        "c07_status": 1,
++        "candidate_id": "candidateB",
++        "claim_id": "voidOnlyClaim",
++        "latest_c07_event_id": "revision4",
++        "requires_review": true,
++        "structural_status": "ACTIVE"
++      }
++    ],
++    "conversation_id": "replayDemo",
++    "events": [
++      {
++        "c07_action": 1,
++        "c07_origin": 4,
++        "c07_revision_after": "1",
++        "c07_source_sha256": "Kg3m88HXsXsFG70USWL14ECpUrB41J/WnnRzJSCY6Mc=",
++        "c07_status_after": 1,
++        "candidate_id": "candidateA",
++        "claim_id": "mechanicalClaim",
++        "event_id": "revision1"
++      },
++      {
++        "c07_action": 1,
++        "c07_origin": 4,
++        "c07_revision_after": "1",
++        "c07_source_sha256": "hhFolzwaxPiCxBu8IgJaPE7If8yWMRyPxZiOKE63UkM=",
++        "c07_status_after": 1,
++        "candidate_id": "candidateA",
++        "claim_id": "voidClaim",
++        "event_id": "revision2"
++      },
++      {
++        "c07_action": 5,
++        "c07_origin": 4,
++        "c07_revision_after": "2",
++        "c07_source_sha256": "Wg7NPXiaHjsduTXhnQwmI4Jht202UEBASv7ooe6e1CI=",
++        "c07_status_after": 3,
++        "candidate_id": "candidateA",
++        "claim_id": "voidClaim",
++        "event_id": "revision3"
++      },
++      {
++        "c07_action": 1,
++        "c07_origin": 4,
++        "c07_revision_after": "1",
++        "c07_source_sha256": "7vUyjL4X5OlaKj42JrceOvfz4qyeaGE/VKCFrCswYcI=",
++        "c07_status_after": 1,
++        "candidate_id": "candidateB",
++        "claim_id": "voidOnlyClaim",
++        "event_id": "revision4"
++      }
++    ],
++    "request_sha256": "MybVHbI8/k19PXU7c893bBnYQqWVNX7CffSF1RpxLfg=",
++    "requires_review": true,
++    "research_only": true,
++    "schema_version": 1,
++    "structural_result": {
++      "candidates": [
++        {
++          "active_claim_ids": [
++            "mechanicalClaim"
++          ],
++          "candidate_id": "candidateA",
++          "final_decision": "CLAIMS_CONSISTENT",
++          "final_ontology_result_sha256": "KmmM8fD27Gx8ooMGYnfu1Y9I1v79BfwWwo5JNdaseKQ=",
++          "final_receipt_sha256": "Oy2rrJCREnV40mA0CGBt7hH9QbB6k2KFxAMNt0qA21Y=",
++          "final_supported_types": [
++            "component|Entity|false",
++            "component|MachinePart|false",
++            "component|Solid|false"
++          ],
++          "total_revisions": 3
++        },
++        {
++          "active_claim_ids": [
++            "voidOnlyClaim"
++          ],
++          "candidate_id": "candidateB",
++          "final_decision": "CLAIMS_CONSISTENT",
++          "final_ontology_result_sha256": "Hde3NfXglpgjZ9GW2hHY/H01sGOpDjc8vLzPh1Wutds=",
++          "final_receipt_sha256": "IByNM7OImxGY+O6R7bXXfDpE7TmukIQRNMflCR89PoI=",
++          "final_supported_types": [
++            "component|Entity|false",
++            "component|Void|false"
++          ],
++          "total_revisions": 1
++        }
++      ],
++      "conversation_id": "replayDemo",
++      "request_sha256": "fjA9MkzU2HM5jzawfkFULmkyHpKekCdPcHWlhtabbwk=",
++      "research_only": true,
++      "revisions": [
++        {
++          "active_claim_ids": [
++            "mechanicalClaim"
++          ],
++          "candidate_id": "candidateA",
++          "change_source_ref": "researchSource",
++          "decision": "CLAIMS_CONSISTENT",
++          "event_id": "revision1",
++          "journal_receipt_sha256": "aLpWoSR6kBoBj0bcFXAlmoainU9rhP7S6HvyGt3GvVE=",
++          "ontology_result_sha256": "KmmM8fD27Gx8ooMGYnfu1Y9I1v79BfwWwo5JNdaseKQ=",
++          "rationale": "caller supplied a classification",
++          "sequence": 1,
++          "snapshot_sha256": "T+h11N8a47uunWOyZRo50AdnCEyZg3HBoBZEP19katg=",
++          "supporting_sources": [
++            "mechanicalClaim"
++          ]
++        },
++        {
++          "active_claim_ids": [
++            "mechanicalClaim",
++            "voidClaim"
++          ],
++          "candidate_id": "candidateA",
++          "change_source_ref": "researchSource",
++          "decision": "CLAIMS_CONFLICTED",
++          "event_id": "revision2",
++          "introduced_conflicts": [
++            "component|Solid|Void|schemaDisjointClaim"
++          ],
++          "journal_receipt_sha256": "NPUGsICidLH/yIhxM7pMf3Q49DFJJdX1uXeJOfRzcvg=",
++          "ontology_result_sha256": "kZJfC/MjH9PvhIY8ok4L6se312BqtJNkAUNMd38dBrI=",
++          "rationale": "caller supplied a classification",
++          "sequence": 2,
++          "snapshot_sha256": "n+2Wn/PNiRB6nc9XdQjjxU0OhXpJWvBiGK56HGzgE04=",
++          "supporting_sources": [
++            "mechanicalClaim",
++            "voidClaim"
++          ]
++        },
++        {
++          "active_claim_ids": [
++            "mechanicalClaim"
++          ],
++          "candidate_id": "candidateA",
++          "change_source_ref": "revisionSource",
++          "decision": "CLAIMS_CONSISTENT",
++          "event_id": "revision3",
++          "journal_receipt_sha256": "Oy2rrJCREnV40mA0CGBt7hH9QbB6k2KFxAMNt0qA21Y=",
++          "ontology_result_sha256": "KmmM8fD27Gx8ooMGYnfu1Y9I1v79BfwWwo5JNdaseKQ=",
++          "rationale": "caller retracted disputed void label",
++          "resolved_conflicts": [
++            "component|Solid|Void|schemaDisjointClaim"
++          ],
++          "sequence": 3,
++          "snapshot_sha256": "T+h11N8a47uunWOyZRo50AdnCEyZg3HBoBZEP19katg=",
++          "supporting_sources": [
++            "mechanicalClaim"
++          ]
++        },
++        {
++          "active_claim_ids": [
++            "voidOnlyClaim"
++          ],
++          "candidate_id": "candidateB",
++          "change_source_ref": "researchSource",
++          "decision": "CLAIMS_CONSISTENT",
++          "event_id": "revision4",
++          "journal_receipt_sha256": "IByNM7OImxGY+O6R7bXXfDpE7TmukIQRNMflCR89PoI=",
++          "ontology_result_sha256": "Hde3NfXglpgjZ9GW2hHY/H01sGOpDjc8vLzPh1Wutds=",
++          "rationale": "caller supplied a classification",
++          "sequence": 1,
++          "snapshot_sha256": "RGQSVrQEZS5X0TFWRRNkgDIFtPJvbjJKj+rbroEsLpw=",
++          "supporting_sources": [
++            "voidOnlyClaim"
++          ]
++        }
++      ],
++      "schema_version": 1,
++      "warnings": [
++        "CALLER_CLAIM_RETRACTIONS_DO_NOT_AUTHENTICATE_SOURCE_OR_DELETE_CANONICAL_FACTS",
++        "CONSISTENCY_IS_NOT_CORRECTNESS_OR_PROBABILISTIC_HYPOTHESIS_SELECTION",
++        "HYPOTHETICAL_EVIDENCE_NOT_PROMOTED_BY_DEFAULT",
++        "OPEN_WORLD_ABSENCE_IS_NOT_NEGATION",
++        "JOURNAL_SHA256_IS_NOT_A_SIGNATURE_OR_AUTHORIZATION",
++        "READ_ONLY_NO_T3_GEOMETRY_OR_SCENE_MUTATION"
++      ]
++    },
++    "warnings": [
++      "HOST_VERIFICATION_IS_EXTERNAL_NEVER_INFERRED_FROM_C07_OR_P2O_LABELS",
++      "C07_CLAIM_STATUS_DOES_NOT_PROMOTE_STRUCTURAL_HYPOTHESES_TO_FACTS",
++      "DISPUTED_OR_EXPIRED_EVIDENCE_REQUIRES_REVIEW_NO_SILENT_RETRACTION",
++      "NO_CROSS_CONVERSATION_EVIDENCE_IMPORT_IN_P2P_V1",
++      "NO_CANONICAL_STATE_WRITES_NO_AUTOMATIC_HYPOTHESIS_WINNER",
++      "SOURCE_SHA256_RECEIPTS_ARE_NOT_SIGNATURES"
++    ]
++  },
++  "security": "Mock-only host lease; NOT source-authenticated or a real Lu security check",
++  "source": "Synthetic P2O fixture plus synthetic C07 canonical events"
++}
+--- /dev/null
++++ b/docs/components/spatial/P2P-milestone-report.md
+@@ -0,0 +1,43 @@
++# Cognitum C15 T2 P2P — C07-linked structural hypothesis revisions
++
++**Date:** October 28, 2026 (America/Phoenix)  
++**Disposition:** Offline, research-only integration checkpoint. Not an installed Lu trust boundary, model accuracy claim, or security certification.
++
++## Implemented
++
++Starting from the Library's frozen C15 T2 P2O source ZIP, added a new `structural_c07_bridge.proto` contract (the **65th** compiled Cognitum Protobuf schema) and a pure Python, read-only integration adapter for pairing P2O structural revision events with the existing C07 typed StateEvent ledger.
++
++- Every P2O type/edge addition or retraction must map to a C07 event of the same ID, candidate and claim identity, with SHA-256 matching the exact deterministic Protobuf structural payload.
++- The C07 event history is replayed using the existing `StateLedger` transition rules; the earlier P2O ontology engine remains unchanged. Additional verified C07 `CHALLENGE`, `CONFIRM`, `EXPIRE`, and `TEMPORAL_CORRECT` events are preserved as belief-state history without altering P2O's structural revisions.
++- Research output includes event-level provenance-digest, C07 origin, uncertainty, status and revision; claim-level status and review flags; and the untouched full P2O consistency result. C07 `DISPUTED` / `EXPIRED`, explicit uncertainty or low-provenance origin triggers a review flag; it is not an automatic retraction or a hypothesis promotion.
++- Requires a **host-held external lease** whose methods must authorize active read scope, event admission, historical and current source checks, and **explicit structural↔C07 source binding**. This Python protocol is a testable reference only. A caller-supplied or LLM-generated mock lease has no authority in real Lu.+- Rejects foreign conversation scope, unknown/duplicate event identity, disallowed changes, noncanonical/unknown Protobuf fields, stale C07 revisions, claim-ID collision across candidates, source refusal and content tampering. No cross-conversation import, canonical write, trusted worker, geometry or scene mutation.
++
++## Files added or updated
++
++- `proto/cognitum/spatial/v1/structural_c07_bridge.proto`
++- `cognitum/proto/spatial_structural_c07_bridge_pb2.py`
++- `cognitum/spatial_structural_c07_bridge.py`
++- `tests/test_c15_t2_p2p_c07_bridge.py` (**32 passing test cases**, including adversarial parameterizations)
++- `tools/run_c15_p2p_t2_c07_demo.py` (**mock-lease demo, not a real host test**)
++- `docs/components/spatial/P2P-T2-C07-provenance-bridge.md`
++- `docs/components/spatial/C15-T2-P2P-deferred-validation-backlog-v1.json`
++- `docs/components/spatial/P2P-synthetic-bridge-demo.json`
++- `tools/check_proto_descriptors.py` schema registry, `P2P_START_HERE.md` and `README.md`
++
++## Tests and provenance
++
++- Focused C07 revision + P2O + P2P regression: **83 passed**.
++- Full C07 selected suite: **218 passed, 71 subtests passed**.
++- Selected C13/C14/C15 suite: **1,217 passed, 39 skipped, 567 subtests passed, 5 existing/optional-runtime warnings**. **Not** the unrestricted repository suite.
++- Independent Protobuf compiler/binding parity: **65/65 passed** using torch's installed vendored `protoc`.
++- Test environment: Linux, Python 3.13, offline. **No** Windows-native actual Lu-host authority, ANSF source verification, installed cross-app connector or GPU checks were performed.
++- End-to-end offline demo uses a fully labeled **simulated host lease** and a synthetic structural fixture. Reproduction does not establish genuine source authenticity.
++
++## Source and benchmark preservation
++
++Original P2O, P2N and P2M behavior remains intact; this milestone is additive aside from descriptor registry/README changes. Earlier benchmark backlogs are preserved in the working checkpoint; P2P adds three deferred gates: real host security/revocation, longitudinal structural sources, and explicitly authorized cross-conversation linking. No deferred gate is marked passed or canceled.
++
++## Next validation gates
++
++The serious next step is actual Lu-native host-held source binding with revocation/deletion and publish synchronization (a separate authorized Lu development task). Independently sourced longitudinal correction records and full OWL/reference reasoner comparisons remain deferred. No package/CI/GitHub/Windows AppData changes were made.
+--- /dev/null
++++ b/P2P_START_HERE.md
+@@ -0,0 +1,34 @@
++# Cognitum C15 T2 P2P — C07 Structural Evidence Bridge
++
++**Research-only checkpoint.** An explicit, Protobuf-native, read-only linkage from
++P2O's structural-hypothesis revisions to C07's typed, revisioned belief-state
++projection. This is an *offline interface* tested with simulated host leases;
++it neither integrates with nor authenticates any installed Lu host.
++
++## Main additions
++
++- `proto/cognitum/spatial/v1/structural_c07_bridge.proto`
++- `cognitum/proto/spatial_structural_c07_bridge_pb2.py`
++- `cognitum/spatial_structural_c07_bridge.py`
++- `tests/test_c15_t2_p2p_c07_bridge.py`
++- `tools/run_c15_p2p_t2_c07_demo.py` (MOCK LEASE DEMO ONLY)
++- `docs/components/spatial/P2P-T2-C07-provenance-bridge.md`
++- `docs/components/spatial/C15-T2-P2P-deferred-validation-backlog-v1.json`
++- `docs/components/spatial/P2P-synthetic-bridge-demo.json`
++- updated schema registry `tools/check_proto_descriptors.py`
++
++## Reproduce after extraction
++
++```
++PYTHONPATH=. python tools/run_c15_p2p_t2_c07_demo.py
++PYTHONPATH=. python -m pytest -q tests/test_c15_t2_p2p_c07_bridge.py tests/test_c15_t2_p2o_reconciliation.py tests/test_c07_state_revision.py
++PYTHONPATH=. python -m pytest -q tests/test_c07*
++PYTHONPATH=. python -m pytest -q tests/test_c13* tests/test_c14* tests/test_c15*
++PYTHONPATH=. python tools/verify_protobuf_schemas.py --require
++```
++
++No Lu/GitHub edits, no canonical C07 or scene writes, no Windows-native host
++verification, no OWL-2 completeness, no real structural inference benchmark.
++The `P2P_SHA256SUMS.json` hashes all included source files (excluding itself)
++and is an archive integrity manifest, not an authenticated signature.
++Previous milestone manifests, if present, refer only to *their earlier snapshot*.
