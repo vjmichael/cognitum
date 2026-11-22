@@ -6,7 +6,8 @@ $ErrorActionPreference='Stop'
 if($env:OS -cne 'Windows_NT' -or $env:GITHUB_ACTIONS -cne 'true' -or $env:RUNNER_OS -cne 'Windows'){
  throw 'COG_R3R1_PRIVATE_CI_REFUSED: disposable Windows runner only'
 }
-$gpg=(Get-Command gpg.exe -ErrorAction SilentlyContinue).Source
+$gpgCommand=Get-Command gpg.exe -ErrorAction SilentlyContinue
+$gpg=if($null -ne $gpgCommand){$gpgCommand.Source}else{''}
 if(-not $gpg){
  $gpg=Join-Path $env:ProgramFiles 'Git\usr\bin\gpg.exe'
 }
