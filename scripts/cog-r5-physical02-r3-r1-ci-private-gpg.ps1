@@ -22,8 +22,12 @@ $former=$env:GNUPGHOME
 try{
  $env:GNUPGHOME=$gpgHome
  $who='Cognitum CI ephemeral test <cog-fixture@example.invalid>'
- & $gpg --batch --no-tty --pinentry-mode loopback --passphrase '' --quick-generate-key $who ed25519 sign 1d 2>&1 |Out-Null
- if($LASTEXITCODE -ne 0){throw 'Disposable one-run-only GPG key fixture creation failed'}
+ $created=@(& $gpg --batch --no-tty --pinentry-mode loopback --passphrase 'ci-only-disposable' --quick-generate-key $who ed25519 sign 1d 2>&1)
+ if($LASTEXITCODE -ne 0){
+  $diagnostic=($created -join ' ').Substring(0,[Math]::Min(240,($created -join ' ').Length))
+  $diagnostic=[regex]::Replace($diagnostic,'[^A-Za-z0-9 _.,:;/-]','_')
+  throw ('Disposable one-run-only GPG key fixture creation failed: '+$diagnostic)
+ }
  $listed=@(& $gpg --batch --with-colons --fingerprint --list-secret-keys 2>&1)
  if($LASTEXITCODE -ne 0){throw 'Disposable GPG primary fingerprint unavailable'}
  $fprLine=@($listed|Where-Object{([string]$_).StartsWith('fpr:')})[0]
@@ -67,7 +71,7 @@ try{
  }
  function Sign-OriginalFixture{
   [IO.File]::WriteAllText($recordFile,($record|ConvertTo-Json -Compress)+[char]10,[Text.Encoding]::ASCII)
-  & $gpg --batch --yes --no-tty --pinentry-mode loopback --passphrase '' --local-user $fp --armor --output $sig --detach-sign $recordFile
+  & $gpg --batch --yes --no-tty --pinentry-mode loopback --passphrase 'ci-only-disposable' --local-user $fp --armor --output $sig --detach-sign $recordFile
   if($LASTEXITCODE -ne 0){throw 'Disposable GPG fixture could not be signed'}
  }
  Sign-OriginalFixture
