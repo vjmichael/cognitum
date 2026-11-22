@@ -1,0 +1,5 @@
+Revised CH39 Windows kit v2 - externally pinned original archive SHA-256:
+9e713b102982ea09fecbcfbd27bccf55d56808188bfc3e5be1ba76922000ae6b  Cognitum_CH_C14_39_Independent_MPFR_Checker_Original_CH23_2026-11-02.zip
+
+No private signing key is included. Revised launch uses direct Python, not a
+PowerShell 5.1 native stderr/dependency preflight.
