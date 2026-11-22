@@ -6,6 +6,46 @@ physical Windows acceptance and NOT Lu Core/SSM output authorization.
 The previous acceptance qualified only an UNSIGNED Windows NSIS package, its
 protected Program Files payload, and its no-worker installed SCM lifecycle.
 
+## Fresh production runtime source (not a promoted CI fixture)
+
+Before signing, an independently reviewed original Windows x64 Python +
+NumPy/SciPy/Protobuf/cryptography source installation must be selected.
+The existing fixture-only preparer emits the test schema and is NOT a
+production package. Its accepted CI artifacts cannot be renamed or copied
+into a production release.
+
+A two-pass source builder now uses the same reviewed import-closure algorithm
+but creates **fresh separate** output directories on a non-CI native Windows
+host. It requires an exact original clean Git SHA and independently pinned
+Python executable SHA256 in BOTH passes:
+
+```powershell
+python scripts/cog_r5_r3_r1_bundle.py prepare-candidate --root C:\CognitumRelease\candidate-<unique> --repo C:\reviewed\cognitum --source-sha <40-char-original-git-SHA> --approved-python-sha256 <64-char-approved-python-SHA256>
+```
+
+The candidate has schema
+`cognitum.ssm.r3r1.unapproved_production_candidate.v1`, reports the full
+runtime manifest digest, and explicitly denies publisher, Core and output
+release authority. A separately authorized reviewer must inspect all
+candidate import bytes, source dependency licenses, numerical behavior and
+the complete manifest SHA256 and approve the exact original closure. The
+first-pass candidate itself must NOT be signed or installed.
+
+The second pass builds **again from original Git/Python inputs**, not the
+candidate directory, and requires the prior independently approved digest:
+
+```powershell
+python scripts/cog_r5_r3_r1_bundle.py prepare-production --root C:\CognitumRelease\approved-runtime-<unique> --repo C:\reviewed\cognitum --source-sha <same-original-SHA> --approved-python-sha256 <same-approved-python-SHA256> --approved-manifest-sha256 <independently-approved-manifest-SHA256>
+```
+
+This pass refuses an altered original import closure, a modified original
+Git checkout, a mismatched CPython image, a CI host, or a reused output
+directory. Only its **fresh** runtime receives
+`cognitum.ssm.r3r1.production_installer_runtime.v1` provenance. Its
+manifest/provenance hashes must then be independently recorded and approved
+for the signing script. It cannot create a signing key, legal approval,
+original Lu grant or signed release itself.
+
 ## Controlled release procedure
 
 1. An independent release authority selects and approves the exact Cognitum
