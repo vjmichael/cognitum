@@ -168,3 +168,29 @@ Sign/Verify refuse a mismatched public identity before mutating/signing.
 The NSIS discovery additionally checks both native Program Files paths for
 a locally installed makensis.exe. On the owner's PC, run Check again after
 NSIS installation; use the observed Python SHA256 only after review/approval.
+
+
+## User-site dependency exclusion (Nov 21–22, 2026)
+
+An actual owner Windows preflight reported Python 3.14.6 x64 with NumPy
+2.5.0, SciPy 1.18.1, cryptography 46.0.2; Protobuf was missing. A pip
+install added Protobuf 7.36.2 to the *user* installation because
+C:\Python314\Lib\site-packages was not writable. All four modules then
+imported normally, but this alone **does not** qualify a frozen runtime.
+The reviewed original runtime bundler copies packages ONLY from
+the interpreter prefix's Lib\site-packages, not from the user's AppData
+site or other PYTHONPATH overlays. This is an intentional supply-chain
+boundary.
+
+The personal release Check probe now executes Python with -s to exclude
+user-site packages, reports whether each imported module actually comes
+from the same interpreter prefix Lib\site-packages, and flags
+all_dependencies_in_frozen_source_prefix. Candidate and Production
+refuse when this gate is false. This prevents an apparent import success
+from being mistaken for a complete portable production frozen runtime.
+It neither installs packages nor elevates permissions. An administrator
+may separately install independently approved dependency versions into
+an owned original Python prefix, or the owner may provision an independently
+reviewed, complete, self-contained x64 CPython prefix. Keep source and
+full manifest approvals distinct; do not copy the user-site overlay into
+the release or treat pip check as runtime-closure approval.

@@ -124,13 +124,17 @@ from pathlib import Path
 mods=(("numpy","numpy"),("scipy","scipy"),
       ("google.protobuf","protobuf"),("cryptography","cryptography"))
 packages={}
+prefix=Path(sys.prefix).resolve()
+site=(prefix/"Lib"/"site-packages").resolve()
 for module,distribution in mods:
     try:
         importlib.import_module(module)
-        packages[distribution]={"imported":True,"version":metadata.version(distribution)}
+        source=Path(importlib.import_module(module).__file__).resolve()
+        from_prefix=site==source or site in source.parents
+        packages[distribution]={"imported":True,"version":metadata.version(distribution),
+                                "in_frozen_source_prefix":from_prefix}
     except Exception as exc:
         packages[distribution]={"imported":False,"error_type":type(exc).__name__}
-prefix=Path(sys.prefix).resolve()
 executable=Path(sys.executable).resolve()
 layout=(executable.parent==prefix and (prefix/"DLLs").is_dir()
         and (prefix/"Lib").is_dir() and (prefix/"Lib"/"site-packages").is_dir())
@@ -138,10 +142,12 @@ print(json.dumps({"status":"READ_ONLY_INTERPRETER_INVENTORY",
  "python_version":sys.version.split()[0],"python_bits":struct.calcsize("P")*8,
  "runtime_layout_valid":layout,
  "packages_imported":all(item["imported"] for item in packages.values()),
+ "all_dependencies_in_frozen_source_prefix":all(item.get("in_frozen_source_prefix",False) for item in packages.values()),
+ "user_site_ignored":bool(sys.flags.no_user_site),
  "packages":packages},separators=(",",":")))
 '@
  try{
-  $probeLines=@(& $python -c $probe 2>$null)
+  $probeLines=@(& $python -s -c $probe 2>$null)
   if($LASTEXITCODE -eq 0 -and $probeLines.Count -eq 1){
    $pythonInventory=$probeLines[0]|ConvertFrom-Json
   }else{
@@ -182,8 +188,10 @@ if($Phase -eq 'Candidate' -or $Phase -eq 'Production'){
  if(-not $python){Refuse 'Original x64 Python executable unavailable'}
  if($pythonInventory.python_bits -ne 64 -or
     $pythonInventory.runtime_layout_valid -ne $true -or
-    $pythonInventory.packages_imported -ne $true){
-  Refuse 'Original 64-bit CPython layout or NumPy/SciPy/Protobuf/cryptography imports missing'
+    $pythonInventory.packages_imported -ne $true -or
+    $pythonInventory.all_dependencies_in_frozen_source_prefix -ne $true -or
+    $pythonInventory.user_site_ignored -ne $true){
+  Refuse 'Original 64-bit CPython prefix lacks bundled NumPy/SciPy/Protobuf/cryptography; user-site imports are not copied'
  }
  Need-Hash $ApprovedPythonSha256 'Python source image'
  if($localPythonHash -cne $ApprovedPythonSha256){
