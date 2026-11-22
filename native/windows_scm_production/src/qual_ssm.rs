@@ -83,6 +83,9 @@ fn record(out:&Path,pid:u32,result_digest:&[u8;32])->io::Result<()>{
  Ok(())
 }
 pub fn execute(job:Handle,stop:&AtomicBool)->io::Result<()>{
+ // Restart/replay fence is examined before reading the request or creating
+ // an AppContainer process. A partially completed old attempt is uncertain.
+ crate::qual_recovery::require_fresh_original()?;
  if !empty(job)?||stop.load(Ordering::Acquire){return Err(refused("SCM original Job not empty"));}
  let python=env!("COG_PROD_QUAL_PYTHON");
  let child=env!("COG_PROD_QUAL_CHILD");
@@ -100,6 +103,9 @@ pub fn execute(job:Handle,stop:&AtomicBool)->io::Result<()>{
  if Path::new(output).parent()!=Path::new(input).parent(){
   return Err(refused("fixed worker request/result directory differs"));
  }
+ // This sync-closed marker is written BEFORE CreateProcessAsUserW; any
+ // interruption leaves a permanent local replay hold (not antirollback).
+ let original_prelaunch_sha=crate::qual_recovery::write_prelaunch()?;
  let application=wide(OsStr::new(python));
  let command=format!("\"{}\" -I -B \"{}\" \"{}\" \"{}\"",python,child,input,output);
  let mut command=wide(OsStr::new(&command));
@@ -159,6 +165,6 @@ pub fn execute(job:Handle,stop:&AtomicBool)->io::Result<()>{
  // and the original numerical result is checked. The signer is externally
  // provisioned; no key creation, issuer grant or output release here.
  crate::qual_cng_terminal::seal_original_terminal(
-     raw.pid,env!("COG_PROD_QUAL_REQUEST_SHA256"),&digest)?;
+     raw.pid,env!("COG_PROD_QUAL_REQUEST_SHA256"),&digest,&original_prelaunch_sha)?;
  record(witness,raw.pid,&digest)
 }
